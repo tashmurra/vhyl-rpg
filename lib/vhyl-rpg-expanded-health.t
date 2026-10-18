@@ -3864,12 +3864,16 @@ modify RpgExpandedProfile
     nauseaTriggers = []
 ;
 class RpgExpandedNauseaTriggerResult: RpgExpandedResult
+    checkRequired = nil
     context = nil
     retching = nil
 ;
 
 /** B428 event-driven vomiting check. Event identity is supplied by the author. */
 class RpgExpandedNauseaTrigger: object
+    kindAccepted() { return holds(['meal','odor','fear-failure','stun'],self.kind); }
+    eventReason() { return nil; }
+    skipWhenHealthy() { return nil; }
     eventId = nil
     profile = nil
     kind = nil
@@ -3888,7 +3892,7 @@ class RpgExpandedNauseaTrigger: object
     assess()
     {
         if (self.eventId == nil || self.eventId == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
-            || !holds(['meal','odor','fear-failure','stun'],self.kind)) rpgExpandedReject('nausea-trigger-definition');
+            || !self.kindAccepted()) rpgExpandedReject('nausea-trigger-definition');
         local value = new RpgExpandedNauseaTriggerResult();
         if (self.result != nil)
         {
@@ -3898,14 +3902,22 @@ class RpgExpandedNauseaTrigger: object
             if (!holds(self.profile.nauseaTriggers,self)) rpgExpandedReject('nausea-trigger-history');
             if (self.result.retching != nil && self.result.retching.assess().status != 'reused')
                 rpgExpandedReject('nausea-trigger-retching-history');
-            value.status = 'reused'; value.check = self.result.check; value.retching = self.result.retching; return value;
+            value.status = 'reused'; value.check = self.result.check; value.retching = self.result.retching;
+            value.checkRequired = self.result.checkRequired; return value;
         }
         rpgExpandedValidate(self.profile);
         if (!self.approved || self.evidence == nil || self.evidence == '' || self.observedAt != rpgLedger.seconds)
         { value.reason = 'nausea-trigger-current-event-required'; return value; }
-        if (!self.profile.nauseated()) { value.reason = 'nausea-trigger-condition-required'; return value; }
+        value.reason = self.eventReason(); if (value.reason != nil) return value;
         foreach (local prior in self.profile.nauseaTriggers)
             if (prior.eventId == self.eventId) rpgExpandedReject('nausea-trigger-duplicate-event');
+        if (!self.profile.nauseated())
+        {
+            if (self.skipWhenHealthy()) value.status = 'ready';
+            else value.reason = 'nausea-trigger-condition-required';
+            return value;
+        }
+        value.checkRequired = true;
         if (self.episode == nil || !self.episode.ofKind(RpgExpandedRetching)
             || self.episode.ofKind(RpgExpandedFearRetching) || self.episode.context == nil
             || self.episode.context.profile != self.profile) rpgExpandedReject('nausea-trigger-episode');
@@ -3920,8 +3932,8 @@ class RpgExpandedNauseaTrigger: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        value.check = rpgLiteCheck(self.profile,value.context);
-        if (!value.check.achieved)
+        if (value.checkRequired) value.check = rpgLiteCheck(self.profile,value.context);
+        if (value.check != nil && !value.check.achieved)
         {
             if (self.episode.apply().status != 'resolved') rpgExpandedReject('nausea-trigger-retching-changed');
             value.retching = self.episode;
@@ -3943,6 +3955,106 @@ modify rpgLedger
             {
                 episode.assess();
                 if (self.seconds + seconds > episode.initialEnd) rpgExpandedReject('retching-fixed-end-boundary');
+            }
+        return nil;
+    }
+;
+
+
+modify RpgExpandedProfile
+    nauseaMotionExposures = []
+;
+/** B428 authored continuing free-fall or motion-sickness situation. */
+class RpgExpandedNauseaMotion: object
+    id = nil
+    profile = nil
+    kind = 'motion'
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    nextCheckAt = nil
+    endedAt = nil
+    endEvidence = nil
+    boundEndEvidence = nil
+    boundDefinition = nil
+    hours = []
+    definition() { return [self.id,self.profile,self.kind,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil || self.boundDefinition == nil) rpgExpandedReject('nausea-motion-unstarted');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('nausea-motion-binding');
+        if (!holds(self.profile.nauseaMotionExposures,self)) rpgExpandedReject('nausea-motion-history');
+        if (self.endedAt != nil && self.endEvidence != self.boundEndEvidence) rpgExpandedReject('nausea-motion-end-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || !holds(['motion','free-fall'],self.kind)) rpgExpandedReject('nausea-motion-definition');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'nausea-motion-evidence'; return value; }
+        if (self.profile.dead) { value.reason = 'nausea-motion-patient-dead'; return value; }
+        foreach (local prior in self.profile.nauseaMotionExposures)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id) rpgExpandedReject('nausea-motion-duplicate');
+            if (prior.endedAt == nil) { value.reason = 'nausea-motion-overlap'; return value; }
+        }
+        rpgInteger(rpgLedger.seconds,0,2147480047); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.nextCheckAt = self.startedAt + 3600;
+        self.boundDefinition = self.definition(); self.profile.nauseaMotionExposures = self.profile.nauseaMotionExposures + [self];
+        value.status = 'resolved'; return value;
+    }
+    end()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (self.endEvidence == nil || self.endEvidence == '') { value.reason = 'nausea-motion-end-evidence'; return value; }
+        if (!self.profile.dead && rpgLedger.seconds >= self.nextCheckAt)
+        { value.reason = 'nausea-motion-due-hour'; return value; }
+        self.endedAt = rpgLedger.seconds; self.boundEndEvidence = self.endEvidence; value.status = 'resolved'; return value;
+    }
+;
+/** Each completed hour uses the shared trigger operation and oral review. */
+class RpgExpandedNauseaMotionHour: RpgExpandedNauseaTrigger
+    motion = nil
+    kind = 'motion-hour'
+    kindAccepted() { return self.kind == 'motion-hour'; }
+    skipWhenHealthy() { return true; }
+    definition() { return inherited() + [self.motion]; }
+    eventReason()
+    {
+        if (self.motion == nil || !self.motion.ofKind(RpgExpandedNauseaMotion)
+            || self.motion.profile != self.profile) rpgExpandedReject('nausea-motion-hour-definition');
+        self.motion.validateReceipt();
+        if (self.motion.endedAt != nil) return 'nausea-motion-ended';
+        if (rpgLedger.seconds != self.motion.nextCheckAt) return 'nausea-motion-hour-not-due';
+        rpgInteger(rpgLedger.seconds,0,2147480047); return nil;
+    }
+    apply()
+    {
+        local value = inherited(); if (value.status != 'resolved') return value;
+        self.motion.hours = self.motion.hours + [self]; self.motion.nextCheckAt += 3600; return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local motion = firstObj(RpgExpandedNauseaMotion); motion != nil; motion = nextObj(motion,RpgExpandedNauseaMotion))
+            if (motion.startedAt != nil && motion.endedAt == nil && !motion.profile.dead)
+            {
+                motion.validateReceipt();
+                if (self.seconds + seconds > motion.nextCheckAt) rpgExpandedReject('nausea-motion-hour-boundary');
             }
         return nil;
     }

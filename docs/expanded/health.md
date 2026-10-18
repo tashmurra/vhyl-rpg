@@ -1996,7 +1996,7 @@ and `stun`. Supply a unique `eventId`, `profile`, `observedAt` equal to the curr
 clock, `approved`, and concrete evidence of the event. `richMealWithinHour`
 records the authored dietary fact. This explicit event interface does not itself
 hook every parser, fear or combat event; those automatic adapters remain pending.
-Hourly free-fall and motion-sickness scheduling remains pending as well.
+The owned hourly exposure interface below supplies free-fall and motion-sickness scheduling.
 
 Prepare an unstarted `RpgExpandedRetching` episode with an approved
 `RpgExpandedRetchingContext` for the same profile. It requires the existing oral
@@ -2020,3 +2020,37 @@ scores are rejected before the trigger roll. `tests/fixtures/expanded-nausea-tri
 and `test_nausea_triggers` specify success, failure, preflight, fixed-end timing,
 no duplicate fatigue, preview, rollback, undo, replay and saved continuation.
 Existing fear/meal/remedy fixtures remain required regressions. All are unrun.
+
+
+### Hourly motion exposure
+
+`RpgExpandedNauseaMotion` records a continuing `motion` or `free-fall` situation
+from `full-2008`, B428. Supply a unique `id`, `profile`, `approved` and evidence
+that the situation can cause motion sickness. `assess()` is pure; `apply()` owns
+the exposure in `profile.nauseaMotionExposures` and sets its first check one hour
+later. Replaying it does not reset that epoch. Only one motion exposure can be
+active for a profile; overlapping source composition remains unsupported.
+
+For each completed hour, supply a fresh `RpgExpandedNauseaMotionHour` with the
+`motion` reference and the usual trigger fields: unique `eventId`, matching
+`profile`, `observedAt`, approval and event evidence. Its kind remains
+`motion-hour`. When nausea is active, prepare the same reviewed retching episode
+used by other triggers; current meal/remedy modifiers apply. When nausea is absent,
+the hour records no check and needs no vomiting episode. `checkRequired` in the
+result distinguishes these cases. Replay does not advance the deadline twice.
+
+The clock cannot pass `nextCheckAt` until that hour is recorded, even when no roll
+is needed. Recording an hour advances the next deadline by exactly 3,600 seconds
+and spends no time again. A failed check can create a nearer vomiting endpoint;
+that independent endpoint must also be completed before time passes it.
+
+To stop exposure, supply `endEvidence` and call `end()` in a transaction. At an
+already-due hour the record must be resolved first; stopping cannot bypass it.
+Ending before a full hour elapses requires no hourly check. Ending nausea does
+not itself stop motion, and stopping motion does not cure nausea. A dead profile
+does not hold the clock at an hourly boundary.
+
+`tests/fixtures/expanded-nausea-motion.t` and `test_nausea_motion` specify protected
+hour boundaries, success and vomiting, healthy hours without randomness, stopping,
+preview, rollback, undo, replay and saved continuation. They are authored and
+unrun. Automatic world-event adapters remain separate unfinished work.

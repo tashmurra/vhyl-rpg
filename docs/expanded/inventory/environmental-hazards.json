@@ -119,9 +119,10 @@
       "tests": [
         "tests/expanded.py::test_retching_remedy",
         "tests/expanded.py::test_remedy_persistence",
-        "tests/expanded.py::test_nausea_triggers"
+        "tests/expanded.py::test_nausea_triggers",
+        "tests/expanded.py::test_nausea_motion"
       ],
-      "validation_note": "Owned event-driven checks for meals, odors, failed fear and stun compose the nausea-adjusted HT check with rich-meal/remedy modifiers and reviewed oral-benefit revocation. Failure starts shared fixed-duration retching; its ending charges fatigue once without an extra check or second. Hourly motion scheduling and automatic event adapters remain pending. Fixtures authored and unrun."
+      "validation_note": "Owned event checks and hourly free-fall/motion records use shared nausea-adjusted HT, meal/remedy modifiers and fixed-duration retching. Hour boundaries and receipts prevent skipped or duplicate checks; healthy hours record no roll. Automatic parser/combat event adapters and overlapping motion-source composition remain pending. Fixtures authored and unrun."
     },
     {
       "id": "condition-moderate-pain",

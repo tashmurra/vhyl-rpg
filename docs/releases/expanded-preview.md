@@ -299,3 +299,9 @@ Nausea events now compose their health checks with shared retching and reviewed
 oral-benefit loss. Fixed-duration vomiting ends without the extra recovery roll
 used by the preserved fear-table entry point. Hourly motion scheduling and
 automatic event adapters remain pending; new fixtures are authored and unrun.
+
+
+Hourly nausea checks now have owned free-fall/motion exposure records. The clock
+protects each hour, healthy hours consume no dice, and replay cannot advance a
+deadline twice. Vomiting endpoints share the same clock without duplicate time.
+Automatic event adapters remain pending; new fixtures are authored and unrun.

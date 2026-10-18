@@ -8914,6 +8914,8 @@ def test(build):
     test_nausea_episodes(Session, nausea, build.out)
     nausea_trigger = build.build('expanded-nausea-trigger', ROOT / 'tests/fixtures/expanded-nausea-trigger.t')
     test_nausea_triggers(Session, nausea_trigger, build.out)
+    nausea_motion = build.build('expanded-nausea-motion', ROOT / 'tests/fixtures/expanded-nausea-motion.t')
+    test_nausea_motion(Session, nausea_motion, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10517,3 +10519,60 @@ def test_nausea_triggers(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_nausea_motion(Session, bundle, out):
+    def state(s):
+        s.action(2291, 64, 0)
+        return last(s, 'test.nausea-motion')
+    path = out / 'expanded-nausea-motion.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)
+        s.action(2291, 40, 0)
+        s.action(2291, 61, 0)
+        assert state(s) == [0, None, 0, 0, 0, 0, 0]
+        s.action(2291, 60, 0)
+        s.action(2291, 30, 3601)
+        assert state(s) == [0, 3600, 0, 0, 0, 0, 0]
+        s.action(2291, 30, 3599)
+        s.command(f':save {path}\n@2295')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2295')
+        s.action(2291, 30, 1)
+        s.action(2291, 65, 0)  # A due hour cannot be bypassed by stopping.
+        s.action(2291, 68, 0)
+        assert state(s) == [0, 3600, 0, 3600, 0, 0, 0]
+        s.action(2291, 62, 0)
+        s.command('undo')
+        assert state(s) == [0, 3600, 0, 3600, 0, 0, 0]
+        s.action(2291, 62, 0)
+        s.action(2291, 62, 0)
+        assert state(s) == [1, 7200, 3, 3600, 0, 0, 0]
+        s.action(2291, 66, 0)
+        s.action(2291, 30, 3600)
+        s.action(2291, 63, 0)
+        s.action(2291, 63, 0)
+        assert state(s) == [2, 10800, 3, 7200, 0, 0, 0]
+        s.action(2291, 65, 0)
+        s.action(2291, 30, 4000)
+        assert state(s) == [2, 10800, 3, 11200, 0, 0, 1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2291, 20, 0)
+        s.action(2291, 60, 0)
+        s.action(2291, 30, 3600)
+        s.action(2291, 62, 0)
+        assert state(s) == [1, 7200, 3, 3600, 1, 0, 0]
+        s.action(2291, 30, 16)
+        assert state(s) == [1, 7200, 3, 3600, 1, 0, 0]
+        s.action(2291, 30, 15)
+        s.action(2291, 53, 0)
+        assert state(s) == [1, 7200, 3, 3615, 0, 1, 0]
+    finally:
+        s.close()
