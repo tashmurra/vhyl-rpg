@@ -8932,6 +8932,8 @@ def test(build):
     test_surgical_infection(Session, surgical_infection, build.out)
     mortal_stabilization = build.build('expanded-mortal-stabilization', ROOT / 'tests/fixtures/expanded-mortal-stabilization.t')
     test_mortal_stabilization(Session, mortal_stabilization, build.out)
+    trauma_maintenance = build.build('expanded-trauma-maintenance', ROOT / 'tests/fixtures/expanded-trauma-maintenance.t')
+    test_trauma_maintenance(Session, trauma_maintenance, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11067,5 +11069,61 @@ def test_mortal_stabilization(Session, bundle, out):
         for code in (170, 183, 171, 172, 173, 184):
             s.action(2285, code)
         assert last(s, 'test.mortal-complication') == [1, 1]
+    finally:
+        s.close()
+
+
+def test_trauma_maintenance(Session, bundle, out):
+    def state(s):
+        s.action(2285, 195)
+        return last(s, 'test.trauma-maintenance')
+    path = out / 'expanded-trauma-maintenance.zsave'
+    s = Session(bundle)
+    try:
+        for code in (170, 190, 196, 197):
+            s.action(2285, code)
+        assert state(s) == [0, 1, 0, 0, 0, 0, None]
+        s.action(2285, 172)
+        s.command('undo')
+        assert state(s) == [0, 1, 0, 0, 0, 0, None]
+        s.action(2285, 192)
+        s.action(2285, 194)  # cannot discard a partial supported interval
+        assert state(s) == [0, 1, 1800, 0, 1800, 0, None]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 192)
+        # HT10 would fail roll 11; caregiver Physician12 keeps the patient alive.
+        assert state(s) == [0, 1, 0, 1, 3600, 3, None]
+        s.action(2285, 194)
+        s.action(2285, 194)
+        s.action(2285, 192)
+        assert state(s) == [0, 1, 0, 1, 5400, 6, 3600]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (170, 191, 190, 193):
+            s.action(2285, code)
+        assert state(s) == [0, 1, 0, 1, 86400, 3, None]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (170, 190, 171, 172, 173):
+            s.action(2285, code)
+        assert state(s) == [0, 0, 0, 1, 3600, 9, None]
+        s.action(2285, 194)
+        assert state(s) == [0, 0, 0, 1, 3600, 9, 3600]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (170, 190, 199):
+            s.action(2285, code)
+        assert state(s) == [0, 1, 0, 1, 3600, 3, None]
     finally:
         s.close()

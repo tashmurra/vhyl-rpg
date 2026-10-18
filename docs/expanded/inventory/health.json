@@ -602,9 +602,13 @@
       "pages": "B423",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Check health every half-hour while mortally wounded: failure kills, ordinary success delays death and critical success stabilizes the mortal condition while leaving incapacitation.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_trauma_maintenance",
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete."
     },
     {
       "id": "health-mortal-trauma-maintenance",
@@ -612,9 +616,13 @@
       "pages": "B423",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At medical technology six or higher, trauma maintenance replaces half-hour checks with hourly checks against the higher of patient health or caregiver physician skill.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_trauma_maintenance",
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete."
     },
     {
       "id": "health-mortal-life-support",
@@ -622,9 +630,13 @@
       "pages": "B423",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Suitable mechanical life support extends the maintenance check interval to one day; magical or advanced suspended animation suppresses these checks entirely while active.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_trauma_maintenance",
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete."
     },
     {
       "id": "health-mortal-recovery-cost",

@@ -273,21 +273,7 @@ rpgLiteHealthTime(profile, seconds)
         if (profile.fearSeconds <= 0)
         { profile.fearSeconds = 0; profile.stunned = nil; if (profile.hp() > 0 && profile.fp() > 0 && !profile.unconsciousRecoveryOwned()) profile.unconscious = nil; }
     }
-    if (profile.mortal)
-    {
-        profile.mortalClock += seconds;
-        while (profile.mortalClock >= 1800 && !profile.dead && profile.mortal)
-        {
-            profile.mortalClock -= 1800;
-            local check = rpgLiteAttributeCheck(profile, rpgHT, 'mortal-wound', 0);
-            if (!check.achieved) profile.dead = true;
-            else if (check.critical == 'success')
-            {
-                profile.mortal = nil;
-                if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
-            }
-        }
-    }
+    if (!profile.mortalClockOwned()) rpgLiteMortalTime(profile,seconds);
     if (profile.unconscious && !profile.unconsciousRecoveryOwned() && !profile.mortal && !profile.dead && profile.fearSeconds == 0)
     {
         profile.unconsciousClock += seconds;
@@ -566,3 +552,33 @@ class RpgLiteFire: object
         return self.burning == 0;
     }
 ;
+
+/** Default mortal survival dispatch preserves the abridged interval and roll. */
+modify RpgLiteProfile
+    mortalClockOwned() { return nil; }
+    mortalSurvivalInterval() { return 1800; }
+    mortalSurvivalCheck() { return rpgLiteAttributeCheck(self,rpgHT,'mortal-wound',0); }
+;
+
+/** Mortal-condition clock only; callers own the elapsed-time charge. */
+rpgLiteMortalTime(profile, seconds)
+{
+    if (profile.dead) return nil;
+    if (profile.mortal)
+    {
+        local mortalInterval = profile.mortalSurvivalInterval();
+        profile.mortalClock += seconds;
+        while (profile.mortalClock >= mortalInterval && !profile.dead && profile.mortal)
+        {
+            profile.mortalClock -= mortalInterval;
+            local check = profile.mortalSurvivalCheck();
+            if (!check.achieved) profile.dead = true;
+            else if (check.critical == 'success')
+            {
+                profile.mortal = nil;
+                if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
+            }
+        }
+    }
+    return nil;
+}

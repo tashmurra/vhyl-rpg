@@ -362,3 +362,9 @@ penalties, injury-severity modifiers and the permanent-health recovery check.
 Ordinary survival checks continue during care. Discretionary complications are
 flagged rather than invented. Fixtures are authored and unrun; trauma maintenance
 and the documented surgical combination gaps remain incomplete.
+
+Trauma maintenance now provides owned hourly or daily survival checks using the
+higher patient/caregiver score. Ledger dispatch advances owned mortal care during
+other activities; resting skips duplicate mortal-clock processing. Default Lite
+dispatch remains unchanged. Fixtures are authored and unrun. Mid-interval support
+transitions and suspended animation remain incomplete.

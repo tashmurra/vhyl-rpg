@@ -4858,3 +4858,139 @@ class RpgExpandedMortalStabilization: RpgExpandedSurgicalOperation
         return value;
     }
 ;
+
+class RpgExpandedTraumaAssessment: RpgExpandedResult
+    score = nil
+    interval = 0
+;
+class RpgExpandedTraumaCheck: object
+    result = nil
+    completedAt = nil
+;
+/** B423 ongoing trauma maintenance; no healing or extra time charge. */
+class RpgExpandedTraumaMaintenance: object
+    id = nil
+    patient = nil
+    caregiver = nil
+    skill = nil
+    lifeSupport = nil
+    approved = nil
+    equipmentEvidence = nil
+    startedAt = nil
+    endedAt = nil
+    boundDefinition = nil
+    checks = []
+    definition() { return [self.id,self.patient,self.caregiver,self.skill,self.skill.techLevel,self.lifeSupport,self.approved,self.equipmentEvidence]; }
+    validateReceipt()
+    {
+        if (self.startedAt == nil) return nil;
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('trauma-maintenance-binding');
+        if (!holds(self.patient.traumaHistory,self)) rpgExpandedReject('trauma-maintenance-history');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.patient == nil || !self.patient.ofKind(RpgExpandedProfile)
+            || self.caregiver == nil || !self.caregiver.ofKind(RpgLiteProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'physician'
+            || self.skill.techLevel == nil) rpgExpandedReject('trauma-maintenance-definition');
+        self.validateReceipt(); local value = new RpgExpandedTraumaAssessment();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (self.skill.techLevel < 6) { value.reason = 'trauma-maintenance-technology'; return value; }
+        if (!self.approved || self.equipmentEvidence == nil || self.equipmentEvidence == '')
+        { value.reason = 'trauma-maintenance-equipment'; return value; }
+        if (!self.patient.mortal || self.patient.dead || self.caregiver.dead || self.caregiver.unconscious
+            || self.caregiver.mortal || self.caregiver.stunned || self.caregiver.mentalStun)
+        { value.reason = 'trauma-maintenance-condition'; return value; }
+        if (self.startedAt == nil)
+        {
+            if (self.patient.traumaMaintenance != nil || self.patient.mortalClock != 0)
+            { value.reason = 'trauma-maintenance-transition-boundary'; return value; }
+            foreach (local prior in self.patient.traumaHistory)
+                if (prior.id == self.id) rpgExpandedReject('trauma-maintenance-duplicate');
+        }
+        else if (self.patient.traumaMaintenance != self) rpgExpandedReject('trauma-maintenance-owner');
+        local patientContext = new RpgLiteContext(); patientContext.attribute = rpgHT; patientContext.kind = 'mortal-wound';
+        local physicianContext = new RpgLiteContext(); physicianContext.skill = self.skill; physicianContext.kind = 'trauma-maintenance';
+        local health = rpgLiteScore(self.patient,patientContext); local physician = rpgLiteScore(self.caregiver,physicianContext);
+        if (health == nil || physician == nil) { value.reason = 'trauma-maintenance-score'; return value; }
+        value.score = health > physician ? health : physician;
+        if (value.score < 3) { value.reason = 'trauma-maintenance-score'; return value; }
+        value.interval = self.lifeSupport ? 86400 : 3600; value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt != nil) { value.status = 'reused'; return value; }
+        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.patient.traumaHistory = self.patient.traumaHistory + [self]; self.patient.traumaMaintenance = self;
+        value.status = 'resolved'; return value;
+    }
+    end()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'trauma-maintenance-not-started'; return value; }
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (self.patient.mortal && !self.patient.dead && self.patient.mortalClock != 0)
+        { value.reason = 'trauma-maintenance-transition-boundary'; return value; }
+        if (self.patient.traumaMaintenance != self) rpgExpandedReject('trauma-maintenance-owner');
+        self.endedAt = rpgLedger.seconds; self.patient.traumaMaintenance = nil; value.status = 'resolved'; return value;
+    }
+    survivalCheck()
+    {
+        local prepared = self.assess(); if (prepared.status != 'ready') rpgExpandedReject(prepared.reason);
+        local due = self.startedAt + (self.checks.length() + 1) * prepared.interval;
+        if (rpgLedger.seconds - self.patient.mortalClock != due) rpgExpandedReject('trauma-maintenance-clock');
+        local receipt = new RpgExpandedTraumaCheck(); receipt.result = rpgCheck(prepared.score,rpgRandom.roll());
+        receipt.completedAt = rpgLedger.seconds - self.patient.mortalClock;
+        self.checks = self.checks + [receipt];
+        self.patient.lastCheck = receipt.result; self.patient.lastCheckDraw = rpgRandom.draws;
+        return receipt.result;
+    }
+;
+modify RpgExpandedProfile
+    traumaMaintenance = nil
+    traumaHistory = []
+    mortalSurvivalInterval()
+    {
+        if (self.traumaMaintenance == nil) return inherited();
+        local value = self.traumaMaintenance.assess();
+        if (value.status != 'ready') rpgExpandedReject(value.reason);
+        return value.interval;
+    }
+    mortalSurvivalCheck()
+    {
+        return self.traumaMaintenance == nil ? inherited() : self.traumaMaintenance.survivalCheck();
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local care = firstObj(RpgExpandedTraumaMaintenance); care != nil;
+            care = nextObj(care,RpgExpandedTraumaMaintenance))
+            if (care.startedAt != nil && care.endedAt == nil && care.patient.mortal && !care.patient.dead)
+            {
+                local value = care.assess(); if (value.status != 'ready') rpgExpandedReject(value.reason);
+            }
+        return nil;
+    }
+;
+
+/* Owned medical clocks advance with the ledger; legacy rest skips this portion
+ * while care owns it, preserving one survival clock per patient. */
+modify RpgExpandedProfile
+    mortalClockOwned() { return self.mortalCare != nil || self.traumaMaintenance != nil; }
+;
+modify rpgLedger
+    afterAdvance(previousSeconds)
+    {
+        inherited(previousSeconds);
+        for (local patient = firstObj(RpgExpandedProfile); patient != nil;
+            patient = nextObj(patient,RpgExpandedProfile))
+            if (patient.mortalClockOwned()) rpgLiteMortalTime(patient,self.seconds - previousSeconds);
+        return nil;
+    }
+;

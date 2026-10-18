@@ -2346,3 +2346,42 @@ stabilization nor replay grants extra healing, time or advancement credit.
 thresholds, persistent retry penalties, ongoing half-hour survival rolls,
 permanent HT loss, critical complication flags, preview, replay, rollback, undo
 and cross-process continuation. They are authored and unrun.
+
+### Trauma maintenance and life support
+
+`RpgExpandedTraumaMaintenance` implements B423's technology-six-or-higher
+maintenance procedure. Supply the expanded `patient`, `caregiver`, technology-
+qualified Physician `skill`, unique `id`, `approved` and `equipmentEvidence`
+identifying continuous CPR, oxygen, transfusion or equivalent support. Set
+`lifeSupport` for a heart-lung machine or comparable continuous support; its
+availability must be established in the evidence. The operation charges no extra
+HP, fatigue or treatment time.
+
+`assess()` compares the patient's current contextual HT score with the caregiver's
+current contextual Physician score and chooses the higher. `start()` replaces the
+half-hour mortal check interval with one hour, or one day for life support. The
+shared ledger processes these checks, records their results and times in `checks`,
+and retains the ordinary death/critical-success recovery consequences. This can
+run alongside surgical stabilization on the same patient without a second clock.
+A medical rest also uses this clock exactly once.
+
+The initial implementation requires starting and ending support at an existing
+mortal-check interval boundary (`mortalClock == 0`), unless the patient is no longer
+mortal or is dead when support ends. A partial supported interval cannot be erased
+by toggling care. Transfers or loss of support mid-interval remain unsupported;
+changing bound facts is rejected, and an unavailable caregiver blocks further
+clock advancement until an applicable transition is authored. Suspended animation
+is not implemented by this interface. Do not describe these gaps as complete
+life-support coverage.
+
+The engine now exposes `mortalSurvivalInterval`, `mortalSurvivalCheck` and
+`mortalClockOwned`. Their default behavior preserves the existing half-hour roll
+and random consumption. `rpgLiteMortalTime` contains only that condition clock.
+Expanded mortal care or trauma maintenance owns its dispatch from the ledger;
+legacy `rpgLiteHealthTime` skips that part while owned, preventing duplicate rest
+checks. Profiles without owned care retain their previous dispatch behavior.
+
+`expanded-trauma-maintenance.t` and `test_trauma_maintenance` specify hourly/daily
+boundaries, the higher caregiver score, coexistence with stabilization, stopping,
+preview, rollback, undo, save continuation and prevention of duplicate rest rolls.
+They remain authored and unrun.
