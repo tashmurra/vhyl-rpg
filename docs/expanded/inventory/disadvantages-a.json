@@ -154,7 +154,7 @@
       "status": "partial",
       "acceptance": "At an applicable trigger, player may voluntarily accept the drawback without rolling or roll 3d at/below modified self-control to resist this occurrence. Author supplies mild/severe stimulus and specific effect modifiers. Persist trigger identity and consequence rather than allowing unlimited attempts through repeated requests.",
       "tests": ["tests/expanded.py::test_expanded_self_control"],
-      "validation_note": "Owned trigger records preserve one check and obligation per trait/occurrence, rejecting renamed duplicate requests. Voluntary acceptance and authored action satisfaction use the existing obligation interface. Fixtures authored, unrun; trait-specific trigger/effect integrations and point-funded resistance remain incomplete."
+      "validation_note": "Owned trigger records preserve one check and obligation per trait/occurrence, rejecting renamed duplicate requests. Voluntary acceptance and authored action satisfaction use the existing obligation interface. Fixtures authored, unrun; trait-specific trigger/effect integrations remain incomplete; point-funded resistance now has its separate explicit campaign-choice operation."
     },
     {
       "id": "disadvantages-a-self-control-points",
@@ -162,9 +162,10 @@
       "pages": "B121",
       "module": "traits",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Optional campaign permission allows spending one unspent character point for automatic self-control success. Deduct it permanently once; this is not ordinary skill advancement or a refundable reservation after successful resolution. Authored reward consequences for repeated resistance are separate from mechanical failure.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_self_control_points"],
+      "validation_note": "Explicit campaign choice and fresh-trigger automatic success consume one shared unspent point and advance the development revision without rolling. Mandatory spending gates, replay, rollback, undo and saved continuation have authored, unrun assertions. Retroactive purchases and broader integration validation remain incomplete; reward adjudication stays authored."
     },
     {
       "id": "disadvantages-a-buyoff",

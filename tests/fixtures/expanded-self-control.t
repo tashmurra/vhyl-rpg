@@ -3,7 +3,10 @@
 ratedBehavior: RpgExpandedDisadvantage id = 'rated-behavior' points = -5 controlled = true
     approved = true selfControlRating = 6;
 modify bleedProfile traits = [ratedBehavior];
-ratedControlInput: object modifier = 0;
+ratedControlInput: object modifier = 0 spendingBlocked = nil;
+modify bleedProfile
+    developmentSpendingReason() { return ratedControlInput.spendingBlocked ? 'original-required-development' : inherited(); }
+;
 ratedTrigger: RpgExpandedSelfControlTrigger id = 'temptation' profile = bleedProfile trait = ratedBehavior
     trigger = 'original-opportunity' evidence = 'The author establishes an applicable occurrence';
 ratedDuplicate: RpgExpandedSelfControlTrigger id = 'same-opportunity' profile = bleedProfile trait = ratedBehavior
@@ -38,6 +41,19 @@ modify BleedTestAction
             eventValue(ratedTrigger.active ? 1 : 0); eventValue(ratedTrigger.check == nil ? nil : ratedTrigger.check.score);
             eventValue(rpgRandom.draws); return nil;
         }
+        if (code == 590) { bleedProfile.earnedPoints = 2; bleedProfile.unspentPoints = 2; return nil; }
+        if (code == 591) { bleedRules.pointFundedSelfControl = true; ratedTrigger.buySuccess = true; return nil; }
+        if (code == 592) { bleedRules.pointFundedSelfControl = nil; return nil; }
+        if (code == 593) { bleedProfile.unspentPoints = 0; return nil; }
+        if (code == 594)
+        {
+            event('test.control-points'); eventValue(bleedProfile.earnedPoints); eventValue(bleedProfile.unspentPoints);
+            eventValue(bleedProfile.developmentRevision); eventValue(bleedProfile.selfControlTriggers.length());
+            eventValue(ratedTrigger.active ? 1 : 0); eventValue(ratedTrigger.result == nil ? nil : ratedTrigger.result.points);
+            eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 597) { ratedTrigger.modifier = -10; return nil; }
+        if (code == 598) { ratedControlInput.spendingBlocked = true; return nil; }
         return inherited(context);
     }
 ;

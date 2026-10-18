@@ -685,7 +685,31 @@ action's `satisfies(obligation)` decision. Before resolution, it grants no actio
 permission. This contract requires concrete authored behavior for each trait; it
 does not implement an entire behavioral catalogue through a generic callback.
 `begin(modifier,giveIn)` is a compatibility entry into the same owned resolution.
-Point-funded automatic resistance and trait-specific trigger/counter rules remain
-incomplete. `expanded-self-control.t` specifies all four ratings, Will independence,
+Trait-specific trigger/counter rules remain incomplete. The explicit point-funded
+option is described below. `expanded-self-control.t` specifies all four ratings, Will independence,
 pain modifiers, invalid inputs, voluntary acceptance and once-only triggers with
 preview, rollback and undo. These assertions are authored and unrun.
+
+
+### Optional point-funded self-control
+
+The full-2008 B121 option is disabled by default. Enable
+`rules.pointFundedSelfControl` for a campaign that permits it, then set
+`buySuccess = true` on a fresh `RpgExpandedSelfControlTrigger`. This is a choice
+before resolving the occurrence. It cannot be combined with `giveIn` or retrofitted
+onto a failed check; retroactive purchases remain unsupported.
+
+Assessment checks campaign permission, trait approval, the existing
+`developmentSpendingReason()` gate and one available `unspentPoints`. Resolution
+consumes one point permanently in the ordinary progression ledger and increments
+`developmentRevision`. It records an automatic successful check and no active
+obligation, without rolling or spending time. Earned-point history is unchanged.
+No separate point bank, reservation or automatic refund is created. Replay,
+including after a policy change or save restoration, uses the original receipt.
+Normal transaction rollback and undo still restore the entire action.
+
+`test_self_control_points` specifies disabled policy, insufficient funds,
+conflicting choices, mandatory-development spending protection, a modified score
+below three, preview, replay, rollback, undo and cross-process continuation.
+These assertions are authored and unrun. Campaign reward judgments about repeated
+resistance remain authored rather than automatic point penalties.

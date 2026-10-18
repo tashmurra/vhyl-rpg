@@ -610,3 +610,11 @@ or renamed requests from rerolling the same trigger, while preserving voluntary
 acceptance and the existing authored obligation interface. Added authored, unrun
 fixtures for rating/modifier combinations, invalid inputs, rollback and undo.
 Trait-specific behavior and optional point-funded resistance remain incomplete.
+
+
+Added opt-in point-funded self-control before trigger resolution. It consumes one
+point from the shared progression ledger, honors mandatory spending gates and
+records automatic success without randomness. Replay never charges again or
+refunds a completed purchase. Authored, unrun fixtures cover policy/funds checks,
+conflicting choices, rollback, undo and saved continuation. Retroactive purchases
+and campaign reward adjudication remain separate.

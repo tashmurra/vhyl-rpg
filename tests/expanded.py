@@ -8954,6 +8954,7 @@ def test(build):
     test_pain(Session, pain, build.out)
     self_control = build.build('expanded-self-control', ROOT / 'tests/fixtures/expanded-self-control.t')
     test_expanded_self_control(Session, self_control)
+    test_self_control_points(Session, self_control, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12495,5 +12496,43 @@ def test_expanded_self_control(Session, bundle):
             for code in (581,581,584,585):
                 s.action(2285, code)
             assert last(s, 'test.control-trigger') == [1,1,None if give_in else 6,0 if give_in else 3]
+        finally:
+            s.close()
+
+
+def test_self_control_points(Session, bundle, out):
+    def state(s):
+        s.action(2285, 594)
+        return last(s, 'test.control-points')
+    path = out / 'expanded-self-control-points.zsave'
+    s = Session(bundle)
+    try:
+        # Even an otherwise unattemptable check may use the explicit automatic option.
+        for code in (590,591,597,580,582):
+            s.action(2285, code)
+        assert state(s) == [2,2,0,0,0,None,0]
+        s.action(2285, 581)
+        s.command('undo')
+        assert state(s) == [2,2,0,0,0,None,0]
+        for code in (581,581,584):
+            s.action(2285, code)
+        assert state(s) == [2,1,1,1,0,1,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (592,581):
+            s.action(2285, code)
+        assert state(s) == [2,1,1,1,0,1,0]
+    finally:
+        s.close()
+    for invalid, points in [(592,2),(593,0),(583,2),(598,2)]:
+        s = Session(bundle)
+        try:
+            for code in (590,591,invalid,581):
+                s.action(2285, code)
+            assert state(s) == [2,points,0,0,0,None,0]
         finally:
             s.close()
