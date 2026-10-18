@@ -463,3 +463,42 @@ partial. Surgical assessment now applies B168 technology mismatch penalties
 through `rpgExpandedTechnologyModifier`, which lives in the expanded foundation
 so health and skills use one implementation. The public function and its results
 are unchanged.
+
+## Nature and survival defaults
+
+`RpgExpandedNaturalistSkill` supplies the B211 IQ/Hard definition and IQ-6
+default. Set `planet`, `planetType` and a `specialty` equal to the planet ID.
+Purchased Naturalist on another planet of the same type supplies the printed
+-4 default. Different planet types supply no cross-planet edge. An applicable
+Biology source can be supplied as an explicit `[skill, -3]` default edge through
+the existing authored-default interface; automatic Biology catalogue selection
+and validation remain pending.
+
+`RpgExpandedSurvivalSkill` supplies the B223-B224 Perception/Average definition
+and Perception-5 default. Set its planet, planet type and terrain specialty. Its
+resolver discovers purchased Naturalist for the same planet at -3, and purchased
+Survival specialties using the printed relationships: -3 between land types,
+-4 between aquatic types, and -4 for the coast/lagoon and swamp/river crossings.
+The same terrain on another planet of the same type is -4; a terrain change
+adds its normal penalty to that -4. No edge crosses different planet types.
+Planet type is an author-supplied classification ID, not inferred from a name.
+
+Terrain IDs are `arctic`, `desert`, `island-beach`, `jungle`, `mountain`, `plains`,
+`swampland`, `woodlands`, `bank`, `deep-ocean-vent`, `fresh-water-lake`,
+`open-ocean`, `reef`, `river-stream`, `salt-water-sea` and `tropical-lagoon`.
+Special man-made terrains require a separate adapter and are rejected by this
+standard-terrain class. These IDs describe the authored skill instances; existing
+catalogue identifiers and abridged definitions are unchanged.
+
+`rpgExpandedSurvivalDefault` exposes the pure terrain/world relationship for
+assessment. Both skill classes use the existing paid-source resolver, so an
+untrained default cannot become a second default source. Paid improvements,
+attribute-default caps and familiarity restrictions remain in that resolver.
+Conflicting type labels for the same planet are rejected.
+
+Plant foraging accepts these expanded definitions without requiring a purchase
+of the target skill. The same daily attempt category still applies. Other nature
+uses, daily wilderness injury, dependent care, terrain/body compatibility,
+trapping and complete catalogue integration remain pending.
+`tests/fixtures/expanded-nature-defaults.t` covers attribute, terrain, aquatic,
+crossing, world and untrained-source cases; assertions are authored, unrun.

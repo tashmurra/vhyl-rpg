@@ -1448,3 +1448,11 @@ of sixth attempts, hiking/marching exclusion, next-day reset, late reservations,
 prior activity, rollback, undo and saved continuation. Assertions are authored,
 unrun. Partial-day scheduling and arbitrary external travel adapters remain
 explicit integration limits.
+
+Plant foraging now accepts unpaid targets defined with
+[`RpgExpandedNaturalistSkill` or `RpgExpandedSurvivalSkill`](skills.md#nature-and-survival-defaults).
+The skills module supplies attribute and eligible purchased-skill defaults,
+including terrain and world relationships, through the shared resolver. Plain
+abridged skill instances still require paid training in this adapter. This replaces
+the earlier blanket default restriction for the two expanded definition types;
+no additional forage allowance is granted.

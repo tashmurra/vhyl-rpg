@@ -457,3 +457,8 @@ class RpgExpandedForagingDay: object
         self.profile.foragingDays = self.profile.foragingDays + [self]; value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgLiteSkill
+    expandedForageDefaultsReady() { return nil; }
+    foragingDefinition() { return []; }
+;

@@ -9034,6 +9034,8 @@ def test(build):
     test_food_smoking(Session, food_smoking, build.out)
     foraging_day = build.build('expanded-foraging-day',ROOT / 'tests/fixtures/expanded-foraging-day.t')
     test_foraging_day(Session, foraging_day, build.out)
+    nature_defaults = build.build('expanded-nature-defaults',ROOT / 'tests/fixtures/expanded-nature-defaults.t')
+    test_nature_defaults(Session, nature_defaults, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16332,3 +16334,24 @@ def test_foraging_day(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_nature_defaults(Session, bundle, out):
+    for setup,score in (((),5),((2200,),4),((2201,),11),((2202,),12),
+                        ((2202,2203),11),((2202,2204),8),((2202,2205),5),
+                        ((2200,2201,2206),10),((2201,2207),5)):
+        s = Session(bundle)
+        try:
+            for code in (31,)+setup+(2208,1602,1600,1600,1603):
+                s.action(2285,code)
+            assert last(s,'test.nature-score') == [score,0]
+            assert last(s,'test.plant-preview') == ['ready',None]
+            assert last(s,'test.plant-owned') == [1,3,0,1,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285,2209)
+        assert last(s,'test.survival-defaults') == [-3,-4,-4,-4,None,-7,-4,None,None]
+    finally:
+        s.close()

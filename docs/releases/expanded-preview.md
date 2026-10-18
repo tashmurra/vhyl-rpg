@@ -1084,3 +1084,10 @@ be committed at a day boundary before activity and cannot be cancelled to gain
 travel after extra rolls. Next-day limits reset normally. Boundary, shared-limit,
 travel-exclusion, rollback, undo and saved-continuation fixtures are authored,
 unrun; external travel adapters must use the exposed scheduling restriction.
+
+Expanded nature and survival definitions now generate terrain/world defaults
+from eligible purchased skills. Plant foraging accepts these unpaid targets
+through the shared resolver without granting extra attempts. Standard terrain,
+planet classification and no-double-default assertions are authored, unrun.
+Automatic Biology source selection and the broader wilderness procedures remain
+pending.

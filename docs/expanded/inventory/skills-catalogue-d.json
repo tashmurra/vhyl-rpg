@@ -252,9 +252,11 @@
       "pages": "B211",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require planet identity when travel makes it relevant. Default at -4 only between planets of the same type and reveal only authored practical environmental information.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "iq",
         "difficulty": "hard",
@@ -274,7 +276,8 @@
           "same_world_type_different_world_modifier": -4,
           "different_world_type_default": null
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-navigation-sea",
@@ -4211,9 +4214,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4274,7 +4279,8 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-desert",
@@ -4282,9 +4288,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4345,7 +4353,8 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-coast",
@@ -4353,9 +4362,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4421,7 +4432,8 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-jungle",
@@ -4429,9 +4441,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4492,7 +4506,8 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-mountain",
@@ -4500,9 +4515,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4563,7 +4580,8 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-plains",
@@ -4571,9 +4589,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4634,7 +4654,8 @@
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-swamp",
@@ -4642,9 +4663,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4710,7 +4733,8 @@
           "survival-woodland": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-river": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-woodland",
@@ -4718,9 +4742,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4781,7 +4807,8 @@
           "survival-plains": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-bank",
@@ -4789,9 +4816,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4852,7 +4881,8 @@
           "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-deep-vent",
@@ -4860,9 +4890,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4923,7 +4955,8 @@
           "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-freshwater-lake",
@@ -4931,9 +4964,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -4994,7 +5029,8 @@
           "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-open-ocean",
@@ -5002,9 +5038,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -5065,7 +5103,8 @@
           "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-reef",
@@ -5073,9 +5112,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -5136,7 +5177,8 @@
           "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-river",
@@ -5144,9 +5186,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -5212,7 +5256,8 @@
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-swamp": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-saltwater-sea",
@@ -5220,9 +5265,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -5283,7 +5330,8 @@
           "survival-river": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-lagoon": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-skill-survival-lagoon",
@@ -5291,9 +5339,11 @@
       "pages": "B223-B224",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require body-compatible terrain and planet definitions; resolve daily support for the user and at most ten dependents with weather/equipment context.",
-      "tests": [],
+      "tests": [
+        "tests/expanded.py::test_nature_defaults"
+      ],
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -5359,7 +5409,8 @@
           "survival-saltwater-sea": "Same world, or apply world-specialization rules; never cross different world types.",
           "survival-coast": "Same world, or apply world-specialization rules; never cross different world types."
         }
-      }
+      },
+      "validation_note": "Concrete expanded Naturalist and Survival definitions now support attribute defaults and generated paid-source terrain/world defaults through the shared resolver, including same-world Naturalist to Survival and the two land/water crossings. Different world types have no cross-world edge; untrained default chains are not followed. Plant foraging accepts these expanded unpaid target definitions. Expected-value assertions authored, unrun. Existing catalogue identifiers remain distinct authoring inputs; automatic Biology source selection, complete catalogue adaptation, body/terrain permissions, wilderness injury/dependents, trapping and other skill procedures remain pending."
     },
     {
       "id": "catalogue-survival-dependent-injury",

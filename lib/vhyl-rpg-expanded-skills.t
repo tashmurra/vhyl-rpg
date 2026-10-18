@@ -3,6 +3,7 @@
 /** Authored expanded skill. Defaults are explicit [skill, penalty] pairs.
  * A catalogue is not implied by this definition type. */
 class RpgExpandedSkill: RpgLiteSkill
+    validateDefinition() { return nil; }
     defaults = []
     wildcard = nil
     prerequisite = nil
@@ -477,6 +478,7 @@ rpgExpandedOptionalSpecialty(generalSkill, id, specialty, approved)
 rpgExpandedValidateSkill(skill)
 {
     if (skill == nil || !skill.ofKind(RpgSkill)) rpgExpandedReject('invalid-skill');
+    if (skill.ofKind(RpgExpandedSkill)) skill.validateDefinition();
     rpgInteger(skill.difficulty, 0, skill.maximumDifficulty());
     rpgValidateAttribute(skill.attribute);
     if (skill.defaultPenalty != nil) rpgInteger(skill.defaultPenalty, -100, 0);
@@ -609,4 +611,91 @@ class RpgExpandedFamiliarityRecognition: object
 modify RpgLiteContext
     technologySkillLevel(profile) { return self.skill == nil ? nil : self.skill.techLevel; }
     technologyUnavailableReason(profile) { return 'technology-too-advanced'; }
+;
+
+/** B224 terrain and planet default, without traversing another unpaid default. */
+rpgExpandedSurvivalDefault(sourceTerrain, targetTerrain, samePlanet, samePlanetType)
+{
+    local land = ['arctic','desert','island-beach','jungle','mountain','plains','swampland','woodlands'];
+    local water = ['bank','deep-ocean-vent','fresh-water-lake','open-ocean','reef','river-stream','salt-water-sea','tropical-lagoon'];
+    if (!holds(land+water,sourceTerrain) || !holds(land+water,targetTerrain)) return nil;
+    if (!samePlanetType) return nil;
+    local penalty = sourceTerrain == targetTerrain ? 0
+        : holds(land,sourceTerrain) && holds(land,targetTerrain) ? -3
+        : holds(water,sourceTerrain) && holds(water,targetTerrain) ? -4
+        : holds(['island-beach','tropical-lagoon'],sourceTerrain) && holds(['island-beach','tropical-lagoon'],targetTerrain) ? -4
+        : holds(['swampland','river-stream'],sourceTerrain) && holds(['swampland','river-stream'],targetTerrain) ? -4 : nil;
+    return penalty == nil ? nil : penalty - (samePlanet ? 0 : 4);
+}
+
+/** B211 planetary practical nature knowledge. Explicit Biology edges remain supported. */
+class RpgExpandedNaturalistSkill: RpgExpandedSkill
+    id = 'naturalist'
+    attribute = rpgIQ
+    difficulty = 2
+    defaultPenalty = -6
+    planet = nil
+    planetType = nil
+    expandedForageDefaultsReady() { return true; }
+    foragingDefinition() { return [self.planet,self.planetType]; }
+    validateDefinition()
+    {
+        if (self.id != 'naturalist' || self.attribute != rpgIQ || self.difficulty != 2 || self.defaultPenalty != -6
+            || self.planet == nil || self.planet == '' || self.planetType == nil || self.planetType == ''
+            || self.specialty != self.planet || self.techLevel != nil || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('naturalist-definition');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (source == self || !source.ofKind(RpgExpandedNaturalistSkill)) continue;
+            source.validateDefinition();
+            if (source.planet == self.planet && source.planetType != self.planetType)
+                rpgExpandedReject('nature-planet-classification');
+            if (source.planet != self.planet && source.planetType == self.planetType) edges = edges + [[source,-4]];
+        }
+        return edges;
+    }
+;
+
+/** B223-B224 Survival defaults generated from explicit terrain and world facts. */
+class RpgExpandedSurvivalSkill: RpgExpandedSkill
+    id = 'survival'
+    attribute = rpgPerception
+    difficulty = 1
+    defaultPenalty = -5
+    planet = nil
+    planetType = nil
+    expandedForageDefaultsReady() { return true; }
+    foragingDefinition() { return [self.planet,self.planetType]; }
+    validateDefinition()
+    {
+        if (self.id != 'survival' || self.attribute != rpgPerception || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.planet == nil || self.planet == '' || self.planetType == nil || self.planetType == ''
+            || self.specialty == nil || self.specialty == '' || self.techLevel != nil || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('survival-definition');
+        if (rpgExpandedSurvivalDefault(self.specialty,self.specialty,true,true) == nil)
+            rpgExpandedReject('survival-special-terrain-adapter-required');
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill; if (source == self) continue;
+            if (!source.ofKind(RpgExpandedSurvivalSkill) && !source.ofKind(RpgExpandedNaturalistSkill)) continue;
+            source.validateDefinition();
+            if (source.planet == self.planet && source.planetType != self.planetType)
+                rpgExpandedReject('nature-planet-classification');
+            local penalty = source.ofKind(RpgExpandedNaturalistSkill) ? (source.planet == self.planet ? -3 : nil)
+                : rpgExpandedSurvivalDefault(source.specialty,self.specialty,source.planet == self.planet,source.planetType == self.planetType);
+            if (penalty != nil) edges = edges + [[source,penalty]];
+        }
+        return edges;
+    }
 ;

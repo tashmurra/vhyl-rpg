@@ -2627,7 +2627,7 @@ class RpgExpandedTravelForageAttempt: RpgExpandedForageYieldReceipt
     reason(suffix) { return 'plant-forage-' + suffix; }
     history() { return self.profile.plantForageAttempts; }
     remember() { self.profile.plantForageAttempts = self.history() + [self]; }
-    extraDefinition() { return []; }
+    extraDefinition() { return self.skill.foragingDefinition(); }
     foodKind() { return self.forageMethod() == 'plants' ? 'plants' : self.forageMethod() == 'fishing' ? 'fish' : 'meat'; }
     availableYield()
     {
@@ -2645,7 +2645,7 @@ class RpgExpandedTravelForageAttempt: RpgExpandedForageYieldReceipt
             || self.skill.specialty == nil || self.skill.specialty == '') rpgExpandedReject(self.reason('skill-definition'));
         foreach (local training in self.profile.skills)
             if (training.skill == self.skill && training.points > 0) return nil;
-        return self.reason('default-adapter-required');
+        return self.skill.expandedForageDefaultsReady() ? nil : self.reason('default-adapter-required');
     }
     definition()
     { return [self.id,self.profile,self.site,self.skill,self.skill.id,self.skill.attribute,
