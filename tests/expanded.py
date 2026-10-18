@@ -9010,6 +9010,8 @@ def test(build):
     test_load_distribution(Session, loads)
     climb_assessment = build.build('expanded-climb-assessment', ROOT / 'tests/fixtures/expanded-climb-assessment.t')
     test_climb_assessment(Session, climb_assessment)
+    hiking_assessment = build.build('expanded-hiking-assessment',ROOT / 'tests/fixtures/expanded-hiking-assessment.t')
+    test_hiking_assessment(Session, hiking_assessment)
     test_climb_fall_assessment(Session, climb_assessment)
     test_landing_assessment(Session, climb_assessment)
     landing_attempt = build.build('expanded-landing-attempt',ROOT / 'tests/fixtures/expanded-landing-attempt.t')
@@ -14364,3 +14366,48 @@ def test_mobility_inventory_loss(Session, bundle):
             assert last(s,'test.mobility-loss') == [1,0,0,stored,4,1]
         finally:
             s.close()
+
+
+def test_hiking_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        def assess(terrain=3, weather=1, road=1, cleared=0, equipment=1,
+                   divisor=4, evidence=0, move=5, enhanced=100, succeeded=0):
+            s.action(2292,terrain,weather,road,cleared,equipment,divisor,evidence,move,enhanced,succeeded)
+            return last(s,'test.hiking-assessment')
+        # Printed terrain factors applied to a 50-mile ideal day.
+        for terrain, name, miles in ((1,'very-bad',1000),(2,'bad',2500),(3,'average',5000),(4,'good',6250)):
+            assert assess(terrain=terrain) == ['ready',None,name,1,'hiking',miles,0,0]
+            assert assess(terrain=terrain,weather=2)[5:] == [miles//2,0,0]
+        assert assess(succeeded=1)[5] == 6000
+        assert assess(enhanced=200,succeeded=1)[5] == 12000
+        assert assess(move=0)[5] == 0
+        # Deep snow divides by at least four; stronger reductions need evidence.
+        assert assess(weather=3)[5] == 2500
+        assert assess(weather=4)[5] == 1250
+        assert assess(weather=4,divisor=8)[1] == 'hiking-deep-snow-evidence'
+        assert assess(weather=4,divisor=8,evidence=1)[5] == 625
+        assert assess(weather=5)[5] == 2500
+        assert assess(weather=6)[2:6] == ['bad',1,'hiking',2500]
+        for weather in (3,4):
+            assert assess(terrain=1,weather=weather,equipment=2)[2:6] == ['average',1,'skiing',5000]
+        assert assess(weather=6,equipment=3)[2:6] == ['good',1,'skating',6250]
+        # Roads replace underlying terrain, including wet-road penalties.
+        for terrain in (1,2,3,4):
+            for road in (2,3):
+                assert assess(terrain=terrain,road=road)[5] == 5000
+            assert assess(terrain=terrain,road=4)[5] == 6250
+            assert assess(terrain=terrain,road=2,weather=2)[5] == 1000
+            for road in (3,4):
+                assert assess(terrain=terrain,road=road,weather=2)[5] == 5000
+            for weather,miles in ((3,2500),(4,1250),(5,2500)):
+                assert assess(terrain=terrain,road=4,weather=weather)[5] == miles
+                assert assess(terrain=terrain,road=4,weather=weather,cleared=1)[5] == 5000
+        assert assess(equipment=2)[1] == 'hiking-skis-require-snow'
+        assert assess(weather=5,equipment=3)[1] == 'hiking-skates-require-solid-ice'
+        assert assess(cleared=1)[1] == 'hiking-cleared-road-inapplicable'
+        assert assess(weather=6,road=3)[1] == 'hiking-ice-road-adjudication'
+        # Keep fractional enhanced movement and snow penalties until final rounding.
+        assert assess(terrain=4,weather=4,divisor=7,evidence=1,move=3,enhanced=150,succeeded=1)[5:] == [964,0,0]
+    finally:
+        s.close()

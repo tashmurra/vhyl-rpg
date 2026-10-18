@@ -1332,3 +1332,84 @@ class RpgExpandedLandingAttempt: RpgExpandedLandingReceipt
         self.profile.landingAttempts = self.profile.landingAttempts + [self]; self.result = value; return value;
     }
 ;
+
+/** B351 daily marching conditions. A homogeneous route segment is an authored
+ * fact. Assessment does not advance a character or grant time for other work. */
+class RpgExpandedHikingAssessment: RpgExpandedResult
+    effectiveTerrain = nil
+    terrainPercent = 100
+    weatherDivisor = 1
+    travelSkill = 'hiking'
+    milesHundredths = 0
+;
+
+class RpgExpandedHikingConditions: object
+    terrain = 'average'
+    weather = 'dry'
+    road = 'none'
+    roadCleared = nil
+    equipment = 'none'
+    deepSnowDivisor = 4
+    deepSnowEvidence = nil
+    assess()
+    {
+        if (!holds(['very-bad','bad','average','good'],self.terrain)) rpgExpandedReject('hiking-terrain');
+        if (!holds(['dry','rain','shallow-snow','deep-snow','ice-coating','solid-ice'],self.weather))
+            rpgExpandedReject('hiking-weather');
+        if (!holds(['none','poor','ordinary','best'],self.road)) rpgExpandedReject('hiking-road');
+        if (!holds(['none','skis','skates'],self.equipment)) rpgExpandedReject('hiking-equipment');
+        rpgInteger(self.deepSnowDivisor,4,1000000);
+        local value = new RpgExpandedHikingAssessment(); value.effectiveTerrain = self.terrain;
+        local snow = holds(['shallow-snow','deep-snow'],self.weather);
+        local frozen = snow || self.weather == 'ice-coating';
+        if (self.roadCleared && (self.road == 'none' || !frozen))
+        { value.reason = 'hiking-cleared-road-inapplicable'; return value; }
+        if (self.equipment == 'skis' && (!snow || self.roadCleared))
+        { value.reason = 'hiking-skis-require-snow'; return value; }
+        if (self.equipment == 'skates' && (self.weather != 'solid-ice' || self.road != 'none'))
+        { value.reason = 'hiking-skates-require-solid-ice'; return value; }
+        if (self.weather == 'solid-ice' && self.road != 'none')
+        { value.reason = 'hiking-ice-road-adjudication'; return value; }
+        if (self.weather == 'deep-snow' && self.equipment != 'skis' && !self.roadCleared
+            && self.deepSnowDivisor > 4 && (self.deepSnowEvidence == nil || self.deepSnowEvidence == ''))
+        { value.reason = 'hiking-deep-snow-evidence'; return value; }
+        if (self.road != 'none')
+        {
+            value.effectiveTerrain = self.road == 'best' && self.weather == 'dry' ? 'good' : 'average';
+            if (self.weather == 'rain' && self.road == 'poor') value.effectiveTerrain = 'very-bad';
+        }
+        if (self.weather == 'rain' && self.road == 'none') value.weatherDivisor = 2;
+        if (frozen && !self.roadCleared)
+            value.weatherDivisor = self.weather == 'deep-snow' ? self.deepSnowDivisor : 2;
+        if (self.equipment == 'skis')
+        { value.effectiveTerrain = 'average'; value.weatherDivisor = 1; value.travelSkill = 'skiing'; }
+        if (self.weather == 'solid-ice')
+        {
+            value.effectiveTerrain = self.equipment == 'skates' ? 'good' : 'bad';
+            if (self.equipment == 'skates') value.travelSkill = 'skating';
+        }
+        value.terrainPercent = value.effectiveTerrain == 'very-bad' ? 20 : value.effectiveTerrain == 'bad' ? 50
+            : value.effectiveTerrain == 'good' ? 125 : 100;
+        value.status = 'ready'; return value;
+    }
+;
+
+/** Move is the already adjusted ground Move. Enhanced movement is an explicitly
+ * authorized ground-travel multiplier in hundredths (100 means ordinary).
+ * The successful daily skill roll supplies its single 20 percent bonus. */
+rpgExpandedAssessHiking(move, enhancedPercent, succeeded, conditions)
+{
+    rpgInteger(move,0,1000000); rpgInteger(enhancedPercent,100,1000000);
+    if (conditions == nil || !conditions.ofKind(RpgExpandedHikingConditions)) rpgExpandedReject('hiking-conditions');
+    local value = conditions.assess(); if (value.status != 'ready') return value;
+    /* hundredths of a mile = Move * terrainPercent * enhancedPercent *
+       (success ? 6 : 5) / (50 * weatherDivisor). Round only once. */
+    local numerator = move;
+    foreach (local factor in [value.terrainPercent,enhancedPercent,succeeded ? 6 : 5])
+    {
+        if (numerator > 2147483647 / factor) rpgExpandedReject('hiking-distance-limit');
+        numerator *= factor;
+    }
+    value.milesHundredths = numerator / (50 * value.weatherDivisor);
+    return value;
+}

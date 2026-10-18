@@ -868,3 +868,8 @@ pending history and real hand-wound fixtures are authored and unrun; other loss
 causes still require integration.
 
 Active mobility aid storage and sales now preserve support-loss occurrences. Authored regression fixtures cover repeated operations, exception rollback, undo and settlement before time advancement. These fixtures have not been run: all requested checks remain paused, and the expanded suite remains incomplete.
+
+Daily hiking now has a pure full-reference terrain and weather assessment,
+including roads, clearance, deep snow, skis and skates. Distance arithmetic
+retains fractions until final rounding. Table and boundary fixtures are
+unrun; daily travel execution and group procedures remain incomplete.

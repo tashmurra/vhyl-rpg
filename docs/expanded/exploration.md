@@ -671,3 +671,40 @@ The hazards module's `RpgExpandedFallInjury` can link to this receipt through it
 ownership and binding before exposing the result. This interface lives in the
 foundation as `RpgExpandedLandingReceipt`, keeping exploration independent of the
 hazards include. The concrete attempt implements it; the base rejects use.
+
+## Daily hiking conditions and mileage
+
+`RpgExpandedHikingConditions` assesses one homogeneous route segment using
+`full-2008` B351. Set `terrain` to `very-bad`, `bad`, `average` or `good`;
+`weather` to `dry`, `rain`, `shallow-snow`, `deep-snow`, `ice-coating` or
+`solid-ice`; and `road` to `none`, `poor`, `ordinary` or `best`.
+Road quality replaces surrounding terrain. Rain on a poor road uses the
+very-bad factor; other wet roads use average terrain without another rain
+penalty. Snowy or ice-coated roads use average terrain and the applicable
+weather divisor, unless `roadCleared` is true.
+
+`equipment = 'skis'` replaces snow terrain with average terrain and removes
+its speed divisor, selecting `skiing` as the travel skill. Skates require
+solid ice, select `skating`, and use good terrain. Without skates, solid ice
+uses bad terrain. These are explicit equipment facts, not inventory grants.
+Deeper-than-ankle snow defaults to division by four; a larger
+`deepSnowDivisor` requires `deepSnowEvidence`. Conflicting equipment or
+cleared-road facts return a blocked outcome. Mixed weather and ice roads
+need further adjudication and are not silently converted to a supported case.
+
+Call `rpgExpandedAssessHiking(move, enhancedPercent, succeeded, conditions)`
+with current ground movement after encumbrance, injury and fatigue,
+an authorized ground-movement multiplier in hundredths (`100` is ordinary,
+`200` is double), and the result of the day's skill check. It returns
+`milesHundredths`, effective terrain, weather divisor and the applicable
+travel skill. The single success bonus is twenty percent. Intermediate
+fractions are retained; the final distance is truncated to hundredths of a
+mile. Inputs that exceed safe integer arithmetic are explicitly rejected.
+
+This assessment consumes no time or randomness and does not authorize a
+completed journey. The caller must still own the daily skill attempt,
+validate equipment and trait applicability, and occupy the full travel day
+including preparation and rest. Group decisions, daily attempt receipts,
+interruptions, fatigue, mixed routes and world movement remain incomplete.
+The minimal fixture is `tests/fixtures/expanded-hiking-assessment.t`;
+its expected-value and purity assertions have been authored but not run.
