@@ -1325,3 +1325,40 @@ object-history readings therefore remain blocked.
 and every primary table row. Conditional resource and aftereffect fields still
 need independent validation when their executors are added. The fixture is
 unrun while checks are paused; this is partial source coverage only.
+
+## Fear scene modifiers
+
+`RpgExpandedFearContext` combines the B360 modifier categories without rolling.
+Set an expanded `profile`, `approved` and `evidence` establishing why this event
+requires a fear check for this character. The assessment reads owned fearlessness,
+fearfulness, combat reflexes, combat paralysis, daring and higher-purpose traits;
+conditional fields determine when their effects apply. It adds each once before
+calling the initial-check cap helper.
+
+Use `physicalRisk` with an explicit `cowardicePenalty` from one through four
+when the character has that trait. Likewise, an owned alien-interest trait
+requires its `xenophiliaBonus` when confronting `monsters`. Missing or unused
+severity classifications are rejected. `charging` and `purposeThreat` activate
+the corresponding owned trait bonuses.
+
+`body` is `none`, `prepared`, `nonviolent`, `violent` or `mutilated`. Mutilated
+bodies require a one-to-three `mutilationPenalty`; `dependentVictim` requires a
+body. `inCombat` supplies the separate battle bonus. Monster scenes supply
+`monsterPenalty` from zero through ten and `hordeBand` from zero through five.
+The printed horde anchors are five, ten, twenty, fifty and at least one hundred
+creatures for bands one through five. The author classifies unlisted counts;
+this interface does not invent interpolation between those anchors.
+
+`touching`, whole-yard `distance` and `remote` describe physical access. Remote
+viewing uses its own bonus instead of stacking the distant-viewing bonus; a
+touching event cannot also be remote or have nonzero distance. `isolated`,
+`adverseLighting` and `believesAlone` apply the remaining circumstance penalties.
+For night-dwellers the author sets adverse lighting according to that reversal.
+
+Preparation uses `priorExperience`, `priorExposures24h` and `briefingBonus`
+(zero through three). The exposure count is an explicit author fact for now;
+automatic twenty-four-hour encounter history is still pending. The result
+reports the complete `modifier`, capped `score` and immunity. It does not
+execute a fear event or recovery check. `test_fear_context` specifies the printed
+categories, trait contributions, distance boundary, exclusive remote bonus and
+combined modifiers. All new fixtures remain unrun.

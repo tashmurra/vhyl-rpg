@@ -1664,6 +1664,24 @@ def test_learned_animal_tasks(Session,bundle):
             s.close()
 
 
+def test_fear_context(s):
+    for code,a,b,modifier,score in [
+            (0,0,0,0,10),(1,0,0,6,13),(2,0,0,2,12),(3,0,0,0,10),
+            (4,1,0,-1,9),(4,3,0,-3,7),(5,0,0,0,10),(6,0,0,5,13),
+            (7,2,1,-3,7),(7,5,2,-7,3),(8,0,0,-1,9),
+            (9,99,0,0,10),(9,100,0,1,11),(10,0,0,3,13),
+            (11,0,0,-4,6),(12,2,3,6,13),
+            (13,'fearlessness',2,2,12),(13,'fearfulness',2,-2,8),
+            (13,'combat-reflexes',1,2,12),(13,'combat-paralysis',1,-2,8),
+            (13,'cowardice',4,-4,6),(13,'xenophilia',4,4,13),
+            (13,'daredevil',1,1,11),(13,'higher-purpose',1,1,11),
+            (14,'fearfulness',2,4,13)]:
+        s.action(2249,code,a,b)
+        assert last(s,'test.fear-context') == ['ready',modifier,score,0]
+    s.action(2249,13,'unfazeable',1)
+    assert last(s,'test.fear-context') == ['ready',0,None,1]
+
+
 def test_fear_assessments(s):
     for will,modifier,immune,status,reason,score in [(20,10,0,'ready',None,13),
             (13,0,0,'ready',None,13),(10,2,0,'ready',None,12),
@@ -8218,6 +8236,7 @@ def test(build):
     test_infection_persistence(Session,hazard_transactions,build.out)
     health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
     fresh(Session,health,test_fear_assessments)
+    fresh(Session,health,test_fear_context)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
     fresh(Session,health,test_knockdown_assessment)

@@ -2227,3 +2227,73 @@ rpgExpandedFearTable(total)
     if (row == 40) value.iqLoss = 1;
     value.status = 'ready'; return value;
 }
+
+/** B360 explicit scene facts, with owned trait bonuses applied exactly once. */
+class RpgExpandedFearContext: object
+    profile = nil
+    approved = nil
+    evidence = nil
+    physicalRisk = nil
+    cowardicePenalty = 0
+    charging = nil
+    purposeThreat = nil
+    monsters = nil
+    xenophiliaBonus = 0
+    body = 'none'
+    mutilationPenalty = 0
+    dependentVictim = nil
+    inCombat = nil
+    monsterPenalty = 0
+    hordeBand = 0
+    touching = nil
+    distance = 0
+    remote = nil
+    isolated = nil
+    adverseLighting = nil
+    believesAlone = nil
+    priorExperience = nil
+    priorExposures24h = 0
+    briefingBonus = 0
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-context-profile');
+        local blocked = new RpgExpandedFearAssessment();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { blocked.reason = 'fear-context-author-facts'; return blocked; }
+        rpgInteger(self.cowardicePenalty,0,4); rpgInteger(self.xenophiliaBonus,0,4);
+        rpgInteger(self.mutilationPenalty,0,3); rpgInteger(self.monsterPenalty,0,10);
+        rpgInteger(self.hordeBand,0,5); rpgInteger(self.distance,0,100000000);
+        rpgInteger(self.priorExposures24h,0,100); rpgInteger(self.briefingBonus,0,3);
+        if (!holds(['none','prepared','nonviolent','violent','mutilated'],self.body)) rpgExpandedReject('fear-body-category');
+        if ((self.body == 'mutilated') != (self.mutilationPenalty > 0)) rpgExpandedReject('fear-mutilation-category');
+        if (self.body == 'none' && self.dependentVictim) rpgExpandedReject('fear-dependent-body-required');
+        if (!self.monsters && (self.monsterPenalty != 0 || self.hordeBand != 0 || self.xenophiliaBonus != 0))
+            rpgExpandedReject('fear-unused-monster-fields');
+        local coward = self.profile.level('cowardice') > 0 && self.physicalRisk;
+        if (coward != (self.cowardicePenalty > 0)) rpgExpandedReject('fear-cowardice-classification');
+        local interested = self.profile.level('xenophilia') > 0 && self.monsters;
+        if (interested != (self.xenophiliaBonus > 0)) rpgExpandedReject('fear-xenophilia-classification');
+        if (self.touching && (self.remote || self.distance != 0)) rpgExpandedReject('fear-contact-distance');
+        local modifier = self.profile.level('fearlessness') - self.profile.level('fearfulness');
+        if (self.profile.level('combat-reflexes') > 0) modifier += 2;
+        if (self.profile.level('combat-paralysis') > 0) modifier -= 2;
+        modifier -= self.cowardicePenalty; modifier += self.xenophiliaBonus;
+        if (self.charging && self.profile.level('daredevil') > 0) modifier += 1;
+        if (self.purposeThreat && self.profile.level('higher-purpose') > 0) modifier += 1;
+        if (self.body == 'prepared') modifier += 6;
+        if (self.body == 'nonviolent') modifier += 2;
+        modifier -= self.mutilationPenalty;
+        if (self.dependentVictim) modifier -= 6;
+        if (self.inCombat) modifier += 5;
+        modifier -= self.monsterPenalty + self.hordeBand;
+        if (self.touching) modifier -= 1;
+        modifier += self.remote ? 3 : self.distance >= 100 ? 1 : 0;
+        if (self.isolated) modifier -= 1;
+        if (self.adverseLighting) modifier -= 1;
+        if (self.believesAlone) modifier -= 2;
+        if (self.priorExperience) modifier += 1;
+        modifier += self.priorExposures24h + self.briefingBonus;
+        local value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),modifier,self.profile.level('unfazeable') > 0);
+        value.modifier = modifier; return value;
+    }
+;

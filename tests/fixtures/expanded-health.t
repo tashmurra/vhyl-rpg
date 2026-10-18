@@ -10,6 +10,34 @@ modify gameMain initialRoom = healthRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2249)
+    {
+        local profile = new RpgExpandedProfile(); local context = new RpgExpandedFearContext();
+        context.profile = profile; context.approved = true; context.evidence = 'Authored extraordinary threat';
+        local code = args[1];
+        if (code == 1) context.body = 'prepared';
+        if (code == 2) context.body = 'nonviolent';
+        if (code == 3) context.body = 'violent';
+        if (code == 4) { context.body = 'mutilated'; context.mutilationPenalty = args[2]; }
+        if (code == 5) { context.body = 'prepared'; context.dependentVictim = true; }
+        if (code == 6) context.inCombat = true;
+        if (code == 7) { context.monsters = true; context.monsterPenalty = args[2]; context.hordeBand = args[3]; }
+        if (code == 8) context.touching = true;
+        if (code == 9) context.distance = args[2];
+        if (code == 10) { context.remote = true; context.distance = 100; }
+        if (code == 11) { context.isolated = true; context.adverseLighting = true; context.believesAlone = true; }
+        if (code == 12) { context.priorExperience = true; context.priorExposures24h = args[2]; context.briefingBonus = args[3]; }
+        if (code == 13 || code == 14)
+        {
+            local trait = new RpgLiteTrait(); trait.id = args[2]; trait.level = args[3]; profile.traits = [trait];
+            context.physicalRisk = true; context.monsters = true; context.charging = true; context.purposeThreat = true;
+            if (trait.id == 'cowardice') context.cowardicePenalty = args[3];
+            if (trait.id == 'xenophilia') context.xenophiliaBonus = args[3];
+            if (code == 14) context.body = 'prepared';
+        }
+        local value = context.assess(); event('test.fear-context'); eventValue(value.status); eventValue(value.modifier);
+        eventValue(value.score); eventValue(value.immune ? 1 : 0); return nil;
+    }
     if (verb == 2247)
     {
         local value = rpgExpandedAssessFear(args[1],args[2],args[3] != 0);

@@ -540,9 +540,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the fearlessness bonus or fearfulness penalty.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-reflexes",
@@ -550,9 +553,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Combat reflexes grants +2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-paralysis",
@@ -560,9 +566,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Combat paralysis imposes -2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-cowardice",
@@ -570,9 +579,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cowardice imposes -1 through -4 when physical safety is threatened.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-daring",
@@ -580,9 +592,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Daring grants +1 while charging into a frightening situation.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-purpose",
@@ -590,9 +605,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A higher purpose grants +1 when opposing its sworn threats.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-alien-interest",
@@ -600,9 +618,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Interest in alien beings grants +1 through +4 against monsters as its trait permits.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-prepared-body",
@@ -610,9 +631,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A peaceful body prepared for burial grants +6.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-nonviolent-body",
@@ -620,9 +644,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A body without signs of violence grants +2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-violent-body",
@@ -630,9 +657,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An ordinary violence victim gives no body-condition modifier.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-mutilation",
@@ -640,9 +670,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Grisly mutilation imposes -1 through -3.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-dependent-victim",
@@ -650,9 +683,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A dependent victim imposes an additional -6.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-battle",
@@ -660,9 +696,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Being in combat when the event occurs or is first noticed grants +5.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-monster",
@@ -670,9 +709,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored monster fear severity can impose -1 through -10.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-horde-five",
@@ -680,9 +722,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Five monsters impose -1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-horde-ten",
@@ -690,9 +735,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ten monsters impose -2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-horde-twenty",
@@ -700,9 +748,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Twenty monsters impose -3.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-horde-fifty",
@@ -710,9 +761,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fifty monsters impose -4.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-horde-hundred",
@@ -720,9 +774,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "One hundred or more monsters impose -5.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-touch",
@@ -730,9 +787,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Contact with the fear source imposes -1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-distance",
@@ -740,9 +800,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Witnessing from at least one hundred yards grants +1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-remote",
@@ -750,9 +813,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Remote viewing grants +3.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-isolation",
@@ -760,9 +826,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Physical isolation imposes -1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-darkness",
@@ -770,9 +839,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Night/darkness imposes -1, or daylight for a nocturnal actor.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-alone",
@@ -780,9 +852,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Being or believing oneself alone imposes -2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-experience",
@@ -790,9 +865,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Previous personal experience of this threat type grants +1.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-repeated",
@@ -800,9 +878,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Each exposure to this particular threat in twenty-four hours grants +1, based on recorded exposure history.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-modifier-briefing",
@@ -810,9 +891,12 @@
       "pages": "B360",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Prior detailed information grants +1 through +3 according to an authored report-quality assessment.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_context"
+      ],
+      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
     },
     {
       "id": "fear-outcome-4-5",
