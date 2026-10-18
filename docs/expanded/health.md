@@ -1072,5 +1072,8 @@ requests do not reapply collapse after recovery. Other incapacities remain separ
 `test_owned_effort` covers success, conscious collapse, HT resistance, cardiac
 onset, immunity, preview purity and repeat protection. `test_effort_recovery`
 covers the legacy guard, no reroll during collapse, ordinary rest recovery and
-replaying an old failure. Fixtures remain unrun while checks are paused; transaction,
-save-continuation and broad action-dispatch validation remain outstanding.
+replaying an old failure. `test_effort_transactions` covers rollback of all four rolled branches, undo,
+changed-evidence rejection, recovery rollback and historical replay after recovery.
+`test_effort_persistence` saves each branch and continues it in a separate process,
+including the link to its owned cardiac condition. Fixtures remain unrun while
+checks are paused. Broad action-dispatch integration remains outstanding.

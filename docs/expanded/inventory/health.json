@@ -1713,7 +1713,7 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments"
       ],
-      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, live dispatch, cardiac commitment, collapse recovery and interaction validation remain incomplete; Lite dispatch is unchanged."
+      "validation_note": "Pure action outcome and low-fatigue arithmetic authored; fixtures unrun. Owned effort, cardiac commitment and collapse recovery are separately available. Applying the low-fatigue helper consistently across movement and defense dispatch remains incomplete."
     },
     {
       "id": "health-fatigue-overflow",
@@ -1736,9 +1736,11 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
-        "tests/expanded.py::test_effort_recovery"
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence"
       ],
-      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Broad action dispatch, transaction/persistence and cross-module validation remain incomplete; default Lite behavior is retained."
+      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Transaction, undo and cross-process continuation fixtures are authored but unrun. Broad action dispatch and cross-module validation remain incomplete; default Lite behavior is retained."
     },
     {
       "id": "health-fatigue-action-failure",
@@ -1751,9 +1753,11 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
-        "tests/expanded.py::test_effort_recovery"
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence"
       ],
-      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Broad action dispatch, transaction/persistence and cross-module validation remain incomplete; default Lite behavior is retained."
+      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Transaction, undo and cross-process continuation fixtures are authored but unrun. Broad action dispatch and cross-module validation remain incomplete; default Lite behavior is retained."
     },
     {
       "id": "health-fatigue-unconscious",
@@ -1766,9 +1770,11 @@
       "tests": [
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
-        "tests/expanded.py::test_effort_recovery"
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence"
       ],
-      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Broad action dispatch, transaction/persistence and cross-module validation remain incomplete; default Lite behavior is retained."
+      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Transaction, undo and cross-process continuation fixtures are authored but unrun. Broad action dispatch and cross-module validation remain incomplete; default Lite behavior is retained."
     },
     {
       "id": "health-battle-fatigue",

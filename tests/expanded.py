@@ -908,6 +908,72 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def effort_state(s):
+    s.action(1961)
+    return last(s, 'test.effort-state')
+
+
+def test_effort_transactions(s):
+    initial = effort_state(s)
+    assert initial == [10,0,0,0,0,0,0,0,0]
+    for seed, expected in [(1,[10,0,0,1,0,0,1,3,0]),
+                           (9,[10,1,0,1,0,0,1,3,0]),
+                           (5,[10,1,0,1,0,0,1,6,0]),
+                           (11,[20,1,1,1,1,1,1,6,0])]:
+        for code in [2,1]:
+            s.action(1960, code, seed)
+            assert effort_state(s) == initial
+        s.action(1960, 0, seed)
+        assert effort_state(s) == expected
+        s.command('undo')
+        assert effort_state(s) == initial
+    s.action(1960, 0, 9)
+    collapsed = effort_state(s)
+    for code in [0,2,3,4,6]:
+        s.action(1960, code, 1)
+        assert effort_state(s) == collapsed
+    s.action(1960, 5, 1)
+    recovered = effort_state(s)
+    assert recovered == [9,0,0,1,0,0,1,3,600]
+    s.command('undo')
+    assert effort_state(s) == collapsed
+    for code in [5,0,3]:
+        s.action(1960, code, 1)
+        assert effort_state(s) == recovered
+    s.action(1960, 7, 1)
+    assert effort_state(s) == [9,0,0,2,0,0,1,3,600]
+
+
+def test_effort_persistence(Session, bundle, out):
+    for seed in [1,9,5,11]:
+        path = out / f'expanded-effort-{seed}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1960, 0, seed)
+            saved = effort_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1961')
+            for code in [3,2,0,4]:
+                second.action(1960, code, 1)
+                assert effort_state(second) == saved
+            if seed == 11:
+                second.action(1960, 7, 1)
+                assert last(second, 'test.effort-operation') == ['blocked','effort-condition-unavailable']
+                assert effort_state(second) == saved
+            else:
+                second.action(1960, 5, 1)
+                second.action(1960, 0, 1)
+                assert effort_state(second) == [9,0,0,1,0,0,1,saved[7],600]
+                second.action(1960, 7, 1)
+                assert effort_state(second) == [9,0,0,2,0,0,1,saved[7],600]
+        finally:
+            second.close()
+
+
 def test_effort_recovery(s):
     s.action(1951)
     assert last(s, 'test.effort-collapse') == [0,0,'exhaustion-collapse',0,0]
@@ -4165,6 +4231,9 @@ def test(build):
     fresh(Session,hazards,test_exhaustion_assessments)
     fresh(Session,hazards,test_owned_effort)
     fresh(Session,hazards,test_effort_recovery)
+    effort_transactions = build.build('expanded-effort-transactions',ROOT / 'tests/fixtures/expanded-effort-transactions.t')
+    fresh(Session,effort_transactions,test_effort_transactions)
+    test_effort_persistence(Session,effort_transactions,build.out)
     cardiac_transactions = build.build('expanded-cardiac-transactions',ROOT / 'tests/fixtures/expanded-cardiac-transactions.t')
     fresh(Session,cardiac_transactions,test_cardiac_transactions)
     fresh(Session,cardiac_transactions,test_cardiac_deadline_transactions)
