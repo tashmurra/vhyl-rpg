@@ -2481,7 +2481,8 @@
             "entry": "traits-j-shadow-body"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "alternative_purchase_family": "shadow-body"
       }
     },
     {

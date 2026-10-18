@@ -913,7 +913,9 @@
             "entry": "disadvantages-b-speech-authored"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "alternative_purchase_family": "speech-capacity",
+        "stacking_policy": "Choose one complete variant; do not sum point credits or duplicate included penalties."
       }
     },
     {
@@ -3891,7 +3893,9 @@
             "entry": "disadvantages-e-awkwardness"
           }
         ],
-        "reconciliation": "mapped; full price, classification and effect comparison pending"
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "alternative_purchase_family": "awkwardness",
+        "stacking_policy": "Choose one complete variant; do not sum point credits or duplicate included penalties."
       }
     },
     {

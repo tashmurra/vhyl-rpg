@@ -374,8 +374,7 @@ once. Group summary rows are navigation to actual modifiers, not extra purchases
 
 The [first trait-summary segment](inventory/trait-summary-a.json) maps 112 rows
 to the detailed character and trait ledgers. These include named tiers, sensory
-variants, relationship groups, perks and skill aptitudes. The remaining negative-trait
-summary pages and full field comparison are still pending.
+variants, relationship groups, perks and skill aptitudes. The full field comparison and executable catalogue remain pending.
 
 Orientation, internal timekeeping and bodily flexibility have alternative tiers.
 Their listed prices are totals for the selected tier; an upgrade replaces the
@@ -419,3 +418,22 @@ is an explicit exception with specified mechanics: prohibit learning the selecte
 skill and apply −4 to its defaults across all specialties. It must be relevant to
 the campaign. Companionship traits modify the owner's reactions toward others;
 those modifiers must not be applied in the opposite direction.
+
+The [final negative-trait summary segment](inventory/trait-summary-d.json) maps
+99 rows. All 487 trait-summary rows now have detailed targets: 260 positive and
+227 negative entries. This is a completed row mapping, not completed source or
+runtime coverage. Classification, pricing, modifiers, effects and the remaining
+source ambiguities still need reconciliation.
+
+The final segment distinguishes mutually exclusive speech, manipulation, fitness
+and coordination variants. Two labels for the same reproductive-anatomy quirk
+share a single purchase and credit. The minor goal costs one negative point without
+a self-control multiplier; the full short- and long-term goals use that multiplier.
+The permanently active shadow form uses its complete negative-cost version rather
+than adding that credit to the positive-cost switchable version.
+
+Absent natural healing blocks ordinary recovery and medical health restoration,
+while first aid can still stop bleeding. Its partial and total variants differ in
+conditional recovery and health theft; neither automatically forbids every form of
+body-compatible surgery, repair or exotic restoration. These distinctions must
+reach the shared health ledger before the corresponding traits can be complete.

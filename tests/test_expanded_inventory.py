@@ -8,6 +8,41 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_final_trait_summary_avoids_duplicate_variants(self):
+        """Metadata checks do not replace runtime composition and recovery tests."""
+        base = ROOT / 'docs/expanded/inventory'
+        summary = json.loads((base / 'trait-summary-d.json').read_text())
+        rows = [e['summary_data'] for e in summary['entries']]
+        self.assertEqual(len(rows), 99)
+        self.assertEqual([r['row'] for r in rows], list(range(1, 100)))
+        for row in rows:
+            self.assertTrue(row['targets'])
+            for target in row['targets']:
+                detail = json.loads((base / target['file']).read_text())
+                self.assertIn(target['entry'], {e['id'] for e in detail['entries']})
+        by_key = {r['neutral_key']: r for r in rows}
+        first = by_key['missing-reproductive-anatomy-quirk']
+        second = by_key['sexless-body-quirk']
+        self.assertEqual(first['same_purchase_family'], second['same_purchase_family'])
+        self.assertEqual(first['targets'], second['targets'])
+        self.assertEqual(by_key['obsession']['self_control_scope'], {
+            'minor_goal_point_cost': -1,
+            'minor_goal_uses_multiplier': False,
+            'full_goal_base_point_costs': [-5, -10],
+            'full_goal_uses_multiplier': True,
+        })
+        healing = by_key['absent-healing']
+        variants = {v['key']: v for v in healing['variants']}
+        self.assertEqual(variants['conditional']['point_cost'], -20)
+        self.assertTrue(variants['conditional']['can_steal_health_with_separate_ability'])
+        self.assertEqual(variants['total']['point_cost'], -30)
+        self.assertFalse(variants['total']['can_steal_health_with_separate_ability'])
+        restrictions = healing['shared_restrictions']
+        self.assertTrue(restrictions['first_aid_stops_bleeding'])
+        self.assertFalse(restrictions['first_aid_restores_health'])
+        self.assertFalse(restrictions['physician_restores_health'])
+        self.assertFalse(restrictions['ordinary_daily_recovery'])
+
     def test_negative_trait_summary_self_control_and_minor_variants(self):
         """Source fixtures await runtime trigger and accounting coverage."""
         base = ROOT / 'docs/expanded/inventory'
