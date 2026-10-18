@@ -9165,6 +9165,8 @@ def test(build):
     test_free_fall(Session, free_fall, build.out)
     free_fall_trait = build.build('expanded-free-fall-trait',ROOT / 'tests/fixtures/expanded-free-fall-trait.t')
     test_free_fall_trait(Session, free_fall_trait)
+    free_fall_skill = build.build('expanded-free-fall-skill',ROOT / 'tests/fixtures/expanded-free-fall-skill.t')
+    test_free_fall_skill(Session, free_fall_skill, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19522,5 +19524,47 @@ def test_free_fall_trait(Session, bundle):
             s.action(2285, code)
         assert last(s, 'test.free-fall-trait') == [-10, 0, 'free-fall-susceptibility-learning']
         assert last(s, 'test.free-fall') == [0, 1, 0, 0, 3]
+    finally:
+        s.close()
+
+
+def test_free_fall_skill(Session, bundle, out):
+    """B197 defaults and base cap, with B173 attribute-default ceiling; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(2285, 9300)
+        assert last(s, 'test.free-fall-default') == [5, 0]
+        for code in (9301, 9300):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-default') == [15, 0]
+        for code in (9302, 9300, 9306):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-default') == [15, 0]
+        assert last(s, 'test.free-fall-definition') == ['free-fall-skill-definition']
+    finally:
+        s.close()
+    path = out / 'expanded-free-fall-skill.zsave'
+    s = Session(bundle)
+    try:
+        for code in (9303, 9304):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-cap') == [14, 16, 16, 0]
+        for code in (31, 9100, 9304):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-cap') == [14, 16, 14, 3]
+        for code in (9305, 9304):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-cap') == [14, 16, 17, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 9304)
+        assert last(s, 'test.free-fall-cap') == [14, 16, 17, 3]
+        for code in (9109, 9304):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-cap') == [14, 16, 19, 3]
     finally:
         s.close()

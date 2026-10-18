@@ -2129,8 +2129,8 @@ supplies susceptibility; the trait also supplies purchase and learning restricti
 
 An optional expanded `skill` must be the dexterity/average `free-fall` skill.
 Ordinary resistance selects the better of health and the supplied skill score.
-Without a supplied skill, it considers the dexterity -5 default; the other printed
-health -5 default cannot exceed the health alternative. Susceptibility uses health
+Without a supplied skill, `RpgExpandedFreeFallSkill` supplies both printed
+attribute defaults. Health -5 cannot exceed the health alternative for entry. Susceptibility uses health
 with its printed penalty. `assess()` previews; `apply()` commits once. Failed
 entry creates both a persistent nausea cause and a `RpgExpandedNauseaMotion` in
 `exposure.motion`. No duration is guessed for the nausea.
@@ -2149,7 +2149,7 @@ completed motion hour before leaving at its exact boundary. Repeated entry,
 adaptation and exit operations do not duplicate costs or rolls.
 
 Sealed-suit choking/drowning, mid-exposure trait changes, ancestry composition
-and general free-fall task caps remain outstanding. The fixture
+spatial-awareness bonuses and complete movement integration remain outstanding. The fixture
 [`expanded-free-fall.t`](../../tests/fixtures/expanded-free-fall.t) covers entry,
 health/default choice, hourly integration, adaptation, return to gravity,
 independent nausea, rollback, undo, replay and save continuation. It is unrun

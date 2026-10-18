@@ -266,6 +266,8 @@ rpgLiteScore(profile, context)
     if (profile.healthCheckReason(context) != nil) return nil;
     local score = context.scoreFor(profile);
     if (score == nil) return nil;
+    score = profile.environmentBaseScore(context,score);
+    if (score == nil) return nil;
     local attribute = context.controllingAttribute();
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
     local useModifier = context.skillUseModifier(profile);
@@ -597,3 +599,8 @@ rpgLiteLoadLevel(weight,lift)
         if (weight <= lift * factors[index]) return index - 1;
     return 5;
 }
+
+
+modify RpgLiteProfile
+    environmentBaseScore(context,score) { return score; }
+;

@@ -76,3 +76,9 @@ sealed-suit choking and general task caps remain outstanding; fixtures are unrun
 Free-fall susceptibility now has fixed trait accounting, explicit campaign
 relevance, template copying, learning restrictions and hazard dispatch. Ancestry
 composition and mid-exposure trait changes remain pending; fixtures are unrun.
+
+
+The typed free-fall skill now supplies both printed attribute defaults. Open
+free-fall exposures cap dexterity-based base scores through the shared check path,
+without changing purchased skill costs. Spatial-awareness bonuses and wider
+movement integration remain outstanding; new fixtures are unrun.

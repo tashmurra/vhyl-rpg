@@ -5078,7 +5078,7 @@ class RpgExpandedFreeFallExposure: object
         {
             local skill = self.skill;
             if (skill == nil)
-            { skill = new RpgExpandedSkill(); skill.id = 'free-fall'; skill.attribute = rpgDX; skill.difficulty = 1; skill.defaultPenalty = -5; }
+            { skill = new RpgExpandedFreeFallSkill(); }
             if (!skill.ofKind(RpgExpandedSkill) || skill.id != 'free-fall' || skill.attribute != rpgDX || skill.difficulty != 1)
                 rpgExpandedReject('free-fall-skill-definition');
             local alternative = new RpgLiteContext(); alternative.skill = skill; alternative.kind = 'resistance';
@@ -5127,7 +5127,7 @@ class RpgExpandedFreeFallExposure: object
         rpgExpandedValidate(self.profile);
         if (self.profile.dead || self.profile.unconscious) { value.reason = 'free-fall-patient-unavailable'; return value; }
         foreach (local prior in self.profile.freeFallExposures)
-        { prior.validateReceipt(); if (prior.id == self.id || prior.endedAt == nil && !prior.adapted) rpgExpandedReject('free-fall-overlap'); }
+        { prior.validateReceipt(); if (prior.id == self.id || prior.endedAt == nil) rpgExpandedReject('free-fall-overlap'); }
         if (self.native && self.effectiveSusceptibility()) rpgExpandedReject('free-fall-physiology-conflict');
         if (!self.native)
         {
@@ -5209,5 +5209,27 @@ modify rpgLedger
                     rpgExpandedReject('free-fall-adaptation-boundary');
             }
         return nil;
+    }
+;
+
+
+/** B197 environmental base cap. Situational modifiers are applied once afterward. */
+modify RpgExpandedProfile
+    environmentBaseScore(context,score)
+    {
+        local base = inherited(context,score);
+        if (base == nil || context.controllingAttribute() != rpgDX) return base;
+        foreach (local exposure in self.freeFallExposures)
+        {
+            exposure.validateReceipt();
+            if (exposure.endedAt == nil)
+            {
+                local skill = exposure.skill == nil ? new RpgExpandedFreeFallSkill() : exposure.skill;
+                local limit = self.skillScore(skill);
+                if (limit == nil) return nil;
+                if (limit < base) base = limit;
+            }
+        }
+        return base;
     }
 ;

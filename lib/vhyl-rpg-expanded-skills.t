@@ -7,6 +7,7 @@ class RpgExpandedSkill: RpgLiteSkill
     studyIdentity() { rpgExpandedValidateSkill(self); return self.optionalParent == nil ? self.id : self.optionalParent.id; }
     studySpecialty() { rpgExpandedValidateSkill(self); return self.optionalParent == nil ? self.specialty : self.optionalParent.specialty; }
     defaults = []
+    attributeDefaults = []
     wildcard = nil
     prerequisite = nil
     optionalParent = nil
@@ -122,7 +123,7 @@ rpgExpandedSkillScore(profile, skill)
     if (skill.ofKind(RpgExpandedSkill) && skill.wildcard)
     {
         if (!profile.rules.wildcardSkills) rpgExpandedReject('wildcard-disabled');
-        if (skill.defaultPenalty != nil || skill.defaults.length() != 0)
+        if (skill.defaultPenalty != nil || skill.defaults.length() != 0 || skill.attributeDefaults.length() != 0)
             rpgExpandedReject('wildcard-default');
     }
     local score = rpgExpandedPaidSkill(profile, skill, []);
@@ -135,6 +136,13 @@ rpgExpandedSkillScore(profile, skill)
         local candidate = (base > 20 ? 20 : base) + skill.defaultPenalty;
         if (score == nil || candidate > score) score = candidate;
     }
+    if (skill.ofKind(RpgExpandedSkill))
+        foreach (local pair in skill.attributeDefaults)
+        {
+            local base = profile.attributeScore(pair[1]);
+            local candidate = (base > 20 ? 20 : base) + pair[2];
+            if (score == nil || candidate > score) score = candidate;
+        }
     if (skill.ofKind(RpgExpandedSkill))
         foreach (local pair in rpgExpandedDefaultEdges(profile, skill))
         {
@@ -516,9 +524,15 @@ rpgExpandedValidateSkill(skill)
     if (skill.ofKind(RpgExpandedSkill) && skill.wildcard)
     {
         if (skill.difficulty != 3) rpgExpandedReject('wildcard-difficulty');
-        if (skill.defaultPenalty != nil || skill.defaults.length() != 0)
+        if (skill.defaultPenalty != nil || skill.defaults.length() != 0 || skill.attributeDefaults.length() != 0)
             rpgExpandedReject('wildcard-default');
     }
+    if (skill.ofKind(RpgExpandedSkill))
+        foreach (local pair in skill.attributeDefaults)
+        {
+            if (pair.length() != 2) rpgExpandedReject('attribute-default-definition');
+            rpgValidateAttribute(pair[1]); rpgInteger(pair[2],-100,0);
+        }
     if (!skill.ofKind(RpgExpandedSkill) || skill.optionalParent == nil) return nil;
     local parent = skill.optionalParent;
     if (!parent.ofKind(RpgExpandedSkill) || parent.optionalParent != nil || parent.wildcard)
@@ -880,5 +894,25 @@ modify RpgExpandedTechnique
             || !holds(['advanced-martial-training','weapon-mastery'],self.cinematicRequirement.traitId))
             rpgExpandedReject('technique-cinematic-requirement-kind');
         return self.cinematicRequirement.satisfied(profile,[]) ? nil : 'technique-cinematic-prerequisite';
+    }
+;
+
+
+/** B197: both attribute defaults feed the common skill resolver. */
+class RpgExpandedFreeFallSkill: RpgExpandedSkill
+    id = 'free-fall'
+    attribute = rpgDX
+    difficulty = 1
+    defaultPenalty = -5
+    attributeDefaults = [[rpgHT,-5]]
+    validateDefinition()
+    {
+        if (self.id != 'free-fall' || self.attribute != rpgDX || self.difficulty != 1
+            || self.defaultPenalty != -5 || self.defaultAttribute != nil || self.defaults.length() != 0
+            || self.attributeDefaults.length() != 1 || self.attributeDefaults[1].length() != 2
+            || self.attributeDefaults[1][1] != rpgHT || self.attributeDefaults[1][2] != -5
+            || self.wildcard || self.optionalParent != nil || self.techLevel != nil)
+            rpgExpandedReject('free-fall-skill-definition');
+        return nil;
     }
 ;

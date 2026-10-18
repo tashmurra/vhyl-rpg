@@ -634,3 +634,35 @@ when the requested skill lies outside the talent's group. Each purchase remains
 limited to four levels, including inactive or mitigated purchases. Optional
 specialties inherit their parent skill's catalogue membership for both skill
 bonuses and study time. The corresponding fixtures are authored but unrun.
+
+
+## Multiple attribute defaults and free-fall skill
+
+Expanded skills may declare `attributeDefaults` as `[attribute, penalty]` pairs
+in addition to the existing single `defaultAttribute`/`defaultPenalty` interface.
+The shared resolver considers each legal attribute default, caps the underlying
+attribute at 20 before applying its penalty, then selects the best purchased or
+default level. No default creates purchased training or satisfies a paid-skill
+prerequisite. Wildcards reject attribute defaults just as they reject skill
+defaults. Invalid attribute identifiers and positive default adjustments reject.
+
+`RpgExpandedFreeFallSkill` supplies dexterity/average with dexterity -5 and health
+-5 (`full-2008`, B197). Its catalogue definition rejects altered attributes,
+difficulty, technology qualification, wildcard mode and extra default edges.
+Owned free-fall exposures use this class when no skill is supplied. Supply the
+same skill object used by a character's training when purchased ability applies.
+
+While an owned free-fall exposure remains open, dexterity-based checks use the
+lower of their ordinary base and the character's free-fall skill score. The
+shared score path applies this cap before ordinary situational modifiers, keeping
+health/shock/equipment adjustments from being charged twice. A character who has
+adapted still uses the cap until returning to normal gravity. This does not
+rewrite the purchased skill or its point cost. An active exposure, including a
+healthy one, must be closed before opening another for the same character.
+
+The existing whole-profile behavior is unchanged when no exposure is open. A
+neutral identity hook in the Lite score path permits the optional environment
+rule without adding random draws. Spatial-awareness bonuses and integration with
+all movement/vehicle subsystems remain pending. The minimal fixture
+[`expanded-free-fall-skill.t`](../../tests/fixtures/expanded-free-fall-skill.t)
+contains independent default/cap values and saved-game continuation; it is unrun.
