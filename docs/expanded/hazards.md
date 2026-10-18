@@ -1465,3 +1465,40 @@ until an explicit knowledge-sharing interface is available. Fixtures cover
 failed identification, an incapacitated or different administrator, altered clue
 evidence, stock preservation on rejection, replay, rollback, undo and saved
 continuation; all remain unrun.
+
+
+### Continued poisonous environments
+
+`RpgExpandedEnvironmentalPoisonExposure` owns a continuing area exposure
+(full-2008 B438). Supply the ordinary exposure fields plus concrete
+`environmentEvidence`; its entry must describe actual area contact through blood,
+contact, respiration or a sense. Start it once, then resolve onset normally.
+Every later check uses a uniquely identified `RpgExpandedEnvironmentalPoisonCycle`
+bound to that exposure. An ordinary cycle receipt is rejected for this subtype.
+
+Until the first failed resistance, each success schedules another check after the
+size-adjusted delay, or after one second for an immediate agent. It restores the
+full damaging cycle count because successful environmental checks have not yet
+started the poison's damage sequence. Exact deadlines remain enforced by the
+shared ledger. Replay the original cycle object to retrieve its result without
+rolling again; `exposure.resolve()` always refers to onset.
+
+The first failed resistance sets `environmentAffected` and starts the ordinary
+damage sequence. Subsequent cycles use the agent's damage interval and normal
+termination rules. Further successful resistance ends that acquired poison; it
+does not restart environmental retries after the victim has already been affected.
+No additional inventory dose, action time or damage roll is charged for a
+successful environmental resistance check.
+
+Call `leave(evidence)` when the patient actually leaves. Before the first failed
+resistance, this cancels the pending exposure and releases its clock boundary.
+After poison has been acquired, leaving records the departure while retaining
+remaining poison cycles and healing restrictions. Repeated departure calls must
+reuse the same evidence and do not spend anything. Changed protection, re-entry,
+cloud dispersal and residual-surface behavior need explicit encounter integration;
+they are not inferred by this persistent-contact interface.
+
+Fixtures specify immediate and delayed retries, retry receipt reuse, first
+failure, acquired cycles after departure, cancellation before acquisition,
+rejection of a wrong cycle type, rollback, undo and saved continuation. They are
+authored and unrun.

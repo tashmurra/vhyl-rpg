@@ -483,3 +483,11 @@ successful result for the same exposure and actual administrator before any
 stock is consumed. Failed knowledge, mismatched or incapacitated administrators
 and altered receipts are rejected. Added authored, unrun persistence and
 transaction fixtures. Knowledge sharing and combined remedies remain incomplete.
+
+
+Continued area poison exposure now owns resistance retry deadlines and departure.
+Success retries after the scaled delay or one second for immediate agents; first
+failure starts ordinary damaging cycles. Leaving before acquisition cancels the
+pending effect, while leaving afterward preserves acquired poison. Added authored,
+unrun transaction and persistence fixtures. Cloud lifecycle and re-entry remain
+incomplete.

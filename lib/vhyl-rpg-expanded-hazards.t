@@ -2829,6 +2829,8 @@ class RpgExpandedPoisonCycle: object
         }
         if (self.id == nil || self.id == '' || self.exposure == nil
             || !self.exposure.ofKind(RpgExpandedPoisonExposure)) rpgExpandedReject('poison-cycle-definition');
+        if (self.exposure.ofKind(RpgExpandedEnvironmentalPoisonExposure)
+            && !self.ofKind(RpgExpandedEnvironmentalPoisonCycle)) rpgExpandedReject('poison-environment-cycle-required');
         foreach (local prior in self.exposure.cycleHistory)
             if (prior.id == self.id) rpgExpandedReject('poison-cycle-duplicate');
         local value = self.exposure.assessResolution();
@@ -3560,4 +3562,83 @@ class RpgExpandedPoisonIdentification: object
 ;
 modify RpgExpandedProfile
     poisonIdentifications = []
+;
+
+
+/** B438 continuing area exposure. The same owned exposure retries until its
+ * first failed resistance; after that, ordinary poison cycles continue. */
+class RpgExpandedEnvironmentalPoisonExposure: RpgExpandedPoisonExposure
+    environmentEvidence = nil
+    environmentAffected = nil
+    leftAt = nil
+    leaveEvidence = nil
+    definition() { return inherited() + [self.environmentEvidence]; }
+    assess()
+    {
+        if (self.entry == nil || self.entry.method != 'area'
+            || !holds(['blood','contact','respiratory','sense'],self.entry.route))
+            rpgExpandedReject('poison-environment-route');
+        if (self.environmentEvidence == nil || self.environmentEvidence == '')
+        {
+            local value = new RpgExpandedPoisonResult(); value.reason = 'poison-environment-evidence'; return value;
+        }
+        return inherited();
+    }
+    retrySeconds()
+    {
+        local delay = self.doseAssessment().delaySeconds; return delay > 0 ? delay : 1;
+    }
+    resolve()
+    {
+        if (self.cycleHistory.length() > 0) return self.cycleHistory[1].apply();
+        local cycle = new RpgExpandedEnvironmentalPoisonCycle(); cycle.id = 'onset'; cycle.exposure = self;
+        return cycle.apply();
+    }
+    leave(evidence)
+    {
+        if (!self.started) rpgExpandedReject('poison-environment-not-started');
+        self.validateReceipt();
+        if (evidence == nil || evidence == '') rpgExpandedReject('poison-environment-leave-evidence');
+        local value = new RpgExpandedPoisonResult();
+        if (self.leftAt != nil)
+        {
+            if (evidence != self.leaveEvidence) rpgExpandedReject('poison-environment-leave-binding');
+            value.status = 'reused'; return value;
+        }
+        self.leftAt = rpgLedger.seconds; self.leaveEvidence = evidence;
+        if (!self.environmentAffected && !self.finished)
+        {
+            self.finished = true; self.remaining = 0; self.completedAt = rpgLedger.seconds;
+            self.result = new RpgExpandedPoisonResult(); self.result.status = 'resolved';
+            self.result.reason = 'left-poison-environment';
+        }
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedEnvironmentalPoisonCycle: RpgExpandedPoisonCycle
+    assess()
+    {
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedEnvironmentalPoisonExposure))
+            rpgExpandedReject('poison-environment-cycle-owner');
+        local value = inherited();
+        if (value.status == 'ready' && self.exposure.hazard.resistible
+            && !self.exposure.environmentAffected && self.exposure.leftAt == nil)
+        {
+            local e = self.exposure; local interval = e.doseAssessment().intervalSeconds;
+            rpgInteger(rpgLedger.seconds,0,2147483647 - e.retrySeconds() - (e.hazard.cycles - 1) * interval);
+        }
+        return value;
+    }
+    apply()
+    {
+        local value = inherited(); if (value.status != 'resolved') return value;
+        local e = self.exposure;
+        if (!value.resisted) e.environmentAffected = true;
+        else if (!e.environmentAffected && e.leftAt == nil)
+        {
+            e.finished = nil; e.completedAt = nil; e.result = nil;
+            e.remaining = e.hazard.cycles; e.dueAt = rpgLedger.seconds + e.retrySeconds();
+        }
+        return value;
+    }
 ;

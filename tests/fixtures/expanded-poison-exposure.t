@@ -35,6 +35,13 @@ poisonNaturalistTraining: RpgExpandedTraining skill = poisonNaturalist points = 
 poisonIdentification: RpgExpandedPoisonIdentification id = 'identified-agent' exposure = poisonExposure
     examiner = surgicalHealer skill = poisonKnowledge approved = true durationSeconds = 5
     evidence = 'An available residue sample from the same original fictional agent';
+environmentEntry: RpgExpandedPoisonEntry patient = bleedProfile route = 'contact' method = 'area'
+    inArea = true approved = true evidence = 'The patient remains within the original fictional cloud';
+environmentExposure: RpgExpandedEnvironmentalPoisonExposure id = 'environmental-agent' profile = bleedProfile
+    entry = environmentEntry hazard = poisonDefinition approved = true effectEvidence = 'One die of toxic damage'
+    environmentEvidence = 'Continued contact in the same fictional cloud until explicitly leaving';
+environmentSecond: RpgExpandedEnvironmentalPoisonCycle id = 'retry-one' exposure = environmentExposure;
+environmentThird: RpgExpandedEnvironmentalPoisonCycle id = 'retry-two' exposure = environmentExposure;
 modify BleedTestAction
     exec(context)
     {
@@ -247,6 +254,26 @@ modify BleedTestAction
         if (code == 374) { poisonIdentification.evidence = 'A different unidentified sample'; return nil; }
         if (code == 375)
         { event('test.antidote-stock'); eventValue(poisonAntidote.quantity); eventValue(bleedProfile.poisonAntidotes.length()); return nil; }
+        if (code == 380) { poisonDefinition.delay = 0; return nil; }
+        if (code == 381) { poisonDefinition.delay = 60; poisonDefinition.cycles = 2; poisonDefinition.interval = 60; return nil; }
+        if (code == 382) { rpgSpendTime(1); return nil; }
+        if (code == 383) { environmentExposure.start(); return nil; }
+        if (code == 384) { environmentExposure.resolve(); return nil; }
+        if (code == 385 || code == 389)
+        { environmentSecond.apply(); if (code == 389) throw new RpgError(); return nil; }
+        if (code == 386) { environmentThird.apply(); return nil; }
+        if (code == 387)
+        {
+            event('test.poison-environment'); eventValue(environmentExposure.dueAt);
+            eventValue(environmentExposure.finished ? 1 : 0); eventValue(environmentExposure.environmentAffected ? 1 : 0);
+            eventValue(environmentExposure.leftAt); eventValue(environmentExposure.cycleHistory.length());
+            eventValue(environmentExposure.remaining); eventValue(bleedProfile.injury);
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 388) { environmentExposure.leave('The patient left the affected area'); return nil; }
+        if (code == 390) { rpgSpendTime(60); return nil; }
+        if (code == 391)
+        { local cycle = new RpgExpandedPoisonCycle(); cycle.id = 'wrong-kind'; cycle.exposure = environmentExposure; cycle.apply(); return nil; }
         return inherited(context);
     }
 ;

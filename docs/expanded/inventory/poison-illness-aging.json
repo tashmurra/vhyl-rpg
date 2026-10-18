@@ -164,9 +164,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After successful initial resistance in a persistent poisonous environment, retry each second or each delay period if the agent has a delay, until affected or no longer exposed.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned continuing area exposures retry after the scaled delay or one second following successful initial resistance, until first failure or departure. First failure starts normal damaging cycles; leaving thereafter does not clear acquired effects. Exact deadlines and receipt replay integrated; fixtures authored, unrun. Changed protection, re-entry and cloud/residue lifecycle integration remain unfinished."
     },
     {
       "id": "poison-species-policy",

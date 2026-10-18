@@ -11750,3 +11750,48 @@ def test_poison_exposure(Session, bundle, out):
             assert last(s, 'test.antidote-stock') == [1, 0]
         finally:
             s.close()
+
+    # B438: environmental retries use the delay, or one second when immediate.
+    s = Session(bundle)
+    try:
+        for code in (380, 266, 383, 384, 384, 391, 385, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [1, 0, 0, None, 1, 1, 0, 0, 3]
+        s.action(2285, 388)
+        s.command('undo')
+        s.action(2285, 387)
+        assert last(s, 'test.poison-environment') == [1, 0, 0, None, 1, 1, 0, 0, 3]
+        for code in (382, 265, 389, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [1, 0, 0, None, 1, 1, 0, 1, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (385, 385, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [1, 1, 1, None, 2, 0, 4, 1, 7]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (381, 266, 383, 390, 384, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [120, 0, 0, None, 1, 2, 0, 60, 3]
+        for code in (390, 265, 385, 388, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [180, 0, 1, 120, 2, 1, 4, 120, 7]
+        for code in (390, 266, 386, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [180, 1, 1, 120, 3, 0, 4, 180, 10]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (380, 266, 383, 384, 388, 388, 390, 385, 387):
+            s.action(2285, code)
+        assert last(s, 'test.poison-environment') == [1, 1, 0, 0, 1, 0, 0, 60, 3]
+    finally:
+        s.close()
