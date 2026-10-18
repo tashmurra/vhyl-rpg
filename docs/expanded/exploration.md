@@ -2062,3 +2062,34 @@ such as visibility and access must be supported by the authored evidence; live
 sensory integration, shared player actions and broader geological interpretation
 remain pending. `test_terrain_search` specifies scope, absence, failure, health
 denial, pure preview, rollback, undo and save continuation. Fixtures remain unrun.
+
+## Ordinary visual observation
+
+`RpgExpandedVisionContext` implements the ordinary B358 sight path. Supply
+approved evidence for `ordinarySightAvailable`, `withinHorizon` and
+`withinVisualArc`; these are concrete authored facts, not automatic geometry or
+trait-capability inference. Set `distanceHundredths` in hundredths of a yard,
+`sizeModifier`, `darkness` (zero through ten), and `task` (`spot`, `read` or
+`identify`). `plainSight` grants +10 only to spotting. Shared scoring supplies
+Perception, acute vision and partial-darkness reduction from low-light vision.
+Ten means total darkness and blocks this ordinary-sight adapter.
+
+If the profile has the shared bad-sight trait, specify `badSightMode = 'near'`
+for nearsightedness or `far` for farsightedness. The six-point penalty applies
+beyond one yard for the former, and within one yard for the latter. The context
+corrects the shared blanket modifier outside that range without changing Lite
+scoring. Special sight, technological aids, concealment contests, automatic
+visual arcs/horizons and permanent sensory-capability traits remain pending.
+Existing health hooks can block scoring during temporary blindness.
+
+`RpgExpandedVisionObservation` records one notice attempt with a unique `id`,
+`profile`, vision `context`, `target` and authored `occurrence`. `assess()` is pure;
+`resolve()` rolls once and retains `result.noticed`. Replaying the receipt does
+not roll again. A repeated target in the same occurrence is rejected. This
+notice check does not debit task time, move anyone or provide comprehension;
+interpretation uses a separate procedure. The definition and complete check
+outcome are retained against mutation.
+
+`test_vision` specifies ordinary numeric modifiers, visual boundaries, scope,
+rollback, undo, repeated use and saved continuation. Fixtures remain unrun. The
+terrain-search observation adapter and common player actions remain pending.

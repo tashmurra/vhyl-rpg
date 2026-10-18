@@ -4062,3 +4062,130 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B358 ordinary sight. Special senses and concealment contests need distinct procedures. */
+class RpgExpandedVisionContext: RpgLiteContext
+    attribute = rpgPerception
+    kind = 'vision'
+    someLight = true
+    distanceHundredths = 100
+    sizeModifier = 0
+    plainSight = nil
+    task = 'spot'
+    withinHorizon = nil
+    withinVisualArc = nil
+    ordinarySightAvailable = nil
+    badSightMode = nil
+    approved = nil
+    evidence = nil
+    visionFacts()
+    {
+        if (self.attribute != rpgPerception || self.kind != 'vision' || self.skill != nil || !self.someLight
+            || !holds(['spot','read','identify'],self.task)) rpgExpandedReject('vision-context-definition');
+        rpgInteger(self.distanceHundredths,1,100000000); rpgInteger(self.sizeModifier,-100,100); rpgInteger(self.darkness,0,10);
+        if (self.badSightMode != nil && !holds(['near','far'],self.badSightMode)) rpgExpandedReject('vision-bad-sight-mode');
+        return [self.distanceHundredths,self.sizeModifier,self.plainSight,self.task,self.withinHorizon,
+            self.withinVisualArc,self.ordinarySightAvailable,self.badSightMode,self.approved,self.evidence,self.darkness,self.modifier];
+    }
+    taskUnavailableReason(profile)
+    {
+        self.visionFacts();
+        if (!self.approved || self.evidence == nil || self.evidence == '') return 'vision-world-facts-required';
+        if (!self.ordinarySightAvailable) return 'vision-ordinary-sight-unavailable';
+        if (!self.withinHorizon || !self.withinVisualArc) return 'vision-outside-boundaries';
+        if (self.darkness == 10) return 'vision-total-darkness';
+        if (profile.level('bad-sight') > 0 && self.badSightMode == nil) return 'vision-bad-sight-mode-required';
+        return nil;
+    }
+    unavailableReason(profile)
+    {
+        local reason = self.taskUnavailableReason(profile); return reason == nil ? inherited(profile) : reason;
+    }
+    skillUseModifier(profile)
+    {
+        if (self.taskUnavailableReason(profile) != nil) return nil;
+        local amount = self.sizeModifier + rpgExpandedRangeModifier((self.distanceHundredths+99)/100);
+        if (self.plainSight && self.task == 'spot') amount += 10;
+        /* Shared scoring already deducts six; restore it outside the impaired range. */
+        if (profile.level('bad-sight') > 0
+            && ((self.badSightMode == 'near' && self.distanceHundredths <= 100)
+                || (self.badSightMode == 'far' && self.distanceHundredths > 100))) amount += 6;
+        return amount;
+    }
+;
+class RpgExpandedVisionResult: RpgExpandedResult
+    noticed = nil
+    score = nil
+;
+/** Noticing is recorded independently from a subsequent comprehension skill. */
+class RpgExpandedVisionObservation: object
+    id = nil
+    profile = nil
+    context = nil
+    target = nil
+    occurrence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.context == nil || !self.context.ofKind(RpgExpandedVisionContext) || self.target == nil || self.occurrence == nil)
+            rpgExpandedReject('vision-observation-definition');
+        return [self.id,self.profile,self.context,self.target,self.occurrence] + self.context.visionFacts();
+    }
+    outcomeDefinition()
+    {
+        return [self.recordedAt,self.result,self.result.noticed,self.result.check,self.result.check.score,self.result.check.roll,
+            self.result.check.margin,self.result.check.achieved,self.result.check.critical];
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedVisionResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.visionObservations,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('vision-observation-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('vision-observation-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('vision-observation-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('vision-observation-outcome');
+            if (self.recordedAt > rpgLedger.seconds) rpgExpandedReject('vision-observation-time');
+            value.status = 'reused'; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('vision-observation-uncommitted');
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'vision-observer-unavailable'; return value; }
+        foreach (local prior in self.profile.visionObservations)
+            if (prior.id == self.id || prior.target == self.target && prior.occurrence == self.occurrence)
+                rpgExpandedReject('vision-observation-repeat');
+        value.reason = self.context.taskUnavailableReason(self.profile); if (value.reason != nil) return value;
+        value.score = rpgLiteScore(self.profile,self.context);
+        if (value.score == nil || value.score < 3) { value.reason = 'vision-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); value.check = rpgCheck(value.score,rpgRandom.roll());
+        value.noticed = value.check.achieved; self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.profile.visionObservations = self.profile.visionObservations + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    visionObservations = []
+    validateFeatures()
+    {
+        inherited(); local ids = [];
+        foreach (local observation in self.visionObservations)
+        {
+            if (observation == nil || !observation.ofKind(RpgExpandedVisionObservation) || observation.profile != self
+                || holds(ids,observation.id) || observation.assess().status != 'reused') rpgExpandedReject('vision-observation-history');
+            ids = ids + [observation.id];
+        }
+        return nil;
+    }
+;

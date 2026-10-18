@@ -9512,6 +9512,8 @@ def test(build):
     test_geography(Session,geography)
     terrain_search = build.build('expanded-terrain-search',ROOT / 'tests/fixtures/expanded-terrain-search.t')
     test_terrain_search(Session,terrain_search,build.out)
+    vision = build.build('expanded-vision',ROOT / 'tests/fixtures/expanded-vision.t')
+    test_vision(Session,vision,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26384,5 +26386,40 @@ def test_terrain_search(Session, bundle, out):
     try:
         s.action(1680,27011)
         assert last(s,'test.geology-default') == [13]
+    finally:
+        s.close()
+
+
+def test_vision(Session, bundle, out):
+    """B358 ordinary vision modifiers and owned noticing; unrun."""
+    for codes,score in (((),12),((27101,),18),((27101,27102),8),((27103,),7),
+                        ((27103,27104),10),((27105,27104),None),((27106,),14),
+                        ((27107,),12),((27107,27108),6),((27107,27109),6),
+                        ((27107,27109,27108),12),((27110,),None),((27111,),None),((27112,),None)):
+        s = Session(bundle)
+        try:
+            for code in codes:
+                s.action(1680,code)
+            s.action(1680,27100)
+            assert last(s,'test.vision-score') == [score,0]
+        finally:
+            s.close()
+    def state(s):
+        s.action(1680,27122)
+        return last(s,'test.vision-state')
+    s = Session(bundle)
+    path = out / 'vision-observation.zsave'
+    try:
+        s.action(1680,27121); assert state(s) == [0,None,0,0]
+        s.action(1680,27120); s.command('undo'); assert state(s) == [0,None,0,0]
+        s.action(1680,27120); s.action(1680,27120); assert state(s) == [1,True,3,0]
+        s.action(1680,27123); assert state(s) == [1,True,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,27120)
+        assert state(s) == [1,True,3,0]
     finally:
         s.close()

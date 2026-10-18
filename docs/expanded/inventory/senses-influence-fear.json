@@ -11,9 +11,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Use perception plus the acute-sense modifier appropriate to the actual sense; special senses retain their own capabilities and restrictions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-comprehension",
@@ -21,9 +24,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Noticing an event is distinct from understanding it; an authored follow-up uses intelligence for ordinary interpretation or the relevant specialist skill.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-danger-warning",
@@ -41,9 +47,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Vision includes applicable acute bonus, +3 broad-spectrum sight, size/range effects and partial-darkness penalties from -1 through -9.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-darkness",
@@ -51,9 +60,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Total darkness prevents ordinary sight without an appropriate trait or aid; low-light vision cancels one partial-darkness penalty per level and dark sight ignores darkness.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-plain-sight",
@@ -61,9 +73,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Plainly visible objects may grant +10; hidden-object searches, reading and face identification do not automatically get that bonus.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-concealment",
@@ -81,9 +96,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Planetary curvature can block visibility; author observer elevation and world geometry rather than using a fixed three-mile limit everywhere. Space has no planetary horizon by default.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-arc",
@@ -91,9 +109,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the actual visual arc, including peripheral, all-around and restricted vision, to tactical facing before offering a roll.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-distance-traits",
@@ -101,9 +122,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Telescopic vision cancels one range penalty per level; nearsightedness penalizes spotting beyond one yard by six and farsightedness penalizes within one yard by six.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-vision-blind",
