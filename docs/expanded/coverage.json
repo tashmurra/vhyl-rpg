@@ -371,6 +371,7 @@
     "inventory/skill-summary-a.json",
     "inventory/skill-summary-b.json",
     "inventory/skill-summary-c.json",
-    "inventory/skill-summary-d.json"
+    "inventory/skill-summary-d.json",
+    "inventory/modifier-summary.json"
   ]
 }

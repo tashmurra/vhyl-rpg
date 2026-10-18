@@ -8,6 +8,53 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ExpandedInventoryTests(unittest.TestCase):
+    def test_modifier_summary_preserves_detail_constraints(self):
+        """Inventory assertions do not establish executable modifier support."""
+        base = ROOT / 'docs/expanded/inventory'
+        ledger = json.loads((base / 'modifier-summary.json').read_text())
+        entries = ledger['entries']
+        details = {
+            (path.name, entry['id'])
+            for path in base.glob('traits-modifiers-*.json')
+            for entry in json.loads(path.read_text())['entries']
+        }
+        for section, count in [('enhancement', 49), ('limitation', 38)]:
+            rows = [e['summary_data'] for e in entries
+                    if e['summary_data']['section'] == section]
+            self.assertEqual(len(rows), count)
+            self.assertEqual([r['row'] for r in rows], list(range(1, count + 1)))
+            for row in rows:
+                self.assertTrue(row['targets'])
+                for target in row['targets']:
+                    self.assertIn((target['file'], target['entry']), details)
+        rows = {e['summary_data']['neutral_key']: e['summary_data'] for e in entries}
+        explosion = rows['explosion']['detail_constraints']
+        self.assertEqual(explosion['maximum_levels'], 3)
+        self.assertEqual(explosion['percent_by_level'], {'1': 50, '2': 100, '3': 150})
+        self.assertFalse(explosion['direct_attack_armor_divisor_applies_to_collateral'])
+        recoil = rows['extra-recoil']['detail_constraints']
+        self.assertEqual(recoil['requires'], 'rapid-fire')
+        self.assertEqual(recoil['percent_by_recoil'],
+                         {'2': -10, '3': -20, '4': -30, '5-or-more': -40})
+        self.assertEqual(rows['reduced-accuracy']['detail_constraints']['minimum_resulting_accuracy'], 0)
+        for limited, area, ordinary, enhanced in [
+                ('blood-delivery', 'blood-area', -40, 100),
+                ('contact-delivery', 'contact-area', -30, 150)]:
+            self.assertEqual(rows[limited]['mutually_exclusive_price_family'],
+                             rows[area]['mutually_exclusive_price_family'])
+            for key in (limited, area):
+                values = rows[key]['detail_constraints']
+                self.assertEqual(values['ordinary_percent'], ordinary)
+                self.assertEqual(values['area_or_cone_percent'], enhanced)
+                self.assertTrue(values['replace_price_do_not_stack'])
+        for key in ('sensory-delivery', 'sensory-restriction'):
+            values = rows[key]['detail_constraints']
+            self.assertEqual(values['ordinary_first_sense_percent'], 150)
+            self.assertEqual(values['ordinary_additional_sense_percent'], 50)
+            self.assertEqual(values['already_ignores_armor_or_remote_resisted_percent_by_sense_count'],
+                             {'1': -20, '2': -15, '3': -10})
+            self.assertTrue(values['replace_price_do_not_stack'])
+
     def test_skill_summary_links_and_heading_exceptions(self):
         """Summary headings are cross-checks, not new purchasable definitions."""
         base = ROOT / 'docs/expanded/inventory'

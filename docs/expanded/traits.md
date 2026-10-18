@@ -348,3 +348,24 @@ Composite restrictions can contain benefits, and their signed prices need separa
 component accounting without duplicate credit. The first source-enumeration pass
 now reaches the end of this trait chapter; that does not establish catalogue
 completeness, executable effect coverage or passing validation.
+
+## General modifier summary
+
+The [modifier summary](inventory/modifier-summary.json) maps 49 enhancement rows
+and 38 limitation rows to the detailed inventory. Fixed and per-unit summary
+prices have been compared with those detailed entries. Full eligibility, effect
+resolution, trait-specific modifiers and independent execution fixtures remain
+pending; the current price helper does not implement this catalogue.
+
+Summary headings do not remove detailed caps or exceptions. Explosion enhancement
+has at most three levels. Additional recoil requires rapid fire and gives no more
+than a 40% discount. Accuracy cannot fall below zero. Fragmentation has both a
+twelve-die ceiling and a main-attack damage limit. The interpretation of mixed dice
+and damage additions in that second limit remains unresolved.
+
+Delivery modifiers also have mutually exclusive price forms. Blood exposure costs
+−40% ordinarily but +100% with area or cone; skin exposure changes from −30% to
++150%. Sensory delivery becomes a limitation when the underlying ability already
+bypasses armor or uses the specified remote-resistance procedure. A builder must
+select the applicable form after checking the complete ability, then price it
+once. Group summary rows are navigation to actual modifiers, not extra purchases.
