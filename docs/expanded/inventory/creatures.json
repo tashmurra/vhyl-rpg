@@ -2273,6 +2273,19 @@
         "tests/expanded.py::test_animal_training_tables"
       ],
       "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
+    },
+    {
+      "id": "creature-handling-performance",
+      "source": "full-2008",
+      "pages": "B175; B212-B213",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Animal acts intended to entertain require a separate performance check in addition to handling. Preserve the two results without charging the same activity time twice.",
+      "tests": [
+        "tests/expanded.py::test_animal_performance"
+      ],
+      "validation_note": "Owned distinct performance receipt and replay authored; fixtures unrun. Audience consequences and creature behavior remain authored and are not claimed as implemented."
     }
   ],
   "exclusions": [

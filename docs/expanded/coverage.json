@@ -63,7 +63,8 @@
         "tests/expanded.py::test_animal_training_tables",
         "tests/expanded.py::test_animal_training_plans",
         "tests/expanded.py::test_animal_handling",
-        "tests/expanded.py::test_animal_handling_modifiers"
+        "tests/expanded.py::test_animal_handling_modifiers",
+        "tests/expanded.py::test_animal_performance"
       ]
     },
     {

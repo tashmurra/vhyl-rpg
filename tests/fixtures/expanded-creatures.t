@@ -17,6 +17,12 @@ animalPlan: RpgExpandedAnimalTrainingPlan animal = trainingAnimal trainer = anim
 handlingAttempt: RpgExpandedAnimalHandlingAttempt id = 'yard-command' animal = trainingAnimal handler = animalTrainer
     skill = handlingSkill appropriateSpecialty = true taskId = 'wait-at-gate' trainingEstablished = true familiar = true
     seconds = 30 approved = true available = true uninterrupted = true evidence = 'Trained task in accessible yard';
+performanceSkill: RpgLiteSkill id = 'performance' attribute = rpgIQ difficulty = 1;
+performanceTraining: RpgTraining skill = performanceSkill points = 8;
+animalPerformance: RpgExpandedAnimalPerformance handling = handlingAttempt skill = performanceSkill
+    approved = true available = true evidence = 'Entertain the yard audience during this task';
+animalOtherPerformance: RpgExpandedAnimalPerformance handling = handlingAttempt skill = performanceSkill
+    approved = true available = true evidence = 'Duplicate entertainment check';
 handlingInput: object code = 0;
 handlingClockFault: object enabled = nil;
 modify rpgLedger
@@ -30,6 +36,23 @@ class AnimalHandlingAction: Action
     exec(context)
     {
         local code = handlingInput.code;
+        if (code >= 20)
+        {
+            if (code == 20 || code == 24)
+            {
+                animalTrainer.skills = [handlingTraining,performanceTraining];
+                if (code == 24) handlingAttempt.familiar = nil;
+                handlingAttempt.apply(); return nil;
+            }
+            if (code == 25) animalPerformance.modifier = -3;
+            if (code == 26) animalPerformance.available = nil;
+            if (code == 29) animalPerformance.evidence = 'Changed act';
+            local request = code == 28 ? animalOtherPerformance : animalPerformance;
+            local value = code == 23 ? request.assess() : request.apply();
+            event('test.animal-performance'); eventValue(value.status); eventValue(value.reason); eventValue(value.score);
+            eventValue(value.succeeded ? 1 : 0); eventValue(value.handlingCheck == nil ? nil : value.handlingCheck.achieved ? 1 : 0);
+            if (code == 22) throw new RpgError(); return nil;
+        }
         if (code == 4) handlingAttempt.familiar = nil;
         if (code == 5)
         {
@@ -55,6 +78,12 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2205) { handlingInput.code = 20 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2206)
+    {
+        event('test.animal-performance-state'); eventValue(handlingAttempt.performanceReceipt == nil ? 0 : 1);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2203) { handlingInput.code = args[1]; return vhylAct(verb,args); }
     if (verb == 2204)
     {

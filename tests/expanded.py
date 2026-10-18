@@ -1448,6 +1448,42 @@ def test_animal_handling_modifiers(Session,bundle):
             s.close()
 
 
+def animal_performance_state(s):
+    s.action(2206)
+    return last(s,'test.animal-performance-state')
+
+
+def test_animal_performance(Session,bundle):
+    for setup,completion,handling_success,score,success in [(0,1,1,12,1),(4,1,0,12,1),(0,5,1,9,0)]:
+        s = Session(bundle)
+        try:
+            s.action(2205,setup)
+            initial = [0,3,30]
+            for code in [3,2]:
+                s.action(2205,code)
+                assert animal_performance_state(s) == initial
+            s.action(2205,6)
+            assert last(s,'test.animal-performance')[:2] == ['blocked','animal-performance-author-facts']
+            s.command('undo')
+            s.action(2205,completion)
+            assert last(s,'test.animal-performance') == ['resolved',None,score,success,handling_success]
+            finished = [1,6,30]
+            assert animal_performance_state(s) == finished
+            s.command('undo')
+            assert animal_performance_state(s) == initial
+            s.action(2205,completion)
+            s.action(2205,8)
+            assert last(s,'test.animal-performance')[:2] == ['blocked','animal-performance-already-resolved']
+            assert animal_performance_state(s) == finished
+            s.action(2205,9)
+            assert animal_performance_state(s) == finished
+            s.action(2205,1)
+            assert last(s,'test.animal-performance') == ['reused',None,score,success,handling_success]
+            assert animal_performance_state(s) == finished
+        finally:
+            s.close()
+
+
 def test_cinematic_advanced_concept(s):
     s.action(2126,0)
     s.action(2126,6)
@@ -7308,6 +7344,7 @@ def test(build):
     test_invention_theories(Session,invention)
     test_invention_concept_persistence(Session,invention,build.out)
     creatures = build.build('expanded-creatures',ROOT / 'tests/fixtures/expanded-creatures.t')
+    test_animal_performance(Session,creatures)
     fresh(Session,creatures,test_animal_handling)
     test_animal_handling_modifiers(Session,creatures)
     fresh(Session,creatures,test_animal_training_tables)

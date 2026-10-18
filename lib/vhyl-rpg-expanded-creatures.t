@@ -191,3 +191,66 @@ class RpgExpandedAnimalHandlingAttempt: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedAnimalHandlingAttempt
+    performanceReceipt = nil
+;
+class RpgExpandedAnimalPerformanceResult: RpgExpandedAnimalHandlingResult
+    handlingCheck = nil
+;
+
+/** Separate B175 entertainment check for an already timed handling task. */
+class RpgExpandedAnimalPerformance: object
+    handling = nil
+    skill = nil
+    modifier = 0
+    approved = nil
+    available = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition() { return [self.handling,self.skill,self.modifier,self.evidence]; }
+    context()
+    { local value = new RpgLiteContext(); value.skill = self.skill; value.modifier = self.modifier; return value; }
+    assess()
+    {
+        if (self.handling == nil || !self.handling.ofKind(RpgExpandedAnimalHandlingAttempt)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'performance')
+            rpgExpandedReject('animal-performance-definition');
+        local value = new RpgExpandedAnimalPerformanceResult();
+        if (self.handling.result == nil || self.handling.mode != 'task')
+        { value.reason = 'animal-performance-handling-required'; return value; }
+        self.handling.assess(); value.handlingCheck = self.handling.result.check;
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (self.definitionSnapshot == nil || current.length() != self.definitionSnapshot.length())
+                rpgExpandedReject('animal-performance-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('animal-performance-binding');
+            if (self.handling.performanceReceipt != self) rpgExpandedReject('animal-performance-history');
+            value.status = 'reused'; value.check = self.result.check; value.score = self.result.score;
+            value.modifier = self.result.modifier; value.succeeded = self.result.succeeded; return value;
+        }
+        if (self.handling.performanceReceipt != nil) { value.reason = 'animal-performance-already-resolved'; return value; }
+        if (!self.approved || !self.available || self.evidence == nil || self.evidence == '')
+        { value.reason = 'animal-performance-author-facts'; return value; }
+        rpgInteger(self.modifier,-1000,1000);
+        local performer = self.handling.handler;
+        if (performer.dead || performer.unconscious || performer.stunned || performer.hp() <= 0 || performer.fp() <= 0)
+        { value.reason = 'animal-performance-performer-unavailable'; return value; }
+        local context = self.context(); value.score = rpgLiteScore(performer,context); value.modifier = self.modifier;
+        if (value.score == nil) { value.reason = context.unavailableReason(performer); return value; }
+        if (value.score < 3) { value.reason = 'too-difficult'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.handling.handler,self.context());
+        if (value.check.status != 'resolved') rpgExpandedReject('animal-performance-check-changed');
+        value.succeeded = value.check.achieved;
+        self.handling.performanceReceipt = self; self.definitionSnapshot = self.definition();
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

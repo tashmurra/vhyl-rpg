@@ -116,8 +116,8 @@ set familiarity, stress and complexity facts. For `mode = 'calm'`, omit task
 fields and select the animal's wild, frightened and dangerous-history facts.
 `speciesModifier` accepts a separately sourced nonpositive modifier. These facts
 are author assertions; this interface does not infer training from intelligence
-or replace a creature's mental package. Requests marked `performance` reject until
-the separate performance check is integrated.
+or replace a creature's mental package. A handling request marked `performance` still rejects: use the separate
+performance receipt below after resolving the ordinary task check.
 
 `assess()` is pure. Execute `apply()` within an action transaction: it spends time,
 rechecks request identity and participant availability, and resolves the shared
@@ -136,3 +136,29 @@ check receipts are not counted as complete creature behavior implementation.
 modifiers, failed checks, preview, interruption rollback, undo, replay, request
 binding, participant availability and rejection of unsupported performance.
 Fixtures remain unrun. Source: `full-2008`, B175.
+
+## Animal-act performance checks
+
+`RpgExpandedAnimalPerformance` attaches the required entertainment check to a
+completed task-mode handling receipt. Set `handling`, the handler's `performance`
+skill, approval, availability and evidence. An optional authored `modifier` is
+combined with the shared skill context. A calming receipt cannot substitute for a
+trained task. The handling check need not have succeeded: both results are kept
+separately for the author to interpret.
+
+After `assess()`, execute `apply()` within an action transaction. It rolls the
+separate performance check and binds one receipt to `handling.performanceReceipt`.
+The act's elapsed time was already accounted by the handling request, so this
+check adds no time charge. A second receipt for the same act rejects; replay of
+the original receipt returns its recorded result without another roll. Changing
+the performer indirectly by retargeting the handling receipt also rejects.
+
+Results expose `handlingCheck` and the distinct performance `check`, with
+`succeeded` referring only to performance. `authorResolutionRequired` remains
+true. The API does not infer applause, payment, persuasion, animal obedience or
+another social consequence. Those outcomes remain authored; no generic callback
+is being counted as their implementation.
+
+`test_animal_performance` authors success/failure combinations, preview, rollback,
+undo, replay, unavailable acts, duplicate checks, retargeting and unchanged elapsed
+time. Fixtures remain unrun. Sources: `full-2008`, B175 and B212–B213.
