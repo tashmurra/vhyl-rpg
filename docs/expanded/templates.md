@@ -388,8 +388,8 @@ customization. Each ancestry is an approved `RpgExpandedAncestryScoreTemplate`
 with a unique `id`, explanatory `evidence`, and the ten score-change fields used
 by template options. Empty ancestry input represents the zero-cost baseline.
 Repeated ancestry IDs reject. The score-only class rejects trait and skill rows. Use `RpgExpandedAncestryTemplate`
-for supported mandatory trait rows, as described below. Ancestry skills remain
-unsupported.
+for supported mandatory traits and ancestry-learned skill rows, as described
+below.
 
 Ancestry deltas add together. The factory adds the basic-attribute deltas first;
 secondary scores derive from those totals, with personal and ancestry secondary
@@ -474,8 +474,8 @@ Overlapping personal and ancestry traits currently reject under ordinary trait
 validation. Supported ancestry-to-ancestry stacking is described below. Personal
 improvements still need further origin-aware composition; they are not silently
 merged or repriced. Only the trait row factories already
-supported by the installed modules are available. Ancestry skills, modifiers,
-full catalogue packages and transformations remain incomplete.
+supported by the installed modules are available. Ancestry skill bonuses, modifiers, full catalogue packages and transformations
+remain incomplete.
 
 Sources: `full-2008`, B261-B262 and B452. `test_ancestry_traits` specifies rated
 concrete behavior, costs and exemptions, five personal quirks plus an ancestry
@@ -609,3 +609,38 @@ Source: `full-2008`, B262. `test_ancestry_omissions` specifies both price signs,
 the personal negative-cap boundary, required approval and target identity,
 accounting ownership, unchanged prior characters, restoration rejection before
 spending, undo and save continuation. These assertions are authored but unrun.
+
+## Ancestry-learned skills
+
+`RpgExpandedAncestryTemplate.skillRows` accepts `[skill definition, points]`
+rows for ordinary ancestry-learned skills (B453). The score-only ancestry class
+continues to reject skill rows. Use the same shared skill definition for ancestry
+and personal training in the same skill and specialty.
+
+The factory adds the ancestry investment to the character's one training slot.
+If personal training already exists, its points and the ancestry points combine;
+otherwise a fresh owned slot is created. The character pays the combined points
+once, and the skill level uses the final attribute score after ancestry modifiers.
+This is training, not an extra skill-level bonus. For ancestry DX +4 and HT −1,
+Flight/Average at two points scores 9 and Stealth/Average at four points scores 15
+on an otherwise baseline character.
+
+The receipt's `trainings` rows store `[training, skill, ancestry points, ancestry
+ID]`. Validation requires the same owned slot and skill, with points at least equal
+to the mandatory ancestry investment. Personal improvements can increase those
+points through ordinary learning, study or advancement; the ancestry minimum
+stays fixed. Improving the two-point Average skill to four points costs two more
+points, with no separate ancestry charge.
+
+Repeated ancestry training for one skill, including overlap between different
+ancestries, currently rejects as `ancestry-training-overlap-unresolved`. Paid
+skill-default combinations reject as `ancestry-training-default-unresolved`.
+These require further composition rules. Prerequisites and technology gates
+still apply; this interface does not grant the special prerequisite exemption
+for ancestry-innate spells. Ancestry skill bonuses and penalties are separate
+rules and remain unfinished.
+
+`test_ancestry_training` specifies the printed example, changed personal
+attributes, combined personal investment, ordinary improvements, mandatory and
+shared-slot rejection, overlap rejection, undo and cross-process save continuation.
+The assertions remain unrun while checks are paused.

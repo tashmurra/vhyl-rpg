@@ -413,9 +413,12 @@
       "pages": "B453",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Price innate training by ordinary skill investment, display its relative level against ancestry-average attributes, and resolve actual level using each individual's attributes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_training"
+      ],
+      "validation_note": "Ancestry-learned investments combine with personal points in one owned training slot, use final attributes, and preserve a mandatory ancestry minimum during ordinary improvements. Repeated ancestry training, paid defaults and innate-spell exceptions remain unsupported. Printed-example, advancement and persistence assertions authored, unrun."
     },
     {
       "id": "ancestry-learned-skill-improvement",
@@ -423,9 +426,12 @@
       "pages": "B453",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Treat innate and later personal training as one investment history; improving an average innate skill from attribute to attribute+1 costs two additional points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_ancestry_training"
+      ],
+      "validation_note": "Ancestry-learned investments combine with personal points in one owned training slot, use final attributes, and preserve a mandatory ancestry minimum during ordinary improvements. Repeated ancestry training, paid defaults and innate-spell exceptions remain unsupported. Printed-example, advancement and persistence assertions authored, unrun."
     },
     {
       "id": "ancestry-mana-sensitive-traits",

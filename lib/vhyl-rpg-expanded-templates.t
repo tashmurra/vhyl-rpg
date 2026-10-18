@@ -515,6 +515,7 @@ modify RpgExpandedProfile
 /** Ancestry score modifiers only; traits and skills require their own origin rules. */
 class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
     supportsTraits = nil
+    supportsSkills = nil
     tabooTraitIds = []
     tabooSkills = []
     tabooAttributeRanges = []
@@ -525,7 +526,7 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
     validate()
     {
         if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == ''
-            || !self.eligible || self.skillRows.length() != 0 || !self.supportsTraits && self.traitRows.length() != 0)
+            || !self.eligible || !self.supportsSkills && self.skillRows.length() != 0 || !self.supportsTraits && self.traitRows.length() != 0)
             rpgExpandedReject('ancestry-score-definition');
         foreach (local feature in self.cosmeticFeatures)
             if (feature == nil || feature == '') rpgExpandedReject('ancestry-feature-definition');
@@ -536,6 +537,7 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
 /** Supported mandatory trait purchases plus ancestry score modifiers. */
 class RpgExpandedAncestryTemplate: RpgExpandedAncestryScoreTemplate
     supportsTraits = true
+    supportsSkills = true
 ;
 
 /** Author-approved complete omission; partial or modified replacements are separate. */
@@ -584,6 +586,8 @@ class RpgExpandedAncestryScores: object
     omissions = []
     boundOmissions = []
     omissionAccounting = nil
+    trainings = []
+    boundTrainings = []
     omit(profile, requests)
     {
         local ids = [];
@@ -635,6 +639,19 @@ class RpgExpandedAncestryScores: object
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.trainings.length() != self.boundTrainings.length()) rpgExpandedReject('ancestry-training-binding');
+        for (local i = 1; i <= self.trainings.length(); i += 1)
+        {
+            local entry = self.trainings[i]; local training = entry[1]; local count = 0;
+            if (entry != self.boundTrainings[i] || training.skill != entry[2] || training.points < entry[3])
+                rpgExpandedReject('ancestry-training-binding');
+            foreach (local slot in profile.skills) if (slot == training) count += 1;
+            if (count != 1) rpgExpandedReject('ancestry-training-mandatory');
+            if (training.ofKind(RpgExpandedTraining) && training.defaultFrom != nil)
+                rpgExpandedReject('ancestry-training-default-unresolved');
+            local reason = profile.trainingPurchaseReason(training.skill,training);
+            if (reason != nil) rpgExpandedReject(reason);
+        }
         if (self.omissions.length() != self.boundOmissions.length()) rpgExpandedReject('ancestry-omission-binding');
         for (local i = 1; i <= self.omissions.length(); i += 1)
         {
@@ -959,6 +976,26 @@ rpgExpandedCreateCustomizedAncestryCharacter(personal, ancestries, resolutions, 
                 receipt.traitOrigins = updated;
             }
         }
+    foreach (local ancestry in ancestries)
+        foreach (local row in ancestry.skillRows)
+        {
+            if (row.length() != 2 || row[1] == nil || !row[1].ofKind(RpgSkill))
+                rpgExpandedReject('ancestry-training-definition');
+            rpgInteger(row[2],1,10000);
+            foreach (local entry in receipt.trainings)
+                if (entry[2] == row[1]) rpgExpandedReject('ancestry-training-overlap-unresolved');
+            local training = rpgExpandedTrainingFor(p,row[1]);
+            if (training == nil)
+            {
+                training = new RpgExpandedTraining(); training.skill = row[1]; training.points = 0;
+                p.skills = p.skills + [training];
+            }
+            if (training.ofKind(RpgExpandedTraining) && training.defaultFrom != nil)
+                rpgExpandedReject('ancestry-training-default-unresolved');
+            rpgInteger(training.points,0,10000 - row[2]); training.points += row[2];
+            receipt.trainings = receipt.trainings + [[training,row[1],row[2],ancestry.id]];
+        }
+    receipt.boundTrainings = receipt.trainings;
     receipt.omit(p,omissions);
     for (local i = 1; i <= receipt.traits.length(); i += 1)
         receipt.boundTraits = receipt.boundTraits + [receipt.traitDefinition(receipt.traits[i],receipt.traitOrigins[i])];

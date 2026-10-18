@@ -9124,6 +9124,8 @@ def test(build):
     test_ancestry_features(Session, ancestry_features, build.out)
     ancestry_omissions = build.build('expanded-ancestry-omissions',ROOT / 'tests/fixtures/expanded-ancestry-omissions.t')
     test_ancestry_omissions(Session, ancestry_omissions, build.out)
+    ancestry_training = build.build('expanded-ancestry-training',ROOT / 'tests/fixtures/expanded-ancestry-training.t')
+    test_ancestry_training(Session, ancestry_training, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18167,5 +18169,55 @@ def test_ancestry_omissions(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.ancestry-omission') == positive
         assert last(s, 'test.ancestry-restoration') == ['ancestry-omission-restoration-required', 100, 0]
+    finally:
+        s.close()
+
+
+def test_ancestry_training(Session, bundle, out):
+    path = out / 'expanded-ancestry-training.zsave'
+    base = [76, 2, 4, 9, 15, 2, 2, 0, 0]
+    improved = [78, 4, 4, 10, 15, 2, 2, 0, 0]
+    for mutation, reason in ((6504, 'ancestry-training-binding'), (6505, 'ancestry-training-mandatory'),
+                             (6506, 'training-purchase-shared'), (6507, 'ancestry-training-default-unresolved')):
+        s = Session(bundle)
+        try:
+            for code in (6500, mutation, 5907):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-score-error') == [reason]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6501, 6503):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-training') == [138, 4, 4, 12, 17, 2, 2, 0, 0]
+        s.action(2285, 6508)
+        assert last(s, 'test.ancestry-training-error') == ['ancestry-training-overlap-unresolved']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (6500, 6503):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-training') == base
+        s.action(2285, 6502)
+        assert last(s, 'test.ancestry-training-learn') == [1, 98]
+        s.command('undo')
+        s.action(2285, 6503)
+        assert last(s, 'test.ancestry-training') == base
+        for code in (6502, 6502, 6503):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-training-learn') == [0, 98]
+        assert last(s, 'test.ancestry-training') == improved
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6503, 6502):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-training') == improved
+        assert last(s, 'test.ancestry-training-learn') == [0, 98]
     finally:
         s.close()

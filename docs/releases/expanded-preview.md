@@ -1333,3 +1333,9 @@ an opposite personal adjustment, with correct personal disadvantage accounting.
 The omitted effect is absent, and ordinary restoration is blocked until its
 accounting can be updated explicitly. Partial/modified omissions and restoration
 remain unfinished. Pricing, rejection, undo and save fixtures are unrun.
+
+Ancestry-learned skills now share ordinary owned training slots and advancement,
+with a recorded mandatory ancestry investment. Personal points combine once and
+levels use final attributes. Cross-ancestry training overlap, paid defaults and
+innate-spell exceptions remain unsupported. Printed-example, ownership, undo and
+save fixtures are authored but unrun.
