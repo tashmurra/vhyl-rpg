@@ -524,6 +524,7 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
     tabooSkills = []
     tabooAttributeRanges = []
     cosmeticFeatures = []
+    nativePressureHundredths = nil
     skillBonusRows = []
     incompetentSkillIds = []
     incompetenceEvidence = nil
@@ -535,6 +536,7 @@ class RpgExpandedAncestryScoreTemplate: RpgExpandedTemplateOption
         if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == ''
             || !self.eligible || !self.supportsSkills && self.skillRows.length() != 0 || !self.supportsTraits && self.traitRows.length() != 0)
             rpgExpandedReject('ancestry-score-definition');
+        if (self.nativePressureHundredths != nil) rpgInteger(self.nativePressureHundredths,1,100000);
         foreach (local feature in self.cosmeticFeatures)
             if (feature == nil || feature == '') rpgExpandedReject('ancestry-feature-definition');
         self.changes(); return nil;
@@ -628,6 +630,10 @@ class RpgExpandedAncestryScores: object
     boundConstraints = []
     features = []
     boundFeatures = []
+    nativePressure = nil
+    boundNativePressure = nil
+    pressureOrigins = []
+    boundPressureOrigins = []
     omissions = []
     boundOmissions = []
     omissionAccounting = nil
@@ -688,6 +694,9 @@ class RpgExpandedAncestryScores: object
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.nativePressure != self.boundNativePressure || self.pressureOrigins != self.boundPressureOrigins
+            || self.nativePressure != nil && profile.nativePressureHundredths != self.nativePressure)
+            rpgExpandedReject('ancestry-native-pressure-binding');
         if (self.boundIncompetenceRows.length() != 0)
         {
             local count = 0;
@@ -1048,6 +1057,13 @@ rpgExpandedCreateCustomizedAncestryCharacter(personal, ancestries, resolutions, 
     receipt.changes = changes; receipt.boundChanges = changes; p.ancestryScores = receipt;
     foreach (local ancestry in ancestries)
     {
+        if (ancestry.nativePressureHundredths != nil)
+        {
+            if (receipt.nativePressure != nil && receipt.nativePressure != ancestry.nativePressureHundredths)
+                rpgExpandedReject('ancestry-native-pressure-conflict');
+            receipt.nativePressure = ancestry.nativePressureHundredths;
+            receipt.pressureOrigins = receipt.pressureOrigins + [ancestry.id];
+        }
         foreach (local feature in ancestry.cosmeticFeatures) receipt.features = receipt.features + [[ancestry.id,feature]];
         if (ancestry.tabooTraitIds.length() != 0 || ancestry.tabooSkills.length() != 0
             || ancestry.tabooAttributeRanges.length() != 0)
@@ -1061,6 +1077,8 @@ rpgExpandedCreateCustomizedAncestryCharacter(personal, ancestries, resolutions, 
         }
     }
     receipt.boundFeatures = receipt.features;
+    receipt.boundNativePressure = receipt.nativePressure; receipt.boundPressureOrigins = receipt.pressureOrigins;
+    if (receipt.nativePressure != nil) p.nativePressureHundredths = receipt.nativePressure;
     foreach (local ancestry in ancestries)
         foreach (local row in ancestry.traitRows)
         {

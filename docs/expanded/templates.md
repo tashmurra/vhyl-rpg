@@ -728,10 +728,20 @@ fresh profiles, including templates resolved through choices. Occupational
 composition requires matching native pressures and rejects
 `template-native-pressure-conflict` otherwise; it does not choose the larger
 value as though it were an attribute bonus. The personal template's feature also
-survives subsequent ancestry application. Ancestry-defined pressure overrides
-remain unsupported. Active pressure exposures bind their native-pressure basis,
+survives subsequent ancestry application. An ancestry package can supply a mandatory override as described below. Active pressure exposures bind their native-pressure basis,
 so changing the profile feature is not an exposure-transition operation.
 
 The foundation validates the supported integer range 1–100,000. Feature accounting,
 choice propagation, conflict, undo and saved-continuation fixtures are authored
 but unrun while checks are paused.
+
+An ancestry template may set `nativePressureHundredths` (default `nil`, meaning
+unspecified). A declared ancestry value replaces the personal template's value as
+a mandatory zero-point feature. Multiple declaring ancestries must agree; otherwise
+creation rejects `ancestry-native-pressure-conflict`. The receipt records the
+value and every declaring ancestry ID in `nativePressure` and `pressureOrigins`.
+Profile and receipt mutations reject on validation. Editing a source template
+later affects only future characters. Omitting or transforming this mandatory
+feature needs a separate authored replacement procedure; direct mutation is not
+supported. Binding, source-isolation, conflict, undo and save fixtures are authored
+but unrun.

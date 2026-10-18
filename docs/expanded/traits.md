@@ -1214,5 +1214,6 @@ thresholds and decompression risk. It does not grant armor against localized
 crushing, explosions, vacuum protection, sealing or breathable air. Nonstandard
 `profile.nativePressureHundredths` is a zero-point authored feature (default 100).
 Character templates preserve this feature and reject conflicting compositions.
-Ancestry pressure overrides and changing-pressure procedures remain pending. Tier, mitigation, purchase-copy and exposure-binding fixtures are
+Ancestry packages also support a mandatory bound native-pressure feature;
+changing-pressure procedures remain pending. Tier, mitigation, purchase-copy and exposure-binding fixtures are
 authored but unrun.

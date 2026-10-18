@@ -75,9 +75,10 @@
       "acceptance": "Pressure adaptation tier 1 costs 5, tolerating ten times native pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
       "tests": [
         "tests/expanded.py::test_pressure_support",
-        "tests/expanded.py::test_native_pressure_template"
+        "tests/expanded.py::test_native_pressure_template",
+        "tests/expanded.py::test_ancestry_pressure"
       ],
-      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Character templates now preserve native pressure through ordinary/choice creation; occupational composition rejects conflicting native pressures at zero point cost. Lifecycle assertions authored, unrun. Ancestry-specific overrides remain pending."
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Character templates now preserve native pressure through ordinary/choice creation; occupational composition rejects conflicting native pressures at zero point cost. Lifecycle assertions authored, unrun. Ancestry-specific overrides remain pending. Ancestry templates now declare mandatory native pressure, bind zero-cost feature provenance and reject conflicting packages or subsequent profile/receipt mutations. Source-isolation and lifecycle fixtures authored, unrun."
     },
     {
       "id": "traits-j-pressure-2",
@@ -89,9 +90,10 @@
       "acceptance": "Pressure adaptation tier 2 costs 10, tolerating one hundred times native pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
       "tests": [
         "tests/expanded.py::test_pressure_support",
-        "tests/expanded.py::test_native_pressure_template"
+        "tests/expanded.py::test_native_pressure_template",
+        "tests/expanded.py::test_ancestry_pressure"
       ],
-      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Character templates now preserve native pressure through ordinary/choice creation; occupational composition rejects conflicting native pressures at zero point cost. Lifecycle assertions authored, unrun. Ancestry-specific overrides remain pending."
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Character templates now preserve native pressure through ordinary/choice creation; occupational composition rejects conflicting native pressures at zero point cost. Lifecycle assertions authored, unrun. Ancestry-specific overrides remain pending. Ancestry templates now declare mandatory native pressure, bind zero-cost feature provenance and reject conflicting packages or subsequent profile/receipt mutations. Source-isolation and lifecycle fixtures authored, unrun."
     },
     {
       "id": "traits-j-pressure-3",
@@ -103,9 +105,10 @@
       "acceptance": "Pressure adaptation tier 3 costs 15, tolerating arbitrarily high pressure. Nonstandard native pressure is a zero-point feature. Lower-than-native pressure and vacuum remain separately handled.",
       "tests": [
         "tests/expanded.py::test_pressure_support",
-        "tests/expanded.py::test_native_pressure_template"
+        "tests/expanded.py::test_native_pressure_template",
+        "tests/expanded.py::test_ancestry_pressure"
       ],
-      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Character templates now preserve native pressure through ordinary/choice creation; occupational composition rejects conflicting native pressures at zero point cost. Lifecycle assertions authored, unrun. Ancestry-specific overrides remain pending."
+      "validation_note": " Fixed-cost approved pressure-support purchases and template copying now feed exposure protection. Nonstandard native pressure is an authored zero-cost profile feature. Effective protection/native-pressure changes reject during a bound interval. Local crushing/explosions receive no armor bonus. Changing-pressure transitions and native-pressure template configuration remain pending; fixtures authored, unrun. Character templates now preserve native pressure through ordinary/choice creation; occupational composition rejects conflicting native pressures at zero point cost. Lifecycle assertions authored, unrun. Ancestry-specific overrides remain pending. Ancestry templates now declare mandatory native pressure, bind zero-cost feature provenance and reject conflicting packages or subsequent profile/receipt mutations. Source-isolation and lifecycle fixtures authored, unrun."
     },
     {
       "id": "traits-j-pressure-scope",

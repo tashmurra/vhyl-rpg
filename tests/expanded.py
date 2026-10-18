@@ -9148,6 +9148,8 @@ def test(build):
     test_pressure_support(Session, pressure_support)
     native_pressure_template = build.build('expanded-native-pressure-template',ROOT / 'tests/fixtures/expanded-native-pressure-template.t')
     test_native_pressure_template(Session, native_pressure_template, build.out)
+    ancestry_pressure = build.build('expanded-ancestry-pressure',ROOT / 'tests/fixtures/expanded-ancestry-pressure.t')
+    test_ancestry_pressure(Session, ancestry_pressure, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18986,5 +18988,41 @@ def test_native_pressure_template(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 8204)
         assert last(s, 'test.native-pressure-template') == [200, 0, 0, 0]
+    finally:
+        s.close()
+
+
+def test_ancestry_pressure(Session, bundle, out):
+    path = out / 'expanded-ancestry-pressure.zsave'
+    for mutation in (8303, 8304):
+        s = Session(bundle)
+        try:
+            for code in (8300, mutation, 8305):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-pressure-error') == ['ancestry-native-pressure-binding']
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 8302)
+        assert last(s, 'test.ancestry-pressure-error') == ['ancestry-native-pressure-conflict']
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (8300, 8303):
+            s.action(2285, code)
+        s.command('undo')
+        for code in (8306, 8301):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-pressure') == [200, 0, 2, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 8301)
+        assert last(s, 'test.ancestry-pressure') == [200, 0, 2, 0, 0]
     finally:
         s.close()

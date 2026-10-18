@@ -1440,3 +1440,8 @@ mitigation and mutation-boundary fixtures are authored but unrun.
 Character templates now preserve zero-point native pressure through ordinary and
 choice-based creation; composition rejects conflicting values. Feature accounting,
 conflict, undo and saved-continuation fixtures are authored but unrun.
+
+Ancestry packages now support mandatory zero-point native pressure with bound
+provenance, agreement checks across packages and isolation from later source
+edits. Conflict, binding, undo and saved-continuation fixtures are authored but
+unrun.
