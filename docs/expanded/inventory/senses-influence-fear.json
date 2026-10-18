@@ -31,9 +31,10 @@
       "tests": [
         "tests/expanded.py::test_vision",
         "tests/expanded.py::test_terrain_observation",
-        "tests/expanded.py::test_sense_comprehension"
+        "tests/expanded.py::test_sense_comprehension",
+        "tests/expanded.py::test_comprehension_actions"
       ],
-      "validation_note": "Owned comprehension follows successful observation by the same profile, using IQ for ordinary interpretation, an approved skill for expertise, or hearing plus existing language proficiency for speech. Shared time, health permission and bound replay outcomes implemented. Danger warnings, specialized context adapters, automatic disclosure and player actions remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned comprehension follows successful observation by the same profile using ordinary IQ, an approved expert skill, or hearing with language proficiency. Shared health permission, time and bound replay outcomes are implemented, with owner-authorized parser, structured and dialogue action routes. Ordinary danger warnings have a separate receipt. Specialized context adapters and automatic disclosure remain pending. Fixtures authored, unrun."
     },
     {
       "id": "senses-danger-warning",

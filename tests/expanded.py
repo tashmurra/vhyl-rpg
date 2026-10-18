@@ -9524,6 +9524,8 @@ def test(build):
     test_sense_actions(Session,sense_actions)
     sense_comprehension = build.build('expanded-sense-comprehension',ROOT / 'tests/fixtures/expanded-sense-comprehension.t')
     test_sense_comprehension(Session,sense_comprehension,build.out)
+    comprehension_actions = build.build('expanded-comprehension-actions',ROOT / 'tests/fixtures/expanded-comprehension-actions.t')
+    test_comprehension_actions(Session,comprehension_actions)
     danger_warning = build.build('expanded-danger-warning',ROOT / 'tests/fixtures/expanded-danger-warning.t')
     test_danger_warning(Session,danger_warning,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
@@ -26680,3 +26682,44 @@ def test_danger_warning(Session, bundle, out):
         assert state(s) == [1,detail,1,9,2]
     finally:
         s.close()
+
+
+def test_comprehension_actions(Session, bundle):
+    """Interpretation ownership, private events and three native routes; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(s,operation):
+            if route == 'parser':
+                s.command({'preview':'assess comprehension','resolve':'resolve comprehension','rollback':'rollback comprehension'}[operation])
+            elif route == 'structured':
+                s.action({'preview':27810,'resolve':27811,'rollback':27812}[operation])
+            else:
+                s.action(80,'sensory-observation'); s.select(operation)
+        def state(s):
+            s.action(1680,27603)
+            return last(s,'test.comprehension-state')
+        s = Session(bundle)
+        try:
+            perform(s,'resolve')
+            assert last(s,'rpg.expanded.comprehension') == ['resolve','blocked','sense-comprehension-not-observed']
+            assert state(s) == [0,None,0,0]
+            s.action(1680,27400)
+            perform(s,'preview')
+            assert last(s,'rpg.expanded.comprehension') == ['preview','ready',None]
+            assert state(s) == [0,None,3,0]
+            perform(s,'rollback'); assert state(s) == [0,None,3,0]
+            perform(s,'resolve'); s.command('undo'); assert state(s) == [0,None,3,0]
+            perform(s,'resolve'); perform(s,'resolve')
+            assert last(s,'rpg.expanded.comprehension') == ['resolve','resolved',None]
+            assert state(s) == [1,'The call warns of a blocked crossing',6,2]
+        finally:
+            s.close()
+        for outsider in (27801,27802):
+            s = Session(bundle)
+            try:
+                s.action(1680,27400); s.action(1680,outsider)
+                for operation in ('preview','resolve'):
+                    perform(s,operation)
+                    assert last(s,'rpg.expanded.comprehension') == [operation,'blocked','comprehension-action-owner-required']
+                    assert state(s) == [0,None,3,0]
+            finally:
+                s.close()

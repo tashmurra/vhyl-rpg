@@ -2209,8 +2209,8 @@ new observation or automatic disclosure is produced.
 
 `test_sense_comprehension` specifies hearing/vision prerequisites, ordinary and
 expert scores, language proficiency, wrong observers, health denial, failure,
-rollback, undo and saved continuation. Fixtures remain unrun. Special-sense interpretation, domain-specific context
-adapters and shared player actions for comprehension remain pending. Ordinary
+rollback, undo and saved continuation. Fixtures remain unrun. Special-sense interpretation and domain-specific context
+adapters remain pending. Ordinary
 danger-warning follow-up is described below.
 
 ## Ordinary danger-warning follow-up
@@ -2241,3 +2241,21 @@ successful and failed results without another check.
 failed-detection and comprehension triggers, public-result secrecy, rollback,
 undo and save continuation. Fixtures remain unrun. Automatic orchestration,
 psychic/foresight integration and controlled disclosure remain pending.
+
+
+## Shared comprehension actions
+
+Bind `RpgExpandedSenseComprehensionAction.comprehension` to an owned
+`RpgExpandedSenseComprehension`. Set `operation` to `preview` or `resolve`.
+Parser and structured commands use `exec(context)`; dialogue choices call
+`perform(context.asker)`. The acting character must own the comprehension
+profile. All routes use the same assessment, health gate, time charge and
+retained outcome; no extra check is made by the action.
+
+The `rpg.expanded.comprehension` event contains only operation, status and reason.
+It does not reveal the interpretation, target, score or die roll. Authors can
+use the returned result to disclose a successful meaning to the intended
+recipient. The adapter does not infer recipients or automatically broadcast
+private knowledge. `test_comprehension_actions` specifies all three routes,
+ownership rejection, preview purity, missing observation, rollback, undo and
+repeat execution. These fixtures remain unrun while checks are paused.

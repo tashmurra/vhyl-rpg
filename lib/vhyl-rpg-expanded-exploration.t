@@ -4618,3 +4618,21 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** Shared comprehension entry point; authored meaning is never broadcast here. */
+class RpgExpandedSenseComprehensionAction: Action
+    comprehension = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.comprehension == nil || !self.comprehension.ofKind(RpgExpandedSenseComprehension)
+            || !holds(['preview','resolve'],self.operation)) rpgExpandedReject('comprehension-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.comprehension.profile)
+            value.reason = 'comprehension-action-owner-required';
+        else value = self.operation == 'preview' ? self.comprehension.assess() : self.comprehension.resolve();
+        event('rpg.expanded.comprehension'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;
