@@ -2681,7 +2681,7 @@ class RpgExpandedTerrainSearchContext: RpgExpandedSkillContext
     }
 ;
 
-/** B226 fixed tracking catalogue definition and purchased natural-history default. */
+/** B226 fixed tracking catalogue definition and purchased naturalist default. */
 class RpgExpandedTrackingSkill: RpgExpandedSkill
     id = 'tracking'
     attribute = rpgPerception
@@ -2701,9 +2701,11 @@ class RpgExpandedTrackingSkill: RpgExpandedSkill
         foreach (local training in profile.skills)
         {
             local source = training.skill;
-            if (training.points > 0 && source != self && source.ofKind(RpgExpandedSkill)
-                && source.id == 'natural-history' && source.techLevel == nil && source.optionalParent == nil)
+            if (training.points > 0 && source != self && source.ofKind(RpgExpandedNaturalistSkill))
+            {
+                source.validateDefinition();
                 edges = edges + [[source,-5]];
+            }
         }
         return edges;
     }

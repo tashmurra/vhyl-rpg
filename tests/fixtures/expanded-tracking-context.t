@@ -2,7 +2,9 @@
 trackingCatalogue: RpgExpandedTrackingSkill;
 trackingContextFixture: RpgExpandedTrackingContext skill = trackingCatalogue terrain = 'woodland' trailAvailable = true approved = true
     evidence = 'Ordinary unconcealed tracks remain accessible in this terrain';
-naturalHistoryFixture: RpgExpandedSkill id = 'natural-history' attribute = rpgIQ difficulty = 2 defaultPenalty = -6;
+naturalHistoryFixture: RpgExpandedNaturalistSkill planet = 'home' planetType = 'habitable' specialty = 'home';
+unrelatedNatureFixture: RpgExpandedSkill id = 'natural-history' attribute = rpgIQ difficulty = 2 defaultPenalty = -6;
+unrelatedNatureTraining: RpgExpandedTraining skill = unrelatedNatureFixture points = 24;
 naturalHistoryTraining: RpgExpandedTraining skill = naturalHistoryFixture points = 24;
 modify PhysicianFixtureAction
     exec(context)
@@ -29,6 +31,9 @@ modify PhysicianFixtureAction
         if (code >= 28420 && code <= 28428)
         { local terrains = ['jungle','plains','woodland','arctic','desert','coast','mountain','swamp','urban'];
           trackingContextFixture.terrain = terrains[code-28419]; return nil; }
+        if (code == 28415) { crossPhysician.skills = [unrelatedNatureTraining]; return nil; }
+        if (code == 28416) { naturalHistoryTraining.points = 0; return nil; }
+        if (code == 28417) { naturalHistoryFixture.planetType = nil; rpgLiteScore(crossPhysician,trackingContextFixture); return nil; }
         return inherited(context);
     }
 ;

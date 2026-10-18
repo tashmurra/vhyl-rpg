@@ -1312,7 +1312,9 @@ coverage for Prospecting and societal default eligibility remain pending.
 
 `RpgExpandedTrackingSkill` supplies the Perception/Average tracking definition
 (full-2008 B226), defaulting to Perception minus five or a purchased
-`natural-history` skill minus five. It rejects custom specialties, technology
+`RpgExpandedNaturalistSkill` (`naturalist`) minus five. The default uses the
+existing validated planetary skill definition; an arbitrary skill with a similar
+name does not grant it. Uninvested sources do not create default chains. It rejects custom specialties, technology
 levels, wildcard forms and replacement default definitions.
 
 `RpgExpandedTrackingContext` requires this skill, `terrain`, `trailAvailable`,
