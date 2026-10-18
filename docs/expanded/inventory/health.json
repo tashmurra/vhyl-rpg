@@ -956,6 +956,9 @@
         "tests/expanded.py::test_resuscitation_assessment",
         "tests/expanded.py::test_cardiac_resuscitation",
         "tests/expanded.py::test_cardiac_transactions",
+        "tests/expanded.py::test_cardiac_clock",
+        "tests/expanded.py::test_cardiac_clock_revival",
+        "tests/expanded.py::test_cardiac_clock_persistence",
         "tests/expanded.py::test_cardiac_persistence"
       ],
       "validation_note": "Pure procedure assessment and owned uninterrupted cardiac attempts authored. Expected-value, transaction, undo and save-continuation fixtures remain unrun. Drowning/asphyxiation revival, interrupted care and broad deadline scheduling remain incomplete."

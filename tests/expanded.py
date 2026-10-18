@@ -1173,6 +1173,74 @@ def cardiac_state(s):
     return last(s, 'test.cardiac-state')
 
 
+def test_cardiac_clock(s):
+    s.action(1930, 13)
+    s.action(1930, 14)
+    before = cardiac_state(s)
+    assert before == [20,2,1,0,0,0,0,199,1,1]
+    for code in [16,19]:
+        s.action(1930, code)
+        assert cardiac_state(s) == before
+    s.action(1930, 15)
+    assert cardiac_state(s) == [20,20,0,0,0,1,0,200,1,1]
+    s.action(1932)
+    assert last(s, 'test.cardiac-clock') == [1,1,200,18]
+    s.command('undo')
+    assert cardiac_state(s) == before
+    s.action(1930, 18)
+    s.action(1930, 17)
+    expired = cardiac_state(s)
+    assert expired == [20,20,0,0,0,1,0,400,1,1]
+    for code in [6,9]:
+        s.action(1930, code)
+        assert cardiac_state(s) == expired
+    s.action(1932)
+    assert last(s, 'test.cardiac-clock') == [1,1,200,18]
+
+
+def test_cardiac_clock_immunity(s):
+    for code in [20,13,17,9]:
+        s.action(1930, code)
+    assert cardiac_state(s) == [3,2,0,0,0,0,0,201,1,0]
+    s.action(1932)
+    assert last(s, 'test.cardiac-clock') == [0,0,0,0]
+
+
+def test_cardiac_clock_revival(s):
+    s.action(1930, 13)
+    s.action(1930, 2)
+    s.action(1930, 17)
+    assert cardiac_state(s) == [20,10,0,1,1,0,3,261,1,1]
+    s.action(1932)
+    assert last(s, 'test.cardiac-clock') == [1,1,60,0]
+    s.action(1930, 9)
+
+
+def test_cardiac_clock_persistence(Session, bundle, out):
+    for expired in [False,True]:
+        path = out / f'expanded-cardiac-clock-{int(expired)}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(1930, 13); first.action(1930, 14)
+            if expired:
+                first.action(1930, 15)
+            saved = cardiac_state(first)
+            first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@1931')
+            assert cardiac_state(second) == saved
+            second.action(1930, 15)
+            second.action(1930, 6); second.action(1930, 9)
+            assert cardiac_state(second) == [20,20,0,0,0,1,0,201 if expired else 200,1,1]
+            second.action(1932)
+            assert last(second, 'test.cardiac-clock') == [1,1,200,18]
+        finally:
+            second.close()
+
+
 def test_cardiac_transactions(s):
     initial = cardiac_state(s)
     assert initial == [3,2,0,0,0,0,0,0,0,0]
@@ -4409,6 +4477,10 @@ def test(build):
     test_effort_persistence(Session,effort_transactions,build.out)
     cardiac_transactions = build.build('expanded-cardiac-transactions',ROOT / 'tests/fixtures/expanded-cardiac-transactions.t')
     fresh(Session,cardiac_transactions,test_cardiac_transactions)
+    fresh(Session,cardiac_transactions,test_cardiac_clock)
+    fresh(Session,cardiac_transactions,test_cardiac_clock_revival)
+    fresh(Session,cardiac_transactions,test_cardiac_clock_immunity)
+    test_cardiac_clock_persistence(Session,cardiac_transactions,build.out)
     fresh(Session,cardiac_transactions,test_cardiac_deadline_transactions)
     test_cardiac_persistence(Session,cardiac_transactions,build.out)
     fresh(Session,hazards,test_airless_duration)

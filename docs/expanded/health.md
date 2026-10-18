@@ -946,7 +946,8 @@ without an attack damage roll.
 `test_cardiac_condition` records duration, fatigue assignment without overflow,
 repeated onset, early expiry, exact expiry, preserved recovery restrictions,
 immunities and both health-floor formulas. Fixtures remain unrun while checks are
-paused. Interrupted care and automatic deadline dispatch remain outstanding; the
+paused. Interrupted care remains outstanding; opt-in deadline dispatch is described
+below. The
 transaction and continuation fixtures below are authored but unrun.
 
 
@@ -1205,3 +1206,36 @@ through a committed failed effort, records the absence of Dodge, Block and Parry
 then records the return of Dodge after recovery, with no extra random draws.
 The fixture is authored but unrun. This guard does not yet replace the legacy
 consciousness/effort checks for a defense attempted during Do Nothing.
+
+
+## Cardiac deadlines on the shared clock
+
+Set `rules.automaticCardiacDeadlines = true` before starting an owned cardiac
+condition to register it with `rpgExpandedCardiacClock`. This choice is captured
+at onset: changing the campaign option later does not cancel a registered case.
+Immune onsets are not registered. Existing cases created with the option disabled
+continue to require an explicit `expire()` call.
+
+`rpgSpendTime` now calls the default-inert `rpgLedger.validateAdvance(seconds)`
+and `afterAdvance(previousSeconds)` hooks. Expanded health preflights registered
+case ownership, deadline identity and due injury consequences before the clock
+changes. After the single shared time charge, due untreated cases commit their
+existing expiry operation. An advance that crosses the deadline records `endedAt`
+at the deadline, even when the shared clock ends later. Repeated advances do not
+repeat injury; successful resuscitation prevents the scheduled expiry. No random
+numbers are consumed by deadline dispatch.
+
+Use these operations inside an engine action transaction. The clock, registration,
+condition and receipt then share rollback, undo and the exact-game save policy.
+Writing directly to `rpgLedger.seconds` bypasses the hooks and is unsupported for
+scheduled cases. Death from another cause while a cardiac case remains active is
+explicitly rejected at its due boundary pending a separate termination contract.
+This scheduler handles cardiac deadlines only: it does not simulate intervening
+care choices, exposure ticks or arbitrary world events during a long time advance.
+
+`test_cardiac_clock` records the exact boundary, crossing it in a larger advance,
+exception rollback, undo, changed-case rejection, captured scheduling policy and
+repeat protection. `test_cardiac_clock_revival` records cancellation by successful
+treatment. `test_cardiac_clock_persistence` continues saves immediately before and
+after expiry in a separate process. All fixtures are authored but unrun while
+checks remain paused.

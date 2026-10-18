@@ -281,14 +281,20 @@ class RpgAttempt: object
 
 /** Only accounted challenge time, in seconds; not a replacement world clock.
  * vhyl continues to schedule one cycle per accepted command. */
-rpgLedger: object seconds = 0;
+rpgLedger: object
+    seconds = 0
+    validateAdvance(seconds) { return nil; }
+    afterAdvance(previousSeconds) { return nil; }
+;
 
 /** Charge explicit adventure time with a checked persistent counter. */
 rpgSpendTime(seconds)
 {
     rpgInteger(seconds, 0, 86400);
     rpgInteger(rpgLedger.seconds, 0, 2147483647 - seconds);
-    rpgLedger.seconds += seconds; return nil;
+    rpgLedger.validateAdvance(seconds);
+    local previous = rpgLedger.seconds;
+    rpgLedger.seconds += seconds; rpgLedger.afterAdvance(previous); return nil;
 }
 
 /** Deterministic, journalled generator with overflow-safe arithmetic.

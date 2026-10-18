@@ -40,6 +40,16 @@ class CardiacFixtureAction: Action
         else if (code == 10) { cardiacSuccess.careEvidence = 'Changed care'; value = cardiacSuccess.assess(); }
         else if (code == 11) value = cardiacSuccess.assess();
         else if (code == 12) { rpgLiteRest(cardiacPatient,600,true,true,nil,true); return nil; }
+        else if (code == 13) { cardiacRules.automaticCardiacDeadlines = true; value = cardiacCase.start(); }
+        else if (code == 14) { if (rpgLedger.seconds < 199) rpgSpendTime(199 - rpgLedger.seconds); return nil; }
+        else if (code == 15 || code == 16)
+        { rpgSpendTime(1); if (code == 16) throw new RpgError(); return nil; }
+        else if (code == 17) { rpgSpendTime(201); return nil; }
+        else if (code == 18) { cardiacRules.automaticCardiacDeadlines = nil; return nil; }
+        else if (code == 19) { cardiacCase.evidence = 'Changed cause'; rpgSpendTime(1); return nil; }
+        else if (code == 20)
+        { local trait = new RpgLiteTrait(); trait.id = 'no-vitals'; cardiacPatient.traits = [trait]; return nil; }
+
         event('test.cardiac-operation'); eventValue(value.status); eventValue(value.reason);
         if (code == 1 || code == 3 || code == 5 || code == 7) throw new RpgError();
         return nil;
@@ -53,6 +63,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1930) { cardiacInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1932)
+    {
+        event('test.cardiac-clock'); eventValue(rpgExpandedCardiacClock.arrests.length());
+        eventValue(cardiacCase.automaticDeadline ? 1 : 0); eventValue(cardiacCase.endedAt);
+        eventValue(cardiacCase.fatalResult == nil ? 0 : cardiacCase.fatalResult.injuryAdded); return nil;
+    }
     if (verb == 1931)
     {
         event('test.cardiac-state'); eventValue(cardiacPatient.fatigue); eventValue(cardiacPatient.injury);

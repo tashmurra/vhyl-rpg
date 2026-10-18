@@ -6,6 +6,7 @@ modify RpgExpandedRules
     lastWounds = nil
     expandedNaturalRecovery = nil
     expandedFatigueStrength = nil
+    automaticCardiacDeadlines = nil
 ;
 
 /** Shock from one wound, before trait exceptions; high capacity scales the divisor. */
@@ -1557,6 +1558,7 @@ class RpgExpandedCardiacArrest: object
     startingHealth = nil
     onset = nil
     fatalResult = nil
+    automaticDeadline = nil
     attempts = []
     revivedBy = nil
     endedAt = nil
@@ -1591,6 +1593,7 @@ class RpgExpandedCardiacArrest: object
         if (!value.prevented)
         {
             value.fatigueAdded = 2 * self.profile.maxEnergy - self.profile.fatigue;
+            rpgInteger(rpgLedger.seconds,0,2147483647 - self.profile.ht * 20);
             value.deadline = rpgLedger.seconds + self.profile.ht * 20;
         }
         value.status = 'ready'; return value;
@@ -1608,7 +1611,11 @@ class RpgExpandedCardiacArrest: object
         self.startingHealth = self.profile.ht; self.startedAt = rpgLedger.seconds; self.deadline = value.deadline;
         if (value.prevented) self.endedAt = self.startedAt;
         self.profile.cardiacHistory = self.profile.cardiacHistory + [self];
-        value.status = 'resolved'; self.onset = value; return value;
+        value.status = 'resolved'; self.onset = value;
+        self.automaticDeadline = !value.prevented && self.profile.rules != nil
+            && self.profile.rules.automaticCardiacDeadlines;
+        if (self.automaticDeadline) rpgExpandedCardiacClock.arrests = rpgExpandedCardiacClock.arrests + [self];
+        return value;
     }
     assessExpiry()
     {
@@ -1650,6 +1657,8 @@ modify RpgExpandedProfile
                 || holds(ids,arrest.id) || arrest.startedAt == nil || arrest.startedAt > rpgLedger.seconds || arrest.onset == nil)
                 rpgExpandedReject('cardiac-history');
             arrest.validateBinding(); ids = ids + [arrest.id];
+            if (arrest.automaticDeadline != holds(rpgExpandedCardiacClock.arrests,arrest))
+                rpgExpandedReject('cardiac-clock-registration');
             local attempts = []; local lastAttemptAt = arrest.startedAt;
             foreach (local attempt in arrest.attempts)
             {
@@ -2026,5 +2035,53 @@ modify RpgExpandedProfile
             if (!trained) rpgExpandedReject('fatigue-strength-default-unavailable');
         }
         return amount + effective - self.st;
+    }
+;
+
+
+/** Only registered cardiac deadlines; all entries retain their owned receipts. */
+rpgExpandedCardiacClock: object
+    arrests = []
+    validateThrough(target)
+    {
+        local seen = [];
+        foreach (local arrest in self.arrests)
+        {
+            if (arrest == nil || !arrest.ofKind(RpgExpandedCardiacArrest) || !arrest.automaticDeadline
+                || holds(seen,arrest) || arrest.onset == nil || arrest.onset.prevented)
+                rpgExpandedReject('cardiac-clock-registration');
+            seen = seen + [arrest]; arrest.validateBinding();
+            if (arrest.deadline != arrest.startedAt + arrest.startingHealth * 20
+                || arrest.deadline != arrest.onset.deadline) rpgExpandedReject('cardiac-deadline-history');
+            if (arrest.revivedBy != nil || arrest.fatalResult != nil) continue;
+            if (arrest.profile.cardiacArrest != arrest) rpgExpandedReject('cardiac-clock-owner');
+            if (target >= arrest.deadline)
+            {
+                if (arrest.profile.dead) rpgExpandedReject('cardiac-other-death-unavailable');
+                rpgExpandedCardiacHealth(arrest.profile.maxHP,arrest.profile.injury,nil);
+            }
+        }
+        return nil;
+    }
+    dispatch()
+    {
+        foreach (local arrest in self.arrests)
+            if (arrest.revivedBy == nil && arrest.fatalResult == nil && rpgLedger.seconds >= arrest.deadline)
+            {
+                local value = arrest.expire();
+                if (value.status != 'resolved') rpgExpandedReject('cardiac-clock-expiry-changed');
+            }
+        return nil;
+    }
+;
+
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds); rpgExpandedCardiacClock.validateThrough(self.seconds + seconds); return nil;
+    }
+    afterAdvance(previousSeconds)
+    {
+        inherited(previousSeconds); rpgExpandedCardiacClock.dispatch(); return nil;
     }
 ;
