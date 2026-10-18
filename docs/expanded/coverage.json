@@ -664,6 +664,18 @@
         "tests/expanded.py::test_information_delivery"
       ],
       "validation_note": "Owned beliefs/fabrications and receipt-based delivery authored with private previews. Checks unrun; payment integration, uncertain knowledge and research execution pending."
+    },
+    {
+      "id": "paid-information-delivery",
+      "module": "social",
+      "pages": "B560; B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedInformationDelivery",
+      "tests": [
+        "tests/expanded.py::test_paid_information"
+      ],
+      "validation_note": "Band-2 demanded payment and incomplete answer commit atomically against existing balances. Checks unrun; broader bribery and professional trade pending."
     }
   ],
   "detailed_inventories": [

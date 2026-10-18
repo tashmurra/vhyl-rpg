@@ -660,6 +660,32 @@ def information_state(s):
     return last(s, 'test.information-state')
 
 
+def information_money(s):
+    s.action(1188)
+    return last(s, 'test.information-money')
+
+
+def test_paid_information(s):
+    initial = information_state(s)
+    cash = information_money(s)
+    assert cash == [0, 0]
+    s.action(1189)
+    assert last(s, 'test.information-payment-gates') == [
+        'information-payment-unapproved', 'information-payment-funds']
+    assert information_money(s) == cash
+    s.action(1100, 37)
+    assert information_money(s) == cash and information_state(s) == initial
+    s.action(1100, 36)
+    assert last(s, 'test.information-paid') == ['resolved', 40, 1]
+    assert information_money(s) == [60, 60]
+    assert information_state(s) == [1, 0, 0, 0, 'bridge-open']
+    s.command('undo')
+    assert information_money(s) == cash and information_state(s) == initial
+    s.action(1100, 36); s.action(1100, 38)
+    assert last(s, 'test.information-paid') == ['reused', 0, 0]
+    assert information_money(s) == [60, 60]
+
+
 def test_information_delivery(s):
     initial = information_state(s)
     assert initial == [0, 0, 0, 0]
@@ -936,7 +962,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

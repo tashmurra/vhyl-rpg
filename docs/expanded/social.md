@@ -310,20 +310,44 @@ requested list. Deliberate lying requires at least one authored fabrication.
 
 Set `available` only when the participants can communicate. `assess()` checks
 readiness and selection but returns no statements. `deliver()` returns the selected
-statements to the author and records `[id, provider, statements]` in the recipient's
+statements to the author and records `[id, provider, statements, moneyPaid]` in the recipient's
 knowledge `received` list. It does not add them to the recipient's beliefs. Only
 render those statements through authored dialogue; do not expose the provider's
 private belief/fabrication classifications. `selectedStatements()` is an author-only
 query and must not be used for player previews.
 
 The recipient's receipt prevents duplicate deliveries even through another object
-with the same response ID. Claimed delivery objects cannot be retargeted. No time,
-money or randomness is charged by delivery; associated payment or speaking time
-must be committed once by the enclosing operation. An unanswered demand, refusal
+with the same response ID. Claimed delivery objects cannot be retargeted. No time or randomness is charged by delivery. The optional payment contract below
+transfers money atomically; associated speaking time must be committed once by
+the enclosing operation. An unanswered demand, refusal
 or claim of ignorance cannot be delivered as factual content. Research obligations
-and follow-up rolls remain separate requirements. Automatic payment integration,
-uncertain-knowledge checks and belief revision remain pending.
+and follow-up rolls remain separate requirements. Broader bribery integration, uncertain-knowledge checks and belief revision remain
+pending.
 
 `tests/expanded.py::test_information_delivery` covers bounded knowledge, incomplete
 selection, explicit lies, private previews, receipt reuse, exception rollback and
 undo. These authored cases remain unrun while checks are paused.
+
+
+## Paid information delivery
+
+For a band-2 respondent choosing payment, set the delivery's positive `price` and
+explicit `paymentApproved`. The recipient is the payer and the provider is the
+payee. The operation validates both balances, affordability, overflow and the answer
+selection before changing either balance. It then transfers the price and records
+the incomplete answer in one transaction. No secondary money account is created.
+
+The reaction is assessed against the proposed payment without setting its shared
+`paymentReceived` flag. A pre-paid reaction cannot also use a positive delivery
+price: that combination is rejected to avoid double payment. A zero-price delivery
+retains the existing externally-paid/free contract. Positive prices for other
+reaction outcomes, self-payment and professional information sales are rejected
+rather than inferred as equivalent transactions. This is payment for an answer,
+not the separate bribe that modifies a new reaction roll.
+
+The receipt stores the amount paid. Repeated delivery, including another object
+with the same recipient/provider/ID, returns `reused` without charging. It does
+not return the earlier answer as new content. `assess()` can report the price but
+still omits all answer statements. `tests/expanded.py::test_paid_information`
+contains approval/funds rejection, payment/answer accounting, rollback, undo and
+repeat-payment cases. These authored checks remain unrun.

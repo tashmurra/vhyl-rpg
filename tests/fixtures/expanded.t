@@ -158,6 +158,20 @@ class ExpandedTestAction: Action
             eventValue(value.status); eventValue(value.statements.length());
             if (code == 35) throw new RpgError();
         }
+        if (code == 36 || code == 37)
+        {
+            informationRecipient.money = 100; informationProvider.money = 20;
+            informationReaction.band = 2; informationReaction.adverseChoice = 'payment';
+            informationDelivery.price = 40; informationDelivery.paymentApproved = true;
+            local value = informationDelivery.deliver(); event('test.information-paid');
+            eventValue(value.status); eventValue(value.money); eventValue(value.statements.length());
+            if (code == 37) throw new RpgError();
+        }
+        if (code == 38)
+        {
+            local value = informationDelivery.deliver(); event('test.information-paid');
+            eventValue(value.status); eventValue(value.money); eventValue(value.statements.length());
+        }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1108,6 +1122,21 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         delivery.lies = ['road-safe']; eventValue(delivery.selectedStatements()[1]);
         reaction.band = 0; eventValue(delivery.assess().reason); return nil;
+    }
+    if (verb == 1188)
+    {
+        event('test.information-money'); eventValue(informationRecipient.money); eventValue(informationProvider.money);
+        return nil;
+    }
+    if (verb == 1189)
+    {
+        local offer = new RpgExpandedInformationDelivery(); offer.id = 'paid-preview'; offer.provider = informationProvider;
+        offer.recipient = informationRecipient; offer.available = true; offer.price = 40;
+        offer.requested = ['bridge-open','ferry-closed']; offer.partial = ['bridge-open'];
+        local reaction = new RpgExpandedInformationReaction(); reaction.band = 2; reaction.adverseChoice = 'payment';
+        offer.reaction = reaction; event('test.information-payment-gates'); eventValue(offer.assess().reason);
+        offer.paymentApproved = true; eventValue(offer.assess().reason);
+        return nil;
     }
     return vhylAct(verb,args);
 }

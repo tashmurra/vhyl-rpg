@@ -497,7 +497,8 @@ class RpgExpandedInformationReaction: object
     bribeOffered = nil
     knowledgeIncomplete = nil
     offersHelp = nil
-    assess()
+    assess() { return self.assessPayment(self.paymentReceived); }
+    assessPayment(paid)
     {
         rpgInteger(self.band,0,7); rpgInteger(self.complexity,0,2);
         local value = new RpgExpandedInformationResult();
@@ -511,7 +512,7 @@ class RpgExpandedInformationReaction: object
             if (!holds(['lie','payment'],self.adverseChoice))
             { value.reason = 'information-adverse-choice-required'; return value; }
             value.answer = self.adverseChoice == 'lie' ? 'malicious-lie'
-                : self.paymentReceived ? 'incomplete-belief' : 'demand-payment';
+                : paid ? 'incomplete-belief' : 'demand-payment';
         }
         if (self.band == 3)
         {
@@ -586,6 +587,7 @@ class RpgExpandedKnowledge: object
 
 class RpgExpandedInformationDeliveryResult: RpgExpandedResult
     statements = []
+    money = 0
 ;
 
 /** Deliver an authored response once. Lists select existing belief/fabrication
@@ -600,6 +602,8 @@ class RpgExpandedInformationDelivery: object
     related = []
     lies = []
     available = nil
+    price = 0
+    paymentApproved = nil
     claimed = nil
     boundProvider = nil
     boundRecipient = nil
@@ -619,7 +623,7 @@ class RpgExpandedInformationDelivery: object
     {
         if (self.reaction == nil || !self.reaction.ofKind(RpgExpandedInformationReaction))
             rpgExpandedReject('information-delivery-reaction');
-        local response = self.reaction.assess();
+        local response = self.reaction.assessPayment(self.price > 0 && self.paymentApproved ? true : self.reaction.paymentReceived);
         if (response.status != 'ready') return nil;
         self.validateSubset(self.requested,self.provider.knowledge.beliefs);
         self.validateSubset(self.partial,self.requested);
@@ -664,6 +668,20 @@ class RpgExpandedInformationDelivery: object
                 value.status = 'reused'; return value;
             }
         if (!self.available) { value.reason = 'information-delivery-unavailable'; return value; }
+        rpgInteger(self.price,0,2147483647);
+        if (self.price > 0)
+        {
+            if (self.provider == self.recipient) rpgExpandedReject('information-self-payment');
+            if (self.reaction == nil || !self.reaction.ofKind(RpgExpandedInformationReaction)
+                || self.reaction.band != 2 || self.reaction.adverseChoice != 'payment'
+                || self.reaction.paymentReceived)
+                rpgExpandedReject('information-payment-contract');
+            if (!self.paymentApproved) { value.reason = 'information-payment-unapproved'; return value; }
+            rpgInteger(self.recipient.money,0,2147483647); rpgInteger(self.provider.money,0,2147483647);
+            if (self.recipient.money < self.price) { value.reason = 'information-payment-funds'; return value; }
+            if (self.provider.money > 2147483647 - self.price) rpgExpandedReject('information-payment-limit');
+            value.money = self.price;
+        }
         local selected = self.selectedStatements();
         if (selected == nil) { value.reason = 'information-no-delivery'; return value; }
         value.status = 'ready'; return value;
@@ -672,8 +690,9 @@ class RpgExpandedInformationDelivery: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         value.statements = self.selectedStatements();
+        self.recipient.money -= value.money; self.provider.money += value.money;
         self.recipient.knowledge.received = self.recipient.knowledge.received
-            + [[self.id,self.provider,value.statements]];
+            + [[self.id,self.provider,value.statements,value.money]];
         self.claimed = true; self.boundProvider = self.provider; self.boundRecipient = self.recipient; self.boundId = self.id;
         value.status = 'resolved'; return value;
     }
