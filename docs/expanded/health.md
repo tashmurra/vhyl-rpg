@@ -2934,3 +2934,24 @@ facts, withdrawal, rollback, undo and cross-process continuation, followed by ti
 advancing after settlement. Assertions remain unrun. Automatic loss notification,
 retention/catching mechanics and integration with every equipment action remain
 incomplete; this is an explicit authored settlement path.
+
+### Persistent mobility-support loss events
+
+Owned forced drops now call `onEquipmentDropped(item)`, whose default is a no-op.
+An active mobility aid records that event. An owned injury to a crutch's supporting
+hand or its parent arm records a support-hand loss through `onBodySupportLost`.
+Each support stores `[cause, ledgerSeconds]` rows in `lossEvents`; repeated reports
+of the same unresolved cause do not duplicate it.
+
+`pendingLoss()` remains true even if the item is readied again or the hand recovers.
+Support assessment then blocks with `mobility-support-unsettled`, and deactivation
+or positive elapsed time cannot bypass the unresolved event by changing posture.
+Settlement advances `settledLossCount`, preserving historical rows while clearing
+the pending state and releasing the aid. All notifications are in the original
+transaction and participate in rollback, undo and save continuation.
+
+Fixtures cover a committed forced drop, duplicate notification, restored readiness,
+blocked time, saved pending history, settlement, and a real hand wound that both
+drops the aid and disables its support. Assertions remain unrun. Transfers, terrain
+changes and other loss causes still need their own event integration; direct field
+edits are not a substitute for the public notification hooks.

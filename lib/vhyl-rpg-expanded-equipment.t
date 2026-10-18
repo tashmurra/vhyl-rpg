@@ -310,6 +310,7 @@ class RpgExpandedKnockdownDrop: RpgExpandedResult
         {
             item.storageLocation = self.destination; item.ready = nil;
             if (self.allowWorn) item.worn = nil;
+            self.profile.onEquipmentDropped(item);
             for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
                 if (fighter.profile == self.profile && fighter.aimWeapon == item)
                 { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }

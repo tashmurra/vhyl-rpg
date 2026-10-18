@@ -861,3 +861,8 @@ Mobility support settlement now records resolved physical consequences, releases
 the aid and sets lying posture without duplicate injury/time. Unsafe deactivation
 and elapsed time with unavailable standing support are guarded. Fixtures remain
 unrun; automatic loss notifications and broader integration remain unfinished.
+
+Forced aid drops and supporting-hand injuries now record persistent mobility-loss
+events. Restoring readiness does not bypass settlement. Rollback, undo, saved
+pending history and real hand-wound fixtures are authored and unrun; other loss
+causes still require integration.

@@ -8915,6 +8915,8 @@ def test(build):
     test_crutch_support(Session, crutch_support, build.out)
     mobility_settlement = build.build('expanded-mobility-settlement',ROOT / 'tests/fixtures/expanded-mobility-settlement.t')
     test_mobility_settlement(Session, mobility_settlement, build.out)
+    mobility_loss = build.build('expanded-mobility-loss',ROOT / 'tests/fixtures/expanded-mobility-loss.t')
+    test_mobility_loss(Session, mobility_loss, build.out)
     fall_arm_equipment = build.build('expanded-fall-arm-equipment',ROOT / 'tests/fixtures/expanded-fall-arm-equipment.t')
     test_fall_arm_equipment(Session, fall_arm_equipment, build.out)
     test_collision_cap(Session, collision, fall_injury)
@@ -14300,3 +14302,41 @@ def test_mobility_settlement(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_mobility_loss(Session, bundle, out):
+    def state(s):
+        s.action(2285,1003)
+        return last(s,'test.mobility-loss')
+    path = out / 'expanded-mobility-loss.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,931,831,980,975,1001):
+            s.action(2285,code)
+        assert state(s) == [0,0,1,0,4,0]
+        s.action(2285,1000)
+        s.command('undo')
+        assert state(s) == [0,0,1,0,4,0]
+        for code in (1000,1004,1002,994):
+            s.action(2285,code)
+        assert state(s) == [1,1,1,0,4,0]
+        assert last(s,'test.mobility-clock') == ['mobility-support-settlement-required',0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (990,990,994):
+            s.action(2285,code)
+        assert state(s) == [1,0,0,0,4,1]
+        assert last(s,'test.mobility-clock') == ['advanced',1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,931,831,980,975,1005):
+            s.action(2285,code)
+        assert state(s) == [2,1,1,1,7,0]
+    finally:
+        s.close()

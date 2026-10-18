@@ -6118,6 +6118,16 @@ modify RpgExpandedProfile
 ;
 /** B141 fitted peg, one impaired leg on a biped. Fitting/terrain are author facts. */
 class RpgExpandedPegSupport: object
+    lossEvents = []
+    settledLossCount = 0
+    pendingLoss() { return self.lossEvents.length() > self.settledLossCount; }
+    noteLoss(cause)
+    {
+        if (self.profile == nil || self.profile.mobilitySupport != self) return nil;
+        for (local index = self.settledLossCount + 1; index <= self.lossEvents.length(); index += 1)
+            if (self.lossEvents[index][1] == cause) return nil;
+        self.lossEvents = self.lossEvents + [[cause,rpgLedger.seconds]]; return nil;
+    }
     moveLimit() { return 2; }
     profile = nil
     leg = nil
@@ -6141,6 +6151,7 @@ class RpgExpandedPegSupport: object
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('peg-support-binding');
         }
         local value = new RpgExpandedResult();
+        if (self.pendingLoss()) { value.reason = 'mobility-support-unsettled'; return value; }
         if (!self.approved || !self.fitted || self.evidence == nil || self.evidence == '' || !self.terrainSuitable)
         { value.reason = 'peg-support-author-facts'; return value; }
         self.profile.validateBodyParts();
@@ -6167,6 +6178,7 @@ class RpgExpandedPegSupport: object
     }
     deactivate()
     {
+        if (self.pendingLoss()) rpgExpandedReject('mobility-support-settlement-required');
         if (self.profile != nil && self.profile.mobilitySupport == self && self.profile.lowerLimbImpaired()
             && holds(['standing','crouching'],self.profile.posture)) rpgExpandedReject('mobility-support-settlement-required');
         if (self.profile != nil && self.profile.mobilitySupport == self) self.profile.mobilitySupport = nil;
@@ -6195,6 +6207,7 @@ class RpgExpandedCrutchSupport: RpgExpandedPegSupport
                 if (current[index] != self.boundDefinition[index]) rpgExpandedReject('crutch-support-binding');
         }
         local value = new RpgExpandedResult();
+        if (self.pendingLoss()) { value.reason = 'mobility-support-unsettled'; return value; }
         if (!self.approved || !self.fitted || !self.terrainSuitable || self.evidence == nil || self.evidence == '')
         { value.reason = 'crutch-support-author-facts'; return value; }
         self.profile.validateBodyParts();
@@ -6284,6 +6297,7 @@ class RpgExpandedMobilitySettlement: object
         local value = self.assess(); if (value.status != 'ready') return value;
         local profile = self.support.profile;
         self.boundDefinition = self.definition(); self.completedAt = rpgLedger.seconds;
+        self.support.settledLossCount = self.support.lossEvents.length();
         profile.mobilitySupport = nil; profile.posture = 'lying';
         profile.mobilitySettlements = profile.mobilitySettlements + [self];
         profile.onKnockdown(); value.status = 'resolved'; return value;
@@ -6295,10 +6309,29 @@ modify rpgLedger
         inherited(seconds);
         if (seconds > 0)
             for (local profile = firstObj(RpgExpandedProfile); profile != nil; profile = nextObj(profile,RpgExpandedProfile))
-                if (profile.mobilitySupport != nil && profile.lowerLimbImpaired()
-                    && holds(['standing','crouching'],profile.posture)
-                    && profile.mobilitySupport.assess().status != 'ready')
+                if (profile.mobilitySupport != nil && (profile.mobilitySupport.pendingLoss()
+                    || profile.lowerLimbImpaired() && holds(['standing','crouching'],profile.posture)
+                        && profile.mobilitySupport.assess().status != 'ready'))
                     rpgExpandedReject('mobility-support-settlement-required');
+        return nil;
+    }
+;
+
+
+modify RpgExpandedProfile
+    onEquipmentDropped(item)
+    {
+        inherited(item);
+        if (self.mobilitySupport != nil && self.mobilitySupport.item == item)
+            self.mobilitySupport.noteLoss('aid-dropped');
+        return nil;
+    }
+    onBodySupportLost(part)
+    {
+        inherited(part);
+        if (self.mobilitySupport != nil && self.mobilitySupport.ofKind(RpgExpandedCrutchSupport))
+            foreach (local hand in self.mobilitySupport.hands)
+                if (part == hand || part == hand.parent) self.mobilitySupport.noteLoss('support-hand-disabled');
         return nil;
     }
 ;

@@ -69,6 +69,7 @@ class RpgLiteProfile: RpgProfile
     voluntaryMovementUnavailable() { return nil; }
     postureChangeReason(posture) { return nil; }
     legUsePenalty() { return 0; }
+    onEquipmentDropped(item) { return nil; }
     groundMoveBase() { return self.basicMove(); }
     healthEffortReason(purpose, mentalAbility, speech, movement) { return nil; }
     healthDefensePenalty() { return 0; }
