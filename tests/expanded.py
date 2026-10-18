@@ -1842,6 +1842,49 @@ def test_fear_faint(Session,bundle,out):
         finally: second.close()
 
 
+def test_fear_faint_injury(Session,bundle,out):
+    def state(s):
+        s.action(2267)
+        return last(s,'test.faint-injury')
+    for row,high_health,injury,roll,deadline,draws in [(18,False,1,11,120,4),(18,True,0,11,120,4),(19,False,1,None,240,2)]:
+        s = Session(bundle)
+        try:
+            s.action(2250,42,row)
+            if high_health: s.action(2250,39,0)
+            for code in [31,32]:
+                s.action(2250,code,0)
+                assert state(s) == [0,0,None,None,0,0]
+            s.action(2250,30,0)
+            expected = [injury,injury,roll,deadline,draws,0]
+            assert state(s) == expected
+            s.command('undo')
+            assert state(s) == [0,0,None,None,0,0]
+            s.action(2250,30,0)
+            s.action(2250,30,0)
+            assert state(s) == expected
+            path = out / f'expanded-faint-{row}-{high_health}.zsave'
+            s.command(f':save {path}\n@2267')
+            assert any('[save ok code=0]' in line for line in s.raw_lines)
+        finally: s.close()
+        restored = Session(bundle)
+        try:
+            restored.command(f':restore {path}\n@2267')
+            restored.action(2250,30,0)
+            assert state(restored) == expected
+            restored.action(2250,33,deadline)
+            assert state(restored) == [injury,injury,roll,deadline,draws,deadline]
+        finally: restored.close()
+    for row in [18,19]:
+        s = Session(bundle)
+        try:
+            s.action(2250,42,row)
+            s.action(2250,43,0)
+            s.action(2250,30,0)
+            assert last(s,'test.faint-start') == ['blocked','expanded-wound-shock-rule-required']
+            assert state(s) == [0,0,None,None,0,0]
+        finally: s.close()
+
+
 def test_fear_fatigue(Session,bundle):
     def state(s):
         s.action(2263)
@@ -8921,6 +8964,7 @@ def test(build):
     test_fear_stun(Session,fear)
     test_fear_fatigue(Session,fear)
     test_fear_faint(Session,fear,build.out)
+    test_fear_faint_injury(Session,fear,build.out)
     test_fear_fatigue_stun(Session,fear,build.out)
     test_fear_stun_modifiers(Session,fear)
     test_fear_stun_persistence(Session,fear,build.out)

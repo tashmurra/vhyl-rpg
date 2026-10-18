@@ -1080,9 +1080,10 @@
       "status": "partial",
       "acceptance": "Use the one-die faint sequence and make an immediate health check; failure causes one injury during the collapse.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_faint_injury"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned fainting supports conditional one-point injury after an immediate health check for row 18 and unconditional injury with two-die-minute duration for row 19. Possible wounds preflight before randomness; replay and continuation fixtures are unrun. Broader overlapping-cause timing remains incomplete."
     },
     {
       "id": "fear-outcome-19",
@@ -1093,9 +1094,10 @@
       "status": "partial",
       "acceptance": "Faint for two dice of minutes, then check health each minute; suffer one injury.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_faint_injury"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned fainting supports conditional one-point injury after an immediate health check for row 18 and unconditional injury with two-die-minute duration for row 19. Possible wounds preflight before randomness; replay and continuation fixtures are unrun. Broader overlapping-cause timing remains incomplete."
     },
     {
       "id": "fear-outcome-20",

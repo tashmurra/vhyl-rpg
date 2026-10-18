@@ -25,6 +25,8 @@ class FearTestAction: Action
         local code = fearInput.code;
         if (code >= 30)
         {
+            if (code == 42) { fearFaintEpisode.tableTotal = fearInput.row; return nil; }
+            if (code == 43) { fearRules.scaledInjuryShock = nil; return nil; }
             if (code <= 32)
             {
                 local value = code == 31 ? fearFaintEpisode.assess() : fearFaintEpisode.apply();
@@ -105,6 +107,12 @@ act(verb,args)
         eventValue(fearFaintEpisode.nextCheckAt); eventValue(fearFaintEpisode.completedAt);
         eventValue(fearProfile.fearFaints.length()); eventValue(fearFaintEpisode.recoveries.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2267)
+    {
+        event('test.faint-injury'); eventValue(fearProfile.injury); eventValue(fearProfile.expandedWounds.length());
+        eventValue(fearFaintEpisode.onset == nil || fearFaintEpisode.onset.check == nil ? nil : fearFaintEpisode.onset.check.roll);
+        eventValue(fearFaintEpisode.nextCheckAt); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return nil;
 }

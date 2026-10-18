@@ -3040,25 +3040,29 @@ modify RpgExpandedProfile
 
 class RpgExpandedFearFaintResult: RpgExpandedResult
     dropPlan = nil
+    wound = nil
 ;
 
-/** B361 row seventeen: owned one-die minutes of unconsciousness, then health checks. */
+/** B361 rows seventeen through nineteen: owned fainting and prescribed injury. */
 class RpgExpandedFearFaint: object
     id = nil
     context = nil
     approved = nil
     evidence = nil
     dropDestination = nil
+    tableTotal = 17
+    onset = nil
     startedAt = nil
     nextCheckAt = nil
     completedAt = nil
     boundDefinition = nil
     recoveries = []
-    definition() { return [self.id,self.context,self.context.profile,self.evidence,self.dropDestination]; }
+    definition() { return [self.id,self.context,self.context.profile,self.evidence,self.dropDestination,self.tableTotal]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
             rpgExpandedReject('fear-faint-definition');
+        rpgInteger(self.tableTotal,17,19);
         local value = new RpgExpandedFearFaintResult();
         if (self.startedAt != nil)
         {
@@ -3082,17 +3086,44 @@ class RpgExpandedFearFaint: object
         value.dropPlan = profile.prepareKnockdownDrop(self.dropDestination);
         if (value.dropPlan != nil && value.dropPlan.status != 'ready')
         { value.reason = value.dropPlan.reason; return value; }
-        rpgInteger(rpgLedger.seconds,0,2147483287);
+        if (self.tableTotal >= 18)
+        {
+            value.wound = new RpgExpandedWound(); value.wound.profile = profile;
+            value.wound.id = 'faint-' + self.id; value.wound.amount = 1; value.wound.dropDestination = self.dropDestination;
+            local injury = value.wound.assess();
+            if (injury.status != 'ready') { value.reason = injury.reason; return value; }
+        }
+        if (self.tableTotal == 18)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-faint-collapse';
+            local score = rpgLiteScore(profile,context);
+            if (score == nil || score < 3) { value.reason = 'fear-faint-collapse-score'; return value; }
+        }
+        rpgInteger(rpgLedger.seconds,0,2147483647 - (self.tableTotal == 19 ? 720 : 360));
         value.status = 'ready'; return value;
     }
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.nextCheckAt = rpgLedger.seconds + 60 * rpgRandom.die(); self.startedAt = rpgLedger.seconds;
+        local minutes = rpgRandom.die(); if (self.tableTotal == 19) minutes += rpgRandom.die();
+        self.nextCheckAt = rpgLedger.seconds + 60 * minutes; self.startedAt = rpgLedger.seconds;
         self.boundDefinition = self.definition(); local profile = self.context.profile;
         if (value.dropPlan != nil) value.dropPlan.commit();
         profile.fearFaint = self; profile.fearFaints = profile.fearFaints + [self];
-        profile.posture = 'lying'; profile.becomeUnconscious(); value.status = 'resolved'; return value;
+        profile.posture = 'lying'; profile.becomeUnconscious();
+        if (self.tableTotal == 18)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-faint-collapse';
+            value.check = rpgLiteCheck(profile,context);
+            if (value.check.achieved) value.wound = nil;
+        }
+        if (value.wound != nil)
+        {
+            local injury = value.wound.apply();
+            if (injury.status != 'resolved') rpgExpandedReject('fear-faint-injury-changed');
+        }
+        if (profile.dead) { profile.fearFaint = nil; self.completedAt = rpgLedger.seconds; }
+        value.status = 'resolved'; self.onset = value; return value;
     }
 ;
 

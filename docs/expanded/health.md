@@ -1646,8 +1646,8 @@ after cross-process restoration. The fixture remains unrun.
 
 ### Owned fainting
 
-`RpgExpandedFearFaint` implements the standalone faint on row seventeen of
-`full-2008`, B361. Supply an `id`, approved fear `context`, outcome `approved`
+`RpgExpandedFearFaint` implements rows seventeen through nineteen of
+`full-2008`, B361; `tableTotal` defaults to seventeen. Supply an `id`, approved fear `context`, outcome `approved`
 and `evidence`. A held-item drop requires the equipment module and an authored
 `dropDestination`; missing drop support blocks before randomness. The operation
 requires a conscious actor with positive health and fatigue and no conflicting
@@ -1672,10 +1672,28 @@ ordinary behavior when no expansion owns the condition.
 Ending the faint clears only its ownership. It does not wake an actor whose
 health, fatigue, mortality, other unconsciousness owner or other recorded
 medical condition still prevents waking. Those conditions keep their existing
-recovery procedures. Full overlapping-cause timing and the injury-bearing faint
-rows remain incomplete; this interface does not implement those later rows.
+recovery procedures. Full overlapping-cause timing and later compound faint outcomes remain
+incomplete; this interface does not implement those later rows.
 
 `test_fear_faint` specifies initial duration, suppression of early ordinary wake
 and healing checks, exact deadlines, failure/retry timing, boundary rejection,
 preview, rollback, undo, replay, save continuation and retained unconsciousness
 from another cause. The fixture is authored and unrun.
+
+
+For `tableTotal = 18`, the faint keeps the one-die-minute duration and makes its
+separate immediate health check. Failure commits one point of injury through an
+owned wound; success does not create a wound. For `tableTotal = 19`, duration is
+two dice of minutes and one point of injury is unconditional, without an extra
+health check at onset. Both retain the same minute recovery schedule.
+
+The possible wound and forced drop are assessed before duration dice or the
+immediate check. Missing wound-rule or anatomy support blocks the entire event.
+Unconsciousness and the fall are established before the collapse injury, so the
+injury cannot cause a second knockdown of an already unconscious actor. `onset`
+retains the immediate `check` when present and the committed `wound` when injury
+occurs. Replay never rolls or injures again.
+
+`test_fear_faint_injury` specifies conditional and unconditional injury, both
+durations, successful immediate resistance, zero-cost rejection, preview,
+rollback, undo, replay and saved-game continuation. These fixtures remain unrun.

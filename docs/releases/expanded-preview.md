@@ -130,5 +130,6 @@ remain unfinished; new fixtures are unrun.
 
 Standalone fear fainting now owns its unconsciousness and minute recovery
 boundaries. Ordinary waking cannot bypass the episode, and time advancement
-cannot skip its due checks. Injury-bearing faint outcomes and broader overlap
-timing remain incomplete; new fixtures are unrun.
+cannot skip its due checks. The conditional- and unconditional-injury faint
+outcomes use owned wounds with preflight before randomness. Broader overlap
+timing remains incomplete; new fixtures are unrun.
