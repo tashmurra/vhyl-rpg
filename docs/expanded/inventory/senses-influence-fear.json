@@ -1066,9 +1066,10 @@
       "status": "partial",
       "acceptance": "Faint for one die of minutes, then check health each minute to recover.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_faint"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned one-die-minute faint with due health checks and sixty-second retries authored. Ordinary waking defers to the owner; shared time rejects skipped boundaries. Transaction, overlap handoff and save-continuation fixtures unrun. Broader overlapping-cause timing remains incomplete."
     },
     {
       "id": "fear-outcome-18",

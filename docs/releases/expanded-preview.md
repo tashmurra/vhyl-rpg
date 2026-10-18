@@ -126,3 +126,9 @@ awarding advancement points. Owned receipts permit the source's creation-limit
 exception and preserve concrete scene portrayal decisions. The health module
 can commit a combined stun-and-quirk outcome atomically. Broader trait outcomes
 remain unfinished; new fixtures are unrun.
+
+
+Standalone fear fainting now owns its unconsciousness and minute recovery
+boundaries. Ordinary waking cannot bypass the episode, and time advancement
+cannot skip its due checks. Injury-bearing faint outcomes and broader overlap
+timing remain incomplete; new fixtures are unrun.

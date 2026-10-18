@@ -269,7 +269,8 @@
         "tests/expanded.py::test_retching_meals",
         "tests/expanded.py::test_retching_remedy",
         "tests/expanded.py::test_remedy_persistence",
-        "tests/expanded.py::test_fear_quirk_stun"
+        "tests/expanded.py::test_fear_quirk_stun",
+        "tests/expanded.py::test_fear_faint"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
@@ -1301,6 +1302,18 @@
         "tests/expanded.py::test_fear_quirk_stun"
       ],
       "validation_note": "Concrete optional trait acquisition and owned stun commit atomically. Fixtures unrun; full-table event selection incomplete."
+    },
+    {
+      "id": "owned-fear-faint",
+      "module": "health",
+      "pages": "B361",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFearFaint",
+      "tests": [
+        "tests/expanded.py::test_fear_faint"
+      ],
+      "validation_note": "Owned standalone faint and scheduled boundary recovery authored; fixtures unrun. Broader overlapping-cause timing remains incomplete."
     }
   ],
   "detailed_inventories": [

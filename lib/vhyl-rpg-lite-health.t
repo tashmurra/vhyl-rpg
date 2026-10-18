@@ -125,7 +125,7 @@ rpgLiteHeal(profile, amount)
             if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
         }
     }
-    if (amount > 0 && profile.unconscious && !profile.mortal && profile.fp() > 0
+    if (amount > 0 && profile.unconscious && !profile.unconsciousRecoveryOwned() && !profile.mortal && profile.fp() > 0
         && rpgLiteAttributeCheck(profile, rpgHT, 'wake', 0).achieved)
     { profile.unconscious = nil; profile.apparentDeath = nil; profile.needsMedicalHelp = nil; }
     profile.afterHealing();
@@ -262,13 +262,13 @@ rpgLiteHealthTime(profile, seconds)
 {
     if (profile.dead) return nil;
     profile.afterFatigueRecovery();
-    if (profile.fatigueCollapse && profile.fp() > 0 && !profile.mortal)
+    if (profile.fatigueCollapse && profile.fp() > 0 && !profile.mortal && !profile.unconsciousRecoveryOwned())
     { profile.unconscious = nil; profile.fatigueCollapse = nil; }
     if (profile.fearSeconds > 0)
     {
         profile.fearSeconds -= seconds;
         if (profile.fearSeconds <= 0)
-        { profile.fearSeconds = 0; profile.stunned = nil; if (profile.hp() > 0 && profile.fp() > 0) profile.unconscious = nil; }
+        { profile.fearSeconds = 0; profile.stunned = nil; if (profile.hp() > 0 && profile.fp() > 0 && !profile.unconsciousRecoveryOwned()) profile.unconscious = nil; }
     }
     if (profile.mortal)
     {
@@ -285,7 +285,7 @@ rpgLiteHealthTime(profile, seconds)
             }
         }
     }
-    if (profile.unconscious && !profile.mortal && !profile.dead && profile.fearSeconds == 0)
+    if (profile.unconscious && !profile.unconsciousRecoveryOwned() && !profile.mortal && !profile.dead && profile.fearSeconds == 0)
     {
         profile.unconsciousClock += seconds;
         if (profile.fp() > 0 && profile.hp() > 0 && profile.unconsciousClock >= 900)

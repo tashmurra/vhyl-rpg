@@ -1642,3 +1642,40 @@ set and can continue using other supported outcomes.
 `test_fear_quirk_stun` specifies compound preview and rollback, unchanged
 spendable points, no fatigue cost, missing-contract rejection, replay and recovery
 after cross-process restoration. The fixture remains unrun.
+
+
+### Owned fainting
+
+`RpgExpandedFearFaint` implements the standalone faint on row seventeen of
+`full-2008`, B361. Supply an `id`, approved fear `context`, outcome `approved`
+and `evidence`. A held-item drop requires the equipment module and an authored
+`dropDestination`; missing drop support blocks before randomness. The operation
+requires a conscious actor with positive health and fatigue and no conflicting
+unconsciousness owner. It rolls one die of minutes, records `nextCheckAt`, puts
+the actor lying down and invokes the shared unconsciousness hook.
+
+The initial recovery check becomes due when that duration ends. A fresh
+`RpgExpandedFearFaintRecovery` owns each health check, with its own `id` and
+`episode`. The request charges no additional time: the shared clock has already
+reached the boundary. Failure schedules the next check sixty seconds later;
+success ends the faint. Replaying an attempt neither rerolls nor reschedules.
+This uses a dedicated health-check context, without borrowing the ordinary
+wake context's trait adjustments.
+
+Time advancement stops at pending faint recovery boundaries. Attempts to jump
+past a boundary reject before time changes; advance to it, resolve the due check,
+and then continue. This prevents long rests or travel from silently skipping
+required checks. Ordinary unconsciousness timers, healing and fatigue recovery
+cannot wake an actor while the faint owns recovery. The base hooks preserve
+ordinary behavior when no expansion owns the condition.
+
+Ending the faint clears only its ownership. It does not wake an actor whose
+health, fatigue, mortality, other unconsciousness owner or other recorded
+medical condition still prevents waking. Those conditions keep their existing
+recovery procedures. Full overlapping-cause timing and the injury-bearing faint
+rows remain incomplete; this interface does not implement those later rows.
+
+`test_fear_faint` specifies initial duration, suppression of early ordinary wake
+and healing checks, exact deadlines, failure/retry timing, boundary rejection,
+preview, rollback, undo, replay, save continuation and retained unconsciousness
+from another cause. The fixture is authored and unrun.

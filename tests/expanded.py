@@ -1786,6 +1786,62 @@ def test_fear_quirk_stun(Session,bundle,out):
     finally: second.close()
 
 
+def test_fear_faint(Session,bundle,out):
+    def state(s):
+        s.action(2266)
+        return last(s,'test.faint-state')
+    s = Session(bundle)
+    try:
+        for code in [31,32]:
+            s.action(2250,code,0)
+            assert state(s) == [0,'standing',None,None,0,0,0,0]
+        s.action(2250,30,0)
+        assert state(s) == [1,'lying',120,None,1,0,1,0]
+        for code in [34,35,36]:
+            s.action(2250,code,0)
+            assert state(s) == [1,'lying',120,None,1,0,1,0]
+        assert last(s,'test.faint-recovery') == ['blocked','fear-faint-not-due']
+        s.action(2250,33,121)
+        assert state(s) == [1,'lying',120,None,1,0,1,0]
+        s.action(2250,33,120)
+        for code in [37,38]:
+            s.action(2250,code,0)
+            assert state(s) == [1,'lying',120,None,1,0,1,120]
+        s.action(2250,36,0)
+        assert state(s) == [1,'lying',180,None,1,1,4,120]
+        s.command('undo')
+        assert state(s) == [1,'lying',120,None,1,0,1,120]
+        s.action(2250,36,0)
+        s.action(2250,36,0)
+        assert state(s) == [1,'lying',180,None,1,1,4,120]
+    finally: s.close()
+    path = out / 'expanded-fear-faint.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2250,30,0)
+        first.action(2250,33,120)
+        first.action(2250,36,0)
+        first.command(f':save {path}\n@2266')
+        assert any('[save ok code=0]' in line for line in first.raw_lines)
+    finally: first.close()
+    for other_cause in [False,True]:
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2266')
+            assert state(second) == [1,'lying',180,None,1,1,4,120]
+            second.action(2250,39,0)
+            if other_cause: second.action(2250,41,0)
+            second.action(2250,33,60)
+            second.action(2250,40,0)
+            expected = [int(other_cause),'lying',180,180,1,2,7,180]
+            assert state(second) == expected
+            second.action(2250,40,0)
+            assert state(second) == expected
+            second.action(2250,33,61) # A completed faint no longer holds the clock boundary.
+            assert state(second)[-1] == 241
+        finally: second.close()
+
+
 def test_fear_fatigue(Session,bundle):
     def state(s):
         s.action(2263)
@@ -8864,6 +8920,7 @@ def test(build):
     test_fear_quirk_stun(Session,quirk_stun,build.out)
     test_fear_stun(Session,fear)
     test_fear_fatigue(Session,fear)
+    test_fear_faint(Session,fear,build.out)
     test_fear_fatigue_stun(Session,fear,build.out)
     test_fear_stun_modifiers(Session,fear)
     test_fear_stun_persistence(Session,fear,build.out)

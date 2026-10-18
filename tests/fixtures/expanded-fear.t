@@ -15,11 +15,31 @@ fearEpisode: RpgExpandedFearStun id = 'apparition' context = fearContext approve
 fearRecovery: RpgExpandedFearStunRecovery id = 'first-recovery' episode = fearEpisode;
 fearSecondRecovery: RpgExpandedFearStunRecovery id = 'second-recovery' episode = fearEpisode;
 fearFatigue: RpgExpandedFearFatigueLoss id = 'fear-cost' profile = fearProfile;
+fearFaintEpisode: RpgExpandedFearFaint id = 'faint-apparition' context = fearContext approved = true evidence = 'Recorded faint outcome';
+faintRecovery: RpgExpandedFearFaintRecovery id = 'first-faint-recovery' episode = fearFaintEpisode;
+faintRetry: RpgExpandedFearFaintRecovery id = 'second-faint-recovery' episode = fearFaintEpisode;
 fearInput: object code = 0 row = 4;
 class FearTestAction: Action
     exec(context)
     {
         local code = fearInput.code;
+        if (code >= 30)
+        {
+            if (code <= 32)
+            {
+                local value = code == 31 ? fearFaintEpisode.assess() : fearFaintEpisode.apply();
+                event('test.faint-start'); eventValue(value.status); eventValue(value.reason);
+                if (code == 32) throw new RpgError(); return nil;
+            }
+            if (code == 33) { rpgSpendTime(fearInput.row); return nil; }
+            if (code == 34) { rpgLiteHealthTime(fearProfile,900); return nil; }
+            if (code == 35) { fearProfile.injury = 1; rpgLiteHeal(fearProfile,1); return nil; }
+            if (code == 39) { fearProfile.ht = 20; return nil; }
+            if (code == 41) { fearProfile.fatigue = fearProfile.maxEnergy * 2; fearProfile.fatigueCollapse = true; return nil; }
+            local value = code == 40 ? faintRetry.apply() : code == 37 ? faintRecovery.assess() : faintRecovery.apply();
+            event('test.faint-recovery'); eventValue(value.status); eventValue(value.reason);
+            if (code == 38) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 23) { fearProfile.fatigue = 9; return nil; }
@@ -78,6 +98,13 @@ act(verb,args)
         event('test.fear-fatigue-state'); eventValue(fearProfile.fatigue); eventValue(fearProfile.injury);
         eventValue(fearProfile.unconscious ? 1 : 0); eventValue(fearProfile.expandedWounds.length());
         eventValue(fearProfile.fearFatigueLosses.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
+    if (verb == 2266)
+    {
+        event('test.faint-state'); eventValue(fearProfile.unconscious ? 1 : 0); eventValue(fearProfile.posture);
+        eventValue(fearFaintEpisode.nextCheckAt); eventValue(fearFaintEpisode.completedAt);
+        eventValue(fearProfile.fearFaints.length()); eventValue(fearFaintEpisode.recoveries.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     return nil;
 }

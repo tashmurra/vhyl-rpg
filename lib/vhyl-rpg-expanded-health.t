@@ -3031,3 +3031,130 @@ class RpgExpandedFearFatigueLoss: object
 modify RpgExpandedProfile
     fearFatigueLosses = []
 ;
+
+modify RpgExpandedProfile
+    fearFaint = nil
+    fearFaints = []
+    unconsciousRecoveryOwned() { return self.fearFaint != nil || inherited(); }
+;
+
+class RpgExpandedFearFaintResult: RpgExpandedResult
+    dropPlan = nil
+;
+
+/** B361 row seventeen: owned one-die minutes of unconsciousness, then health checks. */
+class RpgExpandedFearFaint: object
+    id = nil
+    context = nil
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    startedAt = nil
+    nextCheckAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    recoveries = []
+    definition() { return [self.id,self.context,self.context.profile,self.evidence,self.dropDestination]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
+            rpgExpandedReject('fear-faint-definition');
+        local value = new RpgExpandedFearFaintResult();
+        if (self.startedAt != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('fear-faint-binding');
+            if (!holds(self.context.profile.fearFaints,self)) rpgExpandedReject('fear-faint-history');
+            value.status = 'reused'; return value;
+        }
+        local scene = self.context.assess();
+        if (scene.status != 'ready') { value.reason = scene.reason; return value; }
+        if (scene.immune) { value.reason = 'fear-faint-immune'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fear-faint-evidence'; return value; }
+        local profile = self.context.profile; rpgExpandedValidate(profile);
+        if (profile.dead || profile.unconscious || profile.mortal || profile.hp() <= 0 || profile.fp() <= 0
+            || profile.unconsciousRecoveryOwned() || profile.fearSeconds > 0)
+        { value.reason = 'fear-faint-existing-condition'; return value; }
+        foreach (local prior in profile.fearFaints)
+            if (prior.id == self.id) rpgExpandedReject('fear-faint-duplicate');
+        value.dropPlan = profile.prepareKnockdownDrop(self.dropDestination);
+        if (value.dropPlan != nil && value.dropPlan.status != 'ready')
+        { value.reason = value.dropPlan.reason; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483287);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.nextCheckAt = rpgLedger.seconds + 60 * rpgRandom.die(); self.startedAt = rpgLedger.seconds;
+        self.boundDefinition = self.definition(); local profile = self.context.profile;
+        if (value.dropPlan != nil) value.dropPlan.commit();
+        profile.fearFaint = self; profile.fearFaints = profile.fearFaints + [self];
+        profile.posture = 'lying'; profile.becomeUnconscious(); value.status = 'resolved'; return value;
+    }
+;
+
+/** A due boundary check: elapsed time is already charged by the shared clock. */
+class RpgExpandedFearFaintRecovery: object
+    id = nil
+    episode = nil
+    result = nil
+    boundId = nil
+    boundEpisode = nil
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearFaint))
+            rpgExpandedReject('fear-faint-recovery-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.episode != self.boundEpisode || !holds(self.episode.recoveries,self))
+                rpgExpandedReject('fear-faint-recovery-binding');
+            value.status = 'reused'; value.check = self.result.check; return value;
+        }
+        if (self.episode.startedAt == nil) { value.reason = 'fear-faint-episode-required'; return value; }
+        self.episode.assess(); local profile = self.episode.context.profile;
+        if (self.episode.completedAt != nil) { value.reason = 'fear-faint-already-ended'; return value; }
+        if (profile.dead) { value.reason = 'fear-faint-dead'; return value; }
+        if (profile.fearFaint != self.episode || !profile.unconscious) rpgExpandedReject('fear-faint-owner');
+        if (rpgLedger.seconds < self.episode.nextCheckAt) { value.reason = 'fear-faint-not-due'; return value; }
+        foreach (local prior in self.episode.recoveries)
+            if (prior.id == self.id) rpgExpandedReject('fear-faint-recovery-duplicate');
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-faint-recovery';
+        local score = rpgLiteScore(profile,context);
+        if (score == nil || score < 3) { value.reason = 'fear-faint-health-score'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483587);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local profile = self.episode.context.profile;
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-faint-recovery';
+        value.check = rpgLiteCheck(profile,context);
+        if (value.check.achieved)
+        {
+            profile.fearFaint = nil; self.episode.completedAt = rpgLedger.seconds;
+            if (!profile.unconsciousRecoveryOwned() && !profile.dead && !profile.mortal && profile.hp() > 0 && profile.fp() > 0
+                && profile.cardiacArrest == nil && profile.fearSeconds == 0 && !profile.apparentDeath && !profile.needsMedicalHelp)
+            { profile.unconscious = nil; profile.unconsciousClock = 0; }
+        }
+        else self.episode.nextCheckAt = rpgLedger.seconds + 60;
+        self.boundId = self.id; self.boundEpisode = self.episode;
+        self.episode.recoveries = self.episode.recoveries + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+/** Stop at a pending faint check instead of skipping required minute boundaries. */
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedFearFaint); episode != nil; episode = nextObj(episode,RpgExpandedFearFaint))
+            if (episode.startedAt != nil && episode.completedAt == nil && !episode.context.profile.dead
+                && self.seconds + seconds > episode.nextCheckAt) rpgExpandedReject('fear-faint-recovery-boundary');
+        return nil;
+    }
+;
