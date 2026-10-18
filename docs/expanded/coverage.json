@@ -975,6 +975,18 @@
         "tests/expanded.py::test_wealth_advancement_persistence"
       ],
       "validation_note": "Cash-qualified purchased increase, settled-obligation evidence receipt, shared point spending, repeat and identity guards authored. Tests include transaction and cross-process continuation cases but remain unrun. Employment-driven obligations pending."
+    },
+    {
+      "id": "employment-wealth-obligations",
+      "module": "campaign",
+      "pages": "B517; B291",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEmploymentWealthReview",
+      "tests": [
+        "tests/expanded.py::test_employment_wealth_requirements"
+      ],
+      "validation_note": "Explicit review and next-level persistent obligations authored; tests unrun. Automatic wage dispatch, mandatory progression priority and obligation save checks pending."
     }
   ],
   "detailed_inventories": [

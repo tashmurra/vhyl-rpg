@@ -1734,6 +1734,29 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         eventValue(p.unspentPoints); eventValue(p.wealthAdvancements.length()); return nil;
     }
+    if (verb == 1246)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules; p.campaignTL = 3;
+        p.creationComplete = true; p.money = 5000;
+        local w = new RpgExpandedWealth(); w.owner = p; p.contributions = [w];
+        local job = new RpgExpandedJob(); job.id = 'higher-income';
+        local employment = new RpgExpandedEmployment(); employment.id = 'position';
+        employment.owner = p; employment.job = job; employment.monthlyPay = 100;
+        p.employments = [employment];
+        local review = new RpgExpandedEmploymentWealthReview(); review.employment = employment;
+        review.wealth = w; review.obligationsSettled = true; review.evidence = 'settled';
+        event('test.employment-wealth'); eventValue(review.assess().reason);
+        job.wealthLevel = 'wealthy'; local preview = review.assess();
+        eventValue(preview.status); eventValue(preview.targetLevel); eventValue(preview.points);
+        eventValue(preview.requiredMoney); eventValue(employment.wealthObligations.length());
+        local first = review.record().obligation; eventValue(first.advance().reason);
+        p.money = 0; eventValue(review.record().status); eventValue(employment.wealthObligations.length());
+        p.money = 5000; p.unspentPoints = 20; eventValue(first.advance().points);
+        local second = review.record().obligation; eventValue(second.targetLevel);
+        eventValue(second.advance().points); eventValue(review.record().status);
+        eventValue(p.unspentPoints); eventValue(p.money); eventValue(employment.monthlyPay);
+        eventValue(employment.wealthObligations.length()); return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

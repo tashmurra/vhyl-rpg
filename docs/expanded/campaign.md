@@ -788,11 +788,39 @@ opportunity ID is rejected, as is retargeting a committed receipt.
 
 The current threshold uses the existing money balance. Non-cash property does not
 automatically qualify as money, and this API does not sell assets or decide taxes.
-Compulsory advancement associated with sustained higher-level employment remains
-separate work. `test_wealth_advancement` covers the threshold, point cost, rejection
+The explicit employment review below records compulsory next-level obligations;
+automatic wage integration and advancement priority remain separate work. `test_wealth_advancement` covers the threshold, point cost, rejection
 paths, preview purity, rollback, undo and repeat protection.
 `test_wealth_advancement_sequence` covers buying off a negative wealth level,
 successive point differences, duplicate IDs, retargeting and reuse of an earlier
 receipt after a later increase. `test_wealth_advancement_persistence` saves before
 and after purchase and continues in a new process. These authored cases have not
 run while build checks are paused.
+
+## Higher-wealth employment obligations
+
+Declare `job.wealthLevel` and `job.wealthExtraLevels` independently of actual pay.
+`RpgExpandedEmploymentWealthReview` binds an owned employment and the employee's
+installed wealth contribution. It implements the successive-level requirement
+in `full-2008` B517; it does not infer a wealth category from wages or alter pay.
+
+After relevant income and payments settle, supply `obligationsSettled` and
+`evidence`, then call `assess()`. A higher-category job makes the next personal
+wealth level `required` once money reaches that level's starting threshold.
+`record()` creates one owned `RpgExpandedWealthAdvancement` in
+`employment.wealthObligations`. Run it inside the income/obligation transaction;
+this explicit review is not automatically invoked by monthly wage settlement.
+An unspecified job category returns `employment-wealth-unspecified`.
+
+The returned `obligation` spends points only when its `advance()` succeeds.
+Lack of points leaves it pending; no debt of invented points or free trait increase
+is supplied. Repeated review returns the same pending obligation even if savings
+subsequently fall. Once paid, review can require the next level, stopping when the
+employee matches or exceeds the job's category. Each purchase rechecks current
+money and points. The author must route mandatory advancement through this record;
+unrelated progression purchases are not yet gated by employment obligations.
+
+`test_employment_wealth_requirements` covers explicit-category rejection, pure
+preview, successive thresholds, unfunded retention and unchanged wages/money.
+It remains unrun. Automatic wage-review dispatch, priority over other advancement,
+and obligation-specific save continuation remain integration work.

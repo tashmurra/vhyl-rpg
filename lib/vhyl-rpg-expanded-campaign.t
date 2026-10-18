@@ -1400,3 +1400,84 @@ class RpgExpandedWealthAdvancement: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedJob
+    /* Explicit category: pay alone does not determine the job's wealth level. */
+    wealthLevel = nil
+    wealthExtraLevels = 0
+;
+
+modify RpgExpandedEmployment
+    wealthObligations = []
+;
+
+/** Next mandatory purchased level for higher-wealth employment, B517.
+ * Authors review after settling income and relevant obligations. A recorded
+ * obligation persists even when points are insufficient or savings later fall. */
+class RpgExpandedEmploymentWealthReview: object
+    employment = nil
+    wealth = nil
+    obligationsSettled = nil
+    evidence = nil
+    assess()
+    {
+        if (self.employment == nil || !self.employment.ofKind(RpgExpandedEmployment))
+            rpgExpandedReject('employment-wealth-owner');
+        self.employment.validate(); local profile = self.employment.owner;
+        if (self.wealth == nil || !self.wealth.ofKind(RpgExpandedWealth)
+            || self.wealth.owner != profile || !holds(profile.contributions,self.wealth))
+            rpgExpandedReject('employment-wealth-owner');
+        rpgExpandedValidate(profile);
+        local value = new RpgExpandedEmploymentWealthResult();
+        foreach (local obligation in self.employment.wealthObligations)
+        {
+            if (obligation.profile != profile || obligation.wealth != self.wealth)
+                rpgExpandedReject('employment-wealth-retargeted');
+            if (!obligation.purchased)
+            { value.status = 'pending'; value.obligation = obligation; return value; }
+        }
+        if (!self.employment.active) { value.reason = 'employment-inactive'; return value; }
+        if (self.employment.job.wealthLevel == nil)
+        { value.reason = 'employment-wealth-unspecified'; return value; }
+        local jobWealth = new RpgExpandedWealth(); jobWealth.wealthLevel = self.employment.job.wealthLevel;
+        jobWealth.extraLevels = self.employment.job.wealthExtraLevels;
+        local jobCost = jobWealth.amounts(profile); local currentCost = self.wealth.amounts(profile);
+        if (jobCost[1] <= currentCost[1]) { value.status = 'satisfied'; return value; }
+        local target = new RpgExpandedWealth(); local rank = self.wealth.rank();
+        if (rank >= 8)
+        { target.wealthLevel = 'multimillionaire'; target.extraLevels = rank == 8 ? 1 : self.wealth.extraLevels + 1; }
+        else
+        {
+            local levels = ['none','poor','struggling','average','comfortable','wealthy','very-wealthy','filthy-rich'];
+            target.wealthLevel = levels[rank + 1];
+        }
+        local nextCost = target.amounts(profile); value.points = nextCost[1] - currentCost[1];
+        value.targetLevel = target.wealthLevel; value.targetExtraLevels = target.extraLevels;
+        value.requiredMoney = target.startingValue(profile.campaignTL);
+        if (!profile.creationComplete) { value.reason = 'wealth-advancement-after-creation'; return value; }
+        if (!self.obligationsSettled || self.evidence == nil || self.evidence == '')
+        { value.reason = 'wealth-advancement-obligations'; return value; }
+        rpgInteger(profile.money,0,2147483647);
+        if (profile.money < value.requiredMoney)
+        { value.reason = 'wealth-advancement-money'; return value; }
+        value.status = 'required'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'required') return value;
+        local obligation = new RpgExpandedWealthAdvancement();
+        /* Object identity supplies an unambiguous opportunity key across saves. */
+        obligation.id = obligation; obligation.profile = self.employment.owner; obligation.wealth = self.wealth;
+        obligation.targetLevel = value.targetLevel; obligation.targetExtraLevels = value.targetExtraLevels;
+        obligation.permitted = true; obligation.obligationsSettled = true; obligation.evidence = self.evidence;
+        self.employment.wealthObligations = self.employment.wealthObligations + [obligation];
+        value.obligation = obligation; value.status = 'recorded'; return value;
+    }
+;
+
+/** Authored employment review outcome; no points are granted to fund a duty. */
+class RpgExpandedEmploymentWealthResult: RpgExpandedWealthAdvancementResult
+    targetLevel = nil
+    targetExtraLevels = 0
+    obligation = nil
+;

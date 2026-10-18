@@ -221,9 +221,12 @@
       "pages": "B517",
       "module": "campaign",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A worker in a higher-wealth job must purchase successive wealth levels as savings reach each next level's starting-wealth threshold, until matching the job. Preserve the advancement obligation without automatically granting free points.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_employment_wealth_requirements"
+      ],
+      "implementation_note": "Explicit owned review records the next-level obligation and preserves it without free points. Automatic wage dispatch, advancement priority and persistence checks remain pending; authored cases unrun."
     },
     {
       "id": "economy-job-search",
