@@ -625,5 +625,42 @@ receipts and the attempt timestamp together; invoke it through an action.
 qualification/offer binding, simultaneous-search penalties, replay protection,
 rollback, undo and the interval boundary. `test_job_search_persistence` covers
 receipt and random-state preservation across save/restore in separate processes.
-These cases are authored and remain unrun. Recruiting candidates, accepting
-employment and calendar-week alternatives are separate, unfinished integrations.
+These cases are authored and remain unrun. Recruiting candidates and calendar-week
+alternatives remain unfinished integrations.
+
+
+## Accepting an employment offer
+
+Set the opportunity's `variable`, `raiseTiming` and concrete `failurePolicy` before
+acceptance. `RpgExpandedEmploymentAcceptance` takes the applicant `profile`, that
+`opportunity`, a unique `employmentId`, `applicantAgrees`, `employerAgrees` and
+`scheduleApproved`. The schedule approval is an explicit author decision about
+whether the offered work fits the character's existing commitments. It does not
+reserve hours or grant simultaneous work and study credit.
+
+The offer must appear in a successful job-search receipt for this character.
+Alternatively, `directOfferEvidence` may identify an authored invitation that does
+not require a search. This is a concrete world event, not a bonus or a fabricated
+successful roll. Acceptance rechecks current qualifications, availability, monthly
+roll selection and every possible wage outcome before creating employment.
+Unsupported wage arithmetic or failure policies block acceptance.
+
+`assess()` is pure. `accept()` adds an owned `RpgExpandedEmployment` to
+`profile.employments`, copying the agreed pay, variable-pay mode, raise timing,
+employer, terms and financial failure policy. The copied policy cannot be changed
+by later edits to a shared offer's policy. `startedAt` and `lastMonthAt` use the
+shared clock. Acceptance neither advances that clock nor awards income: completed
+work is settled through `RpgExpandedJobMonth`.
+
+The opportunity stores `acceptedEmployment` and becomes unavailable. Repeating
+acceptance with the same worker and employment ID returns that record as `reused`;
+a competing worker receives `employment-offer-filled`. Dismissal does not reopen
+the same offer: a fresh hiring decision needs a new opportunity. Invoke acceptance
+inside the normal action transaction so rollback and undo restore both vacancy
+and worker state.
+
+`test_employment_acceptance` covers discovery, preview purity, copied terms,
+rollback, undo, replay and competing applicants. Its cross-process persistence
+case checks the created employment and vacancy link after save/restore. Both are
+authored and unrun while checks are paused. Automatic schedule planning, injury or
+arrest failure effects and a full employer payroll ledger remain unfinished.

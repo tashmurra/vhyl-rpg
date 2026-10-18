@@ -908,7 +908,20 @@
         "tests/expanded.py::test_job_search_batch",
         "tests/expanded.py::test_job_search_persistence"
       ],
-      "validation_note": "Owned weekly batch receipts, actual batch-size penalty, whole-budget preflight, advertising charge and authored opportunities implemented. Checks unrun; accepting employment and recruiting remain separate unfinished integrations."
+      "validation_note": "Owned weekly batch receipts, actual batch-size penalty, whole-budget preflight, advertising charge and authored opportunities implemented. Checks unrun; recruiting remains unfinished."
+    },
+    {
+      "id": "employment-offer-acceptance",
+      "module": "campaign",
+      "pages": "B516-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEmploymentAcceptance",
+      "tests": [
+        "tests/expanded.py::test_employment_acceptance",
+        "tests/expanded.py::test_employment_acceptance_persistence"
+      ],
+      "validation_note": "Explicit agreement, successful-search or direct-offer evidence, qualification recheck, owned pay/policy and single-vacancy acceptance authored. Checks unrun; automatic scheduling and nonfinancial failure effects remain pending."
     }
   ],
   "detailed_inventories": [

@@ -1040,3 +1040,95 @@ class RpgExpandedJobSearch: object
         value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedEmployment
+    employer = nil
+    terms = nil
+    opportunity = nil
+    startedAt = nil
+;
+
+modify RpgExpandedJobOpportunity
+    variable = nil
+    raiseTiming = 'next-month'
+    failurePolicy = nil
+    acceptedEmployment = nil
+    employmentFor(profile, id)
+    {
+        local employment = new RpgExpandedEmployment();
+        employment.id = id; employment.owner = profile; employment.job = self.job;
+        employment.monthlyPay = self.monthlyPay; employment.variable = self.variable;
+        employment.raiseTiming = self.raiseTiming; employment.employer = self.employer;
+        employment.terms = self.terms; employment.opportunity = self;
+        if (self.failurePolicy == nil || !self.failurePolicy.ofKind(RpgExpandedJobFailure))
+            rpgExpandedReject('job-offer-failure-policy');
+        local policy = new RpgExpandedJobFailure(); policy.kind = self.failurePolicy.kind;
+        policy.evidence = self.failurePolicy.evidence; policy.retainedPayPercent = self.failurePolicy.retainedPayPercent;
+        policy.lostSavings = self.failurePolicy.lostSavings; employment.failurePolicy = policy;
+        return employment;
+    }
+;
+
+class RpgExpandedEmploymentAcceptanceResult: RpgExpandedResult
+    employment = nil
+;
+
+/** Accept concrete employment terms after discovery or an authored direct offer.
+ * No wages accrue merely from accepting. Each opportunity creates at most one post. */
+class RpgExpandedEmploymentAcceptance: object
+    profile = nil
+    opportunity = nil
+    employmentId = nil
+    applicantAgrees = nil
+    employerAgrees = nil
+    scheduleApproved = nil
+    directOfferEvidence = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.opportunity == nil || !self.opportunity.ofKind(RpgExpandedJobOpportunity)
+            || self.employmentId == nil) rpgExpandedReject('employment-acceptance-target');
+        local value = new RpgExpandedEmploymentAcceptanceResult(); local offer = self.opportunity;
+        if (offer.acceptedEmployment != nil)
+        {
+            local existing = offer.acceptedEmployment;
+            if (existing.owner == self.profile && existing.id == self.employmentId)
+            { existing.validate(); value.status = 'reused'; value.employment = existing; return value; }
+            value.reason = 'employment-offer-filled'; return value;
+        }
+        rpgExpandedValidate(self.profile);
+        foreach (local existing in self.profile.employments)
+            if (existing.id == self.employmentId) rpgExpandedReject('duplicate-employment');
+        if (!self.applicantAgrees || !self.employerAgrees || !self.scheduleApproved)
+        { value.reason = 'employment-agreement-required'; return value; }
+        if (!offer.available) { value.reason = 'employment-offer-unavailable'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'cannot-accept-employment'; return value; }
+        if (offer.job == nil || !offer.job.ofKind(RpgExpandedJob) || offer.employer == nil || offer.terms == nil)
+            rpgExpandedReject('employment-offer-terms');
+        local discovered = self.directOfferEvidence != nil;
+        foreach (local receipt in self.profile.jobSearchReceipts)
+            foreach (local outcome in receipt[3])
+                if (outcome[3] == offer && outcome[1] == offer.job && outcome[2].achieved) discovered = true;
+        if (!discovered) { value.reason = 'employment-offer-undiscovered'; return value; }
+        local qualification = offer.job.assess(self.profile);
+        if (qualification.status != 'ready') { value.reason = qualification.reason; return value; }
+        rpgInteger(self.profile.money,0,2147483647);
+        local employment = offer.employmentFor(self.profile,self.employmentId);
+        employment.failurePolicy.validate(employment);
+        for (local roll = 3; roll <= 18; roll += 1)
+        {
+            local outcome = rpgExpandedJobEarnings(employment.monthlyPay,employment.variable,qualification.score,roll,employment.raiseTiming);
+            if (outcome.status != 'ready') { value.reason = outcome.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    accept()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local employment = self.opportunity.employmentFor(self.profile,self.employmentId);
+        employment.startedAt = rpgLedger.seconds; employment.lastMonthAt = rpgLedger.seconds;
+        self.profile.employments = self.profile.employments + [employment];
+        self.opportunity.acceptedEmployment = employment; self.opportunity.available = nil;
+        value.employment = employment; value.status = 'resolved'; return value;
+    }
+;

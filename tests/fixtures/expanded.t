@@ -103,13 +103,15 @@ searchContextOne: RpgExpandedJobSeekingModifiers profile = searchWorker job = se
 searchContextTwo: RpgExpandedJobSeekingModifiers profile = searchWorker job = searchJobTwo
     population = 5000 monthlyPay = 100 advertising = 5;
 searchOfferOne: RpgExpandedJobOpportunity job = searchJobOne employer = 'archive'
-    terms = 'archive-contract' monthlyPay = 100 available = true;
+    terms = 'archive-contract' monthlyPay = 100 available = true failurePolicy = workerFailure;
 searchOfferTwo: RpgExpandedJobOpportunity job = searchJobTwo employer = 'observatory'
     terms = 'observatory-contract' monthlyPay = 100 available = true;
 searchBatch: RpgExpandedJobSearch id = 'first-search-week' profile = searchWorker permitted = true
     searches = [[searchContextOne,searchOfferOne],[searchContextTwo,searchOfferTwo]];
 searchNextBatch: RpgExpandedJobSearch id = 'second-search-week' profile = searchWorker permitted = true
     searches = [[searchContextOne,searchOfferOne],[searchContextTwo,searchOfferTwo]];
+searchAcceptance: RpgExpandedEmploymentAcceptance profile = searchWorker opportunity = searchOfferOne
+    employmentId = 'archive-employment' applicantAgrees = true employerAgrees = true scheduleApproved = true;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -335,6 +337,11 @@ class ExpandedTestAction: Action
         }
         if (code == 83) { for (local day = 0; day < 6; day += 1) rpgSpendTime(86400); rpgSpendTime(86399); }
         if (code == 84) rpgSpendTime(1);
+        if (code == 85 || code == 86)
+        {
+            local value = searchAcceptance.accept(); event('test.accept-employment'); eventValue(value.status);
+            eventValue(value.reason); if (code == 86) throw new RpgError();
+        }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1517,6 +1524,34 @@ act(verb, args)
         batch.searches = [[one,searchOfferTwo]];
         try { batch.search(); } catch (RpgExpandedError error) { eventValue(error.reason); }
         eventValue(p.money); eventValue(p.jobSearchReceipts.length()); return nil;
+    }
+    if (verb == 1233)
+    {
+        event('test.accept-employment-state'); eventValue(searchWorker.employments.length());
+        eventValue(searchOfferOne.available ? 1 : 0); eventValue(searchOfferOne.acceptedEmployment != nil ? 1 : 0);
+        eventValue(searchWorker.money); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1234)
+    {
+        local value = searchAcceptance.assess(); event('test.accept-employment-preview');
+        eventValue(value.status); eventValue(value.reason); return nil;
+    }
+    if (verb == 1235)
+    {
+        local employment = searchWorker.employments[1]; event('test.accept-employment-terms');
+        eventValue(employment.monthlyPay); eventValue(employment.employer); eventValue(employment.terms);
+        eventValue(employment.startedAt); eventValue(employment.lastMonthAt);
+        eventValue(employment.failurePolicy != searchOfferOne.failurePolicy ? 1 : 0);
+        eventValue(employment.failurePolicy.kind); eventValue(employment.active ? 1 : 0); return nil;
+    }
+    if (verb == 1236)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules;
+        local request = new RpgExpandedEmploymentAcceptance(); request.profile = p; request.opportunity = searchOfferOne;
+        request.employmentId = 'another-archive-employee'; request.applicantAgrees = true;
+        request.employerAgrees = true; request.scheduleApproved = true;
+        local value = request.accept(); event('test.accept-other-worker'); eventValue(value.reason);
+        eventValue(p.employments.length()); return nil;
     }
     return vhylAct(verb,args);
 }
