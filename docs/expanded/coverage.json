@@ -934,7 +934,33 @@
         "tests/expanded.py::test_recruiting_search",
         "tests/expanded.py::test_recruiting_legal_consequence"
       ],
-      "validation_note": "Party-owned vacancy, weekly limits, candidate presentation/decline, advertising and explicit fine consequence authored. Checks unrun; candidate hiring, other sanctions and setting-specific labor markets pending."
+      "validation_note": "Party-owned vacancy, weekly limits, candidate presentation/decline, advertising and explicit fine consequence authored. Checks unrun; other sanctions and setting-specific labor markets pending."
+    },
+    {
+      "id": "recruited-candidate-employment",
+      "module": "campaign",
+      "pages": "B516-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEmploymentAcceptance",
+      "tests": [
+        "tests/expanded.py::test_hire_candidate",
+        "tests/expanded.py::test_hire_candidate_persistence"
+      ],
+      "validation_note": "Successful interview and current vacancy required; explicit candidate/party agreement, owned employment and vacancy closure committed together. Checks unrun; loyalty integration pending."
+    },
+    {
+      "id": "employer-funded-payroll",
+      "module": "campaign",
+      "pages": "B516-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobMonth",
+      "tests": [
+        "tests/expanded.py::test_hire_payroll",
+        "tests/expanded.py::test_hire_payroll_unfunded"
+      ],
+      "validation_note": "Optional payer copied from agreed offer; all wage outcomes preflighted and actual wages transferred once with monthly receipt. Checks unrun; arrears, partial wages and insolvency pending."
     }
   ],
   "detailed_inventories": [

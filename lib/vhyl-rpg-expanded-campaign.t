@@ -602,6 +602,7 @@ modify RpgExpandedProfile
 
 /** Owned employment state. Job definitions may be shared; pay and receipts may not. */
 class RpgExpandedEmployment: object
+    payer = nil
     id = nil
     owner = nil
     job = nil
@@ -671,11 +672,19 @@ class RpgExpandedJobMonth: object
         if (employment.failurePolicy == nil || !employment.failurePolicy.ofKind(RpgExpandedJobFailure))
             rpgExpandedReject('job-failure-policy');
         employment.failurePolicy.validate(employment);
+        if (employment.payer != nil)
+        {
+            if (!employment.payer.ofKind(RpgExpandedProfile) || employment.payer == employment.owner)
+                rpgExpandedReject('employment-payroll-payer');
+            rpgExpandedValidate(employment.payer); rpgInteger(employment.payer.money,0,2147483647);
+        }
         for (local roll = 3; roll <= 18; roll += 1)
         {
             local outcome = rpgExpandedJobEarnings(employment.monthlyPay,employment.variable,qualification.score,roll,employment.raiseTiming);
             if (outcome.status != 'ready') { value.reason = outcome.reason; return value; }
             if (outcome.money > 2147483647 - employment.owner.money) rpgExpandedReject('job-month-money-limit');
+            if (employment.payer != nil && outcome.money > employment.payer.money)
+            { value.reason = 'employment-payroll-funds'; return value; }
         }
         value.status = 'ready'; return value;
     }
@@ -692,6 +701,7 @@ class RpgExpandedJobMonth: object
             if (policy.kind == 'demotion') value.nextPay = rpgExpandedJobPercent(employment.monthlyPay,policy.retainedPayPercent);
             if (policy.kind == 'dismissal') employment.active = nil;
         }
+        if (employment.payer != nil) employment.payer.money -= value.money;
         employment.owner.money += value.money - loss; employment.monthlyPay = value.nextPay;
         employment.months = employment.months + [[self.month,self.dueAt,value.check,value.money,value.nextPay,loss,employment.active]];
         employment.lastMonth = self.month; employment.lastMonthAt = self.dueAt;
@@ -1049,6 +1059,7 @@ modify RpgExpandedEmployment
 ;
 
 modify RpgExpandedJobOpportunity
+    payer = nil
     variable = nil
     raiseTiming = 'next-month'
     failurePolicy = nil
@@ -1057,7 +1068,7 @@ modify RpgExpandedJobOpportunity
     {
         local employment = new RpgExpandedEmployment();
         employment.id = id; employment.owner = profile; employment.job = self.job;
-        employment.monthlyPay = self.monthlyPay; employment.variable = self.variable;
+        employment.monthlyPay = self.monthlyPay; employment.variable = self.variable; employment.payer = self.payer;
         employment.raiseTiming = self.raiseTiming; employment.employer = self.employer;
         employment.terms = self.terms; employment.opportunity = self;
         if (self.failurePolicy == nil || !self.failurePolicy.ofKind(RpgExpandedJobFailure))
@@ -1083,6 +1094,7 @@ class RpgExpandedEmploymentAcceptance: object
     employerAgrees = nil
     scheduleApproved = nil
     directOfferEvidence = nil
+    recruitingVacancy = nil
     assess()
     {
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -1106,6 +1118,22 @@ class RpgExpandedEmploymentAcceptance: object
         if (offer.job == nil || !offer.job.ofKind(RpgExpandedJob) || offer.employer == nil || offer.terms == nil)
             rpgExpandedReject('employment-offer-terms');
         local discovered = self.directOfferEvidence != nil;
+        if (self.recruitingVacancy != nil)
+        {
+            local vacancy = self.recruitingVacancy;
+            if (!vacancy.ofKind(RpgExpandedRecruitingVacancy)) rpgExpandedReject('employment-recruiting-vacancy');
+            vacancy.validate();
+            if (offer.employer != vacancy.party) rpgExpandedReject('employment-recruiting-employer');
+            if (!vacancy.open || vacancy.hiredEmployment != nil)
+            { value.reason = 'employment-recruiting-closed'; return value; }
+            if (vacancy.pendingCandidate != self.profile)
+            { value.reason = 'employment-recruiting-interview'; return value; }
+            local presented = nil;
+            foreach (local receipt in vacancy.attempts)
+                if (receipt[5] == self.profile && receipt[4].achieved) presented = true;
+            if (!presented) rpgExpandedReject('employment-recruiting-evidence');
+            discovered = true;
+        }
         foreach (local receipt in self.profile.jobSearchReceipts)
             foreach (local outcome in receipt[3])
                 if (outcome[3] == offer && outcome[1] == offer.job && outcome[2].achieved) discovered = true;
@@ -1114,6 +1142,12 @@ class RpgExpandedEmploymentAcceptance: object
         if (qualification.status != 'ready') { value.reason = qualification.reason; return value; }
         rpgInteger(self.profile.money,0,2147483647);
         local employment = offer.employmentFor(self.profile,self.employmentId);
+        if (employment.payer != nil)
+        {
+            if (!employment.payer.ofKind(RpgExpandedProfile) || employment.payer == self.profile)
+                rpgExpandedReject('employment-payroll-payer');
+            rpgExpandedValidate(employment.payer);
+        }
         employment.failurePolicy.validate(employment);
         for (local roll = 3; roll <= 18; roll += 1)
         {
@@ -1129,6 +1163,11 @@ class RpgExpandedEmploymentAcceptance: object
         employment.startedAt = rpgLedger.seconds; employment.lastMonthAt = rpgLedger.seconds;
         self.profile.employments = self.profile.employments + [employment];
         self.opportunity.acceptedEmployment = employment; self.opportunity.available = nil;
+        if (self.recruitingVacancy != nil)
+        {
+            self.recruitingVacancy.hiredEmployment = employment;
+            self.recruitingVacancy.open = nil; self.recruitingVacancy.pendingCandidate = nil;
+        }
         value.employment = employment; value.status = 'resolved'; return value;
     }
 ;
@@ -1146,6 +1185,7 @@ class RpgExpandedRecruitingVacancy: object
     attempts = []
     lastAttemptAt = nil
     pendingCandidate = nil
+    hiredEmployment = nil
     declined = []
     validate()
     {

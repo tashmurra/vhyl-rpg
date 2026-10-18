@@ -689,7 +689,7 @@ hires them. The vacancy's `pendingCandidate` prevents further searches while tha
 interview is unresolved. `decline(candidate, evidence)` records an explicit refusal
 and clears the pending interview without resetting the weekly clock. A subsequent
 attempt requires `repeatApproved`, reflecting authored availability. Hiring and
-closing the vacancy still require the separate employment/party integration.
+closing the vacancy use the acceptance integration described below.
 
 `assess()` validates the entire attempt, budget and possible legal consequence
 without revealing a candidate result. `search()` spends advertising once, rolls
@@ -712,4 +712,55 @@ All mutations belong in the normal action transaction. The authored
 interviews, switching recruiters and the weekly boundary. The authored
 `test_recruiting_legal_consequence` covers the critical-failure transfer and rollback.
 These cases remain unrun. Recruitment in settings with additional labor-market
-rules, candidate hiring and nonfinancial sanctions remain incomplete.
+rules and nonfinancial sanctions remain incomplete.
+
+
+## Hiring a presented candidate
+
+To use employment acceptance after recruiting, set its `recruitingVacancy` and
+set the opportunity's `employer` to that vacancy's party object. The worker must
+be the current `pendingCandidate`, backed by a successful attempt receipt. The
+vacancy must remain open and unfilled. A direct-offer evidence reference does not
+bypass these checks when a recruiting vacancy is supplied.
+
+The ordinary acceptance requirements still apply: both parties agree to the
+terms, the schedule is approved, and the candidate meets the job's actual
+qualifications. A successful interview alone supplies no skills, attributes or
+qualification exceptions. Use an authored job definition appropriate to the
+position and pay actually agreed with the candidate.
+
+Acceptance commits the worker's employment, the opportunity's filled state and
+the vacancy's `hiredEmployment` together, then closes the vacancy and clears the
+pending interview. It leaves `party.members` unchanged: employment does not give
+the hireling the party members' authority to recruit. NPC decisions and any
+social-module loyalty record remain independently authored. No wage is paid at
+hiring; monthly work settlement remains the income operation.
+
+`test_hire_candidate` covers pre-interview rejection, successful hiring, preview
+purity, rollback, undo, replay and closed-vacancy protection. Its persistence case
+checks that the owned employment and vacancy link survive cross-process save and
+restore. These cases remain unrun. Coordinated work schedules and automatic loyalty initialization remain separate
+integration work.
+
+
+## Funding wages from an employer account
+
+Set `opportunity.payer` to the actual profile whose money funds wages before
+accepting the offer. Acceptance copies that payer into the owned employment.
+The payer must differ from the worker. With no payer, the existing external-economy
+income behavior remains available; do not also debit another account manually
+when a payer is configured.
+
+Monthly settlement validates the payer and requires enough money for every
+possible wage result before rolling. On commit, it deducts precisely the earned
+amount from the payer and credits the worker in the same transaction as the
+month's receipt. Failed-month savings losses remain the separate, explicitly
+authored consequence; they are not automatically awarded to the employer.
+A repeated month cannot debit the payer again. No money moves when hiring, so the
+author must arrange funding by the date the month's settlement becomes due.
+
+`test_hire_payroll` covers the complete recruit/hire/pay sequence, conserved wages,
+rollback, undo and repeat protection. `test_hire_payroll_unfunded` checks that an
+unaffordable payroll is blocked without consuming randomness or crediting wages.
+These cases remain unrun. Partial wages, unpaid wage obligations and employer
+insolvency require explicit future procedures rather than silent partial payment.

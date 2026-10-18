@@ -133,6 +133,11 @@ recruitNext: RpgExpandedRecruitingAttempt id = 'guide-search-two' vacancy = recr
 illegalAttempt: RpgExpandedRecruitingAttempt id = 'illegal-search' vacancy = illegalVacancy recruiter = recruiterOne
     context = recruitContext modifiers = illegalModifiers permitted = true candidate = recruitCandidate
     candidateAvailable = true candidateEvidence = 'available-contact' legalFine = recruitFine;
+hireOffer: RpgExpandedJobOpportunity job = searchJobOne employer = recruitParty payer = recruiterOne terms = 'guide-contract'
+    monthlyPay = 100 available = true failurePolicy = workerFailure;
+hireAcceptance: RpgExpandedEmploymentAcceptance profile = recruitCandidate opportunity = hireOffer
+    employmentId = 'party-guide-employment' applicantAgrees = true employerAgrees = true scheduleApproved = true
+    recruitingVacancy = recruitVacancy;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -380,6 +385,20 @@ class ExpandedTestAction: Action
             if (code == 88 || code == 92) throw new RpgError();
         }
         if (code == 89) recruitVacancy.decline(recruitCandidate,'party-declines-interview');
+        if (code == 94 || code == 95)
+        {
+            local value = hireAcceptance.accept(); event('test.hire-candidate'); eventValue(value.status); eventValue(value.reason);
+            if (code == 95) throw new RpgError();
+        }
+        if (code == 96 || code == 97 || code == 98)
+        {
+            if (rpgLedger.seconds == 0) rpgSpendTime(100);
+            if (code == 98) recruiterOne.money = 99;
+            local month = new RpgExpandedJobMonth(); month.employment = recruitVacancy.hiredEmployment;
+            month.month = 1; month.dueAt = 100; month.fullMonthWorked = true;
+            local value = month.settle(); event('test.hire-payroll'); eventValue(value.status); eventValue(value.reason); eventValue(value.money);
+            if (code == 97) throw new RpgError();
+        }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1601,6 +1620,23 @@ act(verb, args)
     {
         local value = recruitAttempt.assess(); event('test.recruiting-preview'); eventValue(value.status);
         eventValue(value.score); eventValue(value.money); eventValue(value.candidate); return nil;
+    }
+    if (verb == 1239)
+    {
+        event('test.hire-candidate-state'); eventValue(recruitCandidate.employments.length());
+        eventValue(recruitVacancy.open ? 1 : 0); eventValue(recruitVacancy.pendingCandidate != nil ? 1 : 0);
+        eventValue(recruitVacancy.hiredEmployment != nil ? 1 : 0); eventValue(recruitParty.members.length());
+        eventValue(recruitCandidate.money); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1240)
+    {
+        local value = hireAcceptance.assess(); event('test.hire-candidate-preview'); eventValue(value.status);
+        eventValue(value.reason); return nil;
+    }
+    if (verb == 1241)
+    {
+        event('test.hire-payroll-state'); eventValue(recruiterOne.money); eventValue(recruitCandidate.money);
+        eventValue(recruitVacancy.hiredEmployment.months.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
     return vhylAct(verb,args);
 }
