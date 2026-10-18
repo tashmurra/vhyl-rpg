@@ -6112,11 +6112,13 @@ modify RpgExpandedProfile
         if (!self.lowerLimbImpaired()) return base;
         if (self.mobilitySupport == nil || self.mobilitySupport.assess().status != 'ready')
             rpgExpandedReject('lower-limb-movement-adapter-required');
-        return base < 2 ? base : 2;
+        local limit = self.mobilitySupport.moveLimit();
+        return base < limit ? base : limit;
     }
 ;
 /** B141 fitted peg, one impaired leg on a biped. Fitting/terrain are author facts. */
 class RpgExpandedPegSupport: object
+    moveLimit() { return 2; }
     profile = nil
     leg = nil
     item = nil
@@ -6167,5 +6169,74 @@ class RpgExpandedPegSupport: object
     {
         if (self.profile != nil && self.profile.mobilitySupport == self) self.profile.mobilitySupport = nil;
         return nil;
+    }
+;
+
+/** Already fitted/readied crutch arrangement; authored hands define its support. */
+class RpgExpandedCrutchSupport: RpgExpandedPegSupport
+    part = nil
+    hands = []
+    definition()
+    { return [self.profile,self.part,self.item,self.fitted,self.approved,self.evidence,self.hands.length()] + self.hands; }
+    moveLimit() { return self.part.kind == 'foot' ? self.profile.basicSpeedQuarters() / 8 : 2; }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.part == nil || !self.part.ofKind(RpgExpandedBodyPart) || self.part.profile != self.profile
+            || !holds(['leg','foot'],self.part.kind) || self.item == nil || !self.item.ofKind(RpgLiteItem))
+            rpgExpandedReject('crutch-support-definition');
+        if (self.boundDefinition != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('crutch-support-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('crutch-support-binding');
+        }
+        local value = new RpgExpandedResult();
+        if (!self.approved || !self.fitted || !self.terrainSuitable || self.evidence == nil || self.evidence == '')
+        { value.reason = 'crutch-support-author-facts'; return value; }
+        self.profile.validateBodyParts();
+        local legs = 0; local badLegs = 0;
+        foreach (local candidate in self.profile.bodyParts)
+        {
+            if (candidate.kind == 'leg') { legs += 1; if (!candidate.functional()) badLegs += 1; }
+            if (candidate.kind == 'foot' && candidate != self.part && candidate.parent != self.part && !candidate.functional())
+            { value.reason = 'crutch-support-other-foot'; return value; }
+        }
+        if (legs != 2 || self.part.functional() || badLegs != (self.part.kind == 'leg' ? 1 : 0))
+        { value.reason = 'crutch-support-anatomy'; return value; }
+        if (!holds(self.profile.equipment,self.item) || !self.item.ready || self.item.worn || !self.item.usableBy(self.profile))
+        { value.reason = 'crutch-support-item-unavailable'; return value; }
+        rpgInteger(self.hands.length(),1,2);
+        if (self.item.bodySupports.length() != self.hands.length()) rpgExpandedReject('crutch-support-grips');
+        local seen = [];
+        foreach (local hand in self.hands)
+        {
+            if (hand == nil || !hand.ofKind(RpgExpandedBodyPart) || hand.profile != self.profile
+                || hand.kind != 'hand' || holds(seen,hand) || !holds(self.item.bodySupports,hand))
+                rpgExpandedReject('crutch-support-hand');
+            seen = seen + [hand];
+            if (!hand.functional()) { value.reason = 'crutch-support-hand-disabled'; return value; }
+            if (self.profile.mobilitySupport != self && self.profile.supportReserved(hand))
+            { value.reason = 'crutch-support-hand-reserved'; return value; }
+            foreach (local gear in self.profile.equipment)
+                if (gear != self.item && gear.ready && !gear.worn && gear.usableBy(self.profile))
+                {
+                    if (gear.bodySupports.length() == 0) { value.reason = 'crutch-support-hand-unmapped'; return value; }
+                    foreach (local support in gear.bodySupports)
+                        if (support == hand || support == hand.parent)
+                        { value.reason = 'crutch-support-hand-occupied'; return value; }
+                }
+        }
+        value.status = 'ready'; return value;
+    }
+;
+modify RpgExpandedProfile
+    supportReserved(part)
+    {
+        if (self.mobilitySupport != nil && self.mobilitySupport.ofKind(RpgExpandedCrutchSupport))
+            foreach (local hand in self.mobilitySupport.hands)
+                if (part == nil || part == hand || part == hand.parent || part.parent == hand.parent) return true;
+        return inherited(part);
     }
 ;

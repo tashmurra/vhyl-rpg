@@ -2888,3 +2888,26 @@ Fixtures specify activation replay, rollback, undo, save continuation, removal,
 terrain changes, encumbrance and fatigue reductions. Assertions remain unrun.
 Crutches, leaning supports, hand reservations, crawling, loss-of-support falls and
 broader locomotion integration remain pending.
+
+### Crutch support and hand reservations
+
+`RpgExpandedCrutchSupport` uses `part` (the impaired leg or foot), an owned readied
+`item`, and an authored list of one or two supporting `hands`. The item's hand
+bindings must match. As with peg support, the author supplies fitting, terrain and
+adequacy evidence; hand count is an authored arrangement, not an inferred universal
+crutch requirement. Only the biped, single impaired leg or foot case is supported.
+The other foot must remain functional.
+
+Activation checks hand function, existing reservations and conflicting readied
+gear. While active, its hands and arms are reserved through the same hook used by
+attacks, parries and lifting. The free hand remains available. Readiness, possession,
+hand function and terrain are rechecked for mobility. Deactivate the support before
+reusing its hands, even if the aid has become unavailable; automatic support-loss
+fall handling remains pending.
+
+Leg injury uses the movement limit of 2. Foot injury uses half current Basic Speed,
+rounded down, before ordinary movement adjustments. The adapter supports standing
+and walking; leaning/bracing, crawling, multiple impaired lower limbs and complete
+crutch equipment catalogue entries remain unfinished. Fixtures cover the distinct
+limits, reservations, aid loss, hand disability, rollback, undo and save continuation.
+Assertions remain unrun while checks are paused.

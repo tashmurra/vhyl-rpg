@@ -851,3 +851,8 @@ A fitted peg support can now permit standing and capped walking for a biped with
 one impaired leg. Existing inventory, encumbrance, injury and fatigue calculations
 apply; aid/terrain availability is rechecked. Transaction/save fixtures remain
 unrun. Crutches, crawling and support-loss falls remain incomplete.
+
+Crutch mobility support now validates owned aid and hand bindings, reserves its
+supporting hands and applies distinct leg/foot movement limits. Availability,
+transaction and save fixtures are authored and unrun. Support-loss falls and
+broader mobility cases remain incomplete.

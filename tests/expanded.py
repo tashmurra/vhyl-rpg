@@ -8911,6 +8911,8 @@ def test(build):
     test_lower_skills(Session, lower_skills)
     peg_support = build.build('expanded-peg-support',ROOT / 'tests/fixtures/expanded-peg-support.t')
     test_peg_support(Session, peg_support, build.out)
+    crutch_support = build.build('expanded-crutch-support',ROOT / 'tests/fixtures/expanded-crutch-support.t')
+    test_crutch_support(Session, crutch_support, build.out)
     fall_arm_equipment = build.build('expanded-fall-arm-equipment',ROOT / 'tests/fixtures/expanded-fall-arm-equipment.t')
     test_fall_arm_equipment(Session, fall_arm_equipment, build.out)
     test_collision_cap(Session, collision, fall_injury)
@@ -14205,3 +14207,50 @@ def test_peg_support(Session, bundle, out):
             assert state(s) == [6,1,expected,'standing',4]
         finally:
             s.close()
+
+
+def test_crutch_support(Session, bundle, out):
+    def state(s):
+        s.action(2285,982)
+        return last(s,'test.crutch-support')
+    clear = [6,0,'lower-limb-movement-adapter-required',0,0,4]
+    supported = [6,1,2,1,0,4]
+    path = out / 'expanded-crutch-support.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,931,831,981):
+            s.action(2285,code)
+        assert state(s) == clear
+        s.action(2285,980)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (980,980,975):
+            s.action(2285,code)
+        assert state(s) == supported
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,980)
+        assert state(s) == supported
+        s.action(2285,986)
+        assert state(s) == clear
+    finally:
+        s.close()
+    for change in (984,985):
+        s = Session(bundle)
+        try:
+            for code in (30,931,831,980,975,change):
+                s.action(2285,code)
+            assert state(s) == [6,1,'lower-limb-movement-adapter-required',1,0,4]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,983,831,980,975):
+            s.action(2285,code)
+        assert state(s) == [6,1,3,1,0,3]
+    finally:
+        s.close()
