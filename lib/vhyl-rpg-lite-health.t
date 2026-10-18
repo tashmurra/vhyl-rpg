@@ -491,6 +491,7 @@ class RpgLiteNeeds: object
     meals = 3
     active = true
     elapsed = 0
+    cycle = 0
     advance(seconds)
     {
         rpgInteger(seconds, 0, 86400); rpgInteger(self.meals, 0, 3);
@@ -502,7 +503,8 @@ class RpgLiteNeeds: object
                 rpgLiteFatigue(self.profile, 1, 'thirst');
             if (self.elapsed >= 86400)
             {
-                self.elapsed = 0; rpgLiteFatigue(self.profile, 3 - self.meals, 'hunger');
+                self.elapsed = 0; self.cycle += 1; rpgLiteFatigue(self.profile, 3 - self.meals, 'hunger');
+                self.profile.afterNeedsCycle(self);
                 if (self.waterQuarts < 1)
                 { rpgLiteFatigue(self.profile, 1, 'thirst'); rpgLiteWound(self.profile, 1); }
             }

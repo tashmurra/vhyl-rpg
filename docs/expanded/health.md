@@ -1447,7 +1447,7 @@ These fields describe required consequences; this helper does not charge or
 revoke them, change defense scores, or create a recovery episode.
 
 `test_fear_retching` contains independent duration, attribute, concentration and
-resource expectations. The fixture remains unrun. Owned execution is described below. Oral-benefit revocation
+resource expectations. The fixture remains unrun. Owned execution is described below. Oral-medicine revocation
 remains pending; row twelve remains partial.
 
 
@@ -1456,10 +1456,11 @@ remains pending; row twelve remains partial.
 `RpgExpandedFearRetching` owns one active condition on an expanded profile.
 Provide a unique `id`, an approved fear `context`, outcome `approved` and
 `evidence`, and `oralEffectsReviewed`. The latter is an explicit author finding
-about recent meals and oral medicine. `affectedOralBenefits` must currently be
-empty: affected benefits require an executable revocation path that is not yet
-implemented, so such requests are rejected. Reconsider this list if the actor
-receives a new oral benefit during the episode.
+about recent meals and oral medicine. `affectedOralBenefits` accepts the owned meal credits described below. Oral
+medicine and other benefit types remain explicitly unavailable. The selected
+list is bound when the episode starts; changing it prevents recovery until
+the original reviewed list is restored. New meals cannot be credited while
+retching remains active.
 
 Starting the episode records the initial deadline without spending time or
 randomness. It applies the attribute penalties through ordinary contextual
@@ -1522,3 +1523,33 @@ check, author a new recovery and health gate for the next eligible turn.
 checks, concentration rejection before turn consumption, pure preview, exception
 rollback, undo, same-second rejection, no duplicate resource spending and the
 single battle-clock advance. These fixtures remain unrun.
+
+
+### Meal credits and expelled food
+
+`RpgExpandedMealCredit` records an eaten meal in the existing `RpgLiteNeeds`
+ledger. Set `id`, the expanded `profile`, its `needs` object, `meals` (one through
+three), `approved` and `evidence`. This credits food already obtained and eaten;
+it neither buys inventory nor charges time for eating. Start the needs ledger
+with only its otherwise supplied meals, leaving capacity for these credits.
+Do not separately count the same meal in `needs.meals`.
+
+Applying a credit adds its meals once and records the needs cycle. Replaying it
+never adds food again, including after revocation. The daily needs settlement
+uses credited meals for that day and then removes those credits from the next
+cycle's count. The original Lite daily plan remains unchanged when there are no
+owned credits. No second food or fatigue ledger is introduced.
+
+The retching author identifies which recent meal credits were expelled and
+places those objects in `affectedOralBenefits`. The source supplies no universal
+elapsed-time cutoff for “recent”; that classification remains an explicit world
+fact in the reviewed outcome evidence. Starting the episode revokes the listed
+credits atomically with its condition. Duplicate references, another actor's
+credits, unrecorded food and already settled cycles reject before mutation.
+Multiple credits on one needs ledger are assessed together before any removal.
+A meal's receipt retains `revokedBy`, and replay cannot restore expelled food.
+
+`test_retching_meals` specifies credit replay, revocation, pure previews,
+rollback, undo, changed-review rejection, duplicate references and the daily
+settlement boundary. These fixtures remain unrun. Retroactive reversal of a
+settled day's fatigue and oral-medicine effects remain unsupported.

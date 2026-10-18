@@ -258,9 +258,10 @@
         "tests/expanded.py::test_owned_retching",
         "tests/expanded.py::test_retching_persistence",
         "tests/expanded.py::test_retching_fatigue",
-        "tests/expanded.py::test_retching_combat"
+        "tests/expanded.py::test_retching_combat",
+        "tests/expanded.py::test_retching_meals"
       ],
-      "validation_note": "Owned fear-induced retching, contextual restrictions, shared defense effects and standalone/combat health recovery are authored. Final fatigue uses owned wounds at nonpositive FP. Both routes reject same-second duplicate attempts. Oral revocation and exceptional duration remain unavailable. New fixtures are unrun."
+      "validation_note": "Owned retching, contextual restrictions, shared defense, standalone/combat recovery and fatigue injury are authored. Reviewed owned meal credits are revoked through the existing daily needs ledger; credits expire after that cycle is settled. Oral medicine, retroactive settled-day reversal and exceptional duration remain unavailable. All new fixtures are unrun."
     },
     {
       "id": "condition-seizure",

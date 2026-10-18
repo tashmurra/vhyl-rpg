@@ -22,11 +22,26 @@ retchGate: RpgExpandedActionGate id = 'recover-turn' profile = retchProfile purp
 retchManeuver: RpgExpandedRetchingRecoveryManeuver battle = retchBattle recovery = retchRecovery healthGate = retchGate;
 retchIdle: RpgLiteManeuver;
 retchConcentrate: RpgLiteManeuver kind = 'concentrate';
+retchNeeds: RpgLiteNeeds profile = retchProfile meals = 0;
+retchMeal: RpgExpandedMealCredit id = 'supper' profile = retchProfile needs = retchNeeds approved = true evidence = 'One eaten meal';
 retchInput: object code = 0;
 class RetchTestAction: Action
     exec(context)
     {
         local code = retchInput.code;
+        if (code >= 30)
+        {
+            if (code == 30 || code == 31)
+            {
+                local credit = retchMeal.apply(); event('test.retch-meal'); eventValue(credit.status); eventValue(credit.reason);
+                if (code == 31) throw new RpgError(); return nil;
+            }
+            if (code == 32) { retchEpisode.affectedOralBenefits = [retchMeal]; return nil; }
+            if (code == 33) { retchEpisode.affectedOralBenefits = [retchMeal,retchMeal]; return nil; }
+            if (code == 34) { retchNeeds.elapsed = 86399; retchNeeds.advance(1); return nil; }
+            if (code == 35) { retchEpisode.affectedOralBenefits = []; return nil; }
+            return nil;
+        }
         if (code >= 20)
         {
             if (code == 20) { retchBattle.begin(); rpgRandom.seed(1); return nil; }
@@ -103,6 +118,11 @@ act(verb,args)
     {
         event('test.retch-clock'); eventValue(retchBattle.index); eventValue(retchBattle.seconds);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 2260)
+    {
+        event('test.retch-meal-state'); eventValue(retchNeeds.meals); eventValue(retchNeeds.cycle);
+        eventValue(retchMeal.revokedBy == retchEpisode ? 1 : 0); eventValue(retchProfile.mealCredits.length()); return nil;
     }
     return nil;
 }

@@ -2531,6 +2531,7 @@ class RpgExpandedFearRetching: object
     evidence = nil
     oralEffectsReviewed = nil
     affectedOralBenefits = []
+    boundOralBenefits = []
     startedAt = nil
     initialEnd = nil
     boundProfile = nil
@@ -2557,8 +2558,7 @@ class RpgExpandedFearRetching: object
         if (scene.immune) { value.reason = 'retching-fear-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'retching-outcome-evidence'; return value; }
-        if (!self.oralEffectsReviewed) { value.reason = 'retching-oral-review-required'; return value; }
-        if (self.affectedOralBenefits.length() > 0) { value.reason = 'retching-oral-revocation-unavailable'; return value; }
+        value.reason = self.oralBenefitReason(); if (value.reason != nil) return value;
         local profile = self.context.profile;
         rpgExpandedValidate(profile);
         if (profile.dead || profile.unconscious || profile.retchingEpisode != nil)
@@ -2573,6 +2573,8 @@ class RpgExpandedFearRetching: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
+        foreach (local benefit in self.affectedOralBenefits) benefit.revoke(self);
+        self.boundOralBenefits = [] + self.affectedOralBenefits;
         self.startedAt = rpgLedger.seconds; self.initialEnd = self.startedAt + value.seconds;
         self.boundProfile = self.context.profile; self.boundId = self.id;
         self.boundContext = self.context; self.boundEvidence = self.evidence;
@@ -2619,8 +2621,7 @@ class RpgExpandedRetchingRecovery: object
         if (rpgLedger.seconds < self.episode.initialEnd) { value.reason = 'retching-initial-duration'; return value; }
         if (self.episode.lastRecoveryStartedAt != nil && rpgLedger.seconds <= self.episode.lastRecoveryStartedAt)
         { value.reason = 'retching-recovery-already-attempted'; return value; }
-        if (!self.episode.oralEffectsReviewed || self.episode.affectedOralBenefits.length() > 0)
-        { value.reason = 'retching-oral-revocation-unavailable'; return value; }
+        value.reason = self.episode.oralBenefitReason(); if (value.reason != nil) return value;
         rpgInteger(profile.maxEnergy,1,1000); rpgInteger(profile.fatigue,0,2 * profile.maxEnergy);
         if (profile.fp() <= 0)
         {
@@ -2700,6 +2701,115 @@ class RpgExpandedRetchingRecoveryManeuver: RpgExpandedHealthManeuver
     {
         local value = self.recovery.applyInTurn(self.battle,fighter);
         if (value.status != 'resolved') rpgExpandedReject('retching-recovery-turn-changed');
+        return nil;
+    }
+;
+
+/** One meal credited to the existing daily needs ledger, with an owned revocation. */
+class RpgExpandedMealCredit: object
+    id = nil
+    profile = nil
+    needs = nil
+    meals = 1
+    approved = nil
+    evidence = nil
+    creditedAt = nil
+    boundId = nil
+    boundProfile = nil
+    boundNeeds = nil
+    boundMeals = nil
+    boundCycle = nil
+    boundEvidence = nil
+    revokedBy = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.needs != self.boundNeeds
+            || self.meals != self.boundMeals || self.evidence != self.boundEvidence
+            || self.needs.profile != self.profile || !holds(self.profile.mealCredits,self))
+            rpgExpandedReject('meal-credit-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.needs == nil || !self.needs.ofKind(RpgLiteNeeds) || self.needs.profile != self.profile)
+            rpgExpandedReject('meal-credit-definition');
+        rpgInteger(self.meals,1,3); local value = new RpgExpandedResult();
+        if (self.creditedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'meal-credit-evidence'; return value; }
+        if (self.profile.retchingEpisode != nil) { value.reason = 'meal-credit-retching'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'meal-credit-observer-unavailable'; return value; }
+        rpgInteger(self.needs.meals,0,3);
+        if (self.needs.meals + self.meals > 3) { value.reason = 'meal-credit-capacity'; return value; }
+        foreach (local prior in self.profile.mealCredits)
+            if (prior.id == self.id) rpgExpandedReject('meal-credit-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundNeeds = self.needs;
+        self.boundMeals = self.meals; self.boundCycle = self.needs.cycle; self.boundEvidence = self.evidence;
+        self.creditedAt = rpgLedger.seconds; self.needs.meals += self.meals;
+        self.profile.mealCredits = self.profile.mealCredits + [self]; value.status = 'resolved'; return value;
+    }
+    revocationReason(profile,episode)
+    {
+        if (self.creditedAt == nil) return 'meal-credit-not-recorded';
+        self.validateBinding();
+        if (self.profile != profile) return 'meal-credit-wrong-owner';
+        if (self.revokedBy != nil) return self.revokedBy == episode ? nil : 'meal-credit-already-revoked';
+        if (self.needs.cycle != self.boundCycle) return 'meal-credit-cycle-consumed';
+        if (self.needs.meals < self.meals) return 'meal-credit-ledger-changed';
+        return nil;
+    }
+    revoke(episode)
+    {
+        local reason = self.revocationReason(episode.context.profile,episode);
+        if (reason != nil) rpgExpandedReject(reason);
+        if (self.revokedBy != nil) return nil;
+        self.needs.meals -= self.meals; self.revokedBy = episode; return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    mealCredits = []
+    afterNeedsCycle(needs)
+    {
+        inherited(needs); local consumed = 0;
+        foreach (local credit in self.mealCredits)
+            if (credit.needs == needs && credit.boundCycle == needs.cycle - 1 && credit.revokedBy == nil)
+            { credit.validateBinding(); consumed += credit.meals; }
+        if (consumed > needs.meals) rpgExpandedReject('meal-credit-ledger-changed');
+        needs.meals -= consumed; return nil;
+    }
+;
+
+modify RpgExpandedFearRetching
+    oralBenefitReason()
+    {
+        if (!self.oralEffectsReviewed) return 'retching-oral-review-required';
+        if (self.startedAt != nil)
+        {
+            if (self.affectedOralBenefits.length() != self.boundOralBenefits.length()) return 'retching-oral-review-changed';
+            for (local index = 1; index <= self.boundOralBenefits.length(); index += 1)
+                if (self.affectedOralBenefits[index] != self.boundOralBenefits[index]) return 'retching-oral-review-changed';
+        }
+        local seen = [];
+        foreach (local benefit in self.affectedOralBenefits)
+        {
+            if (dataType(benefit) != TypeObject || !benefit.ofKind(RpgExpandedMealCredit)) return 'retching-oral-revocation-unavailable';
+            if (holds(seen,benefit)) rpgExpandedReject('retching-oral-benefit-duplicate');
+            seen = seen + [benefit];
+            local reason = benefit.revocationReason(self.context.profile,self); if (reason != nil) return reason;
+            if (self.startedAt != nil && benefit.revokedBy != self) return 'retching-oral-review-changed';
+            local total = 0;
+            foreach (local other in self.affectedOralBenefits)
+                if (dataType(other) == TypeObject && other.ofKind(RpgExpandedMealCredit) && other.needs == benefit.needs && other.revokedBy == nil)
+                    total += other.meals;
+            if (total > benefit.needs.meals) return 'meal-credit-ledger-changed';
+        }
         return nil;
     }
 ;

@@ -262,7 +262,8 @@
         "tests/expanded.py::test_owned_retching",
         "tests/expanded.py::test_retching_persistence",
         "tests/expanded.py::test_retching_fatigue",
-        "tests/expanded.py::test_retching_combat"
+        "tests/expanded.py::test_retching_combat",
+        "tests/expanded.py::test_retching_meals"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },

@@ -59,6 +59,7 @@ class RpgLiteProfile: RpgProfile
     healthCheckReason(context) { return nil; }
     healthManeuverReason(kind) { return nil; }
     healthDefensePenalty() { return 0; }
+    afterNeedsCycle(needs) { return nil; }
     naturalRecoveryInterval() { return 86400; }
     naturalRecoveryModifier() { return 0; }
     naturalRecoveryAmount() { return 1; }

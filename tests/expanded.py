@@ -1823,7 +1823,7 @@ def test_owned_retching(Session,bundle):
         assert last(s,'test.retch-recovery') == ['reused',None]
         assert state(s) == [0,1,1,1,3,16]
     finally: s.close()
-    for code,reason in [(8,'retching-oral-revocation-unavailable'),(9,'retching-oral-revocation-unavailable')]:
+    for code,reason in [(8,'retching-oral-review-changed'),(9,'retching-oral-review-required')]:
         s = Session(bundle)
         try:
             s.action(2255,0)
@@ -1871,6 +1871,60 @@ def test_retching_fatigue(Session,bundle):
         assert last(s,'test.retch-recovery') == ['blocked','expanded-wound-shock-rule-required']
         s.action(2256)
         assert last(s,'test.retch-state') == [1,10,1,0,0,15]
+    finally: s.close()
+
+
+def test_retching_meals(Session,bundle):
+    def meals(s):
+        s.action(2260)
+        return last(s,'test.retch-meal-state')
+    s = Session(bundle)
+    try:
+        s.action(2255,31)
+        assert meals(s) == [0,0,0,0]
+        s.action(2255,30)
+        s.action(2255,30)
+        assert last(s,'test.retch-meal') == ['reused',None]
+        assert meals(s) == [1,0,0,1]
+        s.action(2255,32)
+        for code in [1,2]:
+            s.action(2255,code)
+            assert meals(s) == [1,0,0,1]
+        s.action(2255,0)
+        assert meals(s) == [0,0,1,1]
+        s.command('undo')
+        assert meals(s) == [1,0,0,1]
+        s.action(2255,0)
+        s.action(2255,30)
+        assert meals(s) == [0,0,1,1]
+        s.action(2255,35)
+        s.action(2255,3)
+        s.action(2255,4)
+        assert last(s,'test.retch-recovery') == ['blocked','retching-oral-review-changed']
+        s.action(2255,32)
+        s.action(2255,4)
+        assert last(s,'test.retch-recovery') == ['resolved',None]
+        assert meals(s) == [0,0,1,1]
+    finally: s.close()
+    for setup,reason in [(32,'meal-credit-not-recorded'),(34,'meal-credit-cycle-consumed')]:
+        s = Session(bundle)
+        try:
+            if setup == 34:
+                s.action(2255,30)
+                s.action(2255,34)
+                assert meals(s) == [0,1,0,1] # A consumed meal cannot feed the next day again.
+            s.action(2255,32)
+            before = meals(s)
+            s.action(2255,0)
+            assert last(s,'test.retch-start') == ['blocked',reason]
+            assert meals(s) == before
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [30,33,0]: s.action(2255,code)
+        assert meals(s) == [1,0,0,1]
+        s.action(2256)
+        assert last(s,'test.retch-state') == [0,0,0,0,0,0]
     finally: s.close()
 
 
@@ -8532,6 +8586,7 @@ def test(build):
     test_owned_retching(Session,retching)
     test_retching_fatigue(Session,retching)
     test_retching_combat(Session,retching)
+    test_retching_meals(Session,retching)
     test_retching_persistence(Session,retching,build.out)
     fresh(Session,health,test_scaled_injury_shock)
     fresh(Session,health,test_scaled_shock_turn_boundary)
