@@ -949,3 +949,9 @@ alone no longer blocks ordinary release as a critical failure. Catch assessments
 use active-defense low-score success and critical-failure rules. The shared check
 helper moved to the foundation to avoid a new module dependency. Regression
 fixtures are authored but unrun; checks remain paused.
+
+Deliberate passes now have an owned catch-roll stage connected to released
+inventory and a recipient fighter's hand-parry counter. The stage rejects
+unsupported repeat parries, concentration and anatomy before spending randomness.
+Capture transfer and critical consequences remain pending. Regression and
+persistence fixtures are authored, unrun under the check pause.

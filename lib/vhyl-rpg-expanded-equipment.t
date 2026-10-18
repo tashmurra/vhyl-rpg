@@ -863,7 +863,7 @@ modify RpgExpandedProfile
 ;
 /** Inventory stage of a throw. Storage becomes this owned in-flight record;
  * the object remains in exactly one owner's inventory until a later transfer. */
-class RpgExpandedThrownRelease: object
+class RpgExpandedThrownRelease: RpgExpandedThrowFlightReceipt
     id = nil
     receipt = nil
     result = nil
@@ -962,5 +962,16 @@ modify rpgLedger
                 foreach (local release in profile.thrownReleases)
                     if (release.settlement == nil) rpgExpandedReject('throw-flight-settlement-required');
         return nil;
+    }
+;
+
+
+modify RpgExpandedThrownRelease
+    flightAssessment()
+    {
+        local value = self.assess();
+        if (value.status != 'reused') { value.status = 'blocked'; value.reason = 'catch-flight-not-released'; return value; }
+        if (self.settlement != nil) { value.status = 'blocked'; value.reason = 'catch-flight-settled'; return value; }
+        value.throwReceipt = self.receipt; value.status = 'ready'; return value;
     }
 ;

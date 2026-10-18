@@ -2003,7 +2003,7 @@ modify RpgExpandedThrowAttempt
         { value.reason = 'throw-release-not-permitted'; return value; }
         if (self.result.check.critical == 'failure')
         { value.reason = 'throw-release-critical-failure-required'; return value; }
-        value.profile = self.request.profile; value.item = self.request.item;
+        value.profile = self.request.profile; value.item = self.request.item; value.recipient = self.recipient;
         value.weight = self.result.assessment.weightHundredths; value.status = 'ready'; return value;
     }
 ;
@@ -2025,5 +2025,95 @@ modify RpgExpandedThrownDamage
         { value.location = self.attempt.request.hitLocation; value.bodyPart = self.attempt.request.locationPart; }
         value.damage = side == 'target' ? self.result.targetDamage : self.result.objectDamage;
         value.damageType = self.damageType; value.status = 'ready'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    catchAttempts = []
+;
+class RpgExpandedCatchAttemptResult: RpgExpandedResult
+    assessment = nil
+    caught = nil
+;
+/** Owned first hand-parry catch of a deliberate pass. The fighter owns turn
+ * counters; this stage owns the roll but not the later inventory transfer. */
+class RpgExpandedCatchAttempt: object
+    id = nil
+    flight = nil
+    fighter = nil
+    hand = nil
+    otherHand = nil
+    skill = nil
+    sportEvidence = nil
+    waiting = nil
+    modifier = 0
+    aware = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.flight,self.fighter,self.hand,self.otherHand,self.skill,self.sportEvidence,
+        self.waiting,self.modifier,self.aware,self.approved,self.evidence,self.fighter.profile,
+        self.skill == nil ? nil : self.skill.id,self.skill == nil ? nil : self.skill.attribute,
+        self.skill == nil ? nil : self.skill.specialty]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.flight == nil || !self.flight.ofKind(RpgExpandedThrowFlightReceipt)
+            || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter) || self.fighter.profile == nil
+            || !self.fighter.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('catch-attempt-definition');
+        local value = new RpgExpandedCatchAttemptResult(); local profile = self.fighter.profile;
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('catch-attempt-binding');
+            if (!holds(profile.catchAttempts,self)) rpgExpandedReject('catch-attempt-history');
+            value.status = 'reused'; return value;
+        }
+        foreach (local prior in profile.catchAttempts)
+            if (prior.id == self.id || prior.flight == self.flight) rpgExpandedReject('catch-attempt-duplicate');
+        if (!self.approved || !self.aware || self.evidence == nil || self.evidence == '')
+        { value.reason = 'catch-attempt-author-facts'; return value; }
+        local facts = self.flight.flightAssessment();
+        if (facts.status != 'ready') { value.reason = facts.reason; return value; }
+        if (facts.recipient != profile) rpgExpandedReject('catch-attempt-recipient');
+        if (profile.dead || profile.unconscious || profile.healthBlocksDefense()
+            || holds(['all-out-attack','move-attack'],self.fighter.maneuver))
+        { value.reason = 'catch-defense-unavailable'; return value; }
+        if ((self.otherHand ? self.fighter.offParries : self.fighter.parries) > 0)
+        { value.reason = 'catch-repeat-parry-adapter-required'; return value; }
+        if (self.fighter.concentration > 0)
+        { value.reason = 'catch-concentration-adapter-required'; return value; }
+        value.reason = profile.catchHandReason(self.hand); if (value.reason != nil) return value;
+        if (facts.weight > profile.basicLiftHundredths() * 2)
+        { value.reason = 'catch-heavy-object-adapter-required'; return value; }
+        if (self.skill != nil && (!self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'sports'
+            || self.skill.attribute != rpgDX || self.skill.specialty == nil || self.sportEvidence == nil || self.sportEvidence == ''))
+            rpgExpandedReject('catch-sports-definition');
+        rpgInteger(self.modifier,-1000,1000);
+        local context = new RpgLiteContext(); context.kind = 'defense'; context.attribute = rpgDX;
+        context.skill = self.skill; context.offHand = self.otherHand; context.modifier = self.modifier;
+        local score = rpgLiteScore(profile,context);
+        if (score == nil) { value.reason = 'catch-score-unavailable'; return value; }
+        local penalty = profile.healthDefensePenalty();
+        if ((profile.stunned || profile.mentalStun) && penalty < 4) penalty = 4;
+        score += profile.level('combat-reflexes') + rpgLitePostureModifier(profile.posture,true) - penalty;
+        if (self.fighter.maneuver == 'all-out-defense' && self.fighter.defenseOption == 'parry') score += 2;
+        value.assessment = facts.throwReceipt.assessCatch(profile,score,self.waiting);
+        if (value.assessment.status != 'ready') { value.reason = value.assessment.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        if (self.otherHand) self.fighter.offParries += 1; else self.fighter.parries += 1;
+        self.fighter.participated = true; self.fighter.aimSeconds = 0;
+        value.check = rpgExpandedCombatCheck('defense',value.assessment.score,rpgRandom.roll());
+        value.caught = value.check.achieved;
+        self.boundDefinition = self.definition(); self.result = value;
+        self.fighter.profile.catchAttempts = self.fighter.profile.catchAttempts + [self];
+        value.status = 'resolved'; return value;
     }
 ;

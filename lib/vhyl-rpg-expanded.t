@@ -287,3 +287,19 @@ rpgExpandedCombatCheck(kind, score, roll)
     return value;
 }
 
+
+modify RpgExpandedThrowReleaseFacts
+    recipient = nil
+    throwReceipt = nil
+;
+modify RpgExpandedThrowReceipt
+    assessCatch(recipient,score,waiting)
+    { local value = new RpgExpandedResult(); value.reason = 'catch-throw-receipt-unavailable'; return value; }
+;
+class RpgExpandedThrowFlightReceipt: object
+    flightAssessment()
+    { local value = new RpgExpandedThrowReleaseFacts(); value.reason = 'catch-flight-unavailable'; return value; }
+;
+modify RpgExpandedProfile
+    catchHandReason(hand) { return 'catch-anatomy-required'; }
+;

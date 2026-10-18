@@ -996,3 +996,30 @@ ten can be critical. The prior lob and catcher keep their distinct check kinds.
 `rpgExpandedCombatCheck` now lives in the expanded foundation so exploration
 shares these rules without depending on the optional combat module. Lite roll
 classification is unchanged. The new regression assertions remain unrun.
+
+## Recording a deliberate-pass catch
+
+`RpgExpandedCatchAttempt` consumes a released `RpgExpandedThrowFlightReceipt`
+(the equipment module supplies `RpgExpandedThrownRelease`). Set `id`, `flight`,
+`fighter`, the recipient's owned `hand`, `aware`, `approved` and `evidence`.
+The fighter must represent the recorded recipient. `otherHand` identifies its
+secondary-hand parry counter; the author must map the selected anatomical hand
+consistently to that counter. `waiting` asserts an actual authored Wait; this
+interface does not create or schedule that maneuver. An optional DX-based
+`sports` skill requires a specialty and `sportEvidence` explaining suitability.
+
+`assess()` spends no resources or randomness. `resolve()` records one defense
+roll and consumes the selected hand's parry even on failure. Replaying the same
+attempt returns its recorded result; another attempt for that flight is rejected.
+The catch uses the recorded lob margin, ordinary defense modifiers and the
+recipient's health restrictions. The hand must be functional, empty and free of
+support reservations. This initial adapter requires ordinary two-hand anatomy
+and an object within the one-hand lifting limit. Repeat parries and maintained
+concentration return explicit unsupported reasons before spending anything.
+
+This is a roll-and-parry stage. It does not transfer the item to the catcher or
+settle the flight, spend maneuver time, resolve critical consequences or implement
+interceptions. An unsettled flight continues to block positive time advancement.
+The integration fixture `expanded-catch-attempt.t` covers success, failure,
+preview purity, duplicates, rollback, undo and saved replay. Assertions remain
+unrun while checks are paused; the inventory entry remains partial.

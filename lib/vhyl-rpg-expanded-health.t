@@ -6648,3 +6648,25 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+modify RpgExpandedProfile
+    catchHandReason(hand)
+    {
+        self.validateBodyParts();
+        if (hand == nil || !hand.ofKind(RpgExpandedBodyPart) || hand.profile != self
+            || hand.kind != 'hand' || !holds(self.bodyParts,hand)) return 'catch-hand-owner';
+        local count = 0; foreach (local part in self.bodyParts) if (part.kind == 'hand') count += 1;
+        if (count != 2) return 'catch-hand-count-adapter-required';
+        if (!hand.functional()) return 'catch-hand-disabled';
+        if (self.supportReserved(hand)) return 'catch-hand-reserved';
+        foreach (local item in self.equipment)
+            if (item.usableBy(self) && (item.ready || item.worn))
+            {
+                item.validateBodySupports(self);
+                if (item.ready && !item.worn && item.bodySupports.length() == 0) return 'catch-grip-unmapped';
+                foreach (local support in item.bodySupports)
+                    if (support == hand || support == hand.parent) return 'catch-hand-occupied';
+            }
+        return nil;
+    }
+;

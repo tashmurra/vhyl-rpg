@@ -9027,6 +9027,8 @@ def test(build):
     test_thrown_injury(Session, thrown_injury, build.out)
     thrown_limbs = build.build('expanded-thrown-limbs',ROOT / 'tests/fixtures/expanded-thrown-limbs.t')
     test_thrown_limbs(Session, thrown_limbs, build.out)
+    catch_attempt = build.build('expanded-catch-attempt',ROOT / 'tests/fixtures/expanded-catch-attempt.t')
+    test_catch_attempt(Session, catch_attempt, build.out)
     catch_assessment = build.build('expanded-catch-assessment',ROOT / 'tests/fixtures/expanded-catch-assessment.t')
     test_catch_assessment(Session, catch_assessment)
     hiking_attempt = build.build('expanded-hiking-attempt',ROOT / 'tests/fixtures/expanded-hiking-attempt.t')
@@ -15081,5 +15083,66 @@ def test_throw_ranged_failure(Session, bundle):
             s.action(2285,code)
         assert last(s,'test.throw-release-preview') == ['ready',None]
         assert last(s,'test.throw-release') == [1,0,0,0,1,3,0]
+    finally:
+        s.close()
+
+
+def test_catch_attempt(Session, bundle, out):
+    def state(s):
+        s.action(2285,1263)
+        return last(s,'test.catch-state')
+    for choice, reason in ((1265,'catch-hand-disabled'),
+                           (1266,'catch-repeat-parry-adapter-required'),
+                           (1267,'catch-concentration-adapter-required')):
+        s = Session(bundle)
+        try:
+            for code in (30,1171,1200,choice,1260,1261):
+                s.action(2285,code)
+            assert last(s,'test.catch-preview') == ['blocked',reason]
+            assert state(s) == [0,1 if choice == 1266 else 0,0,3,0,None]
+        finally:
+            s.close()
+    for waiting, caught in ((True,1),(False,0)):
+        s = Session(bundle)
+        try:
+            for code in (30,1171,1200):
+                s.action(2285,code)
+            if not waiting:
+                s.action(2285,1264)
+            s.action(2285,1260)
+            assert last(s,'test.catch-preview') == ['ready',None]
+            assert state(s) == [0,0,0,3,0,None]
+            for code in (1261,1261,1268):
+                s.action(2285,code)
+            assert state(s) == [1,1,0,6,0,caught]
+            assert last(s,'test.catch-duplicate') == ['catch-attempt-duplicate']
+        finally:
+            s.close()
+    path = out / 'expanded-catch-attempt.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,1171,1200,1262):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,3,0,None]
+        s.action(2285,1261)
+        s.command('undo')
+        assert state(s) == [0,0,0,3,0,None]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1261,1261):
+            s.action(2285,code)
+        assert state(s) == [1,1,0,6,0,1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1261)
+        assert state(s) == [1,1,0,6,0,1]
     finally:
         s.close()
