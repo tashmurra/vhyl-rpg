@@ -1245,3 +1245,8 @@ expanded influence procedure remains partial.
 - Owned disadvantage-removal offers now enforce the same original-bonus basis
   as direct buyoffs, rejecting mismatched prices before spending. Added unrun
   direct/offer replay and persistence fixtures.
+
+- Added validated expanded character finalization with automatic capture of
+  original disadvantage costs. Creation approval remains separate from later
+  buyoff approval. Added unrun historical-cost and persistence fixtures; legacy
+  manual finalization still requires explicit cost history.

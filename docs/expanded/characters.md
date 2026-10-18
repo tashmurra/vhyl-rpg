@@ -64,3 +64,25 @@ slots for the same skill. The same gate runs during development offers and direc
 skill purchases, so runtime changes cannot bypass creation-time ownership checks.
 A nil training argument represents a genuinely new skill slot. The default hook
 on ordinary profiles leaves existing behavior unchanged.
+
+### Finalizing a starting character
+
+Use `RpgExpandedCharacterFinalization` after applying starting purchases and
+packages. Supply its id, profile, approval and evidence, then call `assess()` or
+`apply()`. Assessment performs the expanded character and budget validation.
+Application marks creation complete and captures each negative trait's actual
+creation cost in an owned `RpgExpandedBuyoffBasis`, linked to the finalization
+receipt. It does not award advancement points or change the starting budget.
+
+Captured bases initially lack buyoff approval: creation approval does not grant
+permission to remove a disadvantage later. For an approved later buyoff, add
+world justification and approval to the captured basis. Its original bonus and
+trait binding remain checked against the historical receipt, even if the current
+trait rating changes. Replaying finalization returns the original result and does
+not recreate records or revalidate the character's later advancement as creation.
+
+Already-complete profiles and profiles with existing buyoff history reject new
+finalization. Existing integrations can keep their manual completion flow, but
+must supply their historical bases explicitly. No old-save migration is implied.
+The fixture covers pure assessment, one-time capture, separate buyoff approval,
+historical-price protection, rollback, undo and save continuation; it is unrun.

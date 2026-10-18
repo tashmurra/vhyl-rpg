@@ -544,6 +544,7 @@ modify RpgExpandedProfile
 
 /** B291 historical award and world justification for one owner's buyoff. */
 class RpgExpandedBuyoffBasis: object
+    creationReceipt = nil
     owner = nil
     trait = nil
     originalBonus = nil
@@ -566,6 +567,7 @@ modify RpgExpandedProfile
         }
         if (found == nil || !found.approved || found.evidence == nil || found.evidence == '') return nil;
         rpgInteger(found.originalBonus,0,1000000);
+        if (found.creationReceipt != nil) found.creationReceipt.validateOriginalBasis(found);
         return found.originalBonus;
     }
 ;

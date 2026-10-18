@@ -90,3 +90,77 @@ modify RpgExpandedProfile
             ? 'money-exchange-points' : nil;
     }
 ;
+
+modify RpgExpandedProfile
+    creationReceipt = nil
+;
+/** Finalize validated starting purchases and preserve their original negative costs. */
+class RpgExpandedCharacterFinalization: object
+    id = nil
+    profile = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    bases = []
+    originalTraits = []
+    originalBonuses = []
+    definition() { return [self.id,self.profile,self.approved,self.evidence]; }
+    validateOriginalBasis(basis)
+    {
+        if (self.result == nil || self.profile.creationReceipt != self || !self.profile.creationComplete)
+            rpgExpandedReject('creation-receipt-history');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('creation-receipt-binding');
+        for (local i = 1; i <= self.bases.length(); i += 1)
+            if (self.bases[i] == basis)
+            {
+                if (basis.owner != self.profile || basis.trait != self.originalTraits[i]
+                    || basis.originalBonus != self.originalBonuses[i] || basis.creationReceipt != self
+                    || !holds(self.profile.buyoffBases,basis)) rpgExpandedReject('creation-original-cost-changed');
+                return nil;
+            }
+        rpgExpandedReject('creation-original-cost-missing');
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('creation-finalization-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.profile.creationReceipt != self || !self.profile.creationComplete)
+                rpgExpandedReject('creation-receipt-history');
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('creation-receipt-binding');
+            foreach (local basis in self.bases) self.validateOriginalBasis(basis);
+            value.status = 'reused'; return value;
+        }
+        if (self.profile.creationComplete || self.profile.creationReceipt != nil || self.profile.buyoffBases.length() != 0)
+        { value.reason = 'creation-finalization-existing-history'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'creation-finalization-approval'; return value; }
+        rpgExpandedValidateCharacter(self.profile);
+        value.points = rpgExpandedCharacterCost(self.profile,nil); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        foreach (local trait in self.profile.traits)
+        {
+            local cost = trait.creationCost();
+            if (cost < 0)
+            {
+                local basis = new RpgExpandedBuyoffBasis(); basis.owner = self.profile; basis.trait = trait;
+                basis.originalBonus = -cost; basis.creationReceipt = self;
+                self.bases = self.bases + [basis]; self.originalTraits = self.originalTraits + [trait];
+                self.originalBonuses = self.originalBonuses + [-cost];
+            }
+        }
+        self.profile.buyoffBases = self.bases; self.profile.creationComplete = true; self.profile.creationReceipt = self;
+        self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value; return value;
+    }
+;

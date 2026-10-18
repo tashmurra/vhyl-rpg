@@ -9101,6 +9101,8 @@ def test(build):
     test_expanded_buyoff(Session, buyoff, build.out)
     buyoff_offer = build.build('expanded-buyoff-offer',ROOT / 'tests/fixtures/expanded-buyoff-offer.t')
     test_expanded_buyoff_offer(Session, buyoff_offer, build.out)
+    character_finalization = build.build('expanded-character-finalization',ROOT / 'tests/fixtures/expanded-character-finalization.t')
+    test_character_finalization(Session, character_finalization, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17611,5 +17613,43 @@ def test_expanded_buyoff_offer(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.buyoff-offer') == ['reused',None,0]
         assert last(s,'test.buyoff-state') == [70,0]
+    finally:
+        s.close()
+
+
+def test_character_finalization(Session, bundle, out):
+    path = out / 'expanded-character-finalization.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,5400)
+        assert last(s,'test.character-finalization') == ['ready',None,-30]
+        for code in (5402,5403):
+            s.action(2285,code)
+        assert last(s,'test.character-history') == [0,0,None]
+        s.action(2285,5401)
+        s.command('undo')
+        s.action(2285,5403)
+        assert last(s,'test.character-history') == [0,0,None]
+        for code in (5401,5401,5403,5200,5202):
+            s.action(2285,code)
+        assert last(s,'test.character-history') == [1,1,30]
+        assert last(s,'test.buyoff-state') == [100,1]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (5206,5404,5200,5202,5401):
+            s.action(2285,code)
+        assert last(s,'test.buyoff-state') == [70,0]
+        assert last(s,'test.character-finalization') == ['resolved',None,-30]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (5401,5404,5405,5406):
+            s.action(2285,code)
+        assert last(s,'test.character-history-error') == ['creation-original-cost-changed',100]
     finally:
         s.close()
