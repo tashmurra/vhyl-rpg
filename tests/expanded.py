@@ -8968,6 +8968,8 @@ def test(build):
     test_self_control_points(Session, self_control, build.out)
     truthfulness = build.build('expanded-truthfulness', ROOT / 'tests/fixtures/expanded-truthfulness.t')
     test_truthfulness(Session, truthfulness, build.out)
+    statement_delivery = build.build('expanded-statement-delivery', ROOT / 'tests/fixtures/expanded-statement-delivery.t')
+    test_statement_delivery(Session, statement_delivery, build.out)
     digging = build.build('expanded-digging', ROOT / 'tests/fixtures/expanded-digging.t')
     test_digging_assessment(Session, digging)
     digging_work = build.build('expanded-digging-work', ROOT / 'tests/fixtures/expanded-digging-work.t')
@@ -12809,5 +12811,61 @@ def test_digging_equipment(Session, bundle, out):
         for code in (650,657,651):
             s.action(2285, code)
         assert state(s) == [30,0,0,2,1,0,0]
+    finally:
+        s.close()
+
+
+def test_statement_delivery(Session, bundle, out):
+    def state(s):
+        s.action(2285, 664)
+        return last(s, 'test.statement-state')
+    path = out / 'expanded-statement-delivery.zsave'
+    clear = [0,0,0,None,0,0,3]
+    received = [1,0,0,'original-relevant-truth',1,0,3]
+    s = Session(bundle)
+    try:
+        for code in (30,604,601,660,661):
+            s.action(2285, code)
+        assert last(s, 'test.statement-preview') == ['ready',None,0]
+        assert state(s) == clear
+        s.action(2285, 663)
+        assert state(s) == clear
+        s.action(2285, 662)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (662,662,667):
+            s.action(2285, code)
+        assert state(s) == received
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 662)
+        assert state(s) == received
+        for code in (666,662):
+            s.action(2285, code)
+        assert state(s) == received
+    finally:
+        s.close()
+    for setup, expected in [
+        ((), clear),  # successful omission contains no deliverable statement
+        ((604,605), [1,0,0,'original-proposed-falsehood',1,0,3]),
+        ((604,606), [1,0,0,'original-proposed-falsehood',1,0,3]),
+        ((604,665), clear),
+    ]:
+        s = Session(bundle)
+        try:
+            for code in (30,) + setup + (601,660,662):
+                s.action(2285, code)
+            assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (30,604,601,660,668,662):
+            s.action(2285, code)
+        assert state(s) == clear, 'altered source receipt delivered a statement'
     finally:
         s.close()

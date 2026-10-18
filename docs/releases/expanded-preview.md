@@ -670,3 +670,8 @@ repairs and other tool uses remain incomplete.
   purchases. Fresh instances preserve the rating and concrete effect type;
   matching requirements charge once, while differing or unsupported purchases
   reject. Added price, ownership, composition and budget assertions, still unrun.
+
+- Added evidenced delivery of resolved truthfulness statements to the shared
+  received-information ledger. Withheld information cannot be delivered; each
+  recipient receives an utterance once, without automatic belief or additional
+  rolls. Added rollback, undo and saved-continuation fixtures, still unrun.

@@ -1437,3 +1437,68 @@ class RpgExpandedInterrogationDelivery: object
         self.question.delivery = self; value.status = 'resolved'; return value;
     }
 ;
+
+/** Authored hearing of an already resolved communication. Does not confer belief. */
+class RpgExpandedStatementDelivery: object
+    id = nil
+    communication = nil
+    recipient = nil
+    heard = nil
+    evidence = nil
+    completedAt = nil
+    boundDefinition = nil
+    boundKnowledge = nil
+    boundStatement = nil
+    definition() { return [self.id,self.communication,self.recipient,self.heard,self.evidence]; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.communication == nil
+            || !self.communication.ofKind(RpgExpandedStatementReceipt) || self.recipient == nil
+            || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient.knowledge == nil
+            || !self.recipient.knowledge.ofKind(RpgExpandedKnowledge))
+            rpgExpandedReject('statement-delivery-definition');
+        self.communication.validate(); self.recipient.knowledge.validate();
+        local value = new RpgExpandedInformationDeliveryResult();
+        if (self.completedAt != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('statement-delivery-binding');
+            if (self.boundKnowledge != self.recipient.knowledge || self.boundStatement != self.communication.statement
+                || !holds(self.communication.deliveries,self)) rpgExpandedReject('statement-delivery-binding');
+            local count = 0;
+            foreach (local row in self.boundKnowledge.received)
+                if (row[1] == self.id)
+                {
+                    if (row[2] != self.communication.speaker || row[3].length() != 1
+                        || row[3][1] != self.boundStatement || row[4] != 0)
+                        rpgExpandedReject('statement-delivery-history');
+                    count += 1;
+                }
+            if (count != 1) rpgExpandedReject('statement-delivery-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.communication.statement == nil) { value.reason = 'statement-withheld'; return value; }
+        if (self.recipient == self.communication.speaker) { value.reason = 'statement-delivery-self'; return value; }
+        if (!self.heard || self.evidence == nil || self.evidence == '')
+        { value.reason = 'statement-hearing-evidence'; return value; }
+        foreach (local prior in self.communication.deliveries)
+            if (prior.recipient == self.recipient) { value.reason = 'statement-already-delivered'; return value; }
+        foreach (local row in self.recipient.knowledge.received)
+            if (row[1] == self.id) rpgExpandedReject('statement-delivery-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.statements = [self.boundStatement]; return value; }
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundKnowledge = self.recipient.knowledge;
+        self.boundStatement = self.communication.statement; self.completedAt = rpgLedger.seconds;
+        value.statements = [self.boundStatement];
+        self.boundKnowledge.received = self.boundKnowledge.received
+            + [[self.id,self.communication.speaker,value.statements,0]];
+        self.communication.deliveries = self.communication.deliveries + [self];
+        value.status = 'resolved'; return value;
+    }
+;

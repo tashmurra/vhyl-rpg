@@ -743,8 +743,10 @@ inherited obligation interface remains available for authored action permission.
 
 `expanded-truthfulness.t` specifies skill penalties, omission, falsehood, both
 failure choices, voluntary acceptance, preview, replay, rollback, undo and saved
-continuation. Assertions remain unrun. Parser/dialogue delivery and integrations
-with broader social contests remain incomplete.
+continuation. Assertions remain unrun. The social module now provides evidenced
+statement delivery through `RpgExpandedStatementDelivery`, using the resolved
+trigger’s `communication` receipt. Parser/dialogue routing and integrations with
+broader social contests remain incomplete.
 
 Self-control pricing requires `controlled = true` on the disadvantage. A rating
 on an uncontrolled disadvantage rejects with `self-control-ineligible-trait`

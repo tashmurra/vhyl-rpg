@@ -164,3 +164,18 @@ rpgExpandedTemplateTraits: object
     rated(id, level, scope, rating)
     { rpgExpandedReject('template-rated-trait-unavailable'); }
 ;
+
+/** A concrete resolved communication, validated by its owning procedure.
+ * It is private adjudication data; delivery reveals only its statement. */
+class RpgExpandedStatementReceipt: object
+    source = nil
+    speaker = nil
+    statement = nil
+    kind = nil
+    deliveries = []
+    validate()
+    {
+        if (self.source == nil) rpgExpandedReject('statement-source');
+        return self.source.validateStatementReceipt(self);
+    }
+;

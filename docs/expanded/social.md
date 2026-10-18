@@ -760,3 +760,40 @@ to authorize another subsystem still require separate authored operations.
 The interrogation fixture specifies unanswered-question rejection, preview
 privacy, truthful and false claims, silence, duplicate prevention, rollback, undo
 and saved continuation. These assertions are authored and unrun.
+
+## Delivering a resolved statement
+
+`RpgExpandedStatementDelivery` connects a concrete resolved communication to a
+recipient's existing `RpgExpandedKnowledge.received` ledger. Currently the
+truthfulness trigger supplies this receipt through its `communication` property.
+The foundation's `RpgExpandedStatementReceipt` keeps the source, speaker,
+statement, private outcome classification and delivery ownership together. Its
+source validates it against the original resolved procedure before delivery.
+
+Set a stable delivery `id`, the `communication`, and an expanded `recipient`
+with owned knowledge. The author must set `heard = true` and nonempty `evidence`
+establishing that this recipient heard and understood this particular utterance.
+This is a story fact, not a substitute for unresolved language, range or perception
+checks: resolve any such uncertainty first. The speaker cannot be its own
+recipient. Separate witnessed recipients require separate evidenced deliveries.
+
+`assess()` returns readiness without revealing the statement. `deliver()` records
+`[id, speaker, [statement], 0]` and returns the statement, without adding time,
+randomness, payment or a second self-control roll. A withheld statement blocks.
+One utterance reaches each recipient at most once, even under another delivery
+ID. Replaying a completed request returns its bound statement; changing its
+fields, source content or received ledger rejects.
+
+Truth, convincing falsehood and obvious falsehood all enter the received ledger
+as heard statements. They do not automatically become beliefs or fabrications,
+and the receipt's private classification is not copied to the recipient. The
+authored conversation may portray an obvious lie according to the resolved
+outcome. Belief adoption, deception contests, parser/dialogue routing and automatic
+witness discovery remain separate integration obligations.
+
+The delivery is an engine integration contract for the full-2008 B159 outcome,
+not an additional published influence mechanic. `expanded-statement-delivery.t`
+and `test_statement_delivery` specify hearing evidence, withheld information,
+truth/lie delivery, ownership, preview purity, replay, duplicate prevention,
+rollback, undo, altered-receipt rejection and cross-process continuation.
+These assertions remain unrun while checks are paused.

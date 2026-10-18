@@ -296,8 +296,11 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Truthfulness is base -5: self-control to omit an uncomfortable truth, at -5 to tell a falsehood. Failure discloses truth or makes the lie obvious. Fast-talk always takes -5 and acting takes -5 when used to deceive. Keep the actual communicated content authored and avoid exposing unrelated private facts.",
-      "tests": ["tests/expanded.py::test_truthfulness"],
-      "validation_note": "Fixed controlled trait and owned omission/falsehood triggers now select only authored relevant communication outcomes; shared skill penalties are reused without duplication. Outcome, replay, rollback, undo and save-continuation assertions authored, unrun. Parser/dialogue delivery and wider social contest integrations remain incomplete."
+      "tests": [
+        "tests/expanded.py::test_truthfulness",
+        "tests/expanded.py::test_statement_delivery"
+      ],
+      "validation_note": "Fixed controlled trait and owned omission/falsehood triggers now select only authored relevant communication outcomes; shared skill penalties are reused without duplication. Outcome, replay, rollback, undo and save-continuation assertions authored, unrun. Parser/dialogue delivery and wider social contest integrations remain incomplete. Concrete resolved communications can now be delivered once per evidenced recipient through the social knowledge ledger, without granting belief. Preview, replay, rollback, undo and continuation assertions authored, unrun. Parser/dialogue routing and broader contest integration remain incomplete."
     },
     {
       "id": "disadvantages-h-predatory-appetite",

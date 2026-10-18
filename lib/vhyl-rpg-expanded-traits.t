@@ -460,6 +460,23 @@ class RpgExpandedTruthfulnessResult: RpgExpandedResult
 ;
 /** The author names only the relevant truth and proposed falsehood for this occurrence. */
 class RpgExpandedTruthfulnessTrigger: RpgExpandedSelfControlTrigger
+    communication = nil
+    validateStatementReceipt(receipt)
+    {
+        self.assess();
+        if (self.result == nil || receipt != self.communication || receipt.source != self
+            || receipt.speaker != self.profile || receipt.statement != self.result.statement
+            || receipt.kind != self.result.communicationKind)
+            rpgExpandedReject('truthfulness-statement-binding');
+        local expectedKind = self.check.achieved
+            ? (self.mode == 'omission' ? 'withheld' : 'falsehood')
+            : (self.failureChoice == 'truth' ? 'disclosed-truth' : 'obvious-falsehood');
+        local expectedStatement = expectedKind == 'withheld' ? nil
+            : expectedKind == 'disclosed-truth' ? self.truth : self.falsehood;
+        if (receipt.kind != expectedKind || receipt.statement != expectedStatement)
+            rpgExpandedReject('truthfulness-statement-binding');
+        return nil;
+    }
     mode = 'omission'
     truth = nil
     falsehood = nil
@@ -493,6 +510,8 @@ class RpgExpandedTruthfulnessTrigger: RpgExpandedSelfControlTrigger
             value.communicationKind = self.failureChoice == 'truth' ? 'disclosed-truth' : 'obvious-falsehood';
             value.statement = self.failureChoice == 'truth' ? self.truth : self.falsehood;
         }
+        local receipt = new RpgExpandedStatementReceipt(); receipt.source = self; receipt.speaker = self.profile;
+        receipt.statement = value.statement; receipt.kind = value.communicationKind; self.communication = receipt;
         return value;
     }
 ;
