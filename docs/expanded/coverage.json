@@ -286,9 +286,11 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_broken_weapons"
+        "tests/expanded.py::test_broken_weapons",
+        "tests/expanded.py::test_object_capacity",
+        "tests/expanded.py::test_object_injury_thresholds"
       ],
-      "validation_note": "B485 supplied-die disabled/destroyed weapon assessment authored; fixtures unrun. Owned object damage, piece transformations and remaining technology procedures are pending."
+      "validation_note": "Pure object-capacity, injury-threshold and disabled-weapon assessments authored; fixtures unrun. Owned object damage, piece transformations and remaining technology procedures are pending."
     },
     {
       "id": "templates",

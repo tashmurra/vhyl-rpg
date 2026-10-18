@@ -1,4 +1,4 @@
-/* Include after the expanded foundation. Source: full-2008, B485. */
+/* Include after the expanded foundation. Source: full-2008, B483-B485. */
 
 /** A surviving weapon form; replacement statistics come from that form's catalogue. */
 class RpgExpandedBrokenPiece: object
@@ -79,5 +79,48 @@ rpgExpandedBrokenWeapon(state, weightHundredths, missile, family, die, reach)
     }
     if (held.form != nil) { value.usable = true; value.pieces = [held]; }
     if (ground != nil) value.pieces = value.pieces + [ground];
+    value.status = 'ready'; return value;
+}
+
+/** B483 detailed capacity calculation, rounded up using exact integer arithmetic.
+ * Weight is in hundredths of a pound; the bound keeps cubic products in range. */
+rpgExpandedObjectCapacity(weightHundredths, construction)
+{
+    rpgInteger(weightHundredths,1,1000000);
+    if (!holds(['unliving','homogenous'],construction)) rpgExpandedReject('object-capacity-construction');
+    local factor = construction == 'unliving' ? 4 : 8;
+    local target = weightHundredths * factor * factor * factor;
+    local low = 1; local high = 173;
+    while (low < high)
+    {
+        local middle = (low + high) / 2;
+        if (middle * middle * middle * 100 >= target) high = middle;
+        else low = middle + 1;
+    }
+    return low;
+}
+
+class RpgExpandedObjectInjuryResult: RpgExpandedResult
+    remaining = 0
+    destructionThresholds = []
+    automaticDestruction = nil
+    stressChecksRequired = nil
+    reducedEffectivenessEligible = nil
+    majorDamage = nil
+;
+
+/** Assess final object injury, after material/type effects, without choosing subsystem failures. */
+rpgExpandedObjectInjury(capacity, priorInjury, injury)
+{
+    rpgInteger(capacity,1,1000000); rpgInteger(priorInjury,0,100000000); rpgInteger(injury,0,100000000);
+    local value = new RpgExpandedObjectInjuryResult();
+    local before = capacity - priorInjury; value.remaining = before - injury;
+    for (local multiple = 1; multiple <= 4; multiple += 1)
+        if (before > -multiple * capacity && value.remaining <= -multiple * capacity)
+            value.destructionThresholds = value.destructionThresholds + [multiple];
+    value.automaticDestruction = value.remaining <= -5 * capacity;
+    value.stressChecksRequired = value.remaining <= 0;
+    value.reducedEffectivenessEligible = value.remaining * 3 < capacity;
+    value.majorDamage = injury * 2 > capacity;
     value.status = 'ready'; return value;
 }

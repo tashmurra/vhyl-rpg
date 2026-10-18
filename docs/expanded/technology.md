@@ -8,9 +8,40 @@ maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485; B
 [Outcome tables](inventory/technology-outcomes.json)
 
 Include `vhyl-rpg-expanded-technology.t` after the expanded foundation. The current
-runtime provides a pure disabled-weapon assessment only. Other inventoried
+runtime provides pure object-capacity, injury-threshold and disabled-weapon assessments. Other inventoried
 procedures remain pending, including object damage, actual piece creation,
 maintenance, repair and invention projects.
+
+## Object capacity and injury thresholds
+
+`rpgExpandedObjectCapacity(weightHundredths, construction)` implements the detailed
+B483 capacity formula for `unliving` and `homogenous` objects, using multipliers
+four and eight respectively and rounding up. Integer cubic comparisons avoid
+floating-point errors at exact cube boundaries. Weight ranges from one hundredth
+of a pound to 10,000 pounds; other constructions and values outside that numeric
+range reject explicitly. Author adjustments for unusually fragile or robust
+objects remain separate from this baseline.
+
+`rpgExpandedObjectInjury(capacity, priorInjury, injury)` takes final injury after
+protection and material-specific injury effects. It returns remaining HP, newly
+crossed destruction-check multiples one through four, the automatic destruction
+boundary at negative five times capacity, the need for stress checks at nonpositive
+HP, eligibility for author-selected reduced effectiveness below one third, and
+whether this single injury exceeds half capacity. Equality at one third or one
+half does not trigger those strict thresholds.
+
+These are assessments, not committed object damage. A threshold list identifies
+possible checks; it does not authorize rolling for an object already destroyed
+or continuing to roll after destruction. Under-stress checks occur once per second
+of actual use, not once per damage call. Reduced effectiveness and major-damage
+subsystem failures require concrete authored consequences. Sentient-machine health,
+material injury tolerance, shock, persistent disablement and destruction remain
+unfinished. No generic callback is counted as implementing those decisions.
+
+`test_object_capacity` records exact cube and adjacent-weight expectations.
+`test_object_injury_thresholds` records strict boundaries, multiple crossings and
+non-repetition of an already crossed threshold. Both fixtures also assert zero
+random draws and elapsed time. They are authored and unrun.
 
 ## Disabled and destroyed weapons
 

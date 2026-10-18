@@ -973,6 +973,34 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def test_object_capacity(s):
+    # Exact cube weights and adjacent hundredth-pound values exercise rounding.
+    for construction, rows in [
+            ('unliving',[(1,1),(100,4),(101,5),(800,8),(801,9),(2700,12),(2701,13),(1000000,87)]),
+            ('homogenous',[(1,2),(100,8),(101,9),(800,16),(801,17),(2700,24),(2701,25),(1000000,173)])]:
+        for weight, expected in rows:
+            s.action(2051,weight,construction)
+            assert last(s,'test.object-capacity') == [expected]
+            assert last(s,'test.object-purity') == [0,0]
+
+
+def test_object_injury_thresholds(s):
+    for capacity, prior, injury, expected in [
+            (12,0,8,[4,0,0,0,1,0]),
+            (12,0,9,[3,0,0,1,1,0]),
+            (10,0,5,[5,0,0,0,0,0]),
+            (10,0,6,[4,0,0,0,1,0]),
+            (10,9,1,[0,0,1,1,0,0]),
+            (10,19,1,[-10,0,1,1,0,1,1]),
+            (10,20,1,[-11,0,1,1,0,0]),
+            (10,0,50,[-40,0,1,1,1,4,1,2,3,4]),
+            (10,49,11,[-50,1,1,1,1,1,4]),
+            (10,60,0,[-50,1,1,1,0,0])]:
+        s.action(2052,capacity,prior,injury)
+        assert last(s,'test.object-injury') == expected
+        assert last(s,'test.object-purity') == [0,0]
+
+
 def test_broken_weapons(s):
     def assess(family, die, weight=200, missile=0, state='disabled', reach=2):
         s.action(2050,state,weight,missile,family,die,reach)
@@ -5140,6 +5168,8 @@ def test(build):
     fresh(Session,combat,test_unarmed_miss_assessments)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')
     fresh(Session,technology,test_broken_weapons)
+    fresh(Session,technology,test_object_capacity)
+    fresh(Session,technology,test_object_injury_thresholds)
     shield_ready = build.build('expanded-shield-ready',ROOT / 'tests/fixtures/expanded-shield-ready.t')
     fresh(Session,shield_ready,test_shield_ready)
     fresh(Session,shield_ready,test_shield_ready_health)

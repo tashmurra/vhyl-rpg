@@ -711,9 +711,12 @@
       "pages": "B483",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Where capacity is not listed, use the object table or ceil(4*cuberoot(pounds)) for complex nonliving objects and ceil(8*cuberoot(pounds)) for solid homogeneous objects. Unusual fragility/toughness requires an explicit override.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_object_capacity"
+      ],
+      "validation_note": "Pure numeric assessment authored; fixtures unrun. Object-table coverage, owned damage, stress scheduling and authored subsystem/effectiveness consequences remain incomplete."
     },
     {
       "id": "technology-object-low-capacity",
@@ -721,9 +724,12 @@
       "pages": "B483",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Below one-third remaining capacity, apply the authored reduced-function policy, which may halve effectiveness; do not assume every object has a movement score to halve.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_object_injury_thresholds"
+      ],
+      "validation_note": "Pure numeric assessment authored; fixtures unrun. Object-table coverage, owned damage, stress scheduling and authored subsystem/effectiveness consequences remain incomplete."
     },
     {
       "id": "technology-object-zero",
@@ -761,9 +767,12 @@
       "pages": "B484",
       "module": "technology",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A major hit to a machine with subsystems can require an authored reliability check; failure disables a specified subsystem or causes a defined leak, not an unstructured arbitrary result.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_object_injury_thresholds"
+      ],
+      "validation_note": "Pure numeric assessment authored; fixtures unrun. Object-table coverage, owned damage, stress scheduling and authored subsystem/effectiveness consequences remain incomplete."
     },
     {
       "id": "technology-object-stun",

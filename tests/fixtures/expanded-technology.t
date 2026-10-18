@@ -10,6 +10,22 @@ modify gameMain initialRoom = technologyRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2051)
+    {
+        local draws = rpgRandom.draws; local clock = rpgLedger.seconds;
+        event('test.object-capacity'); eventValue(rpgExpandedObjectCapacity(args[1],args[2]));
+        event('test.object-purity'); eventValue(rpgRandom.draws-draws); eventValue(rpgLedger.seconds-clock); return nil;
+    }
+    if (verb == 2052)
+    {
+        local draws = rpgRandom.draws; local clock = rpgLedger.seconds;
+        local value = rpgExpandedObjectInjury(args[1],args[2],args[3]);
+        event('test.object-injury'); eventValue(value.remaining); eventValue(value.automaticDestruction ? 1 : 0);
+        eventValue(value.stressChecksRequired ? 1 : 0); eventValue(value.reducedEffectivenessEligible ? 1 : 0);
+        eventValue(value.majorDamage ? 1 : 0); eventValue(value.destructionThresholds.length());
+        foreach (local threshold in value.destructionThresholds) eventValue(threshold);
+        event('test.object-purity'); eventValue(rpgRandom.draws-draws); eventValue(rpgLedger.seconds-clock); return nil;
+    }
     if (verb == 2050)
     {
         local draws = rpgRandom.draws; local clock = rpgLedger.seconds;
