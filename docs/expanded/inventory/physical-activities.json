@@ -479,9 +479,14 @@
       "pages": "B354",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Nonamphibious and nonaquatic actors roll swimming upon entering deep water and every five minutes thereafter; ordinary untrained default is health-4.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context"
+      ],
+      "validation_note": "Owned balance-check cadence, default and shared encumbrance scoring authored; fixtures unrun. Zero-fatigue consciousness, drowning, exertion, rescue, physiology exceptions and full persistence verification remain incomplete."
     },
     {
       "id": "activity-swim-modifiers",
@@ -492,9 +497,11 @@
       "status": "partial",
       "acceptance": "Use +3 for intentional entry, minus twice encumbrance level, and the applicable body-build buoyancy bonus.",
       "tests": [
-        "tests/expanded.py::test_swimming_assessments"
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context"
       ],
-      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
+      "validation_note": "Owned balance-check cadence, default and shared encumbrance scoring authored; fixtures unrun. Zero-fatigue consciousness, drowning, exertion, rescue, physiology exceptions and full persistence verification remain incomplete."
     },
     {
       "id": "activity-swim-failure",
@@ -505,9 +512,11 @@
       "status": "partial",
       "acceptance": "A failed swim check inhales water and spends one fatigue, with retry after five seconds; after successful recovery check again in one minute, then return to five-minute intervals after success.",
       "tests": [
-        "tests/expanded.py::test_swimming_assessments"
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context"
       ],
-      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
+      "validation_note": "Owned balance-check cadence, default and shared encumbrance scoring authored; fixtures unrun. Zero-fatigue consciousness, drowning, exertion, rescue, physiology exceptions and full persistence verification remain incomplete."
     },
     {
       "id": "activity-swim-shed-equipment",

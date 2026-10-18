@@ -132,8 +132,49 @@ a retry after sixty seconds. Critical failure costs six fatigue and sets
 `mustBreakOff`; it does not schedule a retry. These are rescue checks, distinct
 from ordinary swimming balance checks.
 
-The assessments are pure. Owned swimming intervals, skill/default resolution,
-water inhalation, consciousness, shedding equipment, rescue movement and
-resuscitation remain incomplete. A `rescued` assessment does not clear lungs,
+The assessments are pure. The owned encounter below implements a subset of
+swimming balance checks. Complete water inhalation, consciousness, shedding
+equipment, rescue movement and resuscitation remain incomplete. A `rescued` assessment does not clear lungs,
 restore fatigue or teleport either character. `test_swimming_assessments` records
 modifier, cadence, failure and rescue expectations; the fixture remains unrun.
+
+
+## Owned swimming balance checks
+
+Create `RpgExpandedSwimmingEncounter` with a unique `id`, `profile`, optional
+Swimming `skill`, `intentionalEntry`, `build` and entry `evidence`. The current
+procedure is for a conscious ordinary swimmer in deep water; amphibious and aquatic
+exemptions, active diving and unusual physiology require separate support. With
+no skill definition supplied, explicitly set `defaultAvailable` after establishing
+that the character may use the ordinary default under B173. Its HT input is capped
+at twenty before subtracting four. With a skill supplied, the shared character
+skill scorer resolves training or defaults. The definition must identify HT/Easy
+Swimming; its catalogue and availability remain the author's responsibility.
+
+`start()` schedules an immediate entry check. Create `RpgExpandedSwimCheck` with
+a unique `id` and the `encounter`, then call `assess()` or `apply()` at each exact
+scheduled boundary. The shared clock is advanced by the enclosing activity, not
+by the balance check. Every committed check owns its previous stage, result and
+next due time. A repeat returns the receipt without another roll or fatigue charge.
+Current carried load is read for each assessment. Trained skill contexts receive
+encumbrance through the shared scorer; the untrained attribute context applies it
+explicitly, so neither path doubles the penalty.
+
+A failed check charges one fatigue through the shared increment helper and moves
+to five-second checks. A successful recovery selects sixty seconds, then an
+ordinary success selects three hundred. `leave(evidence)` requires an established
+exit, no unresolved due check and a swimmer who is not struggling. It does not
+clear lungs or perform lifesaving. Changing bound entry circumstances is rejected.
+The encounter blocks competing breath reserves, airless exposure and quiet-rest
+recovery until the author ends the supported swimming interval.
+
+This stage rejects a swimmer with one or fewer fatigue remaining before rolling:
+a possible failure requires the unfinished zero-fatigue consciousness/drowning
+scheduler. Overloaded characters and unavailable effective scores also block.
+Exertion fatigue, active rescue, equipment shedding and unexpected changes of
+physiology remain incomplete; the balance-check cadence must not stand in for
+them. `test_swimming_encounter` records failure, recovery, normal cadence, repeat
+protection and leaving. `test_swimming_context` covers untrained caps, trained and
+untrained encumbrance, default availability and explicit unsupported states. These
+fixtures remain unrun while checks are paused; dedicated transaction and
+cross-process continuation fixtures are still outstanding.

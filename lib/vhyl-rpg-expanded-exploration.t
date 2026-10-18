@@ -225,3 +225,208 @@ rpgExpandedLifesavingOutcome(score, roll)
     }
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedSwimmingDefaultContext: RpgLiteContext
+    attribute = rpgHT
+    kind = 'swimming'
+    scoreFor(profile)
+    {
+        local health = profile.attributeScore(rpgHT);
+        return (health > 20 ? 20 : health) - 4;
+    }
+;
+
+class RpgExpandedSwimAssessment: RpgExpandedSwimmingOutcome
+    context = nil
+;
+
+modify RpgExpandedProfile
+    swimmingEncounter = nil
+    swimmingHistory = []
+;
+
+/** Fixed entry circumstances; equipment load is read afresh for each check. */
+class RpgExpandedSwimmingEncounter: object
+    id = nil
+    profile = nil
+    skill = nil
+    defaultAvailable = nil
+    intentionalEntry = nil
+    build = 'ordinary'
+    evidence = nil
+    startedAt = nil
+    endedAt = nil
+    exitEvidence = nil
+    stage = 'entry'
+    nextCheckAt = nil
+    checks = []
+    boundId = nil
+    boundProfile = nil
+    boundSkill = nil
+    boundDefaultAvailable = nil
+    boundIntentional = nil
+    boundBuild = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.profile != self.boundProfile || self.skill != self.boundSkill
+            || self.defaultAvailable != self.boundDefaultAvailable
+            || self.intentionalEntry != self.boundIntentional || self.build != self.boundBuild
+            || self.evidence != self.boundEvidence || !holds(self.profile.swimmingHistory,self))
+            rpgExpandedReject('swimming-binding');
+        return nil;
+    }
+    start()
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('swimming-profile');
+        if (self.id == nil || self.id == '') rpgExpandedReject('swimming-id');
+        if (self.evidence == nil || self.evidence == '') { value.reason = 'swimming-entry-evidence'; return value; }
+        if (self.profile.swimmingEncounter != nil) { value.reason = 'swimming-encounter-active'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'swimming-incapacitated'; return value; }
+        if (self.skill != nil && (!self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'swimming'
+            || self.skill.attribute != rpgHT || self.skill.difficulty != 0)) rpgExpandedReject('swimming-skill-definition');
+        self.profile.validateSuffocation();
+        rpgExpandedSwimmingModifier(self.intentionalEntry,0,self.build);
+        foreach (local prior in self.profile.swimmingHistory)
+            if (prior.id == self.id) rpgExpandedReject('swimming-duplicate');
+        self.boundId = self.id; self.boundProfile = self.profile; self.boundSkill = self.skill;
+        self.boundDefaultAvailable = self.defaultAvailable;
+        self.boundIntentional = self.intentionalEntry; self.boundBuild = self.build; self.boundEvidence = self.evidence;
+        self.startedAt = rpgLedger.seconds; self.nextCheckAt = self.startedAt;
+        self.profile.swimmingEncounter = self; self.profile.swimmingHistory = self.profile.swimmingHistory + [self];
+        value.status = 'resolved'; return value;
+    }
+    leave(evidence)
+    {
+        local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'swimming-not-started'; return value; }
+        self.validateBinding();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (evidence == nil || evidence == '') { value.reason = 'swimming-exit-evidence'; return value; }
+        if (self.stage == 'struggling') { value.reason = 'swimming-rescue-required'; return value; }
+        if (rpgLedger.seconds >= self.nextCheckAt) { value.reason = 'swimming-unresolved-check'; return value; }
+        if (self.profile.swimmingEncounter != self) rpgExpandedReject('swimming-owner');
+        self.endedAt = rpgLedger.seconds; self.exitEvidence = evidence; self.profile.swimmingEncounter = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+
+/** Owned balance check; exhausted swimmers require the unfinished drowning path. */
+class RpgExpandedSwimCheck: object
+    id = nil
+    encounter = nil
+    completedAt = nil
+    result = nil
+    boundId = nil
+    boundEncounter = nil
+    stageBefore = nil
+    assess()
+    {
+        local value = new RpgExpandedSwimAssessment();
+        if (self.encounter == nil || !self.encounter.ofKind(RpgExpandedSwimmingEncounter)) rpgExpandedReject('swimming-check-encounter');
+        if (self.encounter.startedAt == nil) { value.reason = 'swimming-not-started'; return value; }
+        self.encounter.validateBinding();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.encounter != self.boundEncounter || !holds(self.encounter.checks,self))
+                rpgExpandedReject('swimming-check-binding');
+            value.status = 'reused'; value.check = self.result.check; value.nextStage = self.result.nextStage;
+            value.seconds = self.result.seconds; value.fatigue = self.result.fatigue; value.inhaledWater = self.result.inhaledWater; return value;
+        }
+        if (self.id == nil || self.id == '') rpgExpandedReject('swimming-check-id');
+        foreach (local prior in self.encounter.checks)
+            if (prior.id == self.id) rpgExpandedReject('swimming-check-duplicate');
+        local patient = self.encounter.profile;
+        if (self.encounter.endedAt != nil || patient.swimmingEncounter != self.encounter)
+        { value.reason = 'swimming-not-active'; return value; }
+        if (patient.dead || patient.unconscious || patient.stunned || patient.mentalStun)
+        { value.reason = 'swimming-incapacitated'; return value; }
+        if (self.encounter.skill == nil && !self.encounter.defaultAvailable)
+        { value.reason = 'swimming-default-unavailable'; return value; }
+        if (patient.fp() <= 1) { value.reason = 'swimming-exhaustion-unavailable'; return value; }
+        if (rpgLedger.seconds != self.encounter.nextCheckAt)
+        { value.reason = rpgLedger.seconds < self.encounter.nextCheckAt ? 'swimming-check-not-due' : 'swimming-missed-boundary'; return value; }
+        if (patient.encumbrance() > 4) { value.reason = 'swimming-overloaded'; return value; }
+        value.context = self.encounter.skill == nil ? new RpgExpandedSwimmingDefaultContext() : new RpgLiteContext();
+        value.context.kind = 'swimming'; value.context.attribute = rpgHT;
+        value.context.skill = self.encounter.skill;
+        /* A skill context already receives encumbrance in the shared score function. */
+        value.context.modifier = rpgExpandedSwimmingModifier(self.encounter.intentionalEntry,
+            self.encounter.skill == nil ? patient.encumbrance() : 0,self.encounter.build);
+        local score = rpgLiteScore(patient,value.context);
+        if (score == nil || score < 3) { value.reason = 'swimming-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.encounter.profile,value.context);
+        local outcome = rpgExpandedSwimmingOutcome(self.encounter.stage,value.check.score,value.check.roll);
+        value.nextStage = outcome.nextStage; value.seconds = outcome.seconds; value.inhaledWater = outcome.inhaledWater;
+        if (outcome.fatigue > 0) value.fatigue = rpgLiteFatigueIncrement(self.encounter.profile,'swimming');
+        self.boundId = self.id; self.boundEncounter = self.encounter; self.stageBefore = self.encounter.stage;
+        self.completedAt = rpgLedger.seconds; self.encounter.stage = value.nextStage;
+        self.encounter.nextCheckAt = self.completedAt + value.seconds; self.encounter.checks = self.encounter.checks + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local active = nil; local ids = [];
+        foreach (local encounter in self.swimmingHistory)
+        {
+            if (encounter == nil || !encounter.ofKind(RpgExpandedSwimmingEncounter) || encounter.profile != self
+                || holds(ids,encounter.id) || encounter.startedAt == nil || encounter.startedAt > rpgLedger.seconds)
+                rpgExpandedReject('swimming-history');
+            encounter.validateBinding(); ids = ids + [encounter.id]; local due = encounter.startedAt; local stage = 'entry'; local checks = [];
+            foreach (local check in encounter.checks)
+            {
+                if (check == nil || !check.ofKind(RpgExpandedSwimCheck) || check.encounter != encounter
+                    || holds(checks,check.id) || check.result == nil || check.completedAt != due || check.completedAt > rpgLedger.seconds
+                    || check.stageBefore != stage || check.assess().status != 'reused') rpgExpandedReject('swimming-check-history');
+                checks = checks + [check.id];
+                local outcome = rpgExpandedSwimmingOutcome(stage,check.result.check.score,check.result.check.roll);
+                if (outcome.nextStage != check.result.nextStage || outcome.seconds != check.result.seconds
+                    || outcome.fatigue != check.result.fatigue || outcome.inhaledWater != check.result.inhaledWater)
+                    rpgExpandedReject('swimming-outcome-history');
+                stage = outcome.nextStage; due = check.completedAt + outcome.seconds;
+            }
+            if (encounter.stage != stage || encounter.nextCheckAt != due) rpgExpandedReject('swimming-schedule-history');
+            if (encounter.endedAt == nil)
+            {
+                if (active != nil) rpgExpandedReject('swimming-multiple-encounters');
+                active = encounter;
+            }
+            else if (encounter.endedAt < encounter.startedAt || encounter.endedAt >= due
+                || encounter.endedAt > rpgLedger.seconds || encounter.exitEvidence == nil || stage == 'struggling')
+                rpgExpandedReject('swimming-exit-history');
+        }
+        if (self.swimmingEncounter != active) rpgExpandedReject('swimming-active-history');
+        return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    validateSuffocation()
+    {
+        inherited();
+        if (self.swimmingEncounter != nil) rpgExpandedReject('suffocation-swimming-encounter-owned');
+        return nil;
+    }
+    validateBreathStart()
+    {
+        inherited();
+        if (self.swimmingEncounter != nil) rpgExpandedReject('breath-swimming-encounter-owned');
+        return nil;
+    }
+    validateNaturalRecovery(seconds, food, allowed)
+    {
+        inherited(seconds,food,allowed);
+        if (self.swimmingEncounter != nil) rpgExpandedReject('swimming-rest-unavailable');
+        return nil;
+    }
+;

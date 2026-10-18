@@ -760,6 +760,26 @@ def test_cold_persistence(Session, bundle, out):
             second.close()
 
 
+def test_swimming_encounter(s):
+    s.action(1876)
+    assert last(s, 'test.swim-entry') == [10,1,'struggling',5,3]
+    assert last(s, 'test.swim-recover') == ['swimming-check-not-due','swimming-rescue-required','recovering',65,1,6]
+    assert last(s, 'test.swim-stable') == ['stable',365,1,'resolved',0,9]
+
+
+def test_swimming_context(s):
+    for health, weight, trained, score in [(14,0,0,10),(30,0,0,16),
+            (14,3000,0,8),(14,3000,1,12),(14,5000,1,10)]:
+        s.action(1877, health, 0, weight, trained)
+        assert last(s, 'test.swim-score') == ['ready',None,score,0,0]
+    s.action(1877, 14, 0, 0, 0, 1)
+    assert last(s, 'test.swim-score') == ['blocked','swimming-default-unavailable',None,0,0]
+    s.action(1877, 10, 9, 0, 0)
+    assert last(s, 'test.swim-score') == ['blocked','swimming-exhaustion-unavailable',None,9,0]
+    s.action(1877, 10, 0, 20001, 0)
+    assert last(s, 'test.swim-score') == ['blocked','swimming-overloaded',None,0,0]
+
+
 def test_swimming_assessments(s):
     for intentional, encumbrance, build, modifier in [(0,0,'ordinary',0),(1,0,'ordinary',3),
             (0,3,'ordinary',-6),(1,4,'ordinary',-5),(0,2,'overweight',-3),
@@ -3868,6 +3888,8 @@ def test(build):
     exploration = build.build('expanded-exploration',ROOT / 'tests/fixtures/expanded-exploration.t')
     fresh(Session,exploration,test_breath_duration)
     fresh(Session,exploration,test_swimming_assessments)
+    fresh(Session,exploration,test_swimming_encounter)
+    fresh(Session,exploration,test_swimming_context)
     fresh(Session,exploration,test_breath_reserve)
     breath_transactions = build.build('expanded-breath-transactions',ROOT / 'tests/fixtures/expanded-breath-transactions.t')
     fresh(Session,breath_transactions,test_breath_transactions)
