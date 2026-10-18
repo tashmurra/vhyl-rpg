@@ -11560,3 +11560,33 @@ def test_poison_exposure(Session, bundle, out):
         assert last(s, 'test.poison-exposure') == [None, None, None, 0, 0, 0, 0]
     finally:
         s.close()
+
+    # B439 dual-route catalogue: fixed contact injury draws no damage dice.
+    for setup, expected, count, injury, end_time, draws in [
+        (330, [6, 10, 0, 0, 28800, 24, 0, 1, -4], 24, 24, 662400, 72),
+        (331, [6, 10, 0, 7200, 3600, 6, 1, 1, -1], 6, 24, 25200, 24),
+    ]:
+        s = Session(bundle)
+        try:
+            for code in (setup, 324, 265, 260):
+                s.action(2285, code)
+            assert last(s, 'test.poison-catalogue') == expected
+            if setup == 331:
+                s.action(2285, 332)
+            s.action(2285, 262)
+            s.action(2285, 275)
+            assert last(s, 'test.poison-cycle') == ([1, 23, 1, 1, 0, 3] if setup == 330 else [1, 5, 4, 4, 7200, 4])
+            for _ in range(count - 1):
+                s.action(2285, 333)
+            s.action(2285, 275)
+            assert last(s, 'test.poison-cycle') == [count, 0, 0, injury, end_time, draws]
+        finally:
+            s.close()
+    for setup in [(330, 334), (330, 335), (336,)]:
+        s = Session(bundle)
+        try:
+            for code in setup + (260, 264):
+                s.action(2285, code)
+            assert last(s, 'test.poison-exposure') == [None, None, None, 0, 0, 0, 0]
+        finally:
+            s.close()

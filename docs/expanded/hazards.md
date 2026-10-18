@@ -1145,7 +1145,8 @@ base, but owns its admitted delivery and absolute onset deadline. Supply a uniqu
 `id`, expanded `profile`, `hazard`, approved `RpgExpandedPoisonEntry`, factual
 `sizeModifier`, `approved` and `effectEvidence` identifying the poison's supported
 effects. The hazard supports single or repeated cycles of toxic HP injury,
-with one to one hundred dice and nonnegative additions. Fatigue,
+with zero to one hundred dice and nonnegative additions. Zero dice requires a
+positive fixed addition; it applies that fixed damage without drawing damage dice. Fatigue,
 other symptoms/conditions and negative additions remain unsupported.
 The original fictional fixture agent is not a claim of source-catalogue coverage.
 
@@ -1316,6 +1317,8 @@ following neutral entries from full-2008 B439:
 | `delayed-ingested-agent` | digestive | 3600 seconds | HT−2 | 1d | Eight, 3600-second intervals | 1 | 1 | 1 |
 | `rapid-systemic-agent` | follow-up or respiratory | Immediate | None | 4d | One | 4 | 2 | 1 |
 | `rapid-systemic-agent` | contact or digestive | 900 seconds | None | 4d | One | 4 | 2 | 1 |
+| `dual-route-agent` | area contact | Immediate | HT−4 | 1 HP | Twenty-four, 28800-second intervals | 6 | 10 | 0 |
+| `dual-route-agent` | area respiratory | 7200 seconds | HT−1 | 1d | Six, 3600-second intervals | 6 | 10 | 0 |
 
 Use the returned definition as an owned exposure's `hazard`, with an approved
 entry of the same route. The common exposure implementation handles size, dose,
@@ -1337,3 +1340,20 @@ The fixture's expected values are literal source values. It specifies all eight
 failed cycles of the delayed agent, immediate and delayed unresisted injury,
 lot pricing and rejection of modified catalogue statistics. Tests remain unrun;
 catalogue coverage remains partial pending validation and delivery integration.
+
+
+The `dual-route-agent` entry enforces `method = 'area'` in addition to the chosen
+route. Its contact variant uses fixed one-point toxic injury and therefore draws
+only resistance dice each cycle. The respiratory variant uses one damage die on
+failed resistance. Each route has its own admitted exposure; the interface does
+not collapse simultaneous contact and inhalation into one arbitrary effect.
+
+For this catalogue entry, set `preparedForAgent = true` and nonempty
+`preparationEvidence` on the exposure only when that preparation is established
+in the authored encounter. The source permits fear checks for unprepared people;
+unprepared admission is explicitly blocked pending integration with the owned
+fear procedure. This is a supported prepared-victim path, not complete fear or
+persistent-environment coverage. The preparation facts are bound at admission.
+Fixtures cover the full twenty-four contact cycles and six respiratory cycles,
+their final injuries and random-draw counts, wrong delivery methods, unprepared
+admission and invalid zero-damage definitions. They remain unrun.

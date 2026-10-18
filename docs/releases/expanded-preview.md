@@ -446,3 +446,10 @@ definitions from full-2008 B439, including fixed route-specific timing and an
 inventory lot factory with price, technology and legality. Literal source-value
 fixtures cover the eight-cycle sequence and unresisted onset variants; they remain
 unrun. Other agents and automatic payload admission remain incomplete.
+
+
+Added fixed positive toxic damage without damage-die draws, and the neutral
+dual-route catalogue agent's distinct area-contact and area-respiratory cycles.
+Admission enforces area delivery and documented preparation; unprepared fear
+integration remains blocked explicitly. Full-cycle expected-value fixtures are
+authored and unrun, and persistent environmental repetition remains incomplete.

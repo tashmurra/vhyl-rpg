@@ -25,6 +25,7 @@ weaponCoating: RpgExpandedWeaponCoating id = 'point-coating' profile = surgicalH
 coatingFighter: RpgLiteFighter profile = surgicalHealer weapon = coatingWeapon;
 coatingTarget: RpgLiteFighter profile = bleedProfile;
 coatingAttack: RpgLiteManeuver kind = 'attack' target = coatingTarget defense = 'dodge' defenseModifier = 20;
+poisonCatalogueInput: object nextId = 'cycle';
 modify BleedTestAction
     exec(context)
     {
@@ -151,6 +152,24 @@ modify BleedTestAction
             local cycle = new RpgExpandedPoisonCycle(); cycle.exposure = poisonExposure;
             cycle.id = names[poisonExposure.cycleHistory.length() + 1]; rpgSpendTime(3600); cycle.apply(); return nil;
         }
+        if (code == 330 || code == 331)
+        {
+            poisonDelivery.route = code == 330 ? 'contact' : 'respiratory';
+            poisonExposure.hazard = rpgExpandedPoisonCatalogue('dual-route-agent',poisonDelivery.route);
+            poisonDelivery.method = 'area'; poisonDelivery.inArea = true; poisonDelivery.inhaled = true;
+            poisonExposure.preparedForAgent = true; poisonExposure.preparationEvidence = 'The patient was briefed on this specific hazard';
+            return nil;
+        }
+        if (code == 332) { rpgSpendTime(7200); return nil; }
+        if (code == 333)
+        {
+            local cycle = new RpgExpandedPoisonCycle(); cycle.exposure = poisonExposure;
+            cycle.id = poisonCatalogueInput.nextId; poisonCatalogueInput.nextId += '-next';
+            rpgSpendTime(poisonExposure.hazard.interval); cycle.apply(); return nil;
+        }
+        if (code == 334) { poisonExposure.preparedForAgent = nil; return nil; }
+        if (code == 335) { poisonDelivery.method = 'direct'; return nil; }
+        if (code == 336) { poisonDefinition.dice = 0; poisonDefinition.adds = 0; return nil; }
         return inherited(context);
     }
 ;

@@ -2661,6 +2661,8 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     result = nil
     cycleHistory = []
     doseDoublings = 0
+    preparedForAgent = nil
+    preparationEvidence = nil
     doseAssessment()
     {
         if (self.doseDoublings != 0 && self.entry.route != 'digestive'
@@ -2675,7 +2677,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
     {
         local e = self.entry; local h = self.hazard;
         if (h.ofKind(RpgExpandedCataloguePoison)) h.validateCatalogue();
-        return [self.id,self.profile,h,self.sizeModifier,self.doseDoublings,self.approved,self.effectEvidence,self.dropDestination,
+        return [self.id,self.profile,h,self.sizeModifier,self.doseDoublings,self.preparedForAgent,self.preparationEvidence,self.approved,self.effectEvidence,self.dropDestination,
             h.kind,h.delay,h.interval,h.cycles,h.dice,h.adds,h.fatigueDamage,h.resistible,h.resistanceModifier,
             e,e.patient,e.route,e.method,e.approved,e.evidence,e.inArea,e.mucousContact,e.openWoundContact,
             e.persistentWoundReached,e.vulnerableAreaHit,e.skinContact,e.unarmored,e.unclad,e.swallowed,
@@ -2708,8 +2710,12 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (self.hazard.ofKind(RpgExpandedCataloguePoison))
         {
             self.hazard.validateCatalogue();
-            if (self.entry.route != self.hazard.route)
+            if (self.entry.route != self.hazard.route
+                || self.hazard.deliveryMethod != nil && self.entry.method != self.hazard.deliveryMethod)
             { value.reason = 'poison-catalogue-route'; return value; }
+            if (self.hazard.unpreparedFear && (!self.preparedForAgent
+                || self.preparationEvidence == nil || self.preparationEvidence == ''))
+            { value.reason = 'poison-unprepared-fear-admission-unimplemented'; return value; }
         }
         if (self.started)
         {
@@ -2726,7 +2732,7 @@ class RpgExpandedPoisonExposure: RpgLiteExposure
         if (self.hazard.fatigueDamage)
         { value.reason = 'poison-effect-form-unimplemented'; return value; }
         rpgInteger(self.hazard.cycles,1,10000); rpgInteger(self.hazard.interval,1,86400);
-        rpgInteger(self.hazard.dice,1,100); rpgInteger(self.hazard.adds,0,1000);
+        rpgInteger(self.hazard.dice,0,100); rpgInteger(self.hazard.adds,self.hazard.dice == 0 ? 1 : 0,1000);
         rpgInteger(self.hazard.resistanceModifier,-100,100);
         if (self.profile.dead) { value.reason = 'poison-exposure-dead'; return value; }
         local dose = self.doseAssessment();
@@ -2821,7 +2827,8 @@ class RpgExpandedPoisonCycle: object
         value.resisted = value.check != nil && value.check.achieved;
         if (!value.resisted)
         {
-            local amount = rpgLiteRollDamage(e.hazard.dice,e.hazard.adds,'tox',nil) * e.doseAssessment().damageMultiplier;
+            local baseDamage = e.hazard.dice == 0 ? e.hazard.adds : rpgLiteRollDamage(e.hazard.dice,e.hazard.adds,'tox',nil);
+            local amount = baseDamage * e.doseAssessment().damageMultiplier;
             value.wound = e.failureWound(amount); value.wound.id = 'poison-' + e.id + '-' + self.id;
             local harm = value.wound.apply();
             if (harm.status != 'resolved') rpgExpandedReject('poison-injury-changed');
@@ -3249,12 +3256,14 @@ modify RpgLiteWeapon
  * supplied printing; use an ordinary hazard for original authored agents. */
 class RpgExpandedCataloguePoison: RpgLiteHazard
     catalogueId = nil
+    deliveryMethod = nil
+    unpreparedFear = nil
     route = nil
     techLevel = 0
     unitCost = 0
     legality = 1
     signature() { return [self.kind,self.delay,self.interval,self.cycles,self.dice,self.adds,
-        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality]; }
+        self.fatigueDamage,self.resistible,self.resistanceModifier,self.techLevel,self.unitCost,self.legality,self.deliveryMethod,self.unpreparedFear]; }
     validateCatalogue()
     {
         local expected = rpgExpandedPoisonCatalogue(self.catalogueId,self.route).signature();
@@ -3279,6 +3288,22 @@ rpgExpandedPoisonCatalogue(id, route)
         if (!holds(['follow-up','respiratory','contact','digestive'],route)) rpgExpandedReject('poison-catalogue-route');
         value.techLevel = 4; value.unitCost = 2; value.resistible = nil; value.dice = 4;
         value.delay = holds(['follow-up','respiratory'],route) ? 0 : 900;
+    }
+    else if (id == 'dual-route-agent')
+    {
+        if (!holds(['contact','respiratory'],route)) rpgExpandedReject('poison-catalogue-route');
+        value.techLevel = 6; value.unitCost = 10; value.legality = 0;
+        value.deliveryMethod = 'area'; value.unpreparedFear = true;
+        if (route == 'contact')
+        {
+            value.delay = 0; value.resistanceModifier = -4; value.dice = 0; value.adds = 1;
+            value.interval = 28800; value.cycles = 24;
+        }
+        else
+        {
+            value.delay = 7200; value.resistanceModifier = -1; value.dice = 1;
+            value.interval = 3600; value.cycles = 6;
+        }
     }
     else rpgExpandedReject('poison-catalogue-entry-unimplemented');
     return value;

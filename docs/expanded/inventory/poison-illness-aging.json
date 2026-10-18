@@ -463,9 +463,12 @@
       "pages": "B439",
       "module": "hazards",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Technology six, price ten and legality zero; contact mode has no delay, health-4, one toxic damage every eight hours for twenty-four cycles; respiratory mode delays two hours, uses health-1 and one die each hour for six cycles.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Fixed catalogue area-contact and area-respiratory definitions now execute their distinct timing, resistance, damage and cycle counts for explicitly prepared patients. Fixed contact injury consumes no damage randomness. Full cycle fixtures authored, unrun. Unprepared fear admission and persistent environmental repetition remain unfinished and explicit."
     },
     {
       "id": "poison-catalogue-neurological-agent",
