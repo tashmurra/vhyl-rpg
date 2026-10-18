@@ -1670,3 +1670,9 @@ Fixed beliefs now support ownership above forty nominal points through explicit
 author credit allocations capped at forty. Character accounting, copied purchases
 and original buyoff receipts preserve those allocations, including zero-credit
 purchases. Severity and reactions remain unchanged. Fixtures are authored, unrun.
+
+
+Life-sustaining requirements now have scoped authored definitions, all ordinary
+rarity/frequency prices, template copying and explicit calendar/contact metadata.
+Access, consumption, injury and aging remain pending. Fixtures are authored,
+unrun; this catalogue entry remains partial.

@@ -2637,3 +2637,94 @@ class RpgExpandedFixedBeliefRevelationBuyoff: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B130: numerator, denominator, injury interval, fixed dose period, calendar months.
+ * Zero fixed period means continuous access or a calendar-based boundary. */
+rpgExpandedSustenanceSchedule(frequency)
+{
+    if (frequency == 'continuous') return [5,1,60,0,0];
+    if (frequency == 'hourly') return [4,1,600,3600,0];
+    if (frequency == 'daily') return [3,1,3600,86400,0];
+    if (frequency == 'weekly') return [2,1,21600,604800,0];
+    if (frequency == 'monthly') return [1,1,86400,0,1];
+    if (frequency == 'seasonal') return [1,3,259200,0,3];
+    if (frequency == 'yearly') return [1,10,1209600,0,12];
+    rpgExpandedReject('sustenance-frequency');
+}
+rpgExpandedSustenanceCost(rarity, illegal, frequency)
+{
+    local base = 0;
+    if (rarity == 'rare') base = 30;
+    else if (rarity == 'occasional') base = 20;
+    else if (rarity == 'common') base = 10;
+    else if (rarity == 'very-common') base = 5;
+    else rpgExpandedReject('sustenance-rarity');
+    if (illegal) base += 5;
+    local row = rpgExpandedSustenanceSchedule(frequency);
+    return -((base * row[1]) / row[2]);
+}
+/** Authored life support, distinct from dietary starvation and skilled maintenance. */
+class RpgExpandedSustenanceRequirement: RpgLiteTrait
+    id = 'sustenance-requirement'
+    labelId = 'sustenance-requirement'
+    points = -1
+    rarity = nil
+    illegal = nil
+    frequency = nil
+    requirementKind = nil
+    requirementText = nil
+    approved = nil
+    evidence = nil
+    templatePurchaseKind = 'expanded-sustenance'
+    creationCost()
+    {
+        if (self.id != 'sustenance-requirement' || self.points != -1 || self.level != 1 || self.controlled
+            || self.skills.length() != 0 || self.scope == nil || self.scope == '' || self.scope == 'quirk'
+            || !self.approved || self.evidence == nil || self.evidence == ''
+            || self.requirementText == nil || self.requirementText == '') rpgExpandedReject('sustenance-definition');
+        if (!holds(['substance','object','environment'],self.requirementKind)) rpgExpandedReject('sustenance-kind');
+        return rpgExpandedSustenanceCost(self.rarity,self.illegal,self.frequency);
+    }
+    templatePurchaseOptions()
+    {
+        return [self.rarity,self.illegal,self.frequency,self.requirementKind,self.requirementText,self.approved,self.evidence];
+    }
+    requiredContactSeconds()
+    {
+        self.creationCost();
+        if (self.requirementKind == 'substance') rpgExpandedReject('sustenance-dose-not-contact');
+        if (self.frequency == 'continuous') rpgExpandedReject('sustenance-continuous-access-required');
+        return rpgExpandedSustenanceSchedule(self.frequency)[3];
+    }
+;
+modify RpgExpandedProfile
+    traitMayRepeat(trait) { return trait.ofKind(RpgExpandedSustenanceRequirement) || inherited(trait); }
+    validateFeatures()
+    {
+        inherited(); local scopes = [];
+        foreach (local trait in self.traits)
+            if (trait.id == 'sustenance-requirement')
+            {
+                if (!trait.ofKind(RpgExpandedSustenanceRequirement)) rpgExpandedReject('sustenance-type');
+                trait.creationCost();
+                if (holds(scopes,trait.scope)) rpgExpandedReject('sustenance-duplicate-scope');
+                scopes = scopes + [trait.scope];
+            }
+        return nil;
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'sustenance-requirement') rpgExpandedReject('sustenance-authored-definition-required');
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedSustenanceRequirement)) return inherited(trait);
+        trait.creationCost(); local copy = new RpgExpandedSustenanceRequirement();
+        copy.scope = trait.scope; copy.rarity = trait.rarity; copy.illegal = trait.illegal; copy.frequency = trait.frequency;
+        copy.requirementKind = trait.requirementKind; copy.requirementText = trait.requirementText;
+        copy.approved = trait.approved; copy.evidence = trait.evidence; copy.creationCost(); return copy;
+    }
+;

@@ -9212,6 +9212,8 @@ def test(build):
     test_belief_revelation(Session, belief_revelation, build.out)
     belief_credit = build.build('expanded-belief-credit',ROOT / 'tests/fixtures/expanded-belief-credit.t')
     test_belief_credit(Session, belief_credit, build.out)
+    sustenance = build.build('expanded-sustenance',ROOT / 'tests/fixtures/expanded-sustenance.t')
+    test_sustenance(Session, sustenance)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20573,5 +20575,28 @@ def test_belief_credit(Session, bundle, out):
         for code in (11500, 11505, 11208):
             s.action(2285, code)
         assert last(s, 'test.belief-limit') == ['fixed-belief-credit-allocation']
+    finally:
+        s.close()
+
+
+def test_sustenance(Session, bundle):
+    """B130 independently tabulated prices and timing metadata; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(2285, 11600)
+        assert last(s, 'test.sustenance-price') == [
+            -150, -175, -120, -140, -90, -105, -60, -70, -30, -35, -10, -11, -3, -3,
+            -100, -125, -80, -100, -60, -75, -40, -50, -20, -25, -6, -8, -2, -2,
+            -50, -75, -40, -60, -30, -45, -20, -30, -10, -15, -3, -5, -1, -1,
+            -25, -50, -20, -40, -15, -30, -10, -20, -5, -10, -1, -3, 0, -1]
+        s.action(2285, 11601)
+        assert last(s, 'test.sustenance-schedule') == [
+            60, 0, 0, 600, 3600, 0, 3600, 86400, 0, 21600, 604800, 0,
+            86400, 0, 1, 259200, 0, 3, 1209600, 0, 12]
+        s.action(2285, 11602)
+        assert last(s, 'test.sustenance-definition') == [-30, 3600, -30, 3600, 0]
+        s.action(2285, 11603)
+        s.action(2285, 11602)
+        assert last(s, 'test.sustenance-definition') == [-1, 1209600, -1, 1209600, 0]
     finally:
         s.close()

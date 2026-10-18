@@ -1615,3 +1615,34 @@ affordability, replay, rollback, undo and save continuation. They remain unrun.
 `test_belief_credit` specify forty-five nominal points with forty credited,
 unchanged severity, template copying, zero-credit original bases, allocation
 rejection, replay, rollback, undo and save continuation. Fixtures remain unrun.
+
+
+## Life-sustaining requirements
+
+`RpgExpandedSustenanceRequirement` defines an authored substance, object or
+environment needed for life support (`full-2008`, B130). Supply distinct `scope`,
+`requirementKind`, original `requirementText`, `rarity`, `frequency`, approval and
+evidence. `illegal` adds the source surcharge before frequency scaling. Rarity is
+`rare`, `occasional`, `common` or `very-common`; frequency is `continuous`,
+`hourly`, `daily`, `weekly`, `monthly`, `seasonal` or `yearly`.
+
+`rpgExpandedSustenanceCost` applies the four rarity prices and seven frequency
+multipliers, discarding fractional magnitude. Character accounting uses that
+cost, and template copies preserve the complete authored definition. Multiple
+requirements need distinct scopes; shorthand without the definition rejects.
+This purchase does not represent skilled maintenance or slow dietary starvation.
+
+`rpgExpandedSustenanceSchedule` returns the multiplier numerator, denominator,
+injury interval in seconds, fixed dose period in seconds and calendar period in
+months. Monthly, seasonal and yearly periods deliberately have no fixed-seconds
+substitute. `requiredContactSeconds()` returns the required residence/contact
+duration for periodic objects and environments; it rejects continuous access
+and substance doses, whose satisfaction cannot be inferred from that duration.
+
+This is definition, pricing and schedule metadata coverage. Owned access,
+consumption, calendar deadlines, missed-access injury and accelerated aging are
+still pending; including the trait does not yet execute those effects. No generic
+author callback is counted as their implementation.
+[`expanded-sustenance.t`](../../tests/fixtures/expanded-sustenance.t) and
+`test_sustenance` tabulate all 56 ordinary/legal-price combinations, seven
+schedules, contact durations and template copying. Fixtures remain unrun.
