@@ -3078,3 +3078,46 @@ modify RpgExpandedProfile
     }
     validateFeatures() { inherited(); self.appearanceTrait(); return nil; }
 ;
+
+modify RpgExpandedAppearance
+    labelId = 'appearance'
+    templatePurchaseKind = 'expanded-appearance'
+    templatePurchaseOptions() { return [self.tier,self.presentation,self.universal,self.standardized]; }
+;
+modify RpgExpandedSympathy
+    labelId = 'sympathy'
+    templatePurchaseKind = 'expanded-sympathy'
+;
+modify RpgExpandedSocialInhibition
+    labelId = 'social-inhibition'
+    templatePurchaseKind = 'expanded-social-inhibition'
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'appearance') rpgExpandedReject('appearance-template-options');
+        if (!holds(['sympathy','social-inhibition'],id)) return inherited(id,level,scope);
+        if (scope != nil) rpgExpandedReject('social-trait-template-scope');
+        local trait = id == 'sympathy' ? new RpgExpandedSympathy() : new RpgExpandedSocialInhibition();
+        trait.approved = true; trait.level = level; trait.creationCost(); return trait;
+    }
+    configured(id,level,scope,options)
+    {
+        if (id != 'appearance') return inherited(id,level,scope,options);
+        if (level != 1 || scope != nil || options.length() != 4) rpgExpandedReject('appearance-template-options');
+        local trait = new RpgExpandedAppearance(); trait.approved = true;
+        trait.tier = options[1]; trait.presentation = options[2]; trait.universal = options[3]; trait.standardized = options[4];
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedAppearance) && !trait.ofKind(RpgExpandedSympathy)
+            && !trait.ofKind(RpgExpandedSocialInhibition)) return inherited(trait);
+        trait.creationCost();
+        if (trait.labelId != trait.id || trait.scope != nil) rpgExpandedReject('social-trait-template-definition');
+        local value = trait.ofKind(RpgExpandedAppearance)
+            ? self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions())
+            : self.plain(trait.id,trait.level,trait.scope);
+        value.approved = trait.approved; return value;
+    }
+;

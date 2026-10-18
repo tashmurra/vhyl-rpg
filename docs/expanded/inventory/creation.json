@@ -1546,7 +1546,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1557,7 +1557,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1568,7 +1568,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1579,7 +1579,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1590,7 +1590,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1601,7 +1601,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1612,7 +1612,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1623,7 +1623,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1634,7 +1634,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1645,7 +1645,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Verify the corresponding appearance price and audience-dependent reaction effect, visibility, applicability and exceptions.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1656,7 +1656,7 @@
       "kind": "modifier",
       "status": "partial",
       "acceptance": "Validate eligible appearance levels, pricing and the appropriate replacement reaction modifier.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1667,7 +1667,7 @@
       "kind": "modifier",
       "status": "partial",
       "acceptance": "Validate eligible appearance levels, pricing and the appropriate replacement reaction modifier.",
-      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers"],
+      "tests": ["tests/expanded.py::test_expanded_appearance", "tests/expanded.py::test_appearance_modifiers", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Fixed appearance tiers, flat presentation options and explicit observer reaction modifiers implemented. Named universal/standardized modifiers are implemented; narrative incidents remain pending and fixtures unrun."
     },
     {
@@ -1730,7 +1730,7 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Implement price and effects with explicit audience/scene applicability; narrative complications need a specific authored contract.",
-      "tests": ["tests/expanded.py::test_begging_traits"],
+      "tests": ["tests/expanded.py::test_begging_traits", "tests/expanded.py::test_appearance_template"],
       "validation_note": "Ordinary fixed price, activation, mitigation, duplicate rejection, begging bonus and observer-specific need reaction context implemented. Modified variants and appearance interpretation remain unsupported. Fixtures unrun."
     },
     {

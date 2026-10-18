@@ -9469,6 +9469,8 @@ def test(build):
     appearance = build.build('expanded-appearance',ROOT / 'tests/fixtures/expanded-appearance.t')
     test_expanded_appearance(Session,appearance)
     test_appearance_modifiers(Session,appearance)
+    appearance_template = build.build('expanded-appearance-template',ROOT / 'tests/fixtures/expanded-appearance-template.t')
+    test_appearance_template(Session,appearance_template,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25474,5 +25476,29 @@ def test_appearance_modifiers(Session, bundle):
     try:
         s.action(1680,24723)
         assert last(s,'test.appearance-error') == ['appearance-standardized-tier']
+    finally:
+        s.close()
+
+
+def test_appearance_template(Session, bundle, out):
+    """Typed template copies preserve options without sharing mutable traits; unrun."""
+    path = out / 'appearance-template.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,24900); s.action(1680,24901)
+        assert last(s,'test.appearance-template') == [9,9,9,1,2,1]
+        s.action(1680,24902); s.command('undo'); s.action(1680,24901)
+        assert last(s,'test.appearance-template') == [9,9,9,1,2,1]
+        s.action(1680,24902); s.action(1680,24901)
+        assert last(s,'test.appearance-template') == [15,9,9,1,2,1]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,24901)
+        assert last(s,'test.appearance-template') == [15,9,9,1,2,1]
+        s.action(1680,24903)
+        assert last(s,'test.appearance-template-error') == ['appearance-template-options']
     finally:
         s.close()

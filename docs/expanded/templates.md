@@ -880,3 +880,26 @@ definitions and constructs independent training records.
 `test_psychology_templates` specifies combined cost and ratings, mixed campaign
 representation rejection, duplicate-discipline rejection and construction
 rollback. Fixtures remain unrun while checks are paused.
+
+### Appearance and sympathy purchases
+
+With the traits library installed, a configured appearance row has this shape:
+
+```
+['appearance', 1, nil, nil, [tier, presentation, universal, standardized]]
+```
+
+For example, `[2, 'ordinary', true, true]` purchases tier 2 with both named
+modifiers for 9 points. All four options are required. The level must be 1 and
+scope must be nil. The plain three-field appearance row is rejected rather than
+silently selecting a tier.
+
+Use `['sympathy', 1, nil]` for the five-point sympathy trait and
+`['social-inhibition', tier, nil]` for inhibition tiers 1–3. Factory rows produce
+the executable trait classes, including their validation, costs and effects.
+Template selection copies preserve appearance options and activation/mitigation
+without sharing mutable trait objects. Ancestry composition uses the existing
+option comparison, so different appearance purchases conflict instead of adding
+their tiers. `test_appearance_template` specifies separate application instances,
+copy costs, mutation isolation, undo, save continuation and missing-option
+rejection. Fixtures remain unrun.
