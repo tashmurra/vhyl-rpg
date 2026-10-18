@@ -8,8 +8,10 @@
 
 This module has not been implemented. Its proposed filename,
 `vhyl-rpg-expanded-magic.t`, is reserved in the catalogue; do not include it in a
-game. The general casting chapter and spell catalogue still need their detailed
-inventory. The enchantment chapter now has a first text pass covering creation,
+game. The [first casting inventory](inventory/magic-procedures-a.json) covers
+learning, ambient energy, rituals, critical outcomes, maintenance and ceremonial
+casting. Spell classes and the spell catalogue still need their detailed inventory.
+The enchantment chapter now has a first text pass covering creation,
 level-cost tables, the item catalogue, use and market procedures. Underlying spell
 and trait references, numeric audits and validating tests remain pending.
 
@@ -82,3 +84,22 @@ list, separate learned versions and built-in conduct obligations. It does not sh
 ordinary spell prerequisites or aptitude bonuses, and its included pact cannot
 receive a second discount. Eligibility, suspension and restoration need explicit
 records; this source coverage does not yet supply executable casting behavior.
+
+
+## Casting lifecycle requirements
+
+Ordinary casting, maintained control and ceremonial casting use different failure
+and spending rules. A critical ordinary success spends no energy, while a completed
+ceremony spends every contribution regardless of outcome. Interruption can spoil
+an unfinished spell, freeze control of an existing spell, or end it on a critical
+control failure. These states need separate transitions on one shared action ledger.
+
+Energy discounts use base skill adjusted for low ambient energy, after effect and
+size costs. Burning health imposes its own casting penalty and has a special
+survival-check exception. Very-high ambient energy refunds only qualifying fatigue
+at the next turn boundary. Maintenance, early cancellation and group contributions
+must each be committed once, with explicit ownership and payment records.
+
+The critical-outcome inventory includes every table result. Alternate targets,
+reversed effects, illusions and hostile arrivals need spell-specific authored
+contracts; none is complete merely because an outcome name exists.

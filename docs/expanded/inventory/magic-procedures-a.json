@@ -1,0 +1,559 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B234-B238",
+  "review": "Learning, ambient energy, casting, rituals, critical outcomes, maintenance and ceremonial rules enumerated. Spell-class exceptions, catalogue integration, ambiguous sequencing and independent tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "magic-procedures-a-spell-model",
+      "source": "full-2008",
+      "pages": "B234-B235",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each spell is its own intelligence-based hard or very-hard skill with no default. Separate thematic group, procedural class, caster, subject, base skill and effective skill. Casting requires learning the spell or a qualifying item, not merely having a same-theme talent.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-learning-aptitude",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Add magical aptitude levels to intelligence for learning spells. Study time reduces ten percent per level, capped at forty-percent reduction at level four; point costs are unchanged. Keep this time discount separate from skill target and campaign maximum aptitude.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-prerequisites",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spell prerequisites require at least one purchased point in each prerequisite spell, specified aptitude minimum and any attribute, advantage or mundane-skill requirements. Validate before study/purchase; default knowledge cannot satisfy a spell prerequisite.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-energy-very-high",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Very-high ambient energy allows any learned caster, but gifted casters recover fatigue spent casting on their turn at the start of the next turn. This is a specific refund of spent fatigue, not all fatigue or burned health. Failures become critical failures, and naturally critical failures require more severe authored disasters. Own refund event and original outcome classification.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-energy-high",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High ambient energy permits any actor with the learned spell to cast, subject to spell-specific aptitude prerequisites. It grants no automatic fatigue refund or immunity to failure.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-energy-normal",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Normal ambient energy permits casting only by actors with magical aptitude. Use ordinary procedures and costs. This is the source default magical setting level, not a forced value for every campaign.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-energy-low",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Low ambient energy permits gifted casters only and applies -5 spell skill for all purposes, including cost/ritual thresholds and magic-item power. Critical failure effects are mild or absent by authored resolution. Keep the underlying failure and resource costs explicit.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-energy-none",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Absent ambient energy prevents casting and suppresses item function without destroying the item enchantments. Function returns in a permissive area. Integrate local field effects and avoid deleting learned spells or persistent item definitions.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-cast-action",
+      "source": "full-2008",
+      "pages": "B235-B236",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Begin casting with a declared spell and target, then consecutive concentration turns for required duration. Roll at the end of the last second; result ends that turn even when the spell fails. An aborted unfinished cast has no casting penalty but must restart from the beginning.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-cast-success",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary success applies the effect immediately and spends its computed energy. Critical success has no ordinary casting energy cost and permits a concrete author-selected beneficial improvement. Preserve explicit class overrides such as ceremonial all-contribution spending.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-cast-failure",
+      "source": "full-2008",
+      "pages": "B235",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary failure produces no effect and spends one energy if successful casting would have had a positive cost, otherwise zero. Information spells instead spend full cost. Critical failure spends full cost and invokes a backfire. Preflight the full selected payment and resolve actual spending once after the result.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-cast-distraction",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Active defense, knockback, knockdown, injury, grappling or other distraction during casting prompts will -3 to continue. Failure spoils the cast; stun spoils it automatically. Injury without stun that passes concentration still applies shock to effective casting skill. Distinguish interruption of unfinished casting from control of an existing spell.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-subject-touch",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Subjects can be actors, objects or places; touching a place may use a hand extended over it or contact with the ground where appropriate. Author target validation must define valid subject and contact semantics for each spell before time/resource commitment.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-energy-discount",
+      "source": "full-2008",
+      "pages": "B236-B237",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compute total energy after size/area/effect scaling, then subtract one at base skill fifteen, two at twenty, and another one per full five thereafter, floored at zero. Use base skill adjusted only for low ambient energy, not range or other casting penalties. The same discount applies to maintenance, but never to blocking spells.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-payment-health",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Energy can be split between fatigue and health. Each health point used gives -1 casting skill in place of ordinary injury shock from that payment, unaffected by pain resistance. Treat resulting health loss as injury and preserve the selected payment allocation across preview, resolution and failure costs.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-health-death-exception",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Health-powered casting can continue until unconsciousness, but if a required survival roll would mean death, the proposed health expenditure is not applied and the caster becomes unconscious instead. Define transaction sequencing for this exception and spell outcome from the source procedure; never silently kill the caster or refund unrelated earlier injuries.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ritual-at-most-nine",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Base spell skill at-most-nine, modified only for low ambient energy: requires both hands and feet free for extensive motion, plus a firm spoken formula; casting takes double listed time; energy uses no discount. Spell-specific rituals override these defaults.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ritual-ten-to-fourteen",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Base spell skill ten-to-fourteen, modified only for low ambient energy: requires quiet speech plus a gesture; casting takes listed time; energy uses no discount. Spell-specific rituals override these defaults.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ritual-fifteen-to-nineteen",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Base spell skill fifteen-to-nineteen, modified only for low ambient energy: requires brief speech or a small gesture, either sufficient, with one-yard-per-second movement allowed during concentration; casting takes listed time; energy uses one-point discount. Spell-specific rituals override these defaults.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ritual-twenty-to-twenty-four",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Base spell skill twenty-to-twenty-four, modified only for low ambient energy: requires no speech or gesture; casting takes half listed time, round up with one-second minimum; energy uses two-point discount. Spell-specific rituals override these defaults.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ritual-twenty-five-to-twenty-nine",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Base spell skill twenty-five-to-twenty-nine, modified only for low ambient energy: requires no speech or gesture; casting takes one quarter listed time, round up with one-second minimum; energy uses three-point discount. Spell-specific rituals override these defaults.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ritual-higher",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From base skill thirty, each additional five levels halves casting time again and reduces energy by another point. Round fractional seconds upward and keep one-second minimum. Blocking cost and projectile casting time remain explicit exceptions.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-effect-limits",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For unlimited energy-scaled spells, affordable energy sets effect. For a finite number of effect levels, upper limit is the higher of normal levels and aptitude level, unless campaign disables that extension. Independent fixture: a four-level healing spell at two health per level can reach twenty health using ten energy at aptitude ten.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-effect-overlap",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repeated variable spells on one subject use only the strongest effect rather than summing. Permanent healing, damage or other lasting changes are exceptions and apply fully each time. Retain individual durations/ownership so a suppressed weaker effect can be resolved when stronger effects end, according to an explicit overlap policy.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-duration-kind",
+      "source": "full-2008",
+      "pages": "B237-B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Distinguish instantaneous, fixed-duration maintainable and permanent effects. Each maintained spell owns caster, subjects, duration boundary and maintenance cost. Do not impose ongoing-spell casting penalties on explicitly permanent effects.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-duration-shorter",
+      "source": "full-2008",
+      "pages": "B237",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A shorter duration can be declared before casting without a later cancellation fee. Voluntary early cancellation after casting costs one fatigue or health energy regardless of ordinary spell cost or skill. Validate the cancellation payment before ending the effect.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-maintenance",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At each duration boundary, the caster may pay maintenance for another full duration, with no action time, range penalty or skill roll. Apply high-skill energy discount, including zero-cost maintenance. Sleeping casters cannot maintain, and ordinary spells cannot be handed to another maintainer. Preserve conscious renewal awareness and explicit consent/policy.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-controlled-maintenance",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary maintenance requires no concentration. Spells needing continuous manipulation require concentration to change their state. Distraction, injury or stun prompts will -3: ordinary failure freezes the spell state until concentration resumes, critical failure ends it. Unlike unfinished casting, stun does not automatically spoil an already active controlled spell under this passage.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-multiple-spells",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only one new spell can be cast at a time. Existing concentrated spells each give -3 to a new casting; each other nonpermanent active spell gives -1. A concentrated spell is not also charged as an other spell. Casting another spell does not itself break existing concentration.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-eligibility",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ceremonial casting requires skill at least fifteen and willing assistants. Casting time is ten times listed; high skill reduces neither time nor energy. Record leader, participant roles, contribution commitments and ritual continuity before execution.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-skilled-gifted",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A gifted assistant knowing the spell at fifteen or more may contribute any affordable amount. A nongifted assistant knowing it at fifteen or more contributes at most three; a gifted assistant knowing it at fourteen or less contributes at most three. Eligibility requires learned knowledge, not an assumed default.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-spectators",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each unskilled supportive spectator contributes one energy, capped at one hundred total. Each opposing spectator subtracts five, capped at one hundred total penalty. Count each participant in one applicable role and prevent duplicate contributor identities.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-surplus-20",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra contributed energy of at least 20 percent above required cost gives casting skill +1, using the greatest qualifying surplus bracket rather than summing brackets.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-surplus-40",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra contributed energy of at least 40 percent above required cost gives casting skill +2, using the greatest qualifying surplus bracket rather than summing brackets.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-surplus-60",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra contributed energy of at least 60 percent above required cost gives casting skill +3, using the greatest qualifying surplus bracket rather than summing brackets.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-surplus-100",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra contributed energy of at least 100 percent above required cost gives casting skill +4, using the greatest qualifying surplus bracket rather than summing brackets.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-surplus-higher",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Above one hundred percent extra energy, each additional full one hundred percent gives another +1. Sum usable energy after opposition before determining sufficiency and surplus. Zero-energy base spells require explicit treatment rather than division by zero.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-resolution",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At ritual completion apply standard spell modifiers plus surplus bonus. All contributed energy is spent regardless of result, including critical success. Raw sixteen always fails and seventeen/eighteen always critically fail. Keep ceremonial spending separate from ordinary one-point failure cost.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-distraction",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A group aids concentration: distraction resistance uses unmodified will rather than will -3. Preserve applicable stun and spell-specific rules; this bonus does not independently authorize multiple simultaneous rituals.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-ceremony-maintenance",
+      "source": "full-2008",
+      "pages": "B238",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Participants may provide maintenance energy while the ritual remains uninterrupted, and group composition may change. This is the explicit group-maintenance exception to ordinary caster-only ownership. Track exits, joining eligibility, contributions and continuity without resetting the spell duration.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-selection",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical spell failure normally rolls three dice on the backfire table, rerolling inappropriate or intended results. Author may instead choose a suitable concrete outcome that never directly kills the caster. Define applicability and result mapping before execution; preserve original random history across rerolls.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-3",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 3: Casting fails and the caster takes one die injury. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-4",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 4: A harmful spell targets the caster; a beneficial spell targets a randomly selected nearby foe. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-5-6",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 5-6: A harmful spell targets a companion; a beneficial spell targets a randomly selected nearby foe. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-7",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 7: Select a different actor or object as subject through configured random or authored choice. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-8",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 8: Casting fails and the caster takes one health point injury. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-9",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 9: Casting fails and stuns the caster, with intelligence checks for recovery. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-10-11",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 10-11: Produce only an authored conspicuous sensory disturbance; no intended effect. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-12",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 12: Produce a weak nonfunctional version of the intended effect. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-13",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 13: Apply an explicitly defined reversed effect. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-14",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 14: Produce only a deceptive, nonfunctional illusion of success; preserve real state separately from perceived result. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-15-16",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 15-16: Apply the defined reversed effect to a randomly chosen wrong target. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-17",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 17: Casting fails and access to the spell is forgotten temporarily; intelligence recovery begins after one week and repeats weekly until success. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-18",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Critical casting table result 18: Casting fails and an appropriate hostile entity appears and attacks; the author may waive this for entirely benevolent caster and intent. Resolve ordinary critical-failure energy spending once, with owned ongoing consequences where applicable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-a-critical-author-contracts",
+      "source": "full-2008",
+      "pages": "B236",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every reversal, alternate target, illusion, sensory disturbance and summoned threat needs explicit spell-compatible inputs and executable consequences or a tested authored decision interface. A free-form backfire label does not implement the table. Reject impossible selections or invoke the specified reroll mechanism.",
+      "tests": []
+    }
+  ]
+}
