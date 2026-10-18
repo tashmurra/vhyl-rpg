@@ -150,6 +150,10 @@ def test_character_contracts(s):
         assert last(s, 'test.invalid-character') == [reason]
     s.action(1456)
     assert last(s, 'test.template-ownership') == [8,4,1]
+    # Expanded difficulty does not widen the accepted core/Lite declarations.
+    for variant in range(1, 7):
+        s.action(1457, variant)
+        assert last(s, 'test.skill-definition') == ['accepted' if variant == 3 else 'rejected']
     assert state(s) == initial
 
 
@@ -220,6 +224,19 @@ def test_social_save(Session,bundle,out):
         second.close()
 
 
+def test_trait_prices(s):
+    for base, first, second, expected in [(10,50,-75,8),(-25,-10,0,-22),
+                                         (-15,0,-90,-3),(-1,-80,0,0),(1,-80,0,1),
+                                         (-100,-65,10,-45),(15,20,0,18)]:
+        s.action(1500,base,first,second)
+        assert last(s, 'test.modified-price') == [expected]
+    for rating, expected in [(6,-10),(9,-7),(12,-5),(15,-2)]:
+        s.action(1501,-5,rating)
+        assert last(s, 'test.self-control-price') == [expected]
+    s.action(1502)
+    assert last(s, 'test.trait-price-contract') == ['unapproved-trait',15,-7,'self-control-modifier-combination']
+
+
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build("expanded-social", ROOT / "tests/fixtures/expanded-social.t")
@@ -235,3 +252,6 @@ def test(build):
         fresh(Session, combined, case)
     test_social_save(Session, combined, build.out)
     print('  character/social validation, transactions and persistence: passed', flush=True)
+    pricing = build.build('expanded-pricing', ROOT / 'tests/fixtures/expanded-pricing.t')
+    fresh(Session, pricing, test_trait_prices)
+    print('  expanded trait price contracts: passed', flush=True)

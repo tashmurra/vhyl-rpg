@@ -440,6 +440,9 @@ rpgExpandedOptionalSpecialty(generalSkill, id, specialty, approved)
 rpgExpandedValidateSkill(skill)
 {
     if (skill == nil || !skill.ofKind(RpgSkill)) rpgExpandedReject('invalid-skill');
+    rpgInteger(skill.difficulty, 0, skill.maximumDifficulty());
+    rpgValidateAttribute(skill.attribute);
+    if (skill.defaultPenalty != nil) rpgInteger(skill.defaultPenalty, -100, 0);
     if (!skill.ofKind(RpgExpandedSkill) || skill.optionalParent == nil) return nil;
     local parent = skill.optionalParent;
     if (!parent.ofKind(RpgExpandedSkill) || parent.optionalParent != nil || parent.wildcard)

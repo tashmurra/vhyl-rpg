@@ -37,8 +37,13 @@ unfinished modules.
 6. Create and attach a focused PR against main, preserving the full-suite draft.
    Do not merge, tag or publish a release. Continue full-suite work after delivery.
 
-Build checks and CI-triggering pushes remain paused during implementation. No
-interim validation has run yet.
+Build checks and CI-triggering pushes are paused at the user’s request until
+PR implementation is complete. Earlier validation passed the source programs,
+strict documentation and packaging checks, existing native regressions, the
+Town Registry example and social decision tables. The combined character/social
+fixture failed during startup; its remaining transaction checks and the new trait
+pricing fixture have not completed. These results predate the current fixes and
+do not establish validation of the current tree.
 
 ## Implementation observations
 
@@ -46,5 +51,10 @@ The initial extraction contains six expansion modules plus the shared skill-cont
 and trait-cost hooks. It excludes campaign economics, expanded equipment, expanded
 exploration and the unfinished full-suite inventory. Character validation now also
 checks the existing trait exclusions and language/native-language invariants.
-The next steps are focused behavioral fixtures, the playable example and usable
-per-module documentation. This is not yet the interim delivery.
+The playable example, focused fixtures and per-module guides are present.
+Inspection of the recorded startup failure found that core validation still
+rejected difficulty 3 before expanded skills could participate. Core startup now
+uses the skill’s difficulty-limit hook, retaining a limit of 2 for ordinary skills
+and accepting 3 for expanded skills. Dynamically created expanded skills also
+validate difficulty, attribute and default penalty before use. These fixes await
+validation when checks resume. This is not yet the interim delivery.

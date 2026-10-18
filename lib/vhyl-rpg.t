@@ -20,6 +20,8 @@ class RpgSkill: object
     attribute = rpgIQ
     difficulty = 1
     defaultPenalty = nil
+    /* Extension point for profiles that support additional difficulty bands. */
+    maximumDifficulty() { return 2; }
 ;
 
 /** Investment in one skill. Zero reserves an untrained slot for progression;
@@ -586,7 +588,7 @@ rpgValidation: InitObject
     {
         for (local skill = firstObj(RpgSkill); skill != nil; skill = nextObj(skill, RpgSkill))
         {
-            rpgInteger(skill.difficulty, 0, 2);
+            rpgInteger(skill.difficulty, 0, skill.maximumDifficulty());
             rpgValidateAttribute(skill.attribute);
             if (skill.defaultPenalty != nil) rpgInteger(skill.defaultPenalty, -100, 0);
         }

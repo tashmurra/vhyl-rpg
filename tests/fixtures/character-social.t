@@ -126,5 +126,16 @@ act(verb,args)
         eventValue(a.skills[1].points); eventValue(b.skills[1].points);
         eventValue(a.skills[1] != b.skills[1] ? 1 : 0); return nil;
     }
+    if (verb == 1457)
+    {
+        local skill = args[1] == 1 ? new RpgSkill() : args[1] == 2 ? new RpgLiteSkill() : new RpgExpandedSkill();
+        skill.difficulty = args[1] == 4 ? 4 : 3;
+        if (args[1] == 5) skill.attribute = nil;
+        if (args[1] == 6) skill.defaultPenalty = 1;
+        event('test.skill-definition');
+        try { rpgExpandedValidateSkill(skill); eventValue('accepted'); }
+        catch (RpgError error) { eventValue('rejected'); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }
