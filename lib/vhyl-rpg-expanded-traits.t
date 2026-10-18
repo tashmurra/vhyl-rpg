@@ -1228,3 +1228,35 @@ class RpgExpandedMotivationDecision: object
         value.status = 'resolved'; value.reason = self.choice; self.result = value; return value;
     }
 ;
+
+/** B126 recurrent-pain price: multiply both factors before dropping fractions. */
+class RpgExpandedRecurrentPain: RpgExpandedDisadvantage
+    id = 'recurrent-pain'
+    severity = 1
+    intervalHours = 2
+    frequency = 9
+    points = (-5 * severity)
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'recurrent-pain' || self.level != 1 || self.controlled
+            || self.selfControlRating != nil || self.percentages.length() != 0
+            || !holds([1,2,3],self.severity) || !holds([1,2,4,8],self.intervalHours)
+            || !holds([6,9,12,15],self.frequency) || self.points != -5 * self.severity)
+            rpgExpandedReject('recurrent-pain-definition');
+        return nil;
+    }
+    creationCost()
+    {
+        self.validateDefinition();
+        local intervalTwice = self.intervalHours == 1 ? 1 : self.intervalHours == 2 ? 2 : self.intervalHours == 4 ? 3 : 4;
+        local frequencyTwice = self.frequency == 6 ? 1 : self.frequency == 9 ? 2 : self.frequency == 12 ? 4 : 6;
+        return -(5 * self.severity * intervalTwice * frequencyTwice / 4);
+    }
+    awakePenalty() { self.validateDefinition(); return -2 * self.severity; }
+    intervalSeconds() { self.validateDefinition(); return self.intervalHours * 3600; }
+    appears(roll)
+    {
+        self.validateDefinition(); rpgInteger(roll,3,18);
+        return roll <= self.frequency;
+    }
+;

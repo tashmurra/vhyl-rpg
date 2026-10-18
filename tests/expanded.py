@@ -9082,6 +9082,8 @@ def test(build):
     test_compelled_aid(Session, compelled_aid, build.out)
     low_motivation = build.build('expanded-low-motivation',ROOT / 'tests/fixtures/expanded-low-motivation.t')
     test_low_motivation(Session, low_motivation, build.out)
+    recurrent_pain = build.build('expanded-recurrent-pain',ROOT / 'tests/fixtures/expanded-recurrent-pain.t')
+    test_recurrent_pain_definition(Session, recurrent_pain)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17337,3 +17339,25 @@ def test_low_motivation(Session, bundle, out):
         assert last(s,'test.motivation-state') == [0,1,1,3,0]
     finally:
         s.close()
+
+
+def test_recurrent_pain_definition(Session, bundle):
+    # B126 hand-expanded products: interval rows, frequency columns; truncate once.
+    expected = [-1,-2,-5,-7, -2,-5,-10,-15, -3,-7,-15,-22, -5,-10,-20,-30,
+                -2,-5,-10,-15, -5,-10,-20,-30, -7,-15,-30,-45, -10,-20,-40,-60,
+                -3,-7,-15,-22, -7,-15,-30,-45, -11,-22,-45,-67, -15,-30,-60,-90]
+    s = Session(bundle)
+    try:
+        s.action(2285,4500)
+        assert last(s,'test.recurrent-pain-table') == expected
+        s.action(2285,4501)
+        assert last(s,'test.recurrent-pain-definition') == [-2,-4,-6,3600,7200,14400,28800]+[1,1,0]*4+[0]
+    finally:
+        s.close()
+    for code in (4502,4503,4504):
+        s = Session(bundle)
+        try:
+            s.action(2285,code)
+            assert last(s,'test.recurrent-pain-invalid') == ['recurrent-pain-definition']
+        finally:
+            s.close()

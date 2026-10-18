@@ -1208,3 +1208,7 @@ expanded influence procedure remains partial.
 - Added low-motivation self-control and owned authored-choice constraints,
   including minimum-survival exemptions and companion-led least-effort choices.
   Added unrun persistence fixtures; trait transitions remain pending (B126).
+
+- Added recurrent-pain definitions and all severity/interval/frequency prices,
+  with final-only rounding and explicit appearance thresholds. Added unrun table
+  fixtures. Owned episodes, recovery and sleep integration remain pending (B126).

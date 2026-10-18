@@ -1096,3 +1096,23 @@ The self-control receipt binds the full choice list and prevents rerolls of the
 same occurrence. Fixtures cover least-effort choices, resistance, minimum needs,
 replay, rollback, undo and saved obligations, but remain unrun. Trait replacement
 and transition accounting, plus automatic parser/dialogue discovery, are pending.
+
+### Recurrent pain definition (full-2008, B126)
+
+`RpgExpandedRecurrentPain` defines severity 1, 2 or 3; `intervalHours` of 1, 2,
+4 or 8; and appearance `frequency` of 6, 9, 12 or 15. Approval is required.
+`creationCost()` multiplies the severity's base price by both interval and
+frequency factors before dropping fractions. Do not round each factor's result
+separately. Its fixed definition rejects self-control ratings and additional
+percentage modifiers.
+
+`awakePenalty()` returns -2, -4 or -6, and `intervalSeconds()` exposes the
+recovery interval. `appears(roll)` is a pure threshold assessment using the
+frequency table's explicit “or less” boundaries. It does not roll, schedule or
+apply an episode. The paragraph's informal “below” wording is interpreted using
+those explicit table boundaries.
+
+Daily occurrence ownership, episode timing, persistent recovery checks and sleep
+loss remain pending. These definition methods do not yet modify character
+scores. The fixture independently lists all 48 prices and appearance boundaries;
+it remains unrun and all corresponding inventory entries remain partial.
