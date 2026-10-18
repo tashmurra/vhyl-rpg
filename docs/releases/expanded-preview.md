@@ -653,3 +653,10 @@ exact material-flow preflight and atomic member receipts. Duplicate workers,
 shared tools and insufficient prepared material reject before execution. Added
 authored, unrun fixtures for the source's one-pick/two-shovel arrangement and
 transactional/save continuation. Partial intervals and advanced fatigue remain open.
+
+
+Added fixed pickaxe/shovel catalogue instances using existing acquisition, money,
+weight and storage state. Digging validates tool roles and authored material facts;
+source entries do not imply a material from technology alone. Added authored,
+unrun purchase-to-work fixtures with transactional/save continuation. Wear,
+repairs and other tool uses remain incomplete.

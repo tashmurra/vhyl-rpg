@@ -366,3 +366,10 @@ members, insufficient preparation, shared tools, duplicate workers, unavailable
 workers, preview, replay, rollback, undo and saved continuation. Assertions remain
 unrun. Partial intervals, fatigue reaching zero and environmental work modifiers
 remain incomplete.
+
+
+With the optional equipment library, `rpgExpandedDiggingTool` creates catalogue
+pickaxes and shovels for the existing purchase/issue ledger. Digging checks their
+role and explicitly established material as well as ownership and usability.
+See the [equipment guide](equipment.md) for catalogue fields and the material
+contract. Generic authored tools remain supported through the base item hook.

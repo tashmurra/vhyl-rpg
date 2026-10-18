@@ -10,6 +10,8 @@ class RpgLiteItem: object
     ready = nil
     weightHundredths() { return self.weight * self.quantity; }
     usableBy(profile) { return true; }
+    validateAcquisition() { return nil; }
+    diggingUseReason(role, material) { return nil; }
     /* Separate operation hooks allow optional anatomy without changing carried state. */
     attackUsableBy(profile) { return self.usableBy(profile); }
     attackHandCount(profile, requested) { return requested; }

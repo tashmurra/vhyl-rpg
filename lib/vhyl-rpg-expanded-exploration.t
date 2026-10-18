@@ -701,6 +701,10 @@ class RpgExpandedDiggingHour: object
         if (picking ? !self.toolAvailable(self.pick) : !self.toolAvailable(self.shovel)
             || stage == 'hard-solo' && (!self.toolAvailable(self.pick) || self.pick == self.shovel))
         { value.reason = 'digging-tools-unavailable'; return value; }
+        local toolReason = picking ? self.pick.diggingUseReason('pick',self.toolMaterial)
+            : self.shovel.diggingUseReason('shovel',self.toolMaterial);
+        if (toolReason == nil && stage == 'hard-solo') toolReason = self.pick.diggingUseReason('pick',self.toolMaterial);
+        if (toolReason != nil) { value.reason = toolReason; return value; }
         if (self.profile.dead || self.profile.unconscious || self.profile.mortal || self.profile.stunned
             || self.profile.mentalStun || self.profile.hp() <= 0 || self.profile.voluntaryMovementUnavailable()
             || self.profile.healthEffortReason('action',nil,nil,true) != nil)

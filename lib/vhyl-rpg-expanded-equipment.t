@@ -150,6 +150,7 @@ class RpgExpandedAcquisition: object
         if (self.claimed) { value.status = 'reused'; return value; }
         rpgExpandedValidate(self.profile);
         rpgInteger(self.profile.money, 0, 2147483647);
+        self.item.validateAcquisition();
         rpgInteger(self.item.quantity, 1, 1000000);
         rpgInteger(self.item.weight, 0, 2147483647 / self.item.quantity);
         rpgInteger(self.item.cost, 0, 2147483647);
@@ -367,3 +368,38 @@ modify RpgExpandedProfile
         value.status = 'ready'; return value;
     }
 ;
+
+/** B289 physical digging tools. Material is a separate authored fact, not inferred from TL. */
+class RpgExpandedDiggingTool: RpgLiteItem
+    toolKind = 'shovel'
+    cost = 12
+    weight = 600
+    techLevel = 1
+    legalityClass = 4
+    diggingMaterial = nil
+    materialEvidence = nil
+    validateAcquisition()
+    {
+        if (!holds(['pickaxe','shovel'],self.toolKind) || self.quantity != 1 || self.legalityClass != 4
+            || self.cost != (self.toolKind == 'pickaxe' ? 15 : 12)
+            || self.weight != (self.toolKind == 'pickaxe' ? 800 : 600)
+            || self.techLevel != (self.toolKind == 'pickaxe' ? 2 : 1)) rpgExpandedReject('digging-tool-catalogue');
+        return nil;
+    }
+    diggingUseReason(role,material)
+    {
+        self.validateAcquisition();
+        if (role != (self.toolKind == 'pickaxe' ? 'pick' : 'shovel')) return 'digging-tool-role';
+        if (!holds(['metal','wood','improvised'],self.diggingMaterial)
+            || self.materialEvidence == nil || self.materialEvidence == '') return 'digging-tool-material-evidence';
+        if (material != self.diggingMaterial) return 'digging-tool-material-mismatch';
+        return nil;
+    }
+;
+rpgExpandedDiggingTool(id,kind)
+{
+    if (id == nil || id == '' || !holds(['pickaxe','shovel'],kind)) rpgExpandedReject('digging-tool-definition');
+    local item = new RpgExpandedDiggingTool(); item.id = id; item.toolKind = kind;
+    if (kind == 'pickaxe') { item.cost = 15; item.weight = 800; item.techLevel = 2; }
+    item.validateAcquisition(); return item;
+}

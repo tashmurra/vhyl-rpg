@@ -341,3 +341,34 @@ location; inclusion does not guess one. See the [health integration](health.md).
 The shared `rpgExpandedDamageDice` lookup is defined in the expanded foundation.
 Equipment includes and callers retain their existing API; creature assessments
 can reuse the identical table without including the equipment library.
+
+
+## Digging-tool catalogue and work integration
+
+`rpgExpandedDiggingTool(id, kind)` creates one unowned `RpgExpandedDiggingTool`
+from full-2008 B289. Supported kinds are `pickaxe` (TL2, cost 15, weight 8 pounds)
+and `shovel` (TL1, cost 12, weight 6 pounds), both legality class 4. Internal weights
+use hundredths of a pound. The factory supplies no inventory ownership or free
+money. Use `RpgExpandedAcquisition` with the same item, availability and permission
+facts to buy or issue it through the existing ledger. Starting-purchase technology
+adjustments and authored quotes remain the acquisition operation's responsibility.
+
+Catalogue statistics are validated before acquisition and digging use. Quantity
+is one physical tool; create separate instances for separate workers. Put a local
+price adjustment in the acquisition quote rather than changing the baseline cost.
+The base item's new `validateAcquisition()` hook does nothing for existing generic
+items, preserving their existing behavior.
+
+The printed entry does not establish a tool's material. Before using it in digging,
+set `diggingMaterial` (`metal`, `wood` or `improvised`) and `materialEvidence` from
+an authored inspection or world fact. These facts must match the digging-hour
+request. `diggingUseReason(role, material)` rejects a pick used as a shovel or an
+unsupported material claim. Existing generic items retain their authored role
+contract through a default no-op hook. Stored or otherwise unusable tools still
+fail the normal inventory availability check.
+
+`expanded-digging-equipment.t` specifies both catalogue profiles, shared money and
+carried weight, purchase/work replay, rollback, undo, saved continuation, missing
+material evidence, wrong roles, storage and changed catalogue statistics. Assertions
+remain unrun. Wear, breakage, repairs, weapon use and altered item variants remain
+separate unfinished integrations; these tools do not supply a universal skill bonus.
