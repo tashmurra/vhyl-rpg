@@ -645,3 +645,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     pervasiveDistrustActive() { return nil; }
 ;
+
+modify RpgExpandedProfile
+    validatePhantomVoiceOccurrence(occurrence) { rpgExpandedReject('phantom-voices-module-required'); }
+;

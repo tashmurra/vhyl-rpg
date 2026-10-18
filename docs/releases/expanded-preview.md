@@ -1554,3 +1554,10 @@ and itemized nonplayer reactions. Separate penalties double before the stranger
 penalty is added once; bonuses remain unchanged. Resolved approaches bind the
 authored observer roles and adjustments. Specialized context integration remains
 partial, and regression/persistence fixtures are authored but unrun.
+
+
+Phantom voices now have three severity costs, template copying and owned optional
+stress occurrences with the printed six-or-less trigger. Witnessed responses at
+the first two severities can affect reactions. Endings require explicit author
+evidence; mandatory fear/self-control triggers, masking, commands, treatment and
+buyoff remain pending. Lifecycle fixtures are authored but unrun.

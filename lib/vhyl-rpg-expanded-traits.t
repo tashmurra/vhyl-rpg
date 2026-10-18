@@ -1890,3 +1890,135 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+/** B148 severity accounting; episode effects require concrete authored context. */
+class RpgExpandedPhantomVoices: RpgLiteTrait
+    id = 'phantom-voices'
+    labelId = 'phantom-voices'
+    points = -5
+    approved = nil
+    templatePurchaseKind = 'expanded-phantom-voices'
+    creationCost()
+    {
+        rpgInteger(self.level,1,3);
+        if (!self.approved || self.id != 'phantom-voices' || self.points != -5 * self.level
+            || self.scope != nil || self.controlled || self.skills.length() != 0) rpgExpandedReject('phantom-voices-definition');
+        return self.points;
+    }
+;
+modify RpgExpandedProfile
+    phantomVoiceOccurrences = []
+    phantomVoiceSeverity()
+    {
+        local count = 0; local severity = 0;
+        foreach (local trait in self.traits)
+            if (trait.id == 'phantom-voices')
+            {
+                if (!trait.ofKind(RpgExpandedPhantomVoices)) rpgExpandedReject('phantom-voices-definition');
+                trait.creationCost(); count += 1; if (trait.active && !trait.mitigated) severity = trait.level;
+            }
+        if (count > 1) rpgExpandedReject('phantom-voices-duplicate'); return severity;
+    }
+    validateFeatures() { inherited(); self.phantomVoiceSeverity(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'phantom-voices') return inherited(id,level,scope);
+        local trait = new RpgExpandedPhantomVoices(); trait.level = level; trait.points = -5 * level;
+        trait.scope = scope; trait.approved = true; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedPhantomVoices)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;
+class RpgExpandedPhantomVoiceResult: RpgExpandedResult
+    occurred = nil
+    severity = 0
+    roll = nil
+;
+/** One optional author-selected stress check. No invented automatic duration. */
+class RpgExpandedPhantomVoiceOccurrence: object
+    id = nil
+    profile = nil
+    stressor = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundResult = nil
+    endedAt = nil
+    endEvidence = nil
+    boundEnding = nil
+    definition() { return [self.id,self.profile,self.stressor,self.approved,self.evidence,self.recordedAt]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.profile.phantomVoiceOccurrences,self)) rpgExpandedReject('phantom-voices-history');
+        if (self.result.roll != self.boundResult[1] || self.result.severity != self.boundResult[2]
+            || self.result.occurred != self.boundResult[3]) rpgExpandedReject('phantom-voices-result-binding');
+        local facts = self.definition();
+        for (local index = 1; index <= facts.length(); index += 1)
+            if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('phantom-voices-binding');
+        if (self.boundEnding != nil && (self.endedAt != self.boundEnding[1] || self.endEvidence != self.boundEnding[2]))
+            rpgExpandedReject('phantom-voices-ending-binding');
+        if (self.boundEnding == nil && (self.endedAt != nil || self.endEvidence != nil))
+            rpgExpandedReject('phantom-voices-ending-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.id == nil || self.id == '')
+            rpgExpandedReject('phantom-voices-occurrence');
+        local value = new RpgExpandedPhantomVoiceResult();
+        if (self.result != nil)
+        {
+            self.validateReceipt(); value.status = 'reused'; value.occurred = self.result.occurred;
+            value.severity = self.result.severity; value.roll = self.result.roll; return value;
+        }
+        if (self.recordedAt != nil || self.endedAt != nil || self.endEvidence != nil || self.boundDefinition != nil || self.boundEnding != nil || self.boundResult != nil)
+            rpgExpandedReject('phantom-voices-uncommitted-state');
+        if (!self.approved || self.stressor == nil || self.evidence == nil || self.evidence == '')
+        { value.reason = 'phantom-voices-stress-facts'; return value; }
+        value.severity = self.profile.phantomVoiceSeverity();
+        if (value.severity == 0) { value.reason = 'phantom-voices-inactive'; return value; }
+        foreach (local prior in self.profile.phantomVoiceOccurrences)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.stressor == self.stressor) rpgExpandedReject('phantom-voices-duplicate-occurrence');
+        }
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.roll = rpgRandom.roll(); value.occurred = value.roll <= 6; value.status = 'resolved';
+        self.recordedAt = self.profile.timeElapsed; self.boundDefinition = self.definition(); self.result = value;
+        self.boundResult = [value.roll,value.severity,value.occurred];
+        self.profile.phantomVoiceOccurrences = self.profile.phantomVoiceOccurrences + [self]; return value;
+    }
+    active()
+    {
+        self.validateReceipt(); return self.result.occurred && self.endedAt == nil;
+    }
+    end(confirmed,evidence)
+    {
+        self.validateReceipt(); local value = new RpgExpandedPhantomVoiceResult();
+        if (!self.result.occurred) { value.reason = 'phantom-voices-no-episode'; return value; }
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (!confirmed || evidence == nil || evidence == '') { value.reason = 'phantom-voices-ending-facts'; return value; }
+        self.endedAt = self.profile.timeElapsed; self.endEvidence = evidence; self.boundEnding = [self.endedAt,evidence];
+        value.status = 'resolved'; return value;
+    }
+;
+
+modify RpgExpandedProfile
+    validatePhantomVoiceOccurrence(occurrence)
+    {
+        if (occurrence == nil || !occurrence.ofKind(RpgExpandedPhantomVoiceOccurrence) || occurrence.profile != self)
+            rpgExpandedReject('phantom-voices-observation-owner');
+        return occurrence.validateReceipt();
+    }
+;

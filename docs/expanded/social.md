@@ -1109,3 +1109,20 @@ integrations remain pending.
 and `test_distrust_reactions` specify costs, both observer roles, separate signs,
 stranger handling, preview, invalid aggregate rejection, replay, rollback, undo
 and save continuation. These fixtures remain unrun while checks are paused.
+
+
+## Witnessed responses to phantom voices
+
+`RpgExpandedPhantomVoiceObservation` uses the owned observation contract above.
+Supply an `occurrence` belonging to the subject, `witnessedResponse = true`
+and `typicalObserver = true` when the author confirms both facts. An actual
+recorded episode at severity one or two gives -2 (`full-2008`, B148); a failed
+trigger cannot support this observation. The observer must witness a response,
+not merely know that the subject owns the trait.
+
+The observation remains historical after the episode ends. It can compose with
+other distinct observations through `RpgExpandedObservedReactionContext`.
+The traits module must be installed to validate the occurrence; the social module
+alone rejects the request through its foundation hook. The source does not
+explicitly repeat the reaction effect for commanding severity, so that combination
+is rejected pending clarification. Automatic dialogue observation remains pending.

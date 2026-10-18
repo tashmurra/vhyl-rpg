@@ -2174,3 +2174,19 @@ class RpgExpandedDistrustReactionContext: RpgExpandedObservedReactionContext
         return self.observerIsNpc && self.stranger && self.observer.pervasiveDistrustActive() ? -4 : 0;
     }
 ;
+
+/** B148: observers who witness a response to unheard voices, not all encounters. */
+class RpgExpandedPhantomVoiceObservation: RpgExpandedSocialObservation
+    occurrence = nil
+    witnessedResponse = nil
+    typicalObserver = nil
+    kind() { return 'phantom-voices'; }
+    definition() { return inherited() + [self.occurrence,self.witnessedResponse,self.typicalObserver]; }
+    modifier()
+    {
+        self.subject.validatePhantomVoiceOccurrence(self.occurrence);
+        if (!self.occurrence.result.occurred) rpgExpandedReject('phantom-voices-observation-episode');
+        if (self.occurrence.result.severity == 3) rpgExpandedReject('phantom-voices-commanding-reaction-unresolved');
+        return self.witnessedResponse && self.typicalObserver ? -2 : 0;
+    }
+;

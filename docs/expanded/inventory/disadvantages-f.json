@@ -270,9 +270,12 @@
       "pages": "B148",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Phantom voices may trigger during authored stress on three dice six or less, and require that check on failed or exactly successful fear checks and failed stress-related self-control. Effects coexist with the triggering result. Specify episode end through an authored contract because this passage supplies no duration.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phantom_voices"
+      ],
+      "validation_note": "Optional authored stress occurrence rolls once, triggering at six or less, with owned immutable result and author-confirmed end. Mandatory fear and stress-related self-control integration remains pending. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-voices-annoying",
@@ -280,9 +283,12 @@
       "pages": "B148",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Phantom-voice severity annoying costs -5. The actor recognizes the voices as unreal; observers who see responses react -2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phantom_voices"
+      ],
+      "validation_note": "Severity one costs -5, validates and copies as an owned purchase. Witnessed-response observation applies -2 for an author-confirmed typical observer and a recorded actual episode. Dialogue decisions remain authored. Fixtures unrun."
     },
     {
       "id": "disadvantages-f-voices-disruptive",
@@ -290,9 +296,12 @@
       "pages": "B148",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Phantom-voice severity disruptive costs -10. Apply the observer reaction and permit voices to mask ordinary sound or cause a source-appropriate fear check.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phantom_voices"
+      ],
+      "validation_note": "Severity two costs -10 and shares the witnessed-response observation. Sound masking and episode-induced fear integration remain pending; fixtures unrun."
     },
     {
       "id": "disadvantages-f-voices-commanding",
@@ -300,9 +309,12 @@
       "pages": "B148",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Phantom-voice severity commanding costs -15. Voices can urge harmful deeds; during stress or intoxication an authored will check may be required to resist. The author supplies the command and qualifying trigger, without automatically succeeding at any resulting action.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phantom_voices"
+      ],
+      "validation_note": "Severity three costs -15 and participates in optional stress occurrences. Authored command, resistance and treatment interfaces remain pending. Reaction inheritance is not explicit in the supplied entry; the observation interface rejects this severity until resolved. Fixtures unrun."
     },
     {
       "id": "disadvantages-f-voices-origin",

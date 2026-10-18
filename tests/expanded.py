@@ -9179,6 +9179,8 @@ def test(build):
     test_observed_reactions(Session, observed_reactions, build.out)
     distrust_reactions = build.build('expanded-distrust-reactions',ROOT / 'tests/fixtures/expanded-distrust-reactions.t')
     test_distrust_reactions(Session, distrust_reactions, build.out)
+    phantom_voices = build.build('expanded-phantom-voices',ROOT / 'tests/fixtures/expanded-phantom-voices.t')
+    test_phantom_voices(Session, phantom_voices, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19821,3 +19823,46 @@ def test_distrust_reactions(Session, bundle, out):
         assert last(s, 'test.distrust-modifier') == [-10, -12, 0]
     finally:
         s.close()
+
+
+def test_phantom_voices(Session, bundle, out):
+    """B148 cost and optional stress occurrence lifecycle; assertions unrun."""
+    path = out / 'expanded-phantom-voices.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10000, 10008, 10001, 10003, 10004):
+            s.action(2285, code)
+        assert last(s, 'test.voice-preview') == ['ready', -5, 1, 0]
+        assert last(s, 'test.voice-state') == [0, 0, 0]
+        s.action(2285, 10002)
+        s.command('undo')
+        s.action(2285, 10004)
+        assert last(s, 'test.voice-state') == [0, 0, 0]
+        for code in (10002, 10002, 10005, 10007):
+            s.action(2285, code)
+        assert last(s, 'test.voice-result') == ['reused', 6, 1, 1, 3]
+        assert last(s, 'test.voice-observation') == [-2]
+        assert last(s, 'test.voice-duplicate') == ['phantom-voices-duplicate-occurrence', 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10002, 10006, 10006, 10004):
+            s.action(2285, code)
+        assert last(s, 'test.voice-result') == ['reused', 6, 1, 1, 3]
+        assert last(s, 'test.voice-ending') == ['reused', 0]
+        assert last(s, 'test.voice-state') == [1, 0, 3]
+    finally:
+        s.close()
+    for setting, cost, severity in ((10010, -10, 2), (10011, -15, 3)):
+        s = Session(bundle)
+        try:
+            for code in (10000, setting, 10009, 10001, 10002, 10006):
+                s.action(2285, code)
+            assert last(s, 'test.voice-preview') == ['ready', cost, 1, 0]
+            assert last(s, 'test.voice-result') == ['resolved', 7, 0, severity, 3]
+            assert last(s, 'test.voice-ending') == ['blocked', 0]
+        finally:
+            s.close()

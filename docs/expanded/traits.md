@@ -1325,3 +1325,38 @@ and skill lists are rejected. Character validation rejects duplicate purchases;
 template plain/copy operations produce independent purchases. Active, unmitigated
 traits enable the [observer-specific effects](social.md#pervasive-distrust).
 Trust decisions and character dialogue remain authored/player choices.
+
+
+## Phantom voices
+
+`RpgExpandedPhantomVoices` implements the three purchase severities from
+`full-2008`, B148: `level` 1/2/3 with `points` -5/-10/-15. Set
+`approved = true`; custom scopes, self-control and skill lists are rejected.
+Template plain/copy operations preserve severity in independent purchases.
+Duplicate purchases reject during character validation.
+
+`RpgExpandedPhantomVoiceOccurrence` implements an optional author-selected stress
+check. Set a unique `id`, owning expanded `profile`, a unique `stressor` object,
+`approved = true` and original `evidence` describing the stressful occurrence.
+`assess()` is pure. `resolve()` rolls three dice once; six or less starts an
+episode. It records the severity, roll and onset on the character's shared time
+ledger without charging time or fatigue. Another object for the same stressor
+is rejected; repeating the original returns its stored result.
+
+`active()` reports whether that occurrence produced an episode which has not
+ended. The source specifies no fixed duration: call `end(true, evidence)` when
+the author confirms cessation. Ending is recorded and repeatable without extra
+charges. Different stressors can have separate occurrences; ending one does not
+end another. Existing fear, injury and other consequences are not replaced.
+These records contain private author information, not automatically player-visible
+explanations of the character's experiences.
+
+Mandatory checks after relevant fear and self-control results are still pending.
+Sound masking, episode-induced fear, commands and will resistance, origin-aware
+treatment and buyoff also remain incomplete. This interface must not be presented
+as the complete disadvantage.
+
+[`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
+specifies costs, copies, the six/seven trigger boundary, preview, duplicate
+occurrences, replay, explicit ending, rollback, undo and save continuation.
+The fixture and `test_phantom_voices` remain unrun while checks are paused.
