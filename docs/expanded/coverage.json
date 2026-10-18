@@ -193,6 +193,7 @@
         "tests/expanded.py::test_exhaustion_assessments",
         "tests/expanded.py::test_owned_effort",
         "tests/expanded.py::test_action_gate",
+        "tests/expanded.py::test_health_maneuver",
         "tests/expanded.py::test_effort_recovery",
         "tests/expanded.py::test_effort_transactions",
         "tests/expanded.py::test_effort_persistence"

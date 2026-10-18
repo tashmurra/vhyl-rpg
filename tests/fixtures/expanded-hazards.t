@@ -12,6 +12,34 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 1971)
+    {
+        local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules(); patient.dx = 11;
+        patient.fatigue = args[1]; patient.injury = args[2];
+        local fighter = new RpgLiteFighter(); fighter.profile = patient;
+        local other = new RpgLiteFighter(); other.profile = new RpgLiteProfile();
+        local battle = new RpgLiteBattle(); battle.fighters = [fighter,other]; battle.begin();
+        local request = new RpgExpandedHealthManeuver(); request.kind = args[4]; request.movement = args[5];
+        local gate = new RpgExpandedActionGate(); gate.id = 'maneuver'; gate.profile = patient;
+        gate.purpose = request.kind == 'nothing' ? 'do-nothing' : 'action'; gate.evidence = 'One maneuver';
+        request.healthGate = gate;
+        rpgRandom.seed(args[3]); local clock = rpgLedger.seconds;
+        local value = battle.step(fighter,request);
+        event('test.health-maneuver'); eventValue(value.status); eventValue(value.reason); eventValue(value.outcome);
+        eventValue(patient.unconscious ? 1 : 0); eventValue(patient.exhaustionCollapsed ? 1 : 0);
+        eventValue(patient.effortHistory.length()); eventValue(rpgRandom.draws);
+        eventValue(battle.index); eventValue(rpgLedger.seconds - clock);
+        if (value.status == 'resolved')
+        {
+            local idle = new RpgLiteManeuver(); battle.step(other,idle);
+            local repeat = battle.step(fighter,request);
+            event('test.health-maneuver-repeat'); eventValue(repeat.status); eventValue(repeat.reason);
+            eventValue(patient.effortHistory.length()); eventValue(rpgRandom.draws); eventValue(battle.index);
+            eventValue(rpgLedger.seconds - clock);
+        }
+        return nil;
+    }
+
     if (verb == 1970)
     {
         local patient = new RpgExpandedProfile(); patient.rules = new RpgExpandedRules();

@@ -59,6 +59,9 @@ class RpgLiteManeuver: object
     defense = 'dodge'
     secondDefense = 'parry'
     available(fighter) { return nil; }
+    /* Optional health adapters assess before any permission roll. */
+    healthAvailable(fighter) { return nil; }
+    canAct(fighter) { return rpgLiteCanAct(fighter.profile, self.kind == 'nothing'); }
     apply(fighter, result) { return nil; }
     reroll(profile, kind, roll) { return nil; }
 ;
@@ -424,7 +427,9 @@ class RpgLiteBattle: object
             request.preflight = true; result = rpgLiteStrike(fighter, request.target, request); request.preflight = nil;
             if (result.status != 'ready') return result;
         }
-        if (!rpgLiteCanAct(fighter.profile, request.kind == 'nothing'))
+        result.reason = request.healthAvailable(fighter);
+        if (result.reason != nil) { result.status = 'blocked'; return result; }
+        if (!request.canAct(fighter))
         { result.status = 'resolved'; result.outcome = 'incapacitated'; self.advance(); return result; }
         fighter.blocks = 0; fighter.parries = 0; fighter.offParries = 0; fighter.attacked = nil;
         if (request.kind != 'concentrate') fighter.concentration = 0;

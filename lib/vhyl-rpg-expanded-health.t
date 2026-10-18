@@ -1982,3 +1982,27 @@ class RpgExpandedActionGate: RpgExpandedEffort
         return value;
     }
 ;
+
+
+/** Opt-in maneuver adapter; each authored turn owns one fresh action gate. */
+class RpgExpandedHealthManeuver: RpgLiteManeuver
+    healthGate = nil
+    healthAvailable(fighter)
+    {
+        if (self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedActionGate)
+            || self.healthGate.profile != fighter.profile
+            || self.healthGate.purpose != (self.kind == 'nothing' ? 'do-nothing' : 'action'))
+            rpgExpandedReject('maneuver-health-gate');
+        if (self.healthGate.result != nil) return 'maneuver-health-gate-used';
+        local value = self.healthGate.assess();
+        return value.status == 'ready' ? nil : value.reason;
+    }
+    canAct(fighter)
+    {
+        local reason = self.healthAvailable(fighter);
+        if (reason != nil) rpgExpandedReject(reason);
+        local value = self.healthGate.apply();
+        if (value.status != 'resolved') rpgExpandedReject('maneuver-health-gate-changed');
+        return value.allowed;
+    }
+;

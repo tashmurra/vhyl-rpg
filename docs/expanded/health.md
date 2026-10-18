@@ -1097,10 +1097,40 @@ unconsciousness without adding exhaustion collapse. The receipt exposes
 The result belongs to one authored turn. Repeated calls return the recorded
 permission and checks without rerolling, including after consciousness failure.
 The gate charges no time or fatigue. Use it inside the enclosing action transaction.
-The parser, structured and dialogue adapters still need explicit integration;
-merely including this class does not replace their existing health gate.
+The maneuver adapter below provides an opt-in integration point. Other parser,
+structured and dialogue adapters still need explicit integration; merely including
+this class does not replace their existing health gate.
 
 `test_action_gate` records the combined-roll order, early stop on exhausted
 collapse or cardiac onset, injury-only checks, the full-negative-HP penalty,
 Do Nothing exemptions, preview purity and historical replay. It is authored but
 unrun while checks are paused.
+
+
+## Using the health gate for a maneuver
+
+Use `RpgExpandedHealthManeuver` where an existing encounter accepts a
+`RpgLiteManeuver`. Set `healthGate` to a fresh `RpgExpandedActionGate` owned by the
+fighter's expanded profile. The gate purpose must be `do-nothing` for the `nothing`
+maneuver and `action` for all other maneuvers. Give it a unique ID and evidence
+identifying that one attempted turn.
+
+The encounter performs its existing maneuver and attack preflight first, then
+calls `healthAvailable(fighter)`. Invalid movement or attack requests therefore do
+not roll or record the health gate. A ready request calls `canAct(fighter)` once.
+The expanded adapter uses the owned gate in place of the ordinary combined health
+check. A failed permission consumes the encounter turn as incapacitation; it does
+not execute the maneuver or charge its costs. Inspect `healthGate.result` for the
+separate effort, cardiac and consciousness results.
+
+A completed gate cannot authorize a later turn, even if the original request is
+submitted again: the adapter returns `maneuver-health-gate-used` before rolling or
+advancing the encounter. Give each subsequent turn a fresh gate. The two hooks on
+`RpgLiteManeuver` default to its existing health behavior, so ordinary maneuvers
+retain the existing path and draw order. This compatibility is not yet verified.
+
+This adapter covers maneuver entry only. Defense checks during Do Nothing,
+journeys, travel abilities and other action adapters remain to be integrated.
+`test_health_maneuver` records successful effort with one roll, failed effort,
+combined injury checks, Do Nothing, invalid movement and rejection of a consumed
+gate on the next turn. Fixtures remain unrun while checks are paused.
