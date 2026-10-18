@@ -157,3 +157,9 @@ Finite-cell occupancy checks reject unknown terrain and unresolved footprint
 changes. Replay cannot reset a position or install a second figure for a character.
 Position transaction and save fixtures are authored but unrun; movement, larger
 footprints, close combat and encounter transfer remain incomplete.
+
+Owned tactical footprint changes now reconcile a separately resolved lying
+posture with two occupied cells and recovery into either cell. They preserve
+shared posture and charge no duplicate time. Transaction/save fixtures are
+authored and unrun. Automatic composition with maneuvers, knockdown and forced
+overlap remains incomplete.

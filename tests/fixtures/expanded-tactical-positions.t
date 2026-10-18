@@ -30,6 +30,10 @@ positionPlacement: RpgExpandedTacticalPlacement id = 'arrival' map = positionMap
     coordinate = positionOrigin facing = 2 approved = true evidence = 'Encounter begins beside the gate';
 positionSecond: RpgExpandedTacticalPlacement id = 'witness-arrival' map = positionMap figure = positionSecondFigure
     coordinate = positionEast facing = 5 approved = true evidence = 'Witness is east of the gate';
+positionFall: RpgExpandedFootprintChange id = 'fall' figure = positionFigure selected = positionNorth
+    approved = true evidence = 'Resolved knockdown, upper body falls north';
+positionRise: RpgExpandedFootprintChange id = 'rise' figure = positionFigure selected = positionNorth
+    posture = 'kneeling' approved = true evidence = 'Resolved posture action at the upper-body hex';
 positionInput: object code = 0;
 class PositionTestAction: Action
     exec(context)
@@ -46,6 +50,19 @@ class PositionTestAction: Action
         if (code == 11) { positionSecondFigure.profile = positionHero; return nil; }
         if (code == 12) { positionPlacement.coordinate = positionEast; return nil; }
         if (code == 13) { positionFigure.bodyForm = 'horizontal'; return nil; }
+        if (code >= 30)
+        {
+            if (code == 36) { positionFall.selected = positionEast; return nil; }
+            if (code == 37) { positionRise.selected = positionEast; return nil; }
+            if (code == 38) { positionRise.selected = positionOrigin; return nil; }
+            local change = code >= 33 && code <= 35 ? positionRise : positionFall;
+            if (code == 30 || code == 32) positionHero.posture = 'lying';
+            if (code == 33 || code == 35) positionHero.posture = 'kneeling';
+            local value = code == 31 || code == 34 ? change.assess() : change.apply();
+            event('test.tactical-footprint'); eventValue(value.status); eventValue(value.reason);
+            if (code == 32 || code == 35) throw new RpgError();
+            return nil;
+        }
         local request = code == 20 || code == 21 ? positionSecond : positionPlacement;
         event('test.tactical-placement');
         try
@@ -83,6 +100,23 @@ act(verb,args)
         }
         catch (RpgExpandedError error) { eventValue('error'); eventValue(error.reason); }
         return nil;
+    }
+    if (verb == 2281)
+    {
+        event('test.tactical-footprint-state');
+        eventValue(positionHero.posture);
+        eventValue(positionFigure.coordinate == nil ? nil : positionFigure.coordinate.q);
+        eventValue(positionFigure.coordinate == nil ? nil : positionFigure.coordinate.r);
+        eventValue(positionFigure.upperCoordinate == nil ? nil : positionFigure.upperCoordinate.q);
+        eventValue(positionFigure.upperCoordinate == nil ? nil : positionFigure.upperCoordinate.r);
+        eventValue(positionFigure.footprintChanges.length());
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 2282)
+    {
+        local value = positionMap.occupancy(positionNorth);
+        event('test.tactical-upper-occupancy'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.occupants.length()); return nil;
     }
     return vhylAct(verb,args);
 }

@@ -190,8 +190,9 @@ Create one `RpgExpandedTacticalFigure` per character with a unique map-local `id
 and `profile`. The supported initial `bodyForm` is `upright-human`, with the
 profile standing, crouching, kneeling or sitting. This describes an authored
 ordinary one-hex body; it does not automatically infer anatomy from purchased
-traits. Lying, crawling, horizontal bodies, larger figures and swarms require
-footprint procedures that are not yet implemented.
+traits. Initial placement while lying, crawling, horizontal bodies, larger figures and
+swarms still require further procedures. A placed upright figure can reconcile
+a subsequent lying/recovery transition through the interface below.
 
 `RpgExpandedTacticalPlacement` supplies `id`, `map`, `figure`, `coordinate`,
 `facing`, `approved` and nonempty `evidence` establishing the initial encounter
@@ -218,8 +219,8 @@ an increased movement cost, but initial placement does not implement traversal.
 The character's existing `posture` remains authoritative. If any installed figure
 changes into an unsupported footprint, occupancy queries return
 `tactical-footprint-transition-required`, even for another cell: an unresolved
-second occupied hex cannot safely be assumed empty. Resolve posture/footprint
-transitions through the future tactical interface before continuing map actions.
+second occupied hex cannot safely be assumed empty. Resolve supported lying/recovery transitions with `RpgExpandedFootprintChange`
+before continuing map actions.
 The current implementation does not intercept every existing combat posture change.
 
 The [position fixture](../../tests/fixtures/expanded-tactical-positions.t),
@@ -228,3 +229,44 @@ replay, exception rollback, undo, cross-process saves, ownership, occupied cells
 barriers, missing cells, duplicate map cells and unresolved footprints. All are
 unrun while checks remain paused. Saves still require the exact compiled game;
 there is no migration or separate tactical save format.
+
+
+## Lying and recovery footprints
+
+`RpgExpandedFootprintChange` reconciles the geometry of an already placed
+ordinary upright human after another operation changes the character's posture.
+It implements the two-hex placement and choice of recovery hex from `full-2008`
+B385. It does not itself grant a posture action, resolve a knockdown, change
+posture, charge another second, or decide the legality of standing directly from
+lying. The caller must resolve that procedure and compose both operations in the
+same engine transaction. If footprint assessment is blocked, abort the enclosing
+transaction or explicitly resolve the unavailable space; do not silently accept
+a partially completed voluntary posture action.
+
+Supply a unique `id`, the owned `figure`, desired `posture`, `selected` coordinate,
+`approved` and concrete `evidence` for the already resolved posture change.
+For `posture = 'lying'`, the current origin remains the lower-body hex and
+`selected` becomes the adjacent upper-body hex. Both must be mapped, passable and
+unoccupied by another figure. The operation copies the selected coordinate into
+`figure.upperCoordinate`. Occupancy then reports this figure in both cells.
+A previously unresolved footprint on another figure blocks the assessment.
+
+For recovery to `standing`, `crouching`, `kneeling` or `sitting`, the selected
+coordinate must be either former occupied hex. The result makes that the origin
+and clears `upperCoordinate`. The profile must already have the requested posture;
+this geometry interface cannot bypass the source's intermediate posture actions.
+Facing is retained. Crawling and horizontal-body transitions remain unsupported.
+
+`assess()` does not alter the figure or profile. `apply()` records the change in
+`figure.footprintChanges` once. A receipt binds its request and returns `reused`
+on replay without restoring an earlier footprint, including after recovery.
+Changed IDs, characters, maps or selected coordinates are rejected. This is
+persistent encounter state under the normal transaction/save policy, not a second
+health or movement balance.
+
+`test_tactical_footprints` and `test_tactical_footprint_persistence` specify both
+occupied cells, recovery into either cell, retained posture authority, replay
+after recovery, occupied-destination rejection, rollback, undo and continuation
+from a saved prone figure. The fixtures are authored and unrun. Automatic
+composition with every attack, fall, maneuver and death remains outstanding, as
+do forced overlap, close combat and crowded-map resolution.

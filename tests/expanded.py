@@ -9054,6 +9054,8 @@ def test(build):
     fresh(Session, tactical, test_tactical_movement_values)
     positions = build.build('expanded-tactical-positions', ROOT / 'tests/fixtures/expanded-tactical-positions.t')
     fresh(Session, positions, test_tactical_positions)
+    fresh(Session, positions, test_tactical_footprints)
+    test_tactical_footprint_persistence(Session, positions, build.out)
     test_tactical_position_persistence(Session, positions, build.out)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
     test_example(Session,example)
@@ -9222,5 +9224,80 @@ def test_tactical_position_persistence(Session, bundle, out):
         session.action(2278, 11)
         session.action(2278, 21)
         assert last(session, 'test.tactical-placement') == ['error', 'tactical-placement-binding']
+    finally:
+        session.close()
+
+
+def tactical_footprint_state(s):
+    s.action(2281)
+    return last(s, 'test.tactical-footprint-state')
+
+
+def test_tactical_footprints(s):
+    s.action(2278, 0)
+    upright = tactical_footprint_state(s)
+    assert upright == ['standing', 0, 0, None, None, 0, 0, 0]
+    s.action(2278, 31)
+    assert last(s, 'test.tactical-footprint') == ['blocked', 'tactical-posture-not-committed']
+    assert tactical_footprint_state(s) == upright
+    s.action(2278, 32)
+    assert tactical_footprint_state(s) == upright
+    s.action(2278, 30)
+    prone = tactical_footprint_state(s)
+    assert prone == ['lying', 0, 0, 0, -1, 1, 0, 0]
+    s.action(2280)
+    assert last(s, 'test.tactical-occupancy') == ['ready', None, 1]
+    s.action(2282)
+    assert last(s, 'test.tactical-upper-occupancy') == ['ready', None, 1]
+    s.command('undo')
+    assert tactical_footprint_state(s) == upright
+    s.action(2278, 30)
+    s.action(2278, 39)  # Replay without changing posture.
+    assert last(s, 'test.tactical-footprint') == ['reused', None]
+    assert tactical_footprint_state(s) == prone
+    s.action(2278, 35)
+    assert tactical_footprint_state(s) == prone
+    s.action(2278, 33)
+    risen = tactical_footprint_state(s)
+    assert risen == ['kneeling', 0, -1, None, None, 2, 0, 0]
+    s.action(2280)
+    assert last(s, 'test.tactical-occupancy') == ['ready', None, 0]
+    s.action(2282)
+    assert last(s, 'test.tactical-upper-occupancy') == ['ready', None, 1]
+    s.action(2278, 39)
+    assert last(s, 'test.tactical-footprint') == ['reused', None]
+    assert tactical_footprint_state(s) == risen
+
+
+def test_tactical_footprint_persistence(Session, bundle, out):
+    path = out / 'expanded-tactical-footprint.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2278, 0)
+        first.action(2278, 30)
+        saved = tactical_footprint_state(first)
+        first.command(f':save {path}\n@2281')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2281')
+        assert tactical_footprint_state(second) == saved
+        second.action(2278, 39)
+        assert tactical_footprint_state(second) == saved
+        second.action(2278, 38)
+        second.action(2278, 33)
+        assert tactical_footprint_state(second) == ['kneeling', 0, 0, None, None, 2, 0, 0]
+    finally:
+        second.close()
+    session = Session(bundle)
+    try:
+        session.action(2278, 0)
+        session.action(2278, 20)
+        session.action(2278, 36)
+        session.action(2278, 7)
+        session.action(2278, 31)
+        assert last(session, 'test.tactical-footprint') == ['blocked', 'tactical-shared-cell-procedure-required']
+        assert tactical_footprint_state(session) == ['lying', 0, 0, None, None, 0, 0, 0]
     finally:
         session.close()

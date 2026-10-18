@@ -52,9 +52,13 @@
       "pages": "B385",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A human-sized prone or horizontal actor occupies two hexes. On falling, lower body remains in original hex and upper body occupies a selected legal neighbor; rising can use either occupied hex.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_footprints",
+        "tests/expanded.py::test_tactical_footprint_persistence"
+      ],
+      "implementation_note": "Owned footprint reconciliation for placed upright humans after a separately resolved lying/recovery posture change. Both cells affect occupancy; recovery may select either. Automatic maneuver/knockdown composition, horizontal bodies and crowded-space resolution pending. Fixtures unrun."
     },
     {
       "id": "tactical-committed-path",
