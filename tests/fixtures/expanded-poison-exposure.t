@@ -4,6 +4,7 @@ poisonDelivery: RpgExpandedPoisonEntry patient = bleedProfile route = 'blood' pe
     approved = true evidence = 'The fictional agent actually reached the persistent opening';
 poisonExposure: RpgExpandedPoisonExposure id = 'fictional-agent' profile = bleedProfile hazard = poisonDefinition entry = poisonDelivery
     approved = true effectEvidence = 'Original fictional single-cycle agent: one die of toxic injury after one minute, resisted at HT-2';
+poisonSecondCycle: RpgExpandedPoisonCycle id = 'second' exposure = poisonExposure;
 modify BleedTestAction
     exec(context)
     {
@@ -22,9 +23,18 @@ modify BleedTestAction
         if (code == 266) { bleedInput.forcedRoll = 8; return nil; }
         if (code == 267) { poisonExposure.sizeModifier = -1; return nil; }
         if (code == 268) { rpgSpendTime(30); return nil; }
-        if (code == 269) { poisonDefinition.cycles = 2; return nil; }
+        if (code == 269) { poisonDefinition.cycles = 2; poisonDefinition.interval = 60; return nil; }
         if (code == 270) { poisonDefinition.resistible = nil; surgicalOperationInput.fixedDie = 4; return nil; }
         if (code == 271) { poisonDefinition.delay = 1; poisonExposure.sizeModifier = -1; return nil; }
+        if (code == 272 || code == 273)
+        { poisonSecondCycle.apply(); if (code == 273) throw new RpgError(); return nil; }
+        if (code == 274) { rpgLiteHeal(bleedProfile,1); return nil; }
+        if (code == 275)
+        {
+            event('test.poison-cycle'); eventValue(poisonExposure.cycleHistory.length());
+            eventValue(poisonExposure.remaining); eventValue(bleedProfile.cyclicPoisonInjury());
+            eventValue(bleedProfile.injury); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
         return inherited(context);
     }
 ;

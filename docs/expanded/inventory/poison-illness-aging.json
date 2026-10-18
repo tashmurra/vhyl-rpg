@@ -143,7 +143,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned admitted single-cycle toxic exposures now size-scale whole-second onset, protect the ledger deadline, resolve current resistance once and apply shared injury without armor. Fixtures unrun. Sub-second delays, other effects, cyclic recovery locks and environmental repetition remain incomplete."
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
     },
     {
       "id": "poison-delayed-resistance",
@@ -156,7 +156,7 @@
       "tests": [
         "tests/expanded.py::test_poison_exposure"
       ],
-      "validation_note": "Owned admitted single-cycle toxic exposures now size-scale whole-second onset, protect the ledger deadline, resolve current resistance once and apply shared injury without armor. Fixtures unrun. Sub-second delays, other effects, cyclic recovery locks and environmental repetition remain incomplete."
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
     },
     {
       "id": "poison-environment-retries",
@@ -184,9 +184,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Toxic or fatigue effects bypass armor after valid delivery, route through the shared health ledger and retain their exposure identity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
     },
     {
       "id": "poison-cyclic-healing",
@@ -194,9 +197,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Cyclic poison damage cannot heal while its sequence remains active; release its recovery restriction on the appropriate final cycle or successful termination without erasing other restrictions.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
     },
     {
       "id": "poison-cycle-resistance",
@@ -204,9 +210,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A resistible cyclic agent gives a new health check each cycle; success ends that exposure, while failure applies that cycle's damage, up to its specified total count.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
     },
     {
       "id": "poison-symptom-threshold",

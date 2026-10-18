@@ -401,3 +401,11 @@ Owned single-cycle toxic exposures now reuse hazard parameters, size-adjust onse
 protect their ledger deadline and resolve resistance/shared injury once. Cyclic
 poison, fatigue, payload accounting and other effects remain incomplete. Timing,
 rollback and persistence fixtures are authored and unrun.
+
+
+Cyclic toxic HP exposure now owns individual cycle receipts, checks resistance at
+each exact deadline, ends early on successful resistance and protects outstanding
+poison injury from healing until termination. Replaying the onset cannot trigger
+a later cycle. Added rollback, undo and cross-process continuation fixtures; all
+remain unrun while checks are paused. Fatigue effects, symptoms and treatments
+remain incomplete. The expansion branch includes the current main branch.

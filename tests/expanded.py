@@ -11340,11 +11340,43 @@ def test_poison_exposure(Session, bundle, out):
             assert state(s) == [0, 30, 30, 1, injury, 30, draws]
         finally:
             s.close()
-    for code in (269, 271):
+    for code in (271,):
         s = Session(bundle)
         try:
             s.action(2285, code)
             s.action(2285, 260)
             assert state(s) == [None, None, None, 0, 0, 0, 0]
+        finally:
+            s.close()
+
+    # B438: two failed cycles unlock only on completion; resistance ends early.
+    for resisted in (False, True):
+        s = Session(bundle)
+        try:
+            for code in (269, 265, 260, 4, 262, 262, 274, 275):
+                s.action(2285, code)
+            assert last(s, 'test.poison-cycle') == [1, 1, 4, 4, 60, 4]
+            s.action(2285, 4)
+            if resisted:
+                s.action(2285, 266)
+            s.action(2285, 273)
+            s.action(2285, 275)
+            assert last(s, 'test.poison-cycle') == [1, 1, 4, 4, 120, 4]
+            s.action(2285, 272)
+            s.command('undo')
+            s.action(2285, 275)
+            assert last(s, 'test.poison-cycle') == [1, 1, 4, 4, 120, 4]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (272, 272, 262, 275):
+                s.action(2285, code)
+            assert last(s, 'test.poison-cycle') == [2, 0, 0, 4 if resisted else 8, 120, 7 if resisted else 8]
+            s.action(2285, 274)
+            s.action(2285, 275)
+            assert last(s, 'test.poison-cycle')[3] == (3 if resisted else 7)
         finally:
             s.close()

@@ -1138,7 +1138,7 @@ persistent-wound entry, paired area protections, exposed/clothed skin, nine/ten
 second forced swallowing, unconscious/stunned respiration, mask benefit and an
 owned follow-up wound. They are authored and unrun.
 
-### Owned single-cycle toxic exposure
+### Owned toxic exposure cycles
 
 `RpgExpandedPoisonExposure` reuses `RpgLiteHazard` parameters and the Lite exposure
 base, but owns its admitted delivery and absolute onset deadline. Supply a unique
@@ -1168,9 +1168,20 @@ when resistance fails or the poison is unresistible. It commits one expanded wou
 without subtracting armor again. Replay returns the saved result; the start and
 resolution do not reevaluate contact after it has already occurred. Death before
 onset releases the clock boundary and prevents further poisoning of that patient.
-After a single cycle, normal healing remains available. This is not an
-implementation of cyclic-poison recovery restrictions or continuing environmental
-exposure.
+After a single cycle, normal healing remains available. For cyclic toxic injury,
+set `hazard.cycles` and the whole-second `hazard.interval` (1–86400 seconds).
+Size adjusts onset only. Each later deadline needs a new `RpgExpandedPoisonCycle`
+with a unique `id` and the owned `exposure`; call `assess()` then `apply()`.
+`exposure.resolve()` always replays the onset receipt after the first resolution,
+so retrying it cannot accidentally commit another cycle.
+
+Each cycle makes a fresh resistance check. Success ends the sequence immediately;
+failure applies another wound, up to the specified cycle count. Active cyclic
+losses remain protected from healing. Ending the sequence releases only that
+exposure's restriction and does not heal any injury. Natural recovery is limited
+to unprotected injury; other disease, temperature and clotting restrictions remain
+in force. Dead patients incur no later cycle. Fatigue poison, symptom thresholds,
+antidotes and continuing environmental exposure remain unfinished.
 
 `expanded-poison-exposure.t` and `test_poison_exposure` specify success/failure,
 unresistible injury, size-adjusted timing, premature resolution, exact deadlines,
