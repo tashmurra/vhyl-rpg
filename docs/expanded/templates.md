@@ -470,10 +470,10 @@ remove mandatory ancestry purchases, even with a separate buyoff approval.
 Permitted ancestry omissions require the explicit replacement accounting in B262;
 that interface is still pending.
 
-Overlapping personal and ancestry traits, or duplicate non-quirk traits across
-ancestries, currently reject under ordinary trait validation. Additive ancestry
-trait levels and personal improvements need further origin-aware composition;
-they are not silently merged or repriced. Only the trait row factories already
+Overlapping personal and ancestry traits currently reject under ordinary trait
+validation. Supported ancestry-to-ancestry stacking is described below. Personal
+improvements still need further origin-aware composition; they are not silently
+merged or repriced. Only the trait row factories already
 supported by the installed modules are available. Ancestry skills, modifiers,
 full catalogue packages and transformations remain incomplete.
 
@@ -482,3 +482,33 @@ concrete behavior, costs and exemptions, five personal quirks plus an ancestry
 quirk, excessive personal quirks, mandatory-component binding, blocked ordinary
 buyoff, fresh ownership, undo and cross-process save continuation. These fixtures
 are authored but unrun while checks are paused.
+
+## Stacking supported ancestry traits
+
+When distinct ancestry packages require the same trait ID and scope, composition
+adds levels for verified shared-catalogue per-level traits: the four acute senses,
+charisma, fearlessness, hard-to-kill and night vision. Night vision retains its
+nine-level maximum; the other supported entries retain the current catalogue's
+implementation bounds. Trait levels are combined on the fresh character, leaving
+source definitions unchanged.
+
+Identical fixed purchases are retained once, with all contributing ancestry IDs
+recorded in the receipt's corresponding `traitOrigins` list. This also applies to
+identical concrete rated purchases. Different ratings, purchase forms, scopes or
+incompatible tier choices are not resolved by adding their prices. Conflicting
+matching purchases reject with `ancestry-trait-conflict`; ordinary trait
+compatibility checks reject incompatible distinct IDs. An author must resolve
+these definitions before composition. The explicit conflict-resolution interface
+for retaining and removing selected components remains pending.
+
+Two occurrences of the same trait ID and scope inside one ancestry reject as
+`duplicate-ancestry-trait-row`. A package cannot create extra levels by listing
+the same purchase twice. Other per-level traits require verified composition
+support; differing levels reject rather than silently applying an unsupported
+addition rule. Personal/ancestry overlap remains unsupported.
+
+Sources: `full-2008`, B35, B41, B55, B58, B71 and B261.
+`test_ancestry_stacking` specifies additive levels and prices, the night-vision
+cap, fixed and rated deduplication, conflicting tiers/ratings, package-order
+independence, rejected duplicate rows, immutable prior characters, undo and save
+continuation. These assertions remain unrun.

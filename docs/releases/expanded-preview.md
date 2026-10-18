@@ -1310,3 +1310,9 @@ concrete behavior. Their negative costs and quirks are exempt from personal caps
 ordinary removal and buyoff reject. Overlapping trait levels and approved ancestry
 omissions remain unfinished. Ownership, accounting, undo and save fixtures are
 included but unrun.
+
+Ancestry stacking now adds verified per-level catalogue traits and deduplicates
+identical fixed or rated purchases, retaining every contributing ancestry ID.
+Conflicting purchases and duplicate rows reject. The night-vision cap and current
+catalogue bounds remain enforced. Stacking, ownership, undo and save fixtures
+are authored but unrun.

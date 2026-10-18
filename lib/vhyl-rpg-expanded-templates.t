@@ -642,6 +642,32 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Merge compatible ancestry purchases; tiered choices are not additive levels. */
+rpgExpandedMergeAncestryTrait(existing, incoming)
+{
+    if (existing.id != incoming.id || existing.scope != incoming.scope
+        || existing.templatePurchaseKind != incoming.templatePurchaseKind
+        || existing.points != incoming.points || existing.controlled != incoming.controlled
+        || existing.selfControlNumber() != incoming.selfControlNumber()
+        || existing.active != incoming.active || existing.mitigated != incoming.mitigated
+        || existing.skills.length() != incoming.skills.length())
+        rpgExpandedReject('ancestry-trait-conflict');
+    for (local i = 1; i <= existing.skills.length(); i += 1)
+        if (existing.skills[i] != incoming.skills[i]) rpgExpandedReject('ancestry-trait-conflict');
+    if (existing.templatePurchaseKind == 'shared-catalogue'
+        && holds(['acute-hearing','acute-vision','acute-touch','acute-taste-smell',
+            'charisma','fearlessness','hard-to-kill','night-vision'],existing.id))
+    {
+        local level = existing.level + incoming.level;
+        if (existing.id == 'night-vision' && level > 9) rpgExpandedReject('ancestry-trait-level-limit');
+        if (level > 100) rpgExpandedReject('ancestry-trait-level-limit');
+        existing.level = level;
+    }
+    else if (existing.level != incoming.level || existing.creationCost() != incoming.creationCost())
+        rpgExpandedReject('ancestry-trait-conflict');
+    return existing;
+}
+
 /** B261, B451-B452: add ancestry deltas after resolving personal purchases. */
 rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
 {
@@ -672,11 +698,26 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
     foreach (local ancestry in ancestries)
         foreach (local row in ancestry.traitRows)
         {
-            local trait = rpgExpandedTemplateTrait(row);
-            receipt.traits = receipt.traits + [trait]; receipt.traitOrigins = receipt.traitOrigins + [ancestry.id];
-            receipt.boundTraits = receipt.boundTraits + [receipt.traitDefinition(trait,ancestry.id)];
-            p.traits = p.traits + [trait];
+            local trait = rpgExpandedTemplateTrait(row); local found = 0;
+            for (local i = 1; i <= receipt.traits.length(); i += 1)
+                if (receipt.traits[i].id == trait.id && receipt.traits[i].scope == trait.scope) found = i;
+            if (found == 0)
+            {
+                receipt.traits = receipt.traits + [trait]; receipt.traitOrigins = receipt.traitOrigins + [[ancestry.id]];
+                p.traits = p.traits + [trait];
+            }
+            else
+            {
+                if (holds(receipt.traitOrigins[found],ancestry.id)) rpgExpandedReject('duplicate-ancestry-trait-row');
+                rpgExpandedMergeAncestryTrait(receipt.traits[found],trait);
+                local updated = [];
+                for (local i = 1; i <= receipt.traitOrigins.length(); i += 1)
+                    updated = updated + [i == found ? receipt.traitOrigins[i] + [ancestry.id] : receipt.traitOrigins[i]];
+                receipt.traitOrigins = updated;
+            }
         }
+    for (local i = 1; i <= receipt.traits.length(); i += 1)
+        receipt.boundTraits = receipt.boundTraits + [receipt.traitDefinition(receipt.traits[i],receipt.traitOrigins[i])];
     p.st += changes[1]; p.dx += changes[2]; p.iq += changes[3]; p.ht += changes[4];
     p.hpAdjustment += changes[5]; p.fpAdjustment += changes[6];
     p.willAdjustment += changes[7]; p.perceptionAdjustment += changes[8];

@@ -9116,6 +9116,8 @@ def test(build):
     test_ancestry_scores(Session, ancestry_scores, build.out)
     ancestry_traits = build.build('expanded-ancestry-traits',ROOT / 'tests/fixtures/expanded-ancestry-traits.t')
     test_ancestry_traits(Session, ancestry_traits, build.out)
+    ancestry_stacking = build.build('expanded-ancestry-stacking',ROOT / 'tests/fixtures/expanded-ancestry-stacking.t')
+    test_ancestry_stacking(Session, ancestry_stacking, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17969,5 +17971,52 @@ def test_ancestry_traits(Session, bundle, out):
             s.action(2285, code)
         assert last(s, 'test.ancestry-traits') == [-26, -36, 31, 8, 2, 1, 6, 0, 0]
         assert last(s, 'test.ancestry-buyoff') == [0, 'ancestry-trait-mandatory', 100]
+    finally:
+        s.close()
+
+
+def test_ancestry_stacking(Session, bundle, out):
+    path = out / 'expanded-ancestry-stacking.zsave'
+    expected = [-6, 3, 3, 9, 30, 2, 2, 2, 0, 0]
+    for mutation, reason in (
+        (6102, 'ancestry-trait-level-limit'),
+        (6103, 'ancestry-trait-conflict'),
+        (6104, 'ancestry-trait-conflict'),
+        (6107, 'duplicate-ancestry-trait-row'),
+    ):
+        s = Session(bundle)
+        try:
+            for code in (6100, mutation, 6109, 6108):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-stack-error') == [reason]
+            assert last(s, 'test.ancestry-stack') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6100, 6108, 6101, 6108):
+            s.action(2285, code)
+            if code == 6108:
+                assert last(s, 'test.ancestry-stack') == expected
+        for code in (6106, 6100, 6108):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-stack') == [5, 1, 0, 0, 0, 2, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(2285, 6100)
+        s.action(2285, 6101)
+        s.command('undo')
+        s.action(2285, 6108)
+        assert last(s, 'test.ancestry-stack') == expected
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 6108)
+        assert last(s, 'test.ancestry-stack') == expected
     finally:
         s.close()
