@@ -1629,3 +1629,25 @@ onset policies reject as unsupported rather than being approximated.
 cycles, absence of condition refresh, successful resistance, missing-contract
 rejection, seizure-end integration, coincident agony/toxic deadlines, preview, replay, rollback, undo and saved
 continuation. These assertions are authored and unrun.
+
+### Collision damage assessment
+
+`rpgExpandedAssessCollision(capacity, velocity, hard)` returns crushing damage
+`damageDice` and `damageAdds` without rolling, injuring anyone or spending time.
+Pass full HP capacity, not HP remaining after injury, and velocity in whole yards
+per second. Set `hard` only for collision with an immovable hard surface; it doubles
+the moving object's capacity before calculating dice. A soft surface uses ordinary
+capacity. Zero velocity returns zero dice and zero adds.
+
+Positive results below one die use the three printed reduced-die bands; larger
+results round half a die upward. The result also exposes the effective `capacity`
+and supplied `velocity`. It does not use the abridged collision helper's rounding.
+For example, 10 HP striking a hard surface at 19 yards per second gives 4d crushing.
+
+This is a damage-expression assessment, not an injury commitment. Sharp-object
+conversion, breakable-obstacle caps, elastic cushioning, armor/blunt trauma,
+locations, moving-object interactions and owned collision execution remain pending.
+Do not roll twice when the same collision later supplies damage to both objects.
+`test_collision_assessment` specifies the fractional thresholds, rounding, zero
+motion and the printed hard-surface example; assertions remain unrun.
+Source: `full-2008`, B430-B431.

@@ -3839,3 +3839,30 @@ modify RpgExpandedProfile
         return value;
     }
 ;
+
+class RpgExpandedCollisionAssessment: RpgExpandedResult
+    damageDice = 0
+    damageAdds = 0
+    capacity = 0
+    velocity = 0
+    damageType = 'cr'
+;
+/** B430-B431: capacity is full HP, not remaining HP. Hard means immovable hard surface. */
+rpgExpandedAssessCollision(capacity,velocity,hard)
+{
+    rpgInteger(capacity,1,1000000); rpgInteger(velocity,0,10000);
+    local value = new RpgExpandedCollisionAssessment();
+    value.capacity = capacity * (hard ? 2 : 1); value.velocity = velocity;
+    if (velocity != 0)
+    {
+        rpgInteger(value.capacity,1,2147483647 / velocity);
+        local numerator = value.capacity * velocity;
+        if (numerator < 100)
+        {
+            value.damageDice = 1;
+            value.damageAdds = numerator <= 25 ? -3 : numerator <= 50 ? -2 : -1;
+        }
+        else value.damageDice = numerator / 100 + (numerator % 100 >= 50 ? 1 : 0);
+    }
+    value.status = 'ready'; return value;
+}

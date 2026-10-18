@@ -770,3 +770,8 @@ supplies the full printed falling-velocity table for whole-yard distances throug
 112 yards. These pure calculations do not commit movement or injuries; owned
 falling, fractional distances and environmental velocity rules remain incomplete.
 Table and geometry fixtures are authored and unrun.
+
+Hazards now supplies a pure full-profile collision damage expression, including
+reduced-die bands, half-up rounding and hard-surface capacity doubling. It leaves
+existing abridged calculations unchanged. Boundary and printed-example fixtures
+are authored but unrun; collision injury execution remains incomplete.

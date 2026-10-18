@@ -8896,6 +8896,8 @@ def test(build):
     test_critical_readiness_persistence(Session,combat_drop,build.out)
     test_critical_drop_persistence(Session,combat_drop,build.out)
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
+    collision = build.build('expanded-collision',ROOT / 'tests/fixtures/expanded-collision.t')
+    test_collision_assessment(Session, collision)
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_radiation_tables)
     fresh(Session,hazards,test_radiation_shielding)
@@ -13640,5 +13642,25 @@ def test_climb_fall_assessment(Session, bundle):
                 previous = upper
         s.action(2294,0)
         assert last(s, 'test.fall-velocity') == [0,0,0]
+    finally:
+        s.close()
+
+
+def test_collision_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        # B430 fractional-die thresholds and ordinary rounding, without RNG.
+        for speed, dice, adds in [(0,0,0),(1,1,-3),(25,1,-3),(26,1,-2),
+                                   (50,1,-2),(51,1,-1),(99,1,-1),(100,1,0),
+                                   (149,1,0),(150,2,0),(249,2,0),(250,3,0)]:
+            s.action(2292,1,speed,0)
+            assert last(s, 'test.collision') == [1,speed,dice,adds,'cr',0,0]
+        # B431 worked example: 10 HP at 19 yards/second against a hard surface.
+        s.action(2292,10,19,1)
+        assert last(s, 'test.collision') == [20,19,4,0,'cr',0,0]
+        s.action(2292,10,19,0)
+        assert last(s, 'test.collision') == [10,19,2,0,'cr',0,0]
+        s.action(2292,10,0,1)
+        assert last(s, 'test.collision') == [20,0,0,0,'cr',0,0]
     finally:
         s.close()

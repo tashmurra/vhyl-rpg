@@ -950,9 +950,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Collision dice equal full health capacity times collision velocity divided by one hundred; use structural capacity rather than remaining injured health.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "collision-rounding",
@@ -960,9 +963,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "For at least one die, round a fractional half-die or greater upward; sub-one-die results use the specific reduced-die bands.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "collision-sharp-object",
@@ -990,9 +996,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Collision with a hard immovable surface doubles the moving object's health capacity for damage calculation.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "collision-soft",
@@ -1000,9 +1009,12 @@
       "pages": "B431",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A soft immovable surface uses ordinary capacity; an elastic surface may grant an authored collision-only resistance from two for a soft bed to ten for a net or airbag.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "collision-water-dive",
@@ -1183,9 +1195,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A positive collision result up to one-quarter die uses one die minus three.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "collision-small-dice-half",
@@ -1193,9 +1208,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Above one-quarter through one-half die uses one die minus two.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "collision-small-dice-below-one",
@@ -1203,9 +1221,12 @@
       "pages": "B430",
       "module": "hazards",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Above one-half but below one die uses one die minus one.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_collision_assessment"
+      ],
+      "validation_note": "Pure damage-expression assessment implements full-capacity times velocity, hard-surface doubling, reduced-die bands and half-up die rounding. Boundary and printed-example assertions authored, unrun. Owned damage, elastic cushioning and remaining collision interactions are incomplete."
     },
     {
       "id": "fall-velocity-row-1",
