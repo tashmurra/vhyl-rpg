@@ -1316,3 +1316,9 @@ identical fixed or rated purchases, retaining every contributing ancestry ID.
 Conflicting purchases and duplicate rows reject. The night-vision cap and current
 catalogue bounds remain enforced. Stacking, ownership, undo and save fixtures
 are authored but unrun.
+
+Explicit ancestry conflict decisions can retain one recognized conflicting
+purchase and discard the other, recalculating combined cost and preserving the
+decision in the owned receipt. Missing, compatible and contradictory selections
+reject. Personal ancestry omissions remain unsupported. New resolution and
+persistence fixtures are authored but unrun.

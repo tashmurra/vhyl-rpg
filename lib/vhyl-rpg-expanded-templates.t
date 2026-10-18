@@ -544,6 +544,8 @@ class RpgExpandedAncestryScores: object
     traits = []
     traitOrigins = []
     boundTraits = []
+    decisions = []
+    boundDecisions = []
     traitDefinition(trait,origin)
     {
         return [trait,origin,trait.id,trait.level,trait.scope,trait.points,trait.templatePurchaseKind,
@@ -555,6 +557,9 @@ class RpgExpandedAncestryScores: object
             || self.boundChanges.length() != 10 || self.origins.length() != self.boundOrigins.length())
             rpgExpandedReject('ancestry-score-ownership');
         if (self.nonhuman != self.boundNonhuman) rpgExpandedReject('ancestry-score-binding');
+        if (self.decisions.length() != self.boundDecisions.length()) rpgExpandedReject('ancestry-resolution-binding');
+        for (local i = 1; i <= self.decisions.length(); i += 1)
+            if (self.decisions[i] != self.boundDecisions[i]) rpgExpandedReject('ancestry-resolution-binding');
         if (self.traits.length() != self.boundTraits.length() || self.traitOrigins.length() != self.traits.length())
             rpgExpandedReject('ancestry-trait-binding');
         for (local i = 1; i <= self.traits.length(); i += 1)
@@ -668,8 +673,77 @@ rpgExpandedMergeAncestryTrait(existing, incoming)
     return existing;
 }
 
+/** An explicit B261 decision between purchases in two different ancestries. */
+class RpgExpandedAncestryConflict: object
+    id = nil
+    retainedAncestry = nil
+    retainedTrait = nil
+    retainedScope = nil
+    discardedAncestry = nil
+    discardedTrait = nil
+    discardedScope = nil
+    approved = nil
+    evidence = nil
+    definition()
+    {
+        return [self.id,self.retainedAncestry,self.retainedTrait,self.retainedScope,
+            self.discardedAncestry,self.discardedTrait,self.discardedScope,self.approved,self.evidence];
+    }
+    purchase(ancestries,ancestryId,traitId,scope)
+    {
+        local found = nil;
+        foreach (local ancestry in ancestries)
+            if (ancestry.id == ancestryId)
+                foreach (local row in ancestry.traitRows)
+                {
+                    local trait = rpgExpandedTemplateTrait(row);
+                    if (trait.id == traitId && trait.scope == scope)
+                    {
+                        if (found != nil) rpgExpandedReject('ancestry-resolution-ambiguous');
+                        found = trait;
+                    }
+                }
+        if (found == nil) rpgExpandedReject('ancestry-resolution-missing');
+        return found;
+    }
+    validate(ancestries)
+    {
+        if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == ''
+            || self.retainedAncestry == self.discardedAncestry)
+            rpgExpandedReject('ancestry-resolution-definition');
+        local retained = self.purchase(ancestries,self.retainedAncestry,self.retainedTrait,self.retainedScope);
+        local discarded = self.purchase(ancestries,self.discardedAncestry,self.discardedTrait,self.discardedScope);
+        local conflict = nil;
+        if (retained.id == discarded.id && retained.scope == discarded.scope)
+        {
+            try { rpgExpandedMergeAncestryTrait(retained,discarded); }
+            catch (RpgExpandedError error)
+            {
+                if (error.reason == 'ancestry-trait-conflict') conflict = true;
+                else throw error;
+            }
+        }
+        else
+            foreach (local group in [['luck','extraordinary-luck','ridiculous-luck','unluckiness'],
+                ['hideous','ugly','unattractive','attractive','handsome','very-handsome'],
+                ['dead-broke','poor','struggling','comfortable','wealthy','very-wealthy','filthy-rich'],
+                ['flexibility','double-jointed'],['bad-sight','bad-sight-correctable'],
+                ['status','low-status'],['resistant-disease-3','resistant-disease-8'],
+                ['acute-hearing','hard-of-hearing']])
+                if (retained.id != discarded.id && holds(group,retained.id) && holds(group,discarded.id)) conflict = true;
+        if (!conflict) rpgExpandedReject('ancestry-resolution-not-conflicting');
+        return nil;
+    }
+;
+
 /** B261, B451-B452: add ancestry deltas after resolving personal purchases. */
 rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
+{
+    return rpgExpandedCreateResolvedAncestryCharacter(personal,ancestries,[],rules);
+}
+
+/** Resolve identified ancestry conflicts before assembling the combined character. */
+rpgExpandedCreateResolvedAncestryCharacter(personal, ancestries, resolutions, rules)
 {
     if (personal == nil || !personal.ofKind(RpgExpandedTemplate)
         && !personal.ofKind(RpgExpandedTemplateSelection) && !personal.ofKind(RpgExpandedTemplateCustomization))
@@ -689,16 +763,43 @@ rpgExpandedCreateAncestryCharacter(personal, ancestries, rules)
         }
         changes = combined;
     }
+    local resolutionIds = []; local decisions = [];
+    foreach (local item in resolutions)
+        if (item == nil || !item.ofKind(RpgExpandedAncestryConflict)) rpgExpandedReject('ancestry-resolution-definition');
+    foreach (local resolution in resolutions)
+    {
+        if (resolution == nil || !resolution.ofKind(RpgExpandedAncestryConflict))
+            rpgExpandedReject('ancestry-resolution-definition');
+        resolution.validate(ancestries);
+        if (holds(resolutionIds,resolution.id)) rpgExpandedReject('ancestry-resolution-duplicate');
+        resolutionIds = resolutionIds + [resolution.id];
+        foreach (local other in resolutions)
+            if (other != resolution)
+            {
+                if (other.discardedAncestry == resolution.discardedAncestry
+                    && other.discardedTrait == resolution.discardedTrait && other.discardedScope == resolution.discardedScope)
+                    rpgExpandedReject('ancestry-resolution-duplicate');
+                if (other.discardedAncestry == resolution.retainedAncestry
+                    && other.discardedTrait == resolution.retainedTrait && other.discardedScope == resolution.retainedScope)
+                    rpgExpandedReject('ancestry-resolution-retained-discarded');
+            }
+        decisions = decisions + [resolution.definition()];
+    }
     local p = personal.assembleProfile(rules);
     if (p.ancestryScores != nil || p.creationComplete) rpgExpandedReject('ancestry-existing-character');
     local receipt = new RpgExpandedAncestryScores(); receipt.owner = p;
+    receipt.decisions = decisions; receipt.boundDecisions = decisions;
     receipt.nonhuman = nonhuman; receipt.boundNonhuman = nonhuman;
     receipt.origins = origins; receipt.boundOrigins = origins;
     receipt.changes = changes; receipt.boundChanges = changes; p.ancestryScores = receipt;
     foreach (local ancestry in ancestries)
         foreach (local row in ancestry.traitRows)
         {
-            local trait = rpgExpandedTemplateTrait(row); local found = 0;
+            local trait = rpgExpandedTemplateTrait(row); local found = 0; local discarded = nil;
+            foreach (local resolution in resolutions)
+                if (resolution.discardedAncestry == ancestry.id && resolution.discardedTrait == trait.id
+                    && resolution.discardedScope == trait.scope) discarded = true;
+            if (discarded) continue;
             for (local i = 1; i <= receipt.traits.length(); i += 1)
                 if (receipt.traits[i].id == trait.id && receipt.traits[i].scope == trait.scope) found = i;
             if (found == 0)

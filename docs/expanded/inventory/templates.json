@@ -242,9 +242,10 @@
       "status": "partial",
       "acceptance": "Require an authored conflict resolution identifying retained and removed traits and the resulting price; never infer that opposing ancestry traits cancel.",
       "tests": [
-        "tests/expanded.py::test_ancestry_stacking"
+        "tests/expanded.py::test_ancestry_stacking",
+        "tests/expanded.py::test_ancestry_conflicts"
       ],
-      "validation_note": " Verified shared-catalogue per-level traits now add ancestry levels; identical fixed/rated purchases deduplicate once and retain all ancestry origins. Conflicting tiers/ratings and duplicate rows reject. Explicit authored conflict resolutions, remaining per-level traits and personal overlap remain pending. Assertions authored, unrun."
+      "validation_note": " Verified shared-catalogue per-level traits now add ancestry levels; identical fixed/rated purchases deduplicate once and retain all ancestry origins. Conflicting tiers/ratings and duplicate rows reject. Explicit authored conflict resolutions, remaining per-level traits and personal overlap remain pending. Assertions authored, unrun. Explicit retained/discarded selectors now resolve recognized cross-ancestry conflicts with approval and evidence, reject missing/contradictory/compatible decisions, preserve snapshots and recalculate final prices. Broader conflict catalogues and personal omissions remain pending. Assertions authored, unrun."
     },
     {
       "id": "ancestry-omission-positive",

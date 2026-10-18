@@ -9118,6 +9118,8 @@ def test(build):
     test_ancestry_traits(Session, ancestry_traits, build.out)
     ancestry_stacking = build.build('expanded-ancestry-stacking',ROOT / 'tests/fixtures/expanded-ancestry-stacking.t')
     test_ancestry_stacking(Session, ancestry_stacking, build.out)
+    ancestry_conflicts = build.build('expanded-ancestry-conflicts',ROOT / 'tests/fixtures/expanded-ancestry-conflicts.t')
+    test_ancestry_conflicts(Session, ancestry_conflicts, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -18018,5 +18020,51 @@ def test_ancestry_stacking(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 6108)
         assert last(s, 'test.ancestry-stack') == expected
+    finally:
+        s.close()
+
+
+def test_ancestry_conflicts(Session, bundle, out):
+    path = out / 'expanded-ancestry-conflicts.zsave'
+    for setup, reason in (
+        (6202, 'ancestry-resolution-missing'),
+        (6203, 'ancestry-resolution-definition'),
+        (6204, 'ancestry-resolution-not-conflicting'),
+        (6205, 'ancestry-resolution-retained-discarded'),
+    ):
+        s = Session(bundle)
+        try:
+            for code in (6200, setup, 6206, 6207):
+                s.action(2285, code)
+            assert last(s, 'test.ancestry-resolution-error') == [reason]
+            assert last(s, 'test.ancestry-resolution') == [15, 0, 1, 'luck', 12, 1, 0, 0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (6200, 6201, 6200, 6207):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-resolution') == [-10, 10, 1, 'unluckiness', 12, 1, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (6210, 6200, 6207):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-resolution') == [-30, 30, 1, 'compelled-aid', 6, 1, 0, 0]
+        s.action(2285, 6208)
+        s.command('undo')
+        s.action(2285, 6207)
+        assert last(s, 'test.ancestry-resolution') == [-30, 30, 1, 'compelled-aid', 6, 1, 0, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (6207, 6208, 5907):
+            s.action(2285, code)
+        assert last(s, 'test.ancestry-resolution') == [-30, 30, 1, 'compelled-aid', 6, 1, 0, 0]
+        assert last(s, 'test.ancestry-score-error') == ['ancestry-resolution-binding']
     finally:
         s.close()

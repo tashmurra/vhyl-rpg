@@ -498,8 +498,8 @@ identical concrete rated purchases. Different ratings, purchase forms, scopes or
 incompatible tier choices are not resolved by adding their prices. Conflicting
 matching purchases reject with `ancestry-trait-conflict`; ordinary trait
 compatibility checks reject incompatible distinct IDs. An author must resolve
-these definitions before composition. The explicit conflict-resolution interface
-for retaining and removing selected components remains pending.
+these definitions before composition or supply a supported explicit conflict
+resolution as described below.
 
 Two occurrences of the same trait ID and scope inside one ancestry reject as
 `duplicate-ancestry-trait-row`. A package cannot create extra levels by listing
@@ -512,3 +512,38 @@ Sources: `full-2008`, B35, B41, B55, B58, B71 and B261.
 cap, fixed and rated deduplication, conflicting tiers/ratings, package-order
 independence, rejected duplicate rows, immutable prior characters, undo and save
 continuation. These assertions remain unrun.
+
+## Explicit conflicts between ancestries
+
+Use `rpgExpandedCreateResolvedAncestryCharacter(personal, ancestries,
+resolutions, rules)` for an approved decision about conflicting ancestry traits
+(B261). The ordinary ancestry factory supplies an empty resolution list and
+continues to reject unresolved conflicts.
+
+Each `RpgExpandedAncestryConflict` has a unique `id`, `approved`, nonempty
+`evidence`, and two selectors: `retainedAncestry`/`retainedTrait`/`retainedScope`
+and `discardedAncestry`/`discardedTrait`/`discardedScope`. Ancestry selectors use
+package IDs; trait selectors use trait IDs. Both purchases must exist exactly
+once, in different input ancestries. The interface currently recognizes the
+shared catalogue's mutually exclusive fortune, appearance, wealth, flexibility,
+sight, status and disease-resistance choices, acute hearing versus impaired
+hearing, and conflicting purchase forms, ratings or tiers for a matching trait.
+Other conflicts need explicit implementation rather than an unverified callback.
+
+A resolution cannot discard a compatible additive purchase, bypass a summed-level
+cap, discard the same component twice, or retain a component another resolution
+discards. Missing, ambiguous, unapproved and contradictory decisions reject.
+After applying the decisions, normal ancestry stacking and final character
+validation still apply. Remaining unresolved conflicts therefore still reject.
+
+The combined price is recomputed from retained components; a discarded component
+contributes neither cost nor disadvantage exemption. Decision snapshots are stored
+in the owned ancestry receipt and survive later changes to author definitions.
+This is conflict resolution between ancestries, not a personal omission of a
+mandatory ancestry trait. Personal omissions still require the separate B262
+replacement accounting and remain unsupported.
+
+`test_ancestry_conflicts` specifies retaining either side of a positive/negative
+conflict, retaining one rated purchase, invalid and contradictory decisions,
+unchanged prior characters, receipt binding, undo and save continuation. These
+assertions remain unrun while checks are paused.
