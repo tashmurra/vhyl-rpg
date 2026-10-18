@@ -209,3 +209,97 @@ class RpgExpandedBreakdown: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B484 original-price modifier; monetary values use the inventory's whole units. */
+rpgExpandedRepairPriceModifier(price)
+{
+    rpgInteger(price,0,100000000);
+    return price <= 1000 ? 1 : price <= 10000 ? 0 : price <= 100000 ? -1 : price <= 1000000 ? -2 : -3;
+}
+
+/** Supplied-die major-repair parts quote, rounded up; this does not purchase parts. */
+rpgExpandedRepairPartsPrice(price, die)
+{
+    rpgInteger(price,0,100000000); rpgInteger(die,1,6);
+    return (price * die + 9) / 10;
+}
+
+modify RpgExpandedBreakdown
+    repairs = []
+    repairedBy = nil
+;
+
+class RpgExpandedBreakdownRepairResult: RpgExpandedResult
+    context = nil
+    repaired = nil
+;
+
+/** A fixed-duration minor environmental-fault repair; major repairs require parts integration. */
+class RpgExpandedBreakdownRepair: object
+    id = nil
+    failure = nil
+    repairer = nil
+    skill = nil
+    approvedSkill = nil
+    evidence = nil
+    uninterrupted = nil
+    equipmentModifier = 0
+    result = nil
+    boundId = nil
+    boundFailure = nil
+    boundRepairer = nil
+    boundSkill = nil
+    boundEvidence = nil
+    boundEquipmentModifier = nil
+    assess()
+    {
+        if (self.failure == nil || !self.failure.ofKind(RpgExpandedBreakdown)
+            || self.failure.result == nil) rpgExpandedReject('breakdown-repair-fault');
+        local value = new RpgExpandedBreakdownRepairResult();
+        if (self.result != nil)
+        {
+            if (self.id != self.boundId || self.failure != self.boundFailure || self.repairer != self.boundRepairer
+                || self.skill != self.boundSkill || self.evidence != self.boundEvidence
+                || self.equipmentModifier != self.boundEquipmentModifier || !self.approvedSkill || !self.uninterrupted
+                || !holds(self.failure.repairs,self)) rpgExpandedReject('breakdown-repair-binding');
+            value.status = 'reused'; value.check = self.result.check; value.repaired = self.result.repaired; return value;
+        }
+        if (self.id == nil || self.id == '' || self.repairer == nil || !self.repairer.ofKind(RpgLiteProfile)
+            || self.skill == nil || !self.skill.ofKind(RpgLiteSkill)) rpgExpandedReject('breakdown-repair-definition');
+        self.failure.assess();
+        if (self.failure.repairedBy != nil || self.failure.item.environmentFailure != self.failure)
+        { value.reason = 'breakdown-repair-not-active'; return value; }
+        if (self.failure.result.repair != 'minor')
+        { value.reason = 'breakdown-major-parts-unavailable'; return value; }
+        if (!self.approvedSkill || self.evidence == nil || self.evidence == '' || !self.uninterrupted)
+        { value.reason = 'breakdown-repair-author-facts'; return value; }
+        if (self.repairer.dead || self.repairer.unconscious || self.repairer.stunned
+            || self.repairer.hp() <= 0 || self.repairer.fp() <= 0)
+        { value.reason = 'breakdown-repair-condition-unavailable'; return value; }
+        foreach (local prior in self.failure.repairs)
+        {
+            if (prior == nil || !prior.ofKind(RpgExpandedBreakdownRepair) || prior.failure != self.failure
+                || prior.result == nil || prior.assess().status != 'reused') rpgExpandedReject('breakdown-repair-history');
+            if (prior.id == self.id) rpgExpandedReject('breakdown-repair-duplicate');
+        }
+        rpgInteger(self.equipmentModifier,-100,100);
+        value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'repair';
+        value.context.modifier = self.equipmentModifier + rpgExpandedRepairPriceModifier(self.failure.item.cost);
+        local score = rpgLiteScore(self.repairer,value.context);
+        if (score == nil || score < 3) { value.reason = 'breakdown-repair-score-unavailable'; return value; }
+        value.seconds = 1800; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        rpgSpendTime(value.seconds);
+        value.check = rpgLiteCheck(self.repairer,value.context);
+        if (value.check.achieved)
+        {
+            self.failure.item.environmentFailure = nil; self.failure.repairedBy = self; value.repaired = true;
+        }
+        self.boundId = self.id; self.boundFailure = self.failure; self.boundRepairer = self.repairer;
+        self.boundSkill = self.skill; self.boundEvidence = self.evidence; self.boundEquipmentModifier = self.equipmentModifier;
+        self.failure.repairs = self.failure.repairs + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;

@@ -973,6 +973,70 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def repair_state(s):
+    s.action(2062)
+    return last(s,'test.repair-state')
+
+
+def test_repair_prices(s):
+    for price, modifier, die, parts in [(1000,1,1,100),(1001,0,1,101),
+            (10000,0,6,6000),(10001,-1,6,6001),(100000,-1,1,10000),
+            (100001,-2,1,10001),(1000000,-2,6,600000),(1000001,-3,6,600001)]:
+        s.action(2063,price,die)
+        assert last(s,'test.repair-prices') == [modifier,parts]
+    s.action(2060,3); s.action(2060,21)
+    assert last(s,'test.repair-operation') == ['blocked','breakdown-major-parts-unavailable',0]
+    assert repair_state(s) == [0,0,0,3,0]
+
+
+def test_breakdown_repair(s):
+    s.action(2060,20)
+    initial = [0,0,0,0,0]
+    assert repair_state(s) == initial
+    for code in [23,22]:
+        s.action(2060,code)
+        assert repair_state(s) == initial
+    s.action(2060,24)
+    assert last(s,'test.repair-operation') == ['blocked','breakdown-repair-author-facts',0]
+    assert repair_state(s) == initial
+    s.command('undo')
+    s.action(2060,21)
+    assert repair_state(s) == [1,1,1,3,1800]
+    s.command('undo')
+    assert repair_state(s) == initial
+    s.action(2060,25)
+    assert repair_state(s) == [0,1,0,3,1800]
+    s.action(2060,26)
+    assert repair_state(s) == [1,2,1,3,3600]
+    for code in [21,27,0]:
+        s.action(2060,code)
+        assert repair_state(s) == [1,2,1,3,3600]
+
+
+def test_breakdown_repair_persistence(Session,bundle,out):
+    for failed in [False,True]:
+        path = out / f'expanded-breakdown-repair-{failed}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2060,20); first.action(2060,25 if failed else 21)
+            saved = repair_state(first); first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2062')
+            assert repair_state(second) == saved
+            second.action(2060,21)
+            assert repair_state(second) == saved
+            if failed:
+                second.action(2060,26)
+                assert repair_state(second) == [1,2,1,3,3600]
+            second.action(2060,0)
+            assert repair_state(second)[0] == 1
+        finally:
+            second.close()
+
+
 def breakdown_state(s):
     s.action(2061)
     return last(s,'test.breakdown-state')
@@ -5233,6 +5297,9 @@ def test(build):
     fresh(Session,combat,test_unarmed_miss_assessments)
     breakdown = build.build('expanded-breakdown',ROOT / 'tests/fixtures/expanded-breakdown.t')
     fresh(Session,breakdown,test_breakdown_transactions)
+    fresh(Session,breakdown,test_repair_prices)
+    fresh(Session,breakdown,test_breakdown_repair)
+    test_breakdown_repair_persistence(Session,breakdown,build.out)
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     technology = build.build('expanded-technology',ROOT / 'tests/fixtures/expanded-technology.t')

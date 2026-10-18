@@ -291,9 +291,12 @@
         "tests/expanded.py::test_object_injury_thresholds",
         "tests/expanded.py::test_breakdown_transactions",
         "tests/expanded.py::test_breakdown_days",
-        "tests/expanded.py::test_breakdown_persistence"
+        "tests/expanded.py::test_breakdown_persistence",
+        "tests/expanded.py::test_repair_prices",
+        "tests/expanded.py::test_breakdown_repair",
+        "tests/expanded.py::test_breakdown_repair_persistence"
       ],
-      "validation_note": "Pure object assessments and owned environmental breakdown checks authored; fixtures unrun. Owned object injury, repair, maintenance scheduling, piece transformations and remaining technology procedures are pending."
+      "validation_note": "Object assessments, owned breakdowns and minor environmental-fault repair authored; fixtures unrun. Object injury, structural and major repair, maintenance scheduling, piece transformations and broader technology remain incomplete."
     },
     {
       "id": "templates",

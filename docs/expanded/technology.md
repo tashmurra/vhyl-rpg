@@ -217,13 +217,13 @@ block before drawing dice. `assess()` is pure; `apply()` draws one three-dice ch
 and stores it in the item's `environmentFailures`. Success leaves operation intact;
 failure sets `environmentFailure` to the receipt, requiring minor repair, or major
 repair on a critical failure. It does not spend time: the exposure or world clock
-has already established the event. Separate repair attempts are not implemented.
+has already established the event. Minor repair attempts use the owned repair request below; major repairs remain blocked.
 
 While a failure is active, `usableBy()` returns false and existing attack, parry,
 block and equipment-operation hooks retain that restriction. The inherited storage
 restriction still applies. Neither price nor weight changes. This API does not
 clear readiness, erase contents, destroy the object or apply personal injury.
-An already failed item rejects further exposure checks until repair is implemented;
+An already failed item rejects further exposure checks until its fault is repaired;
 it does not silently upgrade an existing fault.
 
 An extreme-day receipt prevents another such check for that item on the same
@@ -236,7 +236,7 @@ Run commits in the enclosing action transaction. Request bindings and historical
 results survive save/restore. Replays do not draw again or reapply failure. The
 library emits no player-facing notification; authors can keep the malfunction
 private until operation reveals it, as the source permits. Concrete diagnosis and
-repair interfaces remain outstanding.
+major-repair interfaces remain outstanding.
 
 The [breakdown fixture](../../tests/fixtures/expanded-breakdown.t) supplies
 `test_breakdown_transactions`, `test_breakdown_days` and
@@ -244,3 +244,40 @@ The [breakdown fixture](../../tests/fixtures/expanded-breakdown.t) supplies
 loss, severe conditions, invalid applicability, preview purity, rollback, undo,
 daily deduplication, distinct exposure checks, storage coexistence and separate
 process continuation. These fixtures are authored and unrun.
+
+
+## Minor environmental-fault repair
+
+`RpgExpandedBreakdownRepair` repairs one active minor `failure`. Supply a unique
+attempt `id`, `repairer`, a suitable `skill`, `approvedSkill = true`, `evidence`
+identifying why that skill and the available tools apply, and
+`uninterrupted = true`. Skill suitability is an explicit author decision for this
+specific item and fault, not permission to repair every device with one skill.
+`equipmentModifier` records the established tool adjustment. Nonpositive repairer
+HP or fatigue and incapacitation reject; interrupted work and accelerated attempts
+remain unsupported.
+
+`assess()` checks eligibility without time or dice. `apply()` spends 1,800 seconds
+on the shared ledger and makes one contextual skill check, including the B484
+original-price modifier. Success clears this item's active environmental fault and
+records `failure.repairedBy`; failure leaves it active. Each attempt remains in
+`failure.repairs`. A failed attempt can be followed by a new ID, but replaying an
+old attempt never spends time or rolls again. Replaying the original breakdown
+after successful repair does not disable the item again. Run the operation inside
+the existing action transaction, including its time advancement.
+
+This repair targets a malfunction, not structural HP, maintenance-related HT loss,
+a severed part or another subsystem. Those require separate repair records. It
+does not restore the item's readiness or move it out of storage. `item.cost` must
+represent original price for this procedure, rather than a resale valuation.
+
+`rpgExpandedRepairPriceModifier(price)` covers the price bands.
+`rpgExpandedRepairPartsPrice(price, die)` quotes one through six tenths of original
+price, rounding up to the inventory's whole monetary unit. The latter is pure: it
+neither purchases nor consumes parts and is not proof of major-repair support.
+Major faults return `breakdown-major-parts-unavailable` before time or randomness.
+
+`test_repair_prices`, `test_breakdown_repair` and
+`test_breakdown_repair_persistence` cover price boundaries, partial-unit rounding,
+preview purity, rollback, undo, failed attempts, retry costs, replay and separate
+process continuation. They are authored and unrun while checks remain paused.

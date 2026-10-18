@@ -850,9 +850,14 @@
       "pages": "B484",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Select the suitable repair skill for the actual device and fault, using its skill scope and authored approval; a generic mechanic score does not repair every technology.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_repair_prices",
+        "tests/expanded.py::test_breakdown_repair",
+        "tests/expanded.py::test_breakdown_repair_persistence"
+      ],
+      "validation_note": "Owned minor environmental-fault repair and pure price/parts quote authored; fixtures unrun. Structural HP restoration, major parts purchasing/consumption and broader repair consequences remain incomplete."
     },
     {
       "id": "technology-minor-repair",
@@ -860,9 +865,14 @@
       "pages": "B484",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Repair of a damaged object with positive capacity takes thirty minutes per attempt and an appropriate skill check, including tools, time and price modifiers. Success restores max(1,success margin) capacity, capped at the object's undamaged maximum.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_repair_prices",
+        "tests/expanded.py::test_breakdown_repair",
+        "tests/expanded.py::test_breakdown_repair_persistence"
+      ],
+      "validation_note": "Owned minor environmental-fault repair and pure price/parts quote authored; fixtures unrun. Structural HP restoration, major parts purchasing/consumption and broader repair consequences remain incomplete."
     },
     {
       "id": "technology-major-repair",
@@ -870,9 +880,14 @@
       "pages": "B484-B485",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At zero or negative capacity, obtain spare parts costing one die times ten percent original price and apply an additional -2 to repair checks. Track parts and repaired faults so retrying does not fabricate supplies or indiscriminately clear every subsystem failure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_repair_prices",
+        "tests/expanded.py::test_breakdown_repair",
+        "tests/expanded.py::test_breakdown_repair_persistence"
+      ],
+      "validation_note": "Owned minor environmental-fault repair and pure price/parts quote authored; fixtures unrun. Structural HP restoration, major parts purchasing/consumption and broader repair consequences remain incomplete."
     },
     {
       "id": "technology-replacement",
