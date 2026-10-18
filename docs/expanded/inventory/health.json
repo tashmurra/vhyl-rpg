@@ -2238,9 +2238,10 @@
       "status": "partial",
       "acceptance": "A natural seventeen on plant foraging poisons the forager; a health success limits injury to one and failure causes one die of injury.",
       "tests": [
-        "tests/expanded.py::test_foraging_assessment"
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_forage_poisoning"
       ],
-      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending. Owned recorded-check poisoning now scopes 17 to the forager and 18 to independently checked party recipients, preflights all possible injury and commits ordinary child wounds. Duplicate occurrence, preview, independent outcomes, rollback, undo and saved replay assertions authored, unrun. Special susceptibility, owned forage-roll and consumed-food integration remain pending."
     },
     {
       "id": "health-foraging-plant-eighteen",
@@ -2251,9 +2252,10 @@
       "status": "partial",
       "acceptance": "A natural eighteen poisons the whole party through the shared food; each affected character makes an independent health check and damage resolution.",
       "tests": [
-        "tests/expanded.py::test_foraging_assessment"
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_forage_poisoning"
       ],
-      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending. Owned recorded-check poisoning now scopes 17 to the forager and 18 to independently checked party recipients, preflights all possible injury and commits ordinary child wounds. Duplicate occurrence, preview, independent outcomes, rollback, undo and saved replay assertions authored, unrun. Special susceptibility, owned forage-roll and consumed-food integration remain pending."
     },
     {
       "id": "health-foraging-hunting",

@@ -9020,6 +9020,8 @@ def test(build):
     test_throw_attempt(Session, throw_attempt, build.out)
     foraging = build.build('expanded-foraging-assessment',ROOT / 'tests/fixtures/expanded-foraging-assessment.t')
     test_foraging_assessment(Session, foraging)
+    forage_poison = build.build('expanded-forage-poisoning',ROOT / 'tests/fixtures/expanded-forage-poisoning.t')
+    test_forage_poisoning(Session, forage_poison, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -15898,5 +15900,60 @@ def test_foraging_assessment(Session, bundle):
             assert last(s,'test.forage-poison') == ['ready',None,die,1,0,0]
             s.action(2293,10,10,die)
             assert last(s,'test.forage-poison') == ['ready',None,1,0,0,0]
+    finally:
+        s.close()
+
+
+def test_forage_poisoning(Session, bundle, out):
+    def state(s):
+        s.action(2285,1505)
+        return last(s,'test.forage-poison-owned')
+    for trigger, expected in ((1500,[1,0,1,0,3,0]),(1501,[1,4,1,1,7,0])):
+        s = Session(bundle)
+        try:
+            for code in (trigger,1502):
+                s.action(2285,code)
+            assert last(s,'test.forage-poison-preview') == ['ready',None]
+            assert state(s) == [0,0,0,0,0,0]
+            for code in (1503,1503,1506):
+                s.action(2285,code)
+            assert state(s) == expected
+            assert last(s,'test.forage-poison-duplicate') == ['forage-poison-duplicate']
+        finally:
+            s.close()
+    path = out / 'expanded-forage-poisoning.zsave'
+    s = Session(bundle)
+    try:
+        for code in (1501,1504):
+            s.action(2285,code)
+        assert state(s) == [0,0,0,0,0,0]
+        s.action(2285,1503)
+        s.command('undo')
+        assert state(s) == [0,0,0,0,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (1503,1503):
+            s.action(2285,code)
+        assert state(s) == [1,4,1,1,7,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,1503)
+        assert state(s) == [1,4,1,1,7,0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (1501,1507,1502,1503):
+            s.action(2285,code)
+        assert last(s,'test.forage-poison-preview') == ['blocked','forage-poison-susceptibility-adapter-required']
+        assert state(s) == [0,0,0,0,0,0]
     finally:
         s.close()

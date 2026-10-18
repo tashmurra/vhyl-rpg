@@ -1290,3 +1290,8 @@ skill/weapon eligibility, party exposure, food inventory and preservation remain
 pending. `test_foraging_assessment` covers yields, natural-roll complications,
 scarcity, unavailable resources, hunting penalties and supplied poison dice;
 assertions are authored, unrun while checks remain paused.
+
+Health now provides [owned plant-poisoning resolution](health.md#committing-foraged-plant-poisoning)
+for an already recorded natural-17/18 plant check. It commits separate checks and
+wounds per exposed character without repeating the forage roll. Daily forage
+attempt ownership and food inventory remain separate pending integrations.

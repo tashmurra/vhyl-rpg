@@ -3154,3 +3154,30 @@ three remain explicitly unsupported by this helper.
 A party-wide natural-18 outcome requires separate checks and injury for each
 exposed party member; callers must not reuse one assessment for everyone.
 Owned exposure, wound commitment and shared-food handling remain pending.
+
+### Committing foraged-plant poisoning
+
+`RpgExpandedForagePoisoning` owns injury from an already recorded plant-foraging
+17 or 18. Supply `id`, a distinct consumed-food `occurrence`, `forager`, `party`,
+`foragingCheck`, `approved`, `ordinarySusceptibility`, and concrete `evidence`.
+The check must be a resolved `RpgResult` with natural roll 17 or 18. The author
+must establish that it was the plant-foraging result and identify everyone who
+consumed the shared food; this operation does not infer consumers from proximity.
+The party must contain the forager exactly once and cannot repeat recipients.
+
+On 17 only the forager is affected. On 18 each listed recipient gets a separate
+contextual health check and, on failure, a separate injury die. The operation
+creates ordinary owned wounds in the existing injury ledger. No armor is
+subtracted. It preflights every possible injury amount for every recipient before
+rolling; provide `dropDestination` if possible major-wound consequences need it.
+The check uses existing poison-resistance modifiers. Special immunity or other
+susceptibility handling is not implemented here: `ordinarySusceptibility` confirms
+that no such separate adapter is needed.
+
+`assess()` spends nothing; `apply()` commits once. A different ID cannot expose
+an affected character again for the same occurrence. Replay validates each child
+wound and spends no additional dice or health. All recipients share the engine's
+transaction, so exceptions and undo restore the entire operation. Fixtures cover
+self/party scope, independent checks, duplicate prevention, unsupported
+susceptibility, rollback, undo and cross-process save continuation. Assertions
+remain unrun. Owned forage rolls, food inventory and daily quotas are still pending.

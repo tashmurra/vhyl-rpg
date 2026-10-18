@@ -1038,3 +1038,9 @@ yields, hunting's penalty, authored scarcity and natural-17/18 plant poisoning.
 The companion health assessment distinguishes direct poison injury from damage.
 Daily ownership, food inventory and party injury commitment remain pending.
 Expected-value assertions are authored, unrun while checks remain paused.
+
+Recorded plant-foraging poison outcomes now have owned self/party resolution,
+independent health checks and direct-injury wounds. All possible injuries are
+preflighted, duplicate exposure is rejected and replay reuses child wounds.
+Special susceptibility remains explicit. Rollback, undo and save fixtures are
+authored, unrun while checks are paused.

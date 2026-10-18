@@ -6772,3 +6772,107 @@ rpgExpandedAssessForagePoison(healthScore,healthRoll,injuryDie)
     else value.injury = 1;
     value.status = 'ready'; return value;
 }
+
+class RpgExpandedForagePoisoningResult: RpgExpandedResult
+    recipients = []
+    scores = []
+    checks = []
+    injuryDice = []
+    wounds = []
+;
+modify RpgExpandedProfile
+    foragePoisonings = []
+;
+/** B427 owned resolution of an authored, already recorded plant-foraging 17/18. */
+class RpgExpandedForagePoisoning: object
+    id = nil
+    occurrence = nil
+    forager = nil
+    party = []
+    foragingCheck = nil
+    approved = nil
+    ordinarySusceptibility = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    { return [self.id,self.occurrence,self.forager,self.foragingCheck,self.foragingCheck.score,self.foragingCheck.roll,
+        self.approved,self.ordinarySusceptibility,self.evidence,self.dropDestination,self.party.length()] + self.party; }
+    woundFor(profile,amount)
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'forage-' + self.id; wound.profile = profile;
+        wound.amount = amount; wound.dropDestination = self.dropDestination; return wound;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.occurrence == nil || dataType(self.occurrence) != TypeObject
+            || self.forager == nil || !self.forager.ofKind(RpgExpandedProfile) || self.foragingCheck == nil
+            || !self.foragingCheck.ofKind(RpgResult) || self.foragingCheck.status != 'resolved'
+            || !holds([17,18],self.foragingCheck.roll)) rpgExpandedReject('forage-poison-definition');
+        local value = new RpgExpandedForagePoisoningResult(); local current = self.definition();
+        if (self.result != nil)
+        {
+            if (current.length() != self.boundDefinition.length()) rpgExpandedReject('forage-poison-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('forage-poison-binding');
+            foreach (local profile in self.result.recipients)
+                if (!holds(profile.foragePoisonings,self)) rpgExpandedReject('forage-poison-history');
+            foreach (local wound in self.result.wounds)
+                if (wound.assess().status != 'reused') rpgExpandedReject('forage-poison-wound-history');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'forage-poison-source-facts'; return value; }
+        if (!self.ordinarySusceptibility)
+        { value.reason = 'forage-poison-susceptibility-adapter-required'; return value; }
+        local seen = [];
+        foreach (local profile in self.party)
+        {
+            if (profile == nil || !profile.ofKind(RpgExpandedProfile) || holds(seen,profile))
+                rpgExpandedReject('forage-poison-party');
+            seen = seen + [profile];
+        }
+        if (!holds(seen,self.forager)) rpgExpandedReject('forage-poison-forager-missing');
+        value.recipients = self.foragingCheck.roll == 17 ? [self.forager] : self.party;
+        foreach (local profile in value.recipients)
+        {
+            foreach (local prior in profile.foragePoisonings)
+                if (prior.id == self.id || prior.occurrence == self.occurrence) rpgExpandedReject('forage-poison-duplicate');
+            if (profile.dead) { value.reason = 'forage-poison-dead-recipient'; return value; }
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'poison';
+            local score = rpgLiteScore(profile,context);
+            if (score == nil || score < 3) { value.reason = 'forage-poison-health-score'; return value; }
+            rpgInteger(score,3,1000); value.scores = value.scores + [score];
+            for (local amount = 1; amount <= 6; amount += 1)
+            {
+                local prepared = self.woundFor(profile,amount).assess();
+                if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+            }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition();
+        for (local index = 1; index <= value.recipients.length(); index += 1)
+        {
+            local profile = value.recipients[index]; local roll = rpgRandom.roll();
+            local check = rpgCheck(value.scores[index],roll);
+            local die = check.achieved ? nil : rpgRandom.die();
+            local poison = rpgExpandedAssessForagePoison(value.scores[index],roll,die);
+            local wound = self.woundFor(profile,poison.injury);
+            if (wound.apply().status != 'resolved') rpgExpandedReject('forage-poison-interrupted');
+            value.checks = value.checks + [check]; value.injuryDice = value.injuryDice + [die];
+            value.wounds = value.wounds + [wound];
+            profile.foragePoisonings = profile.foragePoisonings + [self];
+        }
+        local current = self.definition();
+        if (current.length() != definition.length()) rpgExpandedReject('forage-poison-changed');
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != definition[index]) rpgExpandedReject('forage-poison-changed');
+        self.boundDefinition = definition; self.result = value; value.status = 'resolved'; return value;
+    }
+;
