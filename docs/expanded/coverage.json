@@ -106,9 +106,12 @@
         "tests/expanded.py::test_crippling_duration_persistence",
         "tests/expanded.py::test_crippling_months",
         "tests/expanded.py::test_lasting_recovery",
-        "tests/expanded.py::test_lasting_recovery_persistence"
+        "tests/expanded.py::test_lasting_recovery_persistence",
+        "tests/expanded.py::test_last_wounds_option",
+        "tests/expanded.py::test_last_wound_transactions",
+        "tests/expanded.py::test_last_wound_persistence"
       ],
-      "validation_note": "Partial upper-limb wounds include duration, temporary full-health recovery and lasting recovery through owned authored calendar milestones. Fixtures unrun. Repeated location injury, broader task effects, complete treatment and permanent-disability accounting remain incomplete."
+      "validation_note": "Partial upper-limb wounds include an explicit last-wounds option and retained ignored outcomes. Fixtures unrun. Accumulation/repeated-location injury, broader anatomy, complete treatment and permanent-disability accounting remain incomplete."
     },
     {
       "id": "magic",

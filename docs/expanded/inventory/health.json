@@ -313,7 +313,8 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "After a limb or extremity reaches its crippling loss cap, further hits do not drain global health through that location, though raw injury still matters for destruction.",
-      "tests": []
+      "tests": [],
+      "validation_note": "B420 places the further-injury cap within the optional accumulated-wounds procedure. Still pending a location-injury ledger and healing allocation; do not silently apply this optional procedure to ordinary repeated wounds."
     },
     {
       "id": "health-last-wounds-option",
@@ -321,9 +322,14 @@
       "pages": "B420",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "With the last-wounds option enabled and health below one-third capacity, ignore a limb/extremity wound unless critical, crippling, or at least one-third capacity in that single injury.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_last_wounds_option",
+        "tests/expanded.py::test_last_wound_transactions",
+        "tests/expanded.py::test_last_wound_persistence"
+      ],
+      "validation_note": "Explicit off-by-default option integrates strict low-health boundary, critical/crippling/one-third exceptions, zero-loss receipts and replay for owned arm/hand wounds. Fixtures authored but unrun. Other anatomy and accumulated-wound combinations remain unsupported."
     },
     {
       "id": "health-crippling-threshold",

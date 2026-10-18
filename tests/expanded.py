@@ -408,6 +408,67 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_last_wounds_option(s):
+    # B420: low-health boundary is strict; the one-third injury exception is inclusive.
+    for capacity, prior, amount, kind, critical, enabled, ignored, loss, draws, disabled in [
+            (10, 7, 1, 'arm', 0, 1, 1, 0, 0, 0),
+            (10, 7, 3, 'arm', 0, 1, 1, 0, 0, 0),
+            (10, 7, 4, 'arm', 0, 1, 0, 4, 0, 0),
+            (10, 7, 6, 'arm', 0, 1, 0, 6, 3, 1),
+            (10, 7, 3, 'hand', 0, 1, 1, 0, 0, 0),
+            (10, 7, 4, 'hand', 0, 1, 0, 4, 3, 1),
+            (10, 7, 1, 'arm', 1, 1, 0, 1, 0, 0),
+            (10, 7, 1, 'arm', 0, 0, 0, 1, 0, 0),
+            (12, 8, 1, 'arm', 0, 1, 0, 1, 0, 0),
+            (12, 9, 1, 'arm', 0, 1, 1, 0, 0, 0),
+            (12, 9, 4, 'arm', 0, 1, 0, 4, 0, 0),
+            (10, 7, 1, 'torso', 0, 1, 0, 1, 0, 0)]:
+        s.action(1616, capacity, prior, amount, kind, critical, enabled)
+        assert last(s, 'test.last-wound-preview') == [ignored, loss, prior, 0]
+        assert last(s, 'test.last-wound') == [
+            ignored, loss, prior + loss, 0 if ignored else 1, draws,
+            disabled, 1, ignored, 'expanded-wound-retargeted']
+
+
+def last_wound_state(s):
+    s.action(1624)
+    return last(s, 'test.last-wound-state')
+
+
+def test_last_wound_transactions(s):
+    initial = limb_state(s)
+    for code, expected in [(13, [1, 1, 7, 0, 0, 1]), (14, [0, 0, 8, 1, 0, 1])]:
+        s.action(1620, code)
+        assert last_wound_state(s) == expected
+        s.command('undo')
+        assert limb_state(s) == initial
+    s.action(1620, 13)
+    saved = last_wound_state(s)
+    for code in [1, 15]:
+        s.action(1620, code)
+        assert last_wound_state(s) == saved
+
+
+def test_last_wound_persistence(Session, bundle, out):
+    path = out / 'expanded-last-wound.zsave'
+    first = Session(bundle)
+    try:
+        first.action(1620, 13)
+        saved = last_wound_state(first)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@1624')
+        assert last_wound_state(second) == saved
+        second.action(1620, 1)
+        assert last(second, 'test.limb-wound') == ['reused', None]
+        assert last_wound_state(second) == saved
+    finally:
+        second.close()
+
+
 def recovery_state(s):
     s.action(1641)
     return last(s, 'test.recovery-state')
@@ -2448,9 +2509,12 @@ def test(build):
     fresh(Session,health,test_body_supports)
     fresh(Session,health,test_unarmed_limb_capacity)
     fresh(Session,health,test_crippling_months)
+    fresh(Session,health,test_last_wounds_option)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)
+    fresh(Session,wounds,test_last_wound_transactions)
+    test_last_wound_persistence(Session,wounds,build.out)
     fresh(Session,wounds,test_crippling_duration)
     fresh(Session,wounds,test_lasting_recovery)
     test_lasting_recovery_persistence(Session,wounds,build.out)

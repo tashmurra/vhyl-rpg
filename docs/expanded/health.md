@@ -519,3 +519,34 @@ weeks, later physician care and permanent repair still need their own procedures
 boundaries, calendar changes, duplicate and retargeted requests, rollback, undo,
 partial and completed save continuation, unchanged injury/time/randomness and
 replay after a newer wound. These fixtures are authored but unrun.
+
+
+## Optional last wounds
+
+Set `rules.lastWounds = true` to select the full-2008 B420 last-wounds option.
+It is off by default and applies only to the currently supported owned arm/hand
+wounds. When current health is strictly below one-third of capacity, the request
+ignores a limb wound unless it is critical, cripples the part, or inflicts at
+least one-third capacity in a single injury. Comparisons use integer products
+rather than rounded third-health thresholds. At exactly one-third current health
+the option does not apply.
+
+Set `wound.criticalHit` from the resolved attack outcome. That fact is bound into
+the receipt, so it cannot later be changed to reinterpret an applied wound. The
+assessment and committed request expose `ignored`; `healthLoss` is zero for an
+ignored wound. The operation retains an owned history record for replay, but
+leaves health, shock, wound serial and randomness unchanged. It does not suppress
+torso wounds or disable crippling consequences for a qualifying hand injury.
+
+`test_last_wounds_option` enumerates the health and injury boundaries, critical
+and crippling exceptions, torso exclusion, disabled-option behavior and preview
+purity. `test_last_wound_transactions` and `test_last_wound_persistence` cover
+undo, retarget rejection, retained ignored outcomes and cross-process replay.
+All are authored but unrun.
+
+This option is separate from B420's accumulated-wounds option. The latter needs
+an active location-injury ledger and healing allocation, which are not yet
+implemented. The source places the rule about ignoring further health loss from
+a capped location under that optional procedure; this implementation does not
+silently enable it or assume it governs every repeated limb wound. Requests to
+already-disabled parts remain explicitly unavailable pending that integration.

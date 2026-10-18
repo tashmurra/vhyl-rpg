@@ -199,5 +199,25 @@ act(verb,args)
         event('test.crippling-months'); eventValue(rpgExpandedCripplingMonths(args[1],args[2] < 0 ? nil : args[2]));
         return nil;
     }
+    if (verb == 1616)
+    {
+        local rules = new RpgExpandedRules(); rules.scaledInjuryShock = true; rules.lastWounds = args[6] == 1;
+        local p = new RpgExpandedProfile(); p.rules = rules; p.st = args[1]; p.injury = args[2];
+        local arm = new RpgExpandedBodyPart(); arm.profile = p; arm.id = 'arm';
+        local hand = new RpgExpandedBodyPart(); hand.profile = p; hand.id = 'hand'; hand.kind = 'hand'; hand.parent = arm;
+        p.bodyParts = [arm,hand];
+        local wound = new RpgExpandedWound(); wound.profile = p; wound.id = 'last-wound'; wound.amount = args[3];
+        wound.location = args[4]; wound.bodyPart = args[4] == 'torso' ? nil : args[4] == 'arm' ? arm : hand; wound.criticalHit = args[5] == 1;
+        rpgRandom.seed(1); local preview = wound.assess(); event('test.last-wound-preview');
+        eventValue(preview.ignored ? 1 : 0); eventValue(preview.healthLoss); eventValue(p.injury); eventValue(rpgRandom.draws);
+        local value = wound.apply(); event('test.last-wound'); eventValue(value.ignored ? 1 : 0);
+        eventValue(value.healthLoss); eventValue(p.injury); eventValue(p.woundSerial); eventValue(rpgRandom.draws);
+        eventValue(wound.bodyPart != nil && wound.bodyPart.disabled ? 1 : 0); eventValue(p.expandedWounds.length());
+        eventValue(wound.apply().ignored ? 1 : 0);
+        wound.criticalHit = !wound.criticalHit;
+        try { wound.apply(); eventValue('unexpected'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        return nil;
+    }
     return vhylAct(verb,args);
 }

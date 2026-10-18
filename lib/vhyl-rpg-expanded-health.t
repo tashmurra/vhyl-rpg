@@ -3,6 +3,7 @@
 
 modify RpgExpandedRules
     scaledInjuryShock = nil
+    lastWounds = nil
 ;
 
 /** Shock from one wound, before trait exceptions; high capacity scales the divisor. */
@@ -82,6 +83,7 @@ class RpgExpandedWoundResult: RpgExpandedResult
     limbDrop = nil
     crippling = nil
     healthLoss = 0
+    ignored = nil
     assessment = nil
     health = nil
 ;
@@ -94,6 +96,9 @@ class RpgExpandedWound: object
     profile = nil
     amount = 0
     location = 'torso'
+    criticalHit = nil
+    boundCriticalHit = nil
+    ignored = nil
     bodyPart = nil
     severing = nil
     boundBodyPart = nil
@@ -124,10 +129,11 @@ class RpgExpandedWound: object
             if (self.profile != self.boundProfile || self.id != self.boundId || self.amount != self.boundAmount
                 || self.location != self.boundLocation || self.maleGroin != self.boundMaleGroin
                 || self.bodyPart != self.boundBodyPart || self.severing != self.boundSevering
+                || self.criticalHit != self.boundCriticalHit
                 || self.dropDestination != self.boundDropDestination
                 || self.anatomy != 'standard-humanoid') rpgExpandedReject('expanded-wound-retargeted');
             value.status = 'reused'; value.health = self.health; value.assessment = self.knockdownAssessment;
-            value.crippling = self.cripplingAssessment; value.healthLoss = self.health.injury; return value;
+            value.crippling = self.cripplingAssessment; value.healthLoss = self.health.injury; value.ignored = self.ignored; return value;
         }
         rpgExpandedValidate(self.profile);
         foreach (local wound in self.profile.expandedWounds)
@@ -157,6 +163,9 @@ class RpgExpandedWound: object
             value.crippling = rpgExpandedAssessCrippling(self.profile.maxHP,self.amount,
                 self.bodyPart.kind == 'arm' ? 'limb' : 'extremity',count,self.severing);
             value.healthLoss = value.crippling.healthLoss;
+            if (self.profile.rules.lastWounds && self.profile.hp() * 3 < self.profile.maxHP
+                && !self.criticalHit && !value.crippling.crippled && self.amount * 3 < self.profile.maxHP)
+            { value.ignored = true; value.healthLoss = 0; }
             value.assessment = rpgExpandedAssessKnockdown(self.profile.maxHP,value.healthLoss,'torso',nil);
             if (value.crippling.crippled)
             {
@@ -177,7 +186,7 @@ class RpgExpandedWound: object
             if (score == nil || score < 3)
             { value.reason = 'expanded-knockdown-score-unavailable'; return value; }
         }
-        if (self.profile.ht < 3 && self.profile.hp() - value.healthLoss <= -self.profile.maxHP)
+        if (value.healthLoss > 0 && self.profile.ht < 3 && self.profile.hp() - value.healthLoss <= -self.profile.maxHP)
         { value.reason = 'expanded-survival-score-unavailable'; return value; }
         self.profile.shockFromInjury(value.healthLoss);
         value.status = 'ready'; return value;
@@ -199,6 +208,7 @@ class RpgExpandedWound: object
                 self.droppedLimbEquipment = value.limbDrop;
             }
         }
+        self.ignored = value.ignored; self.boundCriticalHit = self.criticalHit;
         self.cripplingAssessment = value.crippling;
         self.boundBodyPart = self.bodyPart; self.boundSevering = self.severing;
         self.knockdownAssessment = value.assessment;

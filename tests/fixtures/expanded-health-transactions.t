@@ -75,6 +75,12 @@ class LimbFixtureAction: Action
             if (healthInput.code == 9) limbPatient.ht = 9;
             if (healthInput.code == 12) { limbWound.amount = 12; limbWound.severing = true; }
         }
+        if (healthInput.code == 13 || healthInput.code == 14)
+        {
+            healthRules.lastWounds = true; limbPatient.injury = 7; limbWound.amount = 1;
+            limbWound.criticalHit = healthInput.code == 14;
+        }
+        if (healthInput.code == 15) limbWound.criticalHit = !limbWound.criticalHit;
         local result = limbWound.apply(); event('test.limb-wound'); eventValue(result.status); eventValue(result.reason);
         if (healthInput.code == 5 || healthInput.code == 10) throw new RpgError();
         return nil;
@@ -234,6 +240,12 @@ act(verb,args)
         eventValue(limbArm.disabled ? 1 : 0); eventValue(limbDuration.result.recovered ? 1 : 0);
         eventValue(limbPatient.injury); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
         eventValue(limbArm.disablingWound != nil ? 1 : 0); eventValue(limbDuration.result.months); return nil;
+    }
+    if (verb == 1624)
+    {
+        event('test.last-wound-state'); eventValue(limbWound.ignored ? 1 : 0);
+        eventValue(limbWound.assess().ignored ? 1 : 0); eventValue(limbPatient.injury);
+        eventValue(limbPatient.woundSerial); eventValue(rpgRandom.draws); eventValue(limbPatient.expandedWounds.length()); return nil;
     }
     return vhylAct(verb,args);
 }
