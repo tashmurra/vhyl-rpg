@@ -973,6 +973,60 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def cinematic_state(s):
+    s.action(2127)
+    return last(s,'test.cinematic-state')
+
+
+def test_cinematic_concepts(s):
+    s.action(2126,0)
+    initial = [0,None,0,0,1000000]
+    for code in [3,2]:
+        s.action(2126,code)
+        assert cinematic_state(s) == initial
+    for code,reason in [(4,'invention-campaign-option'),(5,'invention-capability-required'),
+            (8,'rapid-proposal-execution-unavailable'),(10,'invention-world-physics')]:
+        s.action(2126,code)
+        assert last(s,'test.cinematic-concept')[:2] == ['blocked',reason]
+        assert cinematic_state(s) == initial
+        s.command('undo')
+    s.action(2126,9)
+    assert last(s,'test.cinematic-concept') == ['resolved',None,13]
+    assert last(s,'test.cinematic-funding') == ['blocked','cinematic-prototype-execution-unavailable']
+    completed = [1,'testable',3,0,1000000]
+    assert cinematic_state(s) == completed
+    s.command('undo')
+    assert cinematic_state(s) == initial
+    s.action(2126,1)
+    s.action(2126,1)
+    assert cinematic_state(s) == completed
+
+
+def test_cinematic_advanced_concept(s):
+    s.action(2126,0)
+    s.action(2126,6)
+    assert last(s,'test.cinematic-concept') == ['resolved',None,3]
+    assert cinematic_state(s) == [1,None,3,0,1000000]
+
+
+def test_cinematic_concept_persistence(Session,bundle,out):
+    path = out / 'expanded-cinematic-concept.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2126,0)
+        first.action(2126,1)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2127')
+        second.action(2126,1)
+        assert cinematic_state(second) == [1,'testable',3,0,1000000]
+    finally:
+        second.close()
+
+
 def test_inventor_permission(Session,bundle):
     for code,reason,cost in [(0,'invention-campaign-option',25),(1,None,25),
             (2,'invention-capability-required',25),(3,'invention-capability-required',25),
@@ -6759,6 +6813,9 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_cinematic_concepts)
+    fresh(Session,invention,test_cinematic_advanced_concept)
+    test_cinematic_concept_persistence(Session,invention,build.out)
     fresh(Session,invention,test_production_order)
     fresh(Session,invention,test_production_order_line)
     test_production_order_persistence(Session,invention,build.out)

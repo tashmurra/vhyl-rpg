@@ -611,9 +611,12 @@
       "status": "partial",
       "acceptance": "Cinematic invention uses milder difficulty penalties, ignores the campaign-new-technology penalty, permits any authored technology with -5 per level above the inventor, and uses software complexity rather than twice complexity.",
       "tests": [
-        "tests/expanded.py::test_cinematic_invention_assessments"
+        "tests/expanded.py::test_cinematic_invention_assessments",
+        "tests/expanded.py::test_cinematic_concepts",
+        "tests/expanded.py::test_cinematic_advanced_concept",
+        "tests/expanded.py::test_cinematic_concept_persistence"
       ],
-      "validation_note": "Pure cinematic cost/modifier and rapid-duration assessments authored; fixtures unrun. Purchased-capability and campaign gates, committed execution and cinematic consequences remain pending."
+      "validation_note": "Owned gated cinematic proposal/concept path applies personal-level penalties and ignores campaign novelty; fixtures unrun. Prototype and rapid execution remain explicitly blocked before funding."
     },
     {
       "id": "technology-cinematic-tools",

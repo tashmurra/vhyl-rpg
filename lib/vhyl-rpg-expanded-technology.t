@@ -1332,6 +1332,11 @@ class RpgExpandedInventionProposal: object
     retailPrice = nil
     descriptionBonus = 0
     relatedFacilities = nil
+    technologyPermissionReason()
+    { return self.techLevel > self.inventor.techLevel + 1 ? 'invention-technology-too-advanced' : nil; }
+    finalizeAssessment(value) { return value; }
+    noveltyModifier(campaignNew) { return campaignNew ? -5 : 0; }
+    prototypeExecutionReason() { return nil; }
     paidScore(subject)
     {
         if (subject == nil || !subject.ofKind(RpgSkill)) rpgExpandedReject('invention-skill');
@@ -1350,8 +1355,7 @@ class RpgExpandedInventionProposal: object
         { value.reason = 'invention-proposal-approval'; return value; }
         rpgInteger(self.techLevel,0,12); rpgInteger(self.inventor.techLevel,0,12);
         rpgInteger(self.retailPrice,0,100000000); rpgInteger(self.descriptionBonus,0,2);
-        if (self.techLevel > self.inventor.techLevel + 1)
-        { value.reason = 'invention-technology-too-advanced'; return value; }
+        value.reason = self.technologyPermissionReason(); if (value.reason != nil) return value;
         local categories = ['simple','average','complex','amazing'];
         local selected = self.category;
         if (self.softwareComplexity != nil)
@@ -1388,7 +1392,7 @@ class RpgExpandedInventionProposal: object
             value.conceptModifier -= 5; value.facilitiesCost *= 3; value.attemptCost *= 3;
         }
         if (self.relatedFacilities) value.facilitiesCost /= 10;
-        value.status = 'ready'; return value;
+        value.status = 'ready'; return self.finalizeAssessment(value);
     }
 ;
 
@@ -1498,7 +1502,7 @@ class RpgExpandedInventionConcept: object
             { local score = proposal.paidScore(related); if (score < base) base = score; }
         }
         value.modifier = assessment.conceptModifier + (self.knowledge == 'model' ? 5 : self.knowledge == 'exists' ? 2 : 0)
-            + self.variantBonus - (self.campaignNew ? 5 : 0);
+            + self.variantBonus + proposal.noveltyModifier(self.campaignNew);
         value.score = base + value.modifier; rpgInteger(value.score,-1000,1000);
         if (value.score < 3) { value.reason = 'too-difficult'; return value; }
         value.status = 'ready'; return value;
@@ -1638,6 +1642,7 @@ class RpgExpandedInventionFacilities: object
         rpgExpandedValidate(self.payer); rpgInteger(self.payer.money,0,2147483647);
         if (!holds(['testable','flawed'],self.project.theory))
         { value.reason = 'invention-facilities-theory-required'; return value; }
+        value.reason = self.project.proposal.prototypeExecutionReason(); if (value.reason != nil) return value;
         local prior = self.project.facilities;
         if (prior != nil)
         {
@@ -1771,6 +1776,7 @@ class RpgExpandedPrototypeStart: object
         { value.reason = 'prototype-start-approval'; return value; }
         if (!holds(['testable','flawed'],self.project.theory))
         { value.reason = 'prototype-theory-required'; return value; }
+        value.reason = self.project.proposal.prototypeExecutionReason(); if (value.reason != nil) return value;
         if (self.project.activePrototype != nil) { value.reason = 'prototype-already-active'; return value; }
         if (self.project.workingPrototype != nil) { value.reason = 'prototype-already-created'; return value; }
         foreach (local prior in self.project.prototypes)
@@ -2081,7 +2087,7 @@ class RpgExpandedPrototypeCompletion: object
             if (base == nil || score < base) base = score;
         }
         value.modifier = assessment.conceptModifier + (self.knowledge == 'model' ? 5 : self.knowledge == 'exists' ? 2 : 0)
-            + self.variantBonus - (self.campaignNew ? 5 : 0)
+            + self.variantBonus + proposal.noveltyModifier(self.campaignNew)
             + rpgExpandedPrototypeTeamModifier(proposal,self.attempt.assistants,self.attempt.toolsPenalty);
         value.score = base + value.modifier; rpgInteger(value.score,-1000,1000);
         if (value.score < 3) { value.reason = 'too-difficult'; return value; }
@@ -2788,5 +2794,36 @@ class RpgExpandedInventionPermission: object
         if (!self.designApproved || self.evidence == nil || self.evidence == '')
         { value.reason = 'invention-design-approval'; return value; }
         value.status = 'ready'; return value;
+    }
+;
+
+
+/** Owned concept-compatible cinematic proposal. Prototype execution remains gated. */
+class RpgExpandedCinematicProposal: RpgExpandedInventionProposal
+    permission = nil
+    technologyPermissionReason()
+    {
+        if (self.permission == nil || !self.permission.ofKind(RpgExpandedInventionPermission)
+            || self.permission.inventor != self.inventor) rpgExpandedReject('cinematic-proposal-permission');
+        if (self.permission.mode != 'cinematic') return 'rapid-proposal-execution-unavailable';
+        local value = self.permission.assess(); return value.status == 'ready' ? nil : value.reason;
+    }
+    finalizeAssessment(value)
+    {
+        value.conceptModifier = rpgExpandedCinematicInventionModifier(
+            self.softwareComplexity == nil ? value.category : nil,self.softwareComplexity,self.inventor.techLevel,self.techLevel)
+            + self.descriptionBonus;
+        local costs = rpgExpandedCinematicInventionCosts(value.category,self.retailPrice,
+            self.inventor.campaignTL,self.techLevel,self.relatedFacilities);
+        value.facilitiesCost = costs.facilities; value.attemptCost = costs.adjustedRetail; return value;
+    }
+    noveltyModifier(campaignNew) { return 0; }
+    prototypeExecutionReason() { return 'cinematic-prototype-execution-unavailable'; }
+    definition()
+    {
+        if (self.permission == nil || !self.permission.ofKind(RpgExpandedInventionPermission))
+            rpgExpandedReject('cinematic-proposal-permission');
+        return inherited() + [self.permission,self.permission.inventor,self.permission.mode,
+            self.permission.violatesOrdinaryPhysics,self.permission.designApproved,self.permission.evidence];
     }
 ;

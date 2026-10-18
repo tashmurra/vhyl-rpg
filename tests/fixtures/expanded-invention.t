@@ -6,6 +6,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-traits.t>
 #include <vhyl-rpg-expanded-equipment.t>
 #include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-technology.t>
@@ -68,11 +69,37 @@ productionCopy: RpgLiteItem id = 'survey-copy' cost = 1000 weight = 100;
 productionOrder: RpgExpandedProductionOrder id = 'copy-one' project = conceptProject payer = conceptUser recipient = conceptUser
     worker = conceptUser item = productionCopy approved = true available = true permitted = true uninterrupted = true
     evidence = 'One matching physical copy with supplied parts and available work';
+cinematicCapability: RpgExpandedInventor approved = true;
+cinematicPermission: RpgExpandedInventionPermission inventor = conceptUser designApproved = true evidence = 'Approved optical concept';
+cinematicProposal: RpgExpandedCinematicProposal inventor = conceptUser skill = conceptSkill permission = cinematicPermission
+    description = 'Compact optical survey design' mechanism = 'Optical measurement' evidence = 'Feasible cinematic design'
+    approved = true techLevel = 8 category = 'average' retailPrice = 1000;
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 220)
+        {
+            if (code == 220)
+            {
+                conceptProject.proposal = cinematicProposal; conceptUser.campaignTL = 8;
+                conceptUser.traits = [cinematicCapability]; conceptRules.cinematicInvention = true;
+                conceptAttempt.campaignNew = true; return nil;
+            }
+            if (code == 224) conceptRules.cinematicInvention = nil;
+            if (code == 225) cinematicCapability.active = nil;
+            if (code == 226) cinematicProposal.techLevel = 10;
+            if (code == 228) cinematicPermission.mode = 'rapid';
+            if (code == 230) cinematicPermission.violatesOrdinaryPhysics = true;
+            local value = code == 223 ? conceptAttempt.assess() : conceptAttempt.apply();
+            event('test.cinematic-concept'); eventValue(value.status); eventValue(value.reason); eventValue(value.score);
+            if (code == 229)
+            {
+                local funded = conceptFacilities.fund(); event('test.cinematic-funding'); eventValue(funded.status); eventValue(funded.reason);
+            }
+            if (code == 222) throw new RpgError(); return nil;
+        }
         if (code >= 200)
         {
             if (code == 200)
@@ -300,6 +327,12 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2126) { conceptInput.code = 220 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2127)
+    {
+        event('test.cinematic-state'); eventValue(conceptProject.attempts.length()); eventValue(conceptProject.theory);
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(conceptUser.money); return nil;
+    }
     if (verb == 2120) { conceptInput.code = 200 + args[1]; return vhylAct(2097,args); }
     if (verb == 2121)
     {

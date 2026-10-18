@@ -1287,3 +1287,34 @@ ordinary request's stored costs or duration.
 `test_inventor_permission` authors disabled campaign settings, missing/inactive
 capability, both tier costs, rapid restrictions, speculative physics and design
 approval. Fixtures remain unrun. Source: `full-2008`, B56–B57 and B475–B476.
+
+
+## Owned cinematic concepts
+
+`RpgExpandedCinematicProposal` extends the ordinary proposal with a matching
+`RpgExpandedInventionPermission`. Its permission mode must currently be
+`cinematic`; rapid execution rejects explicitly. The proposal retains the same
+trained primary/related skill requirements, approved mechanism and complexity
+classification. It substitutes cinematic base modifiers and campaign-relative
+cost assessments, without the ordinary one-level technology ceiling.
+
+Use it in `RpgExpandedInventionProject` and the existing
+`RpgExpandedInventionConcept`. The owned daily attempt, secret outcome, replay,
+undo and save behavior is shared. `campaignNew` contributes no penalty on this
+path; personal technology still determines the advanced-design skill penalty.
+Permission is checked before a new attempt; old receipts remain historical.
+The bound proposal also retains the permission's design and mode fields so those
+cannot be retargeted after execution.
+
+Ordinary proposals use unchanged default hooks and formulas. Cinematic facilities
+funding and prototype start currently return
+`cinematic-prototype-execution-unavailable` before charging anything. This gate
+prevents the concept path from entering an ordinary prototype outcome pipeline.
+The remaining cinematic prototype, advanced defect, extended-shift and rapid
+execution procedures still need integration.
+
+`test_cinematic_concepts`, `test_cinematic_advanced_concept` and
+`test_cinematic_concept_persistence` author campaign/capability/physics gates,
+novelty behavior, beyond-one-level attempts, unsupported-stage rejection, preview,
+rollback, undo, replay and cross-process continuation. Fixtures remain unrun.
+Source: `full-2008`, B475.
