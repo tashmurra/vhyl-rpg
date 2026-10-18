@@ -2408,7 +2408,7 @@
       "status": "partial",
       "acceptance": "Observe only one visible subject, apply vision/physiology/obstruction modifiers, and distinguish noncombat inference from ordinary combat feints.",
       "tests": ["tests/expanded.py::test_body_reading"],
-      "validation_note": "Typed skill/defaults and owned visual lie inference authored, including visibility, mask/body exclusion, concealment, physiology categories and combat rejection. Emotion/intention modes, physiology familiarity, combined concealment and complete trait integration remain pending. Fixtures unrun.",
+      "validation_note": "Typed skill/defaults and owned visual lie inference authored, including visibility, mask/body exclusion, concealment, physiology categories and combat rejection. Owned physiology familiarity now removes the species penalty on success. Emotion/intention modes, combined concealment and complete trait integration remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "perception",
         "difficulty": "average",
@@ -2475,9 +2475,10 @@
       "pages": "B181",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply the source physiology categories to each named medical/body-reading skill, reject machines and permit the specified successful familiarity check to remove the penalty.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_body_physiology"],
+      "validation_note": "Owned operation-bound physiology or common-animal biology checks remove body-reading species penalties only on success; machine and visual gates remain. Medical adapters and full skill catalogue integration remain pending. Fixtures unrun."
     },
     {
       "id": "catalogue-skill-bow",

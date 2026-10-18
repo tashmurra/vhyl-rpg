@@ -1246,3 +1246,76 @@ class RpgExpandedBodyReadingSkill: RpgExpandedSkill
         return edges;
     }
 ;
+
+/** Full-2008 B181 one physiology check for one authored operation. */
+class RpgExpandedPhysiologyCheck: RpgExpandedPhysiologyReceipt
+    id = nil
+    profile = nil
+    subject = nil
+    operation = nil
+    species = nil
+    planetType = nil
+    skill = nil
+    commonAnimal = nil
+    machine = nil
+    approved = nil
+    evidence = nil
+    boundDefinition = nil
+    result = nil
+    boundSucceeded = nil
+    definition()
+    { return [self.id,self.profile,self.subject,self.operation,self.species,self.planetType,self.skill,self.commonAnimal,self.machine,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || !holds(self.profile.physiologyChecks,self))
+            rpgExpandedReject('physiology-check-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('physiology-check-binding');
+        if (self.result.check == nil || self.result.check.achieved != self.boundSucceeded)
+            rpgExpandedReject('physiology-check-result-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.subject == nil || !self.subject.ofKind(RpgLiteProfile) || self.operation == nil
+            || self.species == nil || self.species == '' || self.skill == nil || !self.skill.ofKind(RpgLiteSkill))
+            rpgExpandedReject('physiology-check-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'physiology-check-facts-required'; return value; }
+        if (self.machine) { value.reason = 'physiology-check-machine-inapplicable'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'physiology-check-observer-unavailable'; return value; }
+        if (self.skill.attribute != rpgIQ || self.skill.techLevel == nil) rpgExpandedReject('physiology-check-skill');
+        if (self.skill.id == 'physiology')
+        {
+            if (self.skill.difficulty != 2 || self.skill.specialty != self.species) rpgExpandedReject('physiology-check-specialty');
+        }
+        else if (self.skill.id == 'biology')
+        {
+            if (self.skill.difficulty != 3 || !self.commonAnimal || self.planetType == nil
+                || self.skill.specialty != self.planetType) rpgExpandedReject('physiology-check-biology-context');
+            value.modifier = -4;
+        }
+        else rpgExpandedReject('physiology-check-skill');
+        foreach (local prior in self.profile.physiologyChecks)
+            if (prior.id == self.id || prior.operation == self.operation) rpgExpandedReject('physiology-check-repeat-operation');
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'physiology-familiarity'; context.modifier = value.modifier;
+        local score = rpgLiteScore(self.profile,context);
+        if (score == nil || score < 3) { value.reason = 'physiology-check-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local context = new RpgLiteContext(); context.skill = self.skill; context.kind = 'physiology-familiarity'; context.modifier = value.modifier;
+        value.check = rpgLiteCheck(self.profile,context); self.boundSucceeded = value.check.achieved;
+        self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
+        self.profile.physiologyChecks = self.profile.physiologyChecks + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    physiologyChecks = []
+;

@@ -755,3 +755,13 @@ modify RpgLiteSkill
 modify RpgLiteSkill
     validateBodyReading() { rpgExpandedReject('body-reading-expanded-skill-required'); }
 ;
+
+/** Optional skill-module receipt contract for cross-species observations. */
+class RpgExpandedPhysiologyReceipt: object
+    operation = nil
+    profile = nil
+    subject = nil
+    species = nil
+    result = nil
+    validateReceipt() { rpgExpandedReject('physiology-check-skills-required'); }
+;

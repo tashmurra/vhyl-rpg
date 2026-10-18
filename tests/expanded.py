@@ -9356,6 +9356,8 @@ def test(build):
     test_lie_disclosure(Session, lie_disclosure, build.out)
     body_reading = build.build("expanded-body-reading",ROOT / "tests/fixtures/expanded-body-reading.t")
     test_body_reading(Session, body_reading)
+    body_physiology = build.build("expanded-body-physiology",ROOT / "tests/fixtures/expanded-body-physiology.t")
+    test_body_physiology(Session, body_physiology, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23221,5 +23223,51 @@ def test_body_reading(Session, bundle):
         assert last(s,'test.body-reading-result') == ['resolved',None,'lying',6]
         s.action(1100,18605)
         assert last(s,'test.body-reading-result') == ['reused',None,None,6]
+    finally:
+        s.close()
+
+
+def test_body_physiology(Session, bundle, out):
+    """B181 successful relevant knowledge removes only the bound species penalty; unrun."""
+    for fail in (False,True):
+        s = Session(bundle)
+        try:
+            if fail:
+                s.action(1100,18402)
+            s.action(1100,18702)
+            assert last(s,'test.physiology-reading') == ['blocked','body-reading-physiology-check-unresolved',None,0,0]
+            for code in (18701,18702):
+                s.action(1100,code)
+            assert last(s,'test.physiology-reading')[-2:] == [0,0]
+            s.action(1100,18700)
+            s.command('undo')
+            s.action(1100,18702)
+            assert last(s,'test.physiology-reading')[-2:] == [0,0]
+            for code in (18700,18700,18702):
+                s.action(1100,code)
+            expected = ['ready',None,12 if fail else 15,3,1]
+            assert last(s,'test.physiology-reading') == expected
+            path = out / f'body-physiology-{fail}.zsave'
+            s.command(f':save {path}\n@1101')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@1101')
+            for code in (18700,18702):
+                s.action(1100,code)
+            assert last(s,'test.physiology-reading') == expected
+            s.action(1100,18705)
+            assert last(s,'test.physiology-binding') == ['body-reading-physiology-check-binding']
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (18703,18704):
+            s.action(1100,code)
+        assert last(s,'test.physiology-modifier') == [-4]
+        for code in (18700,18702):
+            s.action(1100,code)
+        assert last(s,'test.physiology-reading') == ['ready',None,15,3,1]
     finally:
         s.close()

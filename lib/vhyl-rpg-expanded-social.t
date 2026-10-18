@@ -3157,13 +3157,15 @@ class RpgExpandedBodyReadingLieDetection: RpgExpandedLieDetection
     coverPenalty = -2
     visionModifier = 0
     physiology = 'same'
+    subjectSpecies = nil
+    physiologyCheck = nil
     combat = nil
     visualEvidence = nil
     validateReadingSkill() { return self.skill.validateBodyReading(); }
     definition()
     {
         return inherited() + [self.visible,self.bodyVisible,self.concealment,self.coverPenalty,
-            self.visionModifier,self.physiology,self.combat,self.visualEvidence];
+            self.visionModifier,self.physiology,self.combat,self.visualEvidence,self.subjectSpecies,self.physiologyCheck];
     }
     readingConditions()
     {
@@ -3186,6 +3188,16 @@ class RpgExpandedBodyReadingLieDetection: RpgExpandedLieDetection
         rpgInteger(self.visionModifier,-100,100); rpgInteger(self.coverPenalty,-4,-2);
         value.modifier = self.visionModifier + (self.concealment == 'baggy' ? -1 : self.concealment == 'mask' ? -5
             : holds(['shield','cloak'],self.concealment) ? self.coverPenalty : 0);
+        if (self.physiologyCheck != nil)
+        {
+            local check = self.physiologyCheck;
+            if (!check.ofKind(RpgExpandedPhysiologyReceipt) || check.operation != self || check.profile != self.observer
+                || check.subject != self.subject || self.subjectSpecies == nil || check.species != self.subjectSpecies)
+                rpgExpandedReject('body-reading-physiology-check-binding');
+            if (check.result == nil) { value.reason = 'body-reading-physiology-check-unresolved'; return value; }
+            check.validateReceipt();
+            if (check.result.check.achieved) value.modifier -= self.speciesModifier;
+        }
         value.status = 'ready'; return value;
     }
 ;

@@ -1544,7 +1544,7 @@ authored choice of the applicable category; they are not automatically stacked.
 
 `physiology` accepts `same` (zero penalty), `similar` (-2 through -4), `different`
 (-5), `alien` (-6 or worse), or `machine` (no roll). The chosen `speciesModifier`
-must match. A successful physiology-familiarity check is not yet integrated.
+must match. An owned physiology check can remove the penalty as described below.
 Readable-subject +4 remains available. Empathy modifiers for this route reject
 pending source-specific integration. `combat = true` rejects and directs the
 author to combat feints.
@@ -1554,3 +1554,24 @@ provides a -4 default; purchased body reading provides lie detection's -4 defaul
 `test_body_reading` specifies those edges, concealment modifiers, combined visual
 and physiology penalties, blocked conditions, opposed execution and replay.
 Fixtures remain unrun. General emotion and ally-intention readings remain pending.
+
+
+### Applying physiology knowledge
+
+Bind a `RpgExpandedPhysiologyCheck` to the body-reading operation through
+`physiologyCheck`. Its `profile` must be the observer, `subject` the observed
+character, `operation` that exact assessment, and `species` the assessment's
+`subjectSpecies`. Supply an approved context and evidence. A relevant IQ/Hard
+Physiology skill must have the matching species specialty and a technology
+level. For common animals, IQ/Very Hard Biology uses its matching `planetType`
+specialty and applies -4 (full-2008 B181).
+
+Resolve the check before assessing the observation. Success removes its species
+penalty; failure leaves it unchanged. Neither result removes visual penalties or
+permits reading machines. A receipt is bound to one operation and cannot be
+rerolled or transferred. The skills library owns these checks; the social
+library depends only on the foundation's receipt contract.
+
+`test_body_physiology` covers success/failure, the biology alternative, operation
+binding, replay, rollback, undo and separate-process continuation. Fixtures
+remain unrun. Medical procedures have not yet adopted this receipt interface.
