@@ -48,6 +48,8 @@ class RpgLiteProfile: RpgProfile
     injury = 0
     fatigue = 0
     shock = 0
+    /* Pure injury extension; the default preserves the abridged penalty. */
+    shockFromInjury(amount) { return amount; }
     stunned = nil
     mentalStun = nil
     unconscious = nil

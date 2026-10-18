@@ -12,3 +12,4 @@
 
 #include <vhyl-rpg-expanded-campaign.t>
 #include <vhyl-rpg-expanded-social.t>
+#include <vhyl-rpg-expanded-health.t>

@@ -111,9 +111,12 @@
       "pages": "B419",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At full health capacity twenty or more, use one shock penalty per floor(capacity/10) injury, rounding down the resulting penalty and capping it at four.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_scaled_injury_shock"
+      ],
+      "validation_note": "High-capacity shock arithmetic and shared wound hook authored behind explicit rule choice. Cases unrun; broader injury, trait and turn-boundary integration pending."
     },
     {
       "id": "health-shock-defensive-exemption",

@@ -83,8 +83,11 @@
       "title": "Injury, treatment, recovery and fatigue",
       "pages": "B360-B361; B418-B429; B552-B553",
       "source": "full-2008",
-      "status": "pending",
-      "tests": []
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_scaled_injury_shock"
+      ],
+      "validation_note": "High-capacity shock arithmetic and shared wound hook authored behind explicit rule choice. Cases unrun; broader injury, trait and turn-boundary integration pending."
     },
     {
       "id": "magic",

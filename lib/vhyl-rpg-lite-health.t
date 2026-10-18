@@ -15,11 +15,12 @@ rpgLiteWound(profile, amount)
     rpgInteger(amount, 0, 100000);
     local result = new RpgLiteHealthResult();
     if (profile.dead || amount == 0) return result;
+    local shock = profile.shockFromInjury(amount);
     local oldHP = profile.hp(); profile.injury += amount; result.injury = amount;
     profile.woundSerial += 1;
     profile.aidUsed = nil;
     if (profile.level('high-pain-threshold') == 0)
-    { profile.shock += amount; if (profile.shock > 4) profile.shock = 4; }
+    { profile.shock += shock; if (profile.shock > 4) profile.shock = 4; }
     if (amount * 2 > profile.maxHP && !profile.unconscious)
     {
         result.check = rpgLiteAttributeCheck(profile, rpgHT, 'major-wound', 0);

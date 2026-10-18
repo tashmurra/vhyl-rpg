@@ -124,7 +124,15 @@ still require the exact compiled game. No old-save migration is provided.
 
 Complete the detailed inventory of sections, tables and catalogue entries first.
 Then finish the character/skill/trait modules, templates, social and exploration
-procedures, health, hazards, combat/tactical integration, supernatural systems,
+procedures, detailed health beyond high-capacity shock, hazards, combat/tactical integration, supernatural systems,
 creatures, technology, vehicles and campaign procedures. Each pending module has
 its own guide and status in the catalogue. The planned multi-scenario examples and
 complete cross-module validation are also outstanding.
+
+
+### High-capacity shock
+
+The [health module](health.md) now exposes the B419 shock divisor through an
+explicit `scaledInjuryShock` rule choice. It reuses the existing injury and shock
+fields; full detailed injury and treatment remain pending. The all-module umbrella
+includes this capability without enabling the choice. Authored cases are unrun.

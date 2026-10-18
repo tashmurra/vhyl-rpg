@@ -184,6 +184,20 @@ def test_employment_wealth_payroll(s):
     assert obligation_state(s) == paid
 
 
+def test_scaled_injury_shock(s):
+    for capacity, injury, expected in [
+            (10, 1, 1), (19, 3, 3), (20, 1, 0), (20, 2, 1),
+            (29, 7, 3), (30, 2, 0), (30, 8, 2), (39, 11, 3),
+            (40, 11, 2), (40, 16, 4), (100, 39, 3), (100, 100, 4)]:
+        s.action(1600, capacity, injury)
+        assert last(s, 'test.scaled-shock') == [expected]
+    for enabled, resistant, expected in [
+            (0, 0, [8, 4, 16, 4, 0]), (1, 0, [8, 2, 16, 4, 0]),
+            (1, 1, [8, 0, 16, 0, 0])]:
+        s.action(1601, enabled, resistant)
+        assert last(s, 'test.shock-integration') == expected
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -1928,6 +1942,8 @@ def test(build):
     fresh(Session,social,test_information_reactions)
     fresh(Session,social,test_trade_reactions)
     fresh(Session,social,test_trade_modifiers)
+    health = build.build('expanded-health',ROOT / 'tests/fixtures/expanded-health.t')
+    fresh(Session,health,test_scaled_injury_shock)
     minimal = build.build('expanded-campaign',ROOT / 'tests/fixtures/expanded-campaign.t')
     fresh(Session,minimal,test_campaign_minimal)
     fresh(Session,minimal,test_job_earnings)

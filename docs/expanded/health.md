@@ -1,10 +1,28 @@
 # Expanded health
 
-**Status: pending.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B429; B552-B553.
+**Status: partial.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B429; B552-B553.
 
 [Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
 
-This module has not been implemented. Its proposed filename is reserved in the catalogue only; do not include it in a game.
+Include `vhyl-rpg-expanded-health.t` after the expanded foundation. The current
+implementation supplies only the B419 high-capacity shock calculation and its
+integration with the existing wound ledger. Set `rules.scaledInjuryShock = true`
+to select that difference; inclusion alone preserves the existing calculation.
+`rpgExpandedInjuryShock(capacity, injury)` is a pure calculation for one wound:
+capacity below 20 uses each injury point, while larger capacities use complete
+increments of capacity/10 as the divisor. Drop fractional penalties and cap at 4.
+
+The existing wound path adds the resulting penalty to the same `profile.shock`,
+retains high-pain resistance and charges injury once. Unsupported low-pain
+modification rejects before injury is committed. The hook defaults to the existing
+Lite calculation when the option is disabled. No new injury or fatigue pool is
+introduced. `test_scaled_injury_shock` provides independent threshold expectations
+and integrated repeated-wound/resistance cases, but has not run while checks are
+paused.
+
+Detailed injury, knockdown/location effects, medical care, recovery and fear
+remain pending. This option does not enable a complete expanded injury profile;
+other wound behavior remains the explicitly selected existing foundation behavior.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
 

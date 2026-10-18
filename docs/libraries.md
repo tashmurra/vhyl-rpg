@@ -3,7 +3,7 @@
 Essential means required by the selected integration, not enabled in every game.
 Include the engine once. For Lite, include progression followed by the Lite umbrella; do not also include its components separately. Expanded integrations add the expanded foundation after this sequence.
 
-**The expanded conversion is incomplete.** Nine feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
+**The expanded conversion is incomplete.** Ten feature modules currently provide the scoped mechanics described below. Remaining modules are a roadmap, not includeable libraries. The [coverage ledger](expanded/coverage.json) is a chapter-level inventory; detailed catalogue enumeration remains unfinished.
 
 ## Core / essential
 
@@ -35,7 +35,7 @@ Include the engine once. For Lite, include progression followed by the Lite umbr
 | Expanded equipment | `vhyl-rpg-expanded-equipment.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/equipment.md) / [example](../examples/expanded/main.t) |
 | Expanded exploration | `vhyl-rpg-expanded-exploration.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/exploration.md) / [example](../examples/expanded/main.t) |
 | Expanded hazards | `vhyl-rpg-expanded-hazards.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/hazards.md) / no example yet |
-| Expanded health | `vhyl-rpg-expanded-health.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/health.md) / no example yet |
+| Expanded health | `vhyl-rpg-expanded-health.t` | Expanded foundation | Expanded profiles | Partial: high-capacity shock | [Guide](expanded/health.md) / [minimal fixture](../tests/fixtures/expanded-health.t) |
 | Expanded magic | `vhyl-rpg-expanded-magic.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/magic.md) / no example yet |
 | Expanded psionics | `vhyl-rpg-expanded-psionics.t` (proposed) | Expanded foundation | Expanded profiles | Not implemented | [Guide](expanded/psionics.md) / no example yet |
 | Expanded skills | `vhyl-rpg-expanded-skills.t` | Expanded foundation | Expanded profiles | Partial | [Guide](expanded/skills.md) / [example](../examples/expanded/main.t) |
