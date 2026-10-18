@@ -5019,3 +5019,190 @@ class RpgExpandedAccelerationImpact: RpgExpandedFallImpact
         return inherited();
     }
 ;
+
+/** B434 free-fall entry/adaptation; physiological facts require author evidence. */
+class RpgExpandedFreeFallResult: RpgExpandedResult
+    context = nil
+    score = nil
+    unaffected = nil
+;
+class RpgExpandedFreeFallExposure: object
+    id = nil
+    profile = nil
+    skill = nil
+    native = nil
+    susceptible = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    dueAt = nil
+    nausea = nil
+    motion = nil
+    endedAt = nil
+    boundEndedAt = nil
+    endEvidence = nil
+    boundEndEvidence = nil
+    adapted = nil
+    checks = []
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.skill,self.native,self.susceptible,self.approved,self.evidence,self.startedAt]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.profile.freeFallExposures,self)) rpgExpandedReject('free-fall-owner');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('free-fall-binding');
+        local expected = self.result.unaffected;
+        foreach (local check in self.checks)
+        {
+            if (check.exposure != self || check.boundExposure != self || check.result == nil) rpgExpandedReject('free-fall-check-history');
+            expected = check.result.unaffected;
+        }
+        if (self.endedAt != self.boundEndedAt || self.endEvidence != self.boundEndEvidence) rpgExpandedReject('free-fall-exit-binding');
+        if (self.adapted != expected || self.dueAt != self.startedAt + (self.checks.length()+1)*28800)
+            rpgExpandedReject('free-fall-state');
+        return nil;
+    }
+    resistance()
+    {
+        local value = new RpgExpandedFreeFallResult();
+        value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'resistance';
+        value.context.modifier = self.susceptible ? -4 : 0;
+        value.score = rpgLiteScore(self.profile,value.context);
+        if (!self.susceptible)
+        {
+            local skill = self.skill;
+            if (skill == nil)
+            { skill = new RpgExpandedSkill(); skill.id = 'free-fall'; skill.attribute = rpgDX; skill.difficulty = 1; skill.defaultPenalty = -5; }
+            if (!skill.ofKind(RpgExpandedSkill) || skill.id != 'free-fall' || skill.attribute != rpgDX || skill.difficulty != 1)
+                rpgExpandedReject('free-fall-skill-definition');
+            local alternative = new RpgLiteContext(); alternative.skill = skill; alternative.kind = 'resistance';
+            local score = rpgLiteScore(self.profile,alternative);
+            if (score != nil && (value.score == nil || score > value.score)) { value.score = score; value.context = alternative; }
+        }
+        if (value.score == nil || value.score < 3) { value.reason = 'free-fall-resistance-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    leave(normalGravityConfirmed,evidence)
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (!normalGravityConfirmed || evidence == nil || evidence == '')
+        { value.reason = 'free-fall-return-gravity-evidence'; return value; }
+        if (self.motion != nil)
+        {
+            self.motion.validateReceipt(); self.nausea.validateReceipt();
+            if (!self.profile.dead && self.motion.endedAt == nil && rpgLedger.seconds >= self.motion.nextCheckAt)
+            { value.reason = 'free-fall-motion-hour-due'; return value; }
+            if (self.motion.endedAt == nil)
+            { self.motion.endEvidence = evidence; if (self.motion.end().status != 'resolved') rpgExpandedReject('free-fall-exit-motion'); }
+            if (self.nausea.endedAt == nil)
+            { self.nausea.endEvidence = evidence; if (self.nausea.end().status != 'resolved') rpgExpandedReject('free-fall-exit-nausea'); }
+        }
+        self.endedAt = rpgLedger.seconds; self.boundEndedAt = self.endedAt;
+        self.endEvidence = evidence; self.boundEndEvidence = evidence;
+        value.status = 'resolved'; return value;
+    }
+    prepareNausea()
+    {
+        local nausea = new RpgExpandedNausea(); nausea.id = 'free-fall:' + self.id; nausea.profile = self.profile;
+        nausea.approved = true; nausea.causeEvidence = self.evidence; return nausea;
+    }
+    prepareMotion()
+    {
+        local motion = new RpgExpandedNauseaMotion(); motion.id = 'free-fall:' + self.id; motion.profile = self.profile;
+        motion.kind = 'free-fall'; motion.approved = true; motion.evidence = self.evidence; return motion;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('free-fall-definition');
+        local value = new RpgExpandedFreeFallResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'free-fall-physiology-evidence'; return value; }
+        rpgExpandedValidate(self.profile);
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'free-fall-patient-unavailable'; return value; }
+        foreach (local prior in self.profile.freeFallExposures)
+        { prior.validateReceipt(); if (prior.id == self.id || prior.endedAt == nil && !prior.adapted) rpgExpandedReject('free-fall-overlap'); }
+        if (self.native && self.susceptible) rpgExpandedReject('free-fall-physiology-conflict');
+        if (!self.native)
+        {
+            value = self.resistance(); if (value.status != 'ready') return value;
+            if (self.prepareNausea().assess().status != 'ready' || self.prepareMotion().assess().status != 'ready')
+            { value.status = 'blocked'; value.reason = 'free-fall-nausea-unavailable'; return value; }
+        }
+        rpgInteger(rpgLedger.seconds,0,2147454847); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        if (!self.native) value.check = rpgLiteCheck(self.profile,value.context);
+        value.unaffected = self.native || value.check.achieved;
+        self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + 28800; self.adapted = value.unaffected;
+        self.boundDefinition = self.definition(); value.status = 'resolved'; self.result = value;
+        self.profile.freeFallExposures = self.profile.freeFallExposures + [self];
+        if (!self.adapted)
+        {
+            self.nausea = self.prepareNausea(); self.motion = self.prepareMotion();
+            if (self.nausea.apply().status != 'resolved' || self.motion.apply().status != 'resolved') rpgExpandedReject('free-fall-onset-changed');
+        }
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    freeFallExposures = []
+;
+class RpgExpandedFreeFallAdaptation: object
+    exposure = nil
+    boundExposure = nil
+    result = nil
+    assess()
+    {
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedFreeFallExposure)) rpgExpandedReject('free-fall-adaptation-exposure');
+        self.exposure.validateReceipt(); local value = new RpgExpandedFreeFallResult();
+        if (self.result != nil)
+        {
+            if (self.exposure != self.boundExposure || !holds(self.exposure.checks,self)) rpgExpandedReject('free-fall-adaptation-owner');
+            value.status = 'reused'; return value;
+        }
+        if (self.exposure.endedAt != nil || self.exposure.adapted || self.exposure.profile.dead || self.exposure.susceptible)
+        { value.reason = 'free-fall-adaptation-unavailable'; return value; }
+        if (rpgLedger.seconds != self.exposure.dueAt) { value.reason = 'free-fall-adaptation-time'; return value; }
+        self.exposure.motion.validateReceipt(); self.exposure.nausea.validateReceipt();
+        if (self.exposure.motion.endedAt != nil || self.exposure.nausea.endedAt != nil)
+        { value.reason = 'free-fall-cause-ended'; return value; }
+        // Resolve the completed eighth motion hour before changing the cause.
+        if (self.exposure.motion.nextCheckAt <= rpgLedger.seconds)
+        { value.reason = 'free-fall-motion-hour-due'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147454847); return self.exposure.resistance();
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local e = self.exposure; value.check = rpgLiteCheck(e.profile,value.context); value.unaffected = value.check.achieved;
+        value.status = 'resolved'; self.result = value; self.boundExposure = e;
+        e.checks = e.checks + [self]; e.dueAt += 28800; e.adapted = value.unaffected;
+        if (e.adapted)
+        {
+            e.nausea.endEvidence = 'Successful eight-hour adaptation'; e.motion.endEvidence = e.nausea.endEvidence;
+            if (e.nausea.end().status != 'resolved' || e.motion.end().status != 'resolved') rpgExpandedReject('free-fall-recovery-changed');
+        }
+        e.validateReceipt(); return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local exposure = firstObj(RpgExpandedFreeFallExposure); exposure != nil; exposure = nextObj(exposure,RpgExpandedFreeFallExposure))
+            if (exposure.result != nil && !exposure.profile.dead)
+            {
+                exposure.validateReceipt();
+                if (exposure.endedAt == nil && !exposure.adapted && !exposure.susceptible && self.seconds+seconds > exposure.dueAt)
+                    rpgExpandedReject('free-fall-adaptation-boundary');
+            }
+        return nil;
+    }
+;

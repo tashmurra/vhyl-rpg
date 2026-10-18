@@ -2114,3 +2114,43 @@ for a minimal integration fixture. Fractional thresholds, equivalence to whole
 speeds, duplicate prevention, preview, rollback, undo and save continuation
 fixtures are authored but unrun. Multiple successive impacts from a single event,
 unsupported hit locations and special anatomy remain outside this adapter.
+
+
+## Free-fall entry and adaptation
+
+`RpgExpandedFreeFallExposure` implements entry and adaptation from `full-2008`,
+B434, using the skill/default comparison described on B197. Supply a unique `id`,
+`profile`, `approved = true` and original `evidence` establishing first entry,
+physiology and continuing free fall. `native = true` avoids an entry check.
+`susceptible = true` selects the B156 susceptibility procedure: health -4 at
+entry and no subsequent adaptation checks. These physiological flags are explicit
+author facts; automatic trait purchase accounting and learning prohibition are
+not yet supplied by this interface. Contradictory native/susceptible facts reject.
+
+An optional expanded `skill` must be the dexterity/average `free-fall` skill.
+Ordinary resistance selects the better of health and the supplied skill score.
+Without a supplied skill, it considers the dexterity -5 default; the other printed
+health -5 default cannot exceed the health alternative. Susceptibility uses health
+with its printed penalty. `assess()` previews; `apply()` commits once. Failed
+entry creates both a persistent nausea cause and a `RpgExpandedNauseaMotion` in
+`exposure.motion`. No duration is guessed for the nausea.
+
+Use the existing `RpgExpandedNauseaMotionHour` interface every completed hour,
+including explicit retching/oral-effect preparation. Create a fresh
+`RpgExpandedFreeFallAdaptation` pointing to `exposure` for each eight-hour check.
+Resolve the completed eighth motion hour before attempting adaptation. Successful
+adaptation ends this exposure's nausea and motion triggers; an independent nausea
+cause or retching episode remains intact. Failed adaptation schedules another
+check eight hours later. The shared clock prevents either deadline being skipped.
+
+`leave(true, evidence)` records an authored return to normal gravity and ends
+only this exposure's causes, including for susceptible characters. Resolve a
+completed motion hour before leaving at its exact boundary. Repeated entry,
+adaptation and exit operations do not duplicate costs or rolls.
+
+Sealed-suit choking/drowning, automatic susceptibility-trait accounting, training
+restrictions and general free-fall task caps remain outstanding. The fixture
+[`expanded-free-fall.t`](../../tests/fixtures/expanded-free-fall.t) covers entry,
+health/default choice, hourly integration, adaptation, return to gravity,
+independent nausea, rollback, undo, replay and save continuation. It is unrun
+while checks remain paused.

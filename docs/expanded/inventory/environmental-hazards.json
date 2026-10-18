@@ -2202,9 +2202,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "On first entering microgravity/free fall, a nonnative actor checks the higher of health or free-fall skill, with -4 from the relevant sickness trait.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_free_fall"
+      ],
+      "validation_note": "Owned first entry, best health/skill/default resistance, persistent nausea, required hourly motion-trigger integration and eight-hour adaptation. Authored native/susceptible physiology and explicit return to gravity; susceptibility prevents adaptation. Sealed-suit choking, trait-accounting/learning integration and task caps remain pending. Lifecycle/integration fixtures authored, unrun."
     },
     {
       "id": "hazard-freefall-nausea",
@@ -2212,9 +2215,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Failed entry checking causes nausea; retching in a sealed suit can choke the actor and uses the drowning procedure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_free_fall"
+      ],
+      "validation_note": "Owned first entry, best health/skill/default resistance, persistent nausea, required hourly motion-trigger integration and eight-hour adaptation. Authored native/susceptible physiology and explicit return to gravity; susceptibility prevents adaptation. Sealed-suit choking, trait-accounting/learning integration and task caps remain pending. Lifecycle/integration fixtures authored, unrun."
     },
     {
       "id": "hazard-freefall-adaptation",
@@ -2222,9 +2228,12 @@
       "pages": "B434",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Retry the better health/free-fall check every eight hours to adapt, except that an actor with the sickness disadvantage cannot adapt.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_free_fall"
+      ],
+      "validation_note": "Owned first entry, best health/skill/default resistance, persistent nausea, required hourly motion-trigger integration and eight-hour adaptation. Authored native/susceptible physiology and explicit return to gravity; susceptibility prevents adaptation. Sealed-suit choking, trait-accounting/learning integration and task caps remain pending. Lifecycle/integration fixtures authored, unrun."
     },
     {
       "id": "hazard-acceleration-trigger",

@@ -9161,6 +9161,8 @@ def test(build):
     test_acceleration(Session, acceleration, build.out)
     acceleration_impact = build.build('expanded-acceleration-impact',ROOT / 'tests/fixtures/expanded-acceleration-impact.t')
     test_acceleration_impact(Session, acceleration_impact, build.out)
+    free_fall = build.build('expanded-free-fall',ROOT / 'tests/fixtures/expanded-free-fall.t')
+    test_free_fall(Session, free_fall, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19431,5 +19433,63 @@ def test_acceleration_impact(Session, bundle, out):
         for code in (9000, 8905, 9002):
             s.action(2285, code)
         assert last(s, 'test.acceleration-impact-result') == ['blocked', 'acceleration-impact-time']
+    finally:
+        s.close()
+
+
+def test_free_fall(Session, bundle, out):
+    """B434 entry, eight-hour adaptation and cause-specific recovery; unrun."""
+    path = out / 'expanded-free-fall.zsave'
+    s = Session(bundle)
+    try:
+        for code in (9103, 9101, 9101, 9102, 9104):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [0, 0, 0, 0, 0]
+        s.action(2285, 9100)
+        s.command('undo')
+        s.action(2285, 9104)
+        assert last(s, 'test.free-fall') == [0, 0, 0, 0, 0]
+        for code in (9100, 9100, 9104, 9106):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [1, 0, 0, 0, 3]
+        assert last(s, 'test.free-fall-recovery') == ['blocked', 'free-fall-adaptation-time']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (31, 9105, 9104):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [1, 0, 0, 28800, 27]
+        for code in (9106, 9106, 9104):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [0, 1, 1, 28800, 30]
+    finally:
+        s.close()
+    for setup, expected in ((9107, [0, 1, 0, 0, 0]), (9110, [0, 1, 0, 0, 3])):
+        s = Session(bundle)
+        try:
+            for code in (9103, setup, 9100, 9104):
+                s.action(2285, code)
+            assert last(s, 'test.free-fall') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (9103, 9108, 9100, 9106):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-recovery') == ['blocked', 'free-fall-adaptation-unavailable']
+        for code in (9109, 9109, 9104):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [0, 0, 0, 0, 3]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (9103, 9100, 9111, 9109, 9104):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall') == [1, 0, 0, 0, 3]
     finally:
         s.close()

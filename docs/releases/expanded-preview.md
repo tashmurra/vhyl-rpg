@@ -1500,3 +1500,9 @@ Acceleration now supports one separately authored surface impact per event,
 through the existing collision/wound pipeline. Fixed-point collision velocity
 preserves low-acceleration fractions. The adapter retains the existing location
 and anatomy limits; its integration and lifecycle fixtures are unrun.
+
+
+Free-fall exposure now owns entry resistance, persistent nausea, hourly motion
+triggers, eight-hour adaptation and return-to-gravity relief. Physiological
+exceptions require author evidence. Trait accounting, training restrictions,
+sealed-suit choking and general task caps remain outstanding; fixtures are unrun.
