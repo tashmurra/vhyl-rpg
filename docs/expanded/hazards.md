@@ -2149,7 +2149,8 @@ completed motion hour before leaving at its exact boundary. Repeated entry,
 adaptation and exit operations do not duplicate costs or rolls.
 
 Sealed-suit choking/drowning, mid-exposure trait changes, ancestry composition
-spatial-awareness bonuses and complete movement integration remain outstanding. The fixture
+complete movement integration remain outstanding. The orientation-sense trait
+now supplies the spatial-awareness skill bonus. The fixture
 [`expanded-free-fall.t`](../../tests/fixtures/expanded-free-fall.t) covers entry,
 health/default choice, hourly integration, adaptation, return to gravity,
 independent nausea, rollback, undo, replay and save continuation. It is unrun

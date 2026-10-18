@@ -1660,3 +1660,66 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+
+/** B34 two-tier orientation sense; route/world answers are separate author facts. */
+class RpgExpandedOrientationSense: RpgLiteTrait
+    id = 'orientation-sense'
+    labelId = 'orientation-sense'
+    points = 5
+    approved = nil
+    templatePurchaseKind = 'expanded-orientation-sense'
+    creationCost()
+    {
+        if (!self.approved) rpgExpandedReject('unapproved-trait');
+        rpgInteger(self.level,1,2);
+        if (self.id != 'orientation-sense' || self.points != 5 || self.scope != nil || self.controlled || self.skills.length() != 0)
+            rpgExpandedReject('orientation-sense-definition');
+        return self.level * 5;
+    }
+;
+modify RpgExpandedProfile
+    orientationEnvironment = nil
+    orientationSenseLevel()
+    {
+        local count = 0; local level = 0;
+        foreach (local trait in self.traits)
+            if (trait.id == 'orientation-sense')
+            {
+                if (!trait.ofKind(RpgExpandedOrientationSense)) rpgExpandedReject('orientation-sense-definition');
+                trait.creationCost(); count += 1;
+                if (trait.active && !trait.mitigated) level = trait.level;
+            }
+        if (count > 1) rpgExpandedReject('orientation-sense-duplicate');
+        return level;
+    }
+    orientationSkillModifier(skill)
+    {
+        local level = self.orientationSenseLevel();
+        if (level == 0 || skill == nil || !skill.ofKind(RpgLiteSkill)) return 0;
+        if (!holds(['local','deep-space','cross-dimensional'],self.orientationEnvironment)) rpgExpandedReject('orientation-environment-required');
+        if (self.orientationEnvironment == 'cross-dimensional' || level == 1 && self.orientationEnvironment == 'deep-space') return 0;
+        local id = skill.studyIdentity(); local specialty = skill.studySpecialty();
+        if (id == 'body-sense' || id == 'navigation' && holds(['air','land','sea'],specialty)) return 3;
+        if (level == 2)
+        {
+            if (id == 'piloting') return 1;
+            if (holds(['aerobatics','free-fall'],id) || id == 'navigation' && holds(['space','hyperspace'],specialty)) return 2;
+        }
+        return 0;
+    }
+    catalogueSkillModifier(skill) { return inherited(skill) + self.orientationSkillModifier(skill); }
+    validateFeatures() { inherited(); self.orientationSenseLevel(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'orientation-sense') return inherited(id,level,scope);
+        local trait = new RpgExpandedOrientationSense(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedOrientationSense)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;

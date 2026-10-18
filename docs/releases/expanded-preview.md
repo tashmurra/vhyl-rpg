@@ -1517,3 +1517,9 @@ The typed free-fall skill now supplies both printed attribute defaults. Open
 free-fall exposures cap dexterity-based base scores through the shared check path,
 without changing purchased skill costs. Spatial-awareness bonuses and wider
 movement integration remain outstanding; new fixtures are unrun.
+
+
+Orientation sense now has two fixed costs and its printed skill bonuses,
+including +2 free-fall at the higher level, through shared scoring. Environment
+eligibility is explicit. North answers, route retracing, signal dependence and
+ancestry composition remain pending; fixtures are unrun.

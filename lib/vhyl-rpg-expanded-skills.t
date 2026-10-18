@@ -151,16 +151,17 @@ rpgExpandedSkillScore(profile, skill)
             local source = rpgExpandedPaidSkill(profile, pair[1], [skill]);
             if (source != nil && (score == nil || source + pair[2] > score)) score = source + pair[2];
         }
-    return score == nil ? nil : score + profile.ancestrySkillModifier(skill) + profile.catalogueTalentSkillModifier(skill);
+    return score == nil ? nil : score + profile.ancestrySkillModifier(skill) + profile.catalogueTalentSkillModifier(skill) + profile.catalogueSkillModifier(skill);
 }
 
 modify RpgExpandedProfile
     talentBonusInSkillScore() { return true; }
+    catalogueFeatureCheckModifier(skill) { return 0; }
     skillScore(skill)
     {
         if (skill.ofKind(RpgExpandedSkill)) return rpgExpandedSkillScore(self, skill);
         local score = inherited(skill);
-        return score == nil ? nil : score + self.ancestrySkillModifier(skill) + self.catalogueTalentSkillModifier(skill);
+        return score == nil ? nil : score + self.ancestrySkillModifier(skill) + self.catalogueTalentSkillModifier(skill) + self.catalogueSkillModifier(skill);
     }
 ;
 
@@ -260,7 +261,7 @@ class RpgExpandedPrerequisite: object
             if (self.minimum == nil) return true;
             local score = rpgExpandedPaidSkill(profile, self.skill, []);
             if (score == nil) return nil;
-            score += profile.ancestrySkillModifier(self.skill) + profile.catalogueTalentSkillModifier(self.skill);
+            score += profile.ancestrySkillModifier(self.skill) + profile.catalogueTalentSkillModifier(self.skill) + profile.catalogueSkillModifier(self.skill);
             return score >= self.minimum;
         }
         if (self.kind == 'trait')

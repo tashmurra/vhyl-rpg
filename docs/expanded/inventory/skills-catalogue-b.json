@@ -7280,7 +7280,8 @@
       "acceptance": "On entry use the higher health or skill for adaptation; cap dexterity-based tasks by this skill and apply spatial-awareness bonus.",
       "tests": [
         "tests/expanded.py::test_free_fall_skill",
-        "tests/expanded.py::test_free_fall"
+        "tests/expanded.py::test_free_fall",
+        "tests/expanded.py::test_orientation_sense"
       ],
       "reference_data": {
         "attribute": "dx",
@@ -7298,7 +7299,7 @@
         ],
         "prerequisites": []
       },
-      "validation_note": "Typed dexterity/average definition with both attribute defaults through shared resolution. Open owned exposures cap dexterity-based base scores before situational adjustments, including after adaptation. Spatial-awareness bonus and broader movement integration remain pending. Default/cap and persistence fixtures authored, unrun."
+      "validation_note": "Typed dexterity/average definition with both attribute defaults through shared resolution. Open owned exposures cap dexterity-based base scores before situational adjustments, including after adaptation. Spatial-awareness bonus and broader movement integration remain pending. Default/cap and persistence fixtures authored, unrun. The higher orientation-sense level now adds the printed +2 through the shared skill score and task cap, with explicit environment eligibility. New fixtures unrun."
     },
     {
       "id": "catalogue-skill-freight-handling",

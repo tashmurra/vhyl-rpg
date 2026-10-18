@@ -616,3 +616,8 @@ modify RpgExpandedProfile
     freeFallSusceptible(activeOnly) { return nil; }
     physiologySkillLearningReason(skill) { return nil; }
 ;
+
+modify RpgExpandedProfile
+    catalogueSkillModifier(skill) { return 0; }
+    catalogueFeatureCheckModifier(skill) { return self.catalogueSkillModifier(skill); }
+;

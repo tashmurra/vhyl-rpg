@@ -662,7 +662,7 @@ healthy one, must be closed before opening another for the same character.
 
 The existing whole-profile behavior is unchanged when no exposure is open. A
 neutral identity hook in the Lite score path permits the optional environment
-rule without adding random draws. Spatial-awareness bonuses and integration with
-all movement/vehicle subsystems remain pending. The minimal fixture
+rule without adding random draws. The orientation-sense trait supplies the printed spatial-awareness bonus through
+the shared skill score. Integration with all movement/vehicle subsystems remains pending. The minimal fixture
 [`expanded-free-fall-skill.t`](../../tests/fixtures/expanded-free-fall-skill.t)
 contains independent default/cap values and saved-game continuation; it is unrun.

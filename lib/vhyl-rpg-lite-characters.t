@@ -315,6 +315,7 @@ rpgLiteScore(profile, context)
             if (trait.ofKind(RpgLiteTrait) && trait.active && !trait.mitigated && holds(trait.skills, context.skill))
                 adjustment += trait.level;
         adjustment += profile.catalogueTalentCheckModifier(context.skill);
+        adjustment += profile.catalogueFeatureCheckModifier(context.skill);
         if (skillId == 'climbing' || skillId == 'escape')
             adjustment += profile.level('double-jointed') > 0 ? 5 : profile.level('flexibility') > 0 ? 3 : 0;
         if (skillId == 'climbing' || skillId == 'acrobatics') adjustment += profile.level('perfect-balance');
@@ -603,4 +604,8 @@ rpgLiteLoadLevel(weight,lift)
 
 modify RpgLiteProfile
     environmentBaseScore(context,score) { return score; }
+;
+
+modify RpgLiteProfile
+    catalogueFeatureCheckModifier(skill) { return 0; }
 ;

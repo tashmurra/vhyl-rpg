@@ -141,9 +141,12 @@
       "pages": "B34-B35",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Orientation tier costs five: knows north, retraces paths traveled within prior month, +3 body-orientation and air/land/sea navigation. Unanchored environments are excluded. Spatial tier costs ten, works in three dimensions but not cross-dimensional travel, also +1 piloting and +2 aerial movement/freefall/space-navigation skills.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_orientation_sense"
+      ],
+      "validation_note": "Fixed 5/10-point purchase, template copying and exact skill/specialty bonuses through shared raw/check paths. Explicit environment declaration gates local/deep-space/cross-dimensional behavior. North answers, month-bounded retracing, ancestry and transition integration remain pending. Expected-value fixtures authored, unrun."
     },
     {
       "id": "traits-first-orientation-signal",

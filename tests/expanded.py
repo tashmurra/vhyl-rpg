@@ -9167,6 +9167,8 @@ def test(build):
     test_free_fall_trait(Session, free_fall_trait)
     free_fall_skill = build.build('expanded-free-fall-skill',ROOT / 'tests/fixtures/expanded-free-fall-skill.t')
     test_free_fall_skill(Session, free_fall_skill, build.out)
+    orientation = build.build('expanded-orientation-sense',ROOT / 'tests/fixtures/expanded-orientation-sense.t')
+    test_orientation_sense(Session, orientation)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19566,5 +19568,30 @@ def test_free_fall_skill(Session, bundle, out):
         for code in (9109, 9304):
             s.action(2285, code)
         assert last(s, 'test.free-fall-cap') == [14, 16, 19, 3]
+    finally:
+        s.close()
+
+
+def test_orientation_sense(Session, bundle):
+    """B34 costs and specialty-specific bonuses, applied once; authored, unrun."""
+    s = Session(bundle)
+    try:
+        for code in (9400, 9404):
+            s.action(2285, code)
+        assert last(s, 'test.orientation') == [5, 0, 3, 0, 3, 0, 0, 5, 5, 0]
+        for code in (9402, 9404):
+            s.action(2285, code)
+        assert last(s, 'test.orientation') == [5, 0, 0, 0, 0, 0, 0, 5, 5, 0]
+        for code in (9401, 9404, 9405):
+            s.action(2285, code)
+        assert last(s, 'test.orientation') == [10, 2, 3, 2, 3, 1, 2, 7, 7, 0]
+        assert last(s, 'test.orientation-copy') == [1, 10]
+        for code in (9403, 9404, 9406):
+            s.action(2285, code)
+        assert last(s, 'test.orientation') == [10, 0, 0, 0, 0, 0, 0, 5, 5, 0]
+        assert last(s, 'test.orientation-environment') == ['orientation-environment-required']
+        for code in (9303, 31, 9100, 9304):
+            s.action(2285, code)
+        assert last(s, 'test.free-fall-cap') == [16, 16, 16, 3]
     finally:
         s.close()

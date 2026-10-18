@@ -1243,3 +1243,31 @@ with changed physiology. General free-fall task caps, ancestry composition and
 mid-exposure trait transformation remain pending. The integration fixture is
 [`expanded-free-fall-trait.t`](../../tests/fixtures/expanded-free-fall-trait.t);
 its cost, campaign, learning and hazard cases are authored but unrun.
+
+
+## Orientation sense
+
+`RpgExpandedOrientationSense` has two fixed levels costing 5 and 10 points
+(`full-2008`, B34). Set `approved = true`; the trait rejects custom costs, scopes,
+self-control and skill lists. The template factory copies each purchase independently.
+
+World authors must set `profile.orientationEnvironment` to `local`, `deep-space`
+or `cross-dimensional` before requesting skill scores from a character with the
+active trait. The local category includes ordinary planetary, underground and
+underwater settings where directional orientation applies. The lower level gives
+no bonus in deep space; neither level supplies a bonus across dimensions. Missing
+world facts reject instead of inferring that the ability functions.
+
+Both levels give +3 to `body-sense` and `navigation` specialties `air`, `land` and
+`sea` where the ability functions. Level two also gives +1 to `piloting` and +2
+to `aerobatics`, `free-fall`, and navigation specialties `space`/`hyperspace`.
+Bonuses enter the shared skill score once, including its legal defaults and
+prerequisite level comparisons, and therefore also affect free-fall task caps.
+They do not change purchased points or training costs. The check-only path also
+supports characters using the foundation without the expanded skill resolver.
+
+Automatic north answers, month-bounded route retracing, signal dependence,
+ancestry composition and world-transition automation remain pending. This trait
+currently implements cost and numeric skill effects, not those world procedures.
+See [`expanded-orientation-sense.t`](../../tests/fixtures/expanded-orientation-sense.t)
+for the minimal fixture and independent bonus/default/cap expectations; unrun.
