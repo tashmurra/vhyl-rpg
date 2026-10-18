@@ -9468,6 +9468,7 @@ def test(build):
     test_begging_traits(Session,begging_traits)
     appearance = build.build('expanded-appearance',ROOT / 'tests/fixtures/expanded-appearance.t')
     test_expanded_appearance(Session,appearance)
+    test_appearance_modifiers(Session,appearance)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25452,5 +25453,26 @@ def test_begging_appearance(Session, bundle, out):
         assert last(s,'test.begging-hour-state') == [2,3600,3,1,'A resident offers a meal']
         s.action(1680,24802)
         assert last(s,'test.begging-appearance-binding') == ['begging-hour-binding']
+    finally:
+        s.close()
+
+
+def test_appearance_modifiers(Session, bundle):
+    """B21 universal/standardized effects and combined B9/B101 price rounding; unrun."""
+    for setup, cost, bonus in (((24720,24707),15,3),((24720,24706),15,0),
+        ((24710,24720,24707),-30,-6),((24721,),6,2),((24721,24722),6,4),
+        ((24720,24721),9,1),((24720,24721,24722),9,3),
+        ((24718,24721,24702),8,-2),((24719,24704,24721),10,2)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,24700):
+                s.action(1680,code)
+            assert last(s,'test.appearance') == [cost,bonus]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,24723)
+        assert last(s,'test.appearance-error') == ['appearance-standardized-tier']
     finally:
         s.close()

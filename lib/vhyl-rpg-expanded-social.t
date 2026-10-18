@@ -3784,7 +3784,8 @@ class RpgExpandedAppearanceReactionContext: RpgLiteSocialContext
             rpgExpandedReject('appearance-reaction-participants');
         if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('appearance-reaction-facts');
         local trait = profile.appearanceTrait(); if (trait == nil) rpgExpandedReject('appearance-trait-required');
-        return trait.modifierForObserver(self.sees,self.compatibleAppearance,self.attracted,self.sameSex,self.otherReactionPenalties);
+        return trait.cultureModifier(trait.modifierForObserver(self.sees,self.compatibleAppearance,self.attracted,
+            self.sameSex,self.otherReactionPenalties),self.sameCulture);
     }
     traitReactionModifier(profile) { return inherited(profile) + self.appearanceModifier(profile); }
     validateParticipants(profile, target)
@@ -3799,7 +3800,7 @@ modify RpgExpandedAppearanceReactionContext
     beggingAppearanceFacts()
     {
         return [self.subject,self.observer,self.compatibleAppearance,self.sameSex,self.otherReactionPenalties,
-            self.approved,self.evidence,self.sees,self.attracted];
+            self.approved,self.evidence,self.sees,self.attracted,self.sameCulture];
     }
     beggingAppearanceModifier(profile)
     {

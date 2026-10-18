@@ -3030,6 +3030,8 @@ class RpgExpandedAppearance: RpgLiteTrait
     id = 'appearance'
     tier = 0
     presentation = 'ordinary'
+    universal = nil
+    standardized = nil
     approved = nil
     percentages = []
     creationCost()
@@ -3040,16 +3042,23 @@ class RpgExpandedAppearance: RpgLiteTrait
         rpgInteger(self.tier,-5,4);
         if (self.presentation == 'androgynous' && self.tier < 2 || self.presentation == 'impressive' && self.tier < 1)
             rpgExpandedReject('appearance-presentation-tier');
-        return [-24,-20,-16,-8,-4,0,4,12,16,20][self.tier+6];
+        if (self.standardized && self.tier < 2) rpgExpandedReject('appearance-standardized-tier');
+        local base = [-24,-20,-16,-8,-4,0,4,12,16,20][self.tier+6];
+        return rpgExpandedSignedModifiedCost(base,[self.universal ? 25 : 0,self.standardized ? -50 : 0]);
     }
     modifierForObserver(sees, compatible, attracted, sameSex, otherPenalties)
     {
         self.creationCost(); rpgInteger(otherPenalties,-1000,0);
-        if (!self.active || self.mitigated || !sees || !compatible) return 0;
+        if (!self.active || self.mitigated || !sees || (!compatible && !self.universal)) return 0;
         if (self.tier <= 1) return [-6,-5,-4,-2,-1,0,1][self.tier+6];
-        if (self.presentation != 'ordinary') return self.tier+1;
+        if (self.presentation != 'ordinary' || self.universal) return self.tier+1;
         if (self.tier >= 3 && sameSex && otherPenalties < -4) return -2;
         return attracted ? self.tier*2 : 2;
+    }
+    cultureModifier(amount, sameCulture)
+    {
+        self.creationCost(); rpgInteger(amount,-6,8);
+        return self.standardized && sameCulture && amount > 0 ? amount / 2 : amount;
     }
 ;
 modify RpgExpandedProfile

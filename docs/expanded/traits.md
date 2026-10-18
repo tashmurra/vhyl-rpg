@@ -1749,8 +1749,8 @@ before offsetting bonuses; −4 exactly does not trigger resentment.
 
 `presentation = 'androgynous'` is available at tiers 2–4; `'impressive'` is
 available from tier 1. At tiers 2–4 these use flat +3/+4/+5 modifiers. Visibility,
-compatibility, activation and mitigation still apply. Percentage-modified variants
-are rejected; universal applicability and standardized looks remain pending.
+compatibility, activation and mitigation still apply. The named universal and standardized options below are supported; arbitrary
+percentage lists remain rejected.
 
 Use `RpgExpandedAppearanceReactionContext` with subject, observer, approval and
 evidence. Its `compatibleAppearance`, inherited `sees` and `attracted`, `sameSex`
@@ -1761,3 +1761,23 @@ attention from strangers associated with extreme tiers; those incidents remain
 an author integration gap. `test_expanded_appearance` specifies the fixed table,
 flat options, visibility, compatibility, mitigation and resentment threshold.
 Fixtures remain unrun.
+
+
+Set `universal = true` to apply the appearance modifier to every observer who can
+see the subject, regardless of compatibility. Tiers 2–4 use the flat +3/+4/+5
+bonuses. Universal applicability adds 25% to the trait price, including negative
+appearance prices as specified by the signed rounding rule.
+
+Set `standardized = true` only above tier 1. This reduces cost by 50% and halves
+positive appearance bonuses for same-culture observers. Fractions round down
+under the ordinary result rounding convention (full-2008 B9); flat +3 becomes +1
+and flat +5 becomes +2. Other cultures receive the usual modifier. Resentment is
+a penalty, so this limitation does not halve it. Combine the two price modifiers
+before rounding the point cost upward (B9/B101): tier 2 with both costs 9 points.
+
+The appearance reaction context uses its inherited `sameCulture` fact. Begging
+inverts the resulting appearance modifier and binds that audience fact in its
+hourly record. `test_appearance_modifiers` covers signed prices, combined pricing,
+visibility, compatibility, culture, odd bonuses, resentment and ineligible tiers.
+Fixtures remain unrun. Narrative consequences of extreme appearance still need
+explicit authored incident integration.

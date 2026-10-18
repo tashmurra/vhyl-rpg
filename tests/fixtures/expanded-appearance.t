@@ -18,6 +18,16 @@ modify PhysicianFixtureAction
         if (code == 24706) { appearanceReaction.sees = nil; return nil; }
         if (code == 24707) { appearanceReaction.compatibleAppearance = nil; return nil; }
         if (code == 24708) { appearanceTrait.mitigated = true; return nil; }
+        if (code == 24720) { appearanceTrait.universal = true; return nil; }
+        if (code == 24721) { appearanceTrait.standardized = true; return nil; }
+        if (code == 24722) { appearanceReaction.sameCulture = nil; return nil; }
+        if (code == 24723)
+        {
+            appearanceTrait.standardized = true; appearanceTrait.tier = 1;
+            try { appearanceTrait.creationCost(); }
+            catch (RpgExpandedError error) { event('test.appearance-error'); eventValue(error.reason); }
+            return nil;
+        }
         return inherited(context);
     }
 ;
