@@ -961,6 +961,18 @@
         "tests/expanded.py::test_hire_payroll_unfunded"
       ],
       "validation_note": "Optional payer copied from agreed offer; all wage outcomes preflighted and actual wages transferred once with monthly receipt. Checks unrun; arrears, partial wages and insolvency pending."
+    },
+    {
+      "id": "wealth-advancement",
+      "module": "campaign",
+      "pages": "B291; B25-B27",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedWealthAdvancement",
+      "tests": [
+        "tests/expanded.py::test_wealth_advancement"
+      ],
+      "validation_note": "Purchased cash-qualified increase and one-time shared-point spending authored. Checks paused and unrun; cross-process continuation and employment-driven obligations pending."
     }
   ],
   "detailed_inventories": [

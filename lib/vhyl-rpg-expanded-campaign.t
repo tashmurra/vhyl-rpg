@@ -1319,3 +1319,82 @@ class RpgExpandedRecruitingAttempt: object
         self.vacancy.lastAttemptAt = rpgLedger.seconds; value.status = 'resolved'; return value;
     }
 ;
+
+modify RpgExpandedProfile
+    wealthAdvancements = []
+;
+
+/** Receipt for a purchased wealth increase, full-2008 B291. */
+class RpgExpandedWealthAdvancementResult: RpgExpandedResult
+    requiredMoney = 0
+;
+
+/** Increase an owned wealth contribution after accumulating the required money.
+ * obligationsSettled and evidence describe the authored tax/bribe adjudication.
+ * Qualification does not consume money or create a second opening allocation. */
+class RpgExpandedWealthAdvancement: object
+    id = nil
+    profile = nil
+    wealth = nil
+    targetLevel = 'comfortable'
+    targetExtraLevels = 0
+    permitted = nil
+    obligationsSettled = nil
+    evidence = nil
+    purchased = nil
+    boundProfile = nil
+    boundWealth = nil
+    boundId = nil
+    boundLevel = nil
+    boundExtraLevels = 0
+    paidPoints = 0
+    requiredMoney = 0
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.wealth == nil || !self.wealth.ofKind(RpgExpandedWealth)
+            || self.wealth.owner != self.profile || !holds(self.profile.contributions,self.wealth)
+            || self.id == nil || self.id == '') rpgExpandedReject('wealth-advancement-owner');
+        local value = new RpgExpandedWealthAdvancementResult();
+        if (self.purchased)
+        {
+            if (self.profile != self.boundProfile || self.wealth != self.boundWealth
+                || self.id != self.boundId || self.targetLevel != self.boundLevel
+                || self.targetExtraLevels != self.boundExtraLevels)
+                rpgExpandedReject('wealth-advancement-retargeted');
+            value.status = 'reused'; value.requiredMoney = self.requiredMoney; return value;
+        }
+        foreach (local previous in self.profile.wealthAdvancements)
+            if (previous.id == self.id) rpgExpandedReject('wealth-advancement-duplicate');
+        rpgExpandedValidate(self.profile);
+        rpgInteger(self.profile.money, 0, 2147483647);
+        rpgInteger(self.profile.unspentPoints, 0, 1000000);
+        rpgInteger(self.profile.developmentRevision, 0, 2147483646);
+        local target = new RpgExpandedWealth(); target.wealthLevel = self.targetLevel;
+        target.extraLevels = self.targetExtraLevels;
+        value.points = target.amounts(self.profile)[1] - self.wealth.amounts(self.profile)[1];
+        if (value.points <= 0) { value.reason = 'wealth-advancement-not-increase'; return value; }
+        value.requiredMoney = target.startingValue(self.profile.campaignTL);
+        if (!self.profile.creationComplete) { value.reason = 'wealth-advancement-after-creation'; return value; }
+        if (!self.permitted) { value.reason = 'wealth-advancement-unapproved'; return value; }
+        if (!self.obligationsSettled || self.evidence == nil || self.evidence == '')
+        { value.reason = 'wealth-advancement-obligations'; return value; }
+        if (self.profile.money < value.requiredMoney)
+        { value.reason = 'wealth-advancement-money'; return value; }
+        if (self.profile.unspentPoints < value.points)
+        { value.reason = 'wealth-advancement-points'; return value; }
+        value.status = 'ready'; return value;
+    }
+    advance()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundProfile = self.profile; self.boundWealth = self.wealth; self.boundId = self.id;
+        self.boundLevel = self.targetLevel; self.boundExtraLevels = self.targetExtraLevels;
+        self.paidPoints = value.points; self.requiredMoney = value.requiredMoney;
+        self.profile.unspentPoints -= value.points;
+        self.wealth.wealthLevel = self.targetLevel; self.wealth.extraLevels = self.targetExtraLevels;
+        self.profile.developmentRevision += 1; self.purchased = true;
+        self.profile.wealthAdvancements = self.profile.wealthAdvancements + [self];
+        value.status = 'resolved'; return value;
+    }
+;

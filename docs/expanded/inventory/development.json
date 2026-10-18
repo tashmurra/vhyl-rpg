@@ -281,9 +281,12 @@
       "pages": "B291",
       "module": "development",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require accumulated money equal to the new wealth level's starting wealth after relevant payments; changing the wealth trait must not grant that starting money again.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_wealth_advancement"
+      ],
+      "implementation_note": "Campaign module supplies RpgExpandedWealthAdvancement: target cash threshold, authored settled-obligations evidence, point difference, owned receipt and unchanged money. Tests unrun; continuation and employment obligations pending."
     },
     {
       "id": "development-inborn-trait-acquisition",

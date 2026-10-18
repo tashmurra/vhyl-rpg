@@ -7,6 +7,13 @@
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded-all.t>
 expandedRoom: Room 'Workshop';
+advancingWealthHero: RpgExpandedProfile rules = expandedRules campaignTL = 3 creationComplete = true
+    money = 5000 unspentPoints = 30 contributions = [advancingWealth];
+advancingWealth: RpgExpandedWealth owner = advancingWealthHero;
+wealthAdvance: RpgExpandedWealthAdvancement id = 'earned-fortune' profile = advancingWealthHero
+    wealth = advancingWealth targetLevel = 'wealthy' permitted = true
+    obligationsSettled = true evidence = 'settled-assessment';
+
 expandedRules: RpgExpandedRules;
 expandedHero: RpgExpandedProfile actor = player rules = expandedRules
     familiarities = [expandedFamiliarity]
@@ -398,6 +405,12 @@ class ExpandedTestAction: Action
             month.month = 1; month.dueAt = 100; month.fullMonthWorked = true;
             local value = month.settle(); event('test.hire-payroll'); eventValue(value.status); eventValue(value.reason); eventValue(value.money);
             if (code == 97) throw new RpgError();
+        }
+        if (code == 99 || code == 100)
+        {
+            local value = wealthAdvance.advance(); event('test.wealth-advance');
+            eventValue(value.status); eventValue(value.points); eventValue(value.requiredMoney);
+            if (code == 100) throw new RpgError();
         }
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
@@ -1666,6 +1679,35 @@ act(verb, args)
         }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
+    }
+    if (verb == 1242)
+    {
+        event('test.wealth-advance-state'); eventValue(advancingWealthHero.money);
+        eventValue(advancingWealthHero.unspentPoints); eventValue(advancingWealth.wealthLevel);
+        eventValue(advancingWealthHero.developmentRevision); eventValue(advancingWealthHero.wealthAdvancements.length());
+        eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1243)
+    {
+        local value = wealthAdvance.assess(); event('test.wealth-advance-preview');
+        eventValue(value.status); eventValue(value.points); eventValue(value.requiredMoney); return nil;
+    }
+    if (verb == 1244)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules; p.campaignTL = 3;
+        p.creationComplete = true; p.money = 5000; p.unspentPoints = 20;
+        local w = new RpgExpandedWealth(); w.owner = p; p.contributions = [w];
+        local offer = new RpgExpandedWealthAdvancement(); offer.id = 'boundary'; offer.profile = p;
+        offer.wealth = w; offer.targetLevel = 'wealthy'; offer.permitted = true;
+        offer.obligationsSettled = true; offer.evidence = 'settled';
+        if (args[1] == 1) p.money = 4999;
+        if (args[1] == 2) p.unspentPoints = 19;
+        if (args[1] == 3) offer.obligationsSettled = nil;
+        if (args[1] == 4) offer.permitted = nil;
+        if (args[1] == 5) p.creationComplete = nil;
+        if (args[1] == 6) offer.targetLevel = 'average';
+        local value = offer.advance(); event('test.wealth-advance-boundary'); eventValue(value.reason);
+        eventValue(p.money); eventValue(p.unspentPoints); eventValue(p.developmentRevision); return nil;
     }
     return vhylAct(verb,args);
 }

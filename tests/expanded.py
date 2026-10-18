@@ -8,6 +8,38 @@ def state(s):
     return last(s, 'test.expanded-state')
 
 
+def test_wealth_advancement(s):
+    def balances():
+        s.action(1242)
+        return last(s, 'test.wealth-advance-state')
+    initial = balances()
+    s.action(1243)
+    assert last(s, 'test.wealth-advance-preview') == ['ready', 20, 5000]
+    assert balances() == initial
+    s.action(1100, 100)
+    assert balances() == initial
+    s.action(1100, 99)
+    assert last(s, 'test.wealth-advance') == ['resolved', 20, 5000]
+    assert balances() == [5000, 10, 'wealthy', 1, 1, initial[-2], initial[-1]]
+    s.command('undo')
+    assert balances() == initial
+    s.action(1100, 99)
+    after = balances()
+    s.action(1100, 99)
+    assert last(s, 'test.wealth-advance') == ['reused', 0, 5000]
+    assert balances() == after
+    for variant, reason, money, points in [
+            (1, 'wealth-advancement-money', 4999, 20),
+            (2, 'wealth-advancement-points', 5000, 19),
+            (3, 'wealth-advancement-obligations', 5000, 20),
+            (4, 'wealth-advancement-unapproved', 5000, 20),
+            (5, 'wealth-advancement-after-creation', 5000, 20),
+            (6, 'wealth-advancement-not-increase', 5000, 20)]:
+        s.action(1244, variant)
+        assert last(s, 'test.wealth-advance-boundary') == [reason, money, points, 0]
+    assert balances() == after
+
+
 def test_numbers(s):
     before = state(s)
     # Full-2008 B170. Enumerated offsets rather than the implementation formula.
@@ -1742,7 +1774,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_skill_definition_gates,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_household_payment,test_hire_payroll,test_hire_payroll_unfunded,test_hire_candidate,test_recruiting_search,test_recruiting_legal_consequence,test_employment_acceptance,test_job_search_batch,test_job_seeking,test_study,test_history]:
+    for check in [test_numbers,test_wealth_advancement,test_skill_definition_gates,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_household_payment,test_hire_payroll,test_hire_payroll_unfunded,test_hire_candidate,test_recruiting_search,test_recruiting_legal_consequence,test_employment_acceptance,test_job_search_batch,test_job_seeking,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

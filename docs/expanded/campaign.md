@@ -764,3 +764,31 @@ rollback, undo and repeat protection. `test_hire_payroll_unfunded` checks that a
 unaffordable payroll is blocked without consuming randomness or crediting wages.
 These cases remain unrun. Partial wages, unpaid wage obligations and employer
 insolvency require explicit future procedures rather than silent partial payment.
+
+## Purchasing improved wealth
+
+`RpgExpandedWealthAdvancement` implements the purchased increase in `full-2008`
+B291. Bind it to a profile and that profile's installed `RpgExpandedWealth`, give
+it a unique opportunity `id`, and choose `targetLevel` and `targetExtraLevels`.
+Set `permitted` only after approving the in-play justification. Set
+`obligationsSettled` and a nonempty `evidence` reference after resolving applicable
+taxes, bribes and similar payments through the campaign's money operations.
+These fields do not calculate or waive those payments.
+
+`assess()` reports the point difference and target starting-wealth threshold.
+It blocks unfinished creation, unapproved or unsettled requests, decreases,
+insufficient current money and insufficient unspent advancement points. `advance()`
+must run inside the usual action transaction. It spends only the point difference,
+updates the existing wealth contribution and development revision, and retains an
+owned receipt in `profile.wealthAdvancements`. The qualifying money remains in
+the existing account; the operation neither spends it nor grants starting wealth
+again. Repeating the receipt spends nothing. A different receipt with the same
+opportunity ID is rejected, as is retargeting a committed receipt.
+
+The current threshold uses the existing money balance. Non-cash property does not
+automatically qualify as money, and this API does not sell assets or decide taxes.
+Compulsory advancement associated with sustained higher-level employment remains
+separate work. `test_wealth_advancement` covers the threshold, point cost, rejection
+paths, preview purity, rollback, undo and repeat protection. These authored cases
+have not run while build checks are paused; cross-process continuation is still
+pending for this operation.
