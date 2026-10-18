@@ -1,0 +1,449 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B52-B55",
+  "review": "Movement, time perception, additional anatomy/actions, replacement lives, favors and fitness enumerated from text. Cross-references, anatomical boundaries, authored contracts and executable validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-e-enhanced-movement",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Top-speed enhancement costs 20 per full level for one environment: ground, air, water or space. Each full level doubles top speed; a half-level costs 10 and multiplies it by 1.5. A selected lower speed does not refund points. Basic speed, basic movement and dodge remain unchanged.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-movement-course",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enhanced top speed applies only on a relatively straight smooth course under sprinting rules. Apply actual speed to eligible projectile speed/range calculations. Track acceleration and course requirements through movement procedures instead of granting the top speed to every tactical step.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-movement-prerequisites",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Water enhancement requires amphibious or aquatic construction; air requires flight; space requires flight with one of the specified space-flight variants. Air and space speed are purchased separately. Validate prerequisites before contribution installation.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-movement-handling",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "High-speed handling modifiers apply only to dexterity or operation checks for maintaining control above basic movement. Bonus enhancement is +5% per +1 up to +5; penalty limitation is -5% per -1 down to -5. Do not alter general dexterity or all vehicle skill uses.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-movement-reaction-mass",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Space speed with the reaction-mass limitation -50% represents total available velocity change rather than maximum velocity. Persist cumulative expenditure and require refueling before further changes once depleted. Do not stop inertial travel merely because the reserve is exhausted.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-movement-road",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Road-restricted ground enhancement is -50% and applies only on smooth flat surfaces. Wheeled anatomy is separate. Author provides surface eligibility and movement crossing behavior rather than deciding from location names.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-time-perception",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Rapid time perception costs 45 and includes the ordinary reflex trait; reject duplicate purchase or bonuses. Its users act before others irrespective of basic speed; users among themselves retain basic-speed order. It grants no extra physical action or movement.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-time-perception-evidence",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Rapid perception detects discrete projection frames and monitored transmission bursts without automatically decoding content. Author may allow sense checks for extremely fast objects. Specify perceived evidence, allowed check and response window; physically unreactable phenomena remain so.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-time-perception-pressure",
+      "source": "full-2008",
+      "pages": "B52",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Remove penalties solely for mental decision pressure while retaining normal physical-task duration and hurried-work penalties. Author may impose immediate decisions for events otherwise imperceptible. Distinguish player decision time from committed game time.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-tracking-targets",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Parallel target tracking costs 5 per level and extends an aim or evaluation maneuver to one additional target per level. All targets must be detected; aiming also requires at least one ready weapon per aimed target. Maintain individual target and weapon associations, not a reusable global aim bonus.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-long-life",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Extended life costs 2 per level and doubles maturity age 18, aging onset 50 and acceleration thresholds 70 and 90 for every level. Apply thresholds to the aging schedule without conferring immunity. The comparison with agelessness after seven levels is pricing advice, not a maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-extra-arms",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Two manipulating limbs are the zero-point norm; each additional ordinary arm costs 10. An ordinary arm strikes for strength-based thrust minus one crushing. Anatomy is defined by manipulation capability, independent of appearance or attachment point.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-coordination",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Additional arms permit concurrent compatible noncombat manipulation and combined use in one combat maneuver; three arms can support a shield plus a two-handed weapon. Attending to separate places additionally requires parallel tracking. Extra limbs alone grant no additional attacks or maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-grappling",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each regular-or-longer arm beyond two adds 2 to grappling and escape attempts. Having more arms than the opponent adds 3 to pinning or resisting a pin. Count usable eligible limbs, applying non-attacking and short-arm exceptions, and retain limb occupancy through restraint state.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-flexible",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Extra-flexible arms cost +50% and can coordinate with other limbs regardless of positioning or handedness. This does not automatically grant general bodily flexibility or extra attacks.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-long",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Long-arm enhancement costs +100% per effective size increment for that arm reach, including held melee weapons. Each increment adds one per die of swinging damage. Apply only to the affected limb and resolve mixed-limb weapon use explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-feet",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Foot manipulation limitation is -30% and prevents walking while those limbs manipulate. Sitting, floating and flying remain eligible. It is not automatically short; enforce movement/action compatibility before commitment.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-no-attack",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Non-attacking manipulator limitation is -50%: no punching, melee weapon use or close-combat bonus, but ranged weapons remain usable. Validate selected attack profile rather than merely testing whether the limb holds a weapon.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-short",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Short arms cost -50%, have close reach, cannot use swung weapons and reduce held melee weapon reach by one yard. If all arms are short, grappling takes -2. Define effective reach floor through the combat reach representation.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-weak",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Weak-arm limitation is -25% for half body strength or -50% for quarter body strength, rounded down. Use that strength for lifting, striking and grappling rather than lowering the full-body attribute.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-arms-mount",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Weapon-only mounting point limitation is -80%. It cannot perform other manipulation and is incompatible with foot manipulation, non-attacking, short or weak modifiers. Validate those conflicts before applying cost.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-ordinary-arm-modifiers",
+      "source": "full-2008",
+      "pages": "B53",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One- or two-armed beings price arm modifiers at one tenth the percentage per affected arm. Positive values are advantages and negative values disadvantages. A one-armed being also retains the separate -20-point missing-arm trait. Do not charge the extra-arm base price for modifying an existing ordinary arm.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-extra-attacks",
+      "source": "full-2008",
+      "pages": "B53-B54",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Additional attacks cost 25 each. Maximum available attacks cannot exceed usable limbs, natural weapons and attack powers approved by the author. Ordinary humans can purchase one extra attack; eligible nonhuman or exceptional construction may exceed it. Extra arms by themselves provide no extra attack.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-attack-action-limits",
+      "source": "full-2008",
+      "pages": "B54",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Additional attacks permit attack or feint choices, not additional aiming or other maneuvers. Off-hand penalties still apply. Integrate with the turn action ledger so the text calling this an extra attack maneuver does not grant another movement/defense/time cycle.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-attacks-all-out",
+      "source": "full-2008",
+      "pages": "B54",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All-out attack selects one bonus type for every attack that turn. Choosing the double-attack variant adds exactly one attack, not one per purchased additional attack. Apply the maneuver defense restrictions once to the shared turn.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-attacks-rapid",
+      "source": "full-2008",
+      "pages": "B54",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only one melee attack in a turn may be replaced with a rapid strike at its normal penalty. Other additional attacks receive no rapid-strike penalty, and cannot each be split again. Reject invalid allocation before resource or random consumption.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-extra-head",
+      "source": "full-2008",
+      "pages": "B54",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Each extra head costs 15 and includes one additional mouth and one parallel-tracking level. Each contains backup memories, personality and skills, but no extra mental actions. Track head identity and included contributions without charging those components separately.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-head-injury",
+      "source": "full-2008",
+      "pages": "B54",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For a multiheaded body, one head/neck attack causes at most twice total health capacity divided by head count in injury. A knockout affects only the struck head. A normally fatal critical head hit destroys that head with the capped injury instead. Author chooses destruction form; define rounding and head-count timing explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-head-extraneous",
+      "source": "full-2008",
+      "pages": "B54",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An extra head without a backup brain has a -20% limitation but retains its mouth and tracking. Injury cap for that head is health capacity divided by 1.5 times head count. Damage to the real head can still stun, knock out or kill despite intact extra heads. Track primary versus extraneous heads.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-leg-definition",
+      "source": "full-2008",
+      "pages": "B54-B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Walking limbs without manipulation are legs; two ordinary legs cost zero and kick for strength-based thrust crushing at normal reach. Manipulating feet use the arm rules. Multiple-leg prices cover the leg arrangement, not a price for every added limb.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-legs-three-four",
+      "source": "full-2008",
+      "pages": "B54-B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Three or four legs cost 5. Loss of one leaves half movement rounded down; loss of a second causes falling. Persist individual limb injury and recompute eligible mobility once per state transition.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-legs-five-six",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Five or six legs cost 10. Each lost leg reduces movement by 20% until three remain, at which point movement is 40% of normal. A further loss causes falling. Resolve the printed threshold behavior directly, without applying a generic multiplicative percentage for each injury.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-legs-seven-plus",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Seven or more legs cost 15. Each lost leg reduces movement by 10% until three remain, at which point movement is 40% of normal; another loss causes falling. Large leg counts can make the decrement wording conflict with the three-leg threshold; document an explicit supported policy rather than allowing negative movement.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-legs-modifiers",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Long legs cost +100% per effective size increment for kick reach and obstacle clambering. Inability to kick costs -50%. Apply these modifiers to all legs. For ordinary two-legged bodies the point adjustment is one tenth the percentage once, unlike per-arm pricing.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-extra-life",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A replacement life costs 25 and is consumed on return from death, reducing character value by its purchased amount. Author defines the return details and whether advancement can buy lives. Persist consumed identity across death and return rather than treating ordinary undo as resurrection.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-life-backup",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Backup-based return is -20%. Creating or updating a backup takes an authored duration of minutes or hours and possibly a facility; store character statistics at that time and a declared physical location. Return uses that snapshot and loses later traits/points, while enemies may tamper with the stored copy. Define allowed tampering and preserve the consumed-life record outside restored snapshot data.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-life-body",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Body-required return is -20%, or -40% when the required body is illegal, rare or expensive by author decision. Return initially has no physical-world interaction until acquiring a suitable body. Experiences and abilities remain intact unless backup-based return also applies. Do not automatically create a free replacement body.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-extra-mouth",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Each additional functional mouth costs 5 and can breathe, eat and speak. Additional bites require extra attacks; concurrent conversations or spoken spells require mental compartments. Track mouth-specific blockage and speech occupancy; another mouth does not by itself grant spell actions or an extra breath resource.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-one-use-favor-cost",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A one-use favor costs the rounded-up fifth of the corresponding companion, contact, contact-group or patron purchase. It retains the underlying service limits and appearance frequency. Author may grant it as an adventure reward or permit an ordinary purchase.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-one-use-favor-call",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Calling a favor checks underlying appearance frequency. Failure preserves it but prohibits another attempt until a later adventure. Success delivers eligible help and consumes the trait/value, except roll 3 or 4 preserves the obligation for later use. Persist call state and adventure identity so repeated requests cannot bypass the restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-fear-resistance",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fear resistance costs 2 per level. Add level to will for fright, intimidation resistance and fear-inducing powers; subtract it from intimidation rolls against the character. Preserve both specified adjustments where the procedure uses them, without applying a blanket will increase.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-respiratory-filter",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Respiratory filtering costs 5 and prevents ordinary inhaled contaminant effects, including dust, pollen, smoke and irritating gas. It does not protect against contact agents. Respiration independence already supplies the relevant protection; avoid redundant purchases/effects.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-fitness-basic",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Five-point fitness adds 1 to health checks, including consciousness, death and disease/toxin resistance, but changes neither health attribute nor health-based skills. It doubles recovery of fatigue from exertion, heat and similar causes, excluding supernatural power expenditure.",
+      "tests": []
+    },
+    {
+      "id": "traits-e-fitness-advanced",
+      "source": "full-2008",
+      "pages": "B55",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fifteen-point fitness replaces the lower tier with +2 health checks, double eligible fatigue recovery and half eligible fatigue loss rate. Supernatural power costs and their recovery are unaffected. Preserve fatigue provenance in the single ledger and define fractional-rate accumulation across action boundaries to prevent rounding-based free exertion.",
+      "tests": []
+    }
+  ]
+}

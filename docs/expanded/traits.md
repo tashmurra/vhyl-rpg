@@ -94,3 +94,22 @@ still require environmental oxygen or a finite reserve. Nutrition and sleep
 independence do not grant arbitrary recovery. Infectious control likewise separates
 infection, delayed transformation, purchased companion control and later release;
 insufficient advancement points cannot prevent an otherwise valid infection.
+
+
+The [fifth catalogue segment](inventory/traits-catalogue-e.json) distinguishes top
+speed from basic movement, and faster perception from extra actions. Additional
+arms, heads and mouths have separate occupancy and injury consequences. They do
+not automatically grant attacks, spell actions or mental compartments. All-out
+attack and rapid-strike allocations must share the existing turn ledger.
+
+Replacement lives need a durable consumption record even when restoring an older
+character snapshot. Backup location, preparation duration, permitted tampering and
+body acquisition require explicit authored decisions. Favors likewise retain
+adventure-level retry restrictions and can be consumed only once per successful
+call, subject to their specified exceptional roll.
+
+Fitness changes recovery according to fatigue cause. Exertion and supernatural
+power costs must retain their provenance within one fatigue ledger, including
+when both occur between rest periods. Fractional loss rates cannot be rounded
+independently for every newly constructed action. These capabilities remain
+inventory requirements and are not provided by the current trait pricing helper.
