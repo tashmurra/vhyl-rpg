@@ -195,3 +195,25 @@ A stoppage fires one shot before failing, while other outcomes can prevent all
 shots, delay an explosive or create a dud. Diagnosis, clearing and repair have
 different checks, durations and hand requirements. These states must integrate
 with ammunition, ongoing work and technology repair without duplicating costs.
+
+The [special ranged inventory](inventory/ranged-special.json) distinguishes
+shots spent, projectiles produced and hits resolved. Multiple-projectile rounds
+can use different close-range behavior, while spraying allocates one burst among
+targets and traversal gaps. Suppression persists until the next turn and can
+affect later entrants without charging another burst for each one. Its remaining
+hit capacity must be shared across all entrants.
+
+Cover interception, firing through cover and overpenetration are separate paths.
+They retain actual protected locations, selected shot line and entry/exit armor.
+A downstream target must not receive a fresh full-damage attack after protection
+has already absorbed part of the same projectile.
+
+The supplied spray-fire text has overlapping bands at firing rate sixteen and a
+gap-cost example that differs from a literal reading of the procedure. Both are
+visible in B409. These remain explicit policy decisions requiring independent
+boundary cases; no silent correction or later-printing substitution is assumed.
+
+Ranged restraints also need distinct state: taut versus slack rope, escape
+progress, consecutive failures, tether length and weapon attachment. Grenade
+countdowns and prepared-projectile expiry follow the item across ownership
+changes. Shared time and inventory integration remains pending.

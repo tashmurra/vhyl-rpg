@@ -316,6 +316,7 @@
     "inventory/tactical.json",
     "inventory/special-mobility.json",
     "inventory/targeting-elevation.json",
-    "inventory/special-weapons.json"
+    "inventory/special-weapons.json",
+    "inventory/ranged-special.json"
   ]
 }
