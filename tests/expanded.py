@@ -973,6 +973,76 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def computer_link_state(s):
+    s.action(2086)
+    return last(s,'test.link-state')
+
+
+def test_computer_links(s):
+    initial = [0,0,0,0,0,0]
+    for code in [62,61]:
+        s.action(2080,code)
+        assert computer_link_state(s) == initial
+    for code, reason in [(65,'computer-link-incompatible'),(66,'computer-link-medium-unavailable'),
+                         (67,'computer-link-address-unknown'),(68,'computer-link-credentials'),
+                         (69,'computer-link-host-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.link-operation') == ['blocked',reason]
+        assert computer_link_state(s) == initial
+        s.command('undo')
+    s.action(2080,60)
+    connected = [1,1,1,1,0,0]
+    assert computer_link_state(s) == connected
+    s.command('undo')
+    assert computer_link_state(s) == initial
+    s.action(2080,60); s.action(2080,71)
+    assert computer_link_state(s) == [1,0,1,1,0,0]
+    s.action(2080,60)
+    assert computer_link_state(s) == [1,0,1,1,0,0]
+    s.action(2080,72)
+    assert computer_link_state(s) == connected
+    s.action(2080,64)
+    assert computer_link_state(s) == connected
+    s.action(2080,63)
+    disconnected = [0,0,1,1,0,0]
+    assert computer_link_state(s) == disconnected
+    s.command('undo')
+    assert computer_link_state(s) == connected
+    s.action(2080,63)
+    for code in [60,63,70]:
+        s.action(2080,code)
+        assert computer_link_state(s) == disconnected
+
+
+def test_computer_link_persistence(Session,bundle,out):
+    for stage in range(3):
+        path = out / f'expanded-computer-link-{stage}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2080,60)
+            if stage >= 1:
+                first.action(2080,71)
+            if stage == 2:
+                first.action(2080,63)
+            saved = computer_link_state(first); first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2086')
+            assert computer_link_state(second) == saved
+            second.action(2080,60)
+            assert computer_link_state(second) == saved
+            if stage == 1:
+                second.action(2080,72)
+                assert computer_link_state(second) == [1,1,1,1,0,0]
+            second.action(2080,63)
+            second.action(2080,60)
+            assert computer_link_state(second) == [0,0,1,1,0,0]
+        finally:
+            second.close()
+
+
 def computer_data_state(s):
     s.action(2083)
     return last(s,'test.data-state')
@@ -5591,6 +5661,8 @@ def test(build):
     fresh(Session,computer,test_computer_reservations)
     fresh(Session,computer,test_terminal_switches)
     fresh(Session,computer,test_computer_storage)
+    fresh(Session,computer,test_computer_links)
+    test_computer_link_persistence(Session,computer,build.out)
     test_computer_storage_persistence(Session,computer,build.out)
     test_computer_persistence(Session,computer,build.out)
     maintenance_price = build.build('expanded-maintenance-price',ROOT / 'tests/fixtures/expanded-maintenance-price.t')

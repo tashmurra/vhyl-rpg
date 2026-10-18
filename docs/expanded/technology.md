@@ -443,3 +443,37 @@ neutral category IDs: `long-text`, `national-road-map`, `regional-navigation`,
 small or ten complex vehicles. These are storage estimates, not generated content,
 a navigation capability or a procedure for creating or copying a mind. All rows
 have authored expectations in `test_computer_storage`; those checks remain unrun.
+
+## Owned fictional computer links
+
+`RpgExpandedComputerLink` represents a connection inside the authored game world.
+It does not open a socket or inspect real credentials. Declare a unique `id`,
+distinct `first` and `second` computers, `evidence`, and four concrete world facts:
+`compatible`, `mediumAvailable`, `addressKnown` and `credentialsSatisfied`.
+These implement the B472 connection requirements. There is no generic success
+callback counted as resolving compatibility or access.
+
+`assess()` checks both hosts and these facts without changing anything.
+`connect()` records one shared link in both computers' `links`, with a timestamp.
+It does not invent a skill roll, connection duration or fee; the authored action
+owns such setting-specific costs. It also does not install software, select a
+terminal or transfer any data.
+
+`usable()` checks current power, equipment failure and access facts. Revoking
+credentials or losing the communication medium makes a connected record unusable
+without deleting its history. Restoring those facts can restore usability while
+the connection remains established. Explicit `disconnect()` ends it once, even if
+the medium or credentials are already unavailable. Historical `connect()` replay
+never reconnects a disconnected record; a new connection needs a new ID.
+
+The endpoints and event evidence are bound. Access conditions are intentionally
+live world facts and may change, while retargeting the connection is rejected.
+Mutations belong in the existing action transaction. Suitable sharing software,
+copy permission and destination storage must still be assessed by a later data
+transfer; an established link alone grants none of those capabilities.
+
+`test_computer_links` and `test_computer_link_persistence` cover every prerequisite,
+preview purity, reciprocal registration, rollback, undo, credential revocation,
+restoration, disconnect replay and separate-process continuation. Fixtures are
+authored and unrun. Connection establishment remains partial until integrated with
+transfers, terminal-link roles and the relevant software capabilities.

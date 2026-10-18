@@ -37,11 +37,33 @@ computerOverflow: RpgExpandedStoredData id = 'extra-data' host = computerHost re
     sizeMB = 1 approved = true evidence = 'Available note with declared size';
 computerRefill: RpgExpandedStoredData id = 'replacement-data' host = computerHost reference = 'replacement-log'
     sizeMB = 10 approved = true evidence = 'Another log with declared size';
+computerLink: RpgExpandedComputerLink id = 'local-link' first = computerHost second = terminalOther
+    compatible = true mediumAvailable = true addressKnown = true credentialsSatisfied = true
+    evidence = 'Compatible hosts with a known local connection and credentials';
 computerInput: object code = 0;
 class ComputerAction: Action
     exec(context)
     {
         local code = computerInput.code;
+        if (code >= 60)
+        {
+            if (code == 63 || code == 64)
+            {
+                event('test.link-disconnect'); eventValue(computerLink.disconnect());
+                if (code == 64) throw new RpgError(); return nil;
+            }
+            if (code == 65) computerLink.compatible = nil;
+            if (code == 66) computerLink.mediumAvailable = nil;
+            if (code == 67) computerLink.addressKnown = nil;
+            if (code == 68) computerLink.credentialsSatisfied = nil;
+            if (code == 69) terminalOther.powered = nil;
+            if (code == 70) computerLink.evidence = 'Changed endpoints';
+            if (code == 71) { computerLink.credentialsSatisfied = nil; return nil; }
+            if (code == 72) { computerLink.credentialsSatisfied = true; return nil; }
+            local linked = code == 62 ? computerLink.assess() : computerLink.connect();
+            event('test.link-operation'); eventValue(linked.status); eventValue(linked.reason);
+            if (code == 61) throw new RpgError(); return nil;
+        }
         if (code >= 40)
         {
             if (code == 45 || code == 46 || code == 49)
@@ -100,6 +122,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2080) { computerInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2086)
+    {
+        event('test.link-state'); eventValue(computerLink.connected ? 1 : 0); eventValue(computerLink.usable() ? 1 : 0);
+        eventValue(computerHost.links.length()); eventValue(terminalOther.links.length());
+        eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2083)
     {
         event('test.data-state'); eventValue(computerHost.usedStorageMB()); eventValue(computerHost.data.length());

@@ -733,3 +733,85 @@ rpgExpandedReferenceDataMB(category)
         if (row[1] == category) return row[2];
     rpgExpandedReject('computer-data-category');
 }
+
+modify RpgExpandedComputer
+    links = []
+;
+
+/** Fictional connection facts, including current credential and physical availability. */
+class RpgExpandedComputerLink: object
+    id = nil
+    first = nil
+    second = nil
+    compatible = nil
+    mediumAvailable = nil
+    addressKnown = nil
+    credentialsSatisfied = nil
+    evidence = nil
+    connected = nil
+    result = nil
+    connectedAt = nil
+    disconnectedAt = nil
+    boundId = nil
+    boundFirst = nil
+    boundSecond = nil
+    boundEvidence = nil
+    validateBinding()
+    {
+        if (self.id != self.boundId || self.first != self.boundFirst || self.second != self.boundSecond
+            || self.evidence != self.boundEvidence || !holds(self.first.links,self) || !holds(self.second.links,self))
+            rpgExpandedReject('computer-link-binding');
+        return nil;
+    }
+    availabilityReason()
+    {
+        if (self.first == nil || !self.first.ofKind(RpgExpandedComputer)
+            || self.second == nil || !self.second.ofKind(RpgExpandedComputer) || self.first == self.second)
+            rpgExpandedReject('computer-link-endpoints');
+        foreach (local host in [self.first,self.second])
+            if (!host.powered || host.item == nil || !host.item.ofKind(RpgLiteItem) || host.item.environmentFailure != nil)
+                return 'computer-link-host-unavailable';
+        if (!self.compatible) return 'computer-link-incompatible';
+        if (!self.mediumAvailable) return 'computer-link-medium-unavailable';
+        if (!self.addressKnown) return 'computer-link-address-unknown';
+        if (!self.credentialsSatisfied) return 'computer-link-credentials';
+        return nil;
+    }
+    usable()
+    {
+        if (self.result == nil || !self.connected) return nil;
+        self.validateBinding(); return self.availabilityReason() == nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        { self.validateBinding(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('computer-link-definition');
+        value.reason = self.availabilityReason(); if (value.reason != nil) return value;
+        foreach (local host in [self.first,self.second])
+            foreach (local prior in host.links)
+            {
+                if (prior == nil || !prior.ofKind(RpgExpandedComputerLink) || prior.result == nil
+                    || prior.first != host && prior.second != host) rpgExpandedReject('computer-link-history');
+                prior.validateBinding();
+                if (prior.id == self.id) rpgExpandedReject('computer-link-duplicate');
+            }
+        value.status = 'ready'; return value;
+    }
+    connect()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundId = self.id; self.boundFirst = self.first; self.boundSecond = self.second; self.boundEvidence = self.evidence;
+        self.first.links = self.first.links + [self]; self.second.links = self.second.links + [self];
+        self.connected = true; self.connectedAt = rpgLedger.seconds;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    disconnect()
+    {
+        if (self.result == nil) rpgExpandedReject('computer-link-not-connected');
+        self.validateBinding(); if (!self.connected) return 'reused';
+        self.connected = nil; self.disconnectedAt = rpgLedger.seconds; return 'resolved';
+    }
+;
