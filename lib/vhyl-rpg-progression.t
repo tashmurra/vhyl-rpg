@@ -6,6 +6,8 @@ modify RpgProfile
     unspentPoints = 0
     developmentOpen = nil
     developmentRevision = 0
+    /* Optional mandatory advancement can reserve discretionary point spending. */
+    developmentSpendingReason() { return nil; }
     /* Optional profile rules may reject learning before any resources are spent. */
     skillLearningReason(skill) { return nil; }
     skillLearningWithTeacherReason(skill, teacher) { return self.skillLearningReason(skill); }
@@ -132,6 +134,8 @@ rpgAssessDevelopment(offer)
     value.reason = offer.available(p);
     if (value.reason != nil) return value;
     if (value.points > p.unspentPoints) { value.reason = 'rpg.insufficient-points'; return value; }
+    value.reason = p.developmentSpendingReason();
+    if (value.reason != nil) return value;
     value.status = 'ready'; return value;
 }
 

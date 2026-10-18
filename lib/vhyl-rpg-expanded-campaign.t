@@ -428,6 +428,8 @@ class RpgExpandedMoneyExchange: object
         if (!self.permitted) { value.reason = 'money-exchange-unapproved'; return value; }
         if (self.profile.creationComplete)
         {
+            value.reason = self.profile.developmentSpendingReason();
+            if (value.reason != nil) return value;
             rpgInteger(self.profile.unspentPoints, 0, 1000000);
             if (self.profile.unspentPoints < self.points)
             { value.reason = 'money-exchange-points'; return value; }
@@ -1384,6 +1386,8 @@ class RpgExpandedWealthAdvancement: object
         { value.reason = 'wealth-advancement-money'; return value; }
         if (self.profile.unspentPoints < value.points)
         { value.reason = 'wealth-advancement-points'; return value; }
+        if (self.profile.pendingWealthObligation(self) != nil)
+        { value.reason = 'employment-wealth-priority'; return value; }
         value.status = 'ready'; return value;
     }
     advance()
@@ -1465,6 +1469,15 @@ class RpgExpandedEmploymentWealthReview: object
     record()
     {
         local value = self.assess(); if (value.status != 'required') return value;
+        local existing = self.employment.owner.pendingWealthObligation(nil);
+        if (existing != nil)
+        {
+            if (existing.wealth != self.wealth || existing.targetLevel != value.targetLevel
+                || existing.targetExtraLevels != value.targetExtraLevels)
+                rpgExpandedReject('employment-wealth-obligation-conflict');
+            self.employment.wealthObligations = self.employment.wealthObligations + [existing];
+            value.obligation = existing; value.status = 'pending'; return value;
+        }
         local obligation = new RpgExpandedWealthAdvancement();
         /* Object identity supplies an unambiguous opportunity key across saves. */
         obligation.id = obligation; obligation.profile = self.employment.owner; obligation.wealth = self.wealth;
@@ -1480,4 +1493,28 @@ class RpgExpandedEmploymentWealthResult: RpgExpandedWealthAdvancementResult
     targetLevel = nil
     targetExtraLevels = 0
     obligation = nil
+;
+
+modify RpgExpandedProfile
+    /** Shared pending obligations have priority; exempt only the receipt being paid. */
+    pendingWealthObligation(exempt)
+    {
+        foreach (local employment in self.employments)
+        {
+            if (employment == nil || !employment.ofKind(RpgExpandedEmployment) || employment.owner != self)
+                rpgExpandedReject('employment-wealth-owner');
+            foreach (local obligation in employment.wealthObligations)
+            {
+                if (obligation == nil || !obligation.ofKind(RpgExpandedWealthAdvancement)
+                    || obligation.profile != self) rpgExpandedReject('employment-wealth-owner');
+                if (!obligation.purchased && obligation != exempt) return obligation;
+            }
+        }
+        return nil;
+    }
+    developmentSpendingReason()
+    {
+        local reason = inherited(); if (reason != nil) return reason;
+        return self.pendingWealthObligation(nil) == nil ? nil : 'employment-wealth-priority';
+    }
 ;

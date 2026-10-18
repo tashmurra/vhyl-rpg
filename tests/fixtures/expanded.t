@@ -1757,6 +1757,35 @@ act(verb, args)
         eventValue(p.unspentPoints); eventValue(p.money); eventValue(employment.monthlyPay);
         eventValue(employment.wealthObligations.length()); return nil;
     }
+    if (verb == 1247)
+    {
+        local p = new RpgExpandedProfile(); p.rules = expandedRules; p.campaignTL = 3;
+        p.creationComplete = true; p.money = 5000; p.unspentPoints = 30; p.developmentOpen = true;
+        local w = new RpgExpandedWealth(); w.owner = p; p.contributions = [w];
+        local job = new RpgExpandedJob(); job.id = 'income'; job.wealthLevel = 'comfortable';
+        local a = new RpgExpandedEmployment(); a.id = 'first-job'; a.owner = p; a.job = job;
+        local b = new RpgExpandedEmployment(); b.id = 'second-job'; b.owner = p; b.job = job;
+        p.employments = [a,b];
+        local review = new RpgExpandedEmploymentWealthReview(); review.employment = a;
+        review.wealth = w; review.obligationsSettled = true; review.evidence = 'settled';
+        local obligation = review.record().obligation; review.employment = b;
+        local shared = review.record(); event('test.employment-wealth-priority');
+        eventValue(shared.status); eventValue(shared.obligation == obligation ? 1 : 0);
+        local skill = new RpgExpandedSkill(); local training = new RpgExpandedTraining();
+        training.skill = skill; training.points = 0; p.skills = [training];
+        local offer = new RpgDevelopment(); offer.profile = p; offer.training = training; offer.unlocked = true;
+        eventValue(rpgDevelop(offer).reason); eventValue(training.points);
+        local exchange = new RpgExpandedMoneyExchange(); exchange.profile = p;
+        exchange.id = 'windfall'; exchange.permitted = true; eventValue(exchange.exchange().reason);
+        local unrelated = new RpgExpandedWealthAdvancement(); unrelated.id = 'other'; unrelated.profile = p;
+        unrelated.wealth = w; unrelated.permitted = true; unrelated.obligationsSettled = true;
+        unrelated.evidence = 'settled'; eventValue(unrelated.advance().reason);
+        eventValue(p.unspentPoints); eventValue(p.money);
+        eventValue(obligation.advance().status); eventValue(p.unspentPoints);
+        eventValue(review.record().status); eventValue(rpgDevelop(offer).status);
+        eventValue(training.points); eventValue(p.unspentPoints); eventValue(p.developmentRevision);
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

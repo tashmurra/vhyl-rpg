@@ -789,7 +789,7 @@ opportunity ID is rejected, as is retargeting a committed receipt.
 The current threshold uses the existing money balance. Non-cash property does not
 automatically qualify as money, and this API does not sell assets or decide taxes.
 The explicit employment review below records compulsory next-level obligations;
-automatic wage integration and advancement priority remain separate work. `test_wealth_advancement` covers the threshold, point cost, rejection
+automatic wage integration remains separate work. `test_wealth_advancement` covers the threshold, point cost, rejection
 paths, preview purity, rollback, undo and repeat protection.
 `test_wealth_advancement_sequence` covers buying off a negative wealth level,
 successive point differences, duplicate IDs, retargeting and reuse of an earlier
@@ -817,10 +817,17 @@ Lack of points leaves it pending; no debt of invented points or free trait incre
 is supplied. Repeated review returns the same pending obligation even if savings
 subsequently fall. Once paid, review can require the next level, stopping when the
 employee matches or exceeds the job's category. Each purchase rechecks current
-money and points. The author must route mandatory advancement through this record;
-unrelated progression purchases are not yet gated by employment obligations.
+money and points. The author must route mandatory advancement through this record. Pending
+obligations block ordinary progression purchases, point-for-money exchanges and
+unrelated wealth purchases with `employment-wealth-priority`. The ordinary
+progression hook returns no restriction when this subsystem is absent. Reviews
+from multiple employments share the same next-level obligation; paying it once
+clears all those references. After payment, review the remaining required levels
+before offering discretionary purchases.
 
 `test_employment_wealth_requirements` covers explicit-category rejection, pure
 preview, successive thresholds, unfunded retention and unchanged wages/money.
-It remains unrun. Automatic wage-review dispatch, priority over other advancement,
-and obligation-specific save continuation remain integration work.
+`test_employment_wealth_priority` covers shared obligations, blocked spending,
+unchanged resources and reopening purchases after payment. Both remain unrun.
+Automatic wage-review dispatch and obligation-specific save continuation remain
+integration work.
