@@ -3766,7 +3766,28 @@ retains the -5 undiagnosed penalty (full-2008 B223). Unresolved cases block.
 
 This derives the prepared score without rewriting `conditions.diagnosed`.
 Operation histories bind the selected case and validate its finding and kind.
-Another examiner's finding requires a consultation adapter and currently blocks;
+Another examiner's finding requires the consultation receipt described below;
 a successful hint is never silently promoted to a complete diagnosis.
 `test_diagnosis_surgery` specifies successful, incomplete and failed findings,
 case mismatch and altered-result rejection. Fixtures remain unrun.
+
+
+### Consulting another examiner
+
+`RpgExpandedDiagnosticConsultation` records communication of a specific completed
+`diagnosis` to a `recipient`. Supply a unique `id`, `received`, `understood` and
+evidence establishing communication and comprehension. This is an authored
+integration contract, not an additional medical roll. `assess()` is pure;
+`deliver()` records the finding and its kind once, without charging time or
+changing its certainty. A failed diagnosis has no finding to deliver.
+
+Bind that receipt to surgery through `diagnosisConsultation`. The recipient must
+be the surgeon and the diagnosis must be the operation's selected case. Until
+the receipt is delivered, the operation remains blocked. A delivered hint still
+incurs the undiagnosed penalty. Subsequent surgery validation checks the original
+case and consultation history. Language, access and the duration of any actual
+conversation remain the author's responsibility.
+
+`test_diagnostic_consultation` covers complete findings, hints, comprehension
+failure, absent findings, replay, rollback, undo and separate-process continuation.
+Fixtures remain unrun.

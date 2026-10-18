@@ -9366,6 +9366,8 @@ def test(build):
     test_diagnosis_equipment(Session, diagnosis_equipment, build.out)
     diagnosis_surgery = build.build("expanded-diagnosis-surgery",ROOT / "tests/fixtures/expanded-diagnosis-surgery.t")
     test_diagnosis_surgery(Session, diagnosis_surgery)
+    diagnostic_consultation = build.build("expanded-diagnostic-consultation",ROOT / "tests/fixtures/expanded-diagnostic-consultation.t")
+    test_diagnostic_consultation(Session, diagnostic_consultation, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23403,5 +23405,49 @@ def test_diagnosis_surgery(Session, bundle):
         try:
             s.action(2285,18901); s.action(2285,mutation)
             assert last(s,'test.diagnosis-surgery-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_diagnostic_consultation(Session, bundle, out):
+    """A received finding transfers clinical knowledge, not diagnostic certainty; unrun."""
+    for complete, score in ((False,5),(True,10)):
+        path = out / f'diagnostic-consultation-{complete}.zsave'
+        s = Session(bundle)
+        try:
+            if complete:
+                s.action(2285,19100)
+            for code in (18901,19101):
+                s.action(2285,code)
+            assert last(s,'test.diagnosis-surgery')[:2] == ['blocked','surgical-diagnosis-consultation-required']
+            for code in (19201,19203):
+                s.action(2285,code)
+            assert last(s,'test.consultation-state') == [0,3,0]
+            s.action(2285,19200)
+            s.command('undo')
+            s.action(2285,19203)
+            assert last(s,'test.consultation-state') == [0,3,0]
+            for code in (19200,19200,19101,19203):
+                s.action(2285,code)
+            assert last(s,'test.diagnosis-surgery') == ['ready',None,score,0,3]
+            assert last(s,'test.consultation-state') == [1,3,0]
+            s.command(f':save {path}\n@2286')
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2286')
+            for code in (19200,19101):
+                s.action(2285,code)
+            assert last(s,'test.diagnosis-surgery') == ['ready',None,score,0,3]
+        finally:
+            s.close()
+    for setup, reason in ((19202,'diagnostic-consultation-communication-required'),(18905,'diagnostic-consultation-no-finding')):
+        s = Session(bundle)
+        try:
+            for code in (setup,18901,19200,19203):
+                s.action(2285,code)
+            assert last(s,'test.consultation-result') == ['blocked',reason]
+            assert last(s,'test.consultation-state') == [0,3,0]
         finally:
             s.close()

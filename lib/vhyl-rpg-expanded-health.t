@@ -4510,14 +4510,27 @@ class RpgExpandedSurgicalOperation: object
     physiologyCheck = nil
     diagnosis = nil
     diagnosisCaseId = nil
+    diagnosisConsultation = nil
     diagnosisAssessment()
     {
         local value = new RpgExpandedResult();
-        if (self.diagnosis == nil) { value.status = 'ready'; return value; }
+        if (self.diagnosis == nil)
+        {
+            if (self.diagnosisConsultation != nil) rpgExpandedReject('surgical-diagnosis-consultation-binding');
+            value.status = 'ready'; return value;
+        }
         if (!self.diagnosis.ofKind(RpgExpandedDiagnosis) || self.diagnosis.patient != self.patient
             || self.diagnosisCaseId == nil || self.diagnosis.caseId != self.diagnosisCaseId)
             rpgExpandedReject('surgical-diagnosis-case-binding');
-        if (self.diagnosis.examiner != self.assessment.surgeon)
+        if (self.diagnosisConsultation != nil)
+        {
+            local consultation = self.diagnosisConsultation;
+            if (!consultation.ofKind(RpgExpandedDiagnosticConsultation) || consultation.diagnosis != self.diagnosis
+                || consultation.recipient != self.assessment.surgeon) rpgExpandedReject('surgical-diagnosis-consultation-binding');
+            if (consultation.completedAt == nil) { value.reason = 'surgical-diagnosis-consultation-required'; return value; }
+            consultation.validateReceipt();
+        }
+        else if (self.diagnosis.examiner != self.assessment.surgeon)
         { value.reason = 'surgical-diagnosis-consultation-required'; return value; }
         if (self.diagnosis.result == nil) { value.reason = 'surgical-diagnosis-unresolved'; return value; }
         self.diagnosis.validateReceipt();
@@ -4570,7 +4583,7 @@ class RpgExpandedSurgicalOperation: object
             skill.attribute,skill.difficulty,skill.techLevel,c,self.durationSeconds,self.approved,
             self.procedureEvidence,self.dropDestination,c.techLevel,c.anesthetic,c.sterile,c.site,
             c.diagnosed,c.fieldExpedient,c.equipmentQualityModifier,c.physiologyModifier,
-            c.otherMissingEquipmentModifier,c.earlyAntisepsis,self.physiology,self.subjectSpecies,self.physiologyCheck,self.diagnosis,self.diagnosisCaseId];
+            c.otherMissingEquipmentModifier,c.earlyAntisepsis,self.physiology,self.subjectSpecies,self.physiologyCheck,self.diagnosis,self.diagnosisCaseId,self.diagnosisConsultation];
     }
     validateReceipt()
     {
@@ -4580,6 +4593,7 @@ class RpgExpandedSurgicalOperation: object
             if (current[index] != self.boundDefinition[index]) rpgExpandedReject('surgical-operation-binding');
         if (!holds(self.patient.surgicalOperations,self)) rpgExpandedReject('surgical-operation-history');
         if (self.diagnosis != nil) self.diagnosis.validateReceipt();
+        if (self.diagnosisConsultation != nil) self.diagnosisConsultation.validateReceipt();
         return nil;
     }
     assess()
@@ -8566,4 +8580,62 @@ class RpgExpandedDiagnosis: object
 ;
 modify RpgExpandedProfile
     diagnoses = []
+;
+
+/** Authored communication contract: a specific diagnostic finding was understood. */
+class RpgExpandedDiagnosticConsultation: object
+    id = nil
+    diagnosis = nil
+    recipient = nil
+    received = nil
+    understood = nil
+    evidence = nil
+    completedAt = nil
+    boundCompletedAt = nil
+    boundDefinition = nil
+    boundFinding = nil
+    boundKind = nil
+    definition() { return [self.id,self.diagnosis,self.recipient,self.received,self.understood,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.completedAt == nil || self.completedAt != self.boundCompletedAt || self.completedAt > rpgLedger.seconds
+            || !holds(self.recipient.diagnosticConsultations,self)) rpgExpandedReject('diagnostic-consultation-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('diagnostic-consultation-binding');
+        self.diagnosis.validateReceipt();
+        if (self.diagnosis.result.finding != self.boundFinding || self.diagnosis.result.findingKind != self.boundKind)
+            rpgExpandedReject('diagnostic-consultation-finding-binding');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedDiagnosisResult();
+        if (self.completedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.diagnosis == nil || !self.diagnosis.ofKind(RpgExpandedDiagnosis)
+            || self.recipient == nil || !self.recipient.ofKind(RpgExpandedProfile)) rpgExpandedReject('diagnostic-consultation-definition');
+        if (self.diagnosis.result == nil) { value.reason = 'diagnostic-consultation-unresolved'; return value; }
+        self.diagnosis.validateReceipt();
+        if (!self.received || !self.understood || self.evidence == nil || self.evidence == '')
+        { value.reason = 'diagnostic-consultation-communication-required'; return value; }
+        if (self.recipient.dead || self.recipient.unconscious)
+        { value.reason = 'diagnostic-consultation-recipient-unavailable'; return value; }
+        if (self.diagnosis.result.finding == nil) { value.reason = 'diagnostic-consultation-no-finding'; return value; }
+        foreach (local prior in self.recipient.diagnosticConsultations)
+            if (prior.id == self.id || prior.diagnosis == self.diagnosis) rpgExpandedReject('diagnostic-consultation-duplicate');
+        value.status = 'ready'; return value;
+    }
+    deliver()
+    {
+        local value = self.assess();
+        if (value.status == 'reused') { value.finding = self.boundFinding; value.findingKind = self.boundKind; return value; }
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundFinding = self.diagnosis.result.finding; self.boundKind = self.diagnosis.result.findingKind;
+        self.completedAt = rpgLedger.seconds; self.boundCompletedAt = self.completedAt;
+        self.recipient.diagnosticConsultations = self.recipient.diagnosticConsultations + [self];
+        value.finding = self.boundFinding; value.findingKind = self.boundKind; value.status = 'resolved'; return value;
+    }
+;
+modify RpgExpandedProfile
+    diagnosticConsultations = []
 ;
