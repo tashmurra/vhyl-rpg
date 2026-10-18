@@ -1407,3 +1407,10 @@ credit the existing needs ledger. `tests/fixtures/expanded-forage-food.t` covers
 collection, duplicate rejection and consumption with rollback, undo and saved
 continuation; its assertions are authored, unrun. Cooking procedures, spoilage,
 preservation and poisoned-food consumption tracking remain pending.
+
+Gathered fish and meat now support an owned
+[smoking batch](equipment.md#smoking-gathered-meat-and-fish). The operation uses an
+authored fire interval and duration, keeps the same meal stock, and marks it
+preserved only after uninterrupted coverage. It does not create extra rations or
+supply a shelf-life model. The earlier preservation gap is partially addressed;
+authored fixtures remain unrun.

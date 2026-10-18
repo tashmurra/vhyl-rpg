@@ -659,3 +659,35 @@ successful commit adds stock to inventory. Replay cannot duplicate the yield,
 including after some or all of the food has been consumed. Readiness for eating
 is separate from collection. See [claiming gathered food](exploration.md#claiming-gathered-food)
 and [consumption](health.md#consuming-food-inventory) for integration.
+
+## Smoking gathered meat and fish
+
+`RpgExpandedSmokingBatch` implements the B427 preservation path for a whole
+`RpgExpandedFoodStock` whose `foodKind` is `meat` or `fish`. Harvest assigns this
+kind from the recorded forage method. Supply the owner, stock, a concrete
+`RpgExpandedSmokingFire`, duration in seconds, approval and evidence establishing
+preparation conditions and enough fire capacity for the batch. B427 specifies
+neither duration nor a drying-weight conversion: duration is authored and the
+operation preserves the stock's quantity and weight.
+
+The fire records its ID, lighting time, fuel coverage deadline and supporting
+evidence. Its `extinguish()` method records the current shared-ledger time once;
+relighting requires a new fire record. These fields describe an actual authored
+fire, not an automatic fuel purchase or fire-lighting procedure.
+
+Call `assess()` and then `start()`. The operation owns its start and completion
+times, binds the request and locks the stack against ordinary use. Advance the
+existing world clock normally; `assessCompletion()` remains blocked until the
+configured interval has elapsed. `complete()` requires fire coverage throughout
+that interval and unchanged quantity and ownership. It marks the same food
+preserved and ready to eat, releasing the lock without adding meals or charging
+time again. A fire extinguished before completion prevents success; cancellation
+releases the stock without granting preservation or undoing elapsed time.
+
+Replay does not repeat processing, even after some preserved meals are eaten.
+The fixture `tests/fixtures/expanded-food-smoking.t` uses an explicitly synthetic
+60-second author duration to exercise boundaries, interruption, cancellation,
+quantity conservation, rollback, undo and saved continuation. Assertions are
+unrun. Fuel inventory, lighting, automatic cooking times, drying weight and
+spoilage/shelf-life rules remain outside this operation; no values are invented
+for them.

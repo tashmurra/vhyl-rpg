@@ -2320,9 +2320,12 @@
       "pages": "B427",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Meat and fish may be preserved over a fire and added to rations; require the actual food and fire and conserve inventory quantity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_food_smoking"
+      ],
+      "validation_note": "Owned whole-stack smoking binds actual meat/fish inventory, a concrete fire interval and an explicitly authored duration/capacity/preparation contract. The batch locks the item, completes only after the shared clock reaches its deadline and uninterrupted fire coverage, and marks the unchanged stock preserved/edible. Cancellation and fire interruption do not duplicate stock or grant preservation. Boundary, conservation, rollback, undo and saved continuation assertions authored, unrun. B427 supplies no universal smoking time, mass conversion or shelf life; these are not invented. Fuel inventory, lighting procedures and spoilage remain pending."
     },
     {
       "id": "health-foraging-terrain-penalties",

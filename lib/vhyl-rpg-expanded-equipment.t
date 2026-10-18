@@ -1103,8 +1103,119 @@ class RpgExpandedForageHarvest: object
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
         self.boundDefinition = self.definition(); self.stock.quantity = self.source.availableYield().meals;
-        self.stock.gatheredFrom = self.source; self.profile.equipment = self.profile.equipment + [self.stock];
+        self.stock.gatheredFrom = self.source; self.stock.foodKind = self.source.foodKind(); self.profile.equipment = self.profile.equipment + [self.stock];
         self.source.creditedHarvest = self; self.profile.forageHarvests = self.profile.forageHarvests + [self];
         self.result = value; value.status = 'resolved'; return value;
+    }
+;
+
+/** Concrete authored fire interval. Extinguishing records when coverage ended. */
+class RpgExpandedSmokingFire: object
+    id = nil
+    litAt = 0
+    fuelUntil = 0
+    evidence = nil
+    extinguishedAt = nil
+    definition() { return [self.id,self.litAt,self.fuelUntil,self.evidence]; }
+    covers(start, finish)
+    {
+        if (self.id == nil || self.id == '' || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('smoking-fire-facts');
+        rpgInteger(self.litAt,0,2147483647); rpgInteger(self.fuelUntil,self.litAt,2147483647);
+        return start >= self.litAt && finish <= self.fuelUntil
+            && (self.extinguishedAt == nil || self.extinguishedAt >= finish);
+    }
+    extinguish()
+    { if (self.extinguishedAt == nil) self.extinguishedAt = rpgLedger.seconds; return nil; }
+;
+modify RpgExpandedProfile
+    smokingBatches = []
+;
+/** B427 whole-stack smoking; author supplies duration and preparation conditions. */
+class RpgExpandedSmokingBatch: object
+    id = nil
+    profile = nil
+    stock = nil
+    fire = nil
+    seconds = nil
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    dueAt = nil
+    endedAt = nil
+    cancelled = nil
+    boundDefinition = nil
+    boundQuantity = nil
+    definition()
+    { return [self.id,self.profile,self.stock,self.stock.foodKind,self.fire,self.seconds,self.approved,self.evidence] + self.fire.definition(); }
+    validateBinding()
+    {
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('smoking-batch-binding');
+        if (!holds(self.profile.smokingBatches,self)) rpgExpandedReject('smoking-batch-history');
+        return nil;
+    }
+    supplyReason()
+    {
+        if (!holds(self.profile.equipment,self.stock) || self.stock.quantity < 1) return 'smoking-food-unavailable';
+        local owners = 0;
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            if (holds(owner.equipment,self.stock)) owners += 1;
+        if (owners != 1) rpgExpandedReject('smoking-food-ownership');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.stock == nil || !self.stock.ofKind(RpgExpandedFoodStock)
+            || self.fire == nil || !self.fire.ofKind(RpgExpandedSmokingFire)) rpgExpandedReject('smoking-batch-definition');
+        local value = new RpgExpandedResult();
+        if (self.startedAt != nil)
+        { self.validateBinding(); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'smoking-preparation-facts'; return value; }
+        if (!holds(['fish','meat'],self.stock.foodKind)) { value.reason = 'smoking-food-kind'; return value; }
+        rpgInteger(self.seconds,1,86400); rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds);
+        rpgInteger(self.stock.quantity,1,1000000);
+        if (self.stock.preserved || self.stock.smokingBatch != nil) { value.reason = 'smoking-food-already-processed'; return value; }
+        value.reason = self.supplyReason(); if (value.reason != nil) return value;
+        if (!self.fire.covers(rpgLedger.seconds,rpgLedger.seconds+self.seconds)) { value.reason = 'smoking-fire-coverage'; return value; }
+        foreach (local prior in self.profile.smokingBatches)
+            if (prior.id == self.id) rpgExpandedReject('smoking-batch-duplicate');
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.boundQuantity = self.stock.quantity;
+        self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt+self.seconds;
+        self.stock.smokingBatch = self; self.profile.smokingBatches = self.profile.smokingBatches + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessCompletion()
+    {
+        self.assess(); local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'smoking-not-started'; return value; }
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        if (self.stock.smokingBatch != self || self.stock.quantity != self.boundQuantity) rpgExpandedReject('smoking-food-changed');
+        value.reason = self.supplyReason(); if (value.reason != nil) return value;
+        if (!self.fire.covers(self.startedAt,self.dueAt)) { value.reason = 'smoking-fire-interrupted'; return value; }
+        if (rpgLedger.seconds < self.dueAt) { value.reason = 'smoking-not-ready'; return value; }
+        value.status = 'ready'; return value;
+    }
+    complete()
+    {
+        local value = self.assessCompletion(); if (value.status != 'ready') return value;
+        self.stock.preserved = true; self.stock.readyToEat = true; self.stock.preparationEvidence = self.evidence;
+        self.stock.smokingBatch = nil; self.endedAt = rpgLedger.seconds; value.status = 'resolved'; return value;
+    }
+    cancel()
+    {
+        local value = self.assess(); if (self.startedAt == nil) { value.status = 'blocked'; value.reason = 'smoking-not-started'; return value; }
+        if (self.endedAt != nil) return value;
+        if (self.stock.smokingBatch != self) rpgExpandedReject('smoking-food-changed');
+        self.stock.smokingBatch = nil; self.endedAt = rpgLedger.seconds; self.cancelled = true;
+        value.status = 'resolved'; return value;
     }
 ;

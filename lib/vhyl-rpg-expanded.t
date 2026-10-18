@@ -377,6 +377,10 @@ class RpgExpandedForageTools: object
 
 /** Shared inventory unit: one ordinary meal per quantity, using the existing item ledger. */
 class RpgExpandedFoodStock: RpgLiteItem
+    foodKind = nil
+    preserved = nil
+    smokingBatch = nil
+    usableBy(profile) { return self.smokingBatch == nil && inherited(profile); }
     quantity = 0
     readyToEat = nil
     preparationEvidence = nil
@@ -385,6 +389,7 @@ class RpgExpandedFoodStock: RpgLiteItem
 /** Owned forage source contract; exploration validates the actual recorded roll. */
 class RpgExpandedForageYieldReceipt: object
     creditedHarvest = nil
+    foodKind() { return nil; }
     availableYield()
     { local value = new RpgExpandedResult(); value.reason = 'forage-yield-unavailable'; return value; }
 ;

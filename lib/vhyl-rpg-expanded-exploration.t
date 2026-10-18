@@ -2626,6 +2626,7 @@ class RpgExpandedTravelForageAttempt: RpgExpandedForageYieldReceipt
     history() { return self.profile.plantForageAttempts; }
     remember() { self.profile.plantForageAttempts = self.history() + [self]; }
     extraDefinition() { return []; }
+    foodKind() { return self.forageMethod() == 'plants' ? 'plants' : self.forageMethod() == 'fishing' ? 'fish' : 'meat'; }
     availableYield()
     {
         if (self.result == nil || self.result.forage == nil)

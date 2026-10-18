@@ -1070,3 +1070,10 @@ ledger. Collection does not imply cooking or preservation; edible preparation
 requires explicit facts. Duplicate claims, empty stock, rollback, undo and saved
 continuation have authored, unrun fixtures. Spoilage, preservation and poisoned
 food consumption remain pending.
+
+Meat and fish preservation now owns a smoking interval against a concrete fire
+record. Processing locks the stock; completion preserves the same quantity and
+marks it edible, while interruption and cancellation grant no preservation.
+Duration and fire capacity remain authored facts. Timing, interruption, rollback,
+undo and saved-continuation fixtures are authored, unrun; fuel inventory and
+spoilage remain pending.

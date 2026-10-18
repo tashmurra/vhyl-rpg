@@ -9030,6 +9030,8 @@ def test(build):
     test_hunting_forage(Session, hunting_forage, build.out)
     forage_food = build.build('expanded-forage-food',ROOT / 'tests/fixtures/expanded-forage-food.t')
     test_forage_food(Session, forage_food, build.out)
+    food_smoking = build.build('expanded-food-smoking',ROOT / 'tests/fixtures/expanded-food-smoking.t')
+    test_food_smoking(Session, food_smoking, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16197,5 +16199,75 @@ def test_forage_food(Session, bundle, out):
             s.action(2285,code)
         assert last(s,'test.forage-harvest') == ['blocked','forage-harvest-no-food']
         assert state(s) == [0,0,0,0,0,3,0]
+    finally:
+        s.close()
+
+
+def test_food_smoking(Session, bundle, out):
+    def state(s):
+        s.action(2285,2005)
+        return last(s,'test.smoking-state')
+    def setup(s):
+        for code in (30,1700,1900):
+            s.action(2285,code)
+    path = out / 'expanded-food-smoking.zsave'
+    s = Session(bundle)
+    try:
+        setup(s)
+        for code in (2011,2001):
+            s.action(2285,code)
+        assert last(s,'test.smoking-result') == ['ready',None]
+        assert state(s) == [2,0,0,0,0,0,3]
+        s.action(2285,2000)
+        s.command('undo')
+        assert state(s) == [2,0,0,0,0,0,3]
+        for code in (2000,2000,2006,2002):
+            s.action(2285,code)
+        assert last(s,'test.smoking-result') == ['blocked','smoking-not-ready']
+        assert state(s) == [2,0,0,1,1,59,3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (2007,2004):
+            s.action(2285,code)
+        assert state(s) == [2,0,0,1,1,60,3]
+        s.action(2285,2003)
+        s.command('undo')
+        assert state(s) == [2,0,0,1,1,60,3]
+        for code in (2003,2003,1904):
+            s.action(2285,code)
+        assert state(s) == [1,1,1,0,1,60,3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,2003)
+        assert state(s) == [1,1,1,0,1,60,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        setup(s)
+        for code in (2000,2006,2008,2007,2003):
+            s.action(2285,code)
+        assert last(s,'test.smoking-result') == ['blocked','smoking-fire-interrupted']
+        assert state(s) == [2,0,0,1,1,60,3]
+        for code in (2009,2009,2003):
+            s.action(2285,code)
+        assert state(s) == [2,0,0,0,1,60,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        setup(s)
+        for code in (2010,2011,2000):
+            s.action(2285,code)
+        assert last(s,'test.smoking-result') == ['blocked','smoking-fire-coverage']
+        assert state(s) == [2,0,0,0,0,0,3]
     finally:
         s.close()
