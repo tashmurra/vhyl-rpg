@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B64-B70",
-  "review": "Innate travel, social permissions, rerolls, magical aptitude/energy, metabolic abilities and mental interactions enumerated. Mental-link continuation, cross-reference resolution, authored contracts and validation remain pending.",
+  "review": "Innate travel, social permissions, rerolls, magical aptitude/energy, metabolic abilities and mental interactions enumerated. Mental-link continuation is recorded in traits-catalogue-i; cross-reference resolution, authored contracts and validation remain pending.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -842,7 +842,7 @@
       "module": "traits",
       "kind": "catalogue-entry",
       "status": "pending",
-      "acceptance": "Rapport costs five for one subject, ten for two through nine, twenty for ten through ninety-nine, thirty for one hundred through 999, then ten more for each tenfold capacity increase. Retain a defined membership set. B71 continuation and modifiers remain required before marking the definition complete.",
+      "acceptance": "Rapport costs five for one subject, ten for two through nine, twenty for ten through ninety-nine, thirty for one hundred through 999, then ten more for each tenfold capacity increase. Retain a defined membership set. B71 continuation and modifiers are recorded in traits-catalogue-i; the combined definition remains unimplemented.",
       "tests": []
     }
   ]

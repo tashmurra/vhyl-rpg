@@ -56,3 +56,11 @@ Swarms occupy a shared space and use automatic attacks and different defenses
 against incoming damage. Tiny-creature ingress, sealed protection, dispersal,
 target changes and compatible shield or stomping attacks need explicit state.
 Treating a swarm as one ordinary animal would give the wrong rolls and timing.
+
+
+[Additional anatomy and occupancy requirements](inventory/traits-catalogue-i.json)
+include eye membranes, internal cargo/passengers and parasitic or spiritual
+occupants. Internal payload is part of the body for movement and limited-capacity
+abilities, while exposed payload loses the owner's defensive protection. Passenger
+control requires a separate purchase. Body occupation must preserve separate
+injury and resource histories for host and occupant. These effects are pending.

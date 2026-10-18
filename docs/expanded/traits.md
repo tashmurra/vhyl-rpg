@@ -153,4 +153,17 @@ Mental command, conditioning, probing and thought reading have different subject
 histories, expiry rules and output contracts. A question identity must survive
 rephrasing; a new action object cannot bypass a subject cooldown. A mental shield
 also retains its voluntary state while unconscious. These effects are pending,
-and the rapport entry continues onto the next source page.
+and the rapport continuation is now recorded in the ninth segment.
+
+
+The [ninth catalogue segment](inventory/traits-catalogue-i.json) completes the
+rapport text and adds temporary ability pools, patrons, payload and consciousness
+transfer. Pool assignments own temporary contributions; reallocating capacity
+must not refund permanent advancement or retain removed capabilities. Borrowed
+powers similarly retain their source, modifiers and expiry.
+
+Body transfer separates the acting mind, physical host, suppressed occupant and
+original body. Host attributes and relative physical skills change while mental
+traits persist. Failed transfers can create permanent subject immunity. Memory
+attempts, purchased return access and remote-control termination need persistent
+records. The module remains incomplete; these are implementation obligations.

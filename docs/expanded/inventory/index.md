@@ -16,7 +16,8 @@ copies of the reference books.
 | `full-2008` | B52–B55 | [Trait catalogue, fifth segment](traits-catalogue-e.json) | Speed, anatomy, extra attacks, replacement lives, favors and fitness enumerated; integration and boundary decisions pending |
 | `full-2008` | B56–B59 | [Trait catalogue, sixth segment](traits-catalogue-f.json) | Flight modes, invention permissions, growth, restorative touch and scoped bonuses enumerated; integration and source decisions pending |
 | `full-2008` | B60–B63 | [Trait catalogue, seventh segment](traits-catalogue-g.json) | Perception, injury forms, alternate attacks, phasing and invisibility enumerated; cross-domain integration pending |
-| `full-2008` | B64–B70 | [Trait catalogue, eighth segment](traits-catalogue-h.json) | Innate travel, legal permissions, rerolls, magical energy and mental interactions enumerated; rapport continuation and integration pending |
+| `full-2008` | B64–B70 | [Trait catalogue, eighth segment](traits-catalogue-h.json) | Innate travel, legal permissions, rerolls, magical energy and mental interactions enumerated; rapport continuation recorded in the next segment; integration pending |
+| `full-2008` | B71–B76 | [Trait catalogue, ninth segment](traits-catalogue-i.json) | Rapport continuation, modular pools, patrons, payload and body transfer enumerated; vision diagram inspected; coordinate and ownership validation pending |
 | `full-2008` | B167–B173; B229–B233 | [Skill and technique procedures](skills-procedures.json) | Text reviewed; table verification and cross-reference resolution still open |
 | `full-2008` | B174–B185 | [Skill catalogue, first segment](skills-catalogue-a.json) | Text and definition metadata transcribed; procedures and cross-references pending |
 | `full-2008` | B186–B197 | [Skill catalogue, second segment](skills-catalogue-b.json) | Definition metadata, timed procedures and specialty requirements transcribed |
