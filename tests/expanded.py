@@ -1010,6 +1010,53 @@ def test_household_payment(s):
     assert living_state(s) == [1100, 1, 1, 0, -1, 0, 0]
 
 
+def recruiting_state(s):
+    s.action(1237)
+    return last(s, 'test.recruiting-state')
+
+
+def test_recruiting_search(s):
+    initial = recruiting_state(s)
+    assert initial == [1000,1000,0,0,0,0,0,0]
+    s.action(1238)
+    assert last(s, 'test.recruiting-preview') == ['ready',13,50,None]
+    assert recruiting_state(s) == initial
+    s.action(1100,88)
+    assert recruiting_state(s) == initial
+    s.action(1100,87)
+    assert last(s, 'test.recruiting-result') == ['resolved',None,50,0,1]
+    assert recruiting_state(s) == [950,1000,0,1,0,1,0,3]
+    s.command('undo')
+    assert recruiting_state(s) == initial
+    s.action(1100,87); s.action(1100,87)
+    assert last(s, 'test.recruiting-result') == ['reused',None,0,0,0]
+    s.action(1100,90)
+    assert last(s, 'test.recruiting-result')[1] == 'recruiting-interview-pending'
+    s.action(1100,89); s.action(1100,90)
+    assert last(s, 'test.recruiting-result')[1] == 'recruiting-week-used'
+    s.action(1100,83); s.action(1100,90)
+    assert last(s, 'test.recruiting-result')[1] == 'recruiting-week-used'
+    assert recruiting_state(s) == [950,1000,0,1,0,0,604799,3]
+    s.action(1100,84); s.action(1100,90)
+    final = recruiting_state(s)
+    assert final[:5] == [950,950,0,2,0]
+    assert final[6:] == [604800,6]
+
+
+def test_recruiting_legal_consequence(s):
+    initial = recruiting_state(s)
+    s.action(1100,92)
+    assert recruiting_state(s) == initial
+    s.action(1100,91)
+    assert last(s, 'test.recruiting-result') == ['resolved',None,50,200,0]
+    assert recruiting_state(s) == [750,1000,200,0,1,0,0,3]
+    s.command('undo')
+    assert recruiting_state(s) == initial
+    s.action(1100,93)
+    assert last(s, 'test.recruiting-result') == ['resolved',None,50,200,0]
+    assert recruiting_state(s) == [750,1000,200,0,1,0,0,3]
+
+
 def acceptance_state(s):
     s.action(1233)
     return last(s, 'test.accept-employment-state')
@@ -1601,7 +1648,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_household_payment,test_employment_acceptance,test_job_search_batch,test_job_seeking,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_template_technology,test_template_choices,test_template_score_options,test_extended_measurements,test_equipment_quality,test_starting_equipment_price,test_acquisition,test_equipment_storage,test_legal_access,test_control_table,test_control_question,test_control_certain,test_starting_wealth,test_monthly_finance,test_monthly_undo,test_money_exchange,test_social_structure,test_reputation,test_reputation_failure,test_reaction_encounter,test_information_delivery,test_paid_information,test_uncertain_knowledge,test_unknown_fact,test_trade_transfer,test_loyalty,test_loyalty_automatic,test_loyalty_failure,test_loyalty_danger,test_loyalty_performance,test_loyalty_botched,test_loyalty_forgiveness,test_loyalty_forgiveness_low,test_service_anniversary,test_service_failure,test_service_automatic,test_rescue_loyalty,test_rescue_no_decrease,test_rescue_ungrateful,test_rescue_sacrifice,test_loyalty_pay,test_job_qualifications,test_job_month,test_job_demotion,test_job_dismissal,test_job_variable_month,test_household_payment,test_recruiting_search,test_recruiting_legal_consequence,test_employment_acceptance,test_job_search_batch,test_job_seeking,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     social = build.build('expanded-social',ROOT / 'tests/fixtures/expanded-social.t')

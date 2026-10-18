@@ -664,3 +664,52 @@ rollback, undo, replay and competing applicants. Its cross-process persistence
 case checks the created employment and vacancy link after save/restore. Both are
 authored and unrun while checks are paused. Automatic schedule planning, injury or
 arrest failure effects and a full employer payroll ledger remain unfinished.
+
+
+## Recruiting candidates for a party
+
+A `RpgExpandedRecruitingParty` owns `members` and `vacancies`. Register each
+`RpgExpandedRecruitingVacancy` in that party with a unique `id`. The vacancy
+represents one sought hireling, so all recruiters for that position must use the
+same object. Replacing an attempt or switching party members cannot reset its
+weekly interval. Distinct vacancies can be searched independently.
+
+`RpgExpandedRecruitingAttempt` supplies an `id`, `vacancy`, `recruiter`,
+`permitted`, a `RpgLiteContext` of kind `recruiting`, and the recruiting `modifiers`.
+The context uses intelligence unless an appropriate skill is explicitly selected;
+a skill choice requires `skillEvidence` explaining its relevance to this search.
+The normal context arithmetic applies before adding recruiting modifiers. An
+illegal-work penalty waiver also requires `streetwiseSkill` to match the actual
+selected skill, rather than merely setting a modifier flag.
+
+Before attempting, supply the concrete `candidate`, `candidateAvailable` and
+`candidateEvidence` describing the person who could be found. A successful roll
+presents that candidate; it never transfers control of the NPC or automatically
+hires them. The vacancy's `pendingCandidate` prevents further searches while that
+interview is unresolved. `decline(candidate, evidence)` records an explicit refusal
+and clears the pending interview without resetting the weekly clock. A subsequent
+attempt requires `repeatApproved`, reflecting authored availability. Hiring and
+closing the vacancy still require the separate employment/party integration.
+
+`assess()` validates the entire attempt, budget and possible legal consequence
+without revealing a candidate result. `search()` spends advertising once, rolls
+once, and records the recruiter, time, check, presented candidate, advertising cost
+and fine. Duplicate attempt IDs return `reused`. New attempts are permitted after
+seven elapsed days, including when a different party member pays. Search does not
+advance the shared clock; the activity schedule accounts for elapsed time.
+
+Illegal recruitment requires a `RpgExpandedRecruitingFine` with an authored
+`authority`, concrete `evidence`, a distinct `recipient` profile and positive
+`amount`. This policy specifically chooses a financial sanction for the source's
+open-ended legal-complication branch. Before rolling, the recruiter must be able
+to fund both advertising and the possible fine, and the recipient must have money
+capacity. Critical failure transfers the fine even if the search's illegal-work
+penalty was waived. Arrest and other sanctions are unsupported by this policy;
+they must not be replaced with an arbitrary fine just to permit execution.
+
+All mutations belong in the normal action transaction. The authored
+`test_recruiting_search` covers preview privacy, rollback, undo, duplicate requests,
+interviews, switching recruiters and the weekly boundary. The authored
+`test_recruiting_legal_consequence` covers the critical-failure transfer and rollback.
+These cases remain unrun. Recruitment in settings with additional labor-market
+rules, candidate hiring and nonfinancial sanctions remain incomplete.

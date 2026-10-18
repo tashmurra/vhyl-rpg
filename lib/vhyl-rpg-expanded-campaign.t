@@ -1132,3 +1132,150 @@ class RpgExpandedEmploymentAcceptance: object
         value.employment = employment; value.status = 'resolved'; return value;
     }
 ;
+
+/** One authored party shares vacancy records across all of its recruiters. */
+class RpgExpandedRecruitingParty: object
+    members = []
+    vacancies = []
+;
+
+class RpgExpandedRecruitingVacancy: object
+    id = nil
+    party = nil
+    open = true
+    attempts = []
+    lastAttemptAt = nil
+    pendingCandidate = nil
+    declined = []
+    validate()
+    {
+        if (self.id == nil || self.party == nil || !self.party.ofKind(RpgExpandedRecruitingParty)
+            || !holds(self.party.vacancies,self)) rpgExpandedReject('recruiting-vacancy-owner');
+        foreach (local other in self.party.vacancies)
+            if (other != self && other.id == self.id) rpgExpandedReject('duplicate-recruiting-vacancy');
+        return nil;
+    }
+    decline(candidate, evidence)
+    {
+        self.validate();
+        if (candidate == nil || candidate != self.pendingCandidate || evidence == nil)
+            rpgExpandedReject('recruiting-decline-candidate');
+        self.declined = self.declined + [[candidate,evidence,rpgLedger.seconds]];
+        self.pendingCandidate = nil; return nil;
+    }
+;
+
+/** An explicit authored fine for the legal-complication branch. Other sanctions
+ * need their own concrete policy, rather than silently disappearing on failure. */
+class RpgExpandedRecruitingFine: object
+    authority = nil
+    evidence = nil
+    recipient = nil
+    amount = 0
+    validate(payer, advertising)
+    {
+        if (self.authority == nil || self.evidence == nil || self.recipient == nil
+            || !self.recipient.ofKind(RpgExpandedProfile) || self.recipient == payer)
+            rpgExpandedReject('recruiting-fine-policy');
+        rpgExpandedValidate(self.recipient); rpgInteger(self.amount,1,2147483647);
+        rpgInteger(self.recipient.money,0,2147483647);
+        if (self.amount > 2147483647 - self.recipient.money) rpgExpandedReject('recruiting-fine-limit');
+        if (advertising > payer.money || self.amount > payer.money - advertising)
+            return 'recruiting-fine-funds';
+        return nil;
+    }
+;
+
+class RpgExpandedRecruitingResult: RpgExpandedResult
+    money = 0
+    score = nil
+    candidate = nil
+    fine = 0
+;
+
+/** One weekly attempt for a party's vacancy, full-2008 B517-B518. */
+class RpgExpandedRecruitingAttempt: object
+    id = nil
+    vacancy = nil
+    recruiter = nil
+    context = nil
+    modifiers = nil
+    permitted = nil
+    repeatApproved = nil
+    skillEvidence = nil
+    streetwiseSkill = nil
+    candidate = nil
+    candidateAvailable = nil
+    candidateEvidence = nil
+    legalFine = nil
+    boundVacancy = nil
+    boundRecruiter = nil
+    boundId = nil
+    assess()
+    {
+        if (self.id == nil || self.vacancy == nil || !self.vacancy.ofKind(RpgExpandedRecruitingVacancy))
+            rpgExpandedReject('recruiting-attempt-vacancy');
+        if (self.boundVacancy != nil && (self.vacancy != self.boundVacancy
+            || self.recruiter != self.boundRecruiter || self.id != self.boundId))
+            rpgExpandedReject('recruiting-attempt-retargeted');
+        self.vacancy.validate(); local value = new RpgExpandedRecruitingResult();
+        foreach (local receipt in self.vacancy.attempts)
+            if (receipt[1] == self.id) { value.status = 'reused'; return value; }
+        if (self.recruiter == nil || !self.recruiter.ofKind(RpgExpandedProfile)
+            || !holds(self.vacancy.party.members,self.recruiter)) rpgExpandedReject('recruiting-party-member');
+        rpgExpandedValidate(self.recruiter); rpgInteger(self.recruiter.money,0,2147483647);
+        if (!self.permitted || !self.vacancy.open) { value.reason = 'recruiting-unavailable'; return value; }
+        if (self.recruiter.dead || self.recruiter.unconscious) { value.reason = 'cannot-recruit'; return value; }
+        if (self.vacancy.pendingCandidate != nil) { value.reason = 'recruiting-interview-pending'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483647);
+        if (self.vacancy.lastAttemptAt != nil)
+        {
+            rpgInteger(self.vacancy.lastAttemptAt,0,2147483647);
+            if (rpgLedger.seconds < self.vacancy.lastAttemptAt || rpgLedger.seconds - self.vacancy.lastAttemptAt < 604800)
+            { value.reason = 'recruiting-week-used'; return value; }
+            if (!self.repeatApproved) { value.reason = 'recruiting-repeat-unapproved'; return value; }
+        }
+        if (self.context == nil || !self.context.ofKind(RpgLiteContext) || self.context.kind != 'recruiting'
+            || (self.context.skill == nil && self.context.attribute != rpgIQ)) rpgExpandedReject('recruiting-context');
+        if (self.context.skill != nil && self.skillEvidence == nil) rpgExpandedReject('recruiting-skill-evidence');
+        if (self.modifiers == nil || !self.modifiers.ofKind(RpgExpandedRecruitingModifiers))
+            rpgExpandedReject('recruiting-modifiers');
+        local adjustment = self.modifiers.assess();
+        if (self.modifiers.waiveIllegalPenalty && (self.streetwiseSkill == nil || self.context.skill != self.streetwiseSkill))
+            rpgExpandedReject('recruiting-streetwise-waiver');
+        local base = rpgLiteScore(self.recruiter,self.context);
+        if (base == nil) { value.reason = self.context.unavailableReason(self.recruiter); return value; }
+        value.score = base + adjustment.modifier; rpgInteger(value.score,-1000,1000);
+        if (value.score < 3) { value.reason = 'recruiting-roll-unavailable'; return value; }
+        if (self.candidate == nil || !self.candidate.ofKind(RpgExpandedProfile) || self.candidateEvidence == nil)
+            rpgExpandedReject('recruiting-candidate');
+        rpgExpandedValidate(self.candidate);
+        if (!self.candidateAvailable) { value.reason = 'recruiting-candidate-unavailable'; return value; }
+        value.money = self.modifiers.advertising;
+        if (value.money > self.recruiter.money) { value.reason = 'recruiting-advertising-funds'; return value; }
+        if (self.modifiers.illegal)
+        {
+            if (self.legalFine == nil || !self.legalFine.ofKind(RpgExpandedRecruitingFine))
+                rpgExpandedReject('recruiting-legal-consequence');
+            value.reason = self.legalFine.validate(self.recruiter,value.money);
+            if (value.reason != nil) return value;
+        }
+        value.status = 'ready'; return value;
+    }
+    search()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.recruiter.money -= value.money;
+        value.check = rpgCheck(value.score,rpgRandom.roll());
+        if (self.modifiers.illegal && value.check.critical == 'failure')
+        {
+            value.fine = self.legalFine.amount; self.recruiter.money -= value.fine;
+            self.legalFine.recipient.money += value.fine;
+        }
+        if (value.check.achieved) { value.candidate = self.candidate; self.vacancy.pendingCandidate = self.candidate; }
+        self.vacancy.attempts = self.vacancy.attempts
+            + [[self.id,self.recruiter,rpgLedger.seconds,value.check,value.candidate,value.money,value.fine]];
+        self.boundVacancy = self.vacancy; self.boundRecruiter = self.recruiter; self.boundId = self.id;
+        self.vacancy.lastAttemptAt = rpgLedger.seconds; value.status = 'resolved'; return value;
+    }
+;

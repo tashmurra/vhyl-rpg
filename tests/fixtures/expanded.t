@@ -112,6 +112,27 @@ searchNextBatch: RpgExpandedJobSearch id = 'second-search-week' profile = search
     searches = [[searchContextOne,searchOfferOne],[searchContextTwo,searchOfferTwo]];
 searchAcceptance: RpgExpandedEmploymentAcceptance profile = searchWorker opportunity = searchOfferOne
     employmentId = 'archive-employment' applicantAgrees = true employerAgrees = true scheduleApproved = true;
+recruiterOne: RpgExpandedProfile rules = expandedRules iq = 12 money = 1000;
+recruiterTwo: RpgExpandedProfile rules = expandedRules iq = 12 money = 1000;
+recruitCandidate: RpgExpandedProfile rules = expandedRules;
+recruitAuthority: RpgExpandedProfile rules = expandedRules;
+recruitParty: RpgExpandedRecruitingParty members = [recruiterOne,recruiterTwo] vacancies = [recruitVacancy,illegalVacancy];
+recruitVacancy: RpgExpandedRecruitingVacancy id = 'guide-vacancy' party = recruitParty;
+illegalVacancy: RpgExpandedRecruitingVacancy id = 'illegal-vacancy' party = recruitParty;
+recruitContext: RpgLiteContext kind = 'recruiting' attribute = rpgIQ;
+recruitModifiers: RpgExpandedRecruitingModifiers population = 5000 normalPay = 100 offeredPay = 100 advertising = 50;
+illegalModifiers: RpgExpandedRecruitingModifiers population = 5000 normalPay = 100 offeredPay = 100 advertising = 50 illegal = true;
+recruitFine: RpgExpandedRecruitingFine authority = 'town-council' evidence = 'fine-for-prohibited-recruiting'
+    recipient = recruitAuthority amount = 200;
+recruitAttempt: RpgExpandedRecruitingAttempt id = 'guide-search-one' vacancy = recruitVacancy recruiter = recruiterOne
+    context = recruitContext modifiers = recruitModifiers permitted = true candidate = recruitCandidate
+    candidateAvailable = true candidateEvidence = 'guide-in-town';
+recruitNext: RpgExpandedRecruitingAttempt id = 'guide-search-two' vacancy = recruitVacancy recruiter = recruiterTwo
+    context = recruitContext modifiers = recruitModifiers permitted = true candidate = recruitCandidate
+    candidateAvailable = true candidateEvidence = 'guide-still-in-town' repeatApproved = true;
+illegalAttempt: RpgExpandedRecruitingAttempt id = 'illegal-search' vacancy = illegalVacancy recruiter = recruiterOne
+    context = recruitContext modifiers = illegalModifiers permitted = true candidate = recruitCandidate
+    candidateAvailable = true candidateEvidence = 'available-contact' legalFine = recruitFine;
 expandedInput: object code = 0 args = [];
 expandedState()
 {
@@ -342,6 +363,23 @@ class ExpandedTestAction: Action
             local value = searchAcceptance.accept(); event('test.accept-employment'); eventValue(value.status);
             eventValue(value.reason); if (code == 86) throw new RpgError();
         }
+        if (code == 87 || code == 88 || code == 90 || code == 91 || code == 92 || code == 93)
+        {
+            if (code == 93)
+            {
+                local skill = new RpgExpandedSkill(); skill.id = 'underworld-network'; skill.attribute = rpgIQ; skill.difficulty = 0;
+                local training = new RpgExpandedTraining(); training.skill = skill; training.points = 1; recruiterOne.skills = [training];
+                local context = new RpgLiteContext(); context.kind = 'recruiting'; context.skill = skill;
+                illegalAttempt.context = context; illegalAttempt.streetwiseSkill = skill; illegalAttempt.skillEvidence = 'local-network';
+                illegalModifiers.streetwiseSearch = true; illegalModifiers.waiveIllegalPenalty = true;
+            }
+            if (code == 91 || code == 92 || code == 93) rpgRandom.seed(5);
+            local attempt = code == 90 ? recruitNext : code == 91 || code == 92 || code == 93 ? illegalAttempt : recruitAttempt;
+            local value = attempt.search(); event('test.recruiting-result'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.money); eventValue(value.fine); eventValue(value.candidate != nil ? 1 : 0);
+            if (code == 88 || code == 92) throw new RpgError();
+        }
+        if (code == 89) recruitVacancy.decline(recruitCandidate,'party-declines-interview');
         if (code == 2) rpgSpendTime(args[2]);
         if (code == 4) expandedStudy.permitted = nil;
         if (code == 5) expandedStudy.credit = 2879998;
@@ -1552,6 +1590,17 @@ act(verb, args)
         request.employerAgrees = true; request.scheduleApproved = true;
         local value = request.accept(); event('test.accept-other-worker'); eventValue(value.reason);
         eventValue(p.employments.length()); return nil;
+    }
+    if (verb == 1237)
+    {
+        event('test.recruiting-state'); eventValue(recruiterOne.money); eventValue(recruiterTwo.money);
+        eventValue(recruitAuthority.money); eventValue(recruitVacancy.attempts.length()); eventValue(illegalVacancy.attempts.length());
+        eventValue(recruitVacancy.pendingCandidate != nil ? 1 : 0); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+    }
+    if (verb == 1238)
+    {
+        local value = recruitAttempt.assess(); event('test.recruiting-preview'); eventValue(value.status);
+        eventValue(value.score); eventValue(value.money); eventValue(value.candidate); return nil;
     }
     return vhylAct(verb,args);
 }

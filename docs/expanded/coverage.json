@@ -922,6 +922,19 @@
         "tests/expanded.py::test_employment_acceptance_persistence"
       ],
       "validation_note": "Explicit agreement, successful-search or direct-offer evidence, qualification recheck, owned pay/policy and single-vacancy acceptance authored. Checks unrun; automatic scheduling and nonfinancial failure effects remain pending."
+    },
+    {
+      "id": "party-recruiting-search",
+      "module": "campaign",
+      "pages": "B517-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedRecruitingAttempt",
+      "tests": [
+        "tests/expanded.py::test_recruiting_search",
+        "tests/expanded.py::test_recruiting_legal_consequence"
+      ],
+      "validation_note": "Party-owned vacancy, weekly limits, candidate presentation/decline, advertising and explicit fine consequence authored. Checks unrun; candidate hiring, other sanctions and setting-specific labor markets pending."
     }
   ],
   "detailed_inventories": [
