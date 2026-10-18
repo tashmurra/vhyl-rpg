@@ -8901,6 +8901,8 @@ def test(build):
     test_fall_protection(Session, collision)
     fall_injury = build.build('expanded-fall-injury',ROOT / 'tests/fixtures/expanded-fall-injury.t')
     test_fall_injury(Session, fall_injury, build.out)
+    fall_hand = build.build('expanded-fall-hand',ROOT / 'tests/fixtures/expanded-fall-hand.t')
+    test_fall_hand(Session, fall_hand, build.out)
     test_collision_cap(Session, collision, fall_injury)
     test_fall_cushion(Session, fall_injury)
     fresh(Session,hazards,test_infection_assessments)
@@ -13962,3 +13964,44 @@ def test_fall_crippling(s):
     for roll in range(1,7):
         s.action(2299,10,20,1,2,roll)
         assert last(s,'test.fall-crippling') == [6,20,1,1,1,int(roll>=5),0,0]
+
+
+def test_fall_hand(Session, bundle, out):
+    def state(s):
+        s.action(2285,920)
+        return last(s,'test.fall-hand')
+    clear = [0,0,0,0,0,0,0]
+    injured = [10,1,0,1,1,3,0]
+    path = out / 'expanded-fall-hand.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30,830):
+            s.action(2285,code)
+        assert last(s,'test.fall-preview') == ['ready',None]
+        assert state(s) == clear
+        s.action(2285,832)
+        assert state(s) == clear
+        s.action(2285,831)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (831,831):
+            s.action(2285,code)
+        assert state(s) == injured
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,831)
+        assert state(s) == injured
+    finally:
+        s.close()
+    for setup, expected in ((921,clear),(922,[3,0,0,1,1,0,0])):
+        s = Session(bundle)
+        try:
+            for code in (30,setup,831):
+                s.action(2285,code)
+            assert state(s) == expected
+        finally:
+            s.close()

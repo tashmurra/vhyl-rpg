@@ -3910,6 +3910,8 @@ class RpgExpandedFallInjury: object
     resistance = 0
     protectionKind = 'armor'
     location = 'torso'
+    bodyPart = nil
+    locationEvidence = nil
     approved = nil
     evidence = nil
     dropDestination = nil
@@ -3919,7 +3921,8 @@ class RpgExpandedFallInjury: object
     definition()
     { return [self.id,self.profile,self.damage,self.resistance,self.protectionKind,self.location,
         self.approved,self.evidence,self.dropDestination,self.obstacleHP,self.obstacleDR,
-        self.cushionDR,self.cushionEvidence,self.fall,self.landing,self.damageVelocity]; }
+        self.cushionDR,self.cushionEvidence,self.fall,self.landing,self.damageVelocity,
+        self.bodyPart,self.locationEvidence]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
@@ -3943,7 +3946,10 @@ class RpgExpandedFallInjury: object
         }
         if (!self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'fall-injury-author-facts'; return value; }
-        if (self.location != 'torso') { value.reason = 'fall-injury-location-unavailable'; return value; }
+        if (!holds(['torso','hand'],self.location)) { value.reason = 'fall-injury-location-unavailable'; return value; }
+        if (self.location == 'hand' && (self.bodyPart == nil || self.locationEvidence == nil || self.locationEvidence == ''))
+        { value.reason = 'fall-injury-location-facts'; return value; }
+        if (self.location == 'torso' && self.bodyPart != nil) rpgExpandedReject('fall-injury-body-part');
         foreach (local prior in self.profile.fallInjuries)
             if (prior.id == self.id || self.fall != nil && prior.fall == self.fall)
                 rpgExpandedReject('fall-injury-duplicate');
@@ -3956,7 +3962,9 @@ class RpgExpandedFallInjury: object
         { value.reason = 'fall-cushion-facts'; return value; }
         value.cushionedDamage = value.impactDamage > self.cushionDR ? value.impactDamage-self.cushionDR : 0;
         value.protection = rpgExpandedAssessFallProtection(value.cushionedDamage,self.resistance,self.protectionKind);
-        value.wound = new RpgExpandedWound(); value.wound.id = self.id; value.wound.profile = self.profile;
+        value.wound = self.location == 'hand' ? new RpgExpandedFallExtremityWound() : new RpgExpandedWound();
+        value.wound.id = self.id; value.wound.profile = self.profile;
+        value.wound.location = self.location; value.wound.bodyPart = self.bodyPart;
         value.wound.amount = value.protection.penetratingDamage + value.protection.bluntInjury;
         value.wound.dropDestination = self.dropDestination;
         local prepared = value.wound.assess();
@@ -3996,6 +4004,7 @@ modify RpgExpandedFallInjury
         value.cushionDR = self.cushionDR; value.cushionEvidence = self.cushionEvidence;
         value.resistance = self.resistance; value.protectionKind = self.protectionKind;
         value.location = self.location; value.approved = self.approved; value.evidence = self.evidence;
+        value.bodyPart = self.bodyPart; value.locationEvidence = self.locationEvidence;
         value.dropDestination = self.dropDestination; return value;
     }
 ;

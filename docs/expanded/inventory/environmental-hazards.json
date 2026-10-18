@@ -1141,9 +1141,10 @@
       "status": "partial",
       "acceptance": "When locations are enabled, randomly select the fall location and apply full injury even to limbs/extremities rather than their ordinary injury cap.",
       "tests": [
-        "tests/expanded.py::test_fall_crippling"
+        "tests/expanded.py::test_fall_crippling",
+        "tests/expanded.py::test_fall_hand"
       ],
-      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending."
+      "validation_note": "Pure fall-specific crippling assessment preserves uncapped health loss and classifies all six additional-limb die outcomes without adding injury. Assertions authored, unrun. Owned random location, disability/drop handling and injury commitment remain pending. Owned hand impacts now preserve full HP loss and reuse disability/drop hooks with explicit evidence of the resolved location. Transaction/save assertions authored, unrun; automatic location selection and other limbs remain pending."
     },
     {
       "id": "collision-fall-multiple-limbs",

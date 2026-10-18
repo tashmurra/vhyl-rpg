@@ -130,6 +130,11 @@ class RpgExpandedWound: object
     boundDropDestination = nil
     health = nil
     knockdownAssessment = nil
+    assessPartInjury(count)
+    {
+        return rpgExpandedAssessCrippling(self.profile.maxHP,self.amount,
+            self.bodyPart.kind == 'arm' ? 'limb' : 'extremity',count,self.severing);
+    }
     assess()
     {
         if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.id == nil || self.id == '')
@@ -172,8 +177,7 @@ class RpgExpandedWound: object
             local count = 0;
             foreach (local part in self.profile.bodyParts)
                 if (part.kind == self.bodyPart.kind) count += 1;
-            value.crippling = rpgExpandedAssessCrippling(self.profile.maxHP,self.amount,
-                self.bodyPart.kind == 'arm' ? 'limb' : 'extremity',count,self.severing);
+            value.crippling = self.assessPartInjury(count);
             value.healthLoss = value.crippling.healthLoss;
             if (self.profile.rules.lastWounds && self.profile.hp() * 3 < self.profile.maxHP
                 && !self.criticalHit && !value.crippling.crippled && self.amount * 3 < self.profile.maxHP)
@@ -5926,3 +5930,12 @@ rpgExpandedAssessFallCrippling(capacity,injury,kind,count,limbRoll)
     }
     return value;
 }
+
+/** Owned fall hand wound: retain full health loss and existing disability/drop hooks. */
+class RpgExpandedFallExtremityWound: RpgExpandedWound
+    assessPartInjury(count)
+    {
+        if (self.bodyPart.kind != 'hand' || self.severing) rpgExpandedReject('fall-extremity-unavailable');
+        return rpgExpandedAssessFallCrippling(self.profile.maxHP,self.amount,'extremity',count,nil);
+    }
+;

@@ -1687,7 +1687,7 @@ is rejected. The result exposes the protection assessment and owned wound. Even 
 fully protected zero-injury fall retains its receipt so it cannot later be rerolled
 through this operation. Normal wound consequences use the existing injury ledger.
 
-Only `location = 'torso'` is supported here. Random hit locations, uncapped limb
+The default location is `torso`; the explicit hand adapter is described below. Random hit locations, uncapped limb
 injury, multiple crippled limbs, mixed protection, special anatomy, obstacle damage,
 landing maneuvers and automatic linkage from an owned climb remain incomplete.
 This bridge must not be used as a fallback for those rules. The authored fixture
@@ -1785,3 +1785,18 @@ surface rejection, pre-roll location rejection and no damage RNG after a dive.
 Assertions remain unrun. This completes only the supported torso/homogeneous-
 protection impact path; random locations, layered protection, obstacle damage,
 subsequent falls and automatic world movement remain incomplete.
+
+### Hand impacts
+
+`RpgExpandedFallInjury` also accepts `location = 'hand'` with an owned hand
+`bodyPart` and nonempty `locationEvidence` identifying the already resolved random
+fall-location result. It selects `RpgExpandedFallExtremityWound` so excess HP injury
+is preserved rather than capped at the hand's crippling threshold. Normal owned
+anatomy, drop and support-loss hooks apply. The location fields bind to the receipt
+and are copied by the owned impact-roll operation.
+
+The engine does not yet roll a fall location here; authors must not select the
+least harmful hand instead of supplying the actual resolved result. Unsupported
+locations remain rejected. Mixed protection, other limbs/extremities and the
+extra-limb disability roll remain incomplete. Hand-impact rollback, undo, replay
+and save assertions are authored and unrun.

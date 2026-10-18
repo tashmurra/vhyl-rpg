@@ -2754,3 +2754,18 @@ through an ordinary capped limb wound and label that a completed fall procedure.
 Fixtures specify threshold boundaries, multi-limb anatomy, uncapped severe injury
 and all six extra-die outcomes. Assertions remain unrun while checks are paused.
 Source: `full-2008`, B421 and B431.
+
+### Owned fall hand wounds
+
+`RpgExpandedFallExtremityWound` specializes the standard owned wound's
+`assessPartInjury(count)` calculation. For supported hand anatomy it preserves
+full fall HP loss while reusing the usual disability, knockdown, drop planning,
+shock, death checks and support-loss notification. Other wounds keep their existing
+capping behavior. This specialization rejects severing requests and other part
+kinds; arms still require the extra-limb procedure before they can be committed.
+
+The hazards module selects this wound for an explicitly identified hand impact.
+The new fixture specifies ten HP lost from a ten-point hand injury (rather than
+the ordinary four-point cap), hand disability without disabling its parent arm,
+a sub-threshold injury, replay, rollback, undo and saved continuation. Assertions
+remain unrun. Random location selection and additional-limb commits remain pending.

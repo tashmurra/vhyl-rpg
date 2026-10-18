@@ -818,3 +818,8 @@ Health now assesses fall-specific limb/extremity injury without the ordinary
 crippling cap and classifies the additional-limb die without adding HP loss.
 Owned anatomy changes and fall-location integration remain pending. Threshold and
 all-die-result fixtures are authored and unrun.
+
+Owned fall hand injuries now preserve full HP loss while using the existing
+anatomy, knockdown and drop machinery. Explicit evidence of a resolved location
+is required; automatic location rolls and additional-limb disability remain
+unfinished. Transaction and persistence fixtures are authored and unrun.
