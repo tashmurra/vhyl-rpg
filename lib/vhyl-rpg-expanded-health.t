@@ -1186,3 +1186,53 @@ class RpgExpandedPhysicianCheck: object
         return value;
     }
 ;
+
+
+/** Printed first-aid table values, full-2008 B424. tableSeconds describes the
+ * table's treatment interval; bandaging is a separately described 60-second step. */
+class RpgExpandedFirstAidTable: RpgExpandedResult
+    tableSeconds = 0
+    bandageSeconds = 60
+    healingAdjustment = 0
+;
+
+/** Pure first-aid technology table, including its open-ended highest row. */
+rpgExpandedFirstAidTable(techLevel)
+{
+    rpgInteger(techLevel,0,1000); local value = new RpgExpandedFirstAidTable();
+    value.tableSeconds = techLevel <= 4 ? 1800 : techLevel <= 7 ? 1200 : 600;
+    value.healingAdjustment = techLevel <= 1 ? -4 : techLevel <= 3 ? -3
+        : techLevel <= 5 ? -2 : techLevel <= 7 ? -1 : techLevel == 8 ? 0 : 1;
+    value.status = 'ready'; return value;
+}
+
+/** Numerical treatment outcome; healing allowances are not committed recovery. */
+class RpgExpandedFirstAidOutcome: RpgExpandedResult
+    bandageAllowance = 0
+    bandageCredit = 0
+    healingAllowance = 0
+    additionalHealing = 0
+    injury = 0
+;
+
+/** Assess a supplied first-aid check and recovery die. The latter is required
+ * only for ordinary success. Prior actual bandage credit is reversed on critical
+ * failure so the complete treatment's net effect is loss of two health. */
+rpgExpandedFirstAidOutcome(capacity, techLevel, score, roll, healingRoll, bandageCredit)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(score,3,1000);
+    local table = rpgExpandedFirstAidTable(techLevel);
+    local value = new RpgExpandedFirstAidOutcome(); value.check = rpgCheck(score,roll);
+    value.bandageAllowance = rpgExpandedHealingAmount(capacity,1);
+    rpgInteger(bandageCredit,0,value.bandageAllowance); value.bandageCredit = bandageCredit;
+    if (value.check.achieved)
+    {
+        local die = 6;
+        if (value.check.critical != 'success') { rpgInteger(healingRoll,1,6); die = healingRoll; }
+        local base = die + table.healingAdjustment; if (base < 1) base = 1;
+        value.healingAllowance = rpgExpandedHealingAmount(capacity,base);
+        value.additionalHealing = value.healingAllowance - value.bandageAllowance;
+    }
+    else if (value.check.critical == 'failure') value.injury = 2 + bandageCredit;
+    value.status = 'ready'; return value;
+}

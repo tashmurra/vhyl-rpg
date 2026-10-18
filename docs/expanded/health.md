@@ -729,3 +729,50 @@ critical-failure injury, the last second of eligibility, pure preview, rollback,
 undo, duplicate requests, provider changes and saved continuation. They are
 authored but unrun. Continuous-care activity scheduling and the wider medical
 procedures remain incomplete.
+
+
+## First-aid calculations
+
+`rpgExpandedFirstAidTable(techLevel)` returns a `RpgExpandedFirstAidTable`
+with `tableSeconds`, `bandageSeconds` and `healingAdjustment`, following
+`full-2008`, B424. Bandaging takes 60 seconds; the table interval is the
+additional treatment after bandaging. Technology nine and higher share the
+highest row. This query does not advance time.
+
+`rpgExpandedFirstAidOutcome(capacity, techLevel, score, roll, healingRoll,
+bandageCredit)` assesses supplied dice without drawing randomness or changing
+health. Supply the patient's maximum health capacity, effective first-aid score,
+three-die check, and actual health previously restored by this treatment's
+bandaging. `healingRoll` is a one-die result for ordinary success; critical
+success uses the maximum automatically, and failed checks need no healing die.
+
+The result exposes:
+
+- `bandageAllowance`: one health multiplied by the B424 capacity factor.
+- `bandageCredit`: the supplied actual prior recovery, limited to that allowance.
+- `healingAllowance`: the successful table result, minimum one, scaled once.
+- `additionalHealing`: the successful allowance minus the bandage allowance.
+- `injury`: two plus actual prior bandage credit on critical failure; zero otherwise.
+- `check`: the assessed success and critical classification.
+
+The allowance and actual recovery differ when bandaging reaches full health.
+For capacity 30, technology eight and a healing die of four, the total allowance
+is 12 and additional allowance is nine, even if only one of the three potential
+bandage points could be restored. Unused bandage allowance is not carried forward
+to heal a later wound. An owned session must enforce this eligibility before
+committing any recovery.
+
+Reversing actual prior bandage credit on critical failure is the accounting
+interpretation used here and in the existing treatment path: the whole treatment
+then causes a net loss of two health. The extra injury itself is not multiplied
+by the healing factor. This helper does not apply that injury or resolve its
+consequences.
+
+These are numerical interfaces, not a complete expanded treatment session.
+Wound ownership, duplicate-treatment prevention, interrupted care, bleeding,
+equipment and skill contexts, and committed time/resource use remain incomplete.
+Do not call a shared healing function directly with these allowances as a
+substitute for those eligibility checks. Existing Lite treatment remains unchanged.
+`test_expanded_first_aid_values` contains independent table-row and outcome
+expectations, including capped bandage credit and critical outcomes. It is
+unrun while checks are paused.

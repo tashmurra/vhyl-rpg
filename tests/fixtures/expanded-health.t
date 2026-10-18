@@ -284,5 +284,20 @@ act(verb,args)
         local value = rpgExpandedPhysicianOutcome(args[1],args[2],args[3]); event('test.physician-outcome');
         eventValue(value.healed); eventValue(value.injury); eventValue(value.check.critical); return nil;
     }
+    if (verb == 1623)
+    {
+        local value = rpgExpandedFirstAidTable(args[1]); event('test.first-aid-table');
+        eventValue(value.tableSeconds); eventValue(value.bandageSeconds); eventValue(value.healingAdjustment); return nil;
+    }
+    if (verb == 1624)
+    {
+        local draws = rpgRandom.draws; local seconds = rpgLedger.seconds;
+        local value = rpgExpandedFirstAidOutcome(args[1],args[2],args[3],args[4],args[5] == 0 ? nil : args[5],args[6]);
+        event('test.first-aid-outcome'); eventValue(value.bandageAllowance); eventValue(value.bandageCredit);
+        eventValue(value.healingAllowance); eventValue(value.additionalHealing); eventValue(value.injury);
+        eventValue(value.check.critical);
+        event('test.first-aid-purity'); eventValue(rpgRandom.draws - draws);
+        eventValue(rpgLedger.seconds - seconds); return nil;
+    }
     return vhylAct(verb,args);
 }

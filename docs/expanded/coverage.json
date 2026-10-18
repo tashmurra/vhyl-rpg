@@ -121,9 +121,10 @@
         "tests/expanded.py::test_medical_supervision_persistence",
         "tests/expanded.py::test_physician_outcomes",
         "tests/expanded.py::test_physician_check_transactions",
-        "tests/expanded.py::test_physician_check_persistence"
+        "tests/expanded.py::test_physician_check_persistence",
+        "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Partial recovery includes owned scheduled physician checks with shared-time eligibility and source outcomes. Fixtures unrun. Continuous-care scheduling, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
+      "validation_note": "Partial recovery includes owned scheduled physician checks with shared-time eligibility and pure first-aid table/outcome calculations. Fixtures unrun. Owned expanded first aid, continuous-care scheduling, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
     {
       "id": "magic",

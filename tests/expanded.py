@@ -408,6 +408,31 @@ def test_crippling_thresholds(s):
             assert last(s, 'test.crippling-assessment') == expected + [0]
 
 
+def test_expanded_first_aid_values(s):
+    for tl, seconds, adjustment in [(0,1800,-4), (1,1800,-4), (2,1800,-3),
+                                    (3,1800,-3), (4,1800,-2), (5,1200,-2),
+                                    (6,1200,-1), (7,1200,-1), (8,600,0),
+                                    (9,600,1), (12,600,1), (13,600,1)]:
+        s.action(1623, tl)
+        assert last(s, 'test.first-aid-table') == [seconds, 60, adjustment]
+    for args, expected in [
+            ((10,0,12,10,1,1), [1,1,1,0,0,None]),
+            ((10,0,12,10,6,1), [1,1,2,1,0,None]),
+            ((10,9,12,10,6,1), [1,1,7,6,0,None]),
+            ((30,8,12,10,4,3), [3,3,12,9,0,None]),
+            ((30,8,12,10,4,1), [3,1,12,9,0,None]),
+            ((30,9,12,3,0,3), [3,3,21,18,0,'success']),
+            ((10,0,12,3,0,1), [1,1,2,1,0,'success']),
+            ((30,8,12,13,0,3), [3,3,0,0,0,None]),
+            ((30,8,12,17,0,3), [3,3,0,0,5,'failure']),
+            ((10,8,12,18,0,1), [1,1,0,0,3,'failure']),
+            ((30,8,12,17,0,0), [3,0,0,0,2,'failure'])]:
+        for _ in range(2):
+            s.action(1624, *args)
+            assert last(s, 'test.first-aid-outcome') == expected
+            assert last(s, 'test.first-aid-purity') == [0, 0]
+
+
 def physician_state(s):
     s.action(1681)
     return last(s, 'test.physician-state')
@@ -2797,6 +2822,7 @@ def test(build):
     fresh(Session,health,test_expanded_natural_recovery)
     fresh(Session,health,test_medical_schedule)
     fresh(Session,health,test_physician_outcomes)
+    fresh(Session,health,test_expanded_first_aid_values)
     wounds = build.build('expanded-health-transactions',ROOT / 'tests/fixtures/expanded-health-transactions.t')
     fresh(Session,wounds,test_owned_wound_transactions)
     fresh(Session,wounds,test_limb_wound_transactions)

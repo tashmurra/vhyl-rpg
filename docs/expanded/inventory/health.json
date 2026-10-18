@@ -686,9 +686,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "One minute applying pressure or a tourniquet restores one health before scaling; bind treatment to eligible injury so repeated new sessions cannot farm the same bandage benefit.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-bleeding",
@@ -716,9 +719,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Successful treatment rolls the technology-dependent recovery amount, minimum one; this total includes prior bandage recovery rather than adding it again.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-critical",
@@ -726,9 +732,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Critical first-aid success restores the maximum listed amount; critical failure loses two health instead of recovering health. Preserve the treatment's prior bandaging in the total accounting.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-surgery-context",
@@ -833,7 +842,7 @@
         "tests/expanded.py::test_medical_supervision_transactions",
         "tests/expanded.py::test_medical_supervision_persistence"
       ],
-      "validation_note": "Medical-help table, clean-environment level-six fallback, skill-twelve supervision, shared provider roster/capacity and non-stacking natural-recovery bonus authored. Fixtures unrun. Additional physician healing checks, patient-specific schedules and continuous-care time integration remain incomplete."
+      "validation_note": "Qualified practice rosters, equipment fallback and supervision bonus are authored; owned additional physician checks now observe shared-time intervals. Fixtures unrun. Continuous-care scheduling and exceptional treatment regimens remain incomplete."
     },
     {
       "id": "health-physician-heal-check",
@@ -881,7 +890,7 @@
         "tests/expanded.py::test_medical_supervision_transactions",
         "tests/expanded.py::test_medical_supervision_persistence"
       ],
-      "validation_note": "Medical-help table, clean-environment level-six fallback, skill-twelve supervision, shared provider roster/capacity and non-stacking natural-recovery bonus authored. Fixtures unrun. Additional physician healing checks, patient-specific schedules and continuous-care time integration remain incomplete."
+      "validation_note": "Qualified practice rosters, equipment fallback and supervision bonus are authored; owned additional physician checks now observe shared-time intervals. Fixtures unrun. Continuous-care scheduling and exceptional treatment regimens remain incomplete."
     },
     {
       "id": "health-high-capacity-healing",
@@ -894,9 +903,10 @@
       "tests": [
         "tests/expanded.py::test_expanded_natural_recovery",
         "tests/expanded.py::test_natural_recovery_transactions",
-        "tests/expanded.py::test_natural_recovery_persistence"
+        "tests/expanded.py::test_natural_recovery_persistence",
+        "tests/expanded.py::test_expanded_first_aid_values"
       ],
-      "validation_note": "Off-by-default expanded natural recovery integrates B79/B155 healing traits, B424 scaling, protected-injury caps and the shared rest clock. Fixtures unrun. Scaling of other healing sources, physician supervision, rest interruption and mortal/unhealing exceptions remain incomplete."
+      "validation_note": "Scaling is authored for natural recovery, physician outcomes and pure first-aid allowances. Fixtures unrun. Committed expanded first aid, magical healing and regeneration integration remain incomplete."
     },
     {
       "id": "health-resuscitation-check",
@@ -1209,9 +1219,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 0-1, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -4, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-row-2-3",
@@ -1219,9 +1232,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 2-3, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -3, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-row-4",
@@ -1229,9 +1245,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 4, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -2, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-row-5",
@@ -1239,9 +1258,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 5, post-bandaging treatment takes 20 minutes and recovery is one die with modifier -2, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-row-6-7",
@@ -1249,9 +1271,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 6-7, post-bandaging treatment takes 20 minutes and recovery is one die with modifier -1, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-row-8",
@@ -1259,9 +1284,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 8, post-bandaging treatment takes 10 minutes and recovery is one die with modifier 0, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-first-aid-row-9-plus",
@@ -1269,9 +1297,12 @@
       "pages": "B424",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At technology 9-plus, post-bandaging treatment takes 10 minutes and recovery is one die with modifier 1, minimum one, including bandaging.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Fixtures unrun. Owned treatment eligibility, elapsed time, interruption, bleeding and committed recovery remain incomplete."
     },
     {
       "id": "health-surgery-equipment-1",
