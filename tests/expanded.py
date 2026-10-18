@@ -9479,6 +9479,8 @@ def test(build):
     test_styling_budget(Session,styling_budget)
     distinctive = build.build('expanded-distinctive-features',ROOT / 'tests/fixtures/expanded-distinctive-features.t')
     test_distinctive_features(Session,distinctive)
+    disguise_skill = build.build('expanded-disguise-skill',ROOT / 'tests/fixtures/expanded-disguise-skill.t')
+    test_disguise_skill(Session,disguise_skill)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -25627,5 +25629,25 @@ def test_distinctive_features(Session, bundle):
         assert last(s,'test.distinctive-copy') == [1,-2,1]
         s.action(1680,25306)
         assert last(s,'test.distinctive-error') == ['distinctive-features-definition']
+    finally:
+        s.close()
+
+
+def test_disguise_skill(Session, bundle):
+    """B187 defaults and B22 distinctive features enter the actual score path; unrun."""
+    for setup, base, score, reason in (((),7,5,None),((25401,),13,11,None),((25402,),15,13,None),
+        ((25403,),7,7,None),((25404,),7,7,None),((25405,),7,None,'disguise-size-difference-unsupported'),
+        ((25407,),12,10,None)):
+        s = Session(bundle)
+        try:
+            for code in (*setup,25400):
+                s.action(1680,code)
+            assert last(s,'test.disguise-score') == [base,score,reason,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,25402); s.action(1680,25406)
+        assert last(s,'test.disguise-error') == ['disguise-species-default']
     finally:
         s.close()

@@ -2157,3 +2157,75 @@ modify RpgExpandedBeggingContext
         return self.appearanceContext == nil ? facts : facts + self.appearanceContext.beggingAppearanceFacts();
     }
 ;
+
+/** B187 species-qualified disguise; similar-species defaults require concrete facts. */
+class RpgExpandedDisguiseSkill: RpgExpandedSkill
+    id = 'disguise'
+    attribute = rpgIQ
+    difficulty = 1
+    defaultPenalty = -5
+    similarSpeciesDefaults = []
+    validateDefinition()
+    {
+        if (self.id != 'disguise' || self.attribute != rpgIQ || self.difficulty != 1 || self.defaultPenalty != -5
+            || self.specialty == nil || self.techLevel == nil || self.defaultAttribute != nil || self.alternateAttribute != nil
+            || self.defaults.length() != 0 || self.attributeDefaults.length() != 0 || self.wildcard || self.optionalParent != nil)
+            rpgExpandedReject('disguise-skill-definition');
+        rpgInteger(self.techLevel,0,12); local seen = [];
+        foreach (local row in self.similarSpeciesDefaults)
+        {
+            if (row.length() != 3 || row[1] == nil || !row[1].ofKind(RpgExpandedDisguiseSkill) || row[1] == self
+                || row[1].specialty == self.specialty || row[1].techLevel != self.techLevel
+                || self.specialty == 'animals' || row[1].specialty == 'animals' || holds(seen,row[1])
+                || row[3] == nil || row[3] == '') rpgExpandedReject('disguise-species-default');
+            rpgInteger(row[2],-4,-2); seen = seen + [row[1]];
+        }
+        return nil;
+    }
+    defaultEdges(profile)
+    {
+        self.validateDefinition(); local edges = inherited(profile);
+        foreach (local training in profile.skills)
+        {
+            local source = training.skill;
+            if (training.points <= 0 || source == self || !source.ofKind(RpgLiteSkill)) continue;
+            local general = source.ofKind(RpgExpandedSkill) && source.optionalParent != nil ? source.optionalParent : source;
+            if (general.id == 'makeup' && general.techLevel == self.techLevel) edges = edges + [[general,-3]];
+            foreach (local row in self.similarSpeciesDefaults)
+                if (general == row[1]) edges = edges + [[general,row[2]]];
+        }
+        return edges;
+    }
+;
+class RpgExpandedDisguiseContext: RpgExpandedSkillContext
+    approved = nil
+    evidence = nil
+    equipmentModifier = 0
+    differentAppearancePenalty = 0
+    sizeModifierDifference = 0
+    elasticSkin = nil
+    sharedByCrowd = nil
+    validateDisguise()
+    {
+        if (self.skill == nil || !self.skill.ofKind(RpgExpandedDisguiseSkill) || self.rollAttribute != nil || self.fixedBase != nil)
+            rpgExpandedReject('disguise-context-definition');
+        self.skill.validateDefinition();
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('disguise-context-evidence');
+        if (self.skill.specialty == 'animals') rpgExpandedReject('disguise-animal-context-required');
+        rpgInteger(self.equipmentModifier,-1000,1000); rpgInteger(self.differentAppearancePenalty,-5,0);
+        rpgInteger(self.sizeModifierDifference,-100,100); return nil;
+    }
+    unavailableReason(profile)
+    {
+        self.validateDisguise();
+        if (self.sizeModifierDifference != 0) return 'disguise-size-difference-unsupported';
+        return inherited(profile);
+    }
+    skillUseModifier(profile)
+    {
+        self.validateDisguise(); if (self.sizeModifierDifference != 0) return nil;
+        local amount = inherited(profile); if (amount == nil) return nil;
+        return amount + self.equipmentModifier + self.differentAppearancePenalty + (self.elasticSkin ? 4 : 0)
+            - (self.sharedByCrowd ? 0 : profile.distinctiveFeatureLevels());
+    }
+;

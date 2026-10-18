@@ -1111,3 +1111,27 @@ observer facts. Later character appearance changes do not recalculate completed
 earnings, while rewriting the recorded audience facts rejects replay.
 `test_begging_appearance` specifies inversion, exclusions and save continuation;
 fixtures remain unrun.
+
+### Disguise definitions and assessment
+
+`RpgExpandedDisguiseSkill` implements the IQ/Average, technology-qualified skill
+from full-2008 B187. Supply a technology level and species `specialty`. Ordinary
+defaults are IQ−5 and purchased same-technology makeup−3. For physically similar
+species, provide `similarSpeciesDefaults` rows `[sourceSkill, penalty, evidence]`
+with penalties −2 through −4 and concrete physical-similarity evidence. The source
+must be a purchased same-technology disguise skill of another species. The reserved
+`'animals'` specialty cannot participate in these inter-specialty defaults.
+
+`RpgExpandedDisguiseContext` requires approval and evidence for ordinary disguise
+conditions. It applies authored equipment modifiers, a different-appearance
+penalty from −1 through −5 (or zero), an explicitly supported `elasticSkin` +4,
+and the actor's active distinctive-feature penalty. `sharedByCrowd` selects the
+B22 crowd exception. A nonzero `sizeModifierDifference` is blocked until an
+explicit exception adapter exists. Animal-specialty assessments require their
+own procedure and are rejected by this context.
+
+This is a pure score assessment. A prepared disguise still needs an owned
+30–60 minute preparation procedure and separate observer contests; quick costume
+changes, acting combinations and animal disguise procedures remain pending.
+`test_disguise_skill` specifies printed defaults, similarity restrictions and the
+actual score path through distinctive features. Fixtures remain unrun.

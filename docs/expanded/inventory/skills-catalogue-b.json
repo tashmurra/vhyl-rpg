@@ -485,9 +485,10 @@
       "pages": "B187",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Require species specialization, thirty to sixty minutes of preparation and an observer contest using an eligible detection score. Apply body, equipment, similarity and size restrictions.",
-      "tests": [],
+      "tests": ["tests/expanded.py::test_disguise_skill"],
+      "validation_note": "Typed defaults, explicit similar-species edges and ordinary score assessment integrate distinctive features. Prepared execution, observer contests, acting combinations and animal procedures remain pending. Fixtures unrun.",
       "reference_data": {
         "attribute": "iq",
         "difficulty": "average",
