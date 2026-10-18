@@ -356,3 +356,9 @@ resistance, daily progression and protected disease injury. Successful surgery
 does not create a fictitious wound. Required exposures are preflighted before
 starting and committed once after the operation; integration/persistence fixtures
 remain authored and unrun. Antibiotic acquisition exceptions remain incomplete.
+
+Mortal stabilization now has an owned one-hour operation with per-condition retry
+penalties, injury-severity modifiers and the permanent-health recovery check.
+Ordinary survival checks continue during care. Discretionary complications are
+flagged rather than invented. Fixtures are authored and unrun; trauma maintenance
+and the documented surgical combination gaps remain incomplete.

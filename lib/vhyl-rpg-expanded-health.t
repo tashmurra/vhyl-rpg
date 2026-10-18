@@ -4452,6 +4452,7 @@ modify RpgExpandedProfile
     surgicalOperations = []
 ;
 class RpgExpandedSurgicalOperation: object
+    prepareRoll() { return self.assessment.assess(); }
     infectionReason() { return 'surgical-operation-infection-unimplemented'; }
     id = nil
     patient = nil
@@ -4504,7 +4505,7 @@ class RpgExpandedSurgicalOperation: object
         { value.reason = 'surgical-operation-clotting-failure-unimplemented'; return value; }
         if (self.patient.rules == nil || self.patient.rules.bleeding)
         { value.reason = 'surgical-operation-bleeding-classification-unimplemented'; return value; }
-        local prepared = self.assessment.assess();
+        local prepared = self.prepareRoll();
         if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
         if (prepared.infectionCheckRequired)
         {
@@ -4556,7 +4557,7 @@ class RpgExpandedSurgicalOperation: object
     complete()
     {
         local value = self.assessCompletion(); if (value.status != 'ready') return value;
-        local prepared = self.assessment.assess();
+        local prepared = self.prepareRoll();
         value.check = rpgLiteCheck(self.assessment.surgeon,prepared.context); value.succeeded = value.check.achieved;
         if (!value.succeeded)
         {
@@ -4722,5 +4723,138 @@ modify rpgLedger
                 if (self.seconds + seconds > repair.recoversAt) rpgExpandedReject('lasting-repair-recovery-boundary');
             }
         return nil;
+    }
+;
+
+/** One observed mortal condition; attempts share this history across surgeons. */
+class RpgExpandedMortalCare: object
+    id = nil
+    patient = nil
+    approved = nil
+    evidence = nil
+    openedAt = nil
+    closedAt = nil
+    attempts = []
+    boundDefinition = nil
+    definition() { return [self.id,self.patient,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.openedAt == nil) rpgExpandedReject('mortal-care-not-opened');
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('mortal-care-binding');
+        if (!holds(self.patient.mortalCareHistory,self)) rpgExpandedReject('mortal-care-history');
+        return nil;
+    }
+    open()
+    {
+        local value = new RpgExpandedResult();
+        if (self.openedAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.patient == nil || !self.patient.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('mortal-care-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'mortal-care-evidence'; return value; }
+        if (!self.patient.mortal || self.patient.dead || self.patient.mortalCare != nil)
+        { value.reason = 'mortal-care-condition'; return value; }
+        foreach (local prior in self.patient.mortalCareHistory)
+            if (prior.id == self.id) rpgExpandedReject('mortal-care-duplicate');
+        self.openedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
+        self.patient.mortalCareHistory = self.patient.mortalCareHistory + [self]; self.patient.mortalCare = self;
+        value.status = 'resolved'; return value;
+    }
+    close()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.closedAt != nil) { value.status = 'reused'; return value; }
+        if (self.patient.mortal && !self.patient.dead) { value.reason = 'mortal-care-still-active'; return value; }
+        foreach (local attempt in self.attempts)
+            if (attempt.result == nil) { value.reason = 'mortal-care-operation-active'; return value; }
+        self.closedAt = rpgLedger.seconds;
+        if (self.patient.mortalCare != self) rpgExpandedReject('mortal-care-owner');
+        self.patient.mortalCare = nil; value.status = 'resolved'; return value;
+    }
+    failedAttempts()
+    {
+        self.validateReceipt(); local count = 0; local seen = [];
+        foreach (local attempt in self.attempts)
+        {
+            if (!attempt.ofKind(RpgExpandedMortalStabilization) || attempt.care != self
+                || attempt.patient != self.patient || holds(seen,attempt)) rpgExpandedReject('mortal-care-attempt-history');
+            seen = seen + [attempt];
+            attempt.validateReceipt();
+            if (attempt.result != nil && attempt.result.check != nil && !attempt.result.check.achieved) count += 1;
+        }
+        return count;
+    }
+;
+modify RpgExpandedProfile
+    mortalCare = nil
+    mortalCareHistory = []
+;
+modify RpgExpandedSurgicalOperationResult
+    permanentHealthCheck = nil
+    healthLost = 0
+    complicationReviewRequired = nil
+;
+class RpgExpandedMortalStabilization: RpgExpandedSurgicalOperation
+    durationSeconds = 3600
+    care = nil
+    definition() { return inherited() + [self.care]; }
+    prepareRoll()
+    {
+        if (self.care == nil || !self.care.ofKind(RpgExpandedMortalCare) || self.care.patient != self.patient)
+            rpgExpandedReject('mortal-stabilization-care');
+        self.care.validateReceipt();
+        local value = inherited(); if (value.status != 'ready') return value;
+        local penalty = self.patient.hp() <= -4 * self.patient.maxHP ? -4
+            : self.patient.hp() <= -3 * self.patient.maxHP ? -2 : 0;
+        penalty -= 2 * self.care.failedAttempts();
+        value.modifier += penalty; value.context.modifier += penalty;
+        value.score = rpgLiteScore(self.assessment.surgeon,value.context);
+        if (value.score == nil || value.score < 3)
+        { value.status = 'blocked'; value.reason = 'mortal-stabilization-score-unavailable'; }
+        return value;
+    }
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            value.permanentHealthCheck = self.result.permanentHealthCheck; value.healthLost = self.result.healthLost;
+            value.complicationReviewRequired = self.result.complicationReviewRequired; return value;
+        }
+        if (value.status != 'ready') return value;
+        if (self.durationSeconds != 3600) rpgExpandedReject('mortal-stabilization-duration');
+        if (!self.patient.mortal || self.patient.mortalCare != self.care || self.care.closedAt != nil)
+        { value.status = 'blocked'; value.reason = 'mortal-stabilization-condition'; return value; }
+        local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'permanent-health';
+        local score = rpgLiteScore(self.patient,context);
+        if (score == nil || score < 3)
+        { value.status = 'blocked'; value.reason = 'mortal-stabilization-recovery-score'; return value; }
+        rpgInteger(self.patient.developmentRevision,0,2147483646);
+        return value;
+    }
+    start()
+    {
+        local value = inherited();
+        if (value.status == 'resolved') self.care.attempts = self.care.attempts + [self];
+        return value;
+    }
+    complete()
+    {
+        local value = inherited(); if (value.status != 'resolved') return value;
+        if (value.succeeded)
+        {
+            self.patient.mortal = nil;
+            value.permanentHealthCheck = rpgLiteAttributeCheck(self.patient,rpgHT,'permanent-health',0);
+            if (!value.permanentHealthCheck.achieved)
+            {
+                self.patient.ht -= 1; self.patient.developmentRevision += 1; value.healthLost = 1;
+            }
+            value.complicationReviewRequired = value.permanentHealthCheck.critical == 'failure';
+            self.care.close();
+        }
+        else if (self.patient.dead) self.care.close();
+        return value;
     }
 ;

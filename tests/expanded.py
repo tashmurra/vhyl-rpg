@@ -8930,6 +8930,8 @@ def test(build):
     test_lasting_repair(Session, lasting_repair, build.out)
     surgical_infection = build.build('expanded-surgical-infection', ROOT / 'tests/fixtures/expanded-surgical-infection.t')
     test_surgical_infection(Session, surgical_infection, build.out)
+    mortal_stabilization = build.build('expanded-mortal-stabilization', ROOT / 'tests/fixtures/expanded-mortal-stabilization.t')
+    test_mortal_stabilization(Session, mortal_stabilization, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11011,5 +11013,59 @@ def test_surgical_infection(Session, bundle, out):
             s.action(2285, code)
         # First disease resistance roll of 3 gives natural immunity; no wound.
         assert state(s) == [None, 0, None, 0, 0, 0, 60, 6]
+    finally:
+        s.close()
+
+
+def test_mortal_stabilization(Session, bundle, out):
+    def state(s):
+        s.action(2285, 175)
+        return last(s, 'test.mortal-stabilization')
+    path = out / 'expanded-mortal-stabilization.zsave'
+    s = Session(bundle)
+    try:
+        for code in (170, 171, 172, 182, 174):
+            s.action(2285, code)
+        assert state(s) == [1, 10, 80, 0, None, 3600, 6]
+        s.action(2285, 173)
+        s.command('undo')
+        assert state(s) == [1, 10, 80, 0, None, 3600, 6]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 173)
+        s.action(2285, 173)
+        assert state(s) == [0, 9, 80, 0, 3600, 3600, 12]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (170, 176, 171, 172, 173):
+            s.action(2285, code)
+        assert state(s) == [1, 10, 92, 1, None, 3600, 12]
+        s.action(2285, 179)
+        assert last(s, 'test.mortal-score') == [8]
+        for code in (177, 172, 178, 178):
+            s.action(2285, code)
+        assert state(s) == [0, 10, 92, 1, 7200, 7200, 24]
+    finally:
+        s.close()
+    for code, score in [(180, 8), (181, 6)]:
+        s = Session(bundle)
+        try:
+            s.action(2285, 170)
+            s.action(2285, code)
+            s.action(2285, 179)
+            assert last(s, 'test.mortal-score') == [score]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (170, 183, 171, 172, 173, 184):
+            s.action(2285, code)
+        assert last(s, 'test.mortal-complication') == [1, 1]
     finally:
         s.close()

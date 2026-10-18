@@ -2307,3 +2307,42 @@ verified rules rather than silent approximation. `expanded-lasting-repair.t` and
 `test_lasting_repair` cover a fractional conversion, ordinary and critical failure,
 old-schedule rejection, exact boundaries, replay, rollback, undo and saved
 continuation. They are authored and unrun.
+
+### Stabilizing a mortal wound
+
+`RpgExpandedMortalCare` owns one observed mortal condition. Supply its unique `id`,
+`patient`, `approved` and evidence identifying that condition, then `open()` while
+the patient is alive and mortal. A patient can have only one open care record.
+Use this record for every surgeon and retry; creating another operation cannot
+reset its failed-attempt count. Close it after observed spontaneous recovery or
+death, interrupting any unfinished operation first. A new mortal condition needs
+a new record after the old condition has closed.
+
+`RpgExpandedMortalStabilization` uses this `care` and the common operation fields.
+Its duration must be 3600 seconds. B424's severity modifier is -2 at -3 times
+maximum HP or worse, replaced by -4 at -4 times maximum HP or worse. Each earlier
+failed operation on this condition adds another -2. Interrupted attempts have no
+failed roll and do not add this penalty. Current severity, surgeon conditions and
+retry history are assessed again at completion; a score below three blocks the
+attempt before randomness. The shared clock continues ordinary mortal survival
+checks during the hour. This adapter does not supply trauma-maintenance support.
+
+Success ends the mortal condition without healing HP or automatically waking the
+patient. It then makes B423's permanent-health check. Failure reduces HT by one
+and increments the existing development revision without changing earned or
+unspent points. A critical failure sets `complicationReviewRequired`, exposing the
+source's discretionary additional consequence for the author; no disadvantage or
+appearance change is silently installed. The roll is retained in
+`permanentHealthCheck`, and `healthLost` records the actual change. Authored
+additional complications still require their own applicable trait interfaces.
+
+Failure uses the common 3d injury and leaves the condition open if the patient
+survives. The next attempt retains its penalty. Successful stabilization, or
+failure that kills the patient, closes the care record. Infection and unsupported
+bleeding/clotting combinations follow the common surgical adapter. Neither
+stabilization nor replay grants extra healing, time or advancement credit.
+
+`expanded-mortal-stabilization.t` and `test_mortal_stabilization` specify severity
+thresholds, persistent retry penalties, ongoing half-hour survival rolls,
+permanent HT loss, critical complication flags, preview, replay, rollback, undo
+and cross-process continuation. They are authored and unrun.
