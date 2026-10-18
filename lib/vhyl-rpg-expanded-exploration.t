@@ -4757,3 +4757,101 @@ modify RpgExpandedProfile
 ;
 
 
+
+class RpgExpandedSignatureRecognitionResult: RpgExpandedResult
+    recognized = nil
+    subject = nil
+;
+/** B49 author-established signature identity, following a successful observation. */
+class RpgExpandedSignatureRecognition: object
+    id = nil
+    profile = nil
+    observation = nil
+    signature = nil
+    subject = nil
+    identityUncontested = nil
+    familiarBeforehand = nil
+    familiarityEvidence = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    sense()
+    {
+        if (self.observation != nil && self.observation.ofKind(RpgExpandedHearingObservation)) return 'hearing';
+        if (self.observation != nil && self.observation.ofKind(RpgExpandedChemicalObservation)
+            && self.observation.context != nil && self.observation.context.sense == 'smell') return 'smell';
+        rpgExpandedReject('signature-recognition-sense');
+    }
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.signature == nil || self.subject == nil) rpgExpandedReject('signature-recognition-definition');
+        return [self.id,self.profile,self.observation,self.signature,self.subject,self.familiarBeforehand,
+            self.familiarityEvidence,self.approved,self.evidence,self.identityUncontested,self.sense()];
+    }
+    outcomeDefinition()
+    { return [self.recordedAt,self.result,self.result.recognized,self.result.subject]; }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedSignatureRecognitionResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.signatureRecognitions,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('signature-recognition-history');
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('signature-recognition-binding');
+            local outcome = self.outcomeDefinition();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('signature-recognition-outcome');
+            for (local index = 1; index <= outcome.length(); index += 1)
+                if (outcome[index] != self.boundOutcome[index]) rpgExpandedReject('signature-recognition-outcome');
+            if (self.recordedAt > rpgLedger.seconds || self.observation.assess().status != 'reused')
+                rpgExpandedReject('signature-recognition-receipt');
+            value.status = 'reused'; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('signature-recognition-uncommitted');
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'signature-recognition-observer-unavailable'; return value; }
+        if (self.observation.profile != self.profile) { value.reason = 'signature-recognition-observer'; return value; }
+        if (self.observation.result == nil) { value.reason = 'signature-recognition-not-observed'; return value; }
+        self.observation.assess();
+        if (!self.observation.result.noticed) { value.reason = 'signature-recognition-not-observed'; return value; }
+        if (self.profile.sensoryRecognitionBonus(self.sense()) == 0) { value.reason = 'signature-recognition-trait-required'; return value; }
+        if (!self.identityUncontested) { value.reason = 'signature-recognition-contest-adapter-required'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'signature-recognition-identity-evidence'; return value; }
+        if (self.familiarBeforehand && (self.familiarityEvidence == nil || self.familiarityEvidence == ''))
+        { value.reason = 'signature-recognition-familiarity-evidence'; return value; }
+        if (!self.familiarBeforehand && self.familiarityEvidence != nil) rpgExpandedReject('signature-recognition-unused-familiarity');
+        foreach (local prior in self.profile.signatureRecognitions)
+            if (prior.id == self.id || prior.observation == self.observation) rpgExpandedReject('signature-recognition-repeat');
+        value.recognized = self.familiarBeforehand || self.profile.knowsSensorySignature(self.sense(),self.signature);
+        if (value.recognized) value.subject = self.subject;
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeDefinition(); self.profile.signatureRecognitions = self.profile.signatureRecognitions + [self];
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    signatureRecognitions = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local observations = [];
+        foreach (local recognition in self.signatureRecognitions)
+        {
+            if (recognition == nil || !recognition.ofKind(RpgExpandedSignatureRecognition) || recognition.profile != self
+                || holds(ids,recognition.id) || holds(observations,recognition.observation) || recognition.assess().status != 'reused')
+                rpgExpandedReject('signature-recognition-history');
+            ids = ids + [recognition.id]; observations = observations + [recognition.observation];
+        }
+        return nil;
+    }
+;

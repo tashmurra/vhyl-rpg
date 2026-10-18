@@ -2318,3 +2318,36 @@ modifiers remain pending. Purchasing the trait alone must not be presented as
 implementing those procedures. `test_sensory_recognition` specifies prices,
 stacking, suppression, invalid modifiers, duplicate rejection, template copying,
 undo and saved continuation. Fixtures remain unrun.
+
+
+## Recognizing an observed signature
+
+`RpgExpandedSignatureRecognition` connects a successful owned hearing or smell
+observation to a known signature (full-2008 B49). Supply `id`, `profile`,
+`observation`, `signature`, `subject`, `approved`, `identityUncontested = true`
+and `evidence` establishing that
+this observation carries this subject's signature. The observation must belong
+to the profile and have succeeded; the appropriate fine-sense purchase must be
+active. Taste recognition requires a different sampling/analysis procedure and
+is rejected here.
+
+A signature learned through `RpgExpandedSensoryMemoryAttempt` is recognized.
+For familiarity established before play, set `familiarBeforehand = true` and
+supply concrete `familiarityEvidence`, such as a long-known companion's voice.
+This is an explicit author contract for existing knowledge, not a substitute
+for a failed in-play memorization attempt. Without either source of familiarity,
+the result remains unrecognized and contains no subject identity.
+
+`assess()` computes the result without spending resources. `resolve()` retains
+it without another roll or time charge. A recognition receipt binds the
+observation and authored identity evidence; one observation cannot be repeatedly
+queried with alternative identities. Replay preserves the original outcome,
+even if the signature is learned later. No event automatically reveals identity.
+Authored disguises, mimicry and contested identity require their own procedures;
+this adapter must not be used to bypass them.
+
+`test_signature_recognition` specifies both senses, learned and prior
+familiarity, unknown signatures, failed observation, wrong observer, inactive
+traits, no extra time/randomness, rollback, undo, tamper rejection and saved
+continuation. Fixtures remain unrun. Automated identity evidence, contested
+matching and recipient-specific player actions remain pending.

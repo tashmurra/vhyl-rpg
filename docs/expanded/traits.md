@@ -1903,8 +1903,8 @@ without performing a detection or recognition check. Bound request and outcome
 fields prevent rewriting a completed attempt or its deadline.
 
 Author evidence is required for uninterrupted exposure; automated moving-source
-availability and interruption events remain pending. Taste sampling and matching a new stimulus against known signatures remain
-unfinished integrations. The shared player action interface is described below. `test_sensory_memory` specifies both senses,
+availability and interruption events remain pending. Taste sampling remains unfinished. Matching successful observations against
+known signatures is documented in the exploration guide. The shared player action interface is described below. `test_sensory_memory` specifies both senses,
 minimum duration, trait suppression, health denial, replay, rollback, undo,
 failed-attempt tampering and saved retry-boundary continuation. Fixtures are
 unrun while checks are paused.

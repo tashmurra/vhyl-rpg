@@ -1071,3 +1071,8 @@ modify RpgLiteContext
 modify RpgLiteContext
     sensoryRecognitionMode() { return self.kind == 'hearing' ? 'hearing' : nil; }
 ;
+
+modify RpgExpandedProfile
+    sensoryRecognitionBonus(sense) { rpgExpandedReject('sensory-recognition-traits-module-required'); }
+    knowsSensorySignature(sense,signature) { rpgExpandedReject('sensory-recognition-traits-module-required'); }
+;

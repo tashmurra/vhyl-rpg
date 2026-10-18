@@ -9538,6 +9538,8 @@ def test(build):
     test_sensory_memory(Session,sensory_memory,build.out)
     sensory_memory_actions = build.build('expanded-sensory-memory-actions',ROOT / 'tests/fixtures/expanded-sensory-memory-actions.t')
     test_sensory_memory_actions(Session,sensory_memory_actions,build.out)
+    signature_recognition = build.build('expanded-signature-recognition',ROOT / 'tests/fixtures/expanded-signature-recognition.t')
+    test_signature_recognition(Session,signature_recognition,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26975,3 +26977,62 @@ def test_sensory_memory_actions(Session, bundle, out):
             assert state(s) == [1,None,86460,60,3]
         finally:
             s.close()
+
+
+def test_signature_recognition(Session, bundle, out):
+    """B49 observed signatures match retained or authored prior familiarity; unrun."""
+    def state(s):
+        s.action(1680,28302)
+        return last(s,'test.signature-recognition')
+    for sense in ('hearing','smell'):
+        s = Session(bundle)
+        try:
+            if sense == 'smell':
+                s.action(1680,28308)
+            s.action(1680,28303)
+            assert last(s,'test.recognition-preview') == ['blocked','signature-recognition-not-observed']
+            s.action(1680,28100); s.action(1680,27400 if sense == 'hearing' else 27900)
+            s.action(1680,28303)
+            assert last(s,'test.recognition-preview') == ['ready',None]
+            assert state(s) == [0,None,0,60,6]
+            s.action(1680,28301); assert state(s) == [0,None,0,60,6]
+            s.action(1680,28300); s.command('undo'); assert state(s) == [0,None,0,60,6]
+            s.action(1680,28300); s.action(1680,28300); assert state(s) == [1,True,1,60,6]
+            s.action(1680,28307); assert state(s) == [1,True,1,60,6]
+        finally:
+            s.close()
+    path = out / 'signature-recognition.zsave'
+    s = Session(bundle)
+    try:
+        s.action(1680,27400); s.action(1680,28304); s.action(1680,28300)
+        assert state(s) == [1,True,1,0,3]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,28300)
+        assert state(s) == [1,True,1,0,3]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27400); s.action(1680,28300)
+        assert state(s) == [1,None,0,0,3]
+        s.action(1680,28100); s.action(1680,28300)
+        assert state(s) == [1,None,0,60,6]  # Later learning cannot rewrite the old outcome.
+    finally:
+        s.close()
+    for code in (28305,28306,28111,28309):
+        s = Session(bundle)
+        try:
+            s.action(1680,27400); s.action(1680,code); s.action(1680,28300)
+            assert state(s) == [0,None,0,0,3]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        s.action(1680,27004); s.action(1680,27400); s.action(1680,28304); s.action(1680,28300)
+        assert state(s) == [0,None,0,0,3]
+    finally:
+        s.close()
