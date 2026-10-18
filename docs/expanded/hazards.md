@@ -1845,8 +1845,10 @@ The enclosing action advances the shared clock. Early checks block; missed
 checks also block, requiring the caller to schedule exposure checks at their
 actual deadlines rather than silently skip them. `end()` refuses to discard a
 currently due check. Pressure/protection changes require ending the interval and
-starting a new one; overlapping intervals are rejected. This is an explicit
-constant-exposure adapter, not an automatic world clock monitor.
+starting a new one; overlapping intervals are rejected. The shared clock refuses to advance past an unresolved entry or minute check.
+It can reach a future deadline exactly, but the author must resolve the check
+before advancing further; the clock does not automatically roll. Immune and ended
+intervals do not impose pressure deadlines.
 
 Changing-pressure travel, decompression illness
 and safe decompression schedules remain pending. Threshold, size, duplicate,
@@ -1862,3 +1864,8 @@ mitigated purchase or different effective tier rejects before the next check;
 finish/reassess exposure through an authored transition instead of silently
 changing an active interval. Purchase support is supplied by the traits module;
 the hazards module remains usable without it.
+
+Pressure deadlines are validated against entry time and the owned ordered check
+history. Editing a deadline or end marker rejects rather than allowing an action
+to bypass exposure. Clock-boundary, immunity, ended-exposure and schedule-mutation
+fixtures are authored but unrun.

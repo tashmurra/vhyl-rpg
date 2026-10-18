@@ -4153,6 +4153,7 @@ class RpgExpandedPressureExposure: object
     startedAt = nil
     dueAt = nil
     endedAt = nil
+    boundEndedAt = nil
     checks = []
     boundDefinition = nil
     resolvedNativePressure() { return self.nativePressure == nil ? self.profile.nativePressureHundredths : self.nativePressure; }
@@ -4163,13 +4164,21 @@ class RpgExpandedPressureExposure: object
         return innate > self.support ? innate : self.support;
     }
     definition() { return [self.id,self.profile,self.pressure,self.nativePressure,self.support,self.sizeModifier,
-        self.approved,self.evidence,self.resolvedNativePressure(),self.resolvedSupport()]; }
+        self.approved,self.evidence,self.resolvedNativePressure(),self.resolvedSupport(),self.startedAt]; }
     validateBinding()
     {
         if (self.startedAt == nil || !holds(self.profile.pressureExposures,self)) rpgExpandedReject('pressure-owner');
         local current = self.definition();
         for (local i = 1; i <= current.length(); i += 1)
             if (current[i] != self.boundDefinition[i]) rpgExpandedReject('pressure-binding');
+        if (self.endedAt != self.boundEndedAt || self.dueAt != self.startedAt + self.checks.length() * 60)
+            rpgExpandedReject('pressure-schedule-binding');
+        for (local i = 1; i <= self.checks.length(); i += 1)
+        {
+            local check = self.checks[i];
+            if (check.exposure != self || check.boundExposure != self || check.result == nil
+                || check.checkedAt != self.startedAt + (i - 1) * 60) rpgExpandedReject('pressure-check-history');
+        }
         return nil;
     }
     assess()
@@ -4205,7 +4214,7 @@ class RpgExpandedPressureExposure: object
         local assessment = rpgExpandedAssessPressure(self.pressure,self.resolvedNativePressure(),self.resolvedSupport(),self.sizeModifier);
         if (assessment.checkRequired && !self.profile.dead && rpgLedger.seconds >= self.dueAt)
         { value.reason = 'pressure-check-due'; return value; }
-        self.endedAt = rpgLedger.seconds; value.status = 'resolved'; return value;
+        self.endedAt = rpgLedger.seconds; self.boundEndedAt = self.endedAt; value.status = 'resolved'; return value;
     }
 ;
 class RpgExpandedPressureCheck: object
@@ -4248,5 +4257,27 @@ class RpgExpandedPressureCheck: object
         if (self.exposure != self.boundExposure || rpgLedger.seconds != self.checkedAt
             || self.exposure.dueAt != self.checkedAt + 60) rpgExpandedReject('pressure-check-state-changed');
         self.exposure.validateBinding(); return value;
+    }
+;
+
+/** No action may skip an unresolved entry/minute pressure check. */
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local exposure = firstObj(RpgExpandedPressureExposure); exposure != nil;
+            exposure = nextObj(exposure,RpgExpandedPressureExposure))
+            if (exposure.startedAt != nil)
+            {
+                exposure.validateBinding();
+                if (exposure.endedAt == nil && !exposure.profile.dead)
+                {
+                    local assessment = rpgExpandedAssessPressure(exposure.pressure,exposure.resolvedNativePressure(),
+                        exposure.resolvedSupport(),exposure.sizeModifier);
+                    if (assessment.checkRequired && self.seconds + seconds > exposure.dueAt)
+                        rpgExpandedReject('pressure-check-deadline');
+                }
+            }
+        return nil;
     }
 ;

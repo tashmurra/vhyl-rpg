@@ -24,6 +24,17 @@ modify BleedTestAction
         if (code == 8005) { pressureExposure.sizeModifier = 2; return nil; }
         if (code == 8006) { pressureEntry.apply(); throw new RpgError(); }
         if (code == 8007) { rpgSpendTime(61); return nil; }
+        if (code == 8009) { rpgLedger.seconds = 61; return nil; }
+        if (code == 8010)
+        {
+            event('test.pressure-clock');
+            try { rpgSpendTime(61); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 8011) { pressureExposure.support = 3; return nil; }
+        if (code == 8012) { pressureExposure.dueAt += 60; return nil; }
+        if (code == 8013) { pressureExposure.end(); return nil; }
         if (code == 8008)
         {
             event('test.pressure-table');

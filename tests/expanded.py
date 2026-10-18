@@ -9144,6 +9144,7 @@ def test(build):
     test_strength_handling(Session, strength_reduction)
     pressure = build.build('expanded-pressure',ROOT / 'tests/fixtures/expanded-pressure.t')
     test_pressure(Session, pressure, build.out)
+    test_pressure_clock(Session, pressure)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     native_pressure_template = build.build('expanded-native-pressure-template',ROOT / 'tests/fixtures/expanded-native-pressure-template.t')
@@ -18921,10 +18922,10 @@ def test_pressure(Session, bundle, out):
     finally:
         s.close()
     for setup, expected in (([8005], ['resolved', None, 2]),
-                            ([8007], ['blocked', 'pressure-check-missed', 0])):
+                            ([8009], ['blocked', 'pressure-check-missed', 0])):
         s = Session(bundle)
         try:
-            actions = [30, 8005, 8000, 8001] if setup == [8005] else [30, 8000, 8007, 8001]
+            actions = [30, 8005, 8000, 8001] if setup == [8005] else [30, 8000, 8009, 8001]
             for code in actions:
                 s.action(2285, code)
             assert last(s, 'test.pressure') == expected
@@ -19026,3 +19027,18 @@ def test_ancestry_pressure(Session, bundle, out):
         assert last(s, 'test.ancestry-pressure') == [200, 0, 2, 0, 0]
     finally:
         s.close()
+
+
+def test_pressure_clock(Session, bundle):
+    for actions, expected in (([8000, 8010], ['pressure-check-deadline', 0, 0]),
+                              ([30, 8000, 8001, 8010], ['pressure-check-deadline', 0, 3]),
+                              ([8011, 8000, 8010], ['accepted', 61, 0]),
+                              ([30, 8000, 8001, 8013, 8010], ['accepted', 61, 3]),
+                              ([8000, 8012, 8010], ['pressure-schedule-binding', 0, 0])):
+        s = Session(bundle)
+        try:
+            for code in actions:
+                s.action(2285, code)
+            assert last(s, 'test.pressure-clock') == expected
+        finally:
+            s.close()

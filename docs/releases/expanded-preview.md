@@ -1445,3 +1445,7 @@ Ancestry packages now support mandatory zero-point native pressure with bound
 provenance, agreement checks across packages and isolation from later source
 edits. Conflict, binding, undo and saved-continuation fixtures are authored but
 unrun.
+
+Active pressure exposures now guard the shared clock against skipped entry/minute
+checks. Deadlines are validated against owned check history; immune and ended
+exposures impose no deadline. Boundary and mutation fixtures are authored but unrun.
