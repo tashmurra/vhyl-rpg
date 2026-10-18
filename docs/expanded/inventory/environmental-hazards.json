@@ -2354,9 +2354,13 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Unsafe decompression requires health checking: critical success has no effect, success causes agony with hourly health recovery, failure causes unconsciousness or painful paralysis and critical failure causes death.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_illness",
+        "tests/expanded.py::test_decompression_illness_outcomes"
+      ],
+      "validation_note": "Owned unsafe-return onset and hourly recovery now implement the unconsciousness branch, agony fatigue through the shared ledger, failed hourly recovery injury and critical onset outcomes. Painful paralysis, recompression treatment and active-plan abandonment remain unsupported. Lifecycle and outcome fixtures authored but unrun while checks are paused."
     },
     {
       "id": "hazard-bends-unconscious",
@@ -2364,9 +2368,13 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "After ordinary decompression failure, hourly health failure causes one die injury; successful awakening transitions to the ongoing joint-pain recovery phase.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_illness",
+        "tests/expanded.py::test_decompression_illness_outcomes"
+      ],
+      "validation_note": "Owned unsafe-return onset and hourly recovery now implement the unconsciousness branch, agony fatigue through the shared ledger, failed hourly recovery injury and critical onset outcomes. Painful paralysis, recompression treatment and active-plan abandonment remain unsupported. Lifecycle and outcome fixtures authored but unrun while checks are paused."
     },
     {
       "id": "hazard-recompression",

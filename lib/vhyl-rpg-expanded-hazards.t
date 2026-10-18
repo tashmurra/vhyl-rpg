@@ -4507,3 +4507,157 @@ modify rpgLedger
         return nil;
     }
 ;
+
+/** B435 unsafe return: ordinary unconsciousness branch and hourly recovery. */
+class RpgExpandedDecompressionIllnessResult: RpgExpandedResult
+    phase = nil
+    injury = 0
+;
+modify RpgExpandedProfile
+    decompressionIllnesses = []
+    unconsciousRecoveryOwned()
+    {
+        foreach (local episode in self.decompressionIllnesses)
+        { episode.validateReceipt(); if (episode.phase == 'unconscious') return true; }
+        return inherited();
+    }
+;
+class RpgExpandedDecompressionIllness: object
+    id = nil
+    source = nil
+    humanExamples = nil
+    unsafeReturn = nil
+    failureMode = 'unconscious'
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    startedAt = nil
+    dueAt = nil
+    phase = nil
+    agony = nil
+    recoveries = []
+    result = nil
+    boundDefinition = nil
+    profile() { return self.source.profile; }
+    definition() { return [self.id,self.source,self.humanExamples,self.unsafeReturn,self.failureMode,self.approved,self.evidence,self.dropDestination,self.startedAt]; }
+    validateReceipt()
+    {
+        self.source.validateBinding();
+        if (self.result == nil || !holds(self.profile().decompressionIllnesses,self)) rpgExpandedReject('decompression-illness-owner');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('decompression-illness-binding');
+        local expected = self.result.phase;
+        foreach (local recovery in self.recoveries)
+        {
+            if (recovery.episode != self || recovery.boundEpisode != self || recovery.result == nil) rpgExpandedReject('decompression-recovery-history');
+            expected = recovery.result.phase;
+        }
+        if (self.phase != expected || self.dueAt != self.startedAt + (self.recoveries.length()+1) * 3600)
+            rpgExpandedReject('decompression-illness-state');
+        return nil;
+    }
+    painEpisode(ordinal)
+    {
+        local pain = new RpgExpandedAgony(); pain.id = self.id + ':pain:' + ordinal;
+        pain.profile = self.profile(); pain.durationSeconds = 3600; pain.approved = true;
+        pain.evidence = self.evidence; pain.dropDestination = self.dropDestination; return pain;
+    }
+    assess()
+    {
+        local value = new RpgExpandedDecompressionIllnessResult();
+        if (self.id == nil || self.id == '' || self.source == nil || !self.source.ofKind(RpgExpandedPressureExposure))
+            rpgExpandedReject('decompression-illness-definition');
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        self.source.validateBinding();
+        if (!self.approved || !self.unsafeReturn || self.evidence == nil || self.evidence == '')
+        { value.reason = 'decompression-unsafe-return-evidence'; return value; }
+        if (self.failureMode != 'unconscious') rpgExpandedReject('decompression-paralysis-unimplemented');
+        if (self.source.endedAt != rpgLedger.seconds) { value.reason = 'decompression-return-not-current'; return value; }
+        if (self.source.assessReturnToNative(self.humanExamples).safeReturn)
+        { value.reason = 'decompression-return-not-at-risk'; return value; }
+        if (self.profile().dead || self.profile().unconscious) { value.reason = 'decompression-patient-unavailable'; return value; }
+        foreach (local plan in self.profile().decompressionPlans)
+            if (plan.completedAt == nil) { value.reason = 'decompression-plan-active'; return value; }
+        foreach (local prior in self.profile().decompressionIllnesses)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.source == self.source || holds(['agony','unconscious'],prior.phase))
+                rpgExpandedReject('decompression-illness-overlap');
+        }
+        if (self.painEpisode(0).assess().status != 'ready') { value.reason = 'decompression-agony-unavailable'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147480047);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        value.check = rpgLiteAttributeCheck(self.profile(),rpgHT,'resistance',0);
+        value.phase = value.check.critical == 'success' ? 'recovered' : value.check.critical == 'failure' ? 'dead'
+            : value.check.achieved ? 'agony' : 'unconscious';
+        self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + 3600;
+        self.phase = value.phase; self.boundDefinition = self.definition();
+        value.status = 'resolved'; self.result = value;
+        self.profile().decompressionIllnesses = self.profile().decompressionIllnesses + [self];
+        if (self.phase == 'agony')
+        { self.agony = self.painEpisode(0); if (self.agony.apply().status != 'resolved') rpgExpandedReject('decompression-agony-changed'); }
+        if (self.phase == 'dead') self.profile().dead = true;
+        if (holds(['dead','unconscious'],self.phase)) self.profile().becomeUnconscious();
+        self.validateReceipt(); return value;
+    }
+;
+class RpgExpandedDecompressionRecovery: object
+    episode = nil
+    result = nil
+    boundEpisode = nil
+    assess()
+    {
+        if (self.episode == nil || !self.episode.ofKind(RpgExpandedDecompressionIllness)) rpgExpandedReject('decompression-recovery-episode');
+        self.episode.validateReceipt(); local value = new RpgExpandedDecompressionIllnessResult();
+        if (self.result != nil)
+        {
+            if (self.episode != self.boundEpisode || !holds(self.episode.recoveries,self)) rpgExpandedReject('decompression-recovery-owner');
+            value.status = 'reused'; return value;
+        }
+        if (!holds(['agony','unconscious'],self.episode.phase) || self.episode.profile().dead)
+        { value.reason = 'decompression-recovery-inactive'; return value; }
+        if (rpgLedger.seconds != self.episode.dueAt) { value.reason = 'decompression-recovery-time'; return value; }
+        if (self.episode.painEpisode(self.episode.recoveries.length()+1).assess().status != 'ready') { value.reason = 'decompression-agony-unavailable'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147480047); value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local e = self.episode; local oldPhase = e.phase;
+        value.check = rpgLiteAttributeCheck(e.profile(),rpgHT,'resistance',0);
+        value.phase = value.check.achieved ? (oldPhase == 'agony' ? 'recovered' : 'agony') : oldPhase;
+        self.boundEpisode = e; value.status = 'resolved'; self.result = value;
+        e.recoveries = e.recoveries + [self]; e.phase = value.phase; e.dueAt += 3600;
+        if (oldPhase == 'unconscious' && !value.check.achieved)
+        { value.injury = rpgRandom.die(); rpgLiteWound(e.profile(),value.injury); }
+        if (value.phase == 'agony')
+        {
+            e.agony = e.painEpisode(e.recoveries.length()); if (e.agony.apply().status != 'resolved') rpgExpandedReject('decompression-agony-changed');
+            if (oldPhase == 'unconscious' && !e.profile().unconsciousRecoveryOwned() && !e.profile().mortal
+                && e.profile().hp() > 0 && e.profile().fp() > 0) e.profile().unconscious = nil;
+        }
+        e.validateReceipt(); return value;
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedDecompressionIllness); episode != nil;
+            episode = nextObj(episode,RpgExpandedDecompressionIllness))
+            if (episode.result != nil && !episode.profile().dead)
+            {
+                episode.validateReceipt();
+                if (holds(['agony','unconscious'],episode.phase) && self.seconds + seconds > episode.dueAt)
+                    rpgExpandedReject('decompression-recovery-boundary');
+            }
+        return nil;
+    }
+;

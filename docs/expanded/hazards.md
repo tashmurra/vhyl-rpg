@@ -1850,8 +1850,8 @@ It can reach a future deadline exactly, but the author must resolve the check
 before advancing further; the clock does not automatically roll. Immune and ended
 intervals do not impose pressure deadlines.
 
-Changing-pressure travel, decompression illness
-and safe decompression schedules remain pending. Threshold, size, duplicate,
+Unrestricted changing-pressure travel and inferred safe decompression schedules remain pending.
+See the authored-stage and illness procedures below for the supported subset. Threshold, size, duplicate,
 missed-deadline, rollback, undo and save-continuation fixtures are authored but
 unrun while checks are paused.
 
@@ -1930,7 +1930,8 @@ match owned progress records. Use engine action transactions and allow exception
 to roll back the whole action, including the in-flight progress marker. A failed
 or interrupted schedule does not count as completed. Concurrent schedules for
 multiple characters, changes to protection/native pressure, abandonment, emergency
-ascent and illness from failed decompression remain explicitly unsupported.
+ascent remain explicitly unsupported. Illness following a separately completed unsafe
+exposure has the limited procedure below.
 
 A completed plan proves execution of the authored schedule, not independently
 verified safety. Shared-clock exclusion, repeat-safe credit, multi-stage execution,
@@ -1942,3 +1943,42 @@ ends must resolve before `finishStage()`. A rejected progress action must unwind
 through the engine transaction so its in-flight marker rolls back. Integration
 fixtures cover these boundaries and reject repeated-pressure rows without time
 or randomness; they remain unrun.
+
+
+## Unsafe-return illness and hourly recovery
+
+`RpgExpandedDecompressionIllness` implements the ordinary unconsciousness branch
+of `full-2008`, B435. Supply an owned, completed pressure `source`, a unique `id`,
+`unsafeReturn = true`, `approved = true` and original `evidence` explaining why
+the return was too rapid. Set `humanExamples` only when the printed human examples
+apply. The record must start at the exposure's end time; a known safe return,
+an active decompression plan or another active illness prevents onset. Unknown
+safe limits require the author's explicit unsafe-return judgment; the procedure
+does not infer a decompression schedule.
+
+`assess()` previews eligibility. `apply()` commits one health check: critical
+success ends without symptoms, ordinary success starts agony, ordinary failure
+causes unconsciousness, and critical failure causes death. The default
+`failureMode = 'unconscious'` is currently the only supported branch; choosing
+paralysis rejects before a roll. Repeating `apply()` returns its stored result.
+
+Create a fresh `RpgExpandedDecompressionRecovery` with `episode` pointing to the
+illness for each hourly check. It must execute exactly at `episode.dueAt`.
+Successful recovery from agony ends the illness. Success from unconsciousness
+starts agony; failure while unconscious applies one die of injury through the
+shared wound procedure. Other causes of unconsciousness still prevent waking.
+A failed agony recovery continues the pain for the next hour.
+
+Each hour of pain owns a standard `RpgExpandedAgony` record, accessible as
+`episode.agony`. Pay its ordinary minute fatigue receipts through `pay(id)` as
+time advances. Hourly recovery does not replace those payments. The clock refuses
+to skip either an agony payment or an illness recovery boundary. No separate
+injury, fatigue or time balance is introduced. Run commits inside normal engine
+actions and let exceptions propagate so transaction rollback restores all effects.
+
+Recompression treatment, painful paralysis, emergency ascent from an active plan
+and simultaneous explosive decompression remain pending. This procedure does not
+claim those combinations. The minimal integration fixture is
+[`expanded-decompression-illness.t`](../../tests/fixtures/expanded-decompression-illness.t).
+Its onset, recovery, preview, replay, rollback, undo and cross-process continuation
+fixtures are authored but unrun while checks remain paused.

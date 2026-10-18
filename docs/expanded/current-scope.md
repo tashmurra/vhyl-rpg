@@ -36,3 +36,10 @@ effects, venom DX symptoms and identification-to-care paths now have authored
 fixtures but remain unverified. Continue through every pending entry
 in all nine selected modules, including catalogue effects and cross-module
 dependencies; these recent changes do not narrow the completion target.
+
+
+The unsafe-return hazard now has owned onset and hourly recovery for its
+unconsciousness branch, integrated with agony's minute fatigue payments. Its
+fixtures remain unrun. Recompression, paralysis and emergency ascent from an
+active decompression plan remain outstanding; this increment does not complete
+the pressure catalogue or hazards module.

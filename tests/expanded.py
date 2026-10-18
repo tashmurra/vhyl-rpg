@@ -9150,6 +9150,9 @@ def test(build):
     decompression_plan = build.build('expanded-decompression-plan',ROOT / 'tests/fixtures/expanded-decompression-plan.t')
     test_decompression_plan(Session, decompression_plan, build.out)
     test_decompression_pressure_checks(Session, decompression_plan)
+    decompression_illness = build.build('expanded-decompression-illness',ROOT / 'tests/fixtures/expanded-decompression-illness.t')
+    test_decompression_illness(Session, decompression_illness, build.out)
+    test_decompression_illness_outcomes(Session, decompression_illness)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19150,5 +19153,80 @@ def test_decompression_pressure_checks(Session, bundle):
     try:
         s.action(2285, 8515)
         assert last(s, 'test.decompression-stage-error') == ['decompression-plan-repeated-pressure', 0, 0]
+    finally:
+        s.close()
+
+
+def test_decompression_illness(Session, bundle, out):
+    """B435 ordinary success, hourly recovery and owned agony fatigue; unrun."""
+    path = out / 'expanded-decompression-illness.zsave'
+    s = Session(bundle)
+    try:
+        for code in (30, 8600, 8601, 8601, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness') == [None, 0, 0, 0, 0, 0, 0, 0]
+        for code in (8603, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness') == [None, 0, 0, 0, 0, 0, 0, 0]
+        s.action(2285, 8602)
+        s.command('undo')
+        s.action(2285, 8604)
+        assert last(s, 'test.decompression-illness') == [None, 0, 0, 0, 0, 0, 0, 0]
+        for code in (8602, 8602, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness') == ['agony', 0, 1, 0, 0, 0, 0, 3]
+        s.action(2285, 8606)
+        assert last(s, 'test.decompression-recovery')[:2] == ['blocked', 'decompression-recovery-time']
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (8605, 8606, 8606, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness') == ['recovered', 1, 60, 0, 0, 0, 3600, 6]
+    finally:
+        s.close()
+
+
+def test_decompression_illness_outcomes(Session, bundle):
+    for roll_code, phase, unconscious, dead in ((31, 'recovered', 0, 0), (8609, 'dead', 1, 1)):
+        s = Session(bundle)
+        try:
+            for code in (roll_code, 8600, 8602, 8602, 8604):
+                s.action(2285, code)
+            assert last(s, 'test.decompression-illness') == [phase, 0, 0, 0, unconscious, dead, 0, 3]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (8608, 8600, 8602, 8610):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness-clock') == ['decompression-recovery-boundary', 0, 3]
+        for code in (8605, 8606, 8604):
+            s.action(2285, code)
+        state = last(s, 'test.decompression-illness')
+        assert state[:3] == ['unconscious', 1, 0]
+        assert 1 <= state[3] <= 6
+        assert state[4:7] == [1, 0, 3600]
+        for code in (30, 8605, 8607, 8607, 8604):
+            s.action(2285, code)
+        state = last(s, 'test.decompression-illness')
+        assert state[:3] == ['agony', 2, 1]
+        assert state[4:7] == [0, 0, 7200]
+    finally:
+        s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (30, 8600, 8602, 8605, 8608, 8606, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness') == ['agony', 1, 61, 0, 0, 0, 3600, 6]
+        # The next hour is owned by a distinct pain record, not a duplicate onset.
+        # Replaying recovery must not pay its onset fatigue again.
+        for code in (8606, 8604):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-illness') == ['agony', 1, 61, 0, 0, 0, 3600, 6]
     finally:
         s.close()

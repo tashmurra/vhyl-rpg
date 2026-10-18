@@ -1468,3 +1468,10 @@ remain pending. Multi-stage lifecycle fixtures are authored but unrun.
 Decompression schedules reject repeated-pressure rows to avoid duplicate entry
 checks. New integration fixtures cover crushing checks at stage entry and exact
 hold-end boundaries, including rollback of rejected progress. Checks remain paused.
+
+
+Unsafe decompression now has an owned illness record for the unconsciousness
+branch, critical onset outcomes, hourly recovery and failed-recovery injury.
+Hourly agony reuses the existing minute fatigue receipts. New lifecycle fixtures
+are authored but unrun; checks remain paused. Recompression treatment, paralysis
+and emergency ascent remain unsupported, and the hazards module remains partial.
