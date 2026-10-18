@@ -4113,3 +4113,132 @@ class RpgExpandedJumpFallImpact: RpgExpandedJumpFallPlan
         return nil;
     }
 ;
+
+/** B435 crushing pressure; inputs use hundredths of an atmosphere. */
+class RpgExpandedPressureAssessment: RpgExpandedResult
+    checkRequired = nil
+    injuryMultiplier = 1
+    bendsRisk = nil
+;
+rpgExpandedAssessPressure(pressure,nativePressure,support,sizeModifier)
+{
+    rpgInteger(pressure,1,1000000); rpgInteger(nativePressure,1,100000);
+    rpgInteger(support,0,3); rpgInteger(sizeModifier,-20,20);
+    local value = new RpgExpandedPressureAssessment();
+    local increment = nativePressure * (support == 2 ? 100 : 10);
+    value.checkRequired = support < 3 && pressure > increment;
+    if (value.checkRequired) value.modifier = 3 - pressure / increment;
+    value.injuryMultiplier = sizeModifier >= 2 ? sizeModifier : 1;
+    value.bendsRisk = support < 2 && pressure > nativePressure * (support == 1 ? 10 : 2);
+    value.status = 'ready'; return value;
+}
+
+class RpgExpandedPressureResult: RpgExpandedResult
+    injury = 0
+    health = nil
+;
+modify RpgExpandedProfile
+    pressureExposures = []
+;
+/** Owned constant-pressure interval. Resolve entry and each due minute explicitly. */
+class RpgExpandedPressureExposure: object
+    id = nil
+    profile = nil
+    pressure = 100
+    nativePressure = 100
+    support = 0
+    sizeModifier = 0
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    dueAt = nil
+    endedAt = nil
+    checks = []
+    boundDefinition = nil
+    definition() { return [self.id,self.profile,self.pressure,self.nativePressure,self.support,self.sizeModifier,self.approved,self.evidence]; }
+    validateBinding()
+    {
+        if (self.startedAt == nil || !holds(self.profile.pressureExposures,self)) rpgExpandedReject('pressure-owner');
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundDefinition[i]) rpgExpandedReject('pressure-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('pressure-definition');
+        rpgExpandedValidate(self.profile);
+        local value = rpgExpandedAssessPressure(self.pressure,self.nativePressure,self.support,self.sizeModifier);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.status = 'blocked'; value.reason = 'pressure-evidence'; return value; }
+        if (self.startedAt != nil)
+        { self.validateBinding(); value.status = 'reused'; return value; }
+        foreach (local prior in self.profile.pressureExposures)
+        {
+            prior.validateBinding();
+            if (prior.id == self.id) rpgExpandedReject('pressure-duplicate');
+            if (prior.endedAt == nil) { value.status = 'blocked'; value.reason = 'pressure-overlap'; return value; }
+        }
+        if (self.profile.dead) { value.status = 'blocked'; value.reason = 'pressure-patient-dead'; }
+        return value;
+    }
+    begin()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt;
+        self.boundDefinition = self.definition(); self.profile.pressureExposures = self.profile.pressureExposures + [self];
+        value.status = 'resolved'; return value;
+    }
+    end()
+    {
+        self.validateBinding(); local value = new RpgExpandedResult();
+        if (self.endedAt != nil) { value.status = 'reused'; return value; }
+        local assessment = rpgExpandedAssessPressure(self.pressure,self.nativePressure,self.support,self.sizeModifier);
+        if (assessment.checkRequired && !self.profile.dead && rpgLedger.seconds >= self.dueAt)
+        { value.reason = 'pressure-check-due'; return value; }
+        self.endedAt = rpgLedger.seconds; value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedPressureCheck: object
+    exposure = nil
+    result = nil
+    boundExposure = nil
+    checkedAt = nil
+    assess()
+    {
+        local value = new RpgExpandedPressureResult();
+        if (self.exposure == nil || !self.exposure.ofKind(RpgExpandedPressureExposure)) rpgExpandedReject('pressure-check-exposure');
+        self.exposure.validateBinding();
+        if (self.result != nil)
+        {
+            if (self.exposure != self.boundExposure || !holds(self.exposure.checks,self)) rpgExpandedReject('pressure-check-owner');
+            value.status = 'reused'; return value;
+        }
+        if (self.exposure.endedAt != nil || self.exposure.profile.dead) { value.reason = 'pressure-exposure-ended'; return value; }
+        local assessment = rpgExpandedAssessPressure(self.exposure.pressure,self.exposure.nativePressure,
+            self.exposure.support,self.exposure.sizeModifier);
+        if (!assessment.checkRequired) { value.reason = 'pressure-check-unnecessary'; return value; }
+        if (rpgLedger.seconds < self.exposure.dueAt) { value.reason = 'pressure-check-not-due'; return value; }
+        if (rpgLedger.seconds > self.exposure.dueAt) { value.reason = 'pressure-check-missed'; return value; }
+        rpgInteger(rpgLedger.seconds,0,2147483587);
+        value.modifier = assessment.modifier; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        self.boundExposure = self.exposure; self.checkedAt = rpgLedger.seconds;
+        value.check = rpgLiteAttributeCheck(self.exposure.profile,rpgHT,'resistance',value.modifier);
+        self.exposure.dueAt += 60; self.exposure.checks = self.exposure.checks + [self];
+        value.status = 'resolved'; self.result = value;
+        if (!value.check.achieved)
+        {
+            value.injury = -value.check.margin * (self.exposure.sizeModifier >= 2 ? self.exposure.sizeModifier : 1);
+            if (value.injury > 0) value.health = rpgLiteWound(self.exposure.profile,value.injury);
+        }
+        if (self.exposure != self.boundExposure || rpgLedger.seconds != self.checkedAt
+            || self.exposure.dueAt != self.checkedAt + 60) rpgExpandedReject('pressure-check-state-changed');
+        self.exposure.validateBinding(); return value;
+    }
+;

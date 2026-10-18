@@ -1822,3 +1822,33 @@ its velocity must match the authored fall height. The adapter rejects reuse
 before a new launch and validates recorded child outcomes during replay.
 See [critical-jump falling damage](exploration.md#critical-jump-falling-damage).
 This adapter adds no separate time charge or duplicate injury ledger.
+
+## Crushing pressure
+
+`rpgExpandedAssessPressure(pressure, nativePressure, support, sizeModifier)` uses
+hundredths of an atmosphere and full-2008 B435. Crushing checks start strictly
+above ten times native pressure, or one hundred times with support level two.
+Support level three prevents crushing checks. The assessment returns the health
+modifier, failure-injury multiplier and whether return to normal pressure can
+pose decompression risk. Size modifiers of +2 or greater multiply failure injury.
+The risk flag does not resolve decompression or supply a safe schedule.
+
+`RpgExpandedPressureExposure` binds a constant-pressure interval to a profile.
+Supply a unique `id`, the four assessment inputs, `approved` and evidence for
+pressure, native environment, support and size. `begin()` records entry without
+rolling or advancing time. Resolve a fresh `RpgExpandedPressureCheck` at entry
+and at each `dueAt` while crushing checks are required. Checks use the shared
+resistance and injury procedures; a failure's margin determines injury before
+size scaling. Retain each check object for repeat-safe execution.
+
+The enclosing action advances the shared clock. Early checks block; missed
+checks also block, requiring the caller to schedule exposure checks at their
+actual deadlines rather than silently skip them. `end()` refuses to discard a
+currently due check. Pressure/protection changes require ending the interval and
+starting a new one; overlapping intervals are rejected. This is an explicit
+constant-exposure adapter, not an automatic world clock monitor.
+
+Support-trait purchase accounting, changing-pressure travel, decompression illness
+and safe decompression schedules remain pending. Threshold, size, duplicate,
+missed-deadline, rollback, undo and save-continuation fixtures are authored but
+unrun while checks are paused.

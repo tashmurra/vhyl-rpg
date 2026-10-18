@@ -9142,6 +9142,8 @@ def test(build):
     strength_reduction = build.build('expanded-strength-reduction',ROOT / 'tests/fixtures/expanded-strength-reduction.t')
     test_strength_reduction(Session, strength_reduction)
     test_strength_handling(Session, strength_reduction)
+    pressure = build.build('expanded-pressure',ROOT / 'tests/fixtures/expanded-pressure.t')
+    test_pressure(Session, pressure, build.out)
     talent_study = build.build('expanded-talent-study',ROOT / 'tests/fixtures/expanded-talent-study.t')
     test_talent_study(Session, talent_study, build.out)
     talent_communication = build.build('expanded-talent-communication-study',ROOT / 'tests/fixtures/expanded-talent-communication-study.t')
@@ -18882,3 +18884,43 @@ def test_strength_handling(Session, bundle):
         assert last(s, 'test.strength-strike') == [4]
     finally:
         s.close()
+
+
+def test_pressure(Session, bundle, out):
+    path = out / 'expanded-pressure.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285, 8008)
+        assert last(s, 'test.pressure-table') == [0, 0, 1, 2, 1, 1, 0, 0, 1, 2, 0, 0]
+        for code in (30, 8000, 8006, 8003):
+            s.action(2285, code)
+        assert last(s, 'test.pressure-state') == [0, 0, 0, 0, 0]
+        s.action(2285, 8001)
+        s.command('undo')
+        s.action(2285, 8003)
+        assert last(s, 'test.pressure-state') == [0, 0, 0, 0, 0]
+        for code in (8001, 8001, 8002, 8003):
+            s.action(2285, code)
+        assert last(s, 'test.pressure') == ['blocked', 'pressure-check-not-due', 0]
+        assert last(s, 'test.pressure-state') == [1, 1, 60, 0, 3]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (8004, 8002, 8003):
+            s.action(2285, code)
+        assert last(s, 'test.pressure-state') == [2, 2, 120, 60, 6]
+    finally:
+        s.close()
+    for setup, expected in (([8005], ['resolved', None, 2]),
+                            ([8007], ['blocked', 'pressure-check-missed', 0])):
+        s = Session(bundle)
+        try:
+            actions = [30, 8005, 8000, 8001] if setup == [8005] else [30, 8000, 8007, 8001]
+            for code in actions:
+                s.action(2285, code)
+            assert last(s, 'test.pressure') == expected
+        finally:
+            s.close()

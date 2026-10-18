@@ -1426,3 +1426,8 @@ readiness, reload duration and throwing range. Expanded bows/crossbows retain th
 weapon ratings for range and damage. Reload, attack-score and range-boundary
 fixtures are authored but unrun; explicit-strength assessments still need the
 correct authored input.
+
+Crushing pressure now has source-based threshold assessment and owned constant
+exposures with entry/minute checks, size-scaled injury and explicit missed-deadline
+rejection. Decompression illness and schedules remain pending. Boundary and
+lifecycle fixtures are authored but unrun.

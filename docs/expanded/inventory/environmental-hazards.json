@@ -2282,9 +2282,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Above ten times native pressure check health at entry and every minute, using +3 minus one per ten-times-native increment; failure injury equals margin, multiplied by size modifier if at least +2.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure"
+      ],
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-pressure-support-two",
@@ -2292,9 +2295,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Second-level pressure support changes crushing threshold and penalty increments from ten to one hundred times native pressure.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure"
+      ],
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-pressure-support-three",
@@ -2302,9 +2308,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Third-level pressure support grants pressure immunity; do not schedule crushing checks for immune actors.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure"
+      ],
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-bends-trigger",
@@ -2312,9 +2321,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Returning to normal after more than twice native pressure risks decompression illness, or more than ten times with first-level pressure support; second/third levels are immune.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pressure"
+      ],
+      "validation_note": "Pure pressure thresholds and support/size assessment plus owned constant-pressure entry/minute resistance checks implemented. Failure injury uses the shared ledger; missed checks reject. Decompression risk is assessed but illness/schedules, trait accounting and changing-pressure travel remain pending. Fixtures authored, unrun."
     },
     {
       "id": "hazard-decompression-plan",
