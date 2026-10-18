@@ -2340,9 +2340,12 @@
       "pages": "B435",
       "module": "hazards",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Safe decompression needs an authored sequence based on pressure and exposure time, potentially hours or days; the example safe limits do not supply a complete interpolation table.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_decompression_plan"
+      ],
+      "validation_note": "Explicit approved descending schedules now execute as owned pressure stages with shared-clock progress receipts, deadline integration, bound definitions and checked progress history. No duration is interpolated. Concurrent schedules, abandonment/emergency ascent, changing protection and illness remain unsupported. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "hazard-bends-roll",

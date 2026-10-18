@@ -9147,6 +9147,8 @@ def test(build):
     test_pressure_clock(Session, pressure)
     decompression_assessment = build.build('expanded-decompression-assessment',ROOT / 'tests/fixtures/expanded-decompression-assessment.t')
     test_decompression_assessment(Session, decompression_assessment)
+    decompression_plan = build.build('expanded-decompression-plan',ROOT / 'tests/fixtures/expanded-decompression-plan.t')
+    test_decompression_plan(Session, decompression_plan, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -19091,5 +19093,37 @@ def test_pressure_history(Session, bundle, out):
         for code in (8117, 8010):
             s.action(2285, code)
         assert last(s, 'test.pressure-clock') == ['pressure-binding', 61, 0]
+    finally:
+        s.close()
+
+
+def test_decompression_plan(Session, bundle, out):
+    path = out / 'expanded-decompression-plan.zsave'
+    s = Session(bundle)
+    try:
+        for code in (8500, 8506):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-clock') == ['decompression-progress-required', 0]
+        for code in (8505, 8504):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-plan') == [1, 0, None, 0, 1, 0, 0]
+        s.action(2285, 8501)
+        s.command('undo')
+        s.action(2285, 8504)
+        assert last(s, 'test.decompression-plan') == [1, 0, None, 0, 1, 0, 0]
+        for code in (8501, 8501, 8502, 8504):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-plan') == [2, 0, None, 1, 2, 60, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (8503, 8503, 8502, 8502, 8504):
+            s.action(2285, code)
+        assert last(s, 'test.decompression-plan') == [2, 60, 120, 2, 2, 120, 0]
+        s.action(2285, 8506)
+        assert last(s, 'test.decompression-clock') == ['accepted', 121]
     finally:
         s.close()

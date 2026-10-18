@@ -4329,3 +4329,180 @@ modify RpgExpandedPressureExposure
             self.resolvedSupport(),end - self.startedAt,humanExamples);
     }
 ;
+
+/** B435 author-approved descending pressure schedule; no duration is inferred. */
+modify RpgExpandedProfile
+    decompressionPlans = []
+;
+class RpgExpandedDecompressionPlan: object
+    id = nil
+    source = nil
+    stages = []
+    approved = nil
+    evidence = nil
+    startedAt = nil
+    completedAt = nil
+    stageIndex = 0
+    stageSeconds = 0
+    exposures = []
+    progress = []
+    advancing = nil
+    boundDefinition = nil
+    profile() { return self.source.profile; }
+    definition() { return [self.id,self.source,self.stages,self.approved,self.evidence,self.startedAt]; }
+    validate()
+    {
+        if (self.id == nil || self.id == '' || self.source == nil || !self.source.ofKind(RpgExpandedPressureExposure))
+            rpgExpandedReject('decompression-plan-definition');
+        self.source.validateBinding();
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('decompression-plan-approval');
+        if (self.stages.length() == 0) rpgExpandedReject('decompression-plan-empty');
+        local priorPressure = self.source.pressure;
+        foreach (local row in self.stages)
+        {
+            if (row.length() != 2) rpgExpandedReject('decompression-plan-stage');
+            rpgInteger(row[1],self.source.resolvedNativePressure(),priorPressure);
+            rpgInteger(row[2],1,2147483647); priorPressure = row[1];
+        }
+        if (priorPressure != self.source.resolvedNativePressure()) rpgExpandedReject('decompression-plan-destination');
+        if (self.startedAt != nil)
+        {
+            if (!holds(self.profile().decompressionPlans,self)) rpgExpandedReject('decompression-plan-owner');
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('decompression-plan-binding');
+            rpgInteger(self.stageIndex,1,self.stages.length());
+            rpgInteger(self.stageSeconds,0,self.stages[self.stageIndex][2]);
+            if (self.exposures.length() != self.stageIndex) rpgExpandedReject('decompression-plan-history');
+            foreach (local exposure in self.exposures) exposure.validateBinding();
+            for (local stage = 1; stage <= self.stageIndex; stage += 1)
+            {
+                local credited = 0;
+                foreach (local receipt in self.progress)
+                {
+                    if (receipt.plan != self || receipt.result == nil || receipt.boundDefinition[1] != self
+                        || receipt.boundDefinition[2] != receipt.stage || receipt.boundDefinition[3] != receipt.seconds)
+                        rpgExpandedReject('decompression-progress-history');
+                    if (receipt.stage == stage) credited += receipt.seconds;
+                }
+                if (credited != (stage == self.stageIndex ? self.stageSeconds : self.stages[stage][2]))
+                    rpgExpandedReject('decompression-progress-history');
+                local exposure = self.exposures[stage];
+                if (exposure.profile != self.profile() || exposure.pressure != self.stages[stage][1]
+                    || exposure.startedAt != (stage == 1 ? self.startedAt : self.exposures[stage-1].endedAt))
+                    rpgExpandedReject('decompression-plan-history');
+                if (stage < self.stageIndex && exposure.endedAt != exposure.startedAt + self.stages[stage][2])
+                    rpgExpandedReject('decompression-plan-history');
+            }
+            if (self.completedAt != nil && (self.stageIndex != self.stages.length()
+                || self.stageSeconds != self.stages[self.stageIndex][2]
+                || self.completedAt != self.exposures[self.stageIndex].endedAt)) rpgExpandedReject('decompression-plan-history');
+        }
+        if (self.completedAt == nil && (self.source.currentNativePressure() != self.source.resolvedNativePressure()
+            || self.source.currentSupport() != self.source.resolvedSupport())) rpgExpandedReject('decompression-plan-conditions');
+        return nil;
+    }
+    openStage()
+    {
+        local exposure = new RpgExpandedPressureExposure(); exposure.profile = self.profile();
+        exposure.id = 'decompression:' + self.id + ':' + self.stageIndex;
+        exposure.pressure = self.stages[self.stageIndex][1]; exposure.nativePressure = self.source.resolvedNativePressure();
+        exposure.support = self.source.support; exposure.sizeModifier = self.source.sizeModifier;
+        exposure.approved = true; exposure.evidence = self.evidence;
+        if (exposure.begin().status != 'resolved') rpgExpandedReject('decompression-stage-unavailable');
+        self.exposures = self.exposures + [exposure]; return nil;
+    }
+    begin()
+    {
+        self.validate(); local value = new RpgExpandedResult();
+        if (self.startedAt != nil) { value.status = 'reused'; return value; }
+        if (self.source.endedAt == nil || self.source.endedAt != rpgLedger.seconds)
+        { value.reason = 'decompression-source-not-current'; return value; }
+        if (self.profile().dead) { value.reason = 'decompression-patient-dead'; return value; }
+        foreach (local prior in self.profile().decompressionPlans)
+            if (prior.id == self.id || prior.completedAt == nil) rpgExpandedReject('decompression-plan-overlap');
+        for (local prior = firstObj(RpgExpandedDecompressionPlan); prior != nil; prior = nextObj(prior,RpgExpandedDecompressionPlan))
+            if (prior != self && prior.startedAt != nil && prior.completedAt == nil && !prior.profile().dead)
+                rpgExpandedReject('decompression-concurrent-plan-unimplemented');
+        self.startedAt = rpgLedger.seconds; self.stageIndex = 1; self.boundDefinition = self.definition();
+        self.profile().decompressionPlans = self.profile().decompressionPlans + [self]; self.openStage();
+        value.status = 'resolved'; return value;
+    }
+    finishStage()
+    {
+        self.validate(); local value = new RpgExpandedResult();
+        if (self.startedAt == nil) { value.reason = 'decompression-plan-not-started'; return value; }
+        if (self.completedAt != nil) { value.status = 'reused'; return value; }
+        if (self.profile().dead) { value.reason = 'decompression-patient-dead'; return value; }
+        if (self.stageSeconds != self.stages[self.stageIndex][2]) { value.reason = 'decompression-stage-incomplete'; return value; }
+        local ended = self.exposures[self.stageIndex].end();
+        if (ended.status != 'resolved' && ended.status != 'reused') return ended;
+        if (self.stageIndex == self.stages.length()) self.completedAt = rpgLedger.seconds;
+        else { self.stageIndex += 1; self.stageSeconds = 0; self.openStage(); }
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedDecompressionProgress: object
+    plan = nil
+    stage = 0
+    seconds = 0
+    result = nil
+    boundDefinition = nil
+    advancingAt = nil
+    definition() { return [self.plan,self.stage,self.seconds]; }
+    assess()
+    {
+        if (self.plan == nil || !self.plan.ofKind(RpgExpandedDecompressionPlan)) rpgExpandedReject('decompression-progress-plan');
+        self.plan.validate(); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundDefinition[i]) rpgExpandedReject('decompression-progress-binding');
+            if (!holds(self.plan.progress,self)) rpgExpandedReject('decompression-progress-owner');
+            value.status = 'reused'; return value;
+        }
+        if (self.plan.startedAt == nil || self.plan.completedAt != nil || self.plan.profile().dead)
+        { value.reason = 'decompression-plan-inactive'; return value; }
+        if (self.stage != self.plan.stageIndex) { value.reason = 'decompression-progress-stage'; return value; }
+        rpgInteger(self.seconds,1,self.plan.stages[self.stage][2]);
+        if (self.seconds > self.plan.stages[self.stage][2] - self.plan.stageSeconds)
+        { value.reason = 'decompression-progress-excess'; return value; }
+        if (self.plan.advancing != nil) { value.reason = 'decompression-progress-in-flight'; return value; }
+        value.seconds = self.seconds; value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local definition = self.definition(); local start = rpgLedger.seconds; local elapsed = self.plan.stageSeconds;
+        self.advancingAt = start; self.plan.advancing = self;
+        rpgSpendTime(self.seconds);
+        if (self.plan.advancing != self) rpgExpandedReject('decompression-progress-changed');
+        self.plan.advancing = nil;
+        local current = self.definition();
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != definition[i]) rpgExpandedReject('decompression-progress-changed');
+        self.plan.validate();
+        if (rpgLedger.seconds != start + self.seconds || self.plan.stageIndex != self.stage
+            || self.plan.stageSeconds != elapsed) rpgExpandedReject('decompression-progress-changed');
+        self.plan.stageSeconds += self.seconds; self.boundDefinition = definition;
+        self.plan.progress = self.plan.progress + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local plan = firstObj(RpgExpandedDecompressionPlan); plan != nil; plan = nextObj(plan,RpgExpandedDecompressionPlan))
+            if (plan.startedAt != nil && plan.completedAt == nil && !plan.profile().dead)
+            {
+                plan.validate();
+                if (plan.advancing == nil || plan.advancing.plan != plan
+                    || plan.advancing.advancingAt != self.seconds || plan.advancing.seconds != seconds)
+                    rpgExpandedReject('decompression-progress-required');
+            }
+        return nil;
+    }
+;

@@ -1904,3 +1904,33 @@ block time because of an old exposure. Historical return assessment uses that
 completed interval's end time and protection, not eligibility for a later new
 return. Editing the stored entry facts still rejects. Closed-history and saved
 continuation fixtures are authored but unrun.
+
+## Authored decompression schedules
+
+`RpgExpandedDecompressionPlan` executes an author-approved schedule (full-2008,
+B435). Supply `id`, the completed source `RpgExpandedPressureExposure`, `stages`
+as `[pressureHundredths, durationSeconds]` rows, `approved` and `evidence` explaining
+why that exact schedule is accepted for the exposure. Pressures must descend or
+stay level, never below native pressure, and the last stage must be at native
+pressure. Every stage has positive duration. No duration is generated from the
+sparse printed examples, and approval is not inferred from the list's shape.
+
+Begin immediately when the source interval ends. `begin()` creates the first
+owned pressure exposure. Use `RpgExpandedDecompressionProgress` with `plan`, the
+one-based `stage` and `seconds` to advance the shared clock and record credit once.
+Retain each progress object for replay. Split progress at any crushing-pressure
+deadline and resolve an ordinary `RpgExpandedPressureCheck` against the current
+entry in `plan.exposures`. After all stage seconds have been recorded and any due
+check resolved, `finishStage()` closes the interval and opens the next one, or
+records `completedAt` at the final stage.
+
+Unrelated time advances are blocked during the schedule; elapsed counters must
+match owned progress records. Use engine action transactions and allow exceptions
+to roll back the whole action, including the in-flight progress marker. A failed
+or interrupted schedule does not count as completed. Concurrent schedules for
+multiple characters, changes to protection/native pressure, abandonment, emergency
+ascent and illness from failed decompression remain explicitly unsupported.
+
+A completed plan proves execution of the authored schedule, not independently
+verified safety. Shared-clock exclusion, repeat-safe credit, multi-stage execution,
+rollback, undo and cross-process continuation fixtures are authored but unrun.

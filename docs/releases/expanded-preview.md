@@ -1459,3 +1459,8 @@ Completed pressure exposures now retain historical protection/native pressure
 without blocking later character changes. Active intervals still validate live
 conditions, and stored-entry tampering rejects. History and saved-continuation
 fixtures are authored but unrun.
+
+Authored decompression schedules now execute through owned pressure stages and
+repeat-safe shared-clock progress. Stage credit is checked against receipt history;
+unrelated time advances and concurrent schedules reject. Abandonment and illness
+remain pending. Multi-stage lifecycle fixtures are authored but unrun.
