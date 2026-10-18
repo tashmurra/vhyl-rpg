@@ -2598,3 +2598,29 @@ spend the care interval to wait out paralysis and then receive credit for care.
 The paralysis fixture specifies blocked bandaging at onset and just before
 expiry, followed by normal care after expiry; these assertions remain unrun.
 Cognitive observation and knowledge checks retain their separate permissions.
+
+
+### Seizures
+
+`RpgExpandedSeizure` models a finite episode under full-2008 B429. Supply `id`,
+`profile`, `durationSeconds`, `approved`, and `evidence` from the resolved cause.
+Supply `dropDestination` when fatigue collapse could require dropping equipment.
+`assess()` is pure; `apply()` owns onset and changes standing posture to lying.
+Other postures remain as they were. The episode does not set unconsciousness.
+Physical actions, speech, voluntary skill checks and mental abilities are blocked.
+Automatic health survival checks remain available.
+
+Advance the shared clock to `expiresAt`, then call `assessEnd()` or `finish()`.
+The clock rejects advancement beyond an unresolved end. The episode remains
+incapacitating at that boundary until `finish()` rolls one die and commits the
+fatigue loss once. End assessment preflights the maximum six-point result before
+randomness. The owned fatigue operation handles overflow injury and collapse
+through the existing health ledger. Replaying completion never rolls or charges
+again; it validates the stored recovery receipt. Expiry does not stand the actor
+up. Death stops the pending episode from constraining the clock.
+
+`expanded-seizure.t` specifies onset, posture, physical/mental restrictions,
+early-end rejection, time boundaries, preview purity, replay, exception rollback,
+undo and cross-process save continuation. These assertions are unrun. Poison and
+other cause integrations, falls from height and cross-module verification remain
+incomplete; including the library does not generate seizures automatically.

@@ -542,3 +542,10 @@ first aid, surgery, resuscitation, bleeding/clotting care, trauma maintenance,
 dressing and poison treatment. Identified-antidote administration also checks
 movement. Added authored, unrun bandaging boundary assertions; checks remain
 paused during implementation.
+
+
+Added owned finite seizures with standing falls, physical and mental action
+restrictions, and an explicit end operation that rolls and charges fatigue once.
+The shared clock prevents skipping an unresolved end. Added authored, unrun
+fixtures for boundaries, replay, rollback, undo and saved continuation. Cause
+integrations and broader validation remain incomplete.

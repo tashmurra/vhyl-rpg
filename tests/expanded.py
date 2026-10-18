@@ -8952,6 +8952,8 @@ def test(build):
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
     test_paralysis(Session, paralysis, build.out)
+    seizure = build.build('expanded-seizure', ROOT / 'tests/fixtures/expanded-seizure.t')
+    test_seizure(Session, seizure, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -12067,5 +12069,54 @@ def test_paralysis(Session, bundle, out):
         s.action(2285, 415)
         s.action(2285, 461)
         assert last(s, 'test.paralysis-care') == ['resolved', None, 1, 1, 120, 0]
+    finally:
+        s.close()
+
+
+def test_seizure(Session, bundle, out):
+    def state(s):
+        s.action(2285, 475)
+        return last(s, 'test.seizure')
+    clear = [0, 'standing', 0, 0, 0, 0, 0, 0]
+    active = [1, 'lying', 0, 0, 0, 0, 0, 0]
+    path = out / 'expanded-seizure.zsave'
+    s = Session(bundle)
+    try:
+        for code in (470, 472):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 471)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (471, 471, 454, 455, 456, 473):
+            s.action(2285, code)
+        assert state(s) == active
+        s.action(2285, 5)  # Cannot skip the unresolved end at second sixty.
+        assert state(s) == active
+        s.action(2285, 4)
+        for code in (477, 474):
+            s.action(2285, code)
+        assert state(s) == active[:-2] + [60, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 473)
+        s.command('undo')
+        assert state(s) == active[:-2] + [60, 0]
+        for code in (473, 473):
+            s.action(2285, code)
+        assert state(s) == [0, 'lying', 4, 0, 0, 1, 60, 1]
+        s.action(2285, 454)
+        assert state(s) == [0, 'lying', 4, 0, 1, 1, 60, 1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (476, 471):
+            s.action(2285, code)
+        assert state(s) == [1, 'sitting', 0, 0, 0, 0, 0, 0]
     finally:
         s.close()

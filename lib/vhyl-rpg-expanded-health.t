@@ -5544,3 +5544,99 @@ modify RpgExpandedProfile
         local value = inherited(); return self.paralyzed() && value < 4 ? 4 : value;
     }
 ;
+
+/** B429 seizure. The resolved cause supplies duration; the end owns its FP roll. */
+class RpgExpandedSeizure: RpgExpandedCoughing
+    dropDestination = nil
+    completedAt = nil
+    recovery = nil
+    history() { return self.profile.seizureHistory; }
+    remember() { self.profile.seizureHistory = self.profile.seizureHistory + [self]; }
+    receiptKind() { return 'seizure'; }
+    definition() { return inherited() + [self.dropDestination]; }
+    validateReceipt()
+    {
+        inherited();
+        if (self.completedAt != nil && (self.completedAt != self.expiresAt || self.recovery == nil
+            || self.recovery.id != self.id || self.recovery.profile != self.profile
+            || self.recovery.dropDestination != self.dropDestination || self.recovery.assess().status != 'reused'))
+            rpgExpandedReject('seizure-recovery-binding');
+        return nil;
+    }
+    active()
+    { self.validateReceipt(); return !self.profile.dead && self.completedAt == nil; }
+    apply()
+    {
+        local value = inherited();
+        if (value.status == 'resolved' && self.profile.posture == 'standing') self.profile.posture = 'lying';
+        return value;
+    }
+    assessEnd()
+    {
+        self.validateReceipt(); local value = new RpgExpandedResult();
+        if (self.completedAt != nil) { value.status = 'reused'; return value; }
+        if (self.profile.dead) { value.reason = 'seizure-patient-dead'; return value; }
+        if (rpgLedger.seconds != self.expiresAt) { value.reason = 'seizure-end-time'; return value; }
+        local loss = new RpgExpandedSeizureFatigueLoss(); loss.id = self.id; loss.profile = self.profile;
+        loss.amount = 6; loss.dropDestination = self.dropDestination;
+        return loss.assess();
+    }
+    finish()
+    {
+        local value = self.assessEnd(); if (value.status != 'ready') return value;
+        local loss = new RpgExpandedSeizureFatigueLoss(); loss.id = self.id; loss.profile = self.profile;
+        loss.dropDestination = self.dropDestination; loss.amount = rpgRandom.die();
+        value = loss.apply(); if (value.status != 'resolved') rpgExpandedReject('seizure-end-changed');
+        self.recovery = loss; self.completedAt = rpgLedger.seconds; return value;
+    }
+;
+class RpgExpandedSeizureFatigueLoss: RpgExpandedFearFatigueLoss
+    fatigueCause() { return 'seizure'; }
+    history() { return self.profile.seizureFatigueLosses; }
+    remember() { self.profile.seizureFatigueLosses = self.profile.seizureFatigueLosses + [self]; }
+    woundId(index)
+    {
+        local suffixes = ['one','two','three','four','five','six'];
+        return 'seizure-fatigue-' + self.id + '-' + suffixes[index];
+    }
+;
+modify RpgExpandedProfile
+    seizureHistory = []
+    seizureFatigueLosses = []
+    seizing()
+    {
+        local active = nil;
+        foreach (local episode in self.seizureHistory) if (episode.active()) active = true;
+        return active;
+    }
+    voluntaryMovementUnavailable() { return self.seizing() || inherited(); }
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        if (self.seizing() && !holds(['rest','do-nothing'],purpose)) return 'seizure-action-unavailable';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+    healthCheckReason(context)
+    {
+        if (self.seizing() && (context.mentalAbility || context.requiresSpeech || context.requiresMovement
+            || context.requiresConcentration || holds(['attack','concentrate','talk'],context.kind)
+            || context.skill != nil || holds([rpgDX,rpgST,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())))
+            return 'seizure-check-unavailable';
+        return inherited(context);
+    }
+    healthManeuverReason(kind)
+    {
+        if (self.seizing() && kind != 'nothing') return 'seizure-do-nothing-required';
+        return inherited(kind);
+    }
+    healthBlocksDefense() { return self.seizing() || inherited(); }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local episode = firstObj(RpgExpandedSeizure); episode != nil; episode = nextObj(episode,RpgExpandedSeizure))
+            if (episode.result != nil && episode.active() && self.seconds + seconds > episode.expiresAt)
+                rpgExpandedReject('seizure-end-boundary');
+        return nil;
+    }
+;

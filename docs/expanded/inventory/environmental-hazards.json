@@ -286,9 +286,10 @@
       "pages": "B429",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A seizure prevents action and clear speech/thought, causes a standing actor to fall and costs one die of fatigue when it ends.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_seizure"],
+      "validation_note": "Owned finite onset, physical and mental action restrictions, standing fall, exact end boundary and once-only fatigue roll implemented. Preview, replay, rollback, undo and saved-continuation assertions authored but unrun. Cause integration, falls from height and exhaustive cross-module checks remain incomplete."
     },
     {
       "id": "condition-unconscious",
