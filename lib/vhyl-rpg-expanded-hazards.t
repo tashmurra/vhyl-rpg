@@ -1526,3 +1526,97 @@ rpgExpandedRadiationTotalTenths(profile)
     }
     return total;
 }
+
+/** B436 reference samples only; no interpolation across thicknesses/materials. */
+rpgExpandedRadiationProtection(sample)
+{
+    if (holds(['lead-half-inch','steel-one-and-half-inches','air-750-yards'],sample)) return 2;
+    if (sample == 'water-one-yard') return 8;
+    if (sample == 'earth-one-yard') return 27;
+    if (sample == 'concrete-one-yard') return 64;
+    rpgExpandedReject('radiation-protection-sample');
+}
+
+/** Exact received-dose ratio. No fractional rad is rounded away. */
+rpgExpandedShieldedRadiation(rads, protection, spectrum)
+{
+    rpgInteger(rads,1,1000000); rpgInteger(protection,1,1000000);
+    if (!holds(['ordinary','solar-belt','cosmic'],spectrum)) rpgExpandedReject('radiation-spectrum');
+    local value = new RpgExpandedShieldedRadiationResult();
+    value.numerator = rads; value.denominator = protection;
+    if (spectrum == 'solar-belt') value.denominator *= 20;
+    if (spectrum == 'cosmic')
+    {
+        /* B436 divides PF by 100, but gives no sub-one protection rule. */
+        if (protection < 100) { value.reason = 'radiation-subunit-protection-unresolved'; return value; }
+        value.numerator *= 100;
+    }
+    value.wholeRads = value.numerator / value.denominator;
+    value.fractional = value.numerator != value.wholeRads * value.denominator;
+    value.status = 'ready'; return value;
+}
+
+/** Ratio and whole-rad eligibility, before recording an exposure. */
+class RpgExpandedShieldedRadiationResult: RpgExpandedResult
+    numerator = 0
+    denominator = 1
+    wholeRads = 0
+    fractional = nil
+    dose = nil
+;
+
+modify RpgExpandedProfile
+    radiationExposures = []
+;
+
+/** Shielded whole-rad exposure composed with the shared dose history. */
+class RpgExpandedRadiationExposure: object
+    id = nil
+    profile = nil
+    source = nil
+    incidentRads = 0
+    protection = 1
+    spectrum = 'ordinary'
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        return [self.id,self.profile,self.source,self.incidentRads,self.protection,self.spectrum,self.approved,self.evidence];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.source == nil) rpgExpandedReject('radiation-exposure-definition');
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('radiation-exposure-binding');
+            if (!holds(self.profile.radiationExposures,self) || self.result.dose == nil
+                || self.result.dose.assess().status != 'reused') rpgExpandedReject('radiation-exposure-history');
+            local replay = new RpgExpandedShieldedRadiationResult(); replay.status = 'reused'; return replay;
+        }
+        local value = rpgExpandedShieldedRadiation(self.incidentRads,self.protection,self.spectrum);
+        if (value.status != 'ready') return value;
+        if (value.fractional) { value.status = 'blocked'; value.reason = 'radiation-fractional-dose-unimplemented'; return value; }
+        rpgExpandedValidate(self.profile);
+        foreach (local prior in self.profile.radiationExposures)
+            if (prior.id == self.id) rpgExpandedReject('radiation-exposure-duplicate');
+        value.dose = new RpgExpandedRadiationDose(); value.dose.id = self.id;
+        value.dose.profile = self.profile; value.dose.source = self.source; value.dose.rads = value.wholeRads;
+        value.dose.approved = self.approved; value.dose.evidence = self.evidence;
+        local prepared = value.dose.assess();
+        if (prepared.status != 'ready') { value.status = 'blocked'; value.reason = prepared.reason; }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local committed = value.dose.apply();
+        if (committed.status != 'resolved') rpgExpandedReject('radiation-exposure-dose-changed');
+        self.boundDefinition = self.definition(); self.profile.radiationExposures = self.profile.radiationExposures + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+;

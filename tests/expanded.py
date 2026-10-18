@@ -8887,8 +8887,10 @@ def test(build):
     hazards = build.build('expanded-hazards',ROOT / 'tests/fixtures/expanded-hazards.t')
     fresh(Session,hazards,test_infection_assessments)
     fresh(Session,hazards,test_radiation_tables)
+    fresh(Session,hazards,test_radiation_shielding)
     radiation = build.build('expanded-radiation', ROOT / 'tests/fixtures/expanded-radiation.t')
     test_radiation_doses(Session, radiation, build.out)
+    test_radiation_exposures(Session, radiation)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -9865,3 +9867,52 @@ def test_radiation_doses(Session, bundle, out):
             assert state(s)[-1] == 0
     finally:
         s.close()
+
+
+def test_radiation_shielding(s):
+    s.action(2294)
+    assert last(s, 'test.radiation-materials') == [2, 2, 2, 8, 27, 64]
+    for incident, protection, spectrum, ratio in [
+            (200, 2, 1, [200, 2, 100, 0]), (200, 2, 2, [200, 40, 5, 0]),
+            (200, 200, 3, [20000, 200, 100, 0]), (1, 2, 1, [1, 2, 0, 1]),
+            (100, 27, 1, [100, 27, 3, 1])]:
+        s.action(2293, incident, protection, spectrum)
+        assert last(s, 'test.radiation-shield') == ['ready', None] + ratio
+    s.action(2293, 200, 2, 3)
+    assert last(s, 'test.radiation-shield')[:2] == ['blocked', 'radiation-subunit-protection-unresolved']
+
+
+def test_radiation_exposures(Session, bundle):
+    def state(s):
+        s.action(2292)
+        return last(s, 'test.radiation-state')
+    s = Session(bundle)
+    try:
+        before = state(s)
+        s.action(2291, 11, 0)
+        assert last(s, 'test.radiation-exposure') == ['ready', None]
+        assert state(s) == before
+        s.action(2291, 12, 0)
+        assert state(s) == before
+        s.action(2291, 10, 0)
+        assert state(s) == [1, 1000, None, None, 0, 0]
+        s.command('undo')
+        assert state(s) == before
+        s.action(2291, 10, 0)
+        after = state(s)
+        s.action(2291, 10, 0)
+        assert last(s, 'test.radiation-exposure') == ['reused', None]
+        assert state(s) == after
+    finally:
+        s.close()
+    for change, reason in [(13, 'radiation-fractional-dose-unimplemented'),
+                           (15, 'radiation-subunit-protection-unresolved')]:
+        s = Session(bundle)
+        try:
+            s.action(2291, change, 0)
+            before = state(s)
+            s.action(2291, 10, 0)
+            assert last(s, 'test.radiation-exposure') == ['blocked', reason]
+            assert state(s) == before
+        finally:
+            s.close()

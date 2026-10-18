@@ -725,3 +725,36 @@ aged doses, preview, rollback, undo, replay and cross-process continuation.
 They are authored and unrun. Exposure scheduling, fractional received doses,
 living/machine resistance cadence, all syndrome execution, treatment, reproductive
 consequences and protection still prevent complete radiation support.
+
+
+### Shielding and received exposure
+
+`rpgExpandedRadiationProtection(sample)` implements only the B436 reference
+samples: half-inch lead, one-and-a-half-inch steel and 750 yards of air each have
+PF 2; one yard of water has PF 8, earth PF 27 and concrete PF 64. Identifiers are
+`lead-half-inch`, `steel-one-and-half-inches`, `air-750-yards`, `water-one-yard`,
+`earth-one-yard` and `concrete-one-yard`. Unlisted thicknesses are not interpolated.
+
+`rpgExpandedShieldedRadiation(incidentRads, protection, spectrum)` returns an
+exact `numerator`/`denominator` ratio, `wholeRads` and `fractional`. Spectra are
+`ordinary`, `solar-belt` (PF multiplied by twenty), and `cosmic` (PF divided by
+one hundred). No fractional dose is rounded to zero or silently rounded upward.
+The source does not specify how a resulting PF below one should behave; cosmic
+protection below 100 returns `radiation-subunit-protection-unresolved` rather than
+inventing amplification or a minimum-protection rule.
+
+`RpgExpandedRadiationExposure` links a supported shielding result to the existing
+dose ledger. Supply `id`, `profile`, `source`, `incidentRads`, `protection`,
+`spectrum`, `approved` and evidence for the source/path shielding. `assess()` is
+pure; `apply()` creates exactly one received dose and retains its exposure receipt
+in `profile.radiationExposures`. It spends no exposure time again. IDs share the
+dose namespace, so a separate manually recorded dose cannot duplicate that ID.
+Replay changes neither dose nor recovery epoch.
+
+The current recorder accepts only exact whole-rad results. Fractional exposure
+returns `radiation-fractional-dose-unimplemented` with the exact ratio retained.
+Radiation tolerance, overlapping shielding materials, treatment effects, syndrome
+checks and source-specific exposure cadence remain pending; this interface does
+not imply they were applied. `test_radiation_shielding` and
+`test_radiation_exposures` specify reference factors, spectra, exact ratios,
+blocked cases, preview, rollback, undo and replay. They are authored and unrun.

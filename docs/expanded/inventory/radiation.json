@@ -242,9 +242,13 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Divide received dose by protection factor from actual intervening shielding; preserve exposure geometry and distinguish protection from subsequent dose recovery.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_shielding",
+        "tests/expanded.py::test_radiation_exposures"
+      ],
+      "validation_note": "Reference PF samples, exact spectrum-adjusted ratios and whole-rad exposure recording authored. Fractional dose integration and sub-one cosmic PF policy pending. Fixtures unrun."
     },
     {
       "id": "radiation-solar-shielding",
@@ -252,9 +256,13 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Multiply shielding protection factor by twenty against the specified solar-flare and planetary-belt radiation.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_shielding",
+        "tests/expanded.py::test_radiation_exposures"
+      ],
+      "validation_note": "Reference PF samples, exact spectrum-adjusted ratios and whole-rad exposure recording authored. Fractional dose integration and sub-one cosmic PF policy pending. Fixtures unrun."
     },
     {
       "id": "radiation-cosmic-shielding",
@@ -262,9 +270,13 @@
       "pages": "B436",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Divide protection factor by one hundred against cosmic radiation; resolve effective factors below one without silently converting shielding into extra dose.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_radiation_shielding",
+        "tests/expanded.py::test_radiation_exposures"
+      ],
+      "validation_note": "Reference PF samples, exact spectrum-adjusted ratios and whole-rad exposure recording authored. Fractional dose integration and sub-one cosmic PF policy pending. Fixtures unrun."
     },
     {
       "id": "radiation-advance-prophylaxis",

@@ -12,6 +12,22 @@ modify gameMain initialRoom = hazardRoom;
 startup() { return vhylStart(); }
 act(verb,args)
 {
+    if (verb == 2293)
+    {
+        local spectra = ['ordinary','solar-belt','cosmic'];
+        local value = rpgExpandedShieldedRadiation(args[1],args[2],spectra[args[3]]);
+        event('test.radiation-shield'); eventValue(value.status); eventValue(value.reason);
+        eventValue(value.numerator); eventValue(value.denominator); eventValue(value.wholeRads);
+        eventValue(value.fractional ? 1 : 0); return nil;
+    }
+    if (verb == 2294)
+    {
+        event('test.radiation-materials');
+        foreach (local sample in ['lead-half-inch','steel-one-and-half-inches','air-750-yards',
+            'water-one-yard','earth-one-yard','concrete-one-yard'])
+            eventValue(rpgExpandedRadiationProtection(sample));
+        return nil;
+    }
     if (verb == 2289)
     {
         local value = rpgExpandedRadiationOutcome(args[1],args[2],args[3],args[4]);

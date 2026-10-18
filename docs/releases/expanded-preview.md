@@ -215,3 +215,8 @@ Radiation now has owned whole-rad dose histories, independent daily decay and
 permanent tenth-rad residue, plus pure syndrome-table selection. The supplied
 800-rad overlap is explicitly blocked. Syndrome execution, exposure integration
 and treatment remain pending; new fixtures are authored and unrun.
+
+Radiation shielding now exposes the printed PF samples and exact received-dose
+ratios, with an owned whole-rad exposure adapter. Fractional received-dose
+integration and cosmic PF below one remain explicit unresolved cases.
+New fixtures are authored and unrun.

@@ -19,11 +19,22 @@ radiationFirst: RpgExpandedRadiationDose id = 'initial-exposure' profile = radia
     rads = 200 approved = true evidence = 'Measured received dose';
 radiationSecond: RpgExpandedRadiationDose id = 'later-exposure' profile = radiationProfile source = radiationSource
     rads = 100 approved = true evidence = 'A separately measured later dose';
+radiationExposure: RpgExpandedRadiationExposure id = 'shielded' profile = radiationProfile source = radiationSource
+    incidentRads = 200 protection = 2 approved = true evidence = 'A half-inch lead shield covers the source';
 radiationInput: object code = 0 days = 0;
 class RadiationTestAction: Action
     exec(context)
     {
         local code = radiationInput.code;
+        if (code >= 10)
+        {
+            if (code == 13) { radiationExposure.incidentRads = 1; return nil; }
+            if (code == 14) { radiationExposure.spectrum = 'solar-belt'; return nil; }
+            if (code == 15) { radiationExposure.spectrum = 'cosmic'; return nil; }
+            local value = code == 11 ? radiationExposure.assess() : radiationExposure.apply();
+            event('test.radiation-exposure'); eventValue(value.status); eventValue(value.reason);
+            if (code == 12) throw new RpgError(); return nil;
+        }
         if (code == 3)
         {
             rpgInteger(radiationInput.days,0,100);
