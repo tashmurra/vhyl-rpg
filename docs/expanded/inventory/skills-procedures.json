@@ -1303,9 +1303,9 @@
       "pages": "B230",
       "module": "skills",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Apply parent skill context modifiers and critical outcomes once, retaining technique-specific exceptions.",
-      "tests": []
+      "tests": ["tests/fixtures/expanded-technique-context.t", "tests/expanded.py::test_technique_context"]
     },
     {
       "id": "technique-cinematic-eligibility",

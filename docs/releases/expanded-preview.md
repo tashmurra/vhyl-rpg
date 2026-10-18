@@ -1162,3 +1162,8 @@ expanded influence procedure remains partial.
   learning restrictions, authored approval and prerequisite trees. Technique
   scores and purchases now require explicit campaign opt-in. Authored cost,
   rollback, undo and save fixtures remain unrun (full-2008 B229-B230).
+
+- Added contextual technique checks through the shared skill scoring and random
+  stream, preserving root-skill modifiers and nested technique investments.
+  Unsupported relative contexts reject explicitly. Special outcomes and the full
+  technique catalogue remain incomplete; the new fixtures are unrun (B230).

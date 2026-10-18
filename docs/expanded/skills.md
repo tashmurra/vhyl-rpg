@@ -537,6 +537,29 @@ Replay returns the original receipt without spending again, including after a
 later purchase. Changing a completed request's bound definition is rejected.
 The fixture covers costs, caps, opt-in, author approval, learning restrictions,
 insufficient funds, parent improvement, rollback, undo and save continuation.
-These fixtures remain unrun. The broader technique catalogue, shared contextual
-execution and temporary modular acquisition remain incomplete; this purchase
+These fixtures remain unrun. The broader technique catalogue, special contextual
+effects and temporary modular acquisition remain incomplete; this purchase
 interface does not supply those procedures.
+
+### Contextual technique checks
+
+Use `RpgExpandedTechniqueContext` with `rpgLiteScore` for preview and
+`rpgLiteCheck` for execution. Set `technique` and set `skill` to the root parent
+skill, even when the technique defaults to another technique. For an attribute
+root, leave `skill` nil and set `attribute` to that root attribute. Mismatched
+roots and ownership are rejected before a random draw. Campaign technique
+opt-in is still required.
+
+The technique supplies the unmodified base; the shared scoring path then applies
+parent-skill equipment, familiarity, technology, language, trait, injury and
+other ordinary context modifiers once. Set the context fields for the actual
+action rather than copying a previously adjusted score into `modifier`. Parent
+improvements and technique investments are reflected at assessment time. The
+check uses the existing random stream, immediate luck handling and transaction
+state. It does not itself spend action time or apply a skill-specific consequence.
+
+Relative-attribute and fixed-base technique contexts are explicitly unsupported.
+Special critical tables, cinematic eligibility and individual technique effects
+still need their owning procedure; the standard success check does not implement
+those effects. Fixtures exercise stacked modifiers, nested defaults, invalid
+contexts and persistence, but remain unrun while checks are paused.

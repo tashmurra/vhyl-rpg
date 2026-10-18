@@ -795,3 +795,22 @@ class RpgExpandedTechniquePurchase: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B230 technique base with the parent skill's ordinary contextual modifiers. */
+class RpgExpandedTechniqueContext: RpgExpandedSkillContext
+    technique = nil
+    scoreFor(profile)
+    {
+        if (self.technique == nil || !self.technique.ofKind(RpgExpandedTechnique)
+            || self.technique.owner != profile) rpgExpandedReject('technique-context-ownership');
+        if (self.rollAttribute != nil || self.fixedBase != nil)
+            rpgExpandedReject('technique-relative-context-unimplemented');
+        /* Validate the entire graph before following it to its root. */
+        local score = self.technique.score();
+        local root = self.technique;
+        while (root.parentTechnique != nil) root = root.parentTechnique;
+        if (self.skill != root.skill || root.skill == nil && self.attribute != root.attribute)
+            rpgExpandedReject('technique-context-basis');
+        return score;
+    }
+;

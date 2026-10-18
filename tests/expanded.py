@@ -9062,6 +9062,8 @@ def test(build):
     test_learning_bar(Session, learning_bar, build.out)
     technique_purchase = build.build('expanded-technique-purchase',ROOT / 'tests/fixtures/expanded-technique-purchase.t')
     test_technique_purchase(Session, technique_purchase, build.out)
+    technique_context = build.build('expanded-technique-context',ROOT / 'tests/fixtures/expanded-technique-context.t')
+    test_technique_context(Session, technique_context, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16909,5 +16911,49 @@ def test_technique_purchase(Session, bundle, out):
         for code in (3401,3403,3404):
             s.action(2285,code)
         assert last(s,'test.technique-purchase-state') == [3,97,2,2,8,0,0]
+    finally:
+        s.close()
+
+
+def test_technique_context(Session, bundle, out):
+    for setup,score in (((),6),((3503,),8),((3504,),4),((3505,),3),
+                         ((3503,3504,3505,3506),6),((3401,),7),
+                         ((3511,),5),((3511,3503,3504),5),((3503,3507),None)):
+        s = Session(bundle)
+        try:
+            for code in setup+(3500,3500):
+                s.action(2285,code)
+            assert last(s,'test.technique-context') == [score,0,0]
+        finally:
+            s.close()
+    for setup,reason in (((3508,),'technique-context-basis'),
+                         ((3509,),'technique-relative-context-unimplemented'),
+                         ((3409,),'techniques-disabled')):
+        s = Session(bundle)
+        try:
+            for code in setup+(3510,):
+                s.action(2285,code)
+            assert last(s,'test.technique-context-error') == [reason,0]
+        finally:
+            s.close()
+    path = out / 'expanded-technique-context.zsave'
+    s = Session(bundle)
+    try:
+        for code in (31,3503,3504,3502,3500):
+            s.action(2285,code)
+        assert last(s,'test.technique-context') == [6,0,0]
+        s.action(2285,3501)
+        assert last(s,'test.technique-check') == [6,'success',3]
+        s.command('undo')
+        s.action(2285,3500)
+        assert last(s,'test.technique-context') == [6,0,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,3501)
+        assert last(s,'test.technique-check') == [6,'success',3]
     finally:
         s.close()
