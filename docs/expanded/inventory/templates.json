@@ -71,9 +71,13 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "When occupational templates overlap, select the highest required attribute and secondary score and recalculate the resulting investment cost.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "existing_feature": "occupational-template-composition",
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending."
     },
     {
       "id": "package-merge-traits",
@@ -81,9 +85,13 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Union required occupational traits and retain the highest required level of a repeated leveled trait or skill; do not add those levels or charge duplicate instances.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "existing_feature": "occupational-template-composition",
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending."
     },
     {
       "id": "package-merge-conflict",
@@ -91,9 +99,13 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Reject incompatible occupational trait combinations with the conflicting entries identified; positive and negative trait values do not cancel the incompatibility.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "existing_feature": "occupational-template-composition",
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending."
     },
     {
       "id": "package-merge-unselected-options",

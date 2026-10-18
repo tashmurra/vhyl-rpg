@@ -496,6 +496,39 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
+    if (verb == 1134)
+    {
+        local rules = new RpgExpandedRules();
+        local skill = new RpgExpandedSkill(); skill.difficulty = 1;
+        local a = new RpgExpandedTemplate(); a.st = 12; a.ht = 12; a.hpAdjustment = 2;
+        a.pointBudget = 1000; a.skillRows = [[skill,16]]; a.traitRows = [['status',2,nil]];
+        local b = new RpgExpandedTemplate(); b.dx = 12; b.iq = 12; b.perceptionAdjustment = 1;
+        b.pointBudget = 1000; b.skillRows = [[skill,1]]; b.traitRows = [['status',1,nil]];
+        local p = rpgExpandedCombineTemplates(args[1] == 1 ? [a,b] : [b,a],rules,1000,50);
+        event('test.template-composition'); eventValue(p.st); eventValue(p.dx); eventValue(p.iq);
+        eventValue(p.ht); eventValue(p.maxHP); eventValue(p.perception);
+        eventValue(p.basicSpeedQuarters()); eventValue(p.basicMove());
+        eventValue(p.skills[1].points); eventValue(p.traits[1].level);
+        eventValue(rpgExpandedCharacterCost(p,nil));
+        p.skills[1].points = 100; p.traits[1].level = 3;
+        local fresh = rpgExpandedCombineTemplates([a,b],rules,1000,50);
+        eventValue(fresh.skills[1].points); eventValue(fresh.traits[1].level);
+        return nil;
+    }
+    if (verb == 1135)
+    {
+        local rules = new RpgExpandedRules();
+        local a = new RpgExpandedTemplate(); a.traitRows = [['status',2,nil]];
+        local b = new RpgExpandedTemplate(); b.traitRows = [['low-status',2,nil]];
+        event('test.template-conflicts');
+        try { rpgExpandedCombineTemplates([a,b],rules,1000,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        try { rpgExpandedCombineTemplates([],rules,1000,50); eventValue('unexpected-success'); }
+        catch (RpgExpandedError error) { eventValue(error.reason); }
+        a.st = 8; a.traitRows = []; b.st = 9; b.traitRows = [];
+        local p = rpgExpandedCombineTemplates([a,b],rules,1000,50); eventValue(p.st);
+        return nil;
+    }
     return vhylAct(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

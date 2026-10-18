@@ -8,14 +8,13 @@
 
 - `RpgExpandedTemplate` — B258-B259; tested in `tests/expanded.py::test_numbers`.
 
-The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+The fresh-profile factory and occupational composition interface below are available. The full catalogue and remaining chapter procedures are not implemented. New composition checks are authored but unrun.
 
 `RpgExpandedTemplate.create(rules)` creates a new profile with fresh training and
 trait instances. Skill definitions may be shared as immutable definitions. This
 factory currently handles basic/secondary scores, skill investments and traits
 from the existing Lite catalogue. It validates the resulting character costs.
-Ancestry exceptions, nested packages, choice groups and the full trait catalogue
-are not implemented. It does not mutate or upgrade an existing character.
+Ancestry exceptions, choice groups and the full trait catalogue are not implemented. It does not mutate or upgrade an existing character.
 
 ## Remaining source obligations
 
@@ -41,8 +40,8 @@ separately identifiable while contributing to one final skill score. Ancestry
 negative traits and personal replacement traits have different accounting rules.
 Zero-cost features and prohibited traits still affect validation and play.
 
-These are implementation requirements; the existing factory does not yet provide
-these operations. Template design recommendations, such as leaving some starting
+The composition function below handles the current factory’s occupational scores,
+skills and Lite traits. Other operations in this list remain requirements. Template design recommendations, such as leaving some starting
 points unspent, will remain guidance rather than mandatory character limits.
 
 
@@ -58,3 +57,39 @@ adjustments changes template value and must be checked against capacity. Ancestr
 costs exclude the transformation ability itself when calculating its allowance,
 preventing circular pricing. Every transition needs rollback and save coverage
 before it can be considered implemented.
+
+## Combining occupational templates
+
+`rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)`
+creates a fresh profile from a nonempty list of `RpgExpandedTemplate` definitions
+(B259). Each source template must be valid under its own declared budget. The
+combined character uses the supplied final budget and limit; template point totals
+are not added together or separately charged.
+
+The highest basic attributes and actual secondary scores are retained. Secondary
+adjustments are then recalculated against the merged attributes. For example,
+combining DX 10/HT 12 and DX 12/HT 10 retains Basic Speed 5.5, although the final
+DX and HT are both 12: its speed adjustment becomes −0.5. Adding the two original
+speed adjustments would produce the wrong requirement and price.
+
+For each shared skill definition, composition retains the highest purchased skill
+rating implied by its source template's points and attribute. It calculates the
+points needed at the merged attribute, with at least one purchased point (three
+for a wildcard definition). A general skill that happens to have a higher default
+is not treated as a second paid requirement. Matching Lite trait IDs and scopes
+retain the higher required level, and incompatible catalogue choices are rejected.
+Traits and training are freshly owned for every composition. Input templates and
+other previously created characters are not changed.
+
+Current composition supports the fields of the basic factory only. Definitions
+with additional contributions, languages, equipment or a different personal
+technology level are explicitly rejected. Ancestry, lenses, selectable options,
+modifier-bearing trait definitions and rich conflict diagnostics remain pending.
+Template authors must share the same immutable skill definition for requirements
+that denote the same skill and specialty; distinct definition objects are distinct
+investments under the existing skill identity contract.
+
+The native cases in `tests/expanded.py::test_template_composition` cover order
+independence, recalculated secondary costs, overlapping skills and traits, fresh
+ownership, conflicting status choices, empty input, and below-average requirements.
+These checks have not run while validation is paused.

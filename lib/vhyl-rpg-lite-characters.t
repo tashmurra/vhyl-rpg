@@ -331,13 +331,10 @@ rpgLiteInvalidCharacter(reason)
     local error = new RpgLiteCharacterError(); error.reason = reason; throw error;
 }
 
-/** Validate the point budget, disadvantage limit, trait combinations, languages and technology. */
-rpgLiteValidateCharacter(profile)
+/** Validate Lite trait identities and mutually exclusive catalogue choices. */
+rpgLiteValidateTraits(profile)
 {
-    rpgInteger(profile.st, 1, 20); rpgInteger(profile.dx, 1, 100);
-    rpgInteger(profile.iq, 1, 100); rpgInteger(profile.ht, 1, 100);
-    rpgInteger(profile.techLevel, 0, 12); rpgInteger(profile.campaignTL, 0, 12);
-    local ids = []; local quirks = 0; local natives = 0;
+    local ids = []; local quirks = 0;
     foreach (local trait in profile.traits)
     {
         if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && trait.id != 'quirk') rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
@@ -358,7 +355,17 @@ rpgLiteValidateCharacter(profile)
         foreach (local id in group) if (holds(ids, id)) count += 1;
         if (count > 1) rpgLiteInvalidCharacter('exclusive-traits');
     }
-    ids = [];
+    return true;
+}
+
+/** Validate the point budget, disadvantage limit, trait combinations, languages and technology. */
+rpgLiteValidateCharacter(profile)
+{
+    rpgInteger(profile.st, 1, 20); rpgInteger(profile.dx, 1, 100);
+    rpgInteger(profile.iq, 1, 100); rpgInteger(profile.ht, 1, 100);
+    rpgInteger(profile.techLevel, 0, 12); rpgInteger(profile.campaignTL, 0, 12);
+    rpgLiteValidateTraits(profile);
+    local ids = []; local natives = 0;
     foreach (local language in profile.languages)
     {
         if (language.id == nil || holds(ids, language.id)) rpgLiteInvalidCharacter('duplicate-language');

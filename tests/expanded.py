@@ -287,6 +287,18 @@ def test_recognition_persistence(Session, bundle, out):
         second.close()
 
 
+def test_template_composition(s):
+    before = state(s)
+    # B259: maximum scores, not added adjustments, levels or source point totals.
+    for order in [0, 1]:
+        s.action(1134, order)
+        assert last(s, 'test.template-composition') == [
+            12, 12, 12, 12, 14, 13, 22, 5, 8, 2, 137, 8, 2]
+    s.action(1135)
+    assert last(s, 'test.template-conflicts') == ['exclusive-traits', 'empty-template-composition', 9]
+    assert state(s) == before, 'template composition changed live character state'
+
+
 def test_study(s):
     initial = state(s)
     s.action(1109,43200)
@@ -364,7 +376,7 @@ def test_example(Session,bundle):
 def test(build):
     Session = load_host(build.vhyl)
     bundle = build.build('expanded',ROOT / 'tests/fixtures/expanded.t')
-    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_study,test_history]:
+    for check in [test_numbers,test_negative_pricing,test_technique_bases,test_learning_requirements,test_familiarity,test_technology_modifiers,test_optional_specialties,test_relative_skill,test_technology_learning,test_recognition,test_recognition_failure,test_recognition_similarity,test_template_composition,test_study,test_history]:
         fresh(Session,bundle,check)
         print(f'  expanded {check.__name__}: passed',flush=True)
     test_recognition_persistence(Session,bundle,build.out)

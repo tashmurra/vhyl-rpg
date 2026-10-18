@@ -395,6 +395,18 @@
         "tests/expanded.py::test_recognition_persistence"
       ],
       "validation_note": "Explicit recognition decisions and saved outcomes implemented. New native checks unrun; catalogue-specific integrations and reopening decisions remain pending."
+    },
+    {
+      "id": "occupational-template-composition",
+      "module": "templates",
+      "pages": "B259",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedCombineTemplates",
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "validation_note": "Basic factory fields compose with fresh ownership and recalculated score requirements. New checks unrun; ancestry, lenses, choices and extended trait components pending."
     }
   ],
   "detailed_inventories": [
