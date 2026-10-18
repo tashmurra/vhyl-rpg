@@ -12,11 +12,11 @@ biographies and copied form layouts are not repository deliverables.
 | B297–B306 | Summary trait, skill, technique and spell tables are secondary cross-checks | Trait, skill, technique, spell and general-modifier rows mapped to detail. Complete value/condition comparisons and resolve recorded disagreements |
 | B307–B323 | Fiction and named characters excluded; reusable mechanics retained in [example compositions](example-compositions.json) | Neutral component links and original integration fixtures |
 | B324–B328 | [Condensed combat](condensed-combat.json) is a distinct source section | Explicit precedence for differences from detailed combat and profile-specific fixtures |
-| B329–B334 | Index used as a coverage aid; not a new rule catalogue | Complete index-to-ledger reconciliation |
+| B329–B334 | Index used as a coverage aid; not a new rule catalogue | [Repeated-index comparison and selected destination audit](index-review.md) recorded; complete remaining destination reconciliation |
 | B335–B336 | Original reporting requirements and repeated numeric summaries retained in [reference overview](reference-overview.json) | Derived views over shared state and reconciliation with detailed tables |
 | B337–B342 | Second-volume publication context, contents and introduction | Contents-to-ledger reconciliation; no copied prose or layout |
 | B343–B562 | Detailed procedures, catalogue entries and outcome tables indexed by chapter | Numeric/visual review where still pending, cross-module implementation and fixtures |
-| B563–B576 | [Glossary and appendices](appendix.json) retain mechanical requirements; duplicate navigation and blank forms are not new catalogues | Resolve glossary discrepancies and complete repeated-index reconciliation |
+| B563–B576 | [Glossary and appendices](appendix.json) retain mechanical requirements; duplicate navigation and blank forms are not new catalogues | Resolve glossary discrepancies; repeated-index comparison recorded in [index review](index-review.md) |
 
 A summary table cannot be marked covered merely because its chapter has a ledger.
 Each row must map to the actual neutral definition, including aliases, conditional
