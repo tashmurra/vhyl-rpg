@@ -9190,6 +9190,8 @@ def test(build):
     test_voice_mask(Session, voice_mask, build.out)
     voice_origin = build.build('expanded-voice-origin',ROOT / 'tests/fixtures/expanded-voice-origin.t')
     test_voice_origin(Session, voice_origin, build.out)
+    fear_acute = build.build('expanded-fear-acute',ROOT / 'tests/fixtures/expanded-fear-acute.t')
+    test_fear_acute(Session, fear_acute, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -20091,5 +20093,52 @@ def test_voice_origin(Session, bundle, out):
         for code in (10408, 10400, 10401):
             s.action(2285, code)
         assert last(s, 'test.voice-origin') == ['voice-origin-psychotherapy-procedure-required', 'blocked', 'voice-exorcism-origin-category', 0, 3]
+    finally:
+        s.close()
+
+
+def test_fear_acute(Session, bundle, out):
+    """B361 row 32: 2d injury, unconditional collapse, single drop; unrun."""
+    path = out / 'expanded-fear-acute.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10500, 10501, 10503, 10504):
+            s.action(2285, code)
+        assert last(s, 'test.fear-acute-preview') == ['ready', None, 0]
+        assert last(s, 'test.fear-acute-state') == [0, 'standing', 0, 0, 0, 0, 0, 0]
+        s.action(2285, 10502)
+        s.command('undo')
+        s.action(2285, 10504)
+        assert last(s, 'test.fear-acute-state') == [0, 'standing', 0, 0, 0, 0, 0, 0]
+        for code in (10502, 10502, 10504):
+            s.action(2285, code)
+        assert last(s, 'test.fear-acute') == ['reused', 2]
+        assert last(s, 'test.fear-acute-state') == [2, 'lying', 1, 1, 1, 1, 0, 2]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10502, 10504):
+            s.action(2285, code)
+        assert last(s, 'test.fear-acute-state') == [2, 'lying', 1, 1, 1, 1, 0, 2]
+    finally:
+        s.close()
+    for extra in ((), (10507,)):
+        s = Session(bundle)
+        try:
+            for code in (10500, 10505) + extra + (10502, 10504):
+                s.action(2285, code)
+            assert last(s, 'test.fear-acute') == ['resolved', 12]
+            assert last(s, 'test.fear-acute-state') == [12, 'lying', 1, 1, 1, 1, 0, 5]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (10500, 10506, 10501, 10504):
+            s.action(2285, code)
+        assert last(s, 'test.fear-acute-preview') == ['blocked', 'knockdown-drop-destination-required', 0]
+        assert last(s, 'test.fear-acute-state') == [0, 'standing', 0, 0, 0, 0, 0, 0]
     finally:
         s.close()

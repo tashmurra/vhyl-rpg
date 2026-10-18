@@ -3386,3 +3386,40 @@ Direct consumers bypassing contextual checks require their own adapters. This
 receipt does not invent the originating affliction's resistance, cost or duration.
 Propagation, defense exemption, capacity preservation, expiry, rollback, undo and
 saved-continuation fixtures are authored but unrun.
+
+
+## Acute injury from fear
+
+`RpgExpandedFearAcuteInjury` executes row thirty-two of `full-2008`, B361:
+collapse and two dice of injury. Supply a unique `id`, an approved
+`RpgExpandedFearContext` in `context`, `approved = true` and original `evidence`
+recording selection of that row. It is an explicit selected-outcome executor;
+it does not choose a table result or replace the pending full fear procedure.
+
+`assess()` previews each possible injury amount from two through twelve using
+`RpgExpandedWound` and prepares the held-item drop before randomness. Existing
+wound eligibility, injury limits and survival/knockdown requirements apply.
+When equipment is held, supply `dropDestination` and include the expanded
+equipment module. Missing destination or unsupported wound configuration blocks
+the request before a roll. Immune, dead or unconscious observers cannot start it.
+
+`apply()` rolls two ordinary dice and commits a single torso wound with the total
+as direct injury. No armour subtraction or additional damage multiplier is
+applied. The shared wound handles shock, major-wound checks and survival. The
+character ends lying down even if the major-wound check succeeds. Equipment drops
+and the knockdown notification occur once: an existing wound-triggered drop is
+reused instead of being committed a second time. This outcome does not invent a
+separate fainting duration; unconsciousness arises only from the shared injury
+procedure. Starting it charges no elapsed time or fatigue.
+
+The result contains `amount`, `dice` and the owned `wound`. Repeating the event
+validates its bound result and returns `reused` without another injury, drop or
+roll. History lives in `profile.fearAcuteInjuries`; wounds remain in the normal
+injury ledger. Execute through an engine action transaction for rollback and undo.
+
+[`expanded-fear-acute.t`](../../tests/fixtures/expanded-fear-acute.t) and
+`test_fear_acute` specify minimum/maximum dice, successful and failed major-wound
+checks, collapse/drop uniqueness, missing-destination preflight, preview, replay,
+rollback, undo and cross-process save continuation. All assertions remain unrun
+while checks are paused. Full fear-roll orchestration and remaining row executors
+are still incomplete.

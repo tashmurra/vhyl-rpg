@@ -7563,3 +7563,80 @@ modify RpgExpandedProfile
         return inherited(weapon);
     }
 ;
+
+modify RpgExpandedProfile
+    fearAcuteInjuries = []
+;
+class RpgExpandedFearAcuteInjuryResult: RpgExpandedResult
+    wound = nil
+    amount = 0
+    dice = []
+    dropPlan = nil
+;
+/** B361 row 32: collapse plus two dice of injury, through the shared ledger. */
+class RpgExpandedFearAcuteInjury: object
+    id = nil
+    context = nil
+    approved = nil
+    evidence = nil
+    dropDestination = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundWound = nil
+    boundDice = nil
+    definition() { return [self.id,self.context,self.context.profile,self.approved,self.evidence,self.dropDestination,self.recordedAt]; }
+    wound(amount)
+    {
+        local wound = new RpgExpandedWound(); wound.id = 'fear-acute:' + self.id;
+        wound.profile = self.context.profile; wound.amount = amount; wound.dropDestination = self.dropDestination; return wound;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext))
+            rpgExpandedReject('fear-acute-definition');
+        local value = new RpgExpandedFearAcuteInjuryResult(); local profile = self.context.profile;
+        if (self.result != nil)
+        {
+            if (!holds(profile.fearAcuteInjuries,self)) rpgExpandedReject('fear-acute-history');
+            local facts = self.definition();
+            for (local index = 1; index <= facts.length(); index += 1)
+                if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('fear-acute-binding');
+            if (self.result.wound != self.boundWound || self.result.amount != self.boundWound.amount
+                || self.result.dice.length() != 2 || self.result.dice[1] != self.boundDice[1]
+                || self.result.dice[2] != self.boundDice[2]) rpgExpandedReject('fear-acute-wound-binding');
+            self.boundWound.assess(); value.status = 'reused'; value.wound = self.boundWound;
+            value.amount = self.boundWound.amount; value.dice = self.result.dice; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundWound != nil || self.boundDice != nil) rpgExpandedReject('fear-acute-uncommitted-state');
+        local scene = self.context.assess();
+        if (scene.status != 'ready') { value.reason = scene.reason; return value; }
+        if (scene.immune) { value.reason = 'fear-acute-immune'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-acute-evidence'; return value; }
+        if (profile.dead || profile.unconscious) { value.reason = 'fear-acute-observer-unavailable'; return value; }
+        foreach (local prior in profile.fearAcuteInjuries)
+            if (prior.id == self.id) rpgExpandedReject('fear-acute-duplicate');
+        value.dropPlan = profile.prepareKnockdownDrop(self.dropDestination);
+        if (value.dropPlan != nil && value.dropPlan.status != 'ready') { value.reason = value.dropPlan.reason; return value; }
+        for (local amount = 2; amount <= 12; amount += 1)
+        {
+            local injury = self.wound(amount).assess();
+            if (injury.status != 'ready') { value.reason = injury.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local first = rpgRandom.die(); local second = rpgRandom.die();
+        value.dice = [first,second]; value.amount = first + second; value.wound = self.wound(value.amount);
+        local injury = value.wound.apply();
+        if (injury.status != 'resolved') rpgExpandedReject('fear-acute-injury-changed');
+        local profile = self.context.profile;
+        if (value.dropPlan != nil && value.wound.droppedEquipment == nil) value.dropPlan.commit();
+        profile.posture = 'lying';
+        if (!value.wound.health.knockedDown) profile.onKnockdown();
+        self.recordedAt = profile.timeElapsed; self.boundDefinition = self.definition(); self.boundWound = value.wound; self.boundDice = [first,second];
+        profile.fearAcuteInjuries = profile.fearAcuteInjuries + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;

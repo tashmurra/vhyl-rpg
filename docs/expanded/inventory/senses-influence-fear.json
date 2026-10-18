@@ -1264,9 +1264,10 @@
       "status": "partial",
       "acceptance": "Collapse and suffer two dice of injury from the acute physical event.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_acute"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure row specification plus owned RpgExpandedFearAcuteInjury execution: preflight all 2d outcomes, one shared wound, unconditional lying posture and single held-item drop/knockdown notification. Requires an authored selected table outcome; initial fear/table-roll orchestration remains pending. Lifecycle and equipment fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-33",

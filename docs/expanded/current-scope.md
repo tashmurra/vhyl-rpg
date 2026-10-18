@@ -160,3 +160,10 @@ explicitly exclude psychotherapy for possession and support author-confirmed
 funded exorcism buyoff through the existing point ledger. Cure and episode closure
 commit together. Unfunded/outside-downtime cures, exorcism rolls and psychotherapy
 procedures remain pending; the new fixtures are authored but unrun.
+
+
+Fear row thirty-two now has owned execution: two dice of direct injury through
+the shared wound ledger, unconditional collapse and one held-item drop. Every
+possible injury amount is preflighted before randomness. Full fear orchestration
+and remaining outcomes are still pending; new injury/drop lifecycle fixtures are
+authored but unrun.
