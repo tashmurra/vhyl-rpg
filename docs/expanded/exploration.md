@@ -2013,3 +2013,19 @@ foraging day. Completed days cannot be retroactively interrupted.
 `test_travel_day_interruption` specifies release of later activities, forfeited full
 mileage, rollback, undo, repeated interruption, save continuation and timestamp
 binding. Fixtures remain unrun.
+
+### Full-day pace eligibility
+
+Both daily hiking attempts and independently rolled hiking parties expose
+`assessFullDayPace(conditions, enhancedPercents, reservations)`. Supply one owned
+`RpgExpandedTravelDay` per member, in the same order as the attempt or party.
+Missing reservations, interrupted commitments and reservations from another day
+block the assessment. Mismatched owners or member counts reject the request.
+This assessment reuses the daily rolls and spends no time or resources.
+
+Use this method when presenting the full-day allowance to the author. It remains
+an assessment, not a completed journey or an award of distance: the commitment can
+still be interrupted later. `assessPace` remains an unrestricted route estimate.
+Neither method supplies a partial-day distance rule or a position update.
+`test_travel_full_day_pace` specifies reservation, interruption and expiry behavior
+without additional random draws. Fixtures remain unrun.

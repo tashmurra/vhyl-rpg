@@ -9455,6 +9455,7 @@ def test(build):
     travel_day = build.build("expanded-travel-day",ROOT / "tests/fixtures/expanded-travel-day.t")
     test_travel_day(Session,travel_day,build.out)
     test_travel_day_interruption(Session,travel_day,build.out)
+    test_travel_full_day_pace(Session,travel_day)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
     test_travel_digging(Session,travel_digging,build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
@@ -25167,5 +25168,32 @@ def test_travel_day_interruption(Session, bundle, out):
             s.action(1680,code)
         assert last(s,'test.travel-interrupt') == ['blocked','travel-day-already-ended']
         assert last(s,'test.travel-mileage') == [None,None]
+    finally:
+        s.close()
+
+
+def test_travel_full_day_pace(Session, bundle):
+    """Full-day pace needs an uninterrupted current reservation; unrun."""
+    s = Session(bundle)
+    try:
+        s.action(1680,23405)
+        s.action(1680,23915)
+        assert last(s,'test.travel-full-pace') == ['blocked','travel-day-not-reserved',0,3,0]
+        s.action(1680,23900)
+        s.action(1680,23915)
+        ready = last(s,'test.travel-full-pace')
+        assert ready[0:2] == ['ready',None] and ready[2] > 0
+        assert ready[3:] == [3,0]
+        s.action(1680,23910)
+        s.action(1680,23908)
+        s.action(1680,23915)
+        assert last(s,'test.travel-full-pace') == ['blocked','travel-day-interrupted',0,3,1]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (23405,23900,23904,23915):
+            s.action(1680,code)
+        assert last(s,'test.travel-full-pace') == ['blocked','hiking-day-expired',0,3,86400]
     finally:
         s.close()

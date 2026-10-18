@@ -1432,6 +1432,22 @@ class RpgExpandedLandingAttempt: RpgExpandedLandingReceipt
 
 /** B351 daily marching conditions. A homogeneous route segment is an authored
  * fact. Assessment does not advance a character or grant time for other work. */
+/** Validate full-day eligibility separately from an unrestricted route preview. */
+rpgExpandedHikingDayReason(profiles, reservations)
+{
+    if (reservations.length() != profiles.length()) rpgExpandedReject('hiking-day-members');
+    for (local index = 1; index <= profiles.length(); index += 1)
+    {
+        local reservation = reservations[index];
+        if (reservation == nil || !reservation.ofKind(RpgExpandedTravelDay)
+            || reservation.profile != profiles[index]) rpgExpandedReject('hiking-day-owner');
+        local reason = reservation.fullMileageReason();
+        if (reason != nil) return reason;
+        if (reservation.day != rpgLedger.seconds / 86400) return 'hiking-day-expired';
+    }
+    return nil;
+}
+
 class RpgExpandedHikingAssessment: RpgExpandedResult
     packingPercent = 100
     effectiveTerrain = nil
@@ -1628,6 +1644,14 @@ class RpgExpandedHikingAttempt: object
         foreach (local row in self.members) row[1].hikingAttempts = row[1].hikingAttempts + [self];
         return value;
     }
+    assessFullDayPace(conditions, enhancedPercents, reservations)
+    {
+        local profiles = []; foreach (local row in self.members) profiles = profiles + [row[1]];
+        local value = new RpgExpandedHikingAssessment();
+        value.reason = rpgExpandedHikingDayReason(profiles,reservations);
+        if (value.reason != nil) return value;
+        return self.assessPace(conditions,enhancedPercents);
+    }
     /** Current shared route assessment, never a completed journey receipt.
      * Multipliers correspond to member order and require authored trait facts. */
     assessPace(conditions, enhancedPercents)
@@ -1667,6 +1691,14 @@ class RpgExpandedHikingParty: object
     result = nil
     boundDefinition = nil
     definition() { return [self.id,self.evidence,self.attempts.length()] + self.attempts; }
+    assessFullDayPace(conditions, enhancedPercents, reservations)
+    {
+        if (self.assess().status != 'reused') rpgExpandedReject('hiking-party-unresolved');
+        local value = new RpgExpandedHikingAssessment();
+        value.reason = rpgExpandedHikingDayReason(self.result.profiles,reservations);
+        if (value.reason != nil) return value;
+        return self.assessPace(conditions,enhancedPercents);
+    }
     assess()
     {
         if (self.id == nil || self.id == '' || self.attempts.length() < 2 || self.attempts.length() > 1000)

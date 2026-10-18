@@ -48,6 +48,12 @@ modify PhysicianFixtureAction
             local value = travelDay.interrupt('The caravan stops for other activities');
             event('test.travel-interrupt'); eventValue(value.status); eventValue(value.reason); return nil;
         }
+        if (code == 23915)
+        {
+            local value = packWalk.assessFullDayPace(packRoute,[100],[travelDay]);
+            event('test.travel-full-pace'); eventValue(value.status); eventValue(value.reason);
+            eventValue(value.milesHundredths); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+        }
         return inherited(context);
     }
 ;
