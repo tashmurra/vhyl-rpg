@@ -24,12 +24,14 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
     rpgInteger(amount, 0, 100000); rpgInteger(modifier,-1000,1000);
     local result = new RpgLiteHealthResult();
     if (profile.dead || amount == 0) return result;
+    profile.validateInjury(amount);
     local shock = profile.shockFromInjury(amount);
     local oldHP = profile.hp(); profile.injury += amount; result.injury = amount;
     profile.woundSerial += 1;
     profile.aidUsed = nil;
     if (profile.level('high-pain-threshold') == 0)
-    { profile.shock += shock; if (profile.shock > 4) profile.shock = 4; }
+    { profile.shock += shock; if (profile.shock > profile.shockLimit()) profile.shock = profile.shockLimit(); }
+    profile.afterInjuryShock(amount,result);
     if (knockdown && !profile.unconscious)
     {
         result.check = rpgLiteAttributeCheck(profile, rpgHT, 'major-wound', modifier);

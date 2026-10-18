@@ -200,8 +200,8 @@ def test_scaled_injury_shock(s):
 
 def test_scaled_shock_turn_boundary(s):
     s.action(1602)
-    assert last(s, 'test.shock-rejection') == [
-        'expanded-low-pain-shock-unavailable', 0, 0, 0, 0]
+    assert last(s, 'test.shock-sensitive') == [
+        'resolved', 8, 4, 1, 3]
     for enabled, resistant, retained in [(0, 0, 4), (1, 0, 2), (1, 1, 0)]:
         s.action(1603, enabled, resistant)
         assert last(s, 'test.shock-turn') == [retained, 'resolved', 0, 8, 0]
@@ -8902,6 +8902,8 @@ def test(build):
     test_fallout_treatment(Session, fallout, build.out)
     radiation_check = build.build('expanded-radiation-check', ROOT / 'tests/fixtures/expanded-radiation-check.t')
     test_radiation_checks(Session, radiation_check, build.out)
+    pain = build.build('expanded-pain-sensitivity', ROOT / 'tests/fixtures/expanded-pain-sensitivity.t')
+    test_pain_sensitivity(Session, pain, build.out)
     fresh(Session,hazards,test_airless_seconds)
     fresh(Session,hazards,test_resuscitation_assessment)
     fresh(Session,hazards,test_cardiac_condition)
@@ -10238,5 +10240,45 @@ def test_radiation_checks(Session, bundle, out):
             assert last(s, 'test.radiation-check-result')[:2] == ['blocked', reason]
             s.action(2291, 55, 0)
             assert last(s, 'test.radiation-check-state') == [0, 0, 0, None, None]
+        finally:
+            s.close()
+
+
+def test_pain_sensitivity(Session, bundle, out):
+    def state(s):
+        s.action(2399)
+        return last(s, 'test.pain-state')
+    initial = [0, 0, 0, None, 6, 10, -10, 8]
+    path = out / 'expanded-pain-sensitivity.zsave'
+    s = Session(bundle)
+    try:
+        assert state(s) == initial
+        s.action(2398, 1)
+        assert state(s) == initial
+        s.action(2398, 5)
+        assert state(s) == initial
+        s.action(2398, 0)
+        assert state(s) == [2, 4, 3, True, 6, 10, -10, 8]
+        s.command('undo')
+        assert state(s) == initial
+        s.action(2398, 0)
+        s.command(f':save {path}\n@2399')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2399')
+        s.action(2398, 0)
+        assert state(s) == [2, 4, 3, True, 6, 10, -10, 8]
+    finally:
+        s.close()
+    for setup, expected in [(2, [1, 2, 0, None, 6, 10, -10, 8]),
+                            (3, [4, 8, 3, True, 6, 10, -10, 8]),
+                            (4, initial)]:
+        s = Session(bundle)
+        try:
+            s.action(2398, setup)
+            s.action(2398, 0)
+            assert state(s) == expected
         finally:
             s.close()

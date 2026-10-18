@@ -24,9 +24,7 @@ modify RpgExpandedProfile
         if (self.rules == nil || !self.rules.ofKind(RpgExpandedRules))
             rpgExpandedReject('expanded-rules-required');
         if (!self.rules.scaledInjuryShock) return inherited(amount);
-        if (self.level('low-pain-threshold') > 0)
-            rpgExpandedReject('expanded-low-pain-shock-unavailable');
-        return rpgExpandedInjuryShock(self.maxHP,amount);
+        return rpgExpandedInjuryShock(self.maxHP,amount) * (self.level('low-pain-threshold') > 0 ? 2 : 1);
     }
 ;
 
@@ -156,7 +154,7 @@ class RpgExpandedWound: object
         { value.reason = 'expanded-wound-shock-rule-required'; return value; }
         if (self.anatomy != 'standard-humanoid')
         { value.reason = 'expanded-wound-anatomy-unavailable'; return value; }
-        foreach (local traitId in ['homogenous','diffuse','low-pain-threshold'])
+        foreach (local traitId in ['homogenous','diffuse'])
             if (self.profile.level(traitId) > 0)
             { value.reason = 'expanded-wound-trait-unavailable'; return value; }
         if (self.profile.dead) { value.reason = 'expanded-wound-dead'; return value; }
@@ -210,6 +208,7 @@ class RpgExpandedWound: object
         }
         if (value.healthLoss > 0 && self.profile.ht < 3 && self.profile.hp() - value.healthLoss <= -self.profile.maxHP)
         { value.reason = 'expanded-survival-score-unavailable'; return value; }
+        self.profile.validateInjury(value.healthLoss);
         self.profile.shockFromInjury(value.healthLoss);
         value.status = 'ready'; return value;
     }
@@ -3577,5 +3576,48 @@ modify rpgLedger
                 if (self.seconds + seconds > care.completesAt) rpgExpandedReject('bleeding-care-boundary');
             }
         return nil;
+    }
+;
+
+
+/** B142 pain sensitivity uses the shared wound pipeline, including fatigue injury. */
+modify RpgLiteHealthResult
+    painCryCheck = nil
+    criedOut = nil
+;
+modify RpgExpandedProfile
+    shockLimit() { return self.level('low-pain-threshold') > 0 ? 8 : inherited(); }
+    validateInjury(amount)
+    {
+        inherited(amount);
+        if (self.level('low-pain-threshold') == 0) return nil;
+        if (self.level('high-pain-threshold') > 0) rpgExpandedReject('pain-threshold-conflict');
+        if (!self.rules.scaledInjuryShock) rpgExpandedReject('pain-sensitivity-shock-rule-required');
+        if (amount > 1)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'pain-cry';
+            local score = rpgLiteScore(self,context);
+            if (score == nil || score < 3) rpgExpandedReject('pain-cry-score-unavailable');
+        }
+        return nil;
+    }
+    afterInjuryShock(amount, result)
+    {
+        inherited(amount,result);
+        if (amount > 1 && self.level('low-pain-threshold') > 0)
+        {
+            local context = new RpgLiteContext(); context.attribute = rpgWill; context.kind = 'pain-cry';
+            result.painCryCheck = rpgLiteCheck(self,context);
+            result.checks = result.checks + [result.painCryCheck];
+            result.criedOut = !result.painCryCheck.achieved;
+        }
+        return nil;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (self.level('low-pain-threshold') > 0 && holds(['major-wound','physical-stun','torture'],context.kind))
+            value -= 4;
+        return value;
     }
 ;

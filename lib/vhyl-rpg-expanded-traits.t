@@ -297,3 +297,17 @@ modify RpgExpandedProfile
         return found == nil || !found.active || found.mitigated ? inherited() : found.divisor();
     }
 ;
+
+
+/** B142 fixed purchase; health supplies injury and resistance effects. */
+class RpgExpandedPainSensitivity: RpgExpandedDisadvantage
+    id = 'low-pain-threshold'
+    points = -10
+    creationCost()
+    {
+        if (!self.approved || self.id != 'low-pain-threshold' || self.level != 1
+            || self.points != -10 || self.percentages.length() != 0 || self.selfControlRating != nil)
+            rpgExpandedReject('pain-sensitivity-definition');
+        return -10;
+    }
+;

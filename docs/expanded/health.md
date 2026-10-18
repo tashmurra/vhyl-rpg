@@ -15,8 +15,8 @@ increments of capacity/10 as the divisor. Drop fractional penalties and cap at 4
 The existing wound path adds the resulting penalty to the same `profile.shock`,
 retains high-pain resistance and charges injury once. Combat turn cleanup uses
 the same scaling hook for counter-injury, and a turn without new injury clears
-the prior shock. Unsupported low-pain
-modification rejects before injury is committed. The hook defaults to the existing
+the prior shock. Pain sensitivity doubles the calculated shock and uses a ceiling
+of eight; its injury hooks are described below. The hook defaults to the existing
 Lite calculation when the option is disabled. No new injury or fatigue pool is
 introduced. `test_scaled_injury_shock` provides independent threshold expectations
 and integrated repeated-wound/resistance cases.
@@ -141,11 +141,10 @@ post-destruction healing triggers require separate state. These are pending rule
 not extensions already supplied by the Lite injury functions.
 
 
-Pain sensitivity remains explicitly blocked with scaled shock: B142 doubles shock,
-while B419 gives the ordinary cap. The supplied curated records do not resolve
-that interaction. Its knockdown/torture modifier, involuntary vocalization check
-and observer-dependent reaction consequences also remain pending. No partial
-price-only trait is presented as the complete disadvantage.
+Pain sensitivity now follows the full source procedure: compute ordinary shock
+under B419, then double that shock under B142, giving a ceiling of eight. This
+replaces the earlier blocker based on curated records alone. Observer-dependent
+reaction and discovery consequences still require further integration.
 
 ## Location knockdown assessment
 
@@ -1887,3 +1886,36 @@ The scheduler does not automatically resolve private rolls or heal on clock tick
 `test_bleeding_care_boundaries` specifies offset event ordering, rejection at both
 boundaries, cancellation and cross-process continuation with pending care.
 It is authored and unrun, alongside the other paused validation fixtures.
+
+
+## Pain sensitivity in the injury pipeline
+
+With the health module installed and `rules.scaledInjuryShock = true`, an active
+`low-pain-threshold` trait doubles calculated injury shock, including scaled shock
+for high HP, and raises the accumulated and turn-cleanup ceiling to eight. The
+trait also imposes -4 on `major-wound`, `physical-stun` and physical `torture`
+contexts. Mental-stun recovery receives no penalty from this implementation.
+Simultaneously active high and low pain thresholds are rejected before injury.
+
+Every wound of more than one HP makes a Will check to avoid crying out, after
+injury and shock but before knockdown and survival checks. The shared health
+result retains `painCryCheck` and `criedOut`, and includes the roll in `checks`.
+This ordering is deterministic; it consumes no roll for one-HP wounds or when
+the trait is absent. A score below three is rejected during preflight before
+injury, resource changes or randomness. Wound replay retains the saved check.
+
+The existing profile hooks `validateInjury`, `afterInjuryShock` and `shockLimit`
+have no-effect defaults for Lite integrations. The expanded owned-wound preview
+also uses injury validation. The shared pipeline covers direct wounds and fatigue
+overflow, so these paths do not maintain separate pain or injury records.
+
+The trait price class is `RpgExpandedPainSensitivity` in the traits module. Its
+fixed -10 purchase supports no percentage modifiers or self-control repricing.
+The cry-out result reports the physical outcome; it does not decide who heard it,
+reveal hidden actors automatically or impose the source's optional observer
+reaction. Those world-observation and social consequences remain incomplete.
+
+`tests/fixtures/expanded-pain-sensitivity.t` and `test_pain_sensitivity` specify
+shock, cost, resistance modifiers, cry-out thresholds, unavailable-score rejection,
+preview, rollback, undo, replay and saved continuation. Existing scaled-shock
+fixtures now expect the supported pain-sensitive case. All remain unrun.

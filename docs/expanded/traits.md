@@ -613,3 +613,15 @@ supported advancement procedure. Do not directly change its level to spend point
 The minimal integration fixture is `tests/fixtures/expanded-radiation-traits.t`.
 Its expected-value cases in `test_radiation_traits` are authored and unrun. This
 addition does not complete the traits catalogue or radiation syndrome procedures.
+
+
+## Pain sensitivity
+
+`RpgExpandedPainSensitivity` is the fixed -10-point trait from `full-2008`, B142.
+Set `approved = true` and install one instance in `profile.traits`. The health
+module, with scaled injury shock selected, supplies doubled shock, physical
+resistance penalties and the Will check to avoid crying out after injury above
+one HP. Its shared health result exposes the cry-out outcome. Modifier pricing,
+observer-dependent discovery and optional reaction consequences remain incomplete.
+See the [health guide](health.md#pain-sensitivity-in-the-injury-pipeline) and
+`tests/fixtures/expanded-pain-sensitivity.t`; the fixture is authored and unrun.

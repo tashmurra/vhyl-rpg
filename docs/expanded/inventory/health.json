@@ -129,7 +129,7 @@
         "tests/expanded.py::test_scaled_injury_shock",
         "tests/expanded.py::test_scaled_shock_turn_boundary"
       ],
-      "validation_note": "High-capacity shock and wound/turn-cleanup hooks authored behind explicit selection. Boundary, resistance and rejection cases unrun; pain sensitivity and detailed injuries remain pending."
+      "validation_note": "High-capacity shock and wound/turn-cleanup hooks authored. Pain sensitivity doubles the ordinary calculated shock. Boundary, resistance, pain and rejection cases are authored and unrun."
     },
     {
       "id": "health-shock-defensive-exemption",
@@ -1048,9 +1048,12 @@
       "pages": "B420",
       "module": "health",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Low pain threshold imposes -4.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_pain_sensitivity"
+      ],
+      "validation_note": "Health context applies the -4 penalty; shared injury hooks add doubled shock and the cry-out check. Fixtures authored and unrun; observer consequences remain pending."
     },
     {
       "id": "health-crippling-threshold-limb",
@@ -2340,6 +2343,19 @@
         "tests/expanded.py::test_surgery_assessments"
       ],
       "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-pain-sensitivity-injury",
+      "source": "full-2008",
+      "pages": "B142; B419-B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Double ordinary injury shock, apply -4 to physical knockdown/stun and torture resistance, and require Will to avoid crying out after a wound above one HP. Retain the result for world observation and optional social consequences.",
+      "tests": [
+        "tests/expanded.py::test_pain_sensitivity"
+      ],
+      "validation_note": "Shared injury and trait purchase implementations authored; observer and optional reaction consequences pending. Fixtures unrun."
     }
   ],
   "exclusions": [

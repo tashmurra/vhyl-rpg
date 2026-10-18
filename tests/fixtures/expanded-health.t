@@ -110,8 +110,8 @@ act(verb,args)
         local rules = new RpgExpandedRules(); rules.scaledInjuryShock = true;
         local p = new RpgExpandedProfile(); p.rules = rules; p.st = 30;
         local trait = new RpgLiteTrait(); trait.id = 'low-pain-threshold'; p.traits = [trait];
-        local before = rpgRandom.draws; event('test.shock-rejection');
-        try { rpgLiteWound(p,8); eventValue('unexpected-success'); }
+        local before = rpgRandom.draws; event('test.shock-sensitive');
+        try { rpgLiteWound(p,8); eventValue('resolved'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         eventValue(p.injury); eventValue(p.shock); eventValue(p.woundSerial);
         eventValue(rpgRandom.draws - before); return nil;

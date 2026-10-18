@@ -260,3 +260,10 @@ advanced treatment and preserve their rolled outcome across replay and saves.
 Nonzero syndromes are explicitly awaiting consequences; their medical effects
 are still pending. Unsupported table bands block before randomness. New fixtures
 are authored and unrun.
+
+
+Pain sensitivity now connects its fixed purchase to shared injury handling:
+doubled shock, physical resistance penalties and recorded Will checks to avoid
+crying out. Default injury hooks preserve the absent-trait path. New and updated
+fixtures are authored and unrun; observer consequences and radiation symptom
+timing remain pending.

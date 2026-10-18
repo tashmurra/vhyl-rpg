@@ -297,7 +297,8 @@
         "tests/expanded.py::test_bleeding_minutes",
         "tests/expanded.py::test_bleeding_aid",
         "tests/expanded.py::test_bleeding_bandage",
-        "tests/expanded.py::test_bleeding_care_boundaries"
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_pain_sensitivity"
       ],
       "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
     },
@@ -498,7 +499,8 @@
         "tests/expanded.py::test_fear_quirks",
         "tests/expanded.py::test_fear_quirk_stun",
         "tests/character_social.py::test_trait_prices",
-        "tests/expanded.py::test_radiation_traits"
+        "tests/expanded.py::test_radiation_traits",
+        "tests/expanded.py::test_pain_sensitivity"
       ]
     },
     {
