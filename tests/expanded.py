@@ -8950,6 +8950,8 @@ def test(build):
     test_coughing(Session, coughing, build.out)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
+    paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
+    test_paralysis(Session, paralysis, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -12000,5 +12002,54 @@ def test_temporary_blindness(Session, bundle, out):
         s.action(2285, 415)
         s.action(2285, 431)
         assert state(s) == clear[:-2] + [60, 0]
+    finally:
+        s.close()
+
+
+def test_paralysis(Session, bundle, out):
+    def state(s):
+        s.action(2285, 453)
+        return last(s, 'test.paralysis')
+    clear = [0, 0, 'standing', 10, 10, 0, 1, 1, 0, 0, 0]
+    active = [1, 0, 'lying', None, 10, 4, 0, 1, 0, 0, 0]
+    path = out / 'expanded-paralysis.zsave'
+    s = Session(bundle)
+    try:
+        for code in (450, 452):
+            s.action(2285, code)
+        assert state(s) == clear
+        s.action(2285, 451)
+        s.command('undo')
+        assert state(s) == clear
+        for code in (451, 451, 455, 456):
+            s.action(2285, code)
+        assert state(s) == active
+        for code in (454, 454):
+            s.action(2285, code)
+        assert state(s) == active[:-3] + [1, 0, 0]
+        s.action(2285, 414)
+        assert state(s) == active[:-3] + [1, 59, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 415)
+        assert state(s) == [0, 0, 'lying', 10, 10, 0, 1, 1, 1, 60, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (458, 451, 457, 454):
+            s.action(2285, code)
+        assert state(s) == [1, 0, 'standing', None, 10, 4, 0, 1, 0, 0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (459, 451):
+            s.action(2285, code)
+        assert state(s) == clear
     finally:
         s.close()

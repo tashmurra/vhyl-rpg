@@ -253,9 +253,12 @@
       "pages": "B429",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Paralysis prevents voluntary muscle movement and causes a fall if unbalanced, but preserves consciousness and abilities requiring neither speech nor movement.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_paralysis"
+      ],
+      "validation_note": "Owned finite conscious paralysis now applies balanced-position onset, voluntary movement/speech restrictions, Do Nothing handling and explicit mental-ability permission through the shared action gate. Permission fields are receipt-bound. Fixtures authored, unrun. Poison causes, height falls and individual power/defense adapters remain incomplete."
     },
     {
       "id": "condition-retching",

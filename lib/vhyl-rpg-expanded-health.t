@@ -1957,6 +1957,12 @@ class RpgExpandedEffortResult: RpgExpandedExhaustionOutcome
 class RpgExpandedEffort: object
     id = nil
     profile = nil
+    mentalAbility = nil
+    requiresSpeech = nil
+    requiresMovement = nil
+    boundMentalAbility = nil
+    boundRequiresSpeech = nil
+    boundRequiresMovement = nil
     purpose = 'action'
     evidence = nil
     result = nil
@@ -1972,7 +1978,9 @@ class RpgExpandedEffort: object
         if (self.result != nil)
         {
             if (self.id != self.boundId || self.profile != self.boundProfile || self.purpose != self.boundPurpose
-                || self.evidence != self.boundEvidence || !holds(self.profile.effortHistory,self)) rpgExpandedReject('effort-binding');
+                || self.evidence != self.boundEvidence || self.mentalAbility != self.boundMentalAbility
+                || self.requiresSpeech != self.boundRequiresSpeech || self.requiresMovement != self.boundRequiresMovement
+                || !holds(self.profile.effortHistory,self)) rpgExpandedReject('effort-binding');
             value.status = 'reused'; value.allowed = self.result.allowed; value.incapacitated = self.result.incapacitated;
             value.unconscious = self.result.unconscious; value.cardiacTrigger = self.result.cardiacTrigger;
             value.check = self.result.check; value.healthCheck = self.result.healthCheck; value.cardiac = self.result.cardiac;
@@ -1989,6 +1997,8 @@ class RpgExpandedEffort: object
         if (holds(['action','talk'],self.purpose) && (self.profile.unconscious || self.profile.mortal
             || self.profile.stunned || self.profile.mentalStun))
         { value.reason = 'effort-other-incapacity'; return value; }
+        local healthReason = self.profile.healthEffortReason(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement);
+        if (healthReason != nil) { value.reason = healthReason; return value; }
         rpgInteger(self.profile.maxEnergy,1,1000); rpgInteger(self.profile.fp(),-self.profile.maxEnergy,self.profile.maxEnergy);
         value.requiresCheck = self.purpose == 'action' && self.profile.fp() <= 0
             && self.profile.fp() > -self.profile.maxEnergy && !self.profile.exhaustionCollapsed;
@@ -2034,6 +2044,7 @@ class RpgExpandedEffort: object
         }
         else value.cardiac = nil;
         self.boundId = self.id; self.boundProfile = self.profile; self.boundPurpose = self.purpose; self.boundEvidence = self.evidence;
+        self.boundMentalAbility = self.mentalAbility; self.boundRequiresSpeech = self.requiresSpeech; self.boundRequiresMovement = self.requiresMovement;
         self.completedAt = rpgLedger.seconds; self.profile.effortHistory = self.profile.effortHistory + [self];
         value.status = 'resolved'; self.result = value; return value;
     }
@@ -5465,5 +5476,71 @@ modify RpgExpandedProfile
         inherited();
         if (self.temporarilyBlind()) rpgExpandedReject('temporary-blindness-combat-adapter-required');
         return nil;
+    }
+;
+
+
+/** B429 conscious paralysis. Balance is an explicit physical fact at onset. */
+class RpgExpandedParalysis: RpgExpandedCoughing
+    positionAssessed = nil
+    balanced = nil
+    history() { return self.profile.paralysisHistory; }
+    remember() { self.profile.paralysisHistory = self.profile.paralysisHistory + [self]; }
+    receiptKind() { return 'paralysis'; }
+    definition() { return inherited() + [self.positionAssessed,self.balanced]; }
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && !self.positionAssessed)
+        { value.status = 'blocked'; value.reason = 'paralysis-position-required'; }
+        return value;
+    }
+    apply()
+    {
+        local value = inherited();
+        if (value.status == 'resolved' && !self.balanced) self.profile.posture = 'lying';
+        return value;
+    }
+;
+modify RpgLiteContext
+    mentalAbility = nil
+    requiresSpeech = nil
+    requiresMovement = nil
+;
+modify RpgExpandedProfile
+    paralysisHistory = []
+    paralyzed()
+    {
+        local active = nil;
+        foreach (local episode in self.paralysisHistory) if (episode.active()) active = true;
+        return active;
+    }
+    voluntaryMovementUnavailable() { return self.paralyzed() || inherited(); }
+    healthEffortReason(purpose, mentalAbility, speech, movement)
+    {
+        if (self.paralyzed() && !holds(['rest','do-nothing'],purpose)
+            && (purpose == 'talk' || !mentalAbility || speech || movement)) return 'paralysis-action-unavailable';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+    healthCheckReason(context)
+    {
+        if (self.paralyzed())
+        {
+            if (context.requiresSpeech || context.requiresMovement) return 'paralysis-physical-check';
+            if (!context.mentalAbility && !context.defensiveReaction
+                && (context.kind == 'attack' || holds([rpgDX,rpgST],context.controllingAttribute())))
+                return 'paralysis-voluntary-check';
+        }
+        return inherited(context);
+    }
+    healthManeuverReason(kind)
+    {
+        if (self.paralyzed() && kind != 'nothing') return 'paralysis-do-nothing-required';
+        return inherited(kind);
+    }
+    healthBlocksDefense() { return self.paralyzed() || inherited(); }
+    healthDefensePenalty()
+    {
+        local value = inherited(); return self.paralyzed() && value < 4 ? 4 : value;
     }
 ;

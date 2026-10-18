@@ -62,6 +62,8 @@ class RpgLiteProfile: RpgProfile
     healthAttributeModifier(context) { return 0; }
     healthCheckReason(context) { return nil; }
     healthManeuverReason(kind) { return nil; }
+    voluntaryMovementUnavailable() { return nil; }
+    healthEffortReason(purpose, mentalAbility, speech, movement) { return nil; }
     healthDefensePenalty() { return 0; }
     afterNeedsCycle(needs) { return nil; }
     quirkCountsTowardCreationLimit(trait) { return true; }

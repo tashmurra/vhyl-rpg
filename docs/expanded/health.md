@@ -2555,3 +2555,35 @@ lifecycle for its visual irritant route.
 `expanded-temporary-blindness.t` specifies visual gating, preserved nonvisual
 checks, isolated condition histories, early combat rejection, exact expiry,
 preview, replay, rollback, undo and saved continuation. Fixtures remain unrun.
+
+
+### Conscious paralysis
+
+`RpgExpandedParalysis` owns a finite paralysis episode (full-2008 B428–B429).
+Supply the usual condition `id`, `profile`, authored `durationSeconds`, `approved`
+and `evidence`, plus `positionAssessed = true` and the factual `balanced` value.
+An unbalanced patient falls to a lying posture at onset. A balanced patient stays
+in position. Neither case sets unconsciousness, and expiry does not automatically
+stand the patient up.
+
+While paralyzed, ordinary movement and speech are unavailable. Physical combat
+maneuvers require Do Nothing; physical active defenses are unavailable, and the
+condition exposes the effective-stun defense penalty for other authored handling.
+Movement/speech-dependent checks must set `requiresMovement` or `requiresSpeech`.
+Ordinary voluntary DX/ST checks are also blocked, while nonphysical checks and
+explicit defensive reactions remain available as appropriate.
+
+An owned effort/action gate may set `mentalAbility = true` only for an actual
+ability or spell requiring neither speech nor movement. Both requirement fields
+must remain false. This exception preserves normal exhaustion and consciousness
+checks; it does not grant a new power. The permission receipt binds these fields,
+so replay cannot turn an ordinary action into a mental exception. The legacy
+`rpgLiteCanAct` path rejects ordinary action while allowing Do Nothing; use the
+owned action gate for the specific mental-ability exception. Alternate-defense
+and combat-maneuver adapters for individual powers remain unfinished.
+
+`expanded-paralysis.t` specifies conscious onset, balanced/unbalanced posture,
+blocked physical action and speech, a permitted mental ability, rejection when
+speech is required, exact expiry, preview, replay, rollback, undo and saved
+continuation. Fixtures remain unrun. Poison-caused paralysis, cause-specific
+recovery and falling from height still need their own integrations.

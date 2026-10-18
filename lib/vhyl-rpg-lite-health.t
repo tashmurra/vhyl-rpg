@@ -97,6 +97,7 @@ rpgLiteCanAct(profile, doNothing)
 {
     if (profile.dead || profile.unconscious || profile.mortal) return nil;
     if (doNothing) return true;
+    if (profile.voluntaryMovementUnavailable()) return nil;
     if (profile.exhaustionBlocksAction()) return nil;
     if (profile.fp() <= 0)
     {

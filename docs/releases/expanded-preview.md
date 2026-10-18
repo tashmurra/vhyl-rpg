@@ -527,3 +527,10 @@ vision-based blindness through owned environmental conditions and departure
 tails. Authored cloud density also modifies vision per whole yard independently
 of resistance. Fixtures are authored and unrun. Unprepared fear resolution,
 overlapping effects and unseen-target combat remain incomplete.
+
+
+Owned paralysis now preserves consciousness, handles balanced-position onset and
+restricts voluntary movement and speech. Explicit mental abilities requiring
+neither can use the existing owned action gate, with receipt-bound permissions.
+Added a minimal authored, unrun fixture for expiry, rollback, undo and saved
+continuation. Poison causes and specialized combat adapters remain incomplete.
