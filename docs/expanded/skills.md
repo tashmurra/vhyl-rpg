@@ -813,8 +813,10 @@ The shared resolver requires purchased sources and prevents untrained default ch
 
 Use these types with existing physician practice, periodic healing and first-aid
 operations. Existing authored skills remain compatible. These definitions do not
-provide drug identification or formulation, nor do they establish the diagnosis
-requirement for unusual first-aid problems. Those procedures remain incomplete.
+provide drug identification or formulation. The owned post-bandaging first-aid
+treatment now supports an explicit diagnosis
+requirement for unusual problems; other first-aid operations still need that
+integration. Drug procedures remain incomplete.
 `test_medical_skills` specifies each default, incompatible technology and the
 low-technology author contract. Medical integration fixtures also use these types.
 All new fixtures remain unrun while checks are paused.

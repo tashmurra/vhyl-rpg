@@ -1470,6 +1470,44 @@ class RpgExpandedFirstAid: object
         }
         value.status = 'ready'; return value;
     }
+    unusualProblem = nil
+    problemEvidence = nil
+    diagnosis = nil
+    diagnosisCaseId = nil
+    diagnosisConsultation = nil
+    boundDiagnosis = nil
+    diagnosisDefinition() { return [self.unusualProblem,self.problemEvidence,self.diagnosis,self.diagnosisCaseId,self.diagnosisConsultation]; }
+    diagnosisAssessment()
+    {
+        local value = new RpgExpandedResult();
+        if (self.unusualProblem && (self.problemEvidence == nil || self.problemEvidence == ''))
+        { value.reason = 'first-aid-problem-evidence'; return value; }
+        if (self.diagnosis == nil)
+        {
+            if (self.diagnosisConsultation != nil) rpgExpandedReject('first-aid-diagnosis-consultation-binding');
+            if (self.unusualProblem) { value.reason = 'first-aid-diagnosis-required'; return value; }
+            value.status = 'ready'; return value;
+        }
+        if (!self.diagnosis.ofKind(RpgExpandedDiagnosis) || self.diagnosis.patient != self.bandage.wound.profile
+            || self.diagnosisCaseId == nil || self.diagnosis.caseId != self.diagnosisCaseId)
+            rpgExpandedReject('first-aid-diagnosis-case-binding');
+        if (self.diagnosisConsultation != nil)
+        {
+            local consultation = self.diagnosisConsultation;
+            if (!consultation.ofKind(RpgExpandedDiagnosticConsultation) || consultation.diagnosis != self.diagnosis
+                || consultation.recipient != self.healer) rpgExpandedReject('first-aid-diagnosis-consultation-binding');
+            if (consultation.completedAt == nil) { value.reason = 'first-aid-diagnosis-consultation-required'; return value; }
+            consultation.validateReceipt();
+        }
+        else if (self.diagnosis.examiner != self.healer)
+        { value.reason = 'first-aid-diagnosis-consultation-required'; return value; }
+        if (self.diagnosis.result == nil) { value.reason = 'first-aid-diagnosis-unresolved'; return value; }
+        self.diagnosis.validateReceipt();
+        value.modifier = self.diagnosis.result.finding != nil && self.diagnosis.result.findingKind == 'diagnosis' ? 1 : 0;
+        if (self.unusualProblem && value.modifier == 0)
+        { value.reason = 'first-aid-diagnosis-incomplete'; return value; }
+        value.status = 'ready'; return value;
+    }
     careEvidence = nil
     comfortable = nil
     dropDestination = nil
@@ -1496,6 +1534,11 @@ class RpgExpandedFirstAid: object
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundPhysiology[i]) rpgExpandedReject('first-aid-physiology-binding');
             if (self.physiologyCheck != nil) self.physiologyCheck.validateReceipt();
+            local diagnosisFacts = self.diagnosisDefinition();
+            for (local i = 1; i <= diagnosisFacts.length(); i += 1)
+                if (diagnosisFacts[i] != self.boundDiagnosis[i]) rpgExpandedReject('first-aid-diagnosis-binding');
+            local diagnosis = self.diagnosisAssessment();
+            if (diagnosis.status != 'ready') rpgExpandedReject(diagnosis.reason);
             value.status = 'reused'; value.check = self.result.check; value.healed = self.result.healed;
             value.injury = self.result.injury; value.healingRoll = self.result.healingRoll;
             value.failureWound = self.result.failureWound; return value;
@@ -1520,6 +1563,8 @@ class RpgExpandedFirstAid: object
         if (patient.injury <= 0)
         { value.reason = 'first-aid-no-injury'; return value; }
         rpgInteger(self.modifier,-100,100);
+        local diagnosis = self.diagnosisAssessment();
+        if (diagnosis.status != 'ready') { value.reason = diagnosis.reason; return value; }
         local physiology = self.assessPhysiology();
         if (physiology.status != 'ready') { value.reason = physiology.reason; return value; }
         value.seconds = rpgExpandedFirstAidTable(self.skill.techLevel).tableSeconds;
@@ -1560,6 +1605,7 @@ class RpgExpandedFirstAid: object
             if (eligible > 0) value.healed = rpgLiteHeal(patient,eligible);
         }
         patient.aidUsed = true; self.bandage.treatment = self;
+        self.boundDiagnosis = self.diagnosisDefinition();
         self.boundPhysiology = self.physiologyDefinition();
         self.boundBandage = self.bandage; self.boundHealer = self.healer; self.boundSkill = self.skill;
         self.boundModifier = self.modifier; self.boundEvidence = self.careEvidence; self.boundDestination = self.dropDestination;

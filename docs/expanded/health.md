@@ -3854,3 +3854,29 @@ this feature does not establish cross-species supervision eligibility by itself.
 knowledge, blocked machine and unresolved cases, shared healing accounting,
 rollback, undo, replay, changed-species rejection and cross-process save
 continuation. The fixture is authored and unrun while checks remain paused.
+
+
+## Diagnosis before unusual first aid
+
+For an unusual problem (full-2008 B195), set `RpgExpandedFirstAid.unusualProblem`
+and provide `problemEvidence` explaining the classification. Bind `diagnosis`
+and `diagnosisCaseId` to the relevant patient and case. Treatment requires a
+completed finding of kind `diagnosis`; a hint, failed roll or unresolved case
+blocks before treatment time or randomness is spent. Ordinary requests preserve
+the existing behavior with `unusualProblem` unset.
+
+When the examiner differs from the healer, supply a completed
+`diagnosisConsultation` naming that diagnosis and the healer as recipient. Its
+receipt records authored delivery and comprehension, without automatically
+assuming language ability or access. A finding does not supply an additional
+skill bonus. The treatment binds the classification, evidence, case, diagnosis
+and consultation, and validates them on replay. Existing bandaging credit and
+healing limits still apply.
+
+The author must connect a clinically relevant case to the injury and classify
+whether it is unusual; the engine cannot infer this from wound magnitude.
+This gate currently applies to the owned post-bandaging first-aid treatment.
+Other first-aid operations, including bleeding and resuscitation, still need
+case-specific integration. `test_first_aid_diagnosis` covers missing, unresolved,
+failed and partial findings, consultation, rollback, undo and replay. Fixtures
+remain unrun while checks are paused.

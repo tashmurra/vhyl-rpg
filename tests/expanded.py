@@ -9378,6 +9378,8 @@ def test(build):
     test_physiology_skill(Session, physiology_skill)
     medical_skills = build.build("expanded-medical-skills",ROOT / "tests/fixtures/expanded-medical-skills.t")
     test_medical_skills(Session, medical_skills)
+    first_aid_diagnosis = build.build("expanded-first-aid-diagnosis",ROOT / "tests/fixtures/expanded-first-aid-diagnosis.t")
+    test_first_aid_diagnosis(Session, first_aid_diagnosis)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23611,5 +23613,45 @@ def test_medical_skills(Session, bundle):
         try:
             s.action(1680,code)
             assert last(s,'test.medical-definition') == [reason]
+        finally:
+            s.close()
+
+
+def test_first_aid_diagnosis(Session, bundle):
+    """B195 requires identification of unusual problems before treatment; unrun."""
+    for setup, reason, draws in (((),'first-aid-diagnosis-required',0),
+                                ((19800,),'first-aid-diagnosis-unresolved',0),
+                                ((19800,19802,19801),'first-aid-diagnosis-incomplete',3),
+                                ((19800,19803,19801),'first-aid-diagnosis-incomplete',3),
+                                ((19800,19804,19801),'first-aid-diagnosis-consultation-required',3)):
+        s = Session(bundle)
+        try:
+            for code in (19400,*setup,19403):
+                s.action(1700,code)
+            assert last(s,'test.aid-physiology') == ['blocked',reason,None,draws]
+            s.action(1700,19405)
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,draws]
+        finally:
+            s.close()
+    for setup in ((19800,19801),(19800,19804,19801,19805)):
+        s = Session(bundle)
+        try:
+            for code in (19400,*setup,19403):
+                s.action(1700,code)
+            assert last(s,'test.aid-physiology') == ['ready',None,9,3]
+            s.action(1700,19406)
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,3]
+            s.action(1700,19405)
+            s.command('undo')
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,3]
+            s.action(1700,19405)
+            s.action(1700,19405)
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [0,1,1,1,1,1,660,6]
+            s.action(1700,19806)
+            assert last(s,'test.aid-diagnosis-error') == ['first-aid-diagnosis-binding']
         finally:
             s.close()
