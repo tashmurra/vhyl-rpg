@@ -2131,3 +2131,130 @@ class RpgExpandedPrototypeCompletion: object
         self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgLiteItem
+    prototypeDefects = nil
+;
+
+/** Concrete author-selected fault behavior; severity and effect are separate facts. */
+class RpgExpandedPrototypeDefect: object
+    id = nil
+    severity = nil
+    effect = nil
+    penalty = 0
+    evidence = nil
+    active = nil
+    discovered = nil
+    owner = nil
+    definition() { return [self.id,self.severity,self.effect,self.penalty,self.evidence]; }
+;
+
+/** Exact-count defect installation and pending prototype delivery. */
+class RpgExpandedPrototypeDefectSet: object
+    completion = nil
+    defects = []
+    approved = nil
+    evidence = nil
+    result = nil
+    definitionSnapshot = nil
+    definition()
+    {
+        local value = [self.completion,self.evidence,self.defects.length()];
+        foreach (local defect in self.defects) value = value + [defect] + defect.definition();
+        return value;
+    }
+    assess()
+    {
+        if (self.completion == nil || !self.completion.ofKind(RpgExpandedPrototypeCompletion)
+            || self.completion.result == nil) rpgExpandedReject('prototype-defects-completion');
+        self.completion.assess(); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            local current = self.definition();
+            if (current.length() != self.definitionSnapshot.length()) rpgExpandedReject('prototype-defects-binding');
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.definitionSnapshot[index]) rpgExpandedReject('prototype-defects-binding');
+            if (self.completion.item.prototypeDefects != self) rpgExpandedReject('prototype-defects-history');
+            foreach (local defect in self.defects)
+                if (defect.owner != self) rpgExpandedReject('prototype-defect-owner');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'prototype-defects-approval'; return value; }
+        local completed = self.completion.result;
+        if (!completed.outcome.working || !completed.pendingDefects || completed.delivered
+            || self.completion.item.prototypeDefects != nil)
+        { value.reason = 'prototype-defects-not-pending'; return value; }
+        local major = 0; local minor = 0; local ids = [];
+        foreach (local defect in self.defects)
+        {
+            if (defect == nil || !defect.ofKind(RpgExpandedPrototypeDefect) || defect.owner != nil
+                || defect.id == nil || defect.id == '' || holds(ids,defect.id)) rpgExpandedReject('prototype-defect-definition');
+            ids = ids + [defect.id];
+            if (!holds(['major','minor'],defect.severity)) rpgExpandedReject('prototype-defect-severity');
+            if (defect.severity == 'major') major += 1; else minor += 1;
+            if (defect.evidence == nil || defect.evidence == '')
+            { value.reason = 'prototype-defect-evidence'; return value; }
+            if (defect.severity == 'minor' && defect.effect == 'operation-penalty') rpgInteger(defect.penalty,1,10);
+            else if (defect.severity == 'major' && defect.effect == 'operation-block')
+            { if (defect.penalty != 0) rpgExpandedReject('prototype-defect-unused-penalty'); }
+            else { value.reason = 'prototype-defect-effect-unavailable'; return value; }
+            if (defect.active || defect.discovered) rpgExpandedReject('prototype-defect-initial-state');
+        }
+        if (major != completed.outcome.majorBugs || minor != completed.outcome.minorBugs)
+        { value.reason = 'prototype-defect-count'; return value; }
+        local delivery = completed.delivery.assess();
+        if (delivery.status != 'ready') { value.reason = delivery.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local completed = self.completion.result;
+        if (completed.delivery.acquire().status != 'resolved') rpgExpandedReject('prototype-defect-delivery-changed');
+        foreach (local defect in self.defects) defect.owner = self;
+        self.completion.item.prototypeDefects = self;
+        completed.pendingDefects = nil; completed.delivered = true;
+        self.definitionSnapshot = self.definition(); value.status = 'resolved'; self.result = value; return value;
+    }
+    operationAssessment()
+    {
+        if (self.result == nil) rpgExpandedReject('prototype-defects-not-installed');
+        self.assess(); local value = new RpgExpandedResult();
+        foreach (local defect in self.defects)
+            if (defect.active)
+            {
+                if (defect.effect == 'operation-block') { value.reason = 'prototype-defect-blocked'; return value; }
+                value.modifier -= defect.penalty;
+            }
+        value.status = 'ready'; return value;
+    }
+;
+
+modify RpgLiteContext
+    prototypeItem = nil
+    prototypeOperation(profile)
+    {
+        local value = new RpgExpandedResult(); value.status = 'ready';
+        if (self.prototypeItem == nil) return value;
+        if (!self.prototypeItem.ofKind(RpgLiteItem)) rpgExpandedReject('prototype-context-item');
+        if (!holds(profile.equipment,self.prototypeItem) || !self.prototypeItem.usableBy(profile))
+        { value.status = 'blocked'; value.reason = 'prototype-item-unavailable'; return value; }
+        if (self.prototypeItem.prototypeDefects == nil) return value;
+        if (!self.prototypeItem.prototypeDefects.ofKind(RpgExpandedPrototypeDefectSet))
+            rpgExpandedReject('prototype-context-defects');
+        return self.prototypeItem.prototypeDefects.operationAssessment();
+    }
+    equipmentUseModifier(profile)
+    {
+        local base = inherited(profile); if (base == nil) return nil;
+        local value = self.prototypeOperation(profile);
+        return value.status == 'ready' ? base + value.modifier : nil;
+    }
+    unavailableReason(profile)
+    {
+        local value = self.prototypeOperation(profile);
+        if (value.status != 'ready') return value.reason;
+        return inherited(profile);
+    }
+;

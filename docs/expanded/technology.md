@@ -1017,3 +1017,41 @@ reject before rolling rather than silently using physical-item delivery.
 rollback, undo, ordinary failure, unresolved defects, bug-free delivery, flawed
 theory discovery, accident dispatch, replay and cross-process continuation.
 Fixtures remain unrun. Source: `full-2008`, B473–B474.
+
+
+## Executable defect assignment and operation context
+
+A `RpgExpandedPrototypeDefectSet` supplies the exact major/minor counts recorded
+by a pending completion. Each `RpgExpandedPrototypeDefect` needs a unique id,
+severity, effect and evidence. Supported minor effects are `operation-penalty`
+with an explicitly authored penalty of one through ten. Supported major effects
+are `operation-block`, with no numeric penalty. These effect magnitudes are world
+design decisions, not a new source table. Other behaviors reject explicitly.
+
+`assess()` verifies every definition, count and delivery condition. `apply()`
+binds the definitions, issues the held prototype through its existing acquisition
+receipt and clears pending delivery. Initial faults must be inactive and
+undiscovered. Replaying installation never grants another item or resets a fault.
+The shared inventory continues to account for the item's ordinary weight even
+when a fault makes its operation impossible.
+
+Set `RpgLiteContext.prototypeItem` for an operation using the prototype. The item
+must belong to the profile and be accessible. Active penalty faults contribute
+through the normal contextual modifier path; a blocking fault returns
+`prototype-defect-blocked` without a roll. These are operation-only effects and do
+not reduce learned skill. Contexts without the selected item remain unchanged.
+Do not assume this opt-in context automatically intercepts every weapon attack,
+vehicle maneuver or electronics operation; those dispatch integrations remain
+incomplete.
+
+The `active` and `discovered` state will be managed by the testing and operation
+failure lifecycle. At this stage it is explicit author state: installation alone
+does not activate faults. Automatic activation, weekly testing, repair, additional
+fault effects and cross-module dispatch remain pending. The concrete penalty and
+blocking contracts are implemented; arbitrary narrative callbacks are not counted
+as executable defects.
+
+`test_prototype_defects` and `test_prototype_defects_persistence` author count
+validation, preview, rollback, undo, inventory delivery, replay, bound definitions,
+active penalty/block effects, item accessibility and cross-process continuation.
+They remain unrun. Source: `full-2008`, B474; concrete fault effects are authored.

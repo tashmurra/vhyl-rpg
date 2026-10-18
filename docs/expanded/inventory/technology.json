@@ -489,9 +489,11 @@
         "tests/expanded.py::test_prototype_assessments",
         "tests/expanded.py::test_prototype_completion",
         "tests/expanded.py::test_prototype_completion_outcomes",
-        "tests/expanded.py::test_prototype_completion_persistence"
+        "tests/expanded.py::test_prototype_completion_persistence",
+        "tests/expanded.py::test_prototype_defects",
+        "tests/expanded.py::test_prototype_defects_persistence"
       ],
-      "validation_note": "Owned secret completion connects work, current skills, conditional bug dice, bug-free inventory delivery, flawed-theory discovery and accident wounds; fixtures unrun. Executable defects, testing, software delivery and broader accidents remain incomplete."
+      "validation_note": "Owned counts and exact-count executable penalty/block fault assignment with contextual operation effects authored; fixtures unrun. Automatic activation, testing, repair, broader effects and cross-module dispatch remain incomplete."
     },
     {
       "id": "technology-testing",

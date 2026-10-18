@@ -973,6 +973,58 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def prototype_operation_state(s):
+    s.action(2112)
+    return last(s,'test.prototype-operation')
+
+
+def test_prototype_defects(s):
+    s.action(2111,0)
+    initial = [None,'prototype-item-unavailable',0,5,345600]
+    for code in [3,2]:
+        s.action(2111,code)
+        assert prototype_operation_state(s) == initial
+    s.action(2111,4)
+    assert last(s,'test.prototype-defects') == ['blocked','prototype-defect-count']
+    s.command('undo')
+    s.action(2111,1)
+    delivered = [15,None,1,5,345600]
+    assert prototype_operation_state(s) == delivered
+    s.command('undo')
+    assert prototype_operation_state(s) == initial
+    s.action(2111,1)
+    s.action(2111,1)
+    assert prototype_operation_state(s) == delivered
+    s.action(2111,5)
+    assert prototype_operation_state(s) == [13,None,1,5,345600]
+    s.action(2111,7)
+    assert prototype_operation_state(s) == [13,None,1,5,345600]
+    s.action(2111,6)
+    assert prototype_operation_state(s) == [None,'prototype-defect-blocked',1,5,345600]
+    s.action(2111,8)
+    assert prototype_operation_state(s) == [None,'prototype-item-unavailable',1,5,345600]
+
+
+def test_prototype_defects_persistence(Session,bundle,out):
+    path = out / 'expanded-prototype-defects.zsave'
+    first = Session(bundle)
+    try:
+        first.action(2111,0)
+        first.action(2111,1)
+        first.action(2111,5)
+        first.command(f':save {path}')
+    finally:
+        first.close()
+    second = Session(bundle)
+    try:
+        second.command(f':restore {path}\n@2112')
+        assert prototype_operation_state(second) == [13,None,1,5,345600]
+        second.action(2111,1)
+        assert prototype_operation_state(second) == [13,None,1,5,345600]
+    finally:
+        second.close()
+
+
 def prototype_completion_state(s):
     s.action(2110)
     return last(s,'test.prototype-completion-state')
@@ -6428,6 +6480,8 @@ def test(build):
     fresh(Session,breakdown,test_breakdown_days)
     test_breakdown_persistence(Session,breakdown,build.out)
     invention = build.build('expanded-invention',ROOT / 'tests/fixtures/expanded-invention.t')
+    fresh(Session,invention,test_prototype_defects)
+    test_prototype_defects_persistence(Session,invention,build.out)
     fresh(Session,invention,test_prototype_completion)
     test_prototype_completion_outcomes(Session,invention)
     test_prototype_completion_persistence(Session,invention,build.out)

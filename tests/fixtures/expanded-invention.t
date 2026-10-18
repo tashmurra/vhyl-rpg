@@ -46,11 +46,42 @@ prototypeAccident: RpgExpandedPrototypeAccident attempt = prototypeStart targets
 prototypeProduct: RpgLiteItem id = 'survey-prototype' cost = 1000 weight = 100;
 prototypeCompletion: RpgExpandedPrototypeCompletion attempt = prototypeStart recipient = conceptUser item = prototypeProduct
     accident = prototypeAccident approved = true evidence = 'Completed optical design and specified accident consequences';
+prototypeMajor: RpgExpandedPrototypeDefect id = 'jam' severity = 'major' effect = 'operation-block' evidence = 'Mechanism can jam';
+prototypeMinor1: RpgExpandedPrototypeDefect id = 'blur' severity = 'minor' effect = 'operation-penalty' penalty = 2 evidence = 'Optical blur';
+prototypeMinor2: RpgExpandedPrototypeDefect id = 'drift' severity = 'minor' effect = 'operation-penalty' penalty = 1 evidence = 'Calibration drift';
+prototypeMinor3: RpgExpandedPrototypeDefect id = 'glare' severity = 'minor' effect = 'operation-penalty' penalty = 1 evidence = 'Glare';
+prototypeMinor4: RpgExpandedPrototypeDefect id = 'vibration' severity = 'minor' effect = 'operation-penalty' penalty = 1 evidence = 'Vibration';
+prototypeMinor5: RpgExpandedPrototypeDefect id = 'readout' severity = 'minor' effect = 'operation-penalty' penalty = 1 evidence = 'Unstable readout';
+prototypeDefects: RpgExpandedPrototypeDefectSet completion = prototypeCompletion
+    defects = [prototypeMajor,prototypeMinor1,prototypeMinor2,prototypeMinor3,prototypeMinor4,prototypeMinor5]
+    approved = true evidence = 'Complete set of executable optical prototype faults';
+prototypeOperation: RpgLiteContext skill = conceptSkill prototypeItem = prototypeProduct;
 conceptInput: object code = 0;
 class InventionConceptAction: Action
     exec(context)
     {
         local code = conceptInput.code;
+        if (code >= 120)
+        {
+            if (code == 120)
+            {
+                conceptBlueprint.apply(); conceptFacilities.fund(); prototypeStart.begin();
+                for (local day = 1; day <= 4; day += 1)
+                {
+                    local work = new RpgExpandedPrototypeWork(); work.id = day; work.attempt = prototypeStart;
+                    work.seconds = 86400; work.approved = true; work.uninterrupted = true; work.evidence = 'Complete day'; work.apply();
+                }
+                rpgRandom.seed(1); prototypeCompletion.knowledge = 'model'; prototypeCompletion.apply(); return nil;
+            }
+            if (code == 124) prototypeDefects.defects = [prototypeMajor];
+            if (code == 125) prototypeMinor1.active = true;
+            if (code == 126) prototypeMajor.active = true;
+            if (code == 127) prototypeMinor1.penalty = 3;
+            if (code == 128) prototypeProduct.storageLocation = 'store';
+            local value = code == 123 ? prototypeDefects.assess() : prototypeDefects.apply();
+            event('test.prototype-defects'); eventValue(value.status); eventValue(value.reason);
+            if (code == 122) throw new RpgError(); return nil;
+        }
         if (code >= 100)
         {
             if (code == 100)
@@ -169,6 +200,14 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
+    if (verb == 2111) { conceptInput.code = 120 + args[1]; return vhylAct(2097,args); }
+    if (verb == 2112)
+    {
+        local score = rpgLiteScore(conceptUser,prototypeOperation);
+        event('test.prototype-operation'); eventValue(score);
+        eventValue(score == nil ? prototypeOperation.unavailableReason(conceptUser) : nil);
+        eventValue(conceptUser.equipment.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2109) { conceptInput.code = 100 + args[1]; return vhylAct(2097,args); }
     if (verb == 2110)
     {
