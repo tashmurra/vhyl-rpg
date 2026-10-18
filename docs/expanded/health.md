@@ -1795,3 +1795,39 @@ rollback, undo, saved continuation and release of the clock after termination.
 These fixtures remain unrun. First-aid termination, automatic wound enrollment,
 multiple-wound aggregation and a fully reconciled loss basis still prevent a
 complete bleeding-system claim.
+
+
+### First Aid to stop bleeding
+
+`RpgExpandedBleedingAid` owns the B424 pressure/tourniquet interval and its First
+Aid check. Supply `id`, active `episode`, `healer`, a technology-specific
+`first-aid` skill, applicable `modifier`, `approved` and concrete `careEvidence`.
+`start()` retains the request and sets `completesAt` one minute later. Advance the
+shared clock normally; neither starting nor completing this operation charges
+the interval again. Any intervening bleeding deadlines must still be resolved.
+
+At exactly `completesAt`, set `uninterrupted` only if the full care interval was
+actually maintained. `assessCompletion()` is pure. `complete()` checks the
+healer's current condition and skill, then rolls once. Success sets the episode's
+`stoppedAt` and clears its active ownership; failure leaves the due bleeding check
+pending. Even critical failure here does not borrow the two-HP consequence from
+the separate shock-treatment procedure. A completed or cancelled receipt cannot
+be rolled again. `cancel()` records interrupted care without a roll or benefit,
+allowing another owned attempt to begin.
+
+When a full care interval ends at the first bleeding deadline, successful care
+can be resolved before that check, preventing initial blood loss. Later success
+stops future loss without undoing prior wounds. It also leaves the normal wound
+healing accounting intact. Earlier loss does not disappear from injury history.
+
+This operation currently implements bleeding control only. The one-HP bandaging
+credit and its once-per-injury markers still need composition with this same care
+interval; do not call the existing timed bandage operation as though it were a
+free second benefit. Concurrent aid attempts, changing healers, lost supplies and
+multi-wound care also need explicit integration. Failed-care retries use a fresh
+owned attempt and a new full minute; broader attempt modifiers remain authored.
+
+`test_bleeding_aid` specifies early and late successful control, retained prior
+loss, exact due times, failed/interrupted care, cancellation, no duplicate clock
+charge, preview, rollback, undo, replay and saved continuation. These fixtures
+are authored and unrun while checks remain paused.

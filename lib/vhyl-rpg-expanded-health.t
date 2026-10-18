@@ -3420,3 +3420,110 @@ class RpgExpandedBleedingMinute: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+modify RpgExpandedBleedingEpisode
+    aidAttempts = []
+;
+
+/** One minute of pressure/tourniquet care followed by the optional bleeding
+ * First Aid check, full-2008 B424. Bandage healing credit is a separate procedure. */
+class RpgExpandedBleedingAid: object
+    id = nil
+    episode = nil
+    healer = nil
+    skill = nil
+    modifier = 0
+    approved = nil
+    careEvidence = nil
+    uninterrupted = nil
+    startedAt = nil
+    completesAt = nil
+    completedAt = nil
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        return [self.id,self.episode,self.healer,self.skill,self.modifier,self.approved,self.careEvidence];
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil
+            || !self.episode.ofKind(RpgExpandedBleedingEpisode) || self.healer == nil
+            || !self.healer.ofKind(RpgLiteProfile) || self.skill == nil
+            || !self.skill.ofKind(RpgLiteSkill) || self.skill.id != 'first-aid' || self.skill.techLevel == nil)
+            rpgExpandedReject('bleeding-aid-definition');
+        rpgInteger(self.modifier,-100,100);
+        local value = new RpgExpandedBleedingResult();
+        if (self.startedAt != nil)
+        {
+            local current = self.definition();
+            for (local index = 1; index <= current.length(); index += 1)
+                if (current[index] != self.boundDefinition[index]) rpgExpandedReject('bleeding-aid-binding');
+            if (!holds(self.episode.aidAttempts,self)) rpgExpandedReject('bleeding-aid-history');
+            if (self.result != nil) { value.status = 'reused'; return value; }
+        }
+        if (self.episode.result == nil) { value.reason = 'bleeding-episode-not-started'; return value; }
+        self.episode.assess();
+        local patient = self.episode.classification.wound.profile;
+        if (self.episode.stoppedAt != nil || patient.dead || patient.bleedingEpisode != self.episode)
+        { value.reason = 'bleeding-episode-inactive'; return value; }
+        if (self.healer.dead || self.healer.unconscious || self.healer.mortal
+            || self.healer.stunned || self.healer.mentalStun)
+        { value.reason = 'bleeding-aid-healer-incapacity'; return value; }
+        if (!self.approved || self.careEvidence == nil || self.careEvidence == '')
+        { value.reason = 'bleeding-aid-care-required'; return value; }
+        if (self.startedAt == nil)
+        {
+            foreach (local prior in self.episode.aidAttempts)
+            {
+                if (prior.id == self.id) rpgExpandedReject('bleeding-aid-duplicate');
+                if (prior.result == nil) { value.reason = 'bleeding-aid-overlap-unimplemented'; return value; }
+            }
+            rpgInteger(rpgLedger.seconds,0,2147483587);
+        }
+        value.context = new RpgLiteContext(); value.context.skill = self.skill;
+        value.context.kind = 'first-aid'; value.context.modifier = self.modifier;
+        local score = rpgLiteScore(self.healer,value.context);
+        if (score == nil || score < 3) { value.reason = 'bleeding-aid-score-unavailable'; return value; }
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt != nil) { value.status = 'reused'; return value; }
+        self.startedAt = rpgLedger.seconds; self.completesAt = self.startedAt + 60;
+        self.boundDefinition = self.definition(); self.episode.aidAttempts = self.episode.aidAttempts + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessCompletion()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.startedAt == nil) { value.status = 'blocked'; value.reason = 'bleeding-aid-not-started'; return value; }
+        if (rpgLedger.seconds != self.completesAt)
+        { value.status = 'blocked'; value.reason = 'bleeding-aid-not-due'; return value; }
+        if (!self.uninterrupted)
+        { value.status = 'blocked'; value.reason = 'bleeding-aid-interrupted'; return value; }
+        return value;
+    }
+    cancel()
+    {
+        local value = new RpgExpandedBleedingResult();
+        if (self.startedAt == nil) { value.reason = 'bleeding-aid-not-started'; return value; }
+        /* Validate bindings even when a changed world condition blocks care. */
+        self.assess();
+        if (self.result != nil) { value.status = 'reused'; return value; }
+        value.reason = 'bleeding-aid-interrupted'; value.status = 'resolved';
+        self.completedAt = rpgLedger.seconds; self.result = value; return value;
+    }
+    complete()
+    {
+        local value = self.assessCompletion(); if (value.status != 'ready') return value;
+        value.check = rpgLiteCheck(self.healer,value.context); value.stopped = value.check.achieved;
+        if (value.stopped)
+        {
+            self.episode.stoppedAt = rpgLedger.seconds;
+            self.episode.classification.wound.profile.bleedingEpisode = nil;
+        }
+        self.completedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value; return value;
+    }
+;

@@ -196,3 +196,8 @@ stop naturally on a critical success or three clear minutes. Time and randomness
 are not charged again on replay. First-aid termination and aggregation remain
 pending; small-body and last-wounds combinations are explicitly blocked. New
 transaction and persistence fixtures are authored and unrun.
+
+Owned one-minute First Aid care now stops future bleeding on success, preserves
+earlier blood loss, and records failures/cancellation without duplicate rolls.
+Bandage healing-credit composition remains pending. The new treatment timing,
+transaction and save fixtures are authored and unrun.

@@ -22,6 +22,11 @@ bleedSecond: RpgExpandedBleedingMinute id = 'second-minute' episode = bleedEpiso
     approved = true basisEvidence = 'Single untreated two-point injury';
 bleedThird: RpgExpandedBleedingMinute id = 'third-minute' episode = bleedEpisode lossBasis = 2
     approved = true basisEvidence = 'Single untreated two-point injury';
+bleedAidSkill: RpgLiteSkill id = 'first-aid' attribute = rpgIQ difficulty = 0 techLevel = 3;
+bleedAidTraining: RpgTraining skill = bleedAidSkill points = 1;
+bleedHealer: RpgLiteProfile skills = [bleedAidTraining];
+bleedAid: RpgExpandedBleedingAid id = 'pressure' episode = bleedEpisode healer = bleedHealer skill = bleedAidSkill
+    approved = true careEvidence = 'Direct pressure maintained for a full minute' uninterrupted = true;
 bleedInput: object code = 0 forcedRoll = 0;
 modify rpgRandom
     roll()
@@ -34,6 +39,14 @@ class BleedTestAction: Action
     exec(context)
     {
         local code = bleedInput.code;
+        if (code >= 40)
+        {
+            if (code == 45) { bleedAid.uninterrupted = nil; return nil; }
+            local value = code == 40 ? bleedAid.start() : code == 41 ? bleedAid.assessCompletion()
+                : code == 46 ? bleedAid.cancel() : bleedAid.complete();
+            event('test.bleeding-aid'); eventValue(value.status); eventValue(value.reason); eventValue(value.stopped ? 1 : 0);
+            if (code == 43) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 30) { bleedInput.forcedRoll = 10; return nil; }

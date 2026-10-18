@@ -8987,6 +8987,7 @@ def test(build):
     bleeding = build.build('expanded-bleeding', ROOT / 'tests/fixtures/expanded-bleeding.t')
     test_bleeding_onset(Session, bleeding, build.out)
     test_bleeding_minutes(Session, bleeding, build.out)
+    test_bleeding_aid(Session, bleeding, build.out)
     fresh(Session,health,test_knockdown_assessment)
     fresh(Session,health,test_expanded_wound_commit)
     fresh(Session,health,test_critical_major_wound)
@@ -9593,5 +9594,83 @@ def test_bleeding_minutes(Session, bundle, out):
             s.action(2285, 20)
             assert last(s, 'test.bleeding-minute')[:2] == ['blocked', reason]
             assert state(s) == before
+        finally:
+            s.close()
+
+
+def test_bleeding_aid(Session, bundle, out):
+    def state(s):
+        s.action(2287)
+        return last(s, 'test.bleeding-minute-state')
+    for late in (False, True):
+        s = Session(bundle)
+        path = out / f'expanded-bleeding-aid-{late}.zsave'
+        try:
+            s.action(2285, 0)
+            s.action(2285, 1)
+            if late:
+                s.action(2285, 4)
+                s.action(2285, 26)  # Critical failed bleeding check: three lost HP.
+                s.action(2285, 20)
+            s.action(2285, 40)
+            assert last(s, 'test.bleeding-aid') == ['resolved', None, 0]
+            before = state(s)
+            s.action(2285, 42)
+            assert last(s, 'test.bleeding-aid')[:2] == ['blocked', 'bleeding-aid-not-due']
+            assert state(s) == before
+            s.action(2285, 30)  # First Aid 10 succeeds at ten.
+            s.action(2285, 4)
+            s.command(f':save {path}\n@2287')
+            due = state(s)
+        finally:
+            s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2287')
+            assert state(s) == due
+            s.action(2285, 41)
+            assert last(s, 'test.bleeding-aid') == ['ready', None, 0]
+            assert state(s) == due
+            s.action(2285, 43)
+            assert state(s) == due
+            s.action(2285, 42)
+            assert last(s, 'test.bleeding-aid') == ['resolved', None, 1]
+            stopped = state(s)
+            assert stopped[0] == (5 if late else 2)
+            assert stopped[4] == (120 if late else 60)
+            assert stopped[-1] == due[-1] + 3
+            s.command('undo')
+            assert state(s) == due
+            s.action(2285, 42)
+            s.action(2285, 42)
+            assert last(s, 'test.bleeding-aid') == ['reused', None, 0]
+            assert state(s) == stopped
+            s.action(2285, 5)
+            assert state(s)[6] == stopped[6] + 61
+        finally:
+            s.close()
+
+    for interrupted in (False, True):
+        s = Session(bundle)
+        try:
+            for code in (0, 1, 40, 4):
+                s.action(2285, code)
+            if interrupted:
+                s.action(2285, 45)
+                s.action(2285, 42)
+                assert last(s, 'test.bleeding-aid')[:2] == ['blocked', 'bleeding-aid-interrupted']
+                s.action(2285, 46)
+                assert last(s, 'test.bleeding-aid') == ['resolved', 'bleeding-aid-interrupted', 0]
+                assert state(s)[-1] == 0
+            else:
+                s.action(2285, 26)
+                s.action(2285, 42)
+                assert last(s, 'test.bleeding-aid') == ['resolved', None, 0]
+                assert state(s)[-1] == 3
+            assert state(s)[0] == 2
+            assert state(s)[4] is None
+            s.action(2285, 30)
+            s.action(2285, 20)
+            assert state(s)[5] == 120
         finally:
             s.close()
