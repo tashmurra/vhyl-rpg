@@ -3709,8 +3709,8 @@ category, species and receipt, including for derived stabilization procedures.
 
 `test_surgical_physiology` specifies unresolved-check rejection, success/failure,
 score arithmetic, unchanged authored conditions, machine exclusion and patient
-species binding. Fixtures are unrun. Diagnosis, first aid and other medical
-procedures still require their own adapters to this shared receipt contract.
+species binding. Fixtures are unrun. Diagnosis and first aid use the adapters below; other
+medical procedures still require integration with this shared receipt contract.
 
 
 ## Diagnosis and bounded findings
@@ -3802,3 +3802,28 @@ other than `quality = 'none'` require an explicit technology level. Manual
 technology. `test_diagnostic_technology` specifies the complete -1 through +4
 technology-difference sequence around the examiner's skill level, with no
 assessment randomness. Fixtures remain unrun.
+
+
+## First aid across species
+
+`RpgExpandedFirstAid` accepts the B181 physiology categories through `physiology`
+and `speciesModifier`: `same` requires 0, `similar` -2 through -4, `different`
+-5, and `alien` -6 or worse. `machine` blocks treatment. The default `authored`
+mode preserves existing requests with no species modifier or knowledge receipt.
+
+An optional `physiologyCheck` must be a resolved `RpgExpandedPhysiologyCheck`
+bound to this treatment, its healer, its patient and `subjectSpecies`. Success
+removes the species penalty; failure retains it. An unresolved receipt blocks
+before treatment consumes time or randomness. Preview computes the modified
+skill target without executing the check. Replay binds the selected category,
+modifier, species and receipt and reuses the original treatment result.
+
+Ordinary bandaging still has no skill roll (full-2008 B424). This adapter changes
+the subsequent treatment check, retaining its existing bandaging credit, scaled
+healing, duration and shared injury ledger. It does not add a second charge or
+implement interruption during treatment. Authors remain responsible for access
+and the patient's warmth, comfort, calm and stillness.
+
+`test_first_aid_physiology` specifies penalty arithmetic, knowledge success and
+failure, pure previews, unresolved and machine rejection, transaction rollback,
+undo and duplicate execution. These fixtures remain unrun while checks are paused.

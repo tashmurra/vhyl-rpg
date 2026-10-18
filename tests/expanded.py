@@ -9370,6 +9370,8 @@ def test(build):
     test_diagnostic_consultation(Session, diagnostic_consultation, build.out)
     diagnostic_technology = build.build("expanded-diagnostic-technology",ROOT / "tests/fixtures/expanded-diagnostic-technology.t")
     test_diagnostic_technology(Session, diagnostic_technology)
+    first_aid_physiology = build.build("expanded-first-aid-physiology",ROOT / "tests/fixtures/expanded-first-aid-physiology.t")
+    test_first_aid_physiology(Session, first_aid_physiology)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23465,5 +23467,44 @@ def test_diagnostic_technology(Session, bundle):
         try:
             s.action(2285,code)
             assert last(s,'test.diagnostic-technology') == [status,reason,score,0]
+        finally:
+            s.close()
+
+
+def test_first_aid_physiology(Session, bundle):
+    """B181 penalties affect treatment, preserving B424 bandaging; unrun."""
+    for setup, score, draws in ((None,9,0),(19401,12,3),(19402,9,3)):
+        s = Session(bundle)
+        try:
+            s.action(1700,19400)
+            if setup is not None:
+                s.action(1700,setup)
+            s.action(1700,19403)
+            assert last(s,'test.aid-physiology') == ['ready',None,score,draws]
+            s.action(1701)
+            before = last(s,'test.aid-state')
+            assert before[:8] == [9,1,1,0,0,0,60,draws]
+            s.action(1700,19406)
+            s.action(1701)
+            assert last(s,'test.aid-state') == before
+            s.action(1700,19405)
+            s.command('undo')
+            s.action(1701)
+            assert last(s,'test.aid-state') == before
+            s.action(1700,19405)
+            s.action(1700,19405)
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [0,1,1,1,1,1,660,draws+3]
+        finally:
+            s.close()
+    for setup, reason in ((19404,'first-aid-physiology-machine-inapplicable'),
+                          (19407,'first-aid-physiology-check-unresolved')):
+        s = Session(bundle)
+        try:
+            for code in (19400,setup,19403):
+                s.action(1700,code)
+            assert last(s,'test.aid-physiology') == ['blocked',reason,None,0]
+            s.action(1701)
+            assert last(s,'test.aid-state')[:8] == [9,1,1,0,0,0,60,0]
         finally:
             s.close()

@@ -1403,6 +1403,36 @@ class RpgExpandedFirstAid: object
     healer = nil
     skill = nil
     modifier = 0
+    physiology = 'authored'
+    speciesModifier = 0
+    subjectSpecies = nil
+    physiologyCheck = nil
+    boundPhysiology = nil
+    physiologyDefinition() { return [self.physiology,self.speciesModifier,self.subjectSpecies,self.physiologyCheck]; }
+    assessPhysiology()
+    {
+        local value = new RpgExpandedResult();
+        if (self.physiology == 'authored' && self.physiologyCheck == nil && self.speciesModifier == 0)
+        { value.status = 'ready'; return value; }
+        if (!holds(['same','similar','different','alien','machine'],self.physiology)) rpgExpandedReject('first-aid-physiology-category');
+        if (self.physiology == 'machine') { value.reason = 'first-aid-physiology-machine-inapplicable'; return value; }
+        rpgInteger(self.speciesModifier,-100,0);
+        if (self.physiology == 'same' && self.speciesModifier != 0
+            || self.physiology == 'similar' && !holds([-2,-3,-4],self.speciesModifier)
+            || self.physiology == 'different' && self.speciesModifier != -5
+            || self.physiology == 'alien' && self.speciesModifier > -6) rpgExpandedReject('first-aid-physiology-modifier');
+        value.modifier = self.speciesModifier;
+        if (self.physiologyCheck != nil)
+        {
+            local check = self.physiologyCheck;
+            if (!check.ofKind(RpgExpandedPhysiologyReceipt) || check.operation != self || check.profile != self.healer
+                || check.subject != self.bandage.wound.profile || self.subjectSpecies == nil || check.species != self.subjectSpecies)
+                rpgExpandedReject('first-aid-physiology-check-binding');
+            if (check.result == nil) { value.reason = 'first-aid-physiology-check-unresolved'; return value; }
+            check.validateReceipt(); if (check.result.check.achieved) value.modifier = 0;
+        }
+        value.status = 'ready'; return value;
+    }
     careEvidence = nil
     comfortable = nil
     dropDestination = nil
@@ -1425,6 +1455,10 @@ class RpgExpandedFirstAid: object
                 || self.careEvidence != self.boundEvidence || self.dropDestination != self.boundDestination
                 || !self.comfortable || self.bandage.treatment != self)
                 rpgExpandedReject('first-aid-binding');
+            local facts = self.physiologyDefinition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundPhysiology[i]) rpgExpandedReject('first-aid-physiology-binding');
+            if (self.physiologyCheck != nil) self.physiologyCheck.validateReceipt();
             value.status = 'reused'; value.check = self.result.check; value.healed = self.result.healed;
             value.injury = self.result.injury; value.healingRoll = self.result.healingRoll;
             value.failureWound = self.result.failureWound; return value;
@@ -1449,9 +1483,11 @@ class RpgExpandedFirstAid: object
         if (patient.injury <= 0)
         { value.reason = 'first-aid-no-injury'; return value; }
         rpgInteger(self.modifier,-100,100);
+        local physiology = self.assessPhysiology();
+        if (physiology.status != 'ready') { value.reason = physiology.reason; return value; }
         value.seconds = rpgExpandedFirstAidTable(self.skill.techLevel).tableSeconds;
         value.context = new RpgLiteContext(); value.context.skill = self.skill;
-        value.context.kind = 'first-aid'; value.context.modifier = self.modifier;
+        value.context.kind = 'first-aid'; value.context.modifier = self.modifier + physiology.modifier;
         local score = rpgLiteScore(self.healer,value.context);
         if (score == nil || score < 3)
         { value.reason = 'first-aid-score-unavailable'; return value; }
@@ -1487,6 +1523,7 @@ class RpgExpandedFirstAid: object
             if (eligible > 0) value.healed = rpgLiteHeal(patient,eligible);
         }
         patient.aidUsed = true; self.bandage.treatment = self;
+        self.boundPhysiology = self.physiologyDefinition();
         self.boundBandage = self.bandage; self.boundHealer = self.healer; self.boundSkill = self.skill;
         self.boundModifier = self.modifier; self.boundEvidence = self.careEvidence; self.boundDestination = self.dropDestination;
         value.status = 'resolved'; self.result = value; return value;
