@@ -70,9 +70,12 @@
       "pages": "B385-B386",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Move and move-and-attack grant movement points equal to movement; increased dodge grants ceil(move/2). Other maneuver exceptions must not be replaced by one universal budget.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_movement_values"
+      ],
+      "implementation_note": "Pure movement-value and heading assessments authored; persistent path execution, budget reconciliation and integration remain pending. Fixtures unrun."
     },
     {
       "id": "tactical-forward",
@@ -80,9 +83,12 @@
       "pages": "B386",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Forward entry costs one point and goes into one of three front neighbors. Straight entry preserves facing; diagonal-front entry rotates one side toward the entered hex.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_movement_values"
+      ],
+      "implementation_note": "Pure movement-value and heading assessments authored; persistent path execution, budget reconciliation and integration remain pending. Fixtures unrun."
     },
     {
       "id": "tactical-back-side",
@@ -90,9 +96,12 @@
       "pages": "B386",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Side/back movement preserves heading and costs two points, permitted for move, move-and-attack and increased dodge but not committed attack.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_movement_values"
+      ],
+      "implementation_note": "Pure movement-value and heading assessments authored; persistent path execution, budget reconciliation and integration remain pending. Fixtures unrun."
     },
     {
       "id": "tactical-front-sidestep",
@@ -100,9 +109,12 @@
       "pages": "B387",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A front-hex sidestep preserves heading at two points and is permitted during committed attack as well as other movement maneuvers.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_movement_values"
+      ],
+      "implementation_note": "Pure movement-value and heading assessments authored; persistent path execution, budget reconciliation and integration remain pending. Fixtures unrun."
     },
     {
       "id": "tactical-turn-en-route",
@@ -110,9 +122,12 @@
       "pages": "B387",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Rotating before/during eligible move, move-and-attack or increased dodge costs one point per hex-side. A half-turn costs three; do not confuse this with free final facing.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_movement_values"
+      ],
+      "implementation_note": "Pure movement-value and heading assessments authored; persistent path execution, budget reconciliation and integration remain pending. Fixtures unrun."
     },
     {
       "id": "tactical-final-facing",
@@ -120,9 +135,12 @@
       "pages": "B387",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Move/move-and-attack spending at most half budget may finish at any heading; spending more permits one-side rotation. Increased dodge permits any final heading. The summary free-turn wording does not override committed attack prohibition.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_tactical_movement_values"
+      ],
+      "implementation_note": "Pure movement-value and heading assessments authored; persistent path execution, budget reconciliation and integration remain pending. Fixtures unrun."
     },
     {
       "id": "tactical-step",

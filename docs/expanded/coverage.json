@@ -351,9 +351,10 @@
       "source": "full-2008",
       "status": "partial",
       "tests": [
-        "tests/expanded.py::test_tactical_geometry"
+        "tests/expanded.py::test_tactical_geometry",
+        "tests/expanded.py::test_tactical_movement_values"
       ],
-      "validation_note": "Hex geometry, adjacent facing and explicit barrier assessments authored; fixtures unrun. Persistent figures, movement and tactical combat remain pending."
+      "validation_note": "Geometry, barriers, movement-value and facing assessments authored; fixtures unrun. Persistent paths, occupancy, minimum progress, steps and combat integration remain pending."
     },
     {
       "id": "technology",

@@ -1,4 +1,4 @@
-/* Include after expanded foundation. Source: full-2008 B384-B385.
+/* Include after expanded foundation. Source: full-2008 B384-B387.
  * Coordinates are a library convention, not an additional movement rule. */
 
 /** Axial grid coordinate, bounded to keep difference arithmetic exact. */
@@ -117,3 +117,130 @@ class RpgExpandedHexTerrain: object
         value.status = 'ready'; return value;
     }
 ;
+
+/** Minimum number of hex-side turns between two headings. */
+rpgExpandedFacingDistance(from, to)
+{
+    rpgInteger(from,0,5); rpgInteger(to,0,5);
+    local distance = to - from;
+    if (distance < 0) distance = -distance;
+    return distance > 3 ? 6 - distance : distance;
+}
+
+/** B385-B386 movement allowance; the committed attack's two-hex option is
+ * retained separately because a hex allowance is not a terrain-point budget. */
+rpgExpandedMovementAllowance(move, maneuver)
+{
+    rpgInteger(move,0,1000);
+    if (!holds(['move','move-attack','committed-attack','increased-dodge'],maneuver))
+        rpgExpandedReject('tactical-movement-maneuver');
+    local value = new RpgExpandedMovementResult();
+    value.halfPoints = (maneuver == 'move' || maneuver == 'move-attack')
+        ? move * 2 : ((move + 1) / 2) * 2;
+    value.alternativeHexes = maneuver == 'committed-attack' ? 2 : 0;
+    value.status = 'ready'; return value;
+}
+
+/** Movement values use half-points so crouching never loses fractional cost.
+ * An allowance and an entry cost share this result type but not their meaning. */
+class RpgExpandedMovementResult: RpgExpandedResult
+    halfPoints = 0
+    alternativeHexes = 0
+    heading = nil
+    wholeAllowance = nil
+;
+
+/** B386-B387 cost and heading for a single adjacent entry. It does not certify
+ * occupancy, remaining movement, interrupts, evasion or the whole path. */
+class RpgExpandedHexEntry: object
+    origin = nil
+    target = nil
+    facing = 0
+    maneuver = 'move'
+    travel = 'forward'
+    posture = 'standing'
+    terrain = nil
+    minorObstructions = 0
+    severeObstruction = nil
+    enemyPresent = nil
+    treacherous = nil
+    footingExtra = 1
+    footingEvidence = nil
+    stairs = nil
+    water = 'none'
+    assess()
+    {
+        local value = new RpgExpandedMovementResult();
+        if (!holds(['move','move-attack','committed-attack','increased-dodge'],self.maneuver))
+            rpgExpandedReject('tactical-movement-maneuver');
+        if (!holds(['forward','sidestep'],self.travel)) rpgExpandedReject('tactical-travel-mode');
+        if (!holds(['standing','crouching','kneeling','crawling','lying','sitting'],self.posture))
+            rpgExpandedReject('tactical-posture');
+        if (!holds(['none','shallow','deep'],self.water)) rpgExpandedReject('tactical-water');
+        rpgInteger(self.minorObstructions,0,1000); rpgInteger(self.footingExtra,1,1000);
+        if (self.treacherous && self.footingExtra > 1
+            && (self.footingEvidence == nil || self.footingEvidence == ''))
+            rpgExpandedReject('tactical-footing-evidence');
+        local direction = new RpgExpandedFacingAssessment();
+        direction.origin = self.origin; direction.target = self.target; direction.facing = self.facing;
+        local facingResult = direction.assess();
+        if (facingResult.status != 'ready') { value.reason = facingResult.reason; return value; }
+        if (self.terrain == nil || !self.terrain.ofKind(RpgExpandedHexTerrain))
+            rpgExpandedReject('tactical-terrain-required');
+        local terrainResult = self.terrain.assess();
+        if (rpgExpandedHexDistance(self.target,self.terrain.coordinate) != 0)
+            rpgExpandedReject('tactical-terrain-target');
+        if (terrainResult.status != 'ready') { value.reason = terrainResult.reason; return value; }
+        if (self.posture == 'sitting') { value.reason = 'tactical-sitting'; return value; }
+        if (self.severeObstruction) { value.reason = 'tactical-jump-required'; return value; }
+        if (self.enemyPresent) { value.reason = 'tactical-evasion-required'; return value; }
+        if (self.travel == 'forward' && facingResult.side != 'front')
+        { value.reason = 'tactical-forward-direction'; return value; }
+        if (self.maneuver == 'committed-attack' && facingResult.side != 'front')
+        { value.reason = 'tactical-committed-direction'; return value; }
+        value.heading = self.travel == 'forward' ? facingResult.heading : self.facing;
+        value.halfPoints = self.travel == 'forward' ? 2 : 4;
+        if (self.posture == 'crouching') value.halfPoints += 1;
+        if (self.posture == 'kneeling' || self.posture == 'crawling') value.halfPoints += 4;
+        value.halfPoints += self.minorObstructions * 2;
+        if (self.treacherous) value.halfPoints += self.footingExtra * 2;
+        if (self.stairs) value.halfPoints += 2;
+        if (self.water == 'shallow') value.halfPoints += 2;
+        if (self.posture == 'lying' || self.water == 'deep')
+        {
+            /* Whole-allowance cases are not an additive numeric entry cost. */
+            value.wholeAllowance = true; value.halfPoints = 0;
+        }
+        value.status = 'ready'; return value;
+    }
+;
+
+/** Paid turn before/during movement; committed attack needs its separate
+ * stationary-turn procedure and cannot borrow this moving-turn rule. */
+rpgExpandedMovementTurn(facing, targetFacing, maneuver)
+{
+    local sides = rpgExpandedFacingDistance(facing,targetFacing);
+    local value = new RpgExpandedMovementResult();
+    if (!holds(['move','move-attack','committed-attack','increased-dodge'],maneuver))
+        rpgExpandedReject('tactical-movement-maneuver');
+    if (maneuver == 'committed-attack')
+    { value.reason = 'tactical-committed-turn-procedure'; return value; }
+    value.halfPoints = sides * 2; value.heading = targetFacing; value.status = 'ready'; return value;
+}
+
+/** B387 free final turn; spentHalfPoints includes all paid path costs.
+ * Increased dodge retains its explicit exception to the half-budget restriction. */
+rpgExpandedFinalFacing(facing, targetFacing, maneuver, allowanceHalfPoints, spentHalfPoints)
+{
+    local sides = rpgExpandedFacingDistance(facing,targetFacing);
+    rpgInteger(allowanceHalfPoints,0,2000); rpgInteger(spentHalfPoints,0,1000000);
+    if (!holds(['move','move-attack','committed-attack','increased-dodge'],maneuver))
+        rpgExpandedReject('tactical-movement-maneuver');
+    local value = new RpgExpandedMovementResult();
+    if (maneuver == 'committed-attack' && sides > 0)
+    { value.reason = 'tactical-committed-final-facing'; return value; }
+    if ((maneuver == 'move' || maneuver == 'move-attack')
+        && spentHalfPoints * 2 > allowanceHalfPoints && sides > 1)
+    { value.reason = 'tactical-final-facing-limit'; return value; }
+    value.heading = targetFacing; value.status = 'ready'; return value;
+}

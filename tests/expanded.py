@@ -9051,6 +9051,7 @@ def test(build):
     print('  expanded cross-process persistence: passed',flush=True)
     tactical = build.build('expanded-tactical', ROOT / 'tests/fixtures/expanded-tactical.t')
     fresh(Session, tactical, test_tactical_geometry)
+    fresh(Session, tactical, test_tactical_movement_values)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
     test_example(Session,example)
     print('  expanded example parser/action/dialogue parity: passed',flush=True)
@@ -9086,3 +9087,53 @@ def test_tactical_geometry(s):
             (1, 1, 1, 'blocked', 'tactical-partial-barrier-ruling')]:
         s.action(2272, barrier, blocked, evidence)
         assert last(s, 'test.tactical-terrain') == [status, reason, 0, 0]
+
+
+def test_tactical_movement_values(s):
+    for move, full, half in [(0, 0, 0), (1, 2, 2), (4, 8, 4), (5, 10, 6), (9, 18, 10)]:
+        for maneuver in range(1, 5):
+            s.action(2274, move, maneuver)
+            assert last(s, 'test.tactical-allowance') == [
+                full if maneuver < 3 else half, 2 if maneuver == 3 else 0]
+    # Forward diagonal rotates; a front sidestep costs twice as much and keeps facing.
+    for heading in (0, 1, 5):
+        for mode, cost, final in [(0, 2, heading), (1, 4, 0)]:
+            for committed in (0, 1):
+                s.action(2275, heading, mode, committed, 1, 0)
+                assert last(s, 'test.tactical-entry') == ['ready', None, cost, final, None, 0, 0]
+    for heading in (2, 3, 4):
+        s.action(2275, heading, 1, 0, 1, 0)
+        assert last(s, 'test.tactical-entry') == ['ready', None, 4, 0, None, 0, 0]
+        s.action(2275, heading, 1, 1, 1, 0)
+        assert last(s, 'test.tactical-entry')[:2] == ['blocked', 'tactical-committed-direction']
+        s.action(2275, heading, 0, 0, 1, 0)
+        assert last(s, 'test.tactical-entry')[:2] == ['blocked', 'tactical-forward-direction']
+    for posture, terrain, cost, whole in [(2, 0, 3, None), (3, 0, 6, None),
+                                           (4, 0, 6, None), (5, 0, 0, True),
+                                           (1, 1, 6, None), (1, 4, 8, None),
+                                           (1, 5, 0, True), (2, 4, 9, None)]:
+        s.action(2275, 0, 0, 0, posture, terrain)
+        assert last(s, 'test.tactical-entry') == ['ready', None, cost, 0, whole, 0, 0]
+    for posture, terrain, reason in [(6, 0, 'tactical-sitting'),
+                                     (1, 2, 'tactical-jump-required'),
+                                     (1, 3, 'tactical-evasion-required'),
+                                     (1, 6, 'tactical-solid-barrier')]:
+        s.action(2275, 0, 0, 0, posture, terrain)
+        assert last(s, 'test.tactical-entry') == ['blocked', reason, 0, None, None, 0, 0]
+    for maneuver in (1, 2):
+        s.action(2276, 0, 3, maneuver, 10, 5)  # Exactly half: free half-turn.
+        assert last(s, 'test.tactical-final') == ['ready', None, 3, 0]
+        s.action(2276, 0, 3, maneuver, 10, 6)
+        assert last(s, 'test.tactical-final') == ['blocked', 'tactical-final-facing-limit', None, 0]
+        s.action(2276, 0, 5, maneuver, 10, 6)
+        assert last(s, 'test.tactical-final') == ['ready', None, 5, 0]
+    s.action(2276, 0, 3, 4, 6, 6)
+    assert last(s, 'test.tactical-final') == ['ready', None, 3, 0]
+    s.action(2276, 0, 1, 3, 6, 0)
+    assert last(s, 'test.tactical-final') == ['blocked', 'tactical-committed-final-facing', None, 0]
+    for heading, cost in [(0, 0), (1, 2), (2, 4), (3, 6), (4, 4), (5, 2)]:
+        for maneuver in (1, 2, 4):
+            s.action(2277, 0, heading, maneuver)
+            assert last(s, 'test.tactical-turn') == ['ready', None, heading, cost]
+    s.action(2277, 0, 3, 3)
+    assert last(s, 'test.tactical-turn') == ['blocked', 'tactical-committed-turn-procedure', None, 0]

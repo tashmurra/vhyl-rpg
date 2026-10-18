@@ -145,3 +145,9 @@ distance, adjacent facing and barrier assessments, with a minimal fixture coveri
 rotations and handedness. It does not yet supply persistent figures or movement.
 Magic and vehicles still have no standalone runtime module. All newly authored
 fixtures remain unrun, and the full suite remains incomplete.
+
+Tactical movement assessments now retain fractional costs, distinguish forward
+turns from fixed-facing sidesteps, and apply the final-facing restrictions.
+Whole-allowance entries, jumping and evasion have explicit result contracts;
+complete path execution and its transactional integration remain pending. The
+associated movement-value fixtures are authored and unrun.

@@ -120,3 +120,60 @@ specify all six rotations, both handedness choices, adjacency rejection,
 distance examples and barrier decisions. They are authored but unrun. Owned
 positions, posture transitions, path execution and their transaction/save
 fixtures are still required before tactical encounters are playable.
+
+
+## Movement costs and heading changes
+
+The following pure assessments implement parts of `full-2008` B385–B387. They
+are inputs to the future path executor, not permission to move a figure directly.
+Their [minimal fixture](../../tests/fixtures/expanded-tactical.t) is wired into
+`test_tactical_movement_values`; no checks have been run.
+
+`rpgExpandedMovementAllowance(move, maneuver)` accepts `move`, `move-attack`,
+`committed-attack` or `increased-dodge`. Its `halfPoints` represents twice the
+movement-point allowance, preserving half-point costs exactly. Ordinary movement
+uses the supplied Move; committed attack and increased dodge use half Move rounded
+up. Committed attack separately reports `alternativeHexes = 2`. Do not add this
+hex allowance to the point budget or silently treat two hexes as two points.
+Its interaction with difficult terrain still needs path-level reconciliation.
+
+`RpgExpandedHexEntry` takes adjacent `origin` and `target` coordinates, `facing`,
+`maneuver`, `travel`, `posture` and a concrete `terrain` record whose coordinate
+must match the target. `travel = 'forward'` requires a front hex, costs one point
+and changes heading to the entered direction. `travel = 'sidestep'` preserves
+heading at two points; this identifier also covers backward movement. A committed
+attack allows a front sidestep, but never a side or rear entry.
+
+Postures are `standing`, `crouching`, `kneeling`, `crawling`, `lying` and `sitting`.
+Crouching adds half a point; kneeling and crawling add two points. Set
+`minorObstructions` to the number of actual minor obstacles. Each adds a point.
+`treacherous` adds `footingExtra` points, default one; a larger author-assigned
+cost requires nonempty `footingEvidence`. `stairs` and `water = 'shallow'` each
+add one point. The author must establish the shallow-water depth relative to the
+figure; the library does not infer it from a world label.
+
+Lying or deep water returns `wholeAllowance = true` and zero numeric
+`halfPoints`. Zero is a sentinel in this case, **not free movement**: entry consumes
+the whole allowance. The future path executor must reconcile this with other
+costs and the one-hex minimum-progress rule before accepting a complete path.
+Sitting blocks movement. Solid barriers remain blocked. `severeObstruction`
+returns `tactical-jump-required`, and `enemyPresent` returns
+`tactical-evasion-required`; neither procedure is automatically executed.
+
+`rpgExpandedMovementTurn(facing, targetFacing, maneuver)` prices a before/during
+turn at one point per hex-side, choosing the shorter rotation. Committed attack
+returns a separate-procedure requirement; its stationary turn must not borrow
+the ordinary paid moving-turn rule. `rpgExpandedFacingDistance` exposes the
+underlying zero-to-three-side distance.
+
+`rpgExpandedFinalFacing(facing, targetFacing, maneuver, allowanceHalfPoints,
+spentHalfPoints)` assesses the free final facing change. Move and move-and-attack
+permit any direction after spending at most half the allowance, otherwise only
+one hex-side. Increased dodge permits any final direction. Committed attack
+forbids a changed final heading. These supplied totals must come from the eventual
+validated path; this helper does not independently establish a legal budget or
+minimum-progress exception.
+
+A step is a separate procedure. Do not apply these movement-point costs to its
+hex allowance. Persistent positions, footprint/occupancy checks, minimum progress,
+step execution, interrupted movement and battle-clock integration remain pending.
