@@ -8957,6 +8957,8 @@ def test(build):
     test_self_control_points(Session, self_control, build.out)
     truthfulness = build.build('expanded-truthfulness', ROOT / 'tests/fixtures/expanded-truthfulness.t')
     test_truthfulness(Session, truthfulness, build.out)
+    digging = build.build('expanded-digging', ROOT / 'tests/fixtures/expanded-digging.t')
+    test_digging_assessment(Session, digging)
     temporary_blindness = build.build('expanded-temporary-blindness', ROOT / 'tests/fixtures/expanded-temporary-blindness.t')
     test_temporary_blindness(Session, temporary_blindness, build.out)
     paralysis = build.build('expanded-paralysis', ROOT / 'tests/fixtures/expanded-paralysis.t')
@@ -12586,3 +12588,23 @@ def test_truthfulness(Session, bundle, out):
             assert state(s) == expected
         finally:
             s.close()
+
+
+def test_digging_assessment(Session, bundle):
+    s = Session(bundle)
+    try:
+        rows = [(2,1,1,'removed'),(1,1,2,'removed'),(4,1,2,'loosened'),
+                (2,1,3,'broken'),(2,1,3,'removed'),(3,5,3,'removed'),
+                (1,1,4,'broken'),(1,1,4,'removed')]
+        for stage, (num,den,fatigue,kind) in enumerate(rows,1):
+            for material, divisor in [(1,1),(2,2),(3,7)]:
+                # BL 24.2 and volume 1.5 cf deliberately require rational results.
+                s.action(2290,2420,stage,material,7,1,3,2)
+                assert last(s, 'test.digging') == [2420*num,100*den*divisor,fatigue,kind,
+                    300*den*divisor,4840*num,0,0]
+        s.action(2290,2000,7,1,4,3,20,1)
+        assert last(s, 'test.digging') == [2000,300,4,'broken',6000,2000,0,0]
+        s.action(2291,2,3,4)
+        assert last(s, 'test.digging-volume') == [24]
+    finally:
+        s.close()

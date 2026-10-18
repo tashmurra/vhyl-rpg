@@ -253,3 +253,37 @@ after entry, at an endurance boundary, after its fatigue cost and after exit.
 Historical requests must remain reusable without resetting either schedule or
 charging fatigue again. All these fixtures are authored but unrun; they do not
 establish passing native or persistence validation.
+
+
+## Exact digging assessments
+
+`rpgExpandedDiggingRate(liftHundredths, stage, toolMaterial, improvisedDivisor,
+rockDivisor)` implements full-2008 B350–B351 without rounding away fractional
+lifting capacity. Stages are `loose`, `ordinary`, `ordinary-pick`, `hard-pick`,
+`hard-shovel`, `hard-solo`, `rock-pick` and `rock-shovel`. Supply Basic Lift in
+hundredths of a pound. `toolMaterial` is `metal`, `wood` or `improvised`; wooden
+tools halve the rate, while improvised tools use an authored divisor of at least
+four. Supply `rockDivisor = 1` normally; a greater divisor explicitly represents
+unusually hard rock in the `rock-pick` stage only.
+
+The result's `rateNumerator / rateDenominator` is cubic feet per hour.
+`fatiguePerHour` records the source's one/two/three/four fatigue cost for loose,
+ordinary, hard soil or rock. `workKind` distinguishes `loosened`, `broken` and
+`removed`: breaking material does not count as removing it. Ordinary pick work
+produces loose soil for a separate removal stage. The hard-solo rate includes
+switching between pick and shovel; do not also credit separate pick/shovel work.
+
+`rpgExpandedDiggingVolume(length, width, depth)` multiplies whole-foot dimensions.
+For fractional volume, supply an exact numerator/denominator directly to
+`rpgExpandedDiggingDuration(rate, volumeNumerator, volumeDenominator)`. Its
+`durationNumerator / durationDenominator` is hours, not seconds. Ratios remain
+exact and need not be reduced. Bounds reject arithmetic overflow rather than
+silently rounding. A three-halves-cubic-foot volume and nonintegral Basic Lift
+therefore retain their fractional work requirement.
+
+These functions are pure assessments. They do not establish possession of tools,
+advance time, charge fatigue, reserve a work site or credit excavation. Owned work
+intervals, stage-material inventories, team labor, exhaustion and fractional-hour
+fatigue remain unfinished. `expanded-digging.t` specifies every source rate with
+metal, wooden and improvised tools, harder rock, fractional lifting capacity and
+volume, and absence of time/randomness changes. Assertions are authored and unrun.

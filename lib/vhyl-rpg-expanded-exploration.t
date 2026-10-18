@@ -551,3 +551,56 @@ class RpgExpandedSwimEndurance: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** B350-B351 exact digging rates. Numerator/denominator are cubic feet per hour. */
+class RpgExpandedDiggingAssessment: RpgExpandedResult
+    rateNumerator = 0
+    rateDenominator = 1
+    fatiguePerHour = 0
+    workKind = nil
+    durationNumerator = 0
+    durationDenominator = 1
+;
+rpgExpandedDiggingRate(liftHundredths, stage, toolMaterial, improvisedDivisor, rockDivisor)
+{
+    rpgInteger(liftHundredths,1,1000000);
+    if (!holds(['metal','wood','improvised'],toolMaterial)) rpgExpandedReject('digging-tool-material');
+    rpgInteger(improvisedDivisor,4,1000); rpgInteger(rockDivisor,1,1000);
+    local value = new RpgExpandedDiggingAssessment(); local numerator = 1; local denominator = 1;
+    value.workKind = 'removed';
+    if (stage == 'loose') { numerator = 2; value.fatiguePerHour = 1; }
+    else if (stage == 'ordinary') value.fatiguePerHour = 2;
+    else if (stage == 'ordinary-pick') { numerator = 4; value.fatiguePerHour = 2; value.workKind = 'loosened'; }
+    else if (stage == 'hard-pick') { numerator = 2; value.fatiguePerHour = 3; value.workKind = 'broken'; }
+    else if (stage == 'hard-shovel') { numerator = 2; value.fatiguePerHour = 3; }
+    else if (stage == 'hard-solo') { numerator = 3; denominator = 5; value.fatiguePerHour = 3; }
+    else if (stage == 'rock-pick') { denominator = rockDivisor; value.fatiguePerHour = 4; value.workKind = 'broken'; }
+    else if (stage == 'rock-shovel') value.fatiguePerHour = 4;
+    else rpgExpandedReject('digging-stage');
+    if (rockDivisor != 1 && stage != 'rock-pick') rpgExpandedReject('digging-rock-divisor-stage');
+    local tools = toolMaterial == 'metal' ? 1 : toolMaterial == 'wood' ? 2 : improvisedDivisor;
+    value.rateNumerator = liftHundredths * numerator;
+    value.rateDenominator = 100 * denominator * tools;
+    value.status = 'ready'; return value;
+}
+/** Exact rectangular volume and stage duration. Input dimensions are whole feet.
+ * Fractional volumes can instead call the volume-based assessment directly. */
+rpgExpandedDiggingVolume(length, width, depth)
+{
+    rpgInteger(length,1,1000); rpgInteger(width,1,1000); rpgInteger(depth,1,1000);
+    return length * width * depth;
+}
+rpgExpandedDiggingDuration(rate, volumeNumerator, volumeDenominator)
+{
+    if (rate == nil || !rate.ofKind(RpgExpandedDiggingAssessment) || rate.status != 'ready')
+        rpgExpandedReject('digging-rate-assessment');
+    rpgInteger(rate.rateNumerator,1,4000000); rpgInteger(rate.rateDenominator,1,100000000);
+    rpgInteger(volumeNumerator,1,2147483647 / rate.rateDenominator);
+    rpgInteger(volumeDenominator,1,2147483647 / rate.rateNumerator);
+    local value = new RpgExpandedDiggingAssessment(); value.rateNumerator = rate.rateNumerator;
+    value.rateDenominator = rate.rateDenominator; value.fatiguePerHour = rate.fatiguePerHour;
+    value.workKind = rate.workKind;
+    value.durationNumerator = volumeNumerator * rate.rateDenominator;
+    value.durationDenominator = volumeDenominator * rate.rateNumerator;
+    value.status = 'ready'; return value;
+}

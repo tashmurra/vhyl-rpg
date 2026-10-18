@@ -51,9 +51,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Compute cubic-foot volume from dimensions and divide by the applicable cubic-feet-per-hour rate to obtain duration; preserve fractional lifting capacity and work credit.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "activity-dig-tools",
@@ -61,9 +62,10 @@
       "pages": "B351",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "The listed digging rates assume iron or steel tools; wooden tools halve them and improvised tools divide them by at least four according to an authored equipment condition.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "activity-hike-base-distance",
@@ -728,9 +730,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Loose soil removal rate is twice lifting capacity cubic feet per hour; fatigue cost is one per work hour.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-ordinary",
@@ -738,9 +741,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary soil removal rate is lifting capacity cubic feet per hour; fatigue cost is two per hour.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-ordinary-pick",
@@ -748,9 +752,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A pick loosens ordinary soil at four times lifting capacity cubic feet per hour; removal of that loosened material is separately accounted.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-hard-pick",
@@ -758,9 +763,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A pick breaks hard soil at twice lifting capacity cubic feet per hour before shoveling.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-hard-shovel",
@@ -768,9 +774,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Broken hard soil is shoveled at twice lifting capacity cubic feet per hour; hard-soil work costs three fatigue per hour.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-hard-solo",
@@ -778,9 +785,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "One worker alternating pick and shovel removes hard soil at 0.6 times lifting capacity cubic feet per hour.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-rock-pick",
@@ -788,9 +796,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A pick breaks rock at lifting capacity cubic feet per hour or a specifically slower authored rate for unusually hard rock.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "digging-rate-rock-shovel",
@@ -798,9 +807,10 @@
       "pages": "B350-B351",
       "module": "exploration",
       "kind": "table-row",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Broken rock is removed at lifting capacity cubic feet per hour; rock work costs four fatigue per hour.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_digging_assessment"],
+      "validation_note": "Exact rational rate/duration assessments preserve fractional lifting capacity, tool divisors and volume, distinguish breaking from removal and report hourly fatigue. Source matrix assertions authored, unrun. Owned work, material credit, actual tool possession and fatigue execution remain incomplete."
     },
     {
       "id": "hiking-terrain-very-bad",

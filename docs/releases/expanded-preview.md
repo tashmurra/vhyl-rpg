@@ -625,3 +625,10 @@ explicit authored communication outcomes. Existing Fast-Talk and deceptive-Actin
 penalties are reused; successful self-control does not remove them or guarantee
 that a lie convinces anyone. Authored, unrun fixtures cover outcomes, replay,
 rollback, undo and saved continuation. Communication delivery remains incomplete.
+
+
+Added exact rational digging-rate and duration assessments for all eight source
+stages, wooden/improvised tools and unusually hard rock. Breaking and removal
+remain distinct work outputs. Authored, unrun matrix fixtures preserve fractional
+lifting capacity and volume. Owned work intervals, tool possession and fatigue
+execution remain incomplete; the assessments alone grant no excavation credit.
