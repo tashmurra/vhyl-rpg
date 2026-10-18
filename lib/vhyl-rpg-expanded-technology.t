@@ -531,6 +531,7 @@ class RpgExpandedProgramRun: object
 
 /** One ordinary human terminal; connected hosts are explicit, pre-authorized world facts. */
 class RpgExpandedTerminal: object
+    accessReason(host) { return nil; }
     controller = nil
     hosts = []
     current = nil
@@ -600,6 +601,7 @@ class RpgExpandedTerminalSwitch: object
         { value.reason = 'terminal-host-not-connected'; return value; }
         if (self.evidence == nil || self.evidence == '')
         { value.reason = 'terminal-switch-evidence'; return value; }
+        value.reason = self.terminal.accessReason(self.target); if (value.reason != nil) return value;
         if (!self.terminal.powered || !self.target.powered || self.target.item == nil
             || !self.target.item.ofKind(RpgLiteItem) || self.target.item.environmentFailure != nil)
         { value.reason = 'terminal-switch-unavailable'; return value; }
@@ -614,6 +616,7 @@ class RpgExpandedTerminalSwitch: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         if (value.seconds > 0) rpgSpendTime(value.seconds);
+        if (self.terminal.accessReason(self.target) != nil) rpgExpandedReject('terminal-service-changed');
         self.terminal.current = self.target;
         self.boundId = self.id; self.boundTerminal = self.terminal; self.boundTarget = self.target;
         self.boundOperator = self.terminal.controller; self.boundEvidence = self.evidence;
@@ -1002,5 +1005,68 @@ class RpgExpandedRecording: object
         self.boundReference = self.reference; self.boundSize = self.sizeMB; self.boundDuration = self.durationSeconds;
         self.boundEvidence = self.evidence; self.host.recordings = self.host.recordings + [self];
         value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedSoftwareCopy
+    terminalClient = nil
+    terminalServer = nil
+;
+
+/** A remote-terminal service declaration, separate from data-sharing permission. */
+class RpgExpandedTerminalConnection: object
+    link = nil
+    clientProgram = nil
+    serverProgram = nil
+    reason(localHost, remoteHost)
+    {
+        if (self.link == nil || !self.link.ofKind(RpgExpandedComputerLink)
+            || !(self.link.first == localHost && self.link.second == remoteHost
+                || self.link.second == localHost && self.link.first == remoteHost))
+            rpgExpandedReject('terminal-connection-endpoints');
+        if (!self.link.usable()) return 'terminal-connection-unavailable';
+        if (localHost.complexity >= remoteHost.complexity) return 'terminal-remote-complexity-unavailable';
+        foreach (local pair in [[self.clientProgram,localHost],[self.serverProgram,remoteHost]])
+        {
+            local program = pair[1];
+            if (program == nil || !program.ofKind(RpgExpandedProgramRun) || program.result == nil
+                || program.host != pair[2] || !program.active) return 'terminal-service-not-running';
+            program.validateBinding();
+            if (!program.copy.approved || !holds(program.host.copies,program.copy))
+                return 'terminal-service-not-authorized';
+        }
+        if (!self.clientProgram.copy.terminalClient || !self.serverProgram.copy.terminalServer)
+            return 'terminal-service-capability';
+        localHost.used(); remoteHost.used(); return nil;
+    }
+;
+
+/** Terminal implemented by a weaker local host; every remote operation rechecks live service. */
+class RpgExpandedRemoteTerminal: RpgExpandedTerminal
+    localHost = nil
+    connections = []
+    accessReason(host)
+    {
+        if (!self.powered) return 'terminal-switch-unavailable';
+        if (self.localHost == nil || !self.localHost.ofKind(RpgExpandedComputer)
+            || !holds(self.hosts,self.localHost)) rpgExpandedReject('remote-terminal-local-host');
+        if (!self.localHost.powered || self.localHost.item == nil
+            || !self.localHost.item.ofKind(RpgLiteItem) || self.localHost.item.environmentFailure != nil)
+            return 'terminal-local-host-unavailable';
+        if (host == self.localHost) return nil;
+        local found = nil;
+        foreach (local connection in self.connections)
+        {
+            if (connection == nil || !connection.ofKind(RpgExpandedTerminalConnection)
+                || connection.link == nil || !connection.link.ofKind(RpgExpandedComputerLink))
+                rpgExpandedReject('remote-terminal-connection');
+            if (connection.link.first == self.localHost && connection.link.second == host
+                || connection.link.second == self.localHost && connection.link.first == host)
+            {
+                if (found != nil) rpgExpandedReject('remote-terminal-duplicate-service');
+                found = connection;
+            }
+        }
+        return found == nil ? 'terminal-service-unavailable' : found.reason(self.localHost,host);
     }
 ;

@@ -973,6 +973,62 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def remote_terminal_state(s):
+    s.action(2089)
+    return last(s,'test.remote-state')
+
+
+def test_remote_terminal(s):
+    s.action(2080,120)
+    initial = ['local',0,0,0,None]
+    for code in [123,122,132]:
+        s.action(2080,code)
+        assert remote_terminal_state(s) == initial
+    for code,reason in [(124,'terminal-connection-unavailable'),(125,'terminal-service-not-running'),
+                         (126,'terminal-service-capability'),(127,'terminal-remote-complexity-unavailable'),
+                         (128,'terminal-local-host-unavailable')]:
+        s.action(2080,code)
+        assert last(s,'test.remote-operation') == ['blocked',reason,0]
+        assert remote_terminal_state(s)[:4] == initial[:4]
+        s.command('undo')
+        assert remote_terminal_state(s) == initial
+    s.action(2080,121)
+    assert remote_terminal_state(s) == ['remote',1,0,1,None]
+    s.command('undo')
+    assert remote_terminal_state(s) == initial
+    s.action(2080,121); s.action(2080,130)
+    assert remote_terminal_state(s) == ['remote',1,0,1,'terminal-connection-unavailable']
+    s.action(2080,129)
+    final = ['local',2,0,2,None]
+    assert remote_terminal_state(s) == final
+    s.action(2080,121)
+    assert remote_terminal_state(s) == final
+
+
+def test_remote_terminal_persistence(Session,bundle,out):
+    for revoked in [False,True]:
+        path = out / f'expanded-remote-terminal-{revoked}.zsave'
+        first = Session(bundle)
+        try:
+            first.action(2080,120); first.action(2080,121)
+            if revoked:
+                first.action(2080,130)
+            saved = remote_terminal_state(first); first.command(f':save {path}')
+        finally:
+            first.close()
+        second = Session(bundle)
+        try:
+            second.command(f':restore {path}\n@2089')
+            assert remote_terminal_state(second) == saved
+            second.action(2080,121)
+            assert remote_terminal_state(second) == saved
+            second.action(2080,129)
+            second.action(2080,121)
+            assert remote_terminal_state(second) == ['local',2,0,2,None]
+        finally:
+            second.close()
+
+
 def computer_recording_state(s):
     s.action(2088)
     return last(s,'test.recording-state')
@@ -5786,6 +5842,8 @@ def test(build):
     fresh(Session,computer,test_computer_links)
     fresh(Session,computer,test_computer_transfers)
     fresh(Session,computer,test_computer_recording)
+    fresh(Session,computer,test_remote_terminal)
+    test_remote_terminal_persistence(Session,computer,build.out)
     test_computer_recording_persistence(Session,computer,build.out)
     test_computer_transfer_persistence(Session,computer,build.out)
     test_computer_link_persistence(Session,computer,build.out)

@@ -12,7 +12,7 @@ computerRoom: Room 'Control Room';
 computerItem: RpgLiteItem techLevel = 8;
 computerHost: RpgExpandedComputer item = computerItem complexity = 2 powered = true storageMB = 100 microphone = true
     copies = [computerFull,computerSmall,computerLarge];
-computerFull: RpgExpandedSoftwareCopy dataSharing = true id = 'full' host = computerHost complexity = 2 approved = true evidence = 'Installed copy';
+computerFull: RpgExpandedSoftwareCopy terminalServer = true dataSharing = true id = 'full' host = computerHost complexity = 2 approved = true evidence = 'Installed copy';
 computerSmall: RpgExpandedSoftwareCopy id = 'small' host = computerHost complexity = 1 approved = true evidence = 'Installed copy';
 computerLarge: RpgExpandedSoftwareCopy id = 'large' host = computerHost complexity = 3 approved = true evidence = 'Installed copy';
 computerRun: RpgExpandedProgramRun id = 'primary' host = computerHost copy = computerFull;
@@ -41,7 +41,7 @@ computerLink: RpgExpandedComputerLink id = 'local-link' first = computerHost sec
     compatible = true mediumAvailable = true addressKnown = true credentialsSatisfied = true
     evidence = 'Compatible hosts with a known local connection and credentials';
 receiverCopy: RpgExpandedSoftwareCopy id = 'receiver' host = terminalOther complexity = 1
-    approved = true dataSharing = true evidence = 'Installed sharing program';
+    approved = true terminalClient = true dataSharing = true evidence = 'Installed sharing program';
 receiverRun: RpgExpandedProgramRun id = 'receiver-process' host = terminalOther copy = receiverCopy;
 computerTransfer: RpgExpandedDataTransfer id = 'copy-log' dataId = 'received-log' link = computerLink
     source = computerData target = terminalOther senderProgram = computerRun receiverProgram = receiverRun
@@ -59,11 +59,33 @@ modify rpgLedger
         return nil;
     }
 ;
+remoteService: RpgExpandedTerminalConnection link = computerLink clientProgram = receiverRun serverProgram = computerRun;
+remoteTerminal: RpgExpandedRemoteTerminal controller = terminalUser localHost = terminalOther
+    hosts = [terminalOther,computerHost] current = terminalOther powered = true connections = [remoteService];
+remoteSwitch: RpgExpandedTerminalSwitch id = 'remote-service' terminal = remoteTerminal target = computerHost
+    evidence = 'Authorized terminal client and server';
+remoteReturn: RpgExpandedTerminalSwitch id = 'return-local' terminal = remoteTerminal target = terminalOther
+    evidence = 'Return to local machine';
 computerInput: object code = 0;
 class ComputerAction: Action
     exec(context)
     {
         local code = computerInput.code;
+        if (code >= 120)
+        {
+            if (code == 120) { computerLink.connect(); computerRun.start(); receiverRun.start(); return nil; }
+            if (code == 124) computerLink.credentialsSatisfied = nil;
+            if (code == 125) receiverRun.stop();
+            if (code == 126) computerFull.terminalServer = nil;
+            if (code == 127) computerHost.complexity = 1;
+            if (code == 128) terminalOther.powered = nil;
+            if (code == 130) { computerLink.credentialsSatisfied = nil; return nil; }
+            if (code == 132) transferClockFault.enabled = true;
+            local request = code == 129 ? remoteReturn : remoteSwitch;
+            local selected = code == 123 ? request.assess() : request.apply();
+            event('test.remote-operation'); eventValue(selected.status); eventValue(selected.reason); eventValue(selected.seconds);
+            if (code == 122) throw new RpgError(); return nil;
+        }
         if (code >= 100)
         {
             if (code == 103) computerItem.techLevel = 7;
@@ -173,6 +195,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2080) { computerInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2089)
+    {
+        event('test.remote-state'); eventValue(remoteTerminal.current == terminalOther ? 'local' : 'remote');
+        eventValue(remoteTerminal.switches.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
+        eventValue(remoteTerminal.accessReason(remoteTerminal.current)); return nil;
+    }
     if (verb == 2088)
     {
         event('test.recording-state'); eventValue(computerHost.usedStorageMB()); eventValue(computerHost.recordings.length());

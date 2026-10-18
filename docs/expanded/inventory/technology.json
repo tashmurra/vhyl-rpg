@@ -173,9 +173,11 @@
       "acceptance": "Human computer use requires a terminal. A terminal connected to several hosts normally operates one at a time and takes one second to switch, unless explicit special hardware changes that.",
       "tests": [
         "tests/expanded.py::test_terminal_switches",
-        "tests/expanded.py::test_computer_persistence"
+        "tests/expanded.py::test_computer_persistence",
+        "tests/expanded.py::test_remote_terminal",
+        "tests/expanded.py::test_remote_terminal_persistence"
       ],
-      "validation_note": "Owned ordinary terminal switching with shared time, rollback and historical replay authored; fixtures unrun. Special hardware, controller handoff and network establishment remain incomplete."
+      "validation_note": "Owned ordinary and weaker-host remote terminals, links and data transfers authored; fixtures unrun. Special terminals, controller handoff, general task effects and interrupted transfers remain incomplete."
     },
     {
       "id": "technology-computer-link",
@@ -189,9 +191,11 @@
         "tests/expanded.py::test_computer_links",
         "tests/expanded.py::test_computer_link_persistence",
         "tests/expanded.py::test_computer_transfers",
-        "tests/expanded.py::test_computer_transfer_persistence"
+        "tests/expanded.py::test_computer_transfer_persistence",
+        "tests/expanded.py::test_remote_terminal",
+        "tests/expanded.py::test_remote_terminal_persistence"
       ],
-      "validation_note": "Owned links and data transfers enforce compatibility/access facts, active sharing software and storage; fixtures unrun. Terminal-link roles and interrupted transfers remain incomplete."
+      "validation_note": "Owned ordinary and weaker-host remote terminals, links and data transfers authored; fixtures unrun. Special terminals, controller handoff, general task effects and interrupted transfers remain incomplete."
     },
     {
       "id": "technology-recorder",

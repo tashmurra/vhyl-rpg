@@ -550,3 +550,37 @@ capacity, previews, rollback, undo, loss of a sensor during clock advancement,
 media choices, historical replay and deletion. `test_computer_recording_persistence`
 continues before recording, after completion and after data removal in separate
 processes. These fixtures are authored and unrun while checks remain paused.
+
+
+## A computer acting as a remote terminal
+
+`RpgExpandedRemoteTerminal` extends the ordinary terminal with a `localHost` and
+explicit `connections`. Each `RpgExpandedTerminalConnection` binds a live link to
+an active `clientProgram` on the local computer and active `serverProgram` on the
+remote computer. Their approved installed copies must declare `terminalClient`
+and `terminalServer` respectively; data-sharing capability alone grants neither.
+
+The supported B472 case requires the remote computer to have greater complexity
+than the local one. Equal-complexity and reverse arrangements explicitly return
+`terminal-remote-complexity-unavailable`; special configurations require further
+source-grounded support. Both programs retain their ordinary processing costs.
+The local host must remain powered and operational even when the remote target
+is healthy.
+
+The standard switch request calls `accessReason(target)` before spending its
+second and again after clock events. A connection or service loss during switching
+raises an error for transaction rollback. For an already selected remote host,
+authored operations must call `accessReason(current)` before using that service;
+selection is not a permanent authorization. Revoked credentials or a stopped
+program make the service unavailable without deleting historical selection.
+Returning to a healthy local host does not require a live remote connection.
+
+This implements the declared remote-terminal role, not the actual game effects of
+every program run remotely. Controller handoff, special multi-host terminals and
+broader software task integration remain pending.
+
+`test_remote_terminal` and `test_remote_terminal_persistence` cover missing client
+or server capability, unavailable links/local hosts, unsupported complexity,
+previews, rollback, undo, access loss during clock advancement, revocation while
+selected, local return and separate-process continuation. Fixtures are authored
+and unrun while checks remain paused.
