@@ -769,3 +769,9 @@ class RpgExpandedPhysiologyReceipt: object
 modify RpgLiteSkill
     validateDiagnosis() { rpgExpandedReject('diagnosis-expanded-skill-required'); }
 ;
+
+/** Optional live diagnostic equipment; health does not require the equipment catalogue. */
+rpgExpandedDiagnosticEquipment: object
+    definition(assessment) { rpgExpandedReject('diagnosis-equipment-module-required'); }
+    assess(assessment,profile,skill) { rpgExpandedReject('diagnosis-equipment-module-required'); }
+;

@@ -1753,3 +1753,16 @@ class RpgExpandedToolkitAssessment: RpgExpandedAccessibleEquipmentAssessment
         return inherited(skill);
     }
 ;
+
+modify rpgExpandedDiagnosticEquipment
+    definition(assessment)
+    {
+        if (assessment == nil || !assessment.ofKind(RpgExpandedOwnedEquipmentAssessment))
+            rpgExpandedReject('diagnosis-owned-equipment-required');
+        return assessment.definition();
+    }
+    assess(assessment,profile,skill)
+    {
+        self.definition(assessment); return assessment.assessFor(profile,skill);
+    }
+;

@@ -9362,6 +9362,8 @@ def test(build):
     test_surgical_physiology(Session, surgical_physiology)
     diagnosis = build.build("expanded-diagnosis",ROOT / "tests/fixtures/expanded-diagnosis.t")
     test_diagnosis(Session, diagnosis)
+    diagnosis_equipment = build.build("expanded-diagnosis-equipment",ROOT / "tests/fixtures/expanded-diagnosis-equipment.t")
+    test_diagnosis_equipment(Session, diagnosis_equipment, build.out)
     pressure_support = build.build('expanded-pressure-support',ROOT / 'tests/fixtures/expanded-pressure-support.t')
     test_pressure_support(Session, pressure_support)
     test_pressure_history(Session, pressure_support, build.out)
@@ -23327,5 +23329,54 @@ def test_diagnosis(Session, bundle):
         assert last(s,'test.diagnosis-score') == ['ready',15]
         s.action(2285,18904); s.action(2285,18900)
         assert last(s,'test.diagnosis-score') == ['ready',7]
+    finally:
+        s.close()
+
+
+def test_diagnosis_equipment(Session, bundle, out):
+    """Diagnostic quality depends on actual tool access and is not counted twice; unrun."""
+    path = out / 'diagnostic-equipment.zsave'
+    s = Session(bundle)
+    try:
+        s.action(2285,18900)
+        assert last(s,'test.diagnosis-score') == ['ready',17]
+        for code in (18902,18906):
+            s.action(2285,code)
+        assert last(s,'test.diagnosis-state') == [0,0,0,0]
+        s.action(2285,19003)
+        assert last(s,'test.diagnostic-tools-result') == ['resolved',None]
+        s.command('undo')
+        s.action(2285,18906)
+        assert last(s,'test.diagnosis-state') == [0,0,0,0]
+        for code in (19003,19000,19003,18906):
+            s.action(2285,code)
+        assert last(s,'test.diagnostic-tools-result') == ['reused',None]
+        assert last(s,'test.diagnosis-state') == [1,0,3,0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (19003,18906):
+            s.action(2285,code)
+        assert last(s,'test.diagnosis-state') == [1,0,3,0]
+    finally:
+        s.close()
+    for setup, reason in ((19000,'owned-equipment-not-owned'),(19001,'owned-equipment-inaccessible')):
+        s = Session(bundle)
+        try:
+            for code in (setup,19003,18906):
+                s.action(2285,code)
+            assert last(s,'test.diagnostic-tools-result') == ['blocked',reason]
+            assert last(s,'test.diagnosis-state') == [0,0,0,0]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (19002,19003,18906):
+            s.action(2285,code)
+        assert last(s,'test.diagnostic-tools-error') == ['diagnosis-equipment-double-modifier']
+        assert last(s,'test.diagnosis-state') == [0,0,0,0]
     finally:
         s.close()

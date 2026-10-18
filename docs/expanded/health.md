@@ -3732,7 +3732,25 @@ to this exact case, examiner, patient and `subjectSpecies`. Machines reject.
 `assess()` does not reveal the finding or roll. `apply()` records a result once;
 another request for the same patient and case rejects. No healing, treatment or
 fixed duration is implied. Authors must establish examination access, equipment
-and the technology-limited finding; automatic equipment and diagnosis-to-surgery
-handoff remain incomplete. `test_diagnosis` specifies obvious and rolled findings,
+and the technology-limited finding; diagnosis-to-surgery handoff remains incomplete. Live equipment assessment is
+available through the adapter below. `test_diagnosis` specifies obvious and rolled findings,
 failed checks, postmortem use, modifier arithmetic, replay, rollback and undo.
 Fixtures remain unrun.
+
+
+### Diagnostic equipment access
+
+Set a case's `equipmentAssessment` to an
+`RpgExpandedOwnedEquipmentAssessment`, an accessible assessment with explicit
+shared-use grants, or a purchased `RpgExpandedToolkitAssessment`. The equipment
+module checks the examiner, skill, actual items and current access, then supplies
+the B345 modifier. Keep `equipmentModifier = 0` in this mode; combining both
+sources rejects. Obvious no-roll findings reject a selected equipment assessment.
+
+The case snapshots the equipment definition for its historical result. Later
+loss of access does not invalidate an already completed diagnosis or reroll it.
+Fresh examinations still require live access. Without the equipment module, a
+selected assessment rejects explicitly through the foundation adapter.
+`test_diagnosis_equipment` covers fine-kit scoring, missing/stored tools,
+duplicate modifiers, replay after tool loss, rollback, undo and saved continuation.
+Fixtures remain unrun. Examinations still need authored access and findings.
