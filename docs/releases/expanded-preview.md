@@ -1221,3 +1221,7 @@ expanded influence procedure remains partial.
   existing needs and rest once without sleep credit or waking pain penalties.
   Direct sleep recovery is guarded. Added unrun fatigue-boundary and persistence
   fixtures; overlapping-day and forced-unconsciousness integration remain pending.
+
+- Recheck sleep recovery against its actual interval after elapsed-time hooks,
+  preventing changed pain conditions from silently receiving sleep credit.
+  Added an unrun interruption/ordinary-rest regression fixture.

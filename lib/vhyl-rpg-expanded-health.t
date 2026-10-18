@@ -7204,14 +7204,18 @@ modify RpgExpandedProfile
 ;
 
 modify RpgExpandedProfile
-    validateSleepRecovery(seconds)
+    validateSleepRecoveryInterval(start,seconds)
     {
-        inherited(seconds);
+        inherited(start,seconds);
         foreach (local episode in self.recurrentPainDays)
-            if (episode.result.occurs && episode.duringSleep && episode.endedAt == nil
+        {
+            episode.validateReceipt();
+            if (episode.result.occurs && episode.duringSleep
+                && (episode.endedAt == nil || episode.endedAt > start)
                 && holds(self.traits,episode.trait) && episode.trait.active && !episode.trait.mitigated
-                && episode.onsetAt < rpgLedger.seconds + seconds)
+                && episode.onsetAt < start + seconds)
                 rpgExpandedReject('recurrent-pain-sleepless-rest-required');
+        }
         return nil;
     }
 ;

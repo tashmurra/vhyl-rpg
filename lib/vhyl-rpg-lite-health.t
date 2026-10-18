@@ -211,8 +211,10 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     local healingModifier = food && healingAllowed && profile.naturalRecoveryNeeded()
         ? profile.naturalRecoveryModifier() : 0;
     local healingAmount = profile.naturalRecoveryAmount();
+    local sleepStart = rpgLedger.seconds;
     if (sleeping) { profile.validateSleepRecovery(seconds); profile.onSleep(); }
     rpgSpendTime(seconds);
+    if (sleeping) profile.validateSleepRecoveryInterval(sleepStart,seconds);
     for (local elapsed = 0; elapsed < seconds && (profile.stunned || profile.mentalStun)
         && !profile.unconscious && profile.fearSeconds == 0; elapsed += 1) rpgLiteRecoverStun(profile);
     profile.shock = 0;
@@ -602,5 +604,6 @@ modify RpgLiteProfile
 ;
 
 modify RpgLiteProfile
-    validateSleepRecovery(seconds) { return nil; }
+    validateSleepRecovery(seconds) { return self.validateSleepRecoveryInterval(rpgLedger.seconds,seconds); }
+    validateSleepRecoveryInterval(start,seconds) { return nil; }
 ;

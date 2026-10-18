@@ -9088,6 +9088,8 @@ def test(build):
     test_recurrent_pain_episode(Session, recurrent_episode, build.out)
     pain_sleep = build.build('expanded-pain-sleep',ROOT / 'tests/fixtures/expanded-pain-sleep.t')
     test_pain_sleep(Session, pain_sleep, build.out)
+    sleep_interruption = build.build('expanded-sleep-interruption',ROOT / 'tests/fixtures/expanded-sleep-interruption.t')
+    test_sleep_interruption(Session, sleep_interruption)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17440,5 +17442,18 @@ def test_pain_sleep(Session, bundle, out):
         s.action(2285,4701)
         s.action(2285,4703)
         assert last(s,'test.pain-sleep-state') == after
+    finally:
+        s.close()
+
+
+def test_sleep_interruption(Session, bundle):
+    s = Session(bundle)
+    try:
+        for code in (30,4600,4800,4802):
+            s.action(2285,code)
+        assert last(s,'test.sleep-interruption') == [0,0,0,3]
+        s.action(2285,4801)
+        s.action(2285,4802)
+        assert last(s,'test.sleep-interruption') == [10,10,0,3]
     finally:
         s.close()

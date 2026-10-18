@@ -3282,3 +3282,9 @@ before time advances. Once the episode ends, ordinary sleep recovery is availabl
 The fixture crosses the sixteen-hour waking boundary, checks replay and verifies
 undo/save expectations; it remains unrun. Overlapping-day episodes and forced
 unconsciousness during a sleepless interval still require further integration.
+
+Sleep recovery validates its actual elapsed interval again after time hooks and
+before crediting sleep. A changed recurrent-pain receipt rejects the operation;
+propagate the error so the transaction rolls back both time and the hook change.
+The default interval hook is inert without an expansion, preserving ordinary
+rest behavior. The authored interruption fixture remains unrun.
