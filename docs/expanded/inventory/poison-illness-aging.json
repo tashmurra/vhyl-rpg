@@ -138,9 +138,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Double the delay for each positive size-modifier step and halve it for each negative step; a one-hour base delay at size -2 becomes fifteen minutes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned admitted single-cycle toxic exposures now size-scale whole-second onset, protect the ledger deadline, resolve current resistance once and apply shared injury without armor. Fixtures unrun. Sub-second delays, other effects, cyclic recovery locks and environmental repetition remain incomplete."
     },
     {
       "id": "poison-delayed-resistance",
@@ -148,9 +151,12 @@
       "pages": "B438",
       "module": "hazards",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Make resistance only after the applicable delay, applying the defined modifier; armor does not alter this resistance roll.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned admitted single-cycle toxic exposures now size-scale whole-second onset, protect the ledger deadline, resolve current resistance once and apply shared injury without armor. Fixtures unrun. Sub-second delays, other effects, cyclic recovery locks and environmental repetition remain incomplete."
     },
     {
       "id": "poison-environment-retries",

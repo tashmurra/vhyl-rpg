@@ -396,3 +396,8 @@ Poison entry now has source-backed assessments for blood, contact, digestive,
 follow-up, respiratory and sense-based delivery, including persistent wounds and
 paired area protection. These do not consume payloads or resolve poison effects;
 the exposure lifecycle remains incomplete. Route fixtures are authored and unrun.
+
+Owned single-cycle toxic exposures now reuse hazard parameters, size-adjust onset,
+protect their ledger deadline and resolve resistance/shared injury once. Cyclic
+poison, fatigue, payload accounting and other effects remain incomplete. Timing,
+rollback and persistence fixtures are authored and unrun.

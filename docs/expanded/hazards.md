@@ -1137,3 +1137,42 @@ Unsupported delivery combinations return explicit reasons.
 persistent-wound entry, paired area protections, exposed/clothed skin, nine/ten
 second forced swallowing, unconscious/stunned respiration, mask benefit and an
 owned follow-up wound. They are authored and unrun.
+
+### Owned single-cycle toxic exposure
+
+`RpgExpandedPoisonExposure` reuses `RpgLiteHazard` parameters and the Lite exposure
+base, but owns its admitted delivery and absolute onset deadline. Supply a unique
+`id`, expanded `profile`, `hazard`, approved `RpgExpandedPoisonEntry`, factual
+`sizeModifier`, `approved` and `effectEvidence` identifying the poison's supported
+effects. Currently the hazard must describe exactly one cycle of toxic HP injury,
+with one to one hundred dice and nonnegative additions. Fatigue, cyclic poison,
+other symptoms/conditions, variable dose and negative additions remain unsupported.
+The original fictional fixture agent is not a claim of source-catalogue coverage.
+
+`assess()` verifies entry, resistance availability and every possible failure
+injury before mutation. `start()` records the exposure in `poisonExposures`, binds
+its definition/contact facts and captures the entry resistance modifier. It spends
+no additional time or dose. The delivering system must account for the actual
+payload once; coating and ammunition payload integration remain unfinished.
+
+B438's size adjustment doubles the onset delay for each positive size step and
+halves it for each negative step. `rpgExpandedPoisonDelay` uses exact whole seconds;
+sub-second outcomes and overflow are rejected rather than rounded. An immediate
+poison is due at its starting instant. Advance the shared ledger to the exact
+`dueAt`; the clock cannot skip a live pending exposure. Do not use the inherited
+relative `advance` API, which explicitly rejects calls on this expanded type.
+
+`assessResolution()` is pure. `resolve()` rolls resistance at onset using the
+current patient and shared poison resistance modifiers, then rolls damage only
+when resistance fails or the poison is unresistible. It commits one expanded wound
+without subtracting armor again. Replay returns the saved result; the start and
+resolution do not reevaluate contact after it has already occurred. Death before
+onset releases the clock boundary and prevents further poisoning of that patient.
+After a single cycle, normal healing remains available. This is not an
+implementation of cyclic-poison recovery restrictions or continuing environmental
+exposure.
+
+`expanded-poison-exposure.t` and `test_poison_exposure` specify success/failure,
+unresistible injury, size-adjusted timing, premature resolution, exact deadlines,
+unsupported forms, preview, replay, rollback, undo and saved continuation. They
+are authored and unrun.

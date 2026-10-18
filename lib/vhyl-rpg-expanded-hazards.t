@@ -2595,3 +2595,164 @@ class RpgExpandedPoisonEntry: object
         value.status = 'ready'; return value;
     }
 ;
+
+/** B438 size modifies onset delay, not the interval between later cycles. */
+rpgExpandedPoisonDelay(delay, sizeModifier)
+{
+    rpgInteger(delay,0,2147483647); rpgInteger(sizeModifier,-20,20);
+    if (sizeModifier > 0)
+        for (local step = 0; step < sizeModifier; step += 1)
+        { rpgInteger(delay,0,1073741823); delay *= 2; }
+    else
+        for (local step = 0; step > sizeModifier; step -= 1)
+        {
+            if (delay % 2 != 0) rpgExpandedReject('poison-subsecond-delay-unimplemented');
+            delay /= 2;
+        }
+    return delay;
+}
+class RpgExpandedPoisonResult: RpgExpandedResult
+    context = nil
+    entryModifier = 0
+    injury = 0
+    wound = nil
+    resisted = nil
+;
+/** Owned single-cycle toxic injury. Other effect forms are rejected, not
+ * silently approximated by this subset of the full poison procedure. */
+class RpgExpandedPoisonExposure: RpgLiteExposure
+    id = nil
+    entry = nil
+    sizeModifier = 0
+    approved = nil
+    effectEvidence = nil
+    dropDestination = nil
+    startedAt = nil
+    dueAt = nil
+    completedAt = nil
+    entryModifier = 0
+    boundDefinition = nil
+    result = nil
+    definition()
+    {
+        local e = self.entry; local h = self.hazard;
+        return [self.id,self.profile,h,self.sizeModifier,self.approved,self.effectEvidence,self.dropDestination,
+            h.kind,h.delay,h.interval,h.cycles,h.dice,h.adds,h.fatigueDamage,h.resistible,h.resistanceModifier,
+            e,e.patient,e.route,e.method,e.approved,e.evidence,e.inArea,e.mucousContact,e.openWoundContact,
+            e.persistentWoundReached,e.vulnerableAreaHit,e.skinContact,e.unarmored,e.unclad,e.swallowed,
+            e.forcedSwallow,e.headOrNeckHeldSeconds,e.wound,e.penetrationKind,e.inhaled,e.holdingBreath,
+            e.improvisedMask,e.sealed,e.noBreathing,e.filteredLungs,e.eyeMembrane,e.protectedVision,
+            e.sensePresent,e.senseProtected];
+    }
+    validateReceipt()
+    {
+        local current = self.definition();
+        for (local index = 1; index <= current.length(); index += 1)
+            if (current[index] != self.boundDefinition[index]) rpgExpandedReject('poison-exposure-binding');
+        if (!holds(self.profile.poisonExposures,self)) rpgExpandedReject('poison-exposure-history');
+        return nil;
+    }
+    failureWound(amount)
+    {
+        local wound = new RpgExpandedWound(); wound.profile = self.profile; wound.id = 'poison-' + self.id;
+        wound.amount = amount; wound.dropDestination = self.dropDestination; return wound;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.hazard == nil || !self.hazard.ofKind(RpgLiteHazard) || self.hazard.kind != 'poison'
+            || self.entry == nil || !self.entry.ofKind(RpgExpandedPoisonEntry) || self.entry.patient != self.profile)
+            rpgExpandedReject('poison-exposure-definition');
+        local value = new RpgExpandedPoisonResult();
+        if (self.started)
+        {
+            self.validateReceipt();
+            if (self.result != nil)
+            {
+                value.status = 'reused'; value.check = self.result.check; value.injury = self.result.injury;
+                value.wound = self.result.wound; value.resisted = self.result.resisted; return value;
+            }
+            value.entryModifier = self.entryModifier;
+        }
+        if (!self.approved || self.effectEvidence == nil || self.effectEvidence == '')
+        { value.reason = 'poison-exposure-effect-evidence'; return value; }
+        if (self.hazard.cycles != 1 || self.hazard.fatigueDamage)
+        { value.reason = 'poison-effect-form-unimplemented'; return value; }
+        rpgInteger(self.hazard.dice,1,100); rpgInteger(self.hazard.adds,0,1000);
+        rpgInteger(self.hazard.resistanceModifier,-100,100);
+        if (self.profile.dead) { value.reason = 'poison-exposure-dead'; return value; }
+        if (!self.started)
+        {
+            foreach (local prior in self.profile.poisonExposures)
+                if (prior.id == self.id) rpgExpandedReject('poison-exposure-duplicate');
+            local entry = self.entry.assess();
+            if (entry.status != 'ready' || !entry.exposed)
+            { value.reason = entry.status == 'ready' ? 'poison-not-delivered' : entry.reason; return value; }
+            value.entryModifier = entry.resistanceModifier;
+            local delay = rpgExpandedPoisonDelay(self.hazard.delay,self.sizeModifier);
+            rpgInteger(rpgLedger.seconds,0,2147483647 - delay); value.seconds = delay;
+        }
+        if (self.hazard.resistible)
+        {
+            value.context = new RpgLiteContext(); value.context.attribute = rpgHT; value.context.kind = 'poison';
+            value.context.modifier = self.hazard.resistanceModifier + value.entryModifier;
+            local score = rpgLiteScore(self.profile,value.context);
+            if (score == nil || score < 3) { value.reason = 'poison-resistance-score'; return value; }
+        }
+        for (local amount = self.hazard.dice + self.hazard.adds; amount <= 6 * self.hazard.dice + self.hazard.adds; amount += 1)
+        {
+            local harm = self.failureWound(amount).assess();
+            if (harm.status != 'ready') { value.reason = harm.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    start()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.started) { value.status = 'reused'; return value; }
+        self.started = true; self.startedAt = rpgLedger.seconds; self.dueAt = self.startedAt + value.seconds;
+        self.remaining = 1; self.entryModifier = value.entryModifier; self.boundDefinition = self.definition();
+        self.profile.poisonExposures = self.profile.poisonExposures + [self];
+        value.status = 'resolved'; return value;
+    }
+    assessResolution()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (!self.started || rpgLedger.seconds != self.dueAt)
+        { value.status = 'blocked'; value.reason = 'poison-resolution-not-due'; }
+        return value;
+    }
+    resolve()
+    {
+        local value = self.assessResolution(); if (value.status != 'ready') return value;
+        if (value.context != nil) value.check = rpgLiteCheck(self.profile,value.context);
+        value.resisted = value.check != nil && value.check.achieved;
+        if (!value.resisted)
+        {
+            local amount = rpgLiteRollDamage(self.hazard.dice,self.hazard.adds,'tox',nil);
+            value.wound = self.failureWound(amount); local harm = value.wound.apply();
+            if (harm.status != 'resolved') rpgExpandedReject('poison-injury-changed');
+            value.injury = harm.healthLoss;
+        }
+        self.completedAt = rpgLedger.seconds; self.remaining = 0; self.finished = true;
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    advance(seconds) { rpgExpandedReject('poison-use-shared-clock'); }
+;
+modify RpgExpandedProfile
+    poisonExposures = []
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        for (local exposure = firstObj(RpgExpandedPoisonExposure); exposure != nil;
+            exposure = nextObj(exposure,RpgExpandedPoisonExposure))
+            if (exposure.started && !exposure.finished && !exposure.profile.dead)
+            {
+                exposure.validateReceipt();
+                if (self.seconds + seconds > exposure.dueAt) rpgExpandedReject('poison-onset-boundary');
+            }
+        return nil;
+    }
+;

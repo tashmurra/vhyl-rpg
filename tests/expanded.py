@@ -8944,6 +8944,8 @@ def test(build):
     test_persistent_dressing(Session, persistent_dressing, build.out)
     poison_entry = build.build('expanded-poison-entry', ROOT / 'tests/fixtures/expanded-poison-entry.t')
     test_poison_entry(Session, poison_entry)
+    poison_exposure = build.build('expanded-poison-exposure', ROOT / 'tests/fixtures/expanded-poison-exposure.t')
+    test_poison_exposure(Session, poison_exposure, build.out)
     clotting_restoration = build.build('expanded-clotting-restoration', ROOT / 'tests/fixtures/expanded-clotting-restoration.t')
     test_clotting_restoration(Session, clotting_restoration, build.out)
     fresh(Session,hazards,test_airless_seconds)
@@ -11299,5 +11301,50 @@ def test_poison_entry(Session, bundle):
             for _ in range(2):
                 s.action(2285, code)
                 assert last(s, 'test.poison-entry') == ['ready', exposed, persistent, modifier, 2, 0, 0]
+        finally:
+            s.close()
+
+
+def test_poison_exposure(Session, bundle, out):
+    def state(s):
+        s.action(2285, 264)
+        return last(s, 'test.poison-exposure')
+    path = out / 'expanded-poison-exposure.zsave'
+    s = Session(bundle)
+    try:
+        for code in (265, 261, 260, 260, 262, 5):
+            s.action(2285, code)
+        assert state(s) == [0, 60, None, 1, 0, 0, 0]
+        s.action(2285, 4)
+        s.action(2285, 263)
+        assert state(s) == [0, 60, None, 1, 0, 60, 0]
+        s.action(2285, 262)
+        s.command('undo')
+        assert state(s) == [0, 60, None, 1, 0, 60, 0]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 262)
+        s.action(2285, 262)
+        assert state(s) == [0, 60, 60, 1, 4, 60, 4]
+    finally:
+        s.close()
+    for preparation, injury, draws in [([266], 0, 3), ([270], 4, 1)]:
+        s = Session(bundle)
+        try:
+            for code in preparation + [267, 260, 268, 262]:
+                s.action(2285, code)
+            assert state(s) == [0, 30, 30, 1, injury, 30, draws]
+        finally:
+            s.close()
+    for code in (269, 271):
+        s = Session(bundle)
+        try:
+            s.action(2285, code)
+            s.action(2285, 260)
+            assert state(s) == [None, None, None, 0, 0, 0, 0]
         finally:
             s.close()
