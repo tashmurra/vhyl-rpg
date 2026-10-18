@@ -1,0 +1,930 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B343-B349",
+  "review": "Text reviewed for success rolls, equipment and difficulty modifiers, timing, long projects, outcome purchases and contests. Existing shared arithmetic requires explicit regression mappings; timing entries remain partial. No complete expanded dispatch is claimed.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "success-target",
+      "source": "full-2008",
+      "pages": "B343-B344",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Resolve three dice against the effective target, with success at or below it; apply modifiers to the target rather than the dice total.",
+      "tests": []
+    },
+    {
+      "id": "success-automatic-extremes",
+      "source": "full-2008",
+      "pages": "B343; B347-B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A permitted roll of three or four succeeds and seventeen or eighteen fails regardless of the target; distinguish this from whether the attempt is permitted at all.",
+      "tests": []
+    },
+    {
+      "id": "success-minimum-target",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reject ordinary success-roll attempts below effective target three before consuming randomness; preserve the explicit active-defense exception.",
+      "tests": []
+    },
+    {
+      "id": "success-modifier-composition",
+      "source": "full-2008",
+      "pages": "B344-B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combine applicable modifiers unless a rule declares replacement or exclusion; retain base and effective scores separately in structured outcomes.",
+      "tests": []
+    },
+    {
+      "id": "success-default-selection",
+      "source": "full-2008",
+      "pages": "B344",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose the best eligible default, cap the underlying attribute at twenty for attribute defaults only, and reject untrained actions without a default.",
+      "tests": []
+    },
+    {
+      "id": "success-margins",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Expose signed target-minus-roll margin and the corresponding success/failure magnitude for downstream effects; extreme outcomes still preserve their rolled values.",
+      "tests": []
+    },
+    {
+      "id": "success-retry-terminal",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A failed attempt that kills the actor or destroys its target cannot be retried as though the original task remains available.",
+      "tests": []
+    },
+    {
+      "id": "success-retry-damage",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply failed-attempt damage and the required elapsed interval before another permitted attempt; persistent consequences survive retries.",
+      "tests": []
+    },
+    {
+      "id": "success-retry-penalty",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For repeatable harmless failures, apply -1 on the second attempt, -2 on the third and so on until success or abandonment; bind this history to the same task rather than a parser surface.",
+      "tests": []
+    },
+    {
+      "id": "success-retry-exemption",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinarily repeated actions such as attacks and long-task contributions retry with their usual time and without the generic escalating retry penalty.",
+      "tests": []
+    },
+    {
+      "id": "quick-contest-outcome",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In an ordinary quick contest a success beats a failure; among two successes greater success margin wins, and among two failures smaller failure margin wins. Equal margins with equal success status tie.",
+      "tests": []
+    },
+    {
+      "id": "quick-contest-victory",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compute victory margin from the two signed margins for all success/failure combinations, and report ties without inventing a winner.",
+      "tests": []
+    },
+    {
+      "id": "resistance-attacker-success",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For resistance contests, an attacking failure loses immediately without rolling resistance; preserve this random-consumption difference from ordinary quick contests.",
+      "tests": []
+    },
+    {
+      "id": "resistance-defender-ties",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only a successful attacker that also wins the contest affects the subject; ties always protect the resisting subject.",
+      "tests": []
+    },
+    {
+      "id": "regular-contest-round",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In a regular contest only one success against the other failure ends the contest; both-success and both-failure rounds continue, with one declared time interval consumed per round.",
+      "tests": []
+    },
+    {
+      "id": "regular-contest-low-scores",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If both scores are six or less, raise the lower to ten and add the same amount to the higher; five versus three becomes twelve versus ten.",
+      "tests": []
+    },
+    {
+      "id": "regular-contest-high-scores",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If both scores are at least fourteen but the over-twenty ratio rule does not apply, lower the smaller score to ten and subtract the same amount from the larger; nineteen versus sixteen becomes thirteen versus ten.",
+      "tests": []
+    },
+    {
+      "id": "regular-contest-extreme-scores",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If both scores exceed twenty, set the smaller to ten and multiply the larger by ten divided by the original smaller, rounding down; six hundred versus five hundred becomes twelve versus ten.",
+      "tests": []
+    },
+    {
+      "id": "resistance-supernatural-cap",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For a supernatural attack resisted by a living or sapient subject, cap attacker effective skill at the higher of sixteen and actual defender resistance; do not raise an attacker already below that cap.",
+      "tests": []
+    },
+    {
+      "id": "success-roll-necessity",
+      "source": "full-2008",
+      "pages": "B343",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored task assessment identifies meaningful risk or gain and whether a roll is needed; trivial actions and ordinary daily work normally do not roll, while monthly job checks remain separate.",
+      "tests": []
+    },
+    {
+      "id": "success-hidden-information",
+      "source": "full-2008",
+      "pages": "B344",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An information task declares hidden resolution, world facts and success/failure disclosures; player-visible results must not leak the roll, concealed opposition or whether supplied information is false.",
+      "tests": []
+    },
+    {
+      "id": "success-unnoticed-events",
+      "source": "full-2008",
+      "pages": "B344",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Secretly assess relevant senses and danger warnings without revealing that a concealed threat exists merely by requesting a public roll.",
+      "tests": []
+    },
+    {
+      "id": "success-difficulty-contract",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The author selects a task-wide difficulty independently of actor-specific modifiers and records any aggregate replacement, preventing the same circumstance from being penalized twice.",
+      "tests": []
+    },
+    {
+      "id": "success-critical-effects",
+      "source": "full-2008",
+      "pages": "B347-B348",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Outside attacks, critical consequences use a specific authored outcome for the task, with favorable success and adverse failure effects; attacks instead route through their applicable critical tables.",
+      "tests": []
+    },
+    {
+      "id": "success-retry-policy",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Declare whether the task permits retries, when its outcome becomes knowable, and its retry interval, damage and abandonment conditions; preserve that policy across parser, structured and dialogue actions.",
+      "tests": []
+    },
+    {
+      "id": "regular-contest-duration",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Declare the contest round duration from its activity; combat rounds take one second while noncombat contests may consume much longer intervals.",
+      "tests": []
+    },
+    {
+      "id": "critical-success-three-four",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rolls three and four are critical successes for a permitted roll.",
+      "tests": []
+    },
+    {
+      "id": "critical-success-five",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Roll five is critical success at effective target fifteen or more.",
+      "tests": []
+    },
+    {
+      "id": "critical-success-six",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Roll six is critical success at effective target sixteen or more.",
+      "tests": []
+    },
+    {
+      "id": "critical-failure-eighteen",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Roll eighteen is always critical failure.",
+      "tests": []
+    },
+    {
+      "id": "critical-failure-seventeen",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Roll seventeen is critical failure at effective target fifteen or less and ordinary failure at sixteen or more.",
+      "tests": []
+    },
+    {
+      "id": "critical-failure-margin-ten",
+      "source": "full-2008",
+      "pages": "B348",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Failure by at least ten is critical failure; test the nine-versus-ten margin boundary.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-automatic",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The automatic difficulty band permits a modifier from 10 through 10; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-trivial",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The trivial difficulty band permits a modifier from 8 through 9; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-very-easy",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The very-easy difficulty band permits a modifier from 6 through 7; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-easy",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The easy difficulty band permits a modifier from 4 through 5; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-very-favorable",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The very-favorable difficulty band permits a modifier from 2 through 3; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-favorable",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The favorable difficulty band permits a modifier from 1 through 1; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-average",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The average difficulty band permits a modifier from 0 through 0; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-unfavorable",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The unfavorable difficulty band permits a modifier from -1 through -1; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-very-unfavorable",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The very-unfavorable difficulty band permits a modifier from -3 through -2; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-hard",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The hard difficulty band permits a modifier from -5 through -4; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-very-hard",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The very-hard difficulty band permits a modifier from -7 through -6; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-dangerous",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The dangerous difficulty band permits a modifier from -9 through -8; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-difficulty-extreme",
+      "source": "full-2008",
+      "pages": "B345-B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The extreme difficulty band permits a modifier from -10 through -10; author choice remains distinct from equipment, language and other personal modifiers.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-none-technical",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier -10. No equipment for a technological skill, if the task is possible at all.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-none-other",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier -5. No equipment for a nontechnological skill, if use is possible.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-improvised-technical",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier -5. Improvised equipment for a technological skill.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-improvised-other",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier -2. Improvised equipment for a nontechnological skill.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-basic",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier 0. Appropriate basic equipment.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-good",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier 1. Good equipment, priced at approximately five times basic cost.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-fine",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply equipment modifier 2. Fine equipment, priced at approximately twenty times basic cost.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-best",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Best available equipment at a technology level gives floor(technology/2), with minimum +2; it is not automatically available for purchase.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-missing",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "For basic or better equipment, apply -1 per important missing item in addition to quality.",
+      "tests": []
+    },
+    {
+      "id": "task-equipment-damaged",
+      "source": "full-2008",
+      "pages": "B345",
+      "module": "equipment",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "For basic or better equipment, apply an authored -1 through -3 damage modifier in addition to quality; bind the condition to the actual equipment used.",
+      "tests": []
+    },
+    {
+      "id": "task-time-extra-1",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For an eligible noncombat task, taking 2 times its ordinary duration grants +1; commit the resulting elapsed time only once.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-extra-2",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For an eligible noncombat task, taking 4 times its ordinary duration grants +2; commit the resulting elapsed time only once.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-extra-3",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For an eligible noncombat task, taking 8 times its ordinary duration grants +3; commit the resulting elapsed time only once.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-extra-4",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For an eligible noncombat task, taking 15 times its ordinary duration grants +4; commit the resulting elapsed time only once.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-extra-5",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For an eligible noncombat task, taking 30 times its ordinary duration grants +5; commit the resulting elapsed time only once.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-1",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 90% of ordinary duration imposes -1; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-2",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 80% of ordinary duration imposes -2; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-3",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 70% of ordinary duration imposes -3; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-4",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 60% of ordinary duration imposes -4; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-5",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 50% of ordinary duration imposes -5; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-6",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 40% of ordinary duration imposes -6; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-7",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 30% of ordinary duration imposes -7; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-8",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 20% of ordinary duration imposes -8; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-haste-9",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Taking 10% of ordinary duration imposes -9; reject when natural laws, equipment limits or skill-specific timing prohibit this reduction.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-instant",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The cinematic option permits one instant attempt at -10, with no repeat loophole through new contexts or command surfaces; it is disabled unless chosen for the campaign.",
+      "tests": [],
+      "existing_feature": "task-time"
+    },
+    {
+      "id": "task-time-specific-override",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Skill-specific timing, including spell rituals and ceremonial casting, overrides the generic haste and extra-time table.",
+      "tests": []
+    },
+    {
+      "id": "task-time-applicability",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The author names the task, its normal duration, whether additional deliberation can help and whether rushing is physically possible; an unconstrained boolean is not the finished adjudication contract.",
+      "tests": []
+    },
+    {
+      "id": "long-task-definition",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A long project declares required person-hours by labor type and eligible contributing skills; each owned contribution records worker, interval, labor type and result.",
+      "tests": []
+    },
+    {
+      "id": "long-task-ordinary-shift",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The normal daily labor allowance is eight hours per worker; at shift end each worker rolls the skill used, with hidden rolls for nonplayer workers where appropriate.",
+      "tests": []
+    },
+    {
+      "id": "long-task-success-credit",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary success credits the hours worked, critical success credits 150%, ordinary failure credits half, and critical failure credits none and destroys 2d previously completed person-hours.",
+      "tests": []
+    },
+    {
+      "id": "long-task-supervisor-role",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A supervisor must work the full shift coordinating rather than also contributing ordinary labor; the author selects administration for organization or leadership for inspiration.",
+      "tests": []
+    },
+    {
+      "id": "long-task-supervisor-result",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful supervisor grants +1 to the workers' daily rolls, critical success grants +2, and any failure contributes no benefit.",
+      "tests": []
+    },
+    {
+      "id": "long-task-long-shift-consent",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A nonplayer worker requires the applicable influence result to work an extended shift; do not bypass that social procedure with project permission.",
+      "tests": []
+    },
+    {
+      "id": "long-task-long-shift-check",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any day over eight hours requires a health check; apply -1 per hour over ten and no duration penalty for the interval over eight through ten.",
+      "tests": []
+    },
+    {
+      "id": "long-task-long-shift-failure",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a failed endurance check, penalize the work roll by the larger of two or the failure magnitude and spend that many fatigue points; a successful work roll can still credit the longer shift.",
+      "tests": []
+    },
+    {
+      "id": "long-task-long-shift-critical",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical endurance failure additionally prevents work the next day; keep this restriction across save and undo.",
+      "tests": []
+    },
+    {
+      "id": "long-task-time-tradeoff",
+      "source": "full-2008",
+      "pages": "B346",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Changing required hours through haste or extra time applies its corresponding modifier to every worker in that labor category, without also crediting unworked hours.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-enablement",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Outcome purchases are an explicit campaign option with any per-session spending limit; they draw from the existing bonus-point bank.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-last-roll",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only the actor's most recent eligible success roll can be altered; bind purchase to that outcome identity and apply dependent consequences consistently rather than rerolling.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-critical-failure-to-failure",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Upgrading critical failure to ordinary failure costs two bonus points.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-failure-to-success",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Upgrading ordinary failure to success costs one bonus point.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-success-to-critical",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Upgrading ordinary success to critical success costs two points, subject to the campaign restriction on purchased critical successes, including combat.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-combined-cost",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Add transition costs for multiple shifts; critical failure to critical success costs five points, paid once for the committed change.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-guidance-cost",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adding an accepted plausible scene element after ordinary success or a no-roll situation costs two points; after critical success it costs one and replaces other beneficial critical effects.",
+      "tests": []
+    },
+    {
+      "id": "outcome-purchase-guidance-contract",
+      "source": "full-2008",
+      "pages": "B347",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored proposal must be plausible, acceptable to the participating players and consistent with established facts; accepted scene additions become persistent world facts and rejected proposals consume no points.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B343-B349",
+      "reason": "Exclude source wording, named illustrative characters and narrative anecdotes. Preserve numeric examples and specific adjudication decisions as neutral obligations."
+    }
+  ]
+}

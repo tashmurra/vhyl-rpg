@@ -17,6 +17,9 @@ copies of the reference books.
 | `full-2008` | B254–B257 | [Psionic powers](psionics.json) | Family memberships, advancement, interference and information contracts enumerated; underlying traits pending |
 | `full-2008` | B258–B263; B445–B454 | [Templates and combined packages](templates.json) | Composition, ancestry accounting, sample packages and design permissions enumerated; component definitions pending |
 | `full-2008` | B290–B296 | [Development and transformations](development.json) | Advancement, study, maintenance and transformation procedures enumerated; existing study mappings remain partial |
+| `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
+| `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
+| `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated by row; full fear dispatch remains pending |
 | `full-2008` | Remaining mechanically applicable pages | Pending | Chapter-level ownership only |
 | `abridged-2004` | Existing foundation | Pending | Regression coverage exists; detailed rule-by-rule comparison still open |
 
@@ -108,6 +111,13 @@ a body modification must not all use the same point-bank operation. The source
 also distinguishes ordinary teaching qualifications from intensive instruction,
 and has specific exceptions to the usual prohibition on overlapping study.
 The existing study helper covers only part of these requirements.
+
+The resolution chapter contains requirements owned by several modules: equipment
+quality, optional campaign outcome purchases, combat effort, social influence and
+health-managed fear effects. The detailed entries identify those owners rather
+than placing every operation in exploration. In particular, full fear resolution
+cannot reuse the Lite duration formula: it needs a separate table, recovery
+checks and lasting consequences, while preserving Lite's existing execution path.
 
 The implementation remains incomplete and the PR remains draft. Build checks are
 currently suspended at the user's request. Newly authored inventory checks have
