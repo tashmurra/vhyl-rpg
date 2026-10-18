@@ -9046,6 +9046,10 @@ def test(build):
     test_carousing_entertainment(Session, carousing_entertainment, build.out)
     social_interruption = build.build('expanded-social-interruption',ROOT / 'tests/fixtures/expanded-social-interruption.t')
     test_social_interruption(Session, social_interruption, build.out)
+    social_inhibition = build.build('expanded-social-inhibition',ROOT / 'tests/fixtures/expanded-social-inhibition.t')
+    test_social_inhibition(Session, social_inhibition, build.out)
+    social_inhibition_minimal = build.build('expanded-social-inhibition-minimal',ROOT / 'tests/fixtures/expanded-social-inhibition-minimal.t')
+    test_social_inhibition_minimal(Session, social_inhibition_minimal)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -16615,3 +16619,42 @@ def test_social_interruption(Session, bundle, out):
             assert last(s,'test.entertainment') == [40,10,1,3,60]
         finally:
             s.close()
+
+
+def test_social_inhibition(Session, bundle, out):
+    for setup,expected in (((),[-5,12,None,0]),((2801,),[-10,11,None,0]),
+                           ((2802,),[-20,5,'social-inhibition-learning-prohibited',0]),
+                           ((2803,),[-5,13,None,0]),((2804,),[-5,13,None,0])):
+        s = Session(bundle)
+        try:
+            for code in setup+(2800,):
+                s.action(2285,code)
+            assert last(s,'test.social-inhibition') == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (2808,2410,2500,2503):
+            s.action(2285,code)
+        assert last(s,'test.social-inhibition-unaffected') == [10]
+        assert last(s,'test.reaction-preparation-state') == [1,3,60,2]
+    finally:
+        s.close()
+    for setup,action,reason in (((2805,),2806,'duplicate-social-inhibition'),
+                               ((),2807,'social-inhibition-trained-adapter-required')):
+        s = Session(bundle)
+        try:
+            for code in setup+(action,):
+                s.action(2285,code)
+            assert last(s,'test.social-inhibition-error') == [reason]
+        finally:
+            s.close()
+
+
+def test_social_inhibition_minimal(Session, bundle):
+    s = Session(bundle)
+    try:
+        s.action(2285,2810)
+        assert last(s,'test.social-learning-minimal') == ['social-inhibition-learning-prohibited']
+    finally:
+        s.close()

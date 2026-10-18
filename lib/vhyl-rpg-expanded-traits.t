@@ -734,3 +734,52 @@ modify RpgExpandedProfile
         return found == nil || !found.active || found.mitigated ? 0 : found.level;
     }
 ;
+
+/** B154 ordinary social inhibition: three fixed tiers, with no unimplemented modifiers. */
+class RpgExpandedSocialInhibition: RpgExpandedDisadvantage
+    id = 'social-inhibition'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'social-inhibition' || self.percentages.length() != 0
+            || self.selfControlRating != nil || self.controlled) rpgExpandedReject('social-inhibition-definition');
+        rpgInteger(self.level,1,3); return [-5,-10,-20][self.level];
+    }
+;
+rpgExpandedSocialInhibitionApplies(skill)
+{
+    if (skill == nil || !skill.ofKind(RpgLiteSkill)) return nil;
+    return skill.requiresSocialInteraction || holds(['acting','carousing','diplomacy','fast-talk','intimidation',
+        'leadership','merchant','panhandling','performance','politics','public-speaking','savoir-faire',
+        'sex-appeal','streetwise','teaching'],skill.id);
+}
+modify RpgExpandedProfile
+    socialInhibitionPenalty()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedSocialInhibition))
+            {
+                trait.creationCost(); if (found != nil) rpgExpandedReject('duplicate-social-inhibition'); found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? 0 : [1,2,4][found.level];
+    }
+    socialSkillLearningReason(skill)
+    {
+        local reason = inherited(skill); if (reason != nil) return reason;
+        return self.socialInhibitionPenalty() == 4 && rpgExpandedSocialInhibitionApplies(skill)
+            ? 'social-inhibition-learning-prohibited' : nil;
+    }
+;
+modify RpgLiteContext
+    socialTraitModifier(profile)
+    {
+        local amount = inherited(profile);
+        if (!profile.ofKind(RpgExpandedProfile) || !rpgExpandedSocialInhibitionApplies(self.skill)) return amount;
+        local penalty = profile.socialInhibitionPenalty();
+        if (penalty == 4)
+            foreach (local training in profile.skills)
+                if (training.skill == self.skill && training.points > 0)
+                    rpgExpandedReject('social-inhibition-trained-adapter-required');
+        return amount - penalty;
+    }
+;

@@ -884,3 +884,32 @@ The enhanced-jump speed rule is now available through exploration's pure
 `travelAssessment`: current ground Move or one fifth of maximum broad-jump
 range, whichever is greater. It retains fractional speed and calculates elapsed
 whole seconds. Committed travel, interruption and jump attacks remain pending.
+
+## Social inhibition
+
+`RpgExpandedSocialInhibition` implements the ordinary three-tier trait from
+full-2008 B154 with neutral public identifiers. Set `approved = true` and `level`
+1, 2 or 3. Fixed costs are -5, -10 and -20; contextual interpersonal-skill
+penalties are -1, -2 and -4 respectively. Percentage modifiers, self-control
+variants and duplicate instances are rejected.
+
+The shared contextual score hook applies the penalty once to the printed list
+of interpersonal skills, including Carousing, Diplomacy, Fast-Talk and Teaching.
+An authored additional skill can set `requiresSocialInteraction` to establish
+that the broader printed interpersonal-skill condition applies. Administrative
+checks are not automatically penalized. Inactive or mitigated traits retain their
+point cost but contribute no current penalty.
+
+Tier 3 blocks learning affected skills through expanded profile learning
+permission, including when the optional skills module is absent. It permits
+penalized default use. An already-paid affected skill at this tier is explicitly
+rejected as requiring an acquisition/retention adapter; the reference's learning
+prohibition is not silently interpreted as deleting the character's investment.
+The same permission participates in character training validation.
+
+The base Lite context hook returns zero when this expansion effect is absent and
+adds no randomness. The social-inhibition fixture covers price tiers, contextual
+penalties, default use, learning rejection, mitigation, duplicate definitions and
+an actual Carousing preparation. Assertions are authored, unrun. Roleplay remains
+authored; later acquisition with existing skills and modified variants remain
+pending.

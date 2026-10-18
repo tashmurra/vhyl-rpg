@@ -466,3 +466,11 @@ modify RpgLiteSkill
 modify RpgExpandedProfile
     prepareSocialGate(id, evidence, movement) { return nil; }
 ;
+
+modify RpgExpandedProfile
+    socialSkillLearningReason(skill) { return nil; }
+    skillLearningReason(skill) { return self.socialSkillLearningReason(skill); }
+;
+modify RpgLiteSkill
+    requiresSocialInteraction = nil
+;

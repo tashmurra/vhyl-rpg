@@ -281,9 +281,12 @@
       "pages": "B154",
       "module": "skills",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Shyness applies to interpersonal skills including acting, revelry, diplomacy, fast-talk, intimidation, leadership, merchant, begging, performance, politics, public speaking, etiquette, attraction, street contacts and teaching. Mild costs -5 with -1, severe -10 with -2; greatest severity -20 prohibits learning those skills and gives -4 defaults. Levels may be bought off individually.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_social_inhibition"
+      ],
+      "validation_note": "Neutral SocialInhibition class implements fixed -5/-10/-20 tier costs, contextual -1/-2/-4 on the printed interpersonal skills and an explicit extension flag, active/mitigated effects, duplicate rejection and tier-three learning prohibition. Paid affected skills at tier three require an explicit acquisition/retention adapter and are rejected rather than silently deleted. Default use and integration with paid Carousing preparation have authored, unrun fixtures. Modified variants, acquisition with existing skills and remaining authored roleplay contracts remain pending."
     },
     {
       "id": "disadvantages-g-dependent-initiative",

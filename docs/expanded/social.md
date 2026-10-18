@@ -922,3 +922,8 @@ The `expanded-social-interruption.t` fixture injects audience, encounter, price,
 definition-length and provider-capacity changes during time advancement, then
 checks rollback and successful retry after cross-process restore. Assertions are
 authored, unrun while checks remain paused.
+
+Carousing preparation now also consumes the traits module's
+[social-inhibition penalty](traits.md#social-inhibition) through the shared score
+hook. Its -1/-2/-4 is separate from entertainment's +1 to +3 and is applied once.
+Other emotional-motivation and pleasure-related trait penalties remain pending.

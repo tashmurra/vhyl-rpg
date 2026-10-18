@@ -239,6 +239,7 @@ class RpgLiteContext: object
     legUse = 'auto'
     limbUseModifier(profile) { return 0; }
     equipmentUseModifier(profile) { return 0; }
+    socialTraitModifier(profile) { return 0; }
     validateInfluenceTarget(target) { return nil; }
     unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
@@ -257,7 +258,7 @@ rpgLiteScore(profile, context)
     local equipmentModifier = context.equipmentUseModifier(profile);
     if (equipmentModifier == nil) return nil;
     local adjustment = context.modifier + useModifier + equipmentModifier
-        + profile.healthAttributeModifier(context) + context.limbUseModifier(profile);
+        + profile.healthAttributeModifier(context) + context.limbUseModifier(profile) + context.socialTraitModifier(profile);
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');

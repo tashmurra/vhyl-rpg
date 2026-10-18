@@ -258,6 +258,7 @@ modify RpgExpandedProfile
     skillLearningReason(skill)
     {
         rpgExpandedValidateSkill(skill);
+        local socialReason = self.socialSkillLearningReason(skill); if (socialReason != nil) return socialReason;
         if (skill.ofKind(RpgExpandedSkill) && skill.wildcard && !self.rules.wildcardSkills)
             return 'wildcard-disabled';
         if (skill.ofKind(RpgLiteSkill) && skill.techLevel != nil)
