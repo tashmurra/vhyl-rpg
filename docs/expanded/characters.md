@@ -128,6 +128,6 @@ as well as selected as native, even with inactive or mitigated entries.
 familiarity and minus three otherwise. Culture IDs identify the same culture
 across authored records; use different IDs only for distinct cultures. Familiarity
 does not teach a language, establish citizenship or grant social permission.
-Template copies and cultural adaptation traits remain pending. `test_cultures`
+Template copies are described in the templates guide; cultural adaptation traits remain pending. `test_cultures`
 specifies costs, duplicate rejection, modifiers, undo and saved continuation;
 fixtures remain unrun while checks are paused.

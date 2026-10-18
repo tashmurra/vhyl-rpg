@@ -1774,9 +1774,10 @@
       "status": "partial",
       "acceptance": "Grant one free culture and reject duplicate paid familiarity with it.",
       "tests": [
-        "tests/expanded.py::test_cultures"
+        "tests/expanded.py::test_cultures",
+        "tests/expanded.py::test_culture_templates"
       ],
-      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Template composition, adaptation traits and automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun."
+      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Adaptation traits and automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun. Occupational template creation, selection and composition retain native culture and copy owned familiarity purchases; conflicts and duplicate costs are handled. Ancestry transformations remain pending. Template fixtures unrun."
     },
     {
       "id": "culture-familiarity",
@@ -1787,9 +1788,10 @@
       "status": "partial",
       "acceptance": "Price related and alien cultures and apply the unfamiliar-culture penalty to each designated skill using authored culture relations.",
       "tests": [
-        "tests/expanded.py::test_cultures"
+        "tests/expanded.py::test_cultures",
+        "tests/expanded.py::test_culture_templates"
       ],
-      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Template composition, adaptation traits and automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun."
+      "validation_note": "Explicit native culture, one/two-point owned familiarity and duplicate rejection now use character accounting; culturally significant contexts apply unfamiliarity -3. Adaptation traits and automatic designation of all applicable skill operations remain pending. Fixtures authored, unrun. Occupational template creation, selection and composition retain native culture and copy owned familiarity purchases; conflicts and duplicate costs are handled. Ancestry transformations remain pending. Template fixtures unrun."
     },
     {
       "id": "language-none",

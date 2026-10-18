@@ -903,3 +903,30 @@ option comparison, so different appearance purchases conflict instead of adding
 their tiers. `test_appearance_template` specifies separate application instances,
 copy costs, mutation isolation, undo, save continuation and missing-option
 rejection. Fixtures remain unrun.
+
+## Cultural background in occupational templates
+
+Set `RpgExpandedTemplate.nativeCulture` to the approved cultural definition.
+Ordinary and selected template construction retain it without adding a cost.
+A familiarity row has the form:
+
+```text
+['cultural-familiarity', 1, nil, nil, [cultureDefinition, alien, relatednessEvidence]]
+```
+
+The characters module constructs the one- or two-point purchase, with a unique
+trait ID derived from the culture ID. Each creation and composition produces a
+fresh trait object. Immutable cultural definitions may be shared; active and
+mitigated purchase state belongs to each character. Plain rows without options
+are rejected. Final character validation rejects buying the native culture.
+
+Occupational composition accepts unspecified backgrounds alongside one supplied
+native culture, or matching native culture IDs. Conflicting native culture IDs
+are rejected rather than choosing one silently. Matching familiarity purchases
+are charged once; incompatible options use the ordinary composition conflict
+checks. Cultural acquisition through ancestry transformations and broad cultural
+adaptation remain pending.
+
+`test_culture_templates` specifies fresh ownership, selected construction,
+composition costs, duplicate/native conflicts, undo and save continuation. The
+fixtures are authored and unrun while checks are paused.

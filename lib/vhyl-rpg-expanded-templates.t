@@ -32,6 +32,7 @@ class RpgExpandedTemplate: object
     contributionDefinitions = []
     choiceGroups = []
     nativePlanetType = nil
+    nativeCulture = nil
     nativePressureHundredths = 100
     campaignTL = 3
     techLevel = nil
@@ -50,7 +51,7 @@ class RpgExpandedTemplate: object
         if (self.choiceGroups.length() != 0) rpgExpandedReject('template-unresolved-choices');
         local p = new RpgExpandedProfile(); p.rules = rules;
         p.nativePressureHundredths = self.nativePressureHundredths;
-        p.nativePlanetType = self.nativePlanetType;
+        p.nativePlanetType = self.nativePlanetType; p.nativeCulture = self.nativeCulture;
         p.campaignTL = self.campaignTL;
         p.techLevel = self.techLevel == nil ? self.campaignTL : self.techLevel;
         p.st = self.st; p.dx = self.dx; p.iq = self.iq; p.ht = self.ht;
@@ -162,6 +163,12 @@ rpgExpandedCombineTemplates(templates, rules, pointBudget, disadvantageLimit)
             if (result.nativePlanetType != nil && result.nativePlanetType != source.nativePlanetType)
                 rpgExpandedReject('template-native-planet-conflict');
             result.nativePlanetType = source.nativePlanetType;
+        }
+        if (source.nativeCulture != nil)
+        {
+            if (result.nativeCulture != nil && result.nativeCulture.id != source.nativeCulture.id)
+                rpgExpandedReject('template-native-culture-conflict');
+            result.nativeCulture = source.nativeCulture;
         }
         foreach (local training in source.skills)
         {
@@ -382,6 +389,7 @@ modify RpgExpandedTemplate
         resolved.moveAdjustment = self.moveAdjustment + changes[10];
         resolved.campaignTL = self.campaignTL; resolved.techLevel = self.techLevel;
         resolved.nativePressureHundredths = self.nativePressureHundredths;
+        resolved.nativeCulture = self.nativeCulture;
         resolved.pointBudget = self.pointBudget; resolved.disadvantageLimit = self.disadvantageLimit;
         resolved.skillRows = skillRows; resolved.traitRows = traitRows;
         resolved.contributionDefinitions = contributions;

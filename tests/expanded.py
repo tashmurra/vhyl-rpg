@@ -9496,6 +9496,8 @@ def test(build):
     test_makeup_materials(Session,makeup_materials,build.out)
     cultures = build.build('expanded-cultures',ROOT / 'tests/fixtures/expanded-cultures.t')
     test_cultures(Session,cultures,build.out)
+    culture_templates = build.build('expanded-culture-templates',ROOT / 'tests/fixtures/expanded-culture-templates.t')
+    test_culture_templates(Session,culture_templates,build.out)
     begging_appearance = build.build('expanded-begging-appearance',ROOT / 'tests/fixtures/expanded-begging-appearance.t')
     test_begging_appearance(Session,begging_appearance,build.out)
     travel_digging = build.build("expanded-travel-digging",ROOT / "tests/fixtures/expanded-travel-digging.t")
@@ -26103,5 +26105,32 @@ def test_cultures(Session, bundle, out):
     try:
         s.command(f':restore {path}\n@1681'); s.action(1680,26200)
         assert last(s,'test.culture') == [8,1,2,0,0]
+    finally:
+        s.close()
+
+
+def test_culture_templates(Session, bundle, out):
+    """Fresh culture purchases, composed costs and native-background conflict rejection; unrun."""
+    s = Session(bundle)
+    path = out / 'culture-templates.zsave'
+    try:
+        s.action(1680,26300); s.action(1680,26301)
+        assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
+        s.action(1680,26302); s.action(1680,26301)
+        assert last(s,'test.culture-template') == [1,1,-3,0,2,3,0]
+        s.command('undo'); s.action(1680,26301)
+        assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
+        for code in (26303,26304,26305):
+            s.action(1680,code); s.action(1680,26301)
+            assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
+            s.action(1680,26300); s.action(1680,26301)
+            assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
+        s.command(f':save {path}')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@1681'); s.action(1680,26301)
+        assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
     finally:
         s.close()

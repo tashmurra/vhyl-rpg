@@ -269,3 +269,32 @@ modify RpgExpandedProfile
     }
     validateFeatures() { inherited(); self.validateCultures(); return nil; }
 ;
+
+modify RpgExpandedCulturalFamiliarity
+    labelId = 'cultural-familiarity'
+    templatePurchaseKind = 'expanded-cultural-familiarity'
+    templatePurchaseOptions() { return [self.culture,self.alien,self.evidence]; }
+;
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (id != 'cultural-familiarity') return inherited(id,level,scope,options);
+        if (level != 1 || scope != nil || options.length() != 3 || options[1] == nil
+            || !options[1].ofKind(RpgExpandedCulture)) rpgExpandedReject('culture-template-options');
+        local trait = new RpgExpandedCulturalFamiliarity();
+        trait.culture = options[1]; trait.alien = options[2]; trait.evidence = options[3]; trait.approved = true;
+        trait.id = 'culture-' + trait.culture.id; trait.creationCost(); return trait;
+    }
+    plain(id,level,scope)
+    {
+        if (id == 'cultural-familiarity') rpgExpandedReject('culture-template-options');
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedCulturalFamiliarity)) return inherited(trait);
+        trait.creationCost();
+        if (trait.labelId != 'cultural-familiarity') rpgExpandedReject('culture-template-label');
+        return self.configured(trait.labelId,trait.level,trait.scope,trait.templatePurchaseOptions());
+    }
+;
