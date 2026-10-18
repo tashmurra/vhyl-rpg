@@ -1,4 +1,4 @@
-/* Include after the expanded foundation. Source: full-2008, B483-B485. */
+/* Include after the expanded foundation and equipment. Source: full-2008, B483-B485. */
 
 /** A surviving weapon form; replacement statistics come from that form's catalogue. */
 class RpgExpandedBrokenPiece: object
@@ -234,7 +234,7 @@ class RpgExpandedBreakdownRepairResult: RpgExpandedResult
     repaired = nil
 ;
 
-/** A fixed-duration minor environmental-fault repair; major repairs require parts integration. */
+/** Fixed-duration environmental-fault repair; major faults install a purchased parts package. */
 class RpgExpandedBreakdownRepair: object
     id = nil
     failure = nil
@@ -251,6 +251,7 @@ class RpgExpandedBreakdownRepair: object
     boundSkill = nil
     boundEvidence = nil
     boundEquipmentModifier = nil
+    boundParts = nil
     assess()
     {
         if (self.failure == nil || !self.failure.ofKind(RpgExpandedBreakdown)
@@ -260,7 +261,7 @@ class RpgExpandedBreakdownRepair: object
         {
             if (self.id != self.boundId || self.failure != self.boundFailure || self.repairer != self.boundRepairer
                 || self.skill != self.boundSkill || self.evidence != self.boundEvidence
-                || self.equipmentModifier != self.boundEquipmentModifier || !self.approvedSkill || !self.uninterrupted
+                || self.equipmentModifier != self.boundEquipmentModifier || self.failure.parts != self.boundParts || !self.approvedSkill || !self.uninterrupted
                 || !holds(self.failure.repairs,self)) rpgExpandedReject('breakdown-repair-binding');
             value.status = 'reused'; value.check = self.result.check; value.repaired = self.result.repaired; return value;
         }
@@ -269,8 +270,11 @@ class RpgExpandedBreakdownRepair: object
         self.failure.assess();
         if (self.failure.repairedBy != nil || self.failure.item.environmentFailure != self.failure)
         { value.reason = 'breakdown-repair-not-active'; return value; }
-        if (self.failure.result.repair != 'minor')
-        { value.reason = 'breakdown-major-parts-unavailable'; return value; }
+        if (self.failure.result.repair == 'major')
+        {
+            if (self.failure.parts == nil) { value.reason = 'breakdown-major-parts-unavailable'; return value; }
+            value.reason = self.failure.parts.installationReason(); if (value.reason != nil) return value;
+        }
         if (!self.approvedSkill || self.evidence == nil || self.evidence == '' || !self.uninterrupted)
         { value.reason = 'breakdown-repair-author-facts'; return value; }
         if (self.repairer.dead || self.repairer.unconscious || self.repairer.stunned
@@ -284,7 +288,8 @@ class RpgExpandedBreakdownRepair: object
         }
         rpgInteger(self.equipmentModifier,-100,100);
         value.context = new RpgLiteContext(); value.context.skill = self.skill; value.context.kind = 'repair';
-        value.context.modifier = self.equipmentModifier + rpgExpandedRepairPriceModifier(self.failure.item.cost);
+        value.context.modifier = self.equipmentModifier + rpgExpandedRepairPriceModifier(self.failure.item.cost)
+            - (self.failure.result.repair == 'major' ? 2 : 0);
         local score = rpgLiteScore(self.repairer,value.context);
         if (score == nil || score < 3) { value.reason = 'breakdown-repair-score-unavailable'; return value; }
         value.seconds = 1800; value.status = 'ready'; return value;
@@ -292,6 +297,7 @@ class RpgExpandedBreakdownRepair: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.failure.result.repair == 'major') self.failure.parts.install();
         rpgSpendTime(value.seconds);
         value.check = rpgLiteCheck(self.repairer,value.context);
         if (value.check.achieved)
@@ -300,6 +306,100 @@ class RpgExpandedBreakdownRepair: object
         }
         self.boundId = self.id; self.boundFailure = self.failure; self.boundRepairer = self.repairer;
         self.boundSkill = self.skill; self.boundEvidence = self.evidence; self.boundEquipmentModifier = self.equipmentModifier;
+        self.boundParts = self.failure.parts;
         self.failure.repairs = self.failure.repairs + [self]; value.status = 'resolved'; self.result = value; return value;
+    }
+;
+
+modify RpgExpandedBreakdown
+    parts = nil
+;
+
+class RpgExpandedRepairPartsResult: RpgExpandedResult
+    die = nil
+    price = 0
+;
+
+/** One fault-bound major-repair parts package; purchase reuses equipment acquisition. */
+class RpgExpandedRepairParts: object
+    failure = nil
+    payer = nil
+    evidence = nil
+    weight = 0
+    available = nil
+    permitted = nil
+    result = nil
+    package = nil
+    acquisition = nil
+    installed = nil
+    boundFailure = nil
+    boundPayer = nil
+    boundEvidence = nil
+    boundWeight = nil
+    originalPrice = nil
+    assess()
+    {
+        if (self.failure == nil || !self.failure.ofKind(RpgExpandedBreakdown)
+            || self.failure.result == nil || self.payer == nil || !self.payer.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('repair-parts-definition');
+        local value = new RpgExpandedRepairPartsResult();
+        if (self.result != nil)
+        {
+            if (self.failure != self.boundFailure || self.payer != self.boundPayer
+                || self.evidence != self.boundEvidence || self.weight != self.boundWeight
+                || self.failure.parts != self || self.package == nil || self.acquisition == nil
+                || self.acquisition.profile != self.payer || self.acquisition.item != self.package
+                || self.acquisition.mode != 'purchase' || self.acquisition.quote != nil || self.acquisition.startingPurchase
+                || self.package.cost != self.result.price || self.package.weight != self.boundWeight
+                || self.package.quantity != 1) rpgExpandedReject('repair-parts-binding');
+            value.status = 'reused'; value.die = self.result.die; value.price = self.result.price; return value;
+        }
+        self.failure.assess(); rpgExpandedValidate(self.payer); rpgInteger(self.weight,0,100000000);
+        rpgInteger(self.failure.item.cost,0,100000000);
+        if (self.failure.parts != nil) { value.reason = 'repair-parts-already-quoted'; return value; }
+        if (self.failure.item.environmentFailure != self.failure || self.failure.result.repair != 'major')
+        { value.reason = 'repair-parts-major-fault-required'; return value; }
+        if (self.evidence == nil || self.evidence == '' || !self.available || !self.permitted)
+        { value.reason = 'repair-parts-supply-facts'; return value; }
+        value.status = 'ready'; return value;
+    }
+    quote()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.originalPrice = self.failure.item.cost;
+        value.die = rpgRandom.die(); value.price = rpgExpandedRepairPartsPrice(self.originalPrice,value.die);
+        self.package = new RpgLiteItem(); self.package.id = 'repair-parts'; self.package.cost = value.price;
+        self.package.weight = self.weight;
+        self.acquisition = new RpgExpandedAcquisition(); self.acquisition.profile = self.payer;
+        self.acquisition.item = self.package; self.acquisition.available = self.available; self.acquisition.permitted = self.permitted;
+        self.boundFailure = self.failure; self.boundPayer = self.payer; self.boundEvidence = self.evidence; self.boundWeight = self.weight;
+        self.failure.parts = self; value.status = 'resolved'; self.result = value; return value;
+    }
+    purchase()
+    {
+        if (self.result == nil) rpgExpandedReject('repair-parts-quote-required');
+        self.assess();
+        self.acquisition.available = self.available; self.acquisition.permitted = self.permitted;
+        return self.acquisition.acquire();
+    }
+    installationReason()
+    {
+        if (self.result == nil) return 'repair-parts-quote-required';
+        self.assess();
+        if (!self.acquisition.claimed) return 'repair-parts-not-purchased';
+        if (self.installed) return nil;
+        if (!holds(self.payer.equipment,self.package) || !self.package.usableBy(self.payer))
+            return 'repair-parts-not-carried';
+        return nil;
+    }
+    install()
+    {
+        local reason = self.installationReason(); if (reason != nil) rpgExpandedReject(reason);
+        if (self.installed) return 'reused';
+        local kept = []; local count = 0;
+        foreach (local item in self.payer.equipment)
+            if (item == self.package) count += 1; else kept = kept + [item];
+        if (count != 1) rpgExpandedReject('repair-parts-inventory');
+        self.payer.equipment = kept; self.installed = true; return 'resolved';
     }
 ;

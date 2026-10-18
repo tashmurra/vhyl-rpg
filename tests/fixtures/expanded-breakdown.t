@@ -18,11 +18,29 @@ repairRequest: RpgExpandedBreakdownRepair id = 'repair-first' failure = breakdow
     skill = repairSkill approvedSkill = true uninterrupted = true evidence = 'Suitable mechanic and tools for the fault';
 repairRetry: RpgExpandedBreakdownRepair id = 'repair-retry' failure = breakdownRequest repairer = repairProfile
     skill = repairSkill approvedSkill = true uninterrupted = true evidence = 'Second uninterrupted attempt';
+partsRules: RpgExpandedRules;
+partsPayer: RpgExpandedProfile rules = partsRules money = 1000;
+partsRequest: RpgExpandedRepairParts failure = breakdownRequest payer = partsPayer weight = 50
+    evidence = 'Available suitable replacement parts' available = true permitted = true;
 breakdownInput: object code = 0;
 class BreakdownAction: Action
     exec(context)
     {
         local code = breakdownInput.code;
+        if (code >= 30)
+        {
+            if (code == 30)
+            {
+                breakdownItem.cost = 500; rpgRandom.seed(5); breakdownRequest.apply(); rpgRandom.seed(1); return nil;
+            }
+            if (code == 34) partsPayer.money = 99;
+            if (code == 35) partsPayer.money = 1000;
+            if (code == 36) { repairProfile.iq = 12; rpgRandom.seed(1); repairRetry.apply(); return nil; }
+            if (code == 37) { partsRequest.evidence = 'Changed supply'; partsRequest.quote(); return nil; }
+            local parts = code == 31 || code == 32 ? partsRequest.quote() : partsRequest.purchase();
+            event('test.parts-operation'); eventValue(parts.status); eventValue(parts.reason);
+            if (code == 32 || code == 38) throw new RpgError(); return nil;
+        }
         if (code >= 20)
         {
             if (code == 20)
@@ -66,6 +84,12 @@ turn(tokens) { return vhylTurn(tokens); }
 act(verb,args)
 {
     if (verb == 2060) { breakdownInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2064)
+    {
+        event('test.parts-state'); eventValue(partsPayer.money); eventValue(partsPayer.equipment.length());
+        eventValue(partsPayer.loadHundredths()); eventValue(partsRequest.result == nil ? nil : partsRequest.result.price);
+        eventValue(partsRequest.installed ? 1 : 0); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
+    }
     if (verb == 2062)
     {
         event('test.repair-state'); eventValue(breakdownItem.usableBy(nil) ? 1 : 0);

@@ -973,6 +973,46 @@ def test_owned_effort(s):
         assert last(s, 'test.effort-owned') == expected
 
 
+def parts_state(s):
+    s.action(2064)
+    return last(s,'test.parts-state')
+
+
+def test_major_repair_parts(s):
+    s.action(2060,30)
+    initial = [1000,0,0,None,0,0,0]
+    s.action(2060,32)
+    assert parts_state(s) == initial
+    s.action(2060,31)
+    quoted = [1000,0,0,100,0,1,0]
+    assert parts_state(s) == quoted
+    s.action(2060,31)
+    assert parts_state(s) == quoted
+    s.action(2060,34)
+    assert last(s,'test.parts-operation') == ['blocked','equipment-unaffordable']
+    assert parts_state(s) == [99,0,0,100,0,1,0]
+    s.command('undo')
+    s.action(2060,38)
+    assert parts_state(s) == quoted
+    s.action(2060,33)
+    purchased = [900,1,50,100,0,1,0]
+    assert parts_state(s) == purchased
+    s.action(2060,33)
+    assert parts_state(s) == purchased
+    s.action(2060,22)
+    assert parts_state(s) == purchased
+    s.action(2060,21)  # Skill 10, price +1, major repair -2: score 9; remaining seed stream rolls 11.
+    assert repair_state(s)[:3] == [0,1,0]
+    assert parts_state(s) == [900,0,0,100,1,4,1800]
+    s.action(2060,36)
+    assert repair_state(s) == [1,2,1,3,3600]
+    assert parts_state(s) == [900,0,0,100,1,3,3600]
+    for code in [31,33,37,21,0]:
+        s.action(2060,code)
+        assert parts_state(s) == [900,0,0,100,1,3,3600]
+        assert repair_state(s)[0] == 1
+
+
 def repair_state(s):
     s.action(2062)
     return last(s,'test.repair-state')
@@ -5298,6 +5338,7 @@ def test(build):
     breakdown = build.build('expanded-breakdown',ROOT / 'tests/fixtures/expanded-breakdown.t')
     fresh(Session,breakdown,test_breakdown_transactions)
     fresh(Session,breakdown,test_repair_prices)
+    fresh(Session,breakdown,test_major_repair_parts)
     fresh(Session,breakdown,test_breakdown_repair)
     test_breakdown_repair_persistence(Session,breakdown,build.out)
     fresh(Session,breakdown,test_breakdown_days)

@@ -4,6 +4,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-equipment.t>
 #include <vhyl-rpg-expanded-technology.t>
 technologyRoom: Room 'Workshop';
 modify gameMain initialRoom = technologyRoom;

@@ -885,9 +885,10 @@
       "tests": [
         "tests/expanded.py::test_repair_prices",
         "tests/expanded.py::test_breakdown_repair",
-        "tests/expanded.py::test_breakdown_repair_persistence"
+        "tests/expanded.py::test_breakdown_repair_persistence",
+        "tests/expanded.py::test_major_repair_parts"
       ],
-      "validation_note": "Owned minor environmental-fault repair and pure price/parts quote authored; fixtures unrun. Structural HP restoration, major parts purchasing/consumption and broader repair consequences remain incomplete."
+      "validation_note": "Owned major environmental-fault repair uses a fault-bound parts quote, existing acquisition/inventory and one-time installation. Fixtures unrun; structural HP restoration and other subsystem repair remain incomplete."
     },
     {
       "id": "technology-replacement",

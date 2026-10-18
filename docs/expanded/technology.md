@@ -7,7 +7,7 @@ maintenance and repair. Neutral source: `full-2008`, B471–B479; B483–B485; B
 [Coverage ledger](coverage.json) · [Procedure inventory](inventory/technology.json) ·
 [Outcome tables](inventory/technology-outcomes.json)
 
-Include `vhyl-rpg-expanded-technology.t` after the expanded foundation. The current
+Include `vhyl-rpg-expanded-technology.t` after the expanded foundation and equipment. The current
 runtime provides pure object-capacity, injury-threshold and disabled-weapon assessments, plus owned environmental breakdown checks. Other inventoried
 procedures remain pending, including object damage, actual piece creation,
 maintenance, repair and invention projects.
@@ -217,7 +217,7 @@ block before drawing dice. `assess()` is pure; `apply()` draws one three-dice ch
 and stores it in the item's `environmentFailures`. Success leaves operation intact;
 failure sets `environmentFailure` to the receipt, requiring minor repair, or major
 repair on a critical failure. It does not spend time: the exposure or world clock
-has already established the event. Minor repair attempts use the owned repair request below; major repairs remain blocked.
+has already established the event. Repair attempts use the owned repair request and major-repair parts record below.
 
 While a failure is active, `usableBy()` returns false and existing attack, parry,
 block and equipment-operation hooks retain that restriction. The inherited storage
@@ -236,7 +236,7 @@ Run commits in the enclosing action transaction. Request bindings and historical
 results survive save/restore. Replays do not draw again or reapply failure. The
 library emits no player-facing notification; authors can keep the malfunction
 private until operation reveals it, as the source permits. Concrete diagnosis and
-major-repair interfaces remain outstanding.
+structural repair interfaces remain outstanding.
 
 The [breakdown fixture](../../tests/fixtures/expanded-breakdown.t) supplies
 `test_breakdown_transactions`, `test_breakdown_days` and
@@ -246,9 +246,9 @@ daily deduplication, distinct exposure checks, storage coexistence and separate
 process continuation. These fixtures are authored and unrun.
 
 
-## Minor environmental-fault repair
+## Environmental-fault repair
 
-`RpgExpandedBreakdownRepair` repairs one active minor `failure`. Supply a unique
+`RpgExpandedBreakdownRepair` repairs one active environmental `failure`. Supply a unique
 attempt `id`, `repairer`, a suitable `skill`, `approvedSkill = true`, `evidence`
 identifying why that skill and the available tools apply, and
 `uninterrupted = true`. Skill suitability is an explicit author decision for this
@@ -274,10 +274,46 @@ represent original price for this procedure, rather than a resale valuation.
 `rpgExpandedRepairPriceModifier(price)` covers the price bands.
 `rpgExpandedRepairPartsPrice(price, die)` quotes one through six tenths of original
 price, rounding up to the inventory's whole monetary unit. The latter is pure: it
-neither purchases nor consumes parts and is not proof of major-repair support.
-Major faults return `breakdown-major-parts-unavailable` before time or randomness.
+neither purchases nor consumes parts. The owned package below performs those steps.
+Major faults without a quoted parts record return `breakdown-major-parts-unavailable` before time or randomness.
 
 `test_repair_prices`, `test_breakdown_repair` and
 `test_breakdown_repair_persistence` cover price boundaries, partial-unit rounding,
 preview purity, rollback, undo, failed attempts, retry costs, replay and separate
 process continuation. They are authored and unrun while checks remain paused.
+
+
+## Major-repair parts acquisition and installation
+
+`RpgExpandedRepairParts` binds one parts quote to a major environmental fault.
+Supply `failure`, an expanded-profile `payer`, `evidence` describing the suitable
+parts, their authored `weight` in hundredths of a pound, and explicit `available`
+and `permitted` supply facts. `assess()` is pure. `quote()` rolls one die once,
+records the original device price and creates a single physical package. The fault
+accepts only one quote, preventing another request from rerolling its price.
+
+`purchase()` uses `RpgExpandedAcquisition` and the payer's existing money and
+inventory. Insufficient funds block without another die roll. Availability and
+permission are rechecked before acquisition; replay of a paid purchase never
+charges again or recreates inventory. The quote can be obtained before the payer
+has sufficient funds. Quoting and purchasing spend no implied travel or shopping
+time; the encompassing world action owns those costs.
+
+The first major-repair attempt preflights the purchased package's presence and
+accessibility, then installs it within the same action transaction. Installation
+removes its carried inventory entry once. It remains linked to this fault and is
+reused after a failed attempt, rather than charging new parts on each retry. A
+major attempt uses the ordinary half-hour procedure with an additional minus two
+skill modifier. Success clears the fault; it does not restore unrelated structural
+HP, maintenance loss or disabled systems.
+
+The package, quote die, cost, payer, acquisition receipt and installation state
+persist with the fault. Changed supply evidence, item identity or pricing mode is
+rejected. Parts for a different fault cannot satisfy this one. Repairs still need
+an approved skill, suitable equipment and uninterrupted work; source rules for
+ordinary structural damage and multiple distinct faults remain unfinished.
+
+`test_major_repair_parts` covers quote rollback and replay, affordability, purchase
+rollback and replay, package weight in inventory, installation rollback, failed
+repair followed by success, and no repeated payment or installation. It is authored
+and unrun; separate-process major-parts continuation remains to be added.
