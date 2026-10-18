@@ -324,3 +324,73 @@ modify RpgExpandedTemplate
         local profile = resolved.create(rules); profile.templateChoices = receipt; return profile;
     }
 ;
+
+/** Personal changes to an occupational package, full-2008 B258-B259.
+ * Creates a fresh character; never edits an existing or finalized profile. */
+class RpgExpandedTemplateCustomization: object
+    template = nil
+    selections = []
+    additions = nil
+    removeTraits = []
+    removeSkills = []
+    approved = nil
+    evidence = nil
+    create(rules)
+    {
+        if (self.template == nil || !self.template.ofKind(RpgExpandedTemplate)
+            || self.additions == nil || !self.additions.ofKind(RpgExpandedTemplateOption))
+            rpgExpandedReject('template-customization-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('template-customization-approval');
+        if (!self.additions.eligible) rpgExpandedReject('template-choice-ineligible');
+        self.additions.cost();
+        local profile = self.template.createSelected(rules,self.selections);
+        foreach (local row in self.removeTraits)
+        {
+            if (row.length() != 2) rpgExpandedReject('template-customization-trait');
+            local retained = []; local count = 0;
+            foreach (local trait in profile.traits)
+            {
+                if (trait.id == row[1] && trait.scope == row[2]) count += 1;
+                else retained = retained + [trait];
+            }
+            if (count != 1) rpgExpandedReject('template-customization-trait');
+            profile.traits = retained;
+        }
+        foreach (local skill in self.removeSkills)
+        {
+            local retained = []; local count = 0;
+            foreach (local training in profile.skills)
+            {
+                if (training.skill == skill) count += 1;
+                else retained = retained + [training];
+            }
+            if (count != 1) rpgExpandedReject('template-customization-skill');
+            profile.skills = retained;
+        }
+        local changes = self.additions.changes();
+        profile.st += changes[1]; profile.dx += changes[2];
+        profile.iq += changes[3]; profile.ht += changes[4];
+        profile.hpAdjustment += changes[5]; profile.fpAdjustment += changes[6];
+        profile.willAdjustment += changes[7]; profile.perceptionAdjustment += changes[8];
+        profile.speedQuarterAdjustment += changes[9]; profile.moveAdjustment += changes[10];
+        local skills = [];
+        foreach (local row in self.additions.skillRows)
+        {
+            if (holds(skills,row[1])) rpgExpandedReject('template-customization-duplicate-skill');
+            skills = skills + [row[1]];
+            local found = nil;
+            foreach (local training in profile.skills) if (training.skill == row[1]) found = training;
+            if (found == nil)
+            {
+                found = new RpgExpandedTraining(); found.skill = row[1]; found.points = 0;
+                profile.skills = profile.skills + [found];
+            }
+            found.points += row[2]; rpgInteger(found.points,1,10000);
+        }
+        foreach (local row in self.additions.traitRows)
+            profile.traits = profile.traits + [rpgExpandedTemplateTrait(row)];
+        rpgExpandedValidateCharacter(profile);
+        return profile;
+    }
+;

@@ -41,9 +41,12 @@
       "pages": "B259; B445",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Permit changes to occupational suggestions and purchases outside the template, with ordinary point costs and campaign constraints; template identity grants no exclusive advancement path.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_customization"
+      ],
+      "validation_note": "Fresh occupational customization supports approved score changes, additive skill investment, explicit trait/skill removals and supported trait replacements. Final character validation combines personal and occupational negatives and enforces quirk limits. Extended components remain pending; assertions authored and unrun."
     },
     {
       "id": "package-personal-negative-cap",
@@ -51,9 +54,12 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Count occupational negative traits and later personal negatives together against the campaign cap; reserve ancestry exemptions for ancestry entries.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_customization"
+      ],
+      "validation_note": "Fresh occupational customization supports approved score changes, additive skill investment, explicit trait/skill removals and supported trait replacements. Final character validation combines personal and occupational negatives and enforces quirk limits. Extended components remain pending; assertions authored and unrun."
     },
     {
       "id": "package-personal-quirks",
@@ -61,9 +67,12 @@
       "pages": "B259",
       "module": "templates",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Allow personally selected quirks within the ordinary limit; do not fill unused quirk slots automatically.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_template_customization"
+      ],
+      "validation_note": "Fresh occupational customization supports approved score changes, additive skill investment, explicit trait/skill removals and supported trait replacements. Final character validation combines personal and occupational negatives and enforces quirk limits. Extended components remain pending; assertions authored and unrun."
     },
     {
       "id": "package-technology-default",

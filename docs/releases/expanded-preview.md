@@ -1270,3 +1270,8 @@ counts, eligibility and prices before merging requirements. Combined characters
 retain chosen-option provenance per source template; unused options grant no
 investments. The new fixture covers duplicate pricing, rejected selections,
 undo and save continuation. Checks remain paused.
+
+Fresh occupational customization supports explicit trait/skill removals, score
+changes, additional skill points and supported trait replacements. It validates
+combined personal and occupational costs, negative limits and quirks without
+mutating source templates or existing characters. New fixtures remain unrun.

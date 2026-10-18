@@ -9108,6 +9108,8 @@ def test(build):
     template_isolation = build.build('expanded-template-isolation',ROOT / 'tests/fixtures/expanded-template-isolation.t')
     test_template_isolation(Session, template_isolation, build.out)
     test_selected_template_composition(Session, template_isolation, build.out)
+    template_personal = build.build('expanded-template-customization',ROOT / 'tests/fixtures/expanded-template-customization.t')
+    test_template_customization(Session, template_personal, build.out)
     jump_assessment = build.build('expanded-jump-assessment',ROOT / 'tests/fixtures/expanded-jump-assessment.t')
     test_jump_assessment(Session, jump_assessment)
     jump_profile = build.build('expanded-jump-profile',ROOT / 'tests/fixtures/expanded-jump-profile.t')
@@ -17738,5 +17740,48 @@ def test_selected_template_composition(Session, bundle, out):
         s.command(f':restore {path}\n@2286')
         s.action(2285, 5622)
         assert last(s, 'test.template-selection') == [7, 1, 1, 2, 1, 'profession', 'training']
+    finally:
+        s.close()
+
+
+def test_template_customization(Session, bundle, out):
+    path = out / 'expanded-template-customization.zsave'
+    for setup, reason in (
+        (5704, 'point-budget'),
+        (5705, 'incompatible-traits'),
+        (5706, 'template-customization-approval'),
+        (5707, 'template-customization-trait'),
+    ):
+        s = Session(bundle)
+        try:
+            for code in (5700, setup, 5708, 5701, 5709):
+                s.action(2285, code)
+            assert last(s, 'test.template-personal-error') == [reason]
+            assert last(s, 'test.template-personal') == [6, -11, 11, 3, 2, 0, 0]
+            assert last(s, 'test.template-personal-base') == [-4, 10, 1, 2]
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        for code in (5700, 5702, 5700, 5701):
+            s.action(2285, code)
+        assert last(s, 'test.template-personal') == [32, 0, 11, 2, 2, 0, 0]
+        s.action(2285, 5703)
+        s.action(2285, 5700)
+        s.command('undo')
+        s.action(2285, 5701)
+        assert last(s, 'test.template-personal') == [32, 0, 11, 2, 2, 0, 0]
+        for code in (5700, 5701, 5709):
+            s.action(2285, code)
+        assert last(s, 'test.template-personal') == [31, 0, 11, 2, 1, 0, 0]
+        assert last(s, 'test.template-personal-base') == [-4, 10, 1, 2]
+        s.command(f':save {path}\n@2286')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285, 5701)
+        assert last(s, 'test.template-personal') == [31, 0, 11, 2, 1, 0, 0]
     finally:
         s.close()

@@ -303,3 +303,39 @@ all available options.
 Source: `full-2008`, B259. `test_selected_template_composition` specifies choice
 pricing, duplicate merging, invalid selections, preserved prior results, undo and
 cross-process save continuation. These assertions are authored and unrun.
+
+## Personal occupational changes
+
+`RpgExpandedTemplateCustomization.create(rules)` constructs a fresh character
+from `template` and its `selections`, then applies approved personal changes.
+Set `approved` and a nonempty `evidence` description for the author's permission.
+This interface applies to occupational suggestions, not mandatory ancestry
+components or an existing character's advancement.
+
+- `removeTraits` contains `[trait ID, scope]` rows. Each must identify exactly one
+  purchase; unknown, repeated or ambiguous removals reject.
+- `removeSkills` contains the shared skill definitions to remove. Each must be
+  present exactly once.
+- `additions` is an eligible `RpgExpandedTemplateOption`. Its score changes are
+  added to the fresh profile. Its skill rows add purchased points to an existing
+  training slot or create a fresh slot. Repeated skill rows reject. Its trait
+  rows create fresh supported purchases.
+
+Remove an existing trait before supplying its replacement; adding a duplicate
+is not an implicit upgrade. Skill points are additive here, unlike occupational
+composition's highest-requirement merge. Removing and then reintroducing a skill
+uses only the new investment. Existing skill learning and prerequisite gates
+still apply to the completed profile.
+
+The ordinary character validator checks the result's total cost, all personal
+and occupational negatives together, trait compatibility and the five-personal-
+quirk limit. Unused quirk slots remain empty. A package label adds no extra cost.
+The source template and previously created characters are unchanged. The
+interface neither spends advancement points nor advances time or randomness;
+finalize the returned character separately. Language, equipment, contribution
+and mandatory ancestry customization are outside this interface.
+
+Source: `full-2008`, B258-B259. `test_template_customization` specifies additive
+skill investment, replacement and removal, combined negative limits, excessive
+quirks, permission and invalid-removal rejection, fresh ownership, undo and save
+continuation. Assertions are authored but unrun while checks remain paused.
