@@ -1270,3 +1270,8 @@ modify RpgExpandedProfile statusSensitivityReactionPenalty() { return 0; };
 modify RpgExpandedProfile
     validateStatusOutburst(trigger,observer) { rpgExpandedReject('status-outburst-traits-required'); }
 ;
+
+modify RpgExpandedProfile
+    newFearReplayFollowup(entry) { return nil; }
+    validateFearReplayFollowup(entry,followup) { rpgExpandedReject('fear-replay-traits-required'); }
+;

@@ -5640,10 +5640,19 @@ modify RpgExpandedProfile
         if (self.intrusiveReplayTrait() != nil) rpgExpandedReject('intrusive-replay-fear-dispatch-required');
         return inherited();
     }
-    newFearStressFollowup(entry)
+    newFearReplayFollowup(entry)
     {
-        if (self.intrusiveReplayTrait() != nil) rpgExpandedReject('intrusive-replay-fear-dispatch-required');
-        return inherited(entry);
+        if (self.intrusiveReplayTrait() == nil) return nil;
+        local occurrence = new RpgExpandedIntrusiveReplayOccurrence(); occurrence.id = 'fear:' + entry.id;
+        occurrence.profile = self; occurrence.stressor = entry; occurrence.approved = true;
+        occurrence.evidence = entry.context.evidence; occurrence.content = entry.context.intrusiveReplayContent;
+        return occurrence;
+    }
+    validateFearReplayFollowup(entry,followup)
+    {
+        if (followup == nil || !followup.ofKind(RpgExpandedIntrusiveReplayOccurrence)
+            || followup.profile != self || followup.stressor != entry) rpgExpandedReject('fear-replay-owner');
+        return followup.validateReceipt();
     }
     validateDirectSelfControl(giveIn)
     {

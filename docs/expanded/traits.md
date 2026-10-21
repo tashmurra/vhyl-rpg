@@ -2856,9 +2856,9 @@ Level three rejects skill use through the common health check gate. These effect
 belong to the committed episode; they are not recalculated from later purchase
 edits. Raw attribute checks do not receive the skill penalty.
 
-**Incomplete:** automatic fear follow-ups, concurrent-episode policy and complete
-external-sensory blocking are pending. The unintegrated fear and direct
-self-control routes reject explicitly while the purchase is active;
+**Incomplete:** concurrent-episode policy and complete external-sensory blocking
+are pending. The direct abridged fear and direct self-control routes reject
+explicitly while the purchase is active;
 a new occurrence overlapping an active one also rejects before randomness.
 Do not enable this purchase in a finished campaign yet. `test_intrusive_replay`
 specifies exact prices, onset boundaries, durations, skill effects, expiry,
@@ -2879,3 +2879,19 @@ voice-only dice order is unchanged. Replay of the control result validates the
 owned follow-up and does not re-roll. `test_replay_self_control` specifies these
 branches, missing-content rejection, rollback, undo and cross-process continuation;
 it remains unrun.
+
+
+Owned fear events now prepare an independent replay follow-up. Supply
+`intrusiveReplayContent` on the fear context before resolution. Ordinary failed
+or exactly successful fear checks resolve the follow-up after the existing
+phantom-voice follow-up, when present. Better successes discard the prepared
+request without an onset roll. Existing specialized fear-event trigger policies
+continue to decide whether their check requires a stress follow-up.
+
+For a prohibited initial roll, `RpgExpandedLowScoreFearDecision.replayStress`
+must explicitly be `check` or `none` whenever an active replay purchase is
+present. This is a recorded ruling independent of `voiceStress`; it does not
+invent an initial roll or failure margin. Missing content or a missing low-score
+decision blocks before randomness. `test_replay_fear` specifies ordinary failure,
+exact/better success, both follow-ups, low-score choices, preflight rejection,
+rollback, undo and saved replay. It remains unrun.

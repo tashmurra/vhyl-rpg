@@ -9868,6 +9868,8 @@ def test(build):
     test_intrusive_replay(Session,replay,build.out)
     replay_control = build.build('expanded-replay-self-control',ROOT / 'tests/fixtures/expanded-replay-self-control.t')
     test_replay_self_control(Session,replay_control,build.out)
+    replay_fear = build.build('expanded-replay-fear',ROOT / 'tests/fixtures/expanded-replay-fear.t')
+    test_replay_fear(Session,replay_fear,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30386,3 +30388,35 @@ def test_replay_self_control(Session,bundle,out):
         for code in (1020,1027,1021): do(s,code)
         assert state(s) == [0,0,0,0,0,0]
     finally: s.close()
+
+
+def test_replay_fear(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1050)
+        return last(s,'test.replay-fear')
+    cases = (([],[1,1,0,2,10,11]),([1041],[1,1,0,2,7,10]),
+             ([1042],[1,0,0,0,3,9]),([1043],[1,1,1,2,13,11]),
+             ([1045],[1,1,0,2,4,None]),([1045,1046],[1,0,0,0,0,None]))
+    for index,(setup,expected) in enumerate(cases):
+        s = Session(bundle)
+        path = out/f'replay-fear-{index}.zsave'
+        try:
+            do(s,1040)
+            for code in setup: do(s,code)
+            do(s,1049); assert state(s) == [0,0,0,0,0,None]
+            do(s,1048); s.command('undo'); assert state(s) == [0,0,0,0,0,None]
+            do(s,1048); do(s,1048); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1048); assert state(s) == expected
+        finally: s.close()
+    for setup in ([1044],[1045,1047]):
+        s = Session(bundle)
+        try:
+            do(s,1040)
+            for code in setup: do(s,code)
+            do(s,1048); assert state(s) == [0,0,0,0,0,None]
+        finally: s.close()

@@ -9683,15 +9683,17 @@ modify RpgExpandedMarchStepGroup
 ;
 
 modify RpgExpandedFearContext
+    intrusiveReplayContent = nil
     eventFacts()
     {
         return [self.profile,self.approved,self.evidence,self.physicalRisk,self.cowardicePenalty,self.charging,
             self.purposeThreat,self.monsters,self.xenophiliaBonus,self.body,self.mutilationPenalty,self.dependentVictim,
             self.inCombat,self.monsterPenalty,self.hordeBand,self.touching,self.distance,self.remote,self.isolated,
-            self.adverseLighting,self.believesAlone,self.priorExperience,self.priorExposures24h,self.briefingBonus];
+            self.adverseLighting,self.believesAlone,self.priorExperience,self.priorExposures24h,self.briefingBonus,self.intrusiveReplayContent];
     }
 ;
 class RpgExpandedFearEventResult: RpgExpandedResult
+    replayFollowup = nil
     stressFollowup = nil
     immune = nil
     score = nil
@@ -9706,13 +9708,16 @@ class RpgExpandedLowScoreFearDecision: object
     approved = nil
     evidence = nil
     voiceStress = nil
+    replayStress = nil
     facts(owner)
     {
         if (self.entry != owner) rpgExpandedReject('fear-low-score-decision-owner');
         rpgInteger(self.row,4,40);
         if (self.voiceStress != nil && !holds(['check','none'],self.voiceStress))
             rpgExpandedReject('fear-low-score-voice-choice');
-        return [self,self.entry,self.row,self.approved,self.evidence,self.voiceStress];
+        if (self.replayStress != nil && !holds(['check','none'],self.replayStress))
+            rpgExpandedReject('fear-low-score-replay-choice');
+        return [self,self.entry,self.row,self.approved,self.evidence,self.voiceStress,self.replayStress];
     }
 ;
 /** B360-B361: persist the initial check and selection before authoring a consequence. */
@@ -9759,7 +9764,7 @@ class RpgExpandedFearEvent: object
     outcomeFacts()
     {
         local v = self.result;
-        local facts = [v,v.status,v.reason,v.immune,v.score,v.modifier,v.tableRoll,v.tableTotal,v.row,self.recordedAt,v.check,v.stressFollowup];
+        local facts = [v,v.status,v.reason,v.immune,v.score,v.modifier,v.tableRoll,v.tableTotal,v.row,self.recordedAt,v.check,v.stressFollowup,v.replayFollowup];
         if (v.check != nil) facts = facts + [v.check.score,v.check.roll,v.check.margin,v.check.achieved,v.check.critical];
         return facts;
     }
@@ -9779,6 +9784,7 @@ class RpgExpandedFearEvent: object
                 if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('fear-event-outcome');
             if (self.consequence != self.boundConsequence || self.recordedAt > rpgLedger.seconds) rpgExpandedReject('fear-event-consequence-binding');
             if (self.result.stressFollowup != nil) profile.validateFearStressFollowup(self,self.result.stressFollowup);
+            if (self.result.replayFollowup != nil) profile.validateFearReplayFollowup(self,self.result.replayFollowup);
             value.status = 'reused'; return value;
         }
         if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil || self.consequence != nil
@@ -9807,6 +9813,21 @@ class RpgExpandedFearEvent: object
             {
                 local stress = value.stressFollowup.assess();
                 if (stress.status != 'ready') { value.reason = stress.reason; return value; }
+            }
+        }
+        if (!prepared.immune)
+        {
+            value.replayFollowup = profile.newFearReplayFollowup(self);
+            if (value.replayFollowup != nil && prepared.score < 3)
+            {
+                if (self.lowScoreDecision.replayStress == nil)
+                { value.reason = 'fear-low-score-replay-decision-required'; return value; }
+                if (self.lowScoreDecision.replayStress == 'none') value.replayFollowup = nil;
+            }
+            if (value.replayFollowup != nil)
+            {
+                local replay = value.replayFollowup.assess();
+                if (replay.status != 'ready') { value.reason = replay.reason; return value; }
             }
         }
         value.immune = prepared.immune; value.score = prepared.score; value.modifier = prepared.modifier;
@@ -9839,6 +9860,16 @@ class RpgExpandedFearEvent: object
                 if (stress.status != 'resolved') rpgExpandedReject('fear-event-stress-changed');
             }
             else value.stressFollowup = nil;
+        }
+        if (value.replayFollowup != nil)
+        {
+            if (value.check != nil && self.stressFollowupRequired(value.check)
+                || value.check == nil && value.reason == 'author-selected-low-score' && self.lowScoreDecision.replayStress == 'check')
+            {
+                local replay = value.replayFollowup.resolve();
+                if (replay.status != 'resolved') rpgExpandedReject('fear-event-replay-changed');
+            }
+            else value.replayFollowup = nil;
         }
         value.status = 'resolved'; self.recordedAt = rpgLedger.seconds; self.result = value;
         self.boundDefinition = facts; self.boundOutcome = self.outcomeFacts();

@@ -383,3 +383,15 @@ failed-roll triggers. New fixtures specify roll counts, atomic rollback, undo,
 missing-content rejection and saved replay. They remain unrun. Automatic fear
 dispatch, episode overlap and full sensory incapacity are the next integration
 gaps for this trait.
+
+
+## Intrusive replay after fear
+
+Owned fear events now retain a replay follow-up independently of phantom voices.
+The context binds authored episode content before the initial roll; ordinary
+failure or exact success resolves the follow-up once. Below score three an
+explicit `replayStress` ruling chooses `check` or `none`, separately from the
+voice ruling. Fixtures specify roll order/counts, omitted-content rejection,
+rollback, undo and save continuation, but remain unrun. Concurrent episodes and
+complete sensory incapacity remain outstanding before this trait can become an
+accepted fear acquisition.
