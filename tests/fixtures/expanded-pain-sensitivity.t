@@ -31,7 +31,7 @@ painAction: PainTestAction;
 painVerb: Verb code = 2398 action = painAction label = 'pain wound';
 act(verb,args)
 {
-    if (verb == 2398) { painInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2398) { painInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2399)
     {
         local major = new RpgLiteContext(); major.attribute = rpgHT; major.kind = 'major-wound';
@@ -41,5 +41,5 @@ act(verb,args)
         eventValue(rpgLiteScore(painProfile,major)); eventValue(rpgLiteScore(painProfile,mental));
         eventValue(painTrait.creationCost()); eventValue(painProfile.shockAfterTurn(4)); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

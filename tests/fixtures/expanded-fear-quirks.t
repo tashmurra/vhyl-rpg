@@ -49,10 +49,10 @@ quirkAction: QuirkTestAction;
 quirkVerb: Verb code = 2264 action = quirkAction label = 'quirk consequence';
 modify gameMain initialRoom = quirkRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2264) { quirkInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2264) { quirkInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2265)
     {
         event('test.quirk-state'); eventValue(rpgExpandedCharacterCost(quirkProfile,nil));

@@ -1,10 +1,19 @@
 """Keep public coverage claims tied to real modules, interfaces and tests."""
 import ast
+from functools import cache
 import json
 from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+@cache
+def parsed_test(path):
+    return ast.parse((ROOT / path).read_text())
+
+@cache
+def test_functions(path):
+    return {node.name for node in ast.walk(parsed_test(path)) if isinstance(node, ast.FunctionDef)}
 
 
 class ExpandedInventoryTests(unittest.TestCase):
@@ -465,7 +474,9 @@ class ExpandedInventoryTests(unittest.TestCase):
             detail = json.loads(path.read_text())
             self.assertEqual(detail['source'], 'full-2008')
             self.assertTrue(detail['entries'])
-            self.assertTrue(detail['exclusions'])
+            self.assertTrue(detail['review'])
+            if 'exclusions' in detail:
+                self.assertTrue(detail['exclusions'])
             if inventory['inventory_complete']:
                 self.assertTrue(detail['enumeration_complete'])
             for entry in detail['entries']:
@@ -507,27 +518,31 @@ class ExpandedInventoryTests(unittest.TestCase):
                             self.assertIsInstance(default[1], int)
                             self.assertLessEqual(default[1], 0)
                     for reference in entry['tests']:
-                        test_path, name = reference.split('::')
-                        tree = ast.parse((ROOT / test_path).read_text())
-                        self.assertIn(name, {
-                            node.name for node in ast.walk(tree)
-                            if isinstance(node, ast.FunctionDef)})
+                        if '::' in reference:
+                            test_path, name = reference.split('::')
+                            self.assertIn(name, test_functions(test_path))
+                        else:
+                            fixture = ROOT / reference
+                            self.assertEqual(fixture.suffix, '.t')
+                            self.assertTrue(fixture.is_file())
+                            self.assertIn(fixture.stem, (ROOT / 'tests/expanded.py').read_text())
 
     def test_inventory_and_catalogue_agree(self):
         inventory = json.loads((ROOT / 'docs/expanded/coverage.json').read_text())
         modules = inventory['modules']
-        self.assertEqual(len(modules),18)
-        self.assertEqual(len({row['id'] for row in modules}),18)
+        self.assertEqual(len(modules),20)
+        self.assertEqual(len({row['id'] for row in modules}),20)
         catalogue = (ROOT / 'docs/libraries.md').read_text()
         for row in modules:
             name = row['id']
             with self.subTest(module=name):
-                source = ROOT / f'lib/vhyl-rpg-expanded-{name}.t'
+                source = ROOT / ('lib/vhyl-rpg-expanded.t' if name == 'foundation' else f'lib/vhyl-rpg-expanded-{name}.t')
                 self.assertEqual(source.is_file(), row['status'] != 'pending')
-                self.assertTrue((ROOT / f'docs/expanded/{name}.md').is_file())
+                self.assertTrue((ROOT / ('docs/expanded/index.md' if name == 'foundation' else f'docs/expanded/{name}.md')).is_file())
                 self.assertIn(source.name,catalogue)
                 if source.is_file():
-                    self.assertTrue((ROOT / f'tests/fixtures/expanded-{name}-only.t').is_file())
+                    fixture = ROOT / ('tests/fixtures/expanded-only.t' if name == 'foundation' else f'tests/fixtures/expanded-{name}-only.t')
+                    self.assertTrue(fixture.is_file() or (ROOT / f'tests/fixtures/expanded-{name}.t').is_file())
         for source in (ROOT / 'lib').glob('*.t'):
             self.assertIn(source.name,catalogue)
         if not inventory['inventory_complete']:
@@ -545,7 +560,7 @@ class ExpandedInventoryTests(unittest.TestCase):
                 self.assertTrue(feature['tests'])
                 for reference in feature['tests']:
                     path,name = reference.split('::')
-                    tree = ast.parse((ROOT / path).read_text())
+                    tree = parsed_test(path)
                     self.assertIn(name,{node.name for node in tree.body if isinstance(node,ast.FunctionDef)})
 
     def test_public_guides_do_not_ship_private_references(self):

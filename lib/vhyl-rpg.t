@@ -657,3 +657,22 @@ rpgValidateAttribute(value)
         throw new RpgError();
     return nil;
 }
+
+/** Structured-action boundary with explicit exception cleanup and journal rollback.
+ * Use at the exported host boundary, not inside another action. This releases
+ * caught mechanics exceptions before returning to the host's save boundary. */
+rpgDispatchAction(verb,subjects)
+{
+    try { return vhylAct(verb,subjects); }
+    catch (RpgError error) { }
+    if (turnJournalLength() > 0) { endTurn(); undo(); beginTurn(); }
+    local result = new RpgResult(); result.reason = 'exception-rolled-back'; return result;
+}
+/** Parser counterpart of rpgDispatchAction, with the same journal boundary. */
+rpgDispatchTurn(tokens)
+{
+    try { return vhylTurn(tokens); }
+    catch (RpgError error) { }
+    if (turnJournalLength() > 0) { endTurn(); undo(); beginTurn(); }
+    local result = new RpgResult(); result.reason = 'exception-rolled-back'; return result;
+}

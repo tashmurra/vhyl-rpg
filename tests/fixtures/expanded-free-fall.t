@@ -3,7 +3,7 @@ freeFall: RpgExpandedFreeFallExposure id = 'station-entry' profile = bleedProfil
     approved = true evidence = 'Author confirms nonnative physiology and first entry into sustained free fall';
 freeFallRecovery: RpgExpandedFreeFallAdaptation exposure = freeFall;
 modify BleedTestAction
-    exec(context)
+    exec(actionContext)
     {
         local code = bleedInput.code;
         if (code == 9100 || code == 9101 || code == 9102)
@@ -45,6 +45,6 @@ modify BleedTestAction
         if (code == 9107) { freeFall.native = true; return nil; }
         if (code == 9108) { freeFall.susceptible = true; return nil; }
         if (code == 9109) { freeFall.leave(true,'Returned to normal gravity'); return nil; }
-        return inherited(context);
+        return inherited(actionContext);
     }
 ;

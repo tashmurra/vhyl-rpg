@@ -374,6 +374,17 @@
       ]
     },
     {
+      "id": "stress",
+      "title": "Original optional accumulating stress",
+      "source": "campaign-stress-v1",
+      "pages": "Original campaign policy",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_stress",
+        "tests/expanded.py::test_stress_fear"
+      ]
+    },
+    {
       "id": "tactical",
       "title": "Hex movement, facing and close combat",
       "pages": "B384-B392",

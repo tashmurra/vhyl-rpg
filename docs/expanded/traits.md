@@ -2618,12 +2618,10 @@ in frustration or a restrained wait, with the time charge owned by that action.
 No automatic reaction modifier is added by this trait.
 
 These triggers are always stress-related, so an existing phantom-voice trait
-uses the shared failed-self-control follow-up exactly once. The separate
-uncontrolled-rage interaction is unfinished: active `uncontrolled-rage` or
+uses the shared failed-self-control follow-up exactly once. Legacy placeholder purchases remain unsupported: active `uncontrolled-rage` or
 `berserk` purchases block resolution with `volatile-temper-rage-adapter-required`.
 Do not bypass that restriction with an ordinary anger response; the source
-requires the separate rage behavior. This is an explicit remaining integration
-gap, not a completed combination.
+requires the separate rage behavior. Use the typed frenzy purchase and owned temper-entry adapter described below.
 
 `test_volatile_temper` specifies prices and copies, both fear-row costs, successful
 and failed control, actual scene choices, receipt mutation, invalid stressors,
@@ -2748,8 +2746,8 @@ On success, restrained responses are also available. Perform ordinary action
 validation and execution before recording the choice with `recordAction` in the
 same transaction. No attack, damage or reaction penalty against the visitor is
 invented. Mitigation, completed receipts, replay and stress follow-ups use the
-shared hostile-response machinery. Its unfinished frenzy combination remains
-explicitly blocked.
+shared hostile-response machinery. A linked owned frenzy entry reuses a failed
+control check through the same temper-entry contract.
 
 `RpgExpandedSolitudeReactionContext` handles the separate NPC reaction rule.
 Its `observer` is the solitude-bearing character who is reacting; its `subject`
@@ -2778,7 +2776,7 @@ procedure. Supply `clearSlight = true`, the offending person's profile in both
 Execute an allowed scene action and call `recordAction` in the same transaction.
 The trigger does not inflict damage or execute a hostile action by itself.
 Mitigation and immutable completed receipts follow the shared response procedure;
-the unfinished frenzy combination remains explicitly blocked.
+a linked owned frenzy entry uses the same temper-entry contract.
 
 Two social adapters preserve the direction of the reaction:
 
@@ -3277,11 +3275,24 @@ ordinary wound still applies its injury. It creates no fictional check or
 margin and does not inflict stun. This is the approved author-ruling boundary
 for the supplied printing's combined procedure.
 
-This is **not yet a complete or fear-selectable trait**. Maneuvers reject with
-`frenzy-owned-action-required` until committed action adapters are implemented.
-Committed actions, target changes and exit handling remain
-open in F13 of the [completion checklist](fear-completion.md). Entry and ruling
-fixtures are authored but unrun while implementation checks remain paused.
+Frenzy is now admitted through the existing fear acquisition and worsening
+interfaces. `RpgExpandedFrenzyTurn` binds an evidenced melee/ranged choice,
+actual final wounds, ammunition and a battle maneuver. Unsupported automatic
+combat is resolved by the author before committing this specific receipt.
+Tactical movement uses `RpgExpandedFrenzyPath`; movement legality and endpoints
+are checked against the actual map. The battle owns the single turn charge.
+
+`RpgExpandedFrenzyExit` records a downed-foe or no-foes opportunity. Reusing an
+opportunity rejects. Declining uses the ordinary give-in choice without dice.
+Failure retains frenzy and, after the extra no-foes decision, permits the
+recorded friend-target phase. Success ends only this episode and invokes
+`RpgExpandedFrenzyExitHealth` for normal post-exit health checks. Unrollable
+health boundaries require explicit evidenced pass/fail author rulings; these
+are adjudications, not invented source dice. The ruling does not revive a dead
+or independently unconscious character. Unrelated wounds and conditions remain.
+
+All new fixtures remain unrun until the implementation gate closes; see the
+[completion checklist](fear-completion.md).
 
 A `RpgExpandedVolatileTemperTrigger` with an active frenzy purchase requires a
 `RpgExpandedFrenzyTemperEntry` in its `frenzyEntry` field before rolling. Bind

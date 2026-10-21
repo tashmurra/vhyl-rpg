@@ -45,10 +45,10 @@ fearCombatAction: FearCombatTestAction;
 fearCombatVerb: Verb code = 2252 action = fearCombatAction label = 'fear combat';
 modify gameMain initialRoom = fearCombatRoom;
 startup() { vhylStart(); rpgRandom.seed(1); fearCombatBattle.begin(); rpgRandom.seed(1); return nil; }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2252) { fearCombatInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2252) { fearCombatInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2253)
     {
         event('test.fear-combat-state'); eventValue(fearCombatProfile.mentalStun ? 1 : 0);

@@ -11,6 +11,7 @@ class RpgExpandedBrokenPiece: object
     damageType = nil
 ;
 
+/** Broken weapon result. Carries usable, pieces, retainOriginal, cuttingDamageModifier, thrustBase. */
 class RpgExpandedBrokenWeaponResult: RpgExpandedResult
     usable = nil
     pieces = []
@@ -100,6 +101,7 @@ rpgExpandedObjectCapacity(weightHundredths, construction)
     return low;
 }
 
+/** Object injury result. Carries remaining, destructionThresholds, automaticDestruction, stressChecksRequired, reducedEffectivenessEligible. */
 class RpgExpandedObjectInjuryResult: RpgExpandedResult
     remaining = 0
     destructionThresholds = []
@@ -137,6 +139,7 @@ modify RpgLiteItem
     }
 ;
 
+/** Breakdown result. Carries repair, day. */
 class RpgExpandedBreakdownResult: RpgExpandedResult
     repair = nil
     day = nil
@@ -229,6 +232,7 @@ modify RpgExpandedBreakdown
     repairedBy = nil
 ;
 
+/** Breakdown repair result. Carries context, repaired. */
 class RpgExpandedBreakdownRepairResult: RpgExpandedResult
     context = nil
     repaired = nil
@@ -336,6 +340,7 @@ modify RpgExpandedBreakdown
     parts = nil
 ;
 
+/** Repair parts result. Carries die, price. */
 class RpgExpandedRepairPartsResult: RpgExpandedResult
     die = nil
     price = 0
@@ -475,6 +480,7 @@ class RpgExpandedComputer: object
     }
 ;
 
+/** Program result. Carries units, used, capacity. */
 class RpgExpandedProgramResult: RpgExpandedResult
     units = 0
     used = 0
@@ -581,6 +587,7 @@ class RpgExpandedTerminal: object
     }
 ;
 
+/** Terminal result. Carries previous, selected. */
 class RpgExpandedTerminalResult: RpgExpandedResult
     previous = nil
     selected = nil
@@ -678,6 +685,7 @@ modify RpgExpandedComputer
     }
 ;
 
+/** Stored data result. Carries sizeMB, usedMB. */
 class RpgExpandedStoredDataResult: RpgExpandedResult
     sizeMB = 0
     usedMB = 0
@@ -757,7 +765,7 @@ rpgExpandedReferenceDataMB(category)
         ['vehicle-plans',1000],['global-navigation',100000],['small-library',100000],
         ['city-library',1000000],['large-library',10000000],['research-library',100000000],['human-mind',100000000]])
         if (row[1] == category) return row[2];
-    rpgExpandedReject('computer-data-category');
+    rpgExpandedReject('computer-data-category'); return nil;
 }
 
 modify RpgExpandedComputer
@@ -850,6 +858,7 @@ modify RpgExpandedComputerLink
     transfers = []
 ;
 
+/** Sharing available. */
 rpgExpandedSharingAvailable(program, host)
 {
     if (program == nil || !program.ofKind(RpgExpandedProgramRun) || program.result == nil
@@ -858,6 +867,7 @@ rpgExpandedSharingAvailable(program, host)
     return program.copy.approved && program.copy.dataSharing && holds(host.copies,program.copy);
 }
 
+/** Data transfer result. Carries delivery. */
 class RpgExpandedDataTransferResult: RpgExpandedResult
     delivery = nil
 ;
@@ -953,6 +963,7 @@ modify RpgExpandedComputer
     recordings = []
 ;
 
+/** Recording result. Carries data. */
 class RpgExpandedRecordingResult: RpgExpandedResult
     data = nil
 ;
@@ -1113,6 +1124,7 @@ class RpgExpandedSoftwareCapability: object
     evidence = nil
 ;
 
+/** Software use. Carries program, terminal, taskId, capability. Operations: assess. */
 class RpgExpandedSoftwareUse: object
     program = nil
     terminal = nil
@@ -1172,6 +1184,7 @@ modify RpgLiteContext
 ;
 
 
+/** Software requirement result. Carries effectiveTL, softwareAvailable, softwareReason. */
 class RpgExpandedSoftwareRequirementResult: RpgExpandedResult
     effectiveTL = nil
     softwareAvailable = nil
@@ -1321,17 +1334,20 @@ rpgExpandedInventionPriceCategory(price)
     rpgInteger(price,0,100000000);
     return price <= 100 ? 'simple' : price <= 10000 ? 'average' : price <= 1000000 ? 'complex' : 'amazing';
 }
+/** Invention skill category. */
 rpgExpandedInventionSkillCategory(score)
 {
     rpgInteger(score,1,1000);
     return score <= 14 ? 'simple' : score <= 17 ? 'average' : score <= 20 ? 'complex' : 'amazing';
 }
+/** Invention software category. */
 rpgExpandedInventionSoftwareCategory(complexity)
 {
     rpgInteger(complexity,1,12);
     return complexity <= 3 ? 'simple' : complexity <= 5 ? 'average' : complexity <= 7 ? 'complex' : 'amazing';
 }
 
+/** Invention proposal result. Carries skillScore, category, conceptModifier, facilitiesCost, attemptCost. */
 class RpgExpandedInventionProposalResult: RpgExpandedResult
     skillScore = nil
     category = nil
@@ -1435,6 +1451,7 @@ modify RpgExpandedInventionProposal
     }
 ;
 
+/** Invention project. Carries proposal, attempts, theory, definitionSnapshot, facilities. Operations: validate. */
 class RpgExpandedInventionProject: object
     proposal = nil
     attempts = []
@@ -1457,6 +1474,7 @@ modify RpgLiteProfile
     inventionConceptAttempts = []
 ;
 
+/** Invention concept result. Carries day, theory, score. */
 class RpgExpandedInventionConceptResult: RpgExpandedResult
     day = nil
     theory = nil
@@ -1581,6 +1599,7 @@ class RpgExpandedInventionConcept: object
     }
 ;
 
+/** Prototype duration. Carries numerator, denominator, unit, minimumDays. */
 class RpgExpandedPrototypeDuration: object
     numerator = 0
     denominator = 1
@@ -1604,6 +1623,7 @@ rpgExpandedPrototypeDuration(category, dice, workers)
     value.numerator = total; return value;
 }
 
+/** Prototype outcome. Carries working, revealedFlaw, accident, minimumDamageDice, facilitiesDestroyed. */
 class RpgExpandedPrototypeOutcome: RpgExpandedResult
     working = nil
     revealedFlaw = nil
@@ -1666,6 +1686,7 @@ modify RpgExpandedInventionProject
     facilityFunding = []
 ;
 
+/** Invention funding result. Carries fullCost, money, rebuilt. */
 class RpgExpandedInventionFundingResult: RpgExpandedResult
     fullCost = 0
     money = 0
@@ -1786,6 +1807,7 @@ modify RpgExpandedInventionProject
     activePrototype = nil
 ;
 
+/** Prototype start result. Carries money, durationDice, duration. */
 class RpgExpandedPrototypeStartResult: RpgExpandedResult
     money = 0
     durationDice = []
@@ -1923,6 +1945,7 @@ modify RpgExpandedPrototypeStart
     }
 ;
 
+/** Prototype work. Carries id, attempt, seconds, uninterrupted, approved. Operations: assess, apply. */
 class RpgExpandedPrototypeWork: object
     id = nil
     attempt = nil
@@ -1982,6 +2005,7 @@ class RpgExpandedPrototypeWork: object
     }
 ;
 
+/** Prototype accident target. Carries id, profile, dice, damageType, protection. Operations: definition, prepare. */
 class RpgExpandedPrototypeAccidentTarget: object
     id = nil
     profile = nil
@@ -1998,6 +2022,7 @@ class RpgExpandedPrototypeAccidentTarget: object
     }
 ;
 
+/** Prototype accident result. Carries damage, wounds. */
 class RpgExpandedPrototypeAccidentResult: RpgExpandedResult
     damage = []
     wounds = []
@@ -2088,6 +2113,7 @@ modify RpgExpandedPrototypeStart
     completion = nil
 ;
 
+/** Prototype completion result. Carries productionPrice, score, outcome, delivery, delivered. */
 class RpgExpandedPrototypeCompletionResult: RpgExpandedResult
     productionPrice = nil
     score = nil
@@ -2338,6 +2364,7 @@ modify RpgExpandedPrototypeDefectSet
     operations = []
 ;
 
+/** Prototype operation result. Carries activated, score. */
 class RpgExpandedPrototypeOperationResult: RpgExpandedResult
     activated = nil
     score = nil
@@ -2434,6 +2461,7 @@ class RpgExpandedPrototypeOperation: object
 modify RpgExpandedPrototypeDefectSet
     tests = []
 ;
+/** Prototype test result. Carries discovered, activated, falseConfidence, score. */
 class RpgExpandedPrototypeTestResult: RpgExpandedResult
     discovered = []
     activated = nil
@@ -2542,6 +2570,7 @@ class RpgExpandedPrototypeTest: object
     }
 ;
 
+/** Production assessment. Carries setupMoney, moneyNumerator, moneyDenominator, secondsNumerator, secondsDenominator. */
 class RpgExpandedProductionAssessment: RpgExpandedResult
     setupMoney = 0
     moneyNumerator = 0
@@ -2646,6 +2675,7 @@ modify RpgExpandedInventionProject
 modify RpgExpandedProductionLine
     activeOrder = nil
 ;
+/** Production order result. Carries money. */
 class RpgExpandedProductionOrderResult: RpgExpandedResult
     money = 0
 ;
@@ -2768,6 +2798,7 @@ class RpgExpandedProductionOrder: object
     }
 ;
 
+/** Cinematic invention cost. Carries facilities, adjustedRetail. */
 class RpgExpandedCinematicInventionCost: RpgExpandedResult
     facilities = 0
     adjustedRetail = 0
@@ -2828,6 +2859,7 @@ rpgExpandedRapidPrototypeSeconds(category, dice)
     if (category == 'average') return total <= 2 ? 1800 : (total-2)*3600;
     return total * 3600;
 }
+/** Rapid concept seconds. */
 rpgExpandedRapidConceptSeconds(die)
 {
     rpgInteger(die,1,6); return die * 60;
@@ -2951,6 +2983,7 @@ class RpgExpandedRapidProposal: RpgExpandedCinematicProposal
     prototypeExecutionReason() { return 'rapid-prototype-components-unavailable'; }
 ;
 
+/** Rapid concept. Carries dailyLimited, approved, uninterrupted. Operations: attentionPreflight, definition, assess, prepareExecution. */
 class RpgExpandedRapidConcept: RpgExpandedInventionConcept
     attentionPreflight()
     {
@@ -2997,6 +3030,7 @@ modify RpgExpandedInventionProject
     rapidFacilityPurchase = nil
 ;
 
+/** Rapid purchase result. Carries money, facilitiesMoney, partsMoney, acquisition. */
 class RpgExpandedRapidPurchaseResult: RpgExpandedResult
     money = 0
     facilitiesMoney = 0
@@ -3083,19 +3117,21 @@ class RpgExpandedRapidPurchase: object
     }
 ;
 
+/** Rapid scrounge penalty. */
 rpgExpandedRapidScroungePenalty(category)
 {
     if (category == 'simple') return 0;
     if (category == 'average') return -2;
     if (category == 'complex') return -6;
     if (category == 'amazing') return -10;
-    rpgExpandedReject('rapid-scrounge-category');
+    rpgExpandedReject('rapid-scrounge-category'); return nil;
 }
 
 modify RpgExpandedInventionProject
     rapidSearches = []
 ;
 
+/** Rapid search result. Carries score, projectCost. */
 class RpgExpandedRapidSearchResult: RpgExpandedResult
     score = nil
     projectCost = nil
@@ -3371,6 +3407,7 @@ modify RpgLiteItem
 modify RpgExpandedRapidPrototypeStart
     materialSettlement = nil
 ;
+/** Rapid material result. Carries disposition, item. */
 class RpgExpandedRapidMaterialResult: RpgExpandedResult
     disposition = nil
     item = nil
@@ -3434,6 +3471,7 @@ modify RpgLiteItem
     inventionAnalyses = []
     inventionRevision = 0
 ;
+/** Device analysis result. Carries score, understood, deviceRevision. */
 class RpgExpandedDeviceAnalysisResult: RpgExpandedResult
     score = nil
     understood = nil
@@ -3624,6 +3662,7 @@ modify RpgLiteItem
     { return (self.artifactCondition == nil || self.artifactCondition.usable()) && inherited(profile); }
     artifactUseModifier() { return self.artifactCondition == nil ? 0 : self.artifactCondition.shockModifier(); }
 ;
+/** Object wound result. Carries checks, destroyed, assessment. */
 class RpgExpandedObjectWoundResult: RpgExpandedResult
     checks = []
     destroyed = nil
@@ -3973,6 +4012,7 @@ modify RpgExpandedProfile
 modify RpgExpandedPrototypeStart
     attentionFailure = nil
 ;
+/** Attention prototype failure. Carries attempt, work, approved, evidence, result. Operations: facts, assess, apply. */
 class RpgExpandedAttentionPrototypeFailure: object
     attempt = nil
     work = nil

@@ -110,10 +110,10 @@ retchAction: RetchTestAction;
 retchVerb: Verb code = 2255 action = retchAction label = 'retching operation';
 modify gameMain initialRoom = retchRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2255) { retchInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2255) { retchInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2256)
     {
         event('test.retch-state'); eventValue(retchProfile.retchingEpisode != nil ? 1 : 0);

@@ -73,10 +73,10 @@ agingAction: AgingFixtureAction;
 agingVerb: Verb code = 1820 action = agingAction label = 'aging-fixture';
 modify gameMain initialRoom = agingRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1820) { agingInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1820) { agingInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1821)
     {
         event('test.aging-state'); eventValue(agingPatient.st); eventValue(agingPatient.dx);
@@ -93,5 +93,5 @@ act(verb,args)
         eventValue(agingEvent.restoredBy == youthRequest ? 1 : 0); eventValue(laterAging.restoredBy == laterYouth ? 1 : 0);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

@@ -90,6 +90,6 @@ act(verb,args)
     }
     else if (verb == 2021)
     { event('test.unarmed-injury'); eventValue(rpgExpandedUnarmedMissInjury(args[1])); }
-    else return vhylAct(verb,args);
+    else return rpgDispatchAction(verb,args);
     event('test.burst-purity'); eventValue(rpgRandom.draws - draws); eventValue(rpgLedger.seconds - clock); return nil;
 }

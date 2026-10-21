@@ -25,5 +25,5 @@ act(verb,args)
     }
     if (verb == 2291)
     { event('test.digging-volume'); eventValue(rpgExpandedDiggingVolume(args[1],args[2],args[3])); return nil; }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

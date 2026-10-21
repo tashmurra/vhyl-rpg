@@ -1,6 +1,7 @@
 """Explicit dependencies and isolated compiler invocations for this project."""
 from pathlib import Path
 import os
+import sys
 import shutil
 import subprocess
 
@@ -48,7 +49,10 @@ def run(arguments, *, cwd=ROOT, timeout=300, **kwargs):
 
 
 class Build:
-    def __init__(self, compiler, vhyl, out, runtime_cache=None):
+    def __init__(self, compiler, vhyl, out, runtime_cache=None, native_opt='O0'):
+        if native_opt not in ('O0', 'O2'):
+            raise ValueError('Native optimization must be O0 or O2')
+        self.native_opt = native_opt
         self.compiler, self.vhyl, self.out = compiler, vhyl, out
         self.runtime_cache = runtime_cache or out / 'runtime-cache'
 
@@ -57,11 +61,37 @@ class Build:
                 '--include-dir', self.vhyl / 'lib']
 
     def check(self, source):
-        run(self.arguments('check', source), cwd=self.out)
+        try:
+            run(self.arguments('check', source), cwd=self.out)
+        except RuntimeError as error:
+            raise RuntimeError(f'{source}: {error}') from error
 
     def build(self, name, source):
+        print(f'Building {name} ({self.native_opt})', flush=True)
         bundle = self.out / name
-        run(self.arguments('build', source) + ['--emit', 'shared', '--opt', 'O2',
+        run(self.arguments('build', source) + ['--emit', 'shared', '--opt', self.native_opt,
             '--out-dir', bundle, '--runtime-cache', self.runtime_cache],
             cwd=self.out, timeout=900)
+        if sys.platform == 'darwin':
+            self.configure_macos_test_host(bundle)
         return bundle
+
+    def configure_macos_test_host(self, bundle):
+        # The compiler's sample host uses the platform default worker stack
+        # (512 KiB on macOS). Deep library dispatch requires an explicit host
+        # stack; game libraries, identities and runtime quotas stay untouched.
+        source = (bundle / 'consumer.c').read_text()
+        original = 'pthread_t thread;\n    if (pthread_create(&thread, NULL, worker, NULL) != 0)'
+        configured = ('pthread_t thread;\n    pthread_attr_t attrs;\n'
+                      '    if (pthread_attr_init(&attrs) != 0 || '
+                      'pthread_attr_setstacksize(&attrs, 64 * 1024 * 1024) != 0) return 70;\n'
+                      '    if (pthread_create(&thread, &attrs, worker, NULL) != 0)')
+        if source.count(original) != 1:
+            raise RuntimeError('Compiler sample host changed: review the explicit stack configuration')
+        host_source = bundle / 'consumer-test-host.c'
+        host_source.write_text(source.replace(original, configured))
+        libraries = list(bundle.glob('libzeb_game_*.dylib'))
+        if len(libraries) != 1:
+            raise RuntimeError('Expected one compiled game library for the native test host')
+        run([os.environ.get('CC', '/usr/bin/clang'), host_source, libraries[0],
+             '-Wl,-rpath,@executable_path', '-o', bundle / 'consumer'], cwd=bundle)

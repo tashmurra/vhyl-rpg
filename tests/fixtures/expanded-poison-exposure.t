@@ -46,7 +46,7 @@ poisonSusceptibility: RpgExpandedPoisonSusceptibility profile = bleedProfile haz
     physiology = 'original-fictional-physiology' approved = true immune = true
     evidence = 'Authored susceptibility decision for this physiology and this exact agent';
 modify BleedTestAction
-    exec(context)
+    exec(actionContext)
     {
         local code = bleedInput.code;
         if (code == 260) { poisonExposure.start(); return nil; }
@@ -183,7 +183,7 @@ modify BleedTestAction
         if (code == 333)
         {
             local cycle = new RpgExpandedPoisonCycle(); cycle.exposure = poisonExposure;
-            cycle.id = poisonCatalogueInput.nextId; poisonCatalogueInput.nextId += '-next';
+            cycle.id = poisonCatalogueInput.nextId; poisonCatalogueInput.nextId = poisonCatalogueInput.nextId + '-next';
             rpgSpendTime(poisonExposure.hazard.interval); cycle.apply(); return nil;
         }
         if (code == 334) { poisonExposure.preparedForAgent = nil; return nil; }
@@ -336,6 +336,6 @@ modify BleedTestAction
             eventValue(rpgLiteScore(bleedProfile,check)); return nil;
         }
         if (code == 447) { environmentEntry.senseKind = 'smell'; return nil; }
-        return inherited(context);
+        return inherited(actionContext);
     }
 ;

@@ -41,6 +41,7 @@ rpgExpandedBreathDuration(health, activity, prepared, ventilation, controlSuccee
     value.seconds = numerator / denominator; value.status = 'ready'; return value;
 }
 
+/** Breath assessment. Carries elapsedSeconds, remainingSeconds, exhausted. */
 class RpgExpandedBreathAssessment: RpgExpandedResult
     elapsedSeconds = 0
     remainingSeconds = 0
@@ -53,7 +54,8 @@ modify RpgExpandedProfile
 ;
 
 /** Owned fixed-activity breath reserve. Preparation is an authored prior action. */
-class RpgExpandedBreathReserve: object
+class RpgExpandedBreathReserve: RpgExpandedBreathReserveContract
+    airlessHandoff = nil
     id = nil
     profile = nil
     activity = 'mild'
@@ -149,6 +151,7 @@ class RpgExpandedBreathReserve: object
     }
     validateEnd()
     {
+        if (self.airlessHandoff != nil) return self.profile.validateBreathHandoff(self.airlessHandoff,self);
         if (self.endedAt < self.startedAt || self.endedAt > rpgLedger.seconds
             || self.endedAt > self.startedAt + self.durationSeconds || self.airEvidence == nil)
             rpgExpandedReject('breath-end-history');
@@ -156,6 +159,8 @@ class RpgExpandedBreathReserve: object
     }
     resumeAir(evidence)
     {
+        if (self.airlessHandoff != nil)
+        { self.validateBinding(); self.validateEnd(); local blocked = new RpgExpandedResult(); blocked.reason = 'breath-airless-recovery-owned'; return blocked; }
         local value = self.assess(); if (value.status != 'ready') return value;
         if (self.endedAt != nil) { value.status = 'reused'; return value; }
         if (evidence == nil || evidence == '')
@@ -202,6 +207,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Swimming outcome. Carries nextStage, fatigue, inhaledWater. */
 class RpgExpandedSwimmingOutcome: RpgExpandedResult
     nextStage = nil
     fatigue = 0
@@ -231,6 +237,7 @@ rpgExpandedSwimmingOutcome(stage, score, roll)
     value.status = 'ready'; return value;
 }
 
+/** Lifesaving outcome. Carries fatigue, inhaledWater, rescued, mustBreakOff. */
 class RpgExpandedLifesavingOutcome: RpgExpandedResult
     fatigue = 0
     inhaledWater = nil
@@ -259,6 +266,7 @@ rpgExpandedLifesavingOutcome(score, roll)
     value.status = 'ready'; return value;
 }
 
+/** Swimming default context. Carries attribute, kind. Operations: scoreFor. */
 class RpgExpandedSwimmingDefaultContext: RpgLiteContext
     attribute = rpgHT
     kind = 'swimming'
@@ -269,6 +277,7 @@ class RpgExpandedSwimmingDefaultContext: RpgLiteContext
     }
 ;
 
+/** Swim assessment. Carries wound, context. */
 class RpgExpandedSwimAssessment: RpgExpandedSwimmingOutcome
     wound = nil
     context = nil
@@ -280,7 +289,7 @@ modify RpgExpandedProfile
 ;
 
 /** Fixed entry circumstances; equipment load is read afresh for each check. */
-class RpgExpandedSwimmingEncounter: object
+class RpgExpandedSwimmingEncounter: RpgExpandedSwimmingContract
     submersion = nil
     id = nil
     profile = nil
@@ -517,6 +526,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Swimming movement. Carries waterMove, yardsPerTenSeconds. */
 class RpgExpandedSwimmingMovement: RpgExpandedResult
     waterMove = 0
     yardsPerTenSeconds = 0
@@ -534,6 +544,7 @@ rpgExpandedSwimmingMovement(basicMove, adapted, encumbrance)
     value.seconds = 10; value.status = 'ready'; return value;
 }
 
+/** Swimming endurance assessment. Carries context, score, failureFatigue. */
 class RpgExpandedSwimmingEnduranceAssessment: RpgExpandedResult
     context = nil
     score = nil
@@ -561,6 +572,7 @@ rpgExpandedSwimmingEndurance(profile, skill, pace)
 }
 
 
+/** Swim endurance result. Carries wound, context, fatigue. */
 class RpgExpandedSwimEnduranceResult: RpgExpandedResult
     wound = nil
     context = nil
@@ -646,6 +658,7 @@ class RpgExpandedDiggingAssessment: RpgExpandedResult
     durationNumerator = 0
     durationDenominator = 1
 ;
+/** Digging rate. */
 rpgExpandedDiggingRate(liftHundredths, stage, toolMaterial, improvisedDivisor, rockDivisor)
 {
     rpgInteger(liftHundredths,1,1000000);
@@ -675,6 +688,7 @@ rpgExpandedDiggingVolume(length, width, depth)
     rpgInteger(length,1,1000); rpgInteger(width,1,1000); rpgInteger(depth,1,1000);
     return length * width * depth;
 }
+/** Digging duration. */
 rpgExpandedDiggingDuration(rate, volumeNumerator, volumeDenominator)
 {
     if (rate == nil || !rate.ofKind(RpgExpandedDiggingAssessment) || rate.status != 'ready')
@@ -740,6 +754,7 @@ class RpgExpandedDiggingSite: object
 modify RpgExpandedProfile
     diggingHours = []
 ;
+/** Digging hour. Carries id, stage, rockDivisor, profile, site. Operations: definition, effectiveStage, usesPrepared, validateReceipt. */
 class RpgExpandedDiggingHour: object
     id = nil
     stage = nil
@@ -869,6 +884,7 @@ class RpgExpandedDiggingHour: object
 modify RpgExpandedDiggingSite
     teams = []
 ;
+/** Digging team assessment. Carries ordered. */
 class RpgExpandedDiggingTeamAssessment: RpgExpandedResult
     ordered = []
 ;
@@ -1045,6 +1061,7 @@ modify rpgExpandedLiftingRules
     assess(lift,weight,mode) { return rpgExpandedAssessLift(lift,weight,mode,nil,nil,nil); }
 ;
 
+/** Lifting skill result. Carries score, baseLift, liftNumerator, liftDenominator. */
 class RpgExpandedLiftingSkillResult: RpgExpandedResult
     score = nil
     baseLift = nil
@@ -1204,6 +1221,7 @@ modify RpgExpandedLoadAssessment
     participantCount = 0
 ;
 
+/** Load distribution result. Carries allocations. */
 class RpgExpandedLoadDistributionResult: RpgExpandedResult
     allocations = []
 ;
@@ -1260,6 +1278,7 @@ class RpgExpandedClimbAssessment: RpgExpandedResult
     fatigueCost = 0
     maneuver = nil
 ;
+/** Assess climb. */
 rpgExpandedAssessClimb(surface,distance,encumbrance,combat,ordinaryFatigue)
 {
     rpgInteger(distance,1,1000000); rpgInteger(encumbrance,0,4);
@@ -1279,6 +1298,7 @@ rpgExpandedAssessClimb(surface,distance,encumbrance,combat,ordinaryFatigue)
     value.status = 'ready'; return value;
 }
 
+/** Climb fall assessment. Carries falls, ropeLimited, distanceFeet, impactRequired. */
 class RpgExpandedClimbFallAssessment: RpgExpandedResult
     falls = nil
     ropeLimited = nil
@@ -1312,9 +1332,10 @@ rpgExpandedFallVelocity(yards)
         [51,33],[54,34],[57,35],[61,36],[64,37],[67,38],[71,39],[75,40],[79,41],
         [82,42],[86,43],[90,44],[95,45],[99,46],[103,47],[108,48],[112,49]];
     foreach (local row in rows) if (yards <= row[1]) return row[2];
-    rpgExpandedReject('fall-distance-unsupported');
+    rpgExpandedReject('fall-distance-unsupported'); return nil;
 }
 
+/** Landing assessment. Carries effectiveDistance, velocity, negatesDamage, score. */
 class RpgExpandedLandingAssessment: RpgExpandedResult
     effectiveDistance = 0
     velocity = 0
@@ -1448,6 +1469,7 @@ rpgExpandedHikingDayReason(profiles, reservations)
     return nil;
 }
 
+/** Hiking assessment. Carries packingPercent, effectiveTerrain, terrainPercent, weatherDivisor, travelSkill. */
 class RpgExpandedHikingAssessment: RpgExpandedResult
     packingPercent = 100
     effectiveTerrain = nil
@@ -1457,6 +1479,7 @@ class RpgExpandedHikingAssessment: RpgExpandedResult
     milesHundredths = 0
 ;
 
+/** Hiking conditions. Carries packTrain, terrain, weather, road, roadCleared. Operations: assess. */
 class RpgExpandedHikingConditions: object
     packTrain = nil
     terrain = 'average'
@@ -1544,6 +1567,7 @@ rpgExpandedAssessHiking(move, enhancedPercent, succeeded, conditions)
 modify RpgExpandedProfile
     hikingAttempts = []
 ;
+/** Hiking roll result. Carries score, memberScores, day, staysTogether. */
 class RpgExpandedHikingRollResult: RpgExpandedResult
     score = nil
     memberScores = []
@@ -1677,6 +1701,7 @@ class RpgExpandedHikingAttempt: object
 modify RpgExpandedProfile
     hikingParties = []
 ;
+/** Hiking party result. Carries day, profiles, bonusAchieved. */
 class RpgExpandedHikingPartyResult: RpgExpandedResult
     day = nil
     profiles = []
@@ -1778,8 +1803,9 @@ rpgExpandedThrowDistanceFactor(weight, lift)
         [75,70],[100,60],[150,40],[200,30],[250,25],[300,20],[400,15],[500,12],[600,10],
         [700,9],[800,8],[900,7],[1000,6],[1200,5]];
     foreach (local row in rows) if (weight * 100 <= lift * row[1]) return row[2];
-    rpgExpandedReject('throw-distance-table-limit');
+    rpgExpandedReject('throw-distance-table-limit'); return nil;
 }
+/** Throw skill assessment. Carries mode, rangeStrengthBonus, damagePerDieBonus. */
 class RpgExpandedThrowSkillAssessment: RpgExpandedResult
     mode = 'unskilled'
     rangeStrengthBonus = 0
@@ -1802,6 +1828,7 @@ rpgExpandedAssessThrowSkill(mode, relativeLevel, palmSized, cinematicAllowed)
     }
     value.status = 'ready'; return value;
 }
+/** Throw assessment. Carries weightHundredths, handsRequired, distanceHundredths, distanceFactor, damageDice. */
 class RpgExpandedThrowAssessment: RpgExpandedResult
     weightHundredths = 0
     handsRequired = 0
@@ -1931,6 +1958,7 @@ class RpgExpandedHeldThrow: object
     }
 ;
 
+/** Catch assessment. Carries throwCheck, score, throwBonus, waitPenalty, countsAsParry. */
 class RpgExpandedCatchAssessment: RpgExpandedResult
     throwCheck = nil
     score = nil
@@ -1978,6 +2006,7 @@ modify RpgExpandedHeldThrow
 modify RpgExpandedProfile
     throwAttempts = []
 ;
+/** Throw attempt result. Carries assessment, gate, allowed. */
 class RpgExpandedThrowAttemptResult: RpgExpandedResult
     assessment = nil
     gate = nil
@@ -2062,6 +2091,7 @@ class RpgExpandedThrowAttempt: RpgExpandedThrowReceipt
 modify RpgExpandedProfile
     thrownDamageRolls = []
 ;
+/** Thrown damage result. Carries targetDice, objectDice, targetDamage, objectDamage, dice. */
 class RpgExpandedThrownDamageResult: RpgExpandedResult
     targetDice = []
     objectDice = []
@@ -2184,6 +2214,7 @@ modify RpgExpandedThrownDamage
 modify RpgExpandedProfile
     catchAttempts = []
 ;
+/** Catch attempt result. Carries assessment, caught, concentrationScore, concentrationCheck, concentrationLost. */
 class RpgExpandedCatchAttemptResult: RpgExpandedResult
     assessment = nil
     caught = nil
@@ -2302,6 +2333,7 @@ modify RpgExpandedCatchAttempt
     }
 ;
 
+/** Jump assessment. Carries basis, highInchTenths, broadInchTenths. */
 class RpgExpandedJumpAssessment: RpgExpandedResult
     basis = 0
     highInchTenths = 0
@@ -2472,6 +2504,7 @@ class RpgExpandedJumpFallProtection: RpgExpandedLandingReceipt
     }
 ;
 
+/** Jump travel assessment. Carries speedNumerator, speedDenominator, distanceInchTenths, maximumInchTenths. */
 class RpgExpandedJumpTravelAssessment: RpgExpandedResult
     speedNumerator = 0
     speedDenominator = 1800
@@ -2569,6 +2602,7 @@ modify RpgExpandedJumpDistance
     }
 ;
 
+/** Jump launch result. Carries launch, definition, distance, score, succeeded. */
 class RpgExpandedJumpLaunchResult: RpgExpandedResult
     launch = nil
     definition = []
@@ -2702,6 +2736,7 @@ class RpgExpandedJumpLaunch: RpgExpandedJumpLaunchReceipt
     }
 ;
 
+/** Forage result. Carries meals, poisonScope, group, score. */
 class RpgExpandedForageResult: RpgExpandedResult
     meals = 0
     poisonScope = nil
@@ -2749,6 +2784,7 @@ class RpgExpandedForageSite: object
     }
 ;
 
+/** Travel forage result. Carries resourceState, day, score, gate, allowed. */
 class RpgExpandedTravelForageResult: RpgExpandedResult
     resourceState = nil
     day = 0
@@ -2758,6 +2794,7 @@ class RpgExpandedTravelForageResult: RpgExpandedResult
     forage = nil
     siteFacts = []
 ;
+/** Plant forage result. */
 class RpgExpandedPlantForageResult: RpgExpandedTravelForageResult;
 modify RpgExpandedProfile
     plantForageAttempts = []
@@ -2977,9 +3014,10 @@ modify RpgExpandedProfile
 
 /** B34 world facts stay authored; remembered travel has an owned journey receipt. */
 class RpgExpandedOrientationResult: RpgExpandedResult
-    north = nil
+    northDirection = nil
     path = []
 ;
+/** Orientation available. */
 rpgExpandedOrientationAvailable(profile)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('orientation-profile');
@@ -2990,6 +3028,7 @@ rpgExpandedOrientationAvailable(profile)
         return 'orientation-environment-unavailable';
     return nil;
 }
+/** North assessment. Carries profile, northDirection, approved, evidence. Operations: assess. */
 class RpgExpandedNorthAssessment: object
     profile = nil
     northDirection = nil
@@ -3001,12 +3040,13 @@ class RpgExpandedNorthAssessment: object
         if (value.reason != nil) return value;
         if (!self.approved || self.evidence == nil || self.evidence == '' || self.northDirection == nil)
         { value.reason = 'orientation-north-world-facts'; return value; }
-        value.north = self.northDirection; value.status = 'ready'; return value;
+        value.northDirection = self.northDirection; value.status = 'ready'; return value;
     }
 ;
 modify RpgExpandedProfile
     orientationRoutes = []
 ;
+/** Orientation route. Carries id, journey, waypoints, approved, evidence. Operations: profile, definition, validateReceipt, assess. */
 class RpgExpandedOrientationRoute: object
     id = nil
     journey = nil
@@ -3271,6 +3311,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Breath preparation. Carries id, profile, controlSkill, approved, evidence. Operations: definition, validateReceipt, assess, apply. */
 class RpgExpandedBreathPreparation: object
     id = nil
     profile = nil
@@ -3359,6 +3400,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Breathing recovery result. Carries rest, recovered. */
 class RpgExpandedBreathingRecoveryResult: RpgExpandedResult
     rest = nil
     recovered = 0
@@ -3475,6 +3517,7 @@ class RpgExpandedNatureFinding: RpgExpandedResult
     finding = nil
     score = nil
 ;
+/** Nature observation. Carries id, profile, skill, occurrence, purpose. Operations: definition, context, validateReceipt, assess. */
 class RpgExpandedNatureObservation: RpgExpandedNatureReceipt
     id = nil
     profile = nil
@@ -3580,6 +3623,7 @@ class RpgExpandedPaleontologyResult: RpgExpandedResult
     score = nil
     familiarityModifier = 0
 ;
+/** Paleontology assessment. Carries id, profile, context, specimen, finding. Operations: definition, validateReceipt, assess, resolve. */
 class RpgExpandedPaleontologyAssessment: RpgExpandedPaleontologyReceipt
     id = nil
     profile = nil
@@ -3663,6 +3707,7 @@ modify RpgExpandedProfile
 ;
 
 
+/** Pack train result. Carries speedPercent, master. */
 class RpgExpandedPackTrainResult: RpgExpandedResult
     speedPercent = nil
     master = nil
@@ -3698,6 +3743,7 @@ class RpgExpandedPackingResult: RpgExpandedResult
     score = nil
     finding = nil
 ;
+/** Packing attempt. Carries id, profile, animal, skill, occurrence. Operations: definition, context, validateReceipt, assess. */
 class RpgExpandedPackingAttempt: RpgExpandedPackingReceipt
     id = nil
     profile = nil
@@ -3946,6 +3992,7 @@ modify rpgExpandedPackingOverload
     }
 ;
 
+/** Terrain search result. Carries direction, score, gate, allowed. */
 class RpgExpandedTerrainSearchResult: RpgExpandedResult
     direction = nil
     score = nil
@@ -4139,6 +4186,7 @@ class RpgExpandedVisionContext: RpgLiteContext
         return amount;
     }
 ;
+/** Vision result. Carries noticed, score. */
 class RpgExpandedVisionResult: RpgExpandedResult
     noticed = nil
     score = nil
@@ -4216,6 +4264,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Hearing distance result. Carries quarterYardsNumerator, quarterYardsDenominator. */
 class RpgExpandedHearingDistanceResult: RpgExpandedResult
     quarterYardsNumerator = nil
     quarterYardsDenominator = 1
@@ -4281,6 +4330,7 @@ class RpgExpandedHearingContext: RpgLiteContext
     }
 ;
 
+/** Hearing result. Carries noticed, score. */
 class RpgExpandedHearingResult: RpgExpandedResult
     noticed = nil
     score = nil
@@ -4400,12 +4450,14 @@ class RpgExpandedComprehensionContext: RpgLiteContext
     }
     skillUseModifier(profile) { self.comprehensionFacts(); return 0; }
 ;
+/** Comprehension result. Carries meaning, score, gate, allowed. */
 class RpgExpandedComprehensionResult: RpgExpandedResult
     meaning = nil
     score = nil
     gate = nil
     allowed = nil
 ;
+/** Sense comprehension. Carries id, profile, observation, context, meaning. Operations: definition, outcomeDefinition, assess, resolve. */
 class RpgExpandedSenseComprehension: object
     id = nil
     profile = nil
@@ -4518,6 +4570,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Ordinary warning result. Carries warning. */
 class RpgExpandedOrdinaryWarningResult: RpgExpandedResult
     warning = nil
 ;
@@ -4679,6 +4732,7 @@ class RpgExpandedChemicalContext: RpgLiteContext
     }
 ;
 
+/** Chemical result. Carries noticed, score. */
 class RpgExpandedChemicalResult: RpgExpandedResult
     noticed = nil
     score = nil
@@ -4758,6 +4812,7 @@ modify RpgExpandedProfile
 
 
 
+/** Signature recognition result. Carries recognized, subject. */
 class RpgExpandedSignatureRecognitionResult: RpgExpandedResult
     recognized = nil
     subject = nil
@@ -4856,6 +4911,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Tracking acquisition result. Carries acquired, score, gate, allowed. */
 class RpgExpandedTrackingAcquisitionResult: RpgExpandedResult
     acquired = nil
     score = nil
@@ -5028,10 +5084,12 @@ class RpgExpandedTrackingEncounter: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Tracking step result. Carries march, followed. */
 class RpgExpandedTrackingStepResult: RpgExpandedResult
     march = nil
     followed = nil
 ;
+/** Tracking step. Carries id, encounter, context, march, result. Operations: definition, outcomeDefinition, validateReceipt, assess. */
 class RpgExpandedTrackingStep: object
     id = nil
     encounter = nil
@@ -5157,6 +5215,7 @@ class RpgExpandedTrackingAction: Action
     exec(context) { return self.perform(context.actor); }
 ;
 
+/** Shadowing outcome. Carries interval, victoryMargin, lost, seen, wrongTarget. */
 class RpgExpandedShadowingOutcome: RpgExpandedResult
     interval = nil
     victoryMargin = 0
@@ -5195,6 +5254,7 @@ modify RpgExpandedVisionContext
         return self.visionFacts();
     }
 ;
+/** Shadowing assessment. Carries followerScore, targetScore, interval, targetRole, followerFacts. */
 class RpgExpandedShadowingAssessment: RpgExpandedResult
     followerScore = nil
     targetScore = nil
@@ -5228,6 +5288,7 @@ rpgExpandedPrepareShadowing(follower,followerContext,target,targetContext,target
     value.status = 'ready'; return value;
 }
 
+/** Shadowing round result. Carries movement, outcome. */
 class RpgExpandedShadowingRoundResult: RpgExpandedResult
     movement = nil
     outcome = nil

@@ -177,3 +177,9 @@ this merged branch; checks remain paused.
 
 The [current completion scope](current-scope.md) identifies the selected modules
 and the remaining acceptance obligations.
+
+The [optional accumulating stress library](stress.md) implements original campaign
+rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.
+It is inactive until configured and separate from reference-derived fear.
+The focused fear milestone and its validation status are tracked in the
+completion checklist; the wider rules conversion remains incomplete.

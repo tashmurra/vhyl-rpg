@@ -1281,6 +1281,7 @@ class RpgExpandedInterrogation: object
     }
     elapsed() { return self.questions.length() * 300; }
 ;
+/** Interrogation result. Carries actorScore, prisonerScore, responseKind, statement, margin. */
 class RpgExpandedInterrogationResult: RpgExpandedResult
     actorScore = nil
     prisonerScore = nil
@@ -1291,6 +1292,7 @@ class RpgExpandedInterrogationResult: RpgExpandedResult
 modify RpgExpandedProfile
     interrogations = []
 ;
+/** Interrogation question. Carries id, session, question, truthfulAnswer, falseAnswer. Operations: definition, validateReceipt, prepare, assess. */
 class RpgExpandedInterrogationQuestion: object
     id = nil
     session = nil
@@ -1573,6 +1575,7 @@ class RpgExpandedDangerReactionContext: RpgLiteSocialContext
 modify RpgExpandedReactionEncounter
     masteryHistory = []
 ;
+/** Reaction mastery result. Carries score. */
 class RpgExpandedReactionMasteryResult: RpgExpandedResult
     score = nil
 ;
@@ -1600,6 +1603,7 @@ class RpgExpandedReactionMastery: object
     }
 ;
 
+/** Reaction preparation result. Carries score, gate, allowed. */
 class RpgExpandedReactionPreparationResult: RpgExpandedResult
     score = nil
     gate = nil
@@ -1832,6 +1836,7 @@ class RpgExpandedCallousnessReactionContext: RpgLiteSocialContext
 modify RpgExpandedProfile
     gestureExchanges = []
 ;
+/** Gesture result. Carries studyEligible, recipientStudyEligible, intendedMeaning, interpretedMeaning, interpretation. */
 class RpgExpandedGestureResult: RpgExpandedResult
     studyEligible = nil
     recipientStudyEligible = nil
@@ -2053,12 +2058,14 @@ class RpgExpandedSocialObservation: object
 modify RpgExpandedProfile
     socialObservations = []
 ;
+/** Humorlessness observation. Carries evident. Operations: kind, definition, modifier. */
 class RpgExpandedHumorlessnessObservation: RpgExpandedSocialObservation
     evident = nil
     kind() { return 'humorlessness'; }
     definition() { return inherited() + [self.evident]; }
     modifier() { return self.evident && self.subject.humorlessnessActive() ? -2 : 0; }
 ;
+/** Callousness observation. Carries pastVictim, empathicObserver. Operations: kind, definition, modifier. */
 class RpgExpandedCallousnessObservation: RpgExpandedSocialObservation
     pastVictim = nil
     empathicObserver = nil
@@ -2066,6 +2073,7 @@ class RpgExpandedCallousnessObservation: RpgExpandedSocialObservation
     definition() { return inherited() + [self.pastVictim,self.empathicObserver]; }
     modifier() { return (self.pastVictim || self.empathicObserver) && self.subject.callousnessActive() ? -1 : 0; }
 ;
+/** Observed reaction context. Carries subject, observer, observations. Operations: traitReactionModifier, validateParticipants, observationFacts, traitReactionComponents. */
 class RpgExpandedObservedReactionContext: RpgLiteSocialContext
     subject = nil
     observer = nil
@@ -2137,6 +2145,7 @@ modify RpgExpandedObservedReactionContext
         return parts;
     }
 ;
+/** Distrust observation. Carries typicalObserver. Operations: kind, definition, modifier. */
 class RpgExpandedDistrustObservation: RpgExpandedSocialObservation
     typicalObserver = nil
     kind() { return 'pervasive-distrust'; }
@@ -2230,7 +2239,7 @@ rpgExpandedDependentBase(principalPoints,dependentPoints)
     if (dependentPoints * 2 <= principalPoints) return -5;
     if (dependentPoints * 4 <= principalPoints * 3) return -2;
     if (dependentPoints <= principalPoints) return -1;
-    rpgExpandedReject('dependent-above-principal');
+    rpgExpandedReject('dependent-above-principal'); return nil;
 }
 /** B36 frequency fraction; zero denotes the restricted constant-presence option. */
 rpgExpandedAppearanceMultiplier(frequency)
@@ -2240,8 +2249,9 @@ rpgExpandedAppearanceMultiplier(frequency)
     if (frequency == 12) return [2,1];
     if (frequency == 9) return [1,1];
     if (frequency == 6) return [1,2];
-    rpgExpandedReject('associated-appearance-frequency');
+    rpgExpandedReject('associated-appearance-frequency'); return nil;
 }
+/** Dependent cost. */
 rpgExpandedDependentCost(principalPoints,dependentPoints,importance,frequency,group)
 {
     local numerator = -rpgExpandedDependentBase(principalPoints,dependentPoints); local denominator = 1;
@@ -2252,6 +2262,7 @@ rpgExpandedDependentCost(principalPoints,dependentPoints,importance,frequency,gr
     local memberCost = -((numerator * appearance[1]) / (denominator * appearance[2]));
     return group ? memberCost * 2 : memberCost;
 }
+/** Dependent. Carries dependent, principalPoints, dependentPoints, importance, frequency. Operations: definition, cost, amounts, validate. */
 class RpgExpandedDependent: RpgExpandedContribution
     dependent = nil
     principalPoints = nil
@@ -2297,6 +2308,7 @@ class RpgExpandedDependent: RpgExpandedContribution
 modify RpgExpandedProfile
     dependentAppearances = []
 ;
+/** Dependent appearance result. Carries appeared, roll. */
 class RpgExpandedDependentAppearanceResult: RpgExpandedResult
     appeared = nil
     roll = nil
@@ -2788,6 +2800,7 @@ class RpgExpandedDependentLoss: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Dependent loss buyoff. Carries loss, recorded, boundLoss, boundPoints. Operations: assess, apply. */
 class RpgExpandedDependentLossBuyoff: object
     loss = nil
     recorded = nil
@@ -2998,6 +3011,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Lie detection result. Carries observerScore, subjectScore, conclusion. */
 class RpgExpandedLieDetectionResult: RpgExpandedResult
     observerScore = nil
     subjectScore = nil
@@ -3279,6 +3293,7 @@ class RpgExpandedPsychologyResult: RpgExpandedResult
     finding = nil
     score = nil
 ;
+/** Psychology assessment. Carries id, profile, context, situation, finding. Operations: definition, validateReceipt, assess, resolve. */
 class RpgExpandedPsychologyAssessment: object
     id = nil
     profile = nil
@@ -3618,6 +3633,7 @@ class RpgExpandedPackingAction: Action
     exec(context) { return self.perform(context.actor); }
 ;
 
+/** Begging result. Carries score, gate, allowed, earned, incident. */
 class RpgExpandedBeggingResult: RpgExpandedResult
     score = nil
     gate = nil
@@ -3910,6 +3926,7 @@ modify RpgLiteSocialContext
     }
 ;
 
+/** Makeup result. Carries score, gate, allowed, presentation. */
 class RpgExpandedMakeupResult: RpgExpandedResult
     score = nil
     gate = nil
@@ -4090,6 +4107,7 @@ class RpgExpandedMakeupAction: Action
     exec(context) { return self.perform(context.actor); }
 ;
 
+/** Gesture attempt result. Carries score, gate, allowed, meaning. */
 class RpgExpandedGestureAttemptResult: RpgExpandedResult
     score = nil
     gate = nil

@@ -112,6 +112,7 @@ modify RpgExpandedProfile
     psionicDangerWarnings = []
 ;
 
+/** Danger warning result. Carries warning. */
 class RpgExpandedDangerWarningResult: RpgExpandedResult
     warning = nil
 ;
@@ -222,6 +223,7 @@ class RpgExpandedPsionicResistance: RpgLiteTrait
     }
 ;
 
+/** Psionic resistance result. Carries applicable, immune. */
 class RpgExpandedPsionicResistanceResult: RpgExpandedResult
     applicable = nil
     immune = nil
@@ -296,6 +298,7 @@ class RpgExpandedPsionicStatic: RpgLiteTrait
     creationCost() { self.validateStatic(); return 30 + 15 * self.areaLevels + (self.switchable ? 30 : 0); }
 ;
 
+/** Psionic static result. Carries suppressed. */
 class RpgExpandedPsionicStaticResult: RpgExpandedResult
     suppressed = nil
 ;
@@ -553,9 +556,11 @@ class RpgExpandedPsionicAbilityPurchase: object
     }
 ;
 
+/** Danger sense purchase. Operations: supportsAbility. */
 class RpgExpandedDangerSensePurchase: RpgExpandedPsionicAbilityPurchase
     supportsAbility() { return self.ability.ofKind(RpgExpandedPsionicDangerSense); }
 ;
+/** Object history purchase. Operations: supportsAbility. */
 class RpgExpandedObjectHistoryPurchase: RpgExpandedPsionicAbilityPurchase
     supportsAbility() { return self.ability.ofKind(RpgExpandedPsionicObjectHistory); }
 ;
@@ -597,6 +602,7 @@ modify RpgExpandedProfile
     psionicHistoryReadings = []
 ;
 
+/** History reading result. Carries information. */
 class RpgExpandedHistoryReadingResult: RpgExpandedResult
     information = nil
 ;

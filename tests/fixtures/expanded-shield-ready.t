@@ -70,10 +70,10 @@ shieldAction: ShieldReadyAction;
 shieldVerb: Verb code = 2040 action = shieldAction label = 'shield-ready';
 modify gameMain initialRoom = shieldRoom;
 startup() { shieldBattle.begin(); rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2040) { shieldInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2040) { shieldInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2041)
     {
         event('test.shield-ready-state'); eventValue(shieldItem.ready ? 1 : 0);
@@ -81,5 +81,5 @@ act(verb,args)
         eventValue(rpgRandom.draws); eventValue(shieldProfile.criticalDefenseFailures.length());
         eventValue(shieldProfile.effortHistory.length()); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

@@ -160,6 +160,7 @@ class RpgExpandedFearTraitConsequence: object
     fearCompoundMatches(profile,eventId,row) { return nil; }
 ;
 
+/** Fear quirk contract. Carries profile, eventId. Operations: assess, apply. */
 class RpgExpandedFearQuirkContract: RpgExpandedFearTraitConsequence
     profile = nil
     eventId = nil
@@ -234,6 +235,7 @@ class RpgExpandedLiftIdentity: object
     skillPreparationReason() { return 'lifting-identity-unimplemented'; }
 ;
 
+/** Shared carry rules. Operations: assess, assess. */
 rpgExpandedSharedCarryRules: object
     assess(carry)
     { local value = new RpgExpandedResult(); value.reason = 'shared-carry-exploration-required'; return value; }
@@ -272,20 +274,24 @@ modify RpgExpandedProfile
     prepareThrowGate(id,evidence) { return nil; }
 ;
 
+/** Throw release facts. Carries profile, item, weight, recipient, throwReceipt. */
 class RpgExpandedThrowReleaseFacts: RpgExpandedResult
     profile = nil
     item = nil
     weight = nil
 ;
+/** Throw receipt. Operations: releaseAssessment, assessCatch. */
 class RpgExpandedThrowReceipt: object
     releaseAssessment() { local value = new RpgExpandedThrowReleaseFacts(); value.reason = 'throw-release-receipt-unavailable'; return value; }
 ;
 
+/** Thrown injury facts. Carries profile, damage, damageType, location, bodyPart. */
 class RpgExpandedThrownInjuryFacts: RpgExpandedResult
     profile = nil
     damage = 0
     damageType = 'cr'
 ;
+/** Thrown damage receipt. Operations: injuryAssessment. */
 class RpgExpandedThrownDamageReceipt: object
     injuryAssessment(side) { local value = new RpgExpandedThrownInjuryFacts(); value.reason = 'thrown-injury-receipt-unavailable'; return value; }
 ;
@@ -328,6 +334,7 @@ modify RpgExpandedThrowReceipt
     assessCatch(recipient,score,waiting)
     { local value = new RpgExpandedResult(); value.reason = 'catch-throw-receipt-unavailable'; return value; }
 ;
+/** Throw flight receipt. Operations: flightAssessment. */
 class RpgExpandedThrowFlightReceipt: object
     flightAssessment()
     { local value = new RpgExpandedThrowReleaseFacts(); value.reason = 'catch-flight-unavailable'; return value; }
@@ -336,11 +343,13 @@ modify RpgExpandedProfile
     catchHandReason(hand) { return 'catch-anatomy-required'; }
 ;
 
+/** Catch facts. Carries flight, recipient, hand. */
 class RpgExpandedCatchFacts: RpgExpandedResult
     flight = nil
     recipient = nil
     hand = nil
 ;
+/** Catch receipt. Operations: captureAssessment. */
 class RpgExpandedCatchReceipt: object
     captureAssessment()
     { local value = new RpgExpandedCatchFacts(); value.reason = 'catch-receipt-unavailable'; return value; }
@@ -354,17 +363,20 @@ modify RpgExpandedProfile
     enhancedJumpLevels() { return 0; }
 ;
 
+/** Jump preparation receipt. Operations: available, record, readyFor. */
 class RpgExpandedJumpPreparationReceipt: object
     available(fighter) { return 'jump-preparation-unavailable'; }
     record(fighter) { rpgExpandedReject('jump-preparation-unavailable'); }
     readyFor(profile) { return nil; }
 ;
 
+/** Jump launch receipt. Operations: assess, commit. */
 class RpgExpandedJumpLaunchReceipt: object
     assess() { local value = new RpgExpandedResult(); value.reason = 'jump-launch-unavailable'; return value; }
     commit(value) { rpgExpandedReject('jump-launch-unavailable'); }
 ;
 
+/** Jump fall plan. Operations: assessFor, applyFor, validateResult. */
 class RpgExpandedJumpFallPlan: object
     assessFor(profile,fall,velocity)
     { local value = new RpgExpandedResult(); value.reason = 'jump-fall-plan-unavailable'; return value; }
@@ -372,6 +384,7 @@ class RpgExpandedJumpFallPlan: object
     validateResult(profile,fall,velocity) { rpgExpandedReject('jump-fall-plan-unavailable'); }
 ;
 
+/** Jump position plan. Operations: definition, assessFor, applyFor, validateResult. */
 class RpgExpandedJumpPositionPlan: object
     definition() { return []; }
     assessFor(profile,occurrence,direction,distance)
@@ -390,6 +403,7 @@ rpgExpandedCanJumpAutomatically(actorSize, obstacleSize, significant)
     return !significant && obstacleSize <= actorSize - 3;
 }
 
+/** Path move receipt. Operations: assess, commit. */
 class RpgExpandedPathMoveReceipt: object
     assess() { local value = new RpgExpandedResult(); value.reason = 'path-move-unavailable'; return value; }
     commit(value) { rpgExpandedReject('path-move-unavailable'); }
@@ -761,6 +775,7 @@ modify RpgExpandedProfile
 ;
 
 
+/** Boat entry assessment. Carries checkRequired, boarded, fellInWater. */
 class RpgExpandedBoatEntryAssessment: RpgExpandedResult
     checkRequired = nil
     boarded = nil
@@ -813,6 +828,7 @@ rpgExpandedDiagnosticEquipment: object
     assess(assessment,profile,skill) { rpgExpandedReject('diagnosis-equipment-module-required'); }
 ;
 
+/** Diagnostic equipment result. Carries equipmentTL. */
 class RpgExpandedDiagnosticEquipmentResult: RpgExpandedResult
     equipmentTL = nil
 ;
@@ -867,6 +883,7 @@ modify RpgLiteSkill
     validatePacking() { rpgExpandedReject('packing-expanded-skill-required'); }
 ;
 
+/** Packing handling. Operations: definition, assess, definition, assess. */
 rpgExpandedPackingHandling: object
     definition(attempt) { rpgExpandedReject('packing-creatures-required'); }
     assess(attempt,profile,animal,occurrence) { rpgExpandedReject('packing-creatures-required'); }
@@ -883,6 +900,7 @@ class RpgExpandedPackingReceipt: object
 ;
 
 
+/** Packing overload. Operations: definition, assess, start, definition. */
 rpgExpandedPackingOverload: object
     definition(carry) { rpgExpandedReject('packing-overload-exploration-required'); }
     assess(carry,profile,load) { rpgExpandedReject('packing-overload-exploration-required'); }
@@ -1044,9 +1062,11 @@ modify RpgLiteContext
     makeupFacts() { rpgExpandedReject('makeup-context-required'); }
 ;
 
+/** Makeup equipment result. Carries equipmentTL. */
 class RpgExpandedMakeupEquipmentResult: RpgExpandedResult
     equipmentTL = nil
 ;
+/** Makeup equipment. Operations: definition, assess, definition, assess. */
 rpgExpandedMakeupEquipment: object
     definition(assessment,context) { rpgExpandedReject('makeup-equipment-module-required'); }
     assess(assessment,profile,context) { rpgExpandedReject('makeup-equipment-module-required'); }
@@ -1118,6 +1138,7 @@ modify RpgLiteContext
     trackingFacts() { rpgExpandedReject('tracking-skills-module-required'); }
 ;
 
+/** March step receipt. Carries trackingOwner. Operations: trackingProfile, trackingDefinition. */
 class RpgExpandedMarchStepReceipt: object
     trackingOwner = nil
     trackingProfile() { rpgExpandedReject('tracking-march-health-required'); }
@@ -1132,6 +1153,7 @@ modify RpgLiteContext
     shadowingContestFacts() { rpgExpandedReject('shadowing-context-adapter-required'); }
 ;
 
+/** March step group receipt. Carries shadowingOwner. Operations: shadowingProfiles, shadowingFacts, shadowingSeconds. */
 class RpgExpandedMarchStepGroupReceipt: object
     shadowingOwner = nil
     shadowingProfiles() { rpgExpandedReject('shadowing-movement-health-required'); }
@@ -1144,6 +1166,7 @@ modify RpgExpandedProfile
     validateFearStressFollowup(entry,followup) { rpgExpandedReject('fear-stress-traits-required'); }
 ;
 
+/** Fear aura contract. Operations: auraFacts. */
 class RpgExpandedFearAuraContract: RpgLiteTrait
     auraFacts() { rpgExpandedReject('fear-aura-traits-required'); }
 ;
@@ -1169,6 +1192,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     phobiaCurrentTrait(trait) { return trait; }
 ;
+/** Phobia activity contract. Carries profile. Operations: activityFacts, assess. */
 class RpgExpandedPhobiaActivityContract: object
     profile = nil
     activityFacts() { rpgExpandedReject('phobia-activity-traits-required'); }
@@ -1305,3 +1329,44 @@ modify RpgExpandedProfile
 ;
 
 modify RpgExpandedRules frenzyBattleEntry = nil;
+
+modify RpgExpandedProfile frenzyManeuverReason(request) { return 'frenzy-owned-action-required'; };
+
+modify RpgExpandedProfile
+    assessFrenzyExitHealth(exit) { local value = new RpgExpandedResult(); value.reason = 'frenzy-exit-health-required'; return value; }
+    applyFrenzyExitHealth(exit) { rpgExpandedReject('frenzy-exit-health-required'); }
+;
+/** Frenzy position. Operations: assess, apply, validateReceipt. */
+class RpgExpandedFrenzyPosition: object
+    assess(turn) { local value = new RpgExpandedResult(); value.reason = 'frenzy-position-adapter-required'; return value; }
+    apply(turn) { rpgExpandedReject('frenzy-position-adapter-required'); }
+    validateReceipt(turn) { rpgExpandedReject('frenzy-position-adapter-required'); }
+;
+
+modify RpgExpandedProfile fearStressModifier() { return 0; };
+
+modify RpgExpandedProfile permitsRecordedStrike(request,strike) { return nil; };
+
+/** Internal immutable-fact comparison for owned attention work. */
+rpgExpandedAttentionBinding(current,bound,reason)
+{
+    if (bound == nil || current.length() != bound.length()) rpgExpandedReject(reason);
+    for (local i = 1; i <= current.length(); i += 1)
+        if (current[i] != bound[i]) rpgExpandedReject(reason);
+    return nil;
+}
+
+/** Foundation identity for a reserve supplied by the exploration module. */
+class RpgExpandedBreathReserveContract: object;
+modify RpgExpandedProfile
+    validateBreathHandoff(handoff,reserve) { rpgExpandedReject('breath-hazard-module-required'); return nil; }
+;
+
+/** Foundation identity for an owned swimming encounter supplied by exploration. */
+class RpgExpandedSwimmingContract: object;
+
+/** Typed wound boundary; executable receipts are supplied by the health module. */
+class RpgExpandedWoundContract: object
+    assess() { rpgExpandedReject('wound-health-module-required'); return nil; }
+    apply() { rpgExpandedReject('wound-health-module-required'); return nil; }
+;

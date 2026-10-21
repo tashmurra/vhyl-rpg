@@ -41,5 +41,5 @@ act(verb,args)
         local value = episode.apply(); event('test.clotting-dispatch'); eventValue(value.status); eventValue(value.reason);
         eventValue(profile.bleedingHistory.length()); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

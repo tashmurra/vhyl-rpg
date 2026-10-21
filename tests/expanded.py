@@ -9899,6 +9899,18 @@ def test(build):
     test_frenzy_voluntary(Session,frenzy_voluntary,build.out)
     frenzy_battle = build.build('expanded-frenzy-battle',ROOT / 'tests/fixtures/expanded-frenzy-battle.t')
     test_frenzy_battle(Session,frenzy_battle,build.out)
+    frenzy_turn = build.build('expanded-frenzy-turn',ROOT / 'tests/fixtures/expanded-frenzy-turn.t')
+    test_frenzy_turn(Session,frenzy_turn,build.out)
+    frenzy_boundaries = build.build('expanded-frenzy-boundaries',ROOT / 'tests/fixtures/expanded-frenzy-boundaries.t')
+    test_frenzy_boundaries(Session,frenzy_boundaries,build.out)
+    stress = build.build('expanded-stress',ROOT / 'tests/fixtures/expanded-stress.t')
+    test_stress(Session,stress,build.out)
+    test_stress_fear(Session,stress,build.out)
+    test_stress_pending(Session,stress,build.out)
+    stress_panic = build.build('expanded-stress-panic',ROOT / 'tests/fixtures/expanded-stress-panic.t')
+    test_stress_panic(Session,stress_panic,build.out)
+    frenzy_acquisition = build.build('expanded-frenzy-acquisition',ROOT / 'tests/fixtures/expanded-frenzy-acquisition.t')
+    test_frenzy_acquisition(Session,frenzy_acquisition,build.out)
     frenzy_entry = build.build('expanded-frenzy-entry',ROOT / 'tests/fixtures/expanded-frenzy-entry.t')
     test_frenzy_entry(Session,frenzy_entry,build.out)
     attention_acquisition = build.build('expanded-attention-acquisition',ROOT / 'tests/fixtures/expanded-attention-acquisition.t')
@@ -10114,6 +10126,7 @@ def test(build):
     test_example(Session,example)
     echo_vault = build.build('echo-vault',ROOT / 'examples/echo-vault/main.t')
     test_echo_vault(Session,echo_vault,build.out)
+    test_echo_aftermath(Session,echo_vault,build.out)
     print('  expanded example parser/action/dialogue parity: passed',flush=True)
 
 
@@ -31292,3 +31305,237 @@ def test_frenzy_battle(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,1362); assert state(s) == after
         finally: s.close()
+
+
+def test_frenzy_turn(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1374)
+        return last(s,'test.frenzy-turn')
+    s = Session(bundle); path = out/'frenzy-turn.zsave'
+    try:
+        do(s,1310); do(s,1311); do(s,1370)
+        before = [0,0,'active',0,3,0]
+        do(s,1373); do(s,1378); assert state(s) == before
+        do(s,1372); assert state(s) == before
+        do(s,1371); s.command('undo'); assert state(s) == before
+        do(s,1371); do(s,1371); assert state(s) == [2,1,'active',0,3,1]
+        do(s,1377); do(s,1315); do(s,1376); assert state(s) == [2,1,'active',0,3,1]
+        do(s,1375); s.command('undo'); assert state(s) == [2,1,'active',0,3,1]
+        do(s,1375); do(s,1375); assert state(s) == [2,1,'finished',0,6,1]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1371); do(s,1375)
+        assert state(s) == [2,1,'finished',0,6,1]
+    finally: s.close()
+
+
+def test_stress(Session,bundle,out):
+    def do(s,c,row=4): s.action(2250,c,row)
+    def state(s):
+        do(s,1405)
+        return last(s,'test.stress')
+    s = Session(bundle); path = out/'stress.zsave'
+    try:
+        do(s,1400); do(s,1402,1); assert state(s) == [0,1,0,0,0,0,0,0,0]
+        do(s,1401,1); s.command('undo'); assert state(s)[0] == 0
+        do(s,1401,1); do(s,1401,1); assert state(s)[0:5] == [3,1,1,0,0]
+        do(s,1401,2); do(s,1407); assert last(s,'test.stress-check') == ['blocked','stress-decision-required']
+        assert state(s) == [6,1,2,1,4,0,0,0,0]
+        do(s,1419); assert last(s,'test.stress-passive') == [1,1,1,1,1,1]
+        do(s,1404,1); assert state(s)[5] == 0
+        do(s,1403,1); s.command('undo'); assert state(s)[5] == 0
+        do(s,1403,1); do(s,1415); assert state(s) == [6,1,2,1,0,1,-1,0,0]
+        do(s,1417); assert last(s,'test.stress-score') == [9,0,0]
+        do(s,1401,3); do(s,1403,3); do(s,1401,4); do(s,1401,5)
+        assert state(s) == [12,1,5,3,12,1,-1,0,0]
+        do(s,1418); assert last(s,'test.stress-gain') == [3,0,3]
+        do(s,1406); do(s,1414); assert state(s)[0] == 12
+        do(s,1410,1); do(s,1409,3599); assert state(s)[0] == 12
+        do(s,1411); do(s,1409,1); assert state(s)[0] == 12
+        do(s,1410,2); do(s,1409,3600); do(s,1412); assert state(s)[0] == 11
+        assert state(s)[4] == 12  # recovery never erases the decision
+        do(s,1403,3)
+        for i in range(3,7): do(s,1410,i); do(s,1409,3600)
+        assert state(s) == [8,1,5,3,0,1,0,21600,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); assert state(s)[0] == 8
+        do(s,1401,5); assert state(s)[0] == 8
+        do(s,1409,64800)
+        for i in range(7,11): do(s,1410,i); do(s,1409,3600)
+        assert state(s)[0] == 4
+        do(s,1409,72000)
+        for i in range(11,15): do(s,1410,i); do(s,1409,3600)
+        assert state(s)[0:2] == [0,2]
+        do(s,1401,6); do(s,1401,7); assert state(s)[4] == 4
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1413); do(s,1400); do(s,1401,1)
+        assert state(s)[0:5] == [12,1,1,3,4]
+        do(s,1403,3); assert state(s)[4] == 8
+        do(s,1403,3); assert state(s)[4] == 12
+        do(s,1403,3); assert state(s)[4] == 0
+    finally: s.close()
+
+
+def test_stress_fear(Session,bundle,out):
+    def do(s,c,row=4): s.action(2250,c,row)
+    s = Session(bundle); path = out/'stress-fear.zsave'
+    try:
+        do(s,1400); do(s,1401,1); do(s,1401,2); do(s,1403,2); do(s,1405)
+        assert last(s,'test.stress')[4] == 4
+        do(s,1408); do(s,1405)
+        assert last(s,'test.stress')[0:5] == [6,1,2,1,0]
+        assert last(s,'test.stress')[-1] == 6
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1408); do(s,1405)
+        assert last(s,'test.stress')[0] == 6
+        assert last(s,'test.stress')[-1] == 6
+    finally: s.close()
+
+
+def test_frenzy_acquisition(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1481); return last(s,'test.frenzy-acquisition')
+    s = Session(bundle); path = out/'frenzy-acquisition.zsave'
+    try:
+        do(s,1480); do(s,582); assert state(s) == [0,0,9,7]
+        do(s,581); s.command('undo'); assert state(s) == [0,0,9,7]
+        do(s,581); do(s,581); assert state(s) == [1,10,9,7]
+        do(s,586); assert state(s) == [1,10,9,7]
+        do(s,585); do(s,585); assert state(s) == [1,15,9,7]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,585); assert state(s) == [1,15,9,7]
+    finally: s.close()
+
+
+def test_echo_aftermath(Session,bundle,out):
+    commands = {1420:'open cabinet',1421:'recover',1422:'hear footsteps',1423:'wait panic',1424:'remember',
+                1425:'cope',1426:'accept strain',1427:'face memory',1428:'rest hour'}
+    choices = {1420:'cabinet',1421:'recover',1422:'footsteps',1423:'panic',1424:'remember',1425:'cope',1426:'strain',1427:'memory',1428:'rest'}
+    for route in ('parser','structured','dialogue'):
+        def do(s,code):
+            if route == 'parser': s.command(commands[code])
+            elif route == 'structured': s.action(code)
+            else: s.action(80,'vault-plan'); s.select(choices[code])
+        def state(s):
+            s.action(1429); return last(s,'vault.aftermath')
+        s = Session(bundle); path = out/f'echo-aftermath-{route}.zsave'
+        try:
+            s.action(1401); s.action(1402); s.action(1403); s.action(1404)
+            do(s,1420); assert state(s)[0:3] == [1,1,1]
+            for _ in range(30):
+                if not state(s)[1]: break
+                do(s,1421)
+            assert state(s)[1] == 0
+            do(s,1422); assert state(s)[3] == 'active'
+            for _ in range(30):
+                if state(s)[3] == 'finished': break
+                do(s,1423)
+            assert state(s)[3] == 'finished'
+            do(s,1424); do(s,1424); assert state(s)[4:6] == [6,4]
+            do(s,1425); assert state(s)[5] == 0
+            do(s,1424); do(s,1426); assert state(s)[4:7] == [9,0,-1]
+            do(s,1424); do(s,1427); assert state(s)[4:6] == [12,0]
+            do(s,1428); assert state(s)[4:7] == [11,0,0]
+            s.command(f':save {path}')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}'); do(s,1428); assert state(s)[4] == 10
+        finally: s.close()
+
+
+def test_frenzy_boundaries(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1504)
+        return last(s,'test.frenzy-boundaries')
+    for scenario in ('burst','path','friends','exit','unrollable-exit'):
+        s = Session(bundle); path = out/f'frenzy-{scenario}.zsave'
+        try:
+            do(s,1310); do(s,1311); do(s,1370)
+            if scenario == 'burst':
+                do(s,1500); do(s,1373)
+                assert state(s) == [3,3,0,0,-1,0,0,3,0]
+                do(s,1372); assert state(s)[0:4] == [3,3,0,0]
+                do(s,1371); do(s,1371)
+                assert state(s) == [0,3,2,1,-1,0,0,3,1]
+                do(s,1501); do(s,1503); assert state(s)[0:4] == [0,3,2,1]
+                do(s,1502); s.command('undo'); assert state(s)[0:4] == [0,3,2,1]
+                do(s,1502); do(s,1502)
+                assert state(s) == [3,0,2,2,-1,0,0,3,2]
+            elif scenario == 'path':
+                do(s,1505); do(s,1373); assert state(s)[4] == 0
+                do(s,1506); assert state(s)[2:5] == [0,0,0]
+                do(s,1372); assert state(s)[2:5] == [0,0,0]
+                do(s,1371); s.command('undo'); assert state(s)[2:5] == [0,0,0]
+                do(s,1371); do(s,1371); assert state(s)[2:5] == [2,1,1]
+            elif scenario == 'friends':
+                do(s,1508); do(s,1371); assert state(s)[2:4] == [0,0]
+                do(s,1507); do(s,1375); assert state(s)[5] == 1
+                do(s,1371); assert state(s)[2:4] == [2,1]
+            elif scenario == 'exit':
+                do(s,1371); do(s,1509); do(s,1315); do(s,1375)
+                assert state(s)[6:8] == [1,9]
+            else:
+                do(s,1371); do(s,1510); do(s,1315); do(s,1375)
+                assert state(s)[6:8] == [1,9]  # Exit + survival dice; recorded consciousness loss uses none.
+            expected = state(s); s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); assert state(s) == expected
+        finally: s.close()
+
+
+def test_stress_panic(Session,bundle,out):
+    def do(s,c): s.action(2278,c)
+    s=Session(bundle);path=out/'stress-panic.zsave'
+    try:
+        do(s,800);do(s,820);do(s,806);do(s,801);do(s,803);do(s,804)
+        assert last(s,'test.timed-panic-path')[0:4]==[0,0,0,0]
+        do(s,802);do(s,802);do(s,804)
+        assert last(s,'test.timed-panic-path')[0:4]==[2,0,1,1]
+        assert last(s,'test.timed-panic-path')[-2:]==[1,1]
+        do(s,821);assert last(s,'test.stress-panic')==[6,4]
+        s.command(f':save {path}\n@2279')
+    finally:s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279');do(s,802);do(s,821)
+        assert last(s,'test.stress-panic')==[6,4]
+        do(s,822);assert last(s,'test.stress-panic-recovery')==[9]
+    finally:s.close()
+
+
+def test_stress_pending(Session,bundle,out):
+    def do(s,c,row=4): s.action(2250,c,row)
+    path=out/'stress-pending.zsave'
+    s=Session(bundle)
+    try:
+        do(s,1400); do(s,1401,1); do(s,1401,2)
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251')
+        do(s,1405); assert last(s,'test.stress')[0:5] == [6,1,2,1,4]
+        do(s,1410,1); do(s,1409,3600); do(s,1405)
+        assert last(s,'test.stress')[0:5] == [5,1,2,1,4]
+        do(s,1407); assert last(s,'test.stress-check') == ['blocked','stress-decision-required']
+        do(s,1403,3); do(s,1405); assert last(s,'test.stress')[4] == 0
+    finally: s.close()

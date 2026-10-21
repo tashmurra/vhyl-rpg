@@ -18,22 +18,26 @@ rpgExpandedAnimalTrickDays(intelligence)
     return nil;
 }
 
+/** Animal task modifier. */
 rpgExpandedAnimalTaskModifier(familiar, stressful, complexityPenalty)
 {
     rpgInteger(complexityPenalty,0,1000);
     if (complexityPenalty != 0 && complexityPenalty < 3) rpgExpandedReject('animal-task-complexity');
     return (familiar ? 0 : -5) + (stressful ? -5 : 0) - complexityPenalty;
 }
+/** Animal calming modifier. */
 rpgExpandedAnimalCalmingModifier(wild, frightened, manKiller)
 {
     return manKiller ? -10 : wild || frightened ? -5 : 0;
 }
+/** Animal combat penalty. */
 rpgExpandedAnimalCombatPenalty(handlingScore)
 {
     rpgInteger(handlingScore,-1000,1000);
     return handlingScore >= 20 ? -2 : handlingScore >= 15 ? -1 : 0;
 }
 
+/** Animal training assessment. Carries days, dailySeconds, sessionsPerDay, sessionSeconds. */
 class RpgExpandedAnimalTrainingAssessment: RpgExpandedResult
     days = nil
     dailySeconds = 14400
@@ -92,6 +96,7 @@ class RpgExpandedAnimalTrainingPlan: object
 modify RpgExpandedProfile
     animalHandlingAttempts = []
 ;
+/** Animal handling result. Carries score, succeeded, authorResolutionRequired. */
 class RpgExpandedAnimalHandlingResult: RpgExpandedResult
     score = nil
     succeeded = nil
@@ -214,6 +219,7 @@ class RpgExpandedAnimalHandlingAttempt: object
 modify RpgExpandedAnimalHandlingAttempt
     performanceReceipt = nil
 ;
+/** Animal performance result. Carries handlingCheck. */
 class RpgExpandedAnimalPerformanceResult: RpgExpandedAnimalHandlingResult
     handlingCheck = nil
 ;
@@ -307,6 +313,7 @@ class RpgExpandedAnimalCourse: object
         return self.plan.assess();
     }
 ;
+/** Animal session result. Carries day, attendance, dailyCheckRequired. */
 class RpgExpandedAnimalSessionResult: RpgExpandedResult
     day = nil
     attendance = 0
@@ -411,6 +418,7 @@ modify RpgExpandedAnimalCourse
     checks = []
     pendingFailure = nil
 ;
+/** Animal training check result. Carries day, score, creditedDays, failureAdjudicationRequired. */
 class RpgExpandedAnimalTrainingCheckResult: RpgExpandedResult
     day = nil
     score = nil
@@ -538,6 +546,7 @@ modify RpgExpandedProfile
 modify RpgExpandedAnimalCourse
     milestone = nil
 ;
+/** Animal milestone result. Carries level, trick. */
 class RpgExpandedAnimalMilestoneResult: RpgExpandedResult
     level = nil
     trick = nil
@@ -637,6 +646,7 @@ class RpgExpandedAnimalTask: object
     }
 ;
 
+/** Animal value. Carries numerator, denominator, money. */
 class RpgExpandedAnimalValue: RpgExpandedResult
     numerator = 0
     denominator = 1
@@ -697,6 +707,7 @@ rpgExpandedWarTrainingValue(baseValue, priceIncludesWarTraining)
     return rpgExpandedAnimalScaledValue(baseValue,priceIncludesWarTraining ? 1 : 2,1);
 }
 
+/** Natural damage. Carries dice, adds, damageType, skillBonus, anatomyBonus. */
 class RpgExpandedNaturalDamage: RpgExpandedResult
     dice = 0
     adds = 0
@@ -751,6 +762,7 @@ rpgExpandedNaturalDamageForStrength(strength, kind, anatomy, weakBite, horizonta
     return rpgExpandedNaturalDamage(thrust[1],thrust[2],kind,anatomy,weakBite,horizontal,dexterity,brawlingScore);
 }
 
+/** Swarm protection result. Carries elapsed, immune, dr. */
 class RpgExpandedSwarmProtectionResult: RpgExpandedResult
     elapsed = 0
     immune = nil
@@ -826,6 +838,7 @@ class RpgExpandedSwarm: object
     dispersed = nil
 ;
 
+/** Swarm attack result. Carries damage, injury, wound, immune. */
 class RpgExpandedSwarmAttackResult: RpgExpandedResult
     damage = 0
     injury = 0
@@ -960,6 +973,7 @@ modify RpgExpandedProfile
     swarmCounterattacks = []
 ;
 
+/** Swarm counterattack result. Carries injury, dispersed. */
 class RpgExpandedSwarmCounterattackResult: RpgExpandedResult
     injury = 0
     dispersed = nil

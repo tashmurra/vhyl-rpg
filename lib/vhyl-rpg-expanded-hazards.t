@@ -52,6 +52,7 @@ modify RpgExpandedWound
     infectionExposure = nil
 ;
 
+/** Infection result. Carries immune, infected, prevented, context. */
 class RpgExpandedInfectionResult: RpgExpandedResult
     immune = nil
     infected = nil
@@ -193,6 +194,7 @@ modify RpgExpandedInfectionExposure
     ended = nil
 ;
 
+/** Infection day result. Carries physicianBonus, injury, ended, context, failureWound. */
 class RpgExpandedInfectionDayResult: RpgExpandedResult
     physicianBonus = 0
     injury = 0
@@ -318,6 +320,7 @@ rpgExpandedNaturalDiseaseImmunity(roll)
     rpgInteger(roll,3,18); return roll == 3 || roll == 4;
 }
 
+/** Disease resistance. Carries diseaseId, profile, firstExposure, firstRoll, immune. */
 class RpgExpandedDiseaseResistance: object
     diseaseId = nil
     profile = nil
@@ -353,6 +356,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Aging schedule. Carries maturityYears, bands. */
 class RpgExpandedAgingSchedule: RpgExpandedResult
     maturityYears = 0
     bands = []
@@ -387,6 +391,7 @@ rpgExpandedAgingModifier(medicalTL, fitness)
     return medicalTL - 3 + fitness;
 }
 
+/** Aging loss. Carries score, roll, loss. */
 class RpgExpandedAgingLoss: RpgExpandedResult
     score = 0
     roll = 0
@@ -408,6 +413,7 @@ rpgExpandedAgingLoss(score, roll, longevity)
     value.status = 'ready'; return value;
 }
 
+/** Aging sequence. Carries scoresBefore, scoresAfter, losses, rolls, pointLoss. */
 class RpgExpandedAgingSequence: RpgExpandedResult
     scoresBefore = []
     scoresAfter = []
@@ -598,6 +604,7 @@ modify RpgExpandedProfile
 ;
 
 
+/** Rejuvenation result. Carries restoredEvents, gains, pointGain. */
 class RpgExpandedRejuvenationResult: RpgExpandedResult
     restoredEvents = []
     gains = [0,0,0,0]
@@ -724,6 +731,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Cold assessment. Carries checkRequired, intervalSeconds, failureFatigue, context, score. */
 class RpgExpandedColdAssessment: RpgExpandedResult
     checkRequired = nil
     intervalSeconds = 0
@@ -856,12 +864,14 @@ class RpgExpandedColdExposure: RpgExpandedColdContext
     }
 ;
 
+/** Cold interval result. Carries fatigue, injury, failureWound. */
 class RpgExpandedColdIntervalResult: RpgExpandedResult
     fatigue = 0
     injury = 0
     failureWound = nil
 ;
 
+/** Cold interval. Carries id, exposure, dropDestination, boundDestination, boundId. Operations: assess, apply. */
 class RpgExpandedColdInterval: object
     id = nil
     exposure = nil
@@ -967,6 +977,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Heat exertion. Carries extraFatigue. */
 class RpgExpandedHeatExertion: RpgExpandedResult
     extraFatigue = 0
 ;
@@ -981,6 +992,7 @@ rpgExpandedHeatExertion(effectiveF, upperComfortF)
     value.status = 'ready'; return value;
 }
 
+/** Heat outcome. Carries fatigue, heatStroke. */
 class RpgExpandedHeatOutcome: RpgExpandedResult
     fatigue = 0
     heatStroke = nil
@@ -999,6 +1011,7 @@ rpgExpandedHeatOutcome(score, roll, strokeDie)
     value.status = 'ready'; return value;
 }
 
+/** Thermal shock assessment. Carries ordinaryCold, intervalSeconds, fatigue. */
 class RpgExpandedThermalShockAssessment: RpgExpandedResult
     ordinaryCold = nil
     intervalSeconds = 0
@@ -1103,6 +1116,7 @@ class RpgExpandedImmersion: object
     }
 ;
 
+/** Immersion result. Carries context, score, fatigue, requestedFatigue, injury. */
 class RpgExpandedImmersionResult: RpgExpandedResult
     context = nil
     score = nil
@@ -1112,6 +1126,7 @@ class RpgExpandedImmersionResult: RpgExpandedResult
     wounds = []
 ;
 
+/** Immersion interval. Carries id, exposure, completedAt, result, boundId. Operations: assess, apply. */
 class RpgExpandedImmersionInterval: object
     id = nil
     exposure = nil
@@ -1268,6 +1283,7 @@ modify RpgExpandedProfile
     airlessHistory = []
 ;
 
+/** Airless result. Carries fatigue, injury, wound, consciousness, brainCheck. */
 class RpgExpandedAirlessResult: RpgExpandedResult
     fatigue = 0
     injury = 0
@@ -1352,6 +1368,7 @@ class RpgExpandedAirlessExposure: object
     }
 ;
 
+/** Airless second. Carries id, exposure, dropDestination, boundId, boundExposure. Operations: assess, apply. */
 class RpgExpandedAirlessSecond: object
     id = nil
     exposure = nil
@@ -1599,7 +1616,7 @@ rpgExpandedRadiationProtection(sample)
     if (sample == 'water-one-yard') return 8;
     if (sample == 'earth-one-yard') return 27;
     if (sample == 'concrete-one-yard') return 64;
-    rpgExpandedReject('radiation-protection-sample');
+    rpgExpandedReject('radiation-protection-sample'); return nil;
 }
 
 /** Exact received-dose ratio. No fractional rad is rounded away. */
@@ -1995,6 +2012,7 @@ class RpgExpandedFalloutMedicine: RpgLiteItem
     cost = 500
     techLevel = 7
 ;
+/** Advanced fallout medicine. Carries techLevel. */
 class RpgExpandedAdvancedFalloutMedicine: RpgExpandedFalloutMedicine
     techLevel = 8
 ;
@@ -2026,6 +2044,7 @@ class RpgExpandedFalloutTreatment: RpgExpandedRadiationPrevention
 modify RpgExpandedProfile
     falloutReleases = []
 ;
+/** Fallout release result. Carries sourceFraction, quantity, dose. */
 class RpgExpandedFalloutReleaseResult: RpgExpandedResult
     sourceFraction = nil
     quantity = nil
@@ -2096,6 +2115,7 @@ modify RpgExpandedProfile
     radiationChecks = []
 ;
 
+/** Radiation check result. Carries context, score, accumulated, consequencesPending. */
 class RpgExpandedRadiationCheckResult: RpgExpandedRadiationResult
     context = nil
     score = nil
@@ -2202,6 +2222,7 @@ modify RpgExpandedProfile
         return value;
     }
 ;
+/** Radiation burn result. Carries wound, injury, recoveryChecksPending. */
 class RpgExpandedRadiationBurnResult: RpgExpandedResult
     wound = nil
     injury = 0
@@ -2321,6 +2342,7 @@ modify rpgLedger
 modify RpgExpandedRadiationBurn
     recovery = nil
 ;
+/** Radiation recovery result. Carries sterilityCheck, terminalCheck, sterile, terminal. */
 class RpgExpandedRadiationRecoveryResult: RpgExpandedResult
     sterilityCheck = nil
     terminalCheck = nil
@@ -2421,6 +2443,7 @@ class RpgExpandedSurgicalInfectionContext: RpgExpandedInfectionContext
         value.status = 'ready'; return value;
     }
 ;
+/** Surgical infection exposure. Carries operation, boundOperation. Operations: patient, sourceId, ownsSource, rememberExposure. */
 class RpgExpandedSurgicalInfectionExposure: RpgExpandedInfectionExposure
     operation = nil
     boundOperation = nil
@@ -2552,6 +2575,7 @@ modify rpgLedger
     }
 ;
 
+/** Poison entry result. Carries exposed, viaPersistentWound, resistanceModifier. */
 class RpgExpandedPoisonEntryResult: RpgExpandedResult
     exposed = nil
     viaPersistentWound = nil
@@ -2678,6 +2702,7 @@ class RpgExpandedPoisonDoseResult: RpgExpandedResult
     resistanceModifier = 0
     detectionModifier = 0
 ;
+/** Poison dose. */
 rpgExpandedPoisonDose(doublings, delay, interval)
 {
     rpgInteger(doublings,0,10); rpgInteger(delay,0,2147483647); rpgInteger(interval,0,86400);
@@ -2693,6 +2718,7 @@ rpgExpandedPoisonDose(doublings, delay, interval)
     value.resistanceModifier = -2 * doublings; value.detectionModifier = 2 * doublings;
     value.status = 'ready'; return value;
 }
+/** Poison result. Carries condition, immune, fatigue, fatigueLoss, context. */
 class RpgExpandedPoisonResult: RpgExpandedResult
     condition = nil
     immune = nil
@@ -3083,6 +3109,7 @@ class RpgExpandedAntidote: RpgLiteItem
     endsExposure = nil
     effectEvidence = nil
 ;
+/** Antidote administration. Carries id, exposure, medicine, approved, identification. Operations: definition, validateReceipt, assess, apply. */
 class RpgExpandedAntidoteAdministration: object
     id = nil
     exposure = nil
@@ -3204,6 +3231,7 @@ modify RpgExpandedPoisonExposure
 ;
 
 
+/** Poison treatment result. Carries context, resistanceBonus. */
 class RpgExpandedPoisonTreatmentResult: RpgExpandedResult
     context = nil
     resistanceBonus = 0
@@ -3347,9 +3375,11 @@ class RpgExpandedPoisonStock: RpgLiteItem
     legality = nil
     hazard = nil
 ;
+/** Coating result. Carries doses. */
 class RpgExpandedCoatingResult: RpgExpandedResult
     doses = 0
 ;
+/** Weapon coating. Carries id, profile, weapon, stock, mode. Operations: definition, validateReceipt, assess, apply. */
 class RpgExpandedWeaponCoating: object
     id = nil
     profile = nil
@@ -3482,6 +3512,7 @@ class RpgExpandedCataloguePoison: RpgLiteHazard
         return nil;
     }
 ;
+/** Poison catalogue. */
 rpgExpandedPoisonCatalogue(id, route)
 {
     local value = new RpgExpandedCataloguePoison(); value.kind = 'poison';
@@ -3624,6 +3655,7 @@ modify RpgExpandedProfile
 ;
 
 
+/** Poison identification result. Carries context, identified. */
 class RpgExpandedPoisonIdentificationResult: RpgExpandedResult
     context = nil
     identified = nil
@@ -3782,6 +3814,7 @@ class RpgExpandedEnvironmentalPoisonExposure: RpgExpandedPoisonExposure
         value.status = 'resolved'; return value;
     }
 ;
+/** Environmental poison cycle. Operations: assess, apply. */
 class RpgExpandedEnvironmentalPoisonCycle: RpgExpandedPoisonCycle
     assess()
     {
@@ -3811,6 +3844,7 @@ class RpgExpandedEnvironmentalPoisonCycle: RpgExpandedPoisonCycle
 ;
 
 
+/** Poison susceptibility result. Carries immune. */
 class RpgExpandedPoisonSusceptibilityResult: RpgExpandedResult
     immune = nil
 ;
@@ -3871,6 +3905,7 @@ class RpgExpandedEnvironmentalCoughing: RpgExpandedCoughing
 ;
 
 
+/** Environmental blindness. Operations: history, remember, receiptKind. */
 class RpgExpandedEnvironmentalBlindness: RpgExpandedEnvironmentalCoughing
     history() { return self.profile.temporaryBlindnessHistory; }
     remember() { self.profile.temporaryBlindnessHistory = self.profile.temporaryBlindnessHistory + [self]; }
@@ -3895,6 +3930,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Collision assessment. Carries damageDice, damageAdds, capacity, velocity, damageType. */
 class RpgExpandedCollisionAssessment: RpgExpandedResult
     damageDice = 0
     damageAdds = 0
@@ -3928,6 +3964,7 @@ rpgExpandedAssessScaledCollision(capacity,velocity,scale,hard)
     value.status = 'ready'; return value;
 }
 
+/** Fall protection assessment. Carries penetratingDamage, bluntInjury, stoppedDamage. */
 class RpgExpandedFallProtectionAssessment: RpgExpandedResult
     penetratingDamage = 0
     bluntInjury = 0
@@ -3949,6 +3986,7 @@ rpgExpandedAssessFallProtection(damage,resistance,kind)
 modify RpgExpandedProfile
     fallInjuries = []
 ;
+/** Fall injury result. Carries protection, wound, impactDamage, cushionedDamage. */
 class RpgExpandedFallInjuryResult: RpgExpandedResult
     protection = nil
     wound = nil
@@ -4073,6 +4111,7 @@ modify RpgExpandedFallInjury
 modify RpgExpandedProfile
     fallImpacts = []
 ;
+/** Fall impact result. Carries expression, injury, damage, dice. */
 class RpgExpandedFallImpactResult: RpgExpandedResult
     expression = nil
     injury = nil
@@ -4184,6 +4223,7 @@ class RpgExpandedPressureAssessment: RpgExpandedResult
     injuryMultiplier = 1
     bendsRisk = nil
 ;
+/** Assess pressure. */
 rpgExpandedAssessPressure(pressure,nativePressure,support,sizeModifier)
 {
     rpgInteger(pressure,1,1000000); rpgInteger(nativePressure,1,100000);
@@ -4197,6 +4237,7 @@ rpgExpandedAssessPressure(pressure,nativePressure,support,sizeModifier)
     value.status = 'ready'; return value;
 }
 
+/** Pressure result. Carries injury, health. */
 class RpgExpandedPressureResult: RpgExpandedResult
     injury = 0
     health = nil
@@ -4288,6 +4329,7 @@ class RpgExpandedPressureExposure: object
         self.endedAt = rpgLedger.seconds; self.boundEndedAt = self.endedAt; value.status = 'resolved'; return value;
     }
 ;
+/** Pressure check. Carries exposure, result, boundExposure, checkedAt. Operations: assess, apply. */
 class RpgExpandedPressureCheck: object
     exposure = nil
     result = nil
@@ -4360,6 +4402,7 @@ class RpgExpandedDecompressionAssessment: RpgExpandedResult
     referenceSafeSeconds = nil
     approximate = nil
 ;
+/** Assess decompression. */
 rpgExpandedAssessDecompression(pressure,nativePressure,support,seconds,humanExamples)
 {
     local exposure = rpgExpandedAssessPressure(pressure,nativePressure,support,0);
@@ -4398,6 +4441,7 @@ modify RpgExpandedPressureExposure
 modify RpgExpandedProfile
     decompressionPlans = []
 ;
+/** Decompression plan. Carries id, source, stages, approved, evidence. Operations: profile, definition, validate, openStage. */
 class RpgExpandedDecompressionPlan: object
     id = nil
     source = nil
@@ -4507,6 +4551,7 @@ class RpgExpandedDecompressionPlan: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Decompression progress. Carries plan, stage, seconds, result, boundDefinition. Operations: definition, assess, apply. */
 class RpgExpandedDecompressionProgress: object
     plan = nil
     stage = 0
@@ -4586,6 +4631,7 @@ modify RpgExpandedProfile
         return inherited(owner);
     }
 ;
+/** Decompression illness. Carries id, source, humanExamples, unsafeReturn, failureMode. Operations: profile, definition, validateReceipt, painEpisode. */
 class RpgExpandedDecompressionIllness: object
     id = nil
     source = nil
@@ -4698,6 +4744,7 @@ class RpgExpandedDecompressionIllness: object
         self.validateReceipt(); return value;
     }
 ;
+/** Decompression recovery. Carries episode, result, boundEpisode. Operations: assess, apply. */
 class RpgExpandedDecompressionRecovery: object
     episode = nil
     result = nil
@@ -4858,6 +4905,7 @@ class RpgExpandedRecompression: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Recompression check. Carries treatment, boundTreatment, checkedAt, result. Operations: assess, apply. */
 class RpgExpandedRecompressionCheck: object
     treatment = nil
     boundTreatment = nil
@@ -4916,6 +4964,7 @@ class RpgExpandedAccelerationResult: RpgExpandedResult
     fatigueLoss = nil
     blackoutSeconds = 0
 ;
+/** Assess acceleration. */
 rpgExpandedAssessAcceleration(acceleration,homeGravity,orientation)
 {
     rpgInteger(acceleration,0,1000000); rpgInteger(homeGravity,0,1000000);
@@ -4942,6 +4991,7 @@ modify RpgExpandedProfile
         return inherited(owner);
     }
 ;
+/** Acceleration fatigue loss. Operations: maximumAmount, fatigueCause, history, remember. */
 class RpgExpandedAccelerationFatigueLoss: RpgExpandedFearFatigueLoss
     maximumAmount() { return 15; }
     fatigueCause() { return 'acceleration'; }
@@ -4949,6 +4999,7 @@ class RpgExpandedAccelerationFatigueLoss: RpgExpandedFearFatigueLoss
     remember() { self.profile.accelerationFatigueLosses = self.profile.accelerationFatigueLosses + [self]; }
     woundId(index) { return 'acceleration-fatigue:' + self.id + ':' + index; }
 ;
+/** Acceleration. Carries id, profile, acceleration, homeGravity, orientation. Operations: definition, validateReceipt, loss, assess. */
 class RpgExpandedAcceleration: object
     id = nil
     profile = nil
@@ -5081,6 +5132,7 @@ class RpgExpandedFreeFallResult: RpgExpandedResult
     score = nil
     unaffected = nil
 ;
+/** Free fall exposure. Carries id, profile, skill, native, susceptible. Operations: effectiveSusceptibility, definition, validateReceipt, resistance. */
 class RpgExpandedFreeFallExposure: object
     id = nil
     profile = nil
@@ -5213,6 +5265,7 @@ class RpgExpandedFreeFallExposure: object
 modify RpgExpandedProfile
     freeFallExposures = []
 ;
+/** Free fall adaptation. Carries exposure, boundExposure, result. Operations: assess, apply. */
 class RpgExpandedFreeFallAdaptation: object
     exposure = nil
     boundExposure = nil
@@ -5390,6 +5443,7 @@ class RpgExpandedSustenanceDeprivation: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Sustenance injury. Carries id, episode, recordedAt, wound, agingAdvance. Operations: definition, validateReceipt, makeWound, assess. */
 class RpgExpandedSustenanceInjury: object
     id = nil
     episode = nil
@@ -5563,6 +5617,7 @@ class RpgExpandedSustenanceContact: object
 class RpgExpandedSustenanceStock: RpgLiteItem
     requirementScope = nil
 ;
+/** Sustenance dose. Carries id, episode, stock, approved, evidence. Operations: definition, validateReceipt, assess, apply. */
 class RpgExpandedSustenanceDose: object
     id = nil
     episode = nil
@@ -6107,6 +6162,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Sustenance aging plan. Carries oldAgeMonths, newAgeMonths, boundaryAgeMonths, addedYears, boundaryCalendarDays. */
 class RpgExpandedSustenanceAgingPlan: RpgExpandedResult
     oldAgeMonths = 0
     newAgeMonths = 0
@@ -6118,6 +6174,7 @@ class RpgExpandedSustenanceAgingPlan: RpgExpandedResult
 rpgExpandedSustenanceAgingPlan(profile,oldAgeMonths)
 { return rpgExpandedAgeAdvancePlan(profile,oldAgeMonths,24); }
 
+/** Age advance plan. */
 rpgExpandedAgeAdvancePlan(profile,oldAgeMonths,months)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('sustenance-aging-profile');
@@ -6260,6 +6317,7 @@ class RpgExpandedSustenanceAgingAdvance: object
         value = event.apply(); if (value.status == 'resolved') self.boundaries = self.boundaries + [event]; return value;
     }
 ;
+/** Sustenance aging boundary. Carries advance, boundaryIndex. Operations: exemptFromAging, assess, ageCalendarDay. */
 class RpgExpandedSustenanceAgingBoundary: RpgExpandedAgingEvent
     advance = nil
     boundaryIndex = nil
@@ -6384,6 +6442,7 @@ modify RpgExpandedSustenanceAgingPlan
     oldAgeCalendarDay = nil
     newAgeCalendarDay = nil
 ;
+/** Sustenance calendar aging plan. */
 rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('sustenance-aging-profile');
@@ -6420,6 +6479,7 @@ rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
     }
     value.status = 'ready'; return value;
 }
+/** Sustenance aging boundary identity. Carries advance, index. */
 class RpgExpandedSustenanceAgingBoundaryIdentity: object
     advance = nil
     index = nil
@@ -6533,6 +6593,7 @@ class RpgExpandedMotionJourney: object
         self.currentPenalty = 0; value.status = 'resolved'; return value;
     }
 ;
+/** Motion day result. Carries context, retching. */
 class RpgExpandedMotionDayResult: RpgExpandedSeasicknessResult
     context = nil
     retching = nil
@@ -6688,7 +6749,7 @@ class RpgExpandedDrowningExposure: RpgExpandedAirlessExposure
         local value = new RpgExpandedResult();
         if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
-            || self.swimming == nil || !self.swimming.ofKind(RpgExpandedSwimmingEncounter)
+            || self.swimming == nil || !self.swimming.ofKind(RpgExpandedSwimmingContract)
             || self.swimming.profile != self.profile) rpgExpandedReject('drowning-submersion-definition');
         self.swimming.validateBinding(); self.swimming.validateWillHistory();
         if (!self.approved || self.evidence == nil || self.evidence == '')
@@ -6741,6 +6802,7 @@ class RpgExpandedDrowningExposure: RpgExpandedAirlessExposure
 ;
 
 
+/** Drowning care result. Carries context, recovery. */
 class RpgExpandedDrowningCareResult: RpgExpandedResult
     context = nil
     recovery = nil
@@ -6947,7 +7009,7 @@ class RpgExpandedBreathExhaustion: RpgExpandedAirlessExposure
         local value = new RpgExpandedResult();
         if (self.startedAt != nil) { self.validateBinding(); value.status = 'reused'; return value; }
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
-            || self.reserve == nil || !self.reserve.ofKind(RpgExpandedBreathReserve) || self.reserve.profile != self.profile)
+            || self.reserve == nil || !self.reserve.ofKind(RpgExpandedBreathReserveContract) || self.reserve.profile != self.profile)
             rpgExpandedReject('breath-exhaustion-definition');
         if (self.evidence == nil || self.evidence == '') { value.reason = 'airless-exposure-evidence'; return value; }
         if (self.reserve.startedAt == nil || self.reserve.endedAt != nil || self.profile.breathReserve != self.reserve)
@@ -6987,21 +7049,6 @@ class RpgExpandedBreathExhaustion: RpgExpandedAirlessExposure
     }
 ;
 
-modify RpgExpandedBreathReserve
-    airlessHandoff = nil
-    validateEnd()
-    {
-        if (self.airlessHandoff == nil) return inherited();
-        if (!self.airlessHandoff.ofKind(RpgExpandedBreathExhaustion)) rpgExpandedReject('breath-exhaustion-history');
-        return self.airlessHandoff.validateReserveEnd(self);
-    }
-    resumeAir(evidence)
-    {
-        if (self.airlessHandoff == nil) return inherited(evidence);
-        self.validateBinding(); self.validateEnd();
-        local value = new RpgExpandedResult(); value.reason = 'breath-airless-recovery-owned'; return value;
-    }
-;
 
 
 /** B361 forced-age selection uses the existing B444 loss ledger and calendar. */
@@ -7009,6 +7056,7 @@ class RpgExpandedFearAgingCalendar: RpgExpandedSustenanceAgingCalendar
     years = 5
     spanMonths() { rpgInteger(self.years,1,10); return self.years*12; }
 ;
+/** Fear aging. Carries lowScoreRuling, calendarId, calendar, oldAgeMonths, medicalTL. Operations: definition, prepare, planFacts, assess. */
 class RpgExpandedFearAging: RpgExpandedFearAgingContract
     lowScoreRuling = nil
     calendarId = nil
@@ -7119,6 +7167,7 @@ class RpgExpandedFearAging: RpgExpandedFearAgingContract
         value.status = 'resolved'; return value;
     }
 ;
+/** Fear aging boundary. Carries advance, boundaryIndex, boundLosses. Operations: lossFacts, apply, prepareSequence, assess. */
 class RpgExpandedFearAgingBoundary: RpgExpandedAgingEvent
     advance = nil
     boundaryIndex = nil
@@ -7282,6 +7331,7 @@ class RpgExpandedFearAgingRuling: object
         return [self,self.owner,self.approved,self.evidence] + self.losses;
     }
 ;
+/** Fear aging preflight. */
 rpgExpandedFearAgingPreflight(advance,count)
 {
     local profile = advance.profile; local medicalTL = advance.medicalTL;
@@ -7317,3 +7367,11 @@ rpgExpandedFearAgingPreflight(advance,count)
     }
     value.status = 'ready'; return value;
 }
+
+modify RpgExpandedProfile
+    validateBreathHandoff(handoff,reserve)
+    {
+        if (!handoff.ofKind(RpgExpandedBreathExhaustion)) rpgExpandedReject('breath-exhaustion-history');
+        return handoff.validateReserveEnd(reserve);
+    }
+;

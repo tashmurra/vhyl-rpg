@@ -1,6 +1,7 @@
 # Fear and mental-state completion checklist
 
-**Not complete. Checks are paused during implementation. No passing validation is claimed.**
+**Implementation and acceptance fixtures are authored; validation is now in progress.
+No passing validation is claimed until recorded below.**
 
 This is the authoritative checklist for the approved fear milestone, frozen at
 `c2ba9d0`. The wider expansion conversion remains separate and PR #4 remains draft.
@@ -41,14 +42,14 @@ is not runtime evidence. Rows stay open until their acceptance scope has passed.
 | F10 | full-2008 B361 rows 21/33 | Expression, room flight, tactical path, fall, attack and destruction produce actual effects with one time/resource charge | Timed-path, expression, flight, fall, path, attack, defense, object, computer and interruption fixtures | Unrun; open |
 | F11 | Baseline whitelist + approved scope | Each frozen selection has acquisition, effects, mitigation, worsening where applicable and replay | Per-trait fixtures; exact roster below | Unrun; open |
 | F12 | full-2008 B153 | Short attention fails a concrete owned task; terminal prototype failure retains charges and blocks continuation/delivery; enable acquisition/worsening | Owned task lifecycle, prototype terminal gate and fear whitelist implemented. `test_attention_work`, `test_attention_prototype`, `test_attention_acquisition` and `test_attention_rapid_prototype` authored; awaiting execution | Implemented; unrun |
-| F13 | full-2008 B124 plus approved knockdown ruling | Complete frenzy entry, legal action/defense policy, injury effects, target changes and exit | Owned injury entry, effective shock/stun/movement and survival hooks, and wound-bound knockdown rulings authored in `test_frenzy_entry`, `test_frenzy_knockdown` , `test_frenzy_temper` and `test_frenzy_voluntary`. Temper reuses its check; voluntary entry commits Concentrate and Will. Optional battle entry and rating prices authored in `test_frenzy_battle`. Committed actions, target changes, exit and full lifecycle remain missing | Implementation incomplete |
-| S01 | Original campaign stress rules below | Optional policy/state and explicit unique gains; cap, immutable policy and episode reset | New stress module and fixtures required | Not implemented |
-| S02 | Original campaign stress rules below | Ascending owned threshold decisions, persistence and voluntary-action gate | New stress decision/gating fixtures required | Not implemented |
-| S03 | Original campaign stress rules below | Timed nonstacking strain, ordinary owned fear or recorded coping; no recursive gains | New stress consequence fixtures required | Not implemented |
-| S04 | Original campaign stress rules below | Safe-hour recovery, daily cap, interruption, interval ownership and independent aftermath | New stress recovery fixtures required | Not implemented |
-| D01 | Approved delivery plan | Neutral docs, catalogue/provenance/API navigation and connected playable fear/stress sequence | Documentation updates and example/interface parity required | Not implemented fully |
+| F13 | full-2008 B124 plus approved knockdown ruling | Complete frenzy entry, legal action/defense policy, injury effects, target changes and exit | Owned injury entry, effective shock/stun/movement and survival hooks, and wound-bound knockdown rulings authored in `test_frenzy_entry`, `test_frenzy_knockdown` , `test_frenzy_temper` and `test_frenzy_voluntary`. Temper reuses its check; voluntary entry commits Concentrate and Will. Optional battle entry and rating prices authored in `test_frenzy_battle`. Owned recorded turns, ranged reloads, tactical paths, target changes, exit health and acquisition now have `test_frenzy_turn`, `test_frenzy_boundaries` and `test_frenzy_acquisition` fixtures | Implemented; unrun |
+| S01 | Original campaign stress rules below | Optional policy/state and explicit unique gains; cap, immutable policy and episode reset | `RpgExpandedStressPolicy`, state/gain receipts; `test_stress` | Implemented; unrun |
+| S02 | Original campaign stress rules below | Ascending owned threshold decisions, persistence and voluntary-action gate | Owned ordered decisions and shared action/check gates; `test_stress`, `test_stress_fear` | Implemented; unrun |
+| S03 | Original campaign stress rules below | Timed nonstacking strain, ordinary owned fear or recorded coping; no recursive gains | Owned strain/coping/fear resolutions; `test_stress`, `test_stress_fear` | Implemented; unrun |
+| S04 | Original campaign stress rules below | Safe-hour recovery, daily cap, interruption, interval ownership and independent aftermath | Owned safe-hour intervals, shared-clock settlement and daily ledger; `test_stress` | Implemented; unrun |
+| D01 | Approved delivery plan | Neutral docs, catalogue/provenance/API navigation and connected playable fear/stress sequence | Stress guide, catalogue, API inputs and connected Echo Vault scene; `test_echo_aftermath` | Authored; unrun |
 | V01 | Approved delivery plan | Pure preview, rejection before costs/dice, replay, rollback, undo, separate-process saves for every requirement | Lifecycle fixtures plus coverage audit | Unrun; open |
-| V02 | Approved delivery plan | Minimal/all-module builds, unchanged absent-feature behavior, source/native/docs/packaging checks | Commands and result record below | Paused |
+| V02 | Approved delivery plan | Minimal/all-module builds, unchanged absent-feature behavior, source/native/docs/packaging checks | Commands and result record below | Running |
 
 ## Frozen mental-selection roster
 
@@ -89,7 +90,7 @@ phobias and their existing consequence interfaces remain included separately.
 Frenzy's combined knockdown/consciousness ambiguity now has an approved policy:
 require a recorded author-selected ruling, retain actual injury and stun immunity,
 and invent no unstated modifier. The previous unanswered-policy blocker is closed;
-the implementation is still required.
+the owned wound ruling and exit contracts are implemented, awaiting validation.
 
 Short attention must finish via a concrete owned task lifecycle and the minimum
 prototype terminal transition. No further general invention/production work is
@@ -186,3 +187,19 @@ Create `vhyl-rpg-expanded-stress.t`; inclusion alone does not activate it.
 Push reviewable commits to PR #4; retain draft status for the wider conversion.
 Complete this milestone only when every requirement above has observed passing
 acceptance evidence and no unresolved in-scope implementation remains.
+
+## Current validation gate
+
+Implementation includes the frozen roster and owned author contracts, the optional
+stress module and connected Echo Vault acceptance sequence. Checks resume to
+execute the authored scenarios and repair failures within this scope. Wider
+conversion work remains deferred.
+
+### Observed validation, current working tree
+
+- `.tools/docs/bin/python tools/build_docs.py --check`: passed; 1,512 public/internal declarations indexed, strict site build and local links checked.
+- `python3 -m unittest discover -s tests -p test_docs.py`: 8 passed.
+- `python3 -m unittest discover -s tests -p test_expanded_inventory.py`: 16 passed.
+- Source suite: 48 tool tests and 537 source programs passed with the verified pinned compiler; rerunning after the host-boundary integration.
+- Native execution remains in progress. `test_frenzy_turn` passed actual injury/time, rejection, exception rollback, undo, deterministic replay and cross-process save continuation. The larger focused and full suites are running. The first optimized build exceeded the compiler tool deadline; validation uses unoptimized games and an explicit 64 MiB macOS test-host worker stack. Numeric fixture parameters now stay outside the object-subject transport. Recoverable mechanics errors use the exported RPG dispatch boundary to release exception ownership before journal rollback.
+- Environment: macOS Intel; Python 3.13.14; pinned vhyl revision `53dbf3b94bb12f269fc447c414bff09fc0b7e46d`; verified official `zebc` v0.1.2 archive (SHA-256 `85a8b0e8112fc744937d89729d488a19f15d07fe70b27e48ae596a9907f12c95`); LLVM 22.1.8 and Rust 1.98.1 selected explicitly. The older compiler on PATH is not used for this evidence.

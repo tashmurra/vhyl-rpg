@@ -5,7 +5,7 @@ socialInhibition: RpgExpandedSocialInhibition approved = true level = 1;
 socialInhibitionDuplicate: RpgExpandedSocialInhibition approved = true level = 1;
 modify bleedProfile traits = [socialInhibition];
 modify BleedTestAction
-    exec(context)
+    exec(actionContext)
     {
         local code = bleedInput.code;
         if (code == 2800)
@@ -32,6 +32,6 @@ modify BleedTestAction
             local context = new RpgLiteContext(); context.skill = preparationAdmin;
             event('test.social-inhibition-unaffected'); eventValue(rpgLiteScore(bleedProfile,context)); return nil;
         }
-        return inherited(context);
+        return inherited(actionContext);
     }
 ;

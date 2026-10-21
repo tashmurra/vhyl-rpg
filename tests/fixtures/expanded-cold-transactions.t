@@ -48,10 +48,10 @@ coldAction: ColdFixtureAction;
 coldVerb: Verb code = 1840 action = coldAction label = 'cold-fixture';
 modify gameMain initialRoom = coldRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1840) { coldInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1840) { coldInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1841)
     {
         event('test.cold-state'); eventValue(coldPatient.fatigue); eventValue(coldPatient.injury);
@@ -60,5 +60,5 @@ act(verb,args)
         eventValue(coldExposure.ended ? 1 : 0); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
         eventValue(coldExposure.windMph); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

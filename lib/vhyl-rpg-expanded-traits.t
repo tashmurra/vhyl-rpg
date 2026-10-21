@@ -102,7 +102,7 @@ rpgExpandedMaintenanceCost(people, frequency)
     if (frequency == 'twice-daily') return base * 2;
     if (frequency == 'three-to-five-daily') return base * 3;
     if (frequency == 'constant') return base * 5;
-    rpgExpandedReject('maintenance-frequency');
+    rpgExpandedReject('maintenance-frequency'); return nil;
 }
 
 /** B56-B57 purchased invention capability; ordinary and rapid tiers are alternatives. */
@@ -520,6 +520,7 @@ class RpgExpandedTruthfulness: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Truthfulness result. Carries communicationKind, statement. */
 class RpgExpandedTruthfulnessResult: RpgExpandedResult
     communicationKind = nil
     statement = nil
@@ -811,6 +812,7 @@ class RpgExpandedSocialInhibition: RpgExpandedDisadvantage
         rpgInteger(self.level,1,3); return [-5,-10,-20][self.level];
     }
 ;
+/** Social inhibition applies. */
 rpgExpandedSocialInhibitionApplies(skill)
 {
     if (skill == nil || !skill.ofKind(RpgLiteSkill)) return nil;
@@ -862,6 +864,7 @@ class RpgExpandedEmotionalUnderstandingDeficit: RpgExpandedDisadvantage
         return -20;
     }
 ;
+/** Emotional understanding applies. */
 rpgExpandedEmotionalUnderstandingApplies(skill)
 {
     if (skill == nil || !skill.ofKind(RpgLiteSkill)) return nil;
@@ -943,6 +946,7 @@ class RpgExpandedEmotionalObliviousness: RpgExpandedDisadvantage
         return -5;
     }
 ;
+/** Ordinary influence skill. */
 rpgExpandedOrdinaryInfluenceSkill(skill)
 {
     return skill != nil && skill.ofKind(RpgLiteSkill)
@@ -1162,6 +1166,7 @@ class RpgExpandedCompelledAid: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Aid trigger. Carries recipient, assistance, aidAvailable, shouldResist, approved. Operations: definition, assess. */
 class RpgExpandedAidTrigger: RpgExpandedSelfControlTrigger
     recipient = nil
     assistance = nil
@@ -1234,6 +1239,7 @@ class RpgExpandedLowMotivation: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Motivation trigger. Carries choices, leastEffort, minimumNecessitiesOnly, approved, decision. Operations: definition, assess. */
 class RpgExpandedMotivationTrigger: RpgExpandedSelfControlTrigger
     choices = []
     leastEffort = nil
@@ -1260,6 +1266,7 @@ class RpgExpandedMotivationTrigger: RpgExpandedSelfControlTrigger
         return value;
     }
 ;
+/** Motivation decision. Carries source, choice, result, boundSource, boundChoice. Operations: assess, apply. */
 class RpgExpandedMotivationDecision: object
     source = nil
     choice = nil
@@ -1419,6 +1426,7 @@ rpgExpandedTalentCatalogue: object
         rpgExpandedReject('catalogue-talent-id');
     }
 ;
+/** Catalogue talent. Carries approved, templatePurchaseKind. Operations: creationCost. */
 class RpgExpandedCatalogueTalent: RpgLiteTrait
     approved = nil
     templatePurchaseKind = 'expanded-catalogue-talent'
@@ -1433,6 +1441,7 @@ class RpgExpandedCatalogueTalent: RpgLiteTrait
         return price * self.level;
     }
 ;
+/** Make catalogue talent. */
 rpgExpandedMakeCatalogueTalent(id,level,approved)
 {
     local trait = new RpgExpandedCatalogueTalent(); trait.id = id; trait.labelId = id;
@@ -1482,6 +1491,7 @@ class RpgExpandedCustomTalent: RpgLiteTrait
         return nil;
     }
 ;
+/** Make custom talent. */
 rpgExpandedMakeCustomTalent(profile,id,skillIds,level,approved,evidence)
 {
     local trait = new RpgExpandedCustomTalent();
@@ -1999,6 +2009,7 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;
+/** Phantom voice result. Carries occurred, severity, roll. */
 class RpgExpandedPhantomVoiceResult: RpgExpandedResult
     occurred = nil
     severity = 0
@@ -2105,6 +2116,7 @@ modify RpgExpandedProfile
 modify RpgExpandedPhantomVoiceOccurrence
     commands = []
 ;
+/** Voice command result. Carries resisted, instruction, score. */
 class RpgExpandedVoiceCommandResult: RpgExpandedResult
     resisted = nil
     instruction = nil
@@ -2274,6 +2286,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     voiceOrigins = []
 ;
+/** Voice origin. Carries profile, trait, origin, approved, evidence. Operations: definition, validateReceipt, assess, record. */
 class RpgExpandedVoiceOrigin: object
     profile = nil
     trait = nil
@@ -2684,8 +2697,9 @@ rpgExpandedSustenanceSchedule(frequency)
     if (frequency == 'monthly') return [1,1,86400,0,1];
     if (frequency == 'seasonal') return [1,3,259200,0,3];
     if (frequency == 'yearly') return [1,10,1209600,0,12];
-    rpgExpandedReject('sustenance-frequency');
+    rpgExpandedReject('sustenance-frequency'); return nil;
 }
+/** Sustenance cost. */
 rpgExpandedSustenanceCost(rarity, illegal, frequency)
 {
     local base = 0;
@@ -2888,17 +2902,6 @@ modify RpgLiteSkill
         foreach (local row in rpgLiteCatalogue.skills)
             if (row[1] == self.studyIdentity()) return 0;
         return nil;
-    }
-;
-modify RpgExpandedSkill
-    vehicleOperationClassification()
-    {
-        if (self.optionalParent == nil) return inherited();
-        rpgExpandedValidateSkill(self);
-        local parent = self.optionalParent.vehicleOperationClassification();
-        if (self.vehicleOperationClass != nil && self.vehicleOperationClass != parent)
-            rpgExpandedReject('vehicle-operation-specialty-conflict');
-        return parent;
     }
 ;
 modify RpgExpandedProfile
@@ -3415,6 +3418,7 @@ modify rpgExpandedTemplateTraits
     }
 ;
 
+/** Sensory memory result. Carries memorized, retryAt, score, gate, allowed. */
 class RpgExpandedSensoryMemoryResult: RpgExpandedResult
     memorized = nil
     retryAt = nil
@@ -3721,8 +3725,9 @@ rpgExpandedPhobiaBase(kind,technology,prevalence)
         if (!holds(['common','uncommon','unknown'],prevalence)) rpgExpandedReject('phobia-prevalence');
         return prevalence == 'common' ? -15 : prevalence == 'uncommon' ? -10 : -5;
     }
-    rpgExpandedReject('phobia-catalogue-kind');
+    rpgExpandedReject('phobia-catalogue-kind'); return nil;
 }
+/** Phobia. Carries id, scope, points, controlled, level. Operations: creationCost, validateDirectControl. */
 class RpgExpandedPhobia: RpgExpandedDisadvantage
     id = 'phobia'
     scope = 'blood'
@@ -4229,7 +4234,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision) || trait.ofKind(RpgExpandedCredulity) || trait.ofKind(RpgExpandedShortAttention)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision) || trait.ofKind(RpgExpandedCredulity) || trait.ofKind(RpgExpandedShortAttention) || trait.ofKind(RpgExpandedFrenzy)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4237,6 +4242,7 @@ rpgExpandedFearMentalFacts(trait)
         trait.level,trait.scope,trait.approved,trait.controlled];
     if (trait.ofKind(RpgExpandedGoalFixation)) facts = facts + [trait.term,trait.initialGoal];
     if (trait.ofKind(RpgExpandedIntrusiveReplay)) facts = facts + [trait.replayType];
+    if (trait.ofKind(RpgExpandedFrenzy)) facts = facts + [trait.battleEntry];
     return facts;
 }
 /** B361 rows 23/35 and matching compounds: retain the concrete typed trait. */
@@ -4375,6 +4381,7 @@ class RpgExpandedOverstimulation: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Overstimulation trigger. Carries situation, approved, endedAt, endReason, endEvidence. Operations: stimulusAllowed, definition, checkFacts, afterControlResolution. */
 class RpgExpandedOverstimulationTrigger: RpgExpandedSelfControlTrigger
     stimulusAllowed() { return holds(['unfamiliar-place','commotion'],self.situation); }
     situation = nil
@@ -4777,6 +4784,7 @@ class RpgExpandedImpulsiveAction: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Impulsive action trigger. Carries waitingWise, immediateActions, deliberativeActions, completedAction, completedAt. Operations: definition, afterControlResolution, assess, permits. */
 class RpgExpandedImpulsiveActionTrigger: RpgExpandedSelfControlTrigger
     waitingWise = nil
     immediateActions = []
@@ -4882,6 +4890,7 @@ class RpgExpandedVolatileTemper: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Volatile temper trigger. Carries stressful, stressor, stressRelation, hostileActions, restrainedActions. Operations: matchesTrait, definition, afterControlResolution, assess. */
 class RpgExpandedVolatileTemperTrigger: RpgExpandedSelfControlTrigger
     matchesTrait() { return self.trait.ofKind(RpgExpandedVolatileTemper); }
     stressful = nil
@@ -4993,6 +5002,7 @@ class RpgExpandedNightmares: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Nightmare waking. Carries id, profile, control, day, dayEndsAt. Operations: facts, outcomeFacts, validateReceipt, assess. */
 class RpgExpandedNightmareWaking: object
     id = nil
     profile = nil
@@ -5140,6 +5150,7 @@ class RpgExpandedOverconfidence: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Overconfidence trigger. Carries cautionUnreasonable, confidentActions, cautiousActions, completedAction, completedAt. Operations: definition, afterControlResolution, assess, permits. */
 class RpgExpandedOverconfidenceTrigger: RpgExpandedSelfControlTrigger
     cautionUnreasonable = nil
     confidentActions = []
@@ -5262,6 +5273,7 @@ class RpgExpandedSolitude: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Solitude trigger. Carries stressful, proximityUnwanted, person. Operations: matchesTrait, definition, assess. */
 class RpgExpandedSolitudeTrigger: RpgExpandedVolatileTemperTrigger
     stressful = true
     proximityUnwanted = nil
@@ -5323,6 +5335,7 @@ class RpgExpandedStatusSensitivity: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Status sensitivity trigger. Carries stressful, clearSlight, person. Operations: matchesTrait, definition, assess. */
 class RpgExpandedStatusSensitivityTrigger: RpgExpandedVolatileTemperTrigger
     stressful = true
     clearSlight = nil
@@ -5397,6 +5410,7 @@ class RpgExpandedSelfSacrifice: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Self sacrifice trigger. Carries person, competingNeeds, otherFirstActions, selfFirstActions, completedAction. Operations: definition, afterControlResolution, assess, permits. */
 class RpgExpandedSelfSacrificeTrigger: RpgExpandedSelfControlTrigger
     person = nil
     competingNeeds = nil
@@ -5572,6 +5586,7 @@ modify RpgExpandedProfile
         return inherited(context);
     }
 ;
+/** Intrusive replay result. Carries roll, occurred, severity, duration, replayType. */
 class RpgExpandedIntrusiveReplayResult: RpgExpandedResult
     roll = nil
     occurred = nil
@@ -5793,6 +5808,7 @@ class RpgExpandedIncuriosity: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Incuriosity trigger. Carries novelty, strangeConfirmed, ignoreActions, investigationActions, completedAction. Operations: definition, afterControlResolution, assess, permits. */
 class RpgExpandedIncuriosityTrigger: RpgExpandedSelfControlTrigger
     novelty = nil
     strangeConfirmed = nil
@@ -5930,6 +5946,7 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
 ;
+/** Indecision episode. Carries id, profile, trait, choices, highStress. Operations: facts, validate, active. */
 class RpgExpandedIndecisionEpisode: object
     id = nil
     profile = nil
@@ -5980,6 +5997,7 @@ class RpgExpandedIndecisionEpisode: object
             && !self.attempts[self.attempts.length()].check.achieved;
     }
 ;
+/** Indecision check. Carries episode, recordedAt, boundCheck, boundConfusion. Operations: definition, effectiveModifier, assess, resolve. */
 class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
     episode = nil
     recordedAt = nil
@@ -6131,6 +6149,7 @@ class RpgExpandedCredulity: RpgExpandedDisadvantage
     creationCost() { self.validateDefinition(); return inherited(); }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
+/** Credulity trigger. Carries story, plausibility, boundCheck. Operations: definition, effectiveModifier, assess, afterControlResolution. */
 class RpgExpandedCredulityTrigger: RpgExpandedSelfControlTrigger
     story = nil
     plausibility = nil
@@ -6591,14 +6610,6 @@ modify RpgExpandedProfile
     }
 ;
 
-/** Internal immutable-fact comparison for owned attention work. */
-rpgExpandedAttentionBinding(current,bound,reason)
-{
-    if (bound == nil || current.length() != bound.length()) rpgExpandedReject(reason);
-    for (local i = 1; i <= current.length(); i += 1)
-        if (current[i] != bound[i]) rpgExpandedReject(reason);
-    return nil;
-}
 /** Concrete authored task lifecycle; earlier completed tasks are independent. */
 class RpgExpandedAttentionWork: object
     id = nil
@@ -6646,6 +6657,7 @@ class RpgExpandedAttentionWork: object
         self.profile.attentionWorks = self.profile.attentionWorks + [self]; value.status = 'resolved'; return value;
     }
 ;
+/** Attention work step. Carries id, work, seconds, money, control. Operations: definition, receiptFacts, validateReceipt, assessBase. */
 class RpgExpandedAttentionWorkStep: object
     id = nil
     work = nil
@@ -6752,6 +6764,7 @@ class RpgExpandedAttentionWorkStep: object
         self.work.steps = self.work.steps + [self]; self.work.boundState = self.work.stateFacts(); return value;
     }
 ;
+/** Attention work control. Carries step, occasion, crucialEvidence, settlingStep, boundCheck. Operations: definition, checkFacts, assess, afterControlResolution. */
 class RpgExpandedAttentionWorkControl: RpgExpandedSelfControlTrigger
     step = nil
     occasion = nil
@@ -6852,7 +6865,7 @@ class RpgExpandedFrenzyEpisode: object
     boundDefinition = nil
     boundState = nil
     definition() { return [self.id,self.profile,self.trait,self.entry,self.approved,self.evidence]; }
-    stateFacts() { return [self.state,self.startedAt]; }
+    stateFacts() { return [self.state,self.startedAt,self.target,self.attackFriends]; }
     validateReceipt()
     {
         if (self.boundDefinition == nil || self.boundState == nil || !holds(self.profile.frenzyEpisodes,self))
@@ -6968,7 +6981,7 @@ modify RpgExpandedProfile
     healthManeuverRequestReason(request)
     {
         local reason = inherited(request); if (reason != nil) return reason;
-        return self.frenzyActive() ? 'frenzy-owned-action-required' : nil;
+        return self.frenzyActive() ? self.frenzyManeuverReason(request) : nil;
     }
     injuryKnockdownReason(modifier)
     { return self.frenzyActive() ? 'frenzy-knockdown-ruling-required' : inherited(modifier); }
@@ -7097,6 +7110,7 @@ class RpgExpandedFrenzyConcentrate: RpgLiteManeuver
         self.entry.completeConcentration(result); return nil;
     }
 ;
+/** Frenzy voluntary entry. Carries id, profile, trait, episode, battle. Operations: causesEntry, definition, checkFacts, context. */
 class RpgExpandedFrenzyVoluntaryEntry: object
     id = nil
     profile = nil
@@ -7212,6 +7226,100 @@ class RpgExpandedFrenzyBattleTrigger: RpgExpandedFrenzyInjuryTrigger
         foreach (local prior in self.profile.selfControlTriggers)
             if (prior.ofKind(RpgExpandedFrenzyBattleTrigger) && prior.battle == self.battle)
                 return 'frenzy-battle-entry-already-resolved';
+        return nil;
+    }
+;
+
+modify RpgExpandedFrenzyEpisode turns = [] target = nil attackFriends = nil;
+
+/** B124 exit opportunity: a downed foe, or the single extra no-foes decision.
+ * Withdrawal/restraint/relationship are evidenced world facts, not die results. */
+class RpgExpandedFrenzyExit: RpgExpandedSelfControlTrigger
+    episode = nil
+    occasion = nil
+    downed = nil
+    disabledEvidence = nil
+    noFoesEvidence = nil
+    health = nil
+    boundCheck = nil
+    definition() { return inherited() + [self.episode,self.occasion,self.downed,self.disabledEvidence,self.noFoesEvidence,self.health]; }
+    checkFacts() { return [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; }
+    assess()
+    {
+        local value = inherited();
+        if (self.episode == nil || !self.episode.ofKind(RpgExpandedFrenzyEpisode) || self.episode.profile != self.profile
+            || self.episode.trait != self.trait || self.trigger == nil || !holds(['downed-foe','no-foes'],self.occasion))
+            rpgExpandedReject('frenzy-exit-definition');
+        self.episode.validateReceipt();
+        if (value.status == 'reused')
+        {
+            rpgExpandedAttentionBinding(self.checkFacts(),self.boundCheck,'frenzy-exit-check-binding');
+            if (!holds(self.episode.exits,self)) rpgExpandedReject('frenzy-exit-history');
+            if (self.check.achieved) self.health.validateReceipt(self);
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        if (!self.profile.frenzyActive() || self.profile.frenzyEpisode != self.episode)
+        { value.status = 'blocked'; value.reason = 'frenzy-exit-inactive'; return value; }
+        if (self.occasion == 'downed-foe')
+        {
+            if (self.downed == nil || self.downed != self.episode.target || self.trigger != self.downed)
+                rpgExpandedReject('frenzy-exit-target');
+            if (!self.downed.profile.dead && !self.downed.profile.unconscious
+                && (self.disabledEvidence == nil || self.disabledEvidence == ''))
+            { value.status = 'blocked'; value.reason = 'frenzy-foe-not-downed'; return value; }
+        }
+        else if (self.downed != nil || self.noFoesEvidence == nil || self.noFoesEvidence == '')
+        { value.status = 'blocked'; value.reason = 'frenzy-no-foes-evidence'; return value; }
+        foreach (local prior in self.episode.exits)
+            if (prior.occasion == 'no-foes' && self.occasion == 'no-foes'
+                || self.downed != nil && prior.downed == self.downed)
+            { value.status = 'blocked'; value.reason = 'frenzy-exit-opportunity-used'; return value; }
+        local health = self.profile.assessFrenzyExitHealth(self);
+        if (health.status != 'ready') { value.status = 'blocked'; value.reason = health.reason; }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.boundCheck = self.checkFacts(); self.episode.exits = self.episode.exits + [self];
+        if (self.check.achieved)
+        {
+            self.episode.state = 'finished'; self.episode.boundState = self.episode.stateFacts();
+            self.profile.applyFrenzyExitHealth(self);
+        }
+        else
+        {
+            if (self.occasion == 'no-foes') self.episode.attackFriends = true;
+            self.episode.target = nil; self.episode.boundState = self.episode.stateFacts();
+        }
+        return nil;
+    }
+;
+modify RpgExpandedFrenzyEpisode exits = [];
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'frenzy') return inherited(id,level,scope,rating);
+        local trait = new RpgExpandedFrenzy(); trait.approved = true; trait.level = level; trait.scope = scope;
+        trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedFrenzy)) return inherited(trait);
+        local copy = self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+        copy.battleEntry = trait.battleEntry; copy.creationCost(); return copy;
+    }
+;
+modify RpgExpandedProfile
+    directStrikeReason(request)
+    { return self.frenzyActive() ? self.frenzyManeuverReason(request) : inherited(request); }
+;
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited();
+        foreach (local episode in self.frenzyEpisodes) episode.validateReceipt();
+        foreach (local entry in self.frenzyVoluntaryEntries) entry.assess();
         return nil;
     }
 ;

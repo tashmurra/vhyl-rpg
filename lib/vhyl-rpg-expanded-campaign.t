@@ -93,6 +93,7 @@ rpgExpandedControlOutcome(controlRating, die, kind)
     return die < controlRating ? 'intervention' : 'overlooked';
 }
 
+/** Control result. Carries outcome, roll, evidence. */
 class RpgExpandedControlResult: RpgExpandedResult
     outcome = nil
     roll = nil
@@ -243,6 +244,7 @@ modify RpgExpandedProfile
     startingWealthAllocation = nil
 ;
 
+/** Wealth result. Carries total, cash, settledAssets. */
 class RpgExpandedWealthResult: RpgExpandedResult
     total = 0
     cash = 0
@@ -348,6 +350,7 @@ class RpgExpandedMonthlyFinance: RpgExpandedContribution
     }
 ;
 
+/** Monthly finance result. Carries money, outcome. */
 class RpgExpandedMonthlyFinanceResult: RpgExpandedResult
     money = 0
     outcome = nil
@@ -412,6 +415,7 @@ modify RpgExpandedProfile
     moneyExchanges = []
 ;
 
+/** Money exchange result. Carries money. */
 class RpgExpandedMoneyExchangeResult: RpgExpandedResult
     money = 0
 ;
@@ -492,6 +496,7 @@ rpgExpandedTypicalJobPay(techLevel)
     return wages[techLevel + 1];
 }
 
+/** Job assessment. Carries score, skill, ratings. */
 class RpgExpandedJobAssessment: RpgExpandedResult
     score = nil
     skill = nil
@@ -570,6 +575,7 @@ rpgExpandedJobPercent(amount, percent)
     return quotient * percent + tail;
 }
 
+/** Job earnings. Carries wealthObligation, money, nextPay, consequenceRequired. */
 class RpgExpandedJobEarnings: RpgExpandedResult
     wealthObligation = nil
     money = 0
@@ -746,6 +752,7 @@ rpgExpandedLivingCost(status)
     return costs[status + 3];
 }
 
+/** Lifestyle price. Carries money, weight, minimumWeight. */
 class RpgExpandedLifestylePrice: RpgExpandedResult
     money = 0
     weight = nil
@@ -1006,6 +1013,7 @@ class RpgExpandedJobOpportunity: object
     available = nil
 ;
 
+/** Job search result. Carries money, assessments, outcomes. */
 class RpgExpandedJobSearchResult: RpgExpandedResult
     money = 0
     assessments = []
@@ -1109,6 +1117,7 @@ modify RpgExpandedJobOpportunity
     }
 ;
 
+/** Employment acceptance result. Carries employment. */
 class RpgExpandedEmploymentAcceptanceResult: RpgExpandedResult
     employment = nil
 ;
@@ -1207,6 +1216,7 @@ class RpgExpandedRecruitingParty: object
     vacancies = []
 ;
 
+/** Recruiting vacancy. Carries id, party, open, attempts, lastAttemptAt. Operations: validate, decline. */
 class RpgExpandedRecruitingVacancy: object
     id = nil
     party = nil
@@ -1255,6 +1265,7 @@ class RpgExpandedRecruitingFine: object
     }
 ;
 
+/** Recruiting result. Carries money, score, candidate, fine. */
 class RpgExpandedRecruitingResult: RpgExpandedResult
     money = 0
     score = nil
@@ -1702,6 +1713,7 @@ class RpgExpandedRationStock: RpgExpandedFoodStock
 modify RpgExpandedProfile
     rationUnpackings = []
 ;
+/** Ration unpacking. Carries id, profile, package, stock, ordinaryHumanDiet. Operations: definition, assess, apply. */
 class RpgExpandedRationUnpacking: object
     id = nil
     profile = nil

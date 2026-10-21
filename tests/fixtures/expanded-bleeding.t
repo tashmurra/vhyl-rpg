@@ -86,7 +86,7 @@ bleedAction: BleedTestAction;
 bleedVerb: Verb code = 2285 action = bleedAction label = 'bleeding operation';
 act(verb,args)
 {
-    if (verb == 2285) { bleedInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2285) { bleedInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2286)
     {
         event('test.bleeding-state'); eventValue(bleedProfile.injury);
@@ -110,5 +110,5 @@ act(verb,args)
         eventValue(bleedProfile.bandagedSerial); eventValue(bleedProfile.woundSerial);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

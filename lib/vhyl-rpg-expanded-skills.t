@@ -1131,6 +1131,7 @@ class RpgExpandedBoatingSkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Boating context. Carries eventKind, conditionsPenalty, evidence. Operations: validateBoating, checkRequired, taskUnavailableReason, skillUseModifier. */
 class RpgExpandedBoatingContext: RpgExpandedSkillContext
     eventKind = 'hazard'
     conditionsPenalty = 0
@@ -1570,6 +1571,7 @@ class RpgExpandedBiologySubfield: RpgExpandedSkill
         return nil;
     }
 ;
+/** Biology subfield. */
 rpgExpandedBiologySubfield(parent,id,subfield,approved,evidence)
 {
     if (parent == nil || !parent.ofKind(RpgExpandedBiologySkill)) rpgExpandedReject('biology-subfield-parent');
@@ -1665,6 +1667,7 @@ class RpgExpandedAnimalHandlingDefault: object
         return [self.source,self.relationship == 'same-order' ? -2 : self.relationship == 'different-order' ? -4 : -6];
     }
 ;
+/** Animal handling skill. Carries id, attribute, difficulty, defaultPenalty, relationships. Operations: validateDefinition, defaultEdges. */
 class RpgExpandedAnimalHandlingSkill: RpgExpandedSkill
     id = 'animal-handling'
     attribute = rpgIQ
@@ -1745,6 +1748,7 @@ class RpgExpandedPsychologySkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Psychology default. Carries source, penalty, approved, evidence. Operations: edge. */
 class RpgExpandedPsychologyDefault: object
     source = nil
     penalty = nil
@@ -1895,6 +1899,7 @@ class RpgExpandedAnthropologyDefault: object
         rpgInteger(self.penalty,-5,-2); return [self.source,self.penalty];
     }
 ;
+/** Anthropology skill. Carries id, attribute, difficulty, defaultPenalty, speciesDefaults. Operations: validateDefinition, defaultEdges. */
 class RpgExpandedAnthropologySkill: RpgExpandedSkill
     id = 'anthropology'
     attribute = rpgIQ
@@ -1965,6 +1970,7 @@ class RpgExpandedPaleontologySkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Paleontology context. Carries laboratoryEquipment, task, laboratory, equipmentModifier, approved. Operations: validatePaleontology, taskUnavailableReason, skillUseModifier, technologyModifierFor. */
 class RpgExpandedPaleontologyContext: RpgExpandedSkillContext
     laboratoryEquipment = nil
     task = 'recognition'
@@ -2205,6 +2211,7 @@ class RpgExpandedDisguiseSkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Disguise context. Carries approved, evidence, equipmentModifier, differentAppearancePenalty, sizeModifierDifference. Operations: validateDisguise, taskUnavailableReason, skillUseModifier. */
 class RpgExpandedDisguiseContext: RpgExpandedSkillContext
     approved = nil
     evidence = nil
@@ -2244,6 +2251,7 @@ class RpgExpandedAnimalHabitsResult: RpgExpandedResult
     gate = nil
     allowed = nil
 ;
+/** Animal habits study. Carries id, profile, skill, animalType, encounter. Operations: outcomeDefinition, definition, assess, resolve. */
 class RpgExpandedAnimalHabitsStudy: object
     id = nil
     profile = nil
@@ -2342,6 +2350,7 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+/** Animal disguise context. Carries study, animalType, encounter, animalCount, herd. Operations: animalDisguiseReason, taskUnavailableReason, skillUseModifier. */
 class RpgExpandedAnimalDisguiseContext: RpgExpandedSkillContext
     study = nil
     animalType = nil
@@ -2405,6 +2414,7 @@ class RpgExpandedMakeupSkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Makeup context. Carries toolkitAssessment, subject, presentation, prosthetics, heightChange. Operations: makeupFacts, taskUnavailableReason, skillUseModifier, technologyModifierFor. */
 class RpgExpandedMakeupContext: RpgExpandedSkillContext
     toolkitAssessment = nil
     subject = nil
@@ -2500,6 +2510,7 @@ class RpgExpandedGestureSkill: RpgExpandedSkill
         return nil;
     }
 ;
+/** Gesture context. Carries operation, simpleIdea, idea, observed, culturallySignificant. Operations: gestureReason, taskUnavailableReason, skillUseModifier, gestureAttemptFacts. */
 class RpgExpandedGestureContext: RpgExpandedCulturalSkillContext
     operation = 'convey'
     simpleIdea = nil
@@ -2648,6 +2659,7 @@ class RpgExpandedGeologySkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Terrain search context. Carries planet, planetType, feature. Operations: terrainSearchFacts, taskUnavailableReason, skillUseModifier. */
 class RpgExpandedTerrainSearchContext: RpgExpandedSkillContext
     planet = nil
     planetType = nil
@@ -2711,9 +2723,11 @@ class RpgExpandedTrackingSkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Tracking terrain result. Carries interval. */
 class RpgExpandedTrackingTerrainResult: RpgExpandedResult
     interval = nil
 ;
+/** Tracking terrain. */
 rpgExpandedTrackingTerrain(terrain)
 {
     local value = new RpgExpandedTrackingTerrainResult();
@@ -2768,6 +2782,7 @@ class RpgExpandedTrackingContext: RpgExpandedSkillContext
     }
 ;
 
+/** Tracking window result. Carries interval, elapsed, remaining, unusedSeconds, checkDue. */
 class RpgExpandedTrackingWindowResult: RpgExpandedResult
     interval = nil
     elapsed = nil
@@ -2817,6 +2832,7 @@ class RpgExpandedShadowingSkill: RpgExpandedSkill
         return edges;
     }
 ;
+/** Shadowing context. Carries kind, mode, crowdAvailable, targetKnowsFollower, noisyTarget. Operations: sensoryRecognitionMode, shadowingFacts, taskUnavailableReason, scoreFor. */
 class RpgExpandedShadowingContext: RpgExpandedSkillContext
     kind = 'shadowing'
     mode = 'foot'
@@ -2894,6 +2910,7 @@ class RpgExpandedStealthSkill: RpgExpandedSkill
         return nil;
     }
 ;
+/** Stealth context. Carries kind, hiding, movingSilently, bareRoom, naturalCover. Operations: stealthFacts, taskUnavailableReason, skillUseModifier, shadowingContestRole. */
 class RpgExpandedStealthContext: RpgExpandedSkillContext
     kind = 'stealth'
     hiding = nil
@@ -2945,4 +2962,16 @@ modify RpgExpandedShadowingContext
 modify RpgExpandedStealthContext
     shadowingContestRole() { return 'stealth'; }
     shadowingContestFacts() { return self.stealthFacts(); }
+;
+
+modify RpgExpandedSkill
+    vehicleOperationClassification()
+    {
+        if (self.optionalParent == nil) return inherited();
+        rpgExpandedValidateSkill(self);
+        local parent = self.optionalParent.vehicleOperationClassification();
+        if (self.vehicleOperationClass != nil && self.vehicleOperationClass != parent)
+            rpgExpandedReject('vehicle-operation-specialty-conflict');
+        return parent;
+    }
 ;

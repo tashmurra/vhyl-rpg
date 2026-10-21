@@ -54,7 +54,7 @@ radiationAction: RadiationTestAction;
 radiationVerb: Verb code = 2291 action = radiationAction label = 'radiation record';
 act(verb,args)
 {
-    if (verb == 2291) { radiationInput.code = args[1]; radiationInput.days = args[2]; return vhylAct(verb,args); }
+    if (verb == 2291) { radiationInput.code = args[1]; radiationInput.days = args[2]; return rpgDispatchAction(verb,[]); }
     if (verb == 2292)
     {
         event('test.radiation-state'); eventValue(radiationProfile.radiationDoses.length());
@@ -69,5 +69,5 @@ act(verb,args)
         eventValue(radiationProfile.radiationDoses.length()); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

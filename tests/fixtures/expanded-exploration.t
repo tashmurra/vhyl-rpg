@@ -140,7 +140,7 @@ act(verb,args)
         local key = '';
         for (local count = 0; count < 4; count += 1)
         {
-            key += 's'; rpgSpendTime(60); local endurance = new RpgExpandedSwimEndurance();
+            key = key + 's'; rpgSpendTime(60); local endurance = new RpgExpandedSwimEndurance();
             endurance.id = key; endurance.encounter = encounter; endurance.apply();
         }
         rpgSpendTime(60); local tied = new RpgExpandedSwimEndurance(); tied.id = 'tied'; tied.encounter = encounter;
@@ -152,5 +152,5 @@ act(verb,args)
         eventValue(encounter.nextCheckAt - encounter.startedAt); eventValue(encounter.nextEnduranceAt - encounter.startedAt);
         eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

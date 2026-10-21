@@ -2075,3 +2075,9 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   victim/source/purchase history independently of context identity. Shared-context
   boundary and persistence fixtures are authored and unrun. Added a direct fear
   completion audit to distinguish subsystem obligations from wider combat work.
+
+The [optional accumulating stress library](../expanded/stress.md) implements original campaign
+rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.
+It is inactive until configured and separate from reference-derived fear.
+The focused fear milestone and its validation status are tracked in the
+completion checklist; the wider rules conversion remains incomplete.

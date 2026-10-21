@@ -362,10 +362,10 @@ aidAction: AidFixtureAction;
 aidVerb: Verb code = 1700 action = aidAction label = 'aid-fixture';
 modify gameMain initialRoom = healthRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1700) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1700) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1701)
     {
         event('test.aid-state'); eventValue(aidPatient.injury); eventValue(aidPatient.woundSerial);
@@ -373,7 +373,7 @@ act(verb,args)
         eventValue(aidBandage.treatment == aidRequest ? 1 : 0); eventValue(aidRequest.result == nil ? 0 : 1);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); eventValue(aidRequest.careEvidence); return nil;
     }
-    if (verb == 1690) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1690) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1691)
     {
         event('test.bandage-state'); eventValue(bandagePatient.injury); eventValue(bandagePatient.woundSerial);
@@ -381,7 +381,7 @@ act(verb,args)
         eventValue(bandageRequest.result == nil ? 0 : bandageRequest.result.healed);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); eventValue(bandageRequest.evidence); return nil;
     }
-    if (verb == 1610) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1610) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1611)
     {
         event('test.wound-state'); eventValue(healthPatient.injury); eventValue(healthPatient.shock);
@@ -405,7 +405,7 @@ act(verb,args)
         eventValue(healthWound.droppedEquipment == nil ? 0 : healthWound.droppedEquipment.items.length());
         eventValue(healthFighter.aimSeconds); return nil;
     }
-    if (verb == 1620) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1620) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1621)
     {
         event('test.limb-state'); eventValue(limbPatient.injury); eventValue(limbArm.disabled ? 1 : 0);
@@ -434,7 +434,7 @@ act(verb,args)
         eventValue(rpgLiteStrike(fighter,nil,new RpgLiteManeuver()).reason);
         eventValue(limbPatient.shock); eventValue(limbPatient.injury); return nil;
     }
-    if (verb == 1630) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1630) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1631)
     {
         local value = limbDuration.result; event('test.duration-state');
@@ -445,7 +445,7 @@ act(verb,args)
         eventValue(value != nil && value.recovered ? 1 : 0); eventValue(limbWound.durationRecord == limbDuration ? 1 : 0);
         eventValue(limbArm.disablingWound != nil ? 1 : 0); return nil;
     }
-    if (verb == 1640) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1640) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1641)
     {
         event('test.recovery-state'); eventValue(limbDuration.recoveryMonths.length());
@@ -459,7 +459,7 @@ act(verb,args)
         eventValue(limbWound.assess().ignored ? 1 : 0); eventValue(limbPatient.injury);
         eventValue(limbPatient.woundSerial); eventValue(rpgRandom.draws); eventValue(limbPatient.expandedWounds.length()); return nil;
     }
-    if (verb == 1650) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1650) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1651)
     {
         event('test.later-care-state'); eventValue(limbDuration.requiredMonths()); eventValue(limbDuration.laterCare.length());
@@ -467,13 +467,13 @@ act(verb,args)
         eventValue(limbArm.disabled ? 1 : 0); eventValue(limbDuration.result.recovered ? 1 : 0);
         eventValue(limbDuration.recoveryMonths.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 1660) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1660) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1661)
     {
         event('test.natural-state'); eventValue(naturalPatient.injury); eventValue(naturalPatient.healingClock);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 1670) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1670) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1671)
     {
         event('test.medical-roster'); eventValue(medicalClinic.patients.length());
@@ -482,12 +482,12 @@ act(verb,args)
         eventValue(naturalPatient.naturalRecoveryModifier()); eventValue(naturalPatient.injury);
         eventValue(naturalPatient.healingClock); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 1680) { healthInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1680) { healthInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1681)
     {
         event('test.physician-state'); eventValue(physicianPatient.injury); eventValue(physicianPatient.medicalChecks.length());
         eventValue(physicianPatient.medicalCareSince); eventValue(physicianPatient.medicalLastCheckAt);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(physicianPatient.expandedWounds.length()); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

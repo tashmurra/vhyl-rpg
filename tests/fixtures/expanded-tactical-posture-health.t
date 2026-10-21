@@ -1,5 +1,4 @@
 #include "expanded-tactical-posture.t"
-#include <vhyl-rpg-expanded-health.t>
 postureHealthGate: RpgExpandedActionGate id = 'posture-down' profile = positionHero purpose = 'action'
     evidence = 'One permission decision for the posture turn';
 postureHealthAdapter: RpgExpandedHealthManeuver kind = 'posture' healthGate = postureHealthGate;

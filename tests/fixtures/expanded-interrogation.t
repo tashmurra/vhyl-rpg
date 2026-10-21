@@ -49,7 +49,7 @@ modify BleedTestAction
         if (code == 532)
         {
             local next = new RpgExpandedInterrogationQuestion(); next.id = questionInput.nextId;
-            next.question = questionInput.nextId; questionInput.nextId += '-next'; next.session = questionSession;
+            next.question = questionInput.nextId; questionInput.nextId = questionInput.nextId + '-next'; next.session = questionSession;
             next.truthfulAnswer = 'original-true-answer'; next.falseAnswer = 'original-false-answer';
             next.approved = true; next.evidence = 'A separate authored question'; questionInput.request = next; return nil;
         }

@@ -48,10 +48,10 @@ swimAction: SwimFixtureAction;
 swimVerb: Verb code = 1910 action = swimAction label = 'swimming-fixture';
 modify gameMain initialRoom = swimRoom;
 startup() { rpgRandom.seed(6); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1910) { swimInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1910) { swimInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1911)
     {
         event('test.swim-state'); eventValue(swimPatient.fatigue); eventValue(swimEncounter.stage);
@@ -60,5 +60,5 @@ act(verb,args)
         eventValue(swimPatient.swimmingEncounter == nil ? 0 : 1); eventValue(swimEncounter.endedAt == nil ? 0 : 1);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(swimEncounter.pace); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

@@ -10,7 +10,7 @@
 socialRoom: Room 'Assembly';
 modify gameMain initialRoom = socialRoom;
 startup() { return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1167)
@@ -118,5 +118,5 @@ act(verb,args)
         context.merchantLevel = 20; eventValue(context.assess().modifier);
         context.direction = 'sell'; eventValue(context.assess().modifier); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

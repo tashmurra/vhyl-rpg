@@ -28,7 +28,7 @@ modify BleedTestAction
         if (code == 9506)
         {
             local value = orientationNorth.assess(); event('test.orientation-north');
-            eventValue(value.status); eventValue(value.north); return nil;
+            eventValue(value.status); eventValue(value.northDirection); return nil;
         }
         if (code == 9507) { orientationRoute.assess(); return nil; }
         if (code == 9511) { orientationRoute.abandon('The route was interrupted'); return nil; }

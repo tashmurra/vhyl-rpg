@@ -98,7 +98,7 @@ class RpgExpandedWoundResult: RpgExpandedResult
 /** Owned standard-anatomy wound. Amount is final injury, not raw attack damage.
  * Unsupported anatomy and low-target checks reject before commit; held-item
  * dropping requires the equipment module and an authored destination. Run apply() inside the existing action transaction. */
-class RpgExpandedWound: object
+class RpgExpandedWound: RpgExpandedWoundContract
     id = nil
     profile = nil
     amount = 0
@@ -1344,6 +1344,7 @@ class RpgExpandedBandageResult: RpgExpandedResult
     seconds = 0
 ;
 
+/** Bandage. Carries wound, healer, evidence, eligibleInjury, boundWound. Operations: assess, apply, applyAfterBleedingCare, commitHealing. */
 class RpgExpandedBandage: object
     wound = nil
     healer = nil
@@ -1436,6 +1437,7 @@ modify RpgExpandedBandage
     treatment = nil
 ;
 
+/** First aid. Carries bandage, healer, skill, equipmentAssessment, boundEquipment. Operations: physiologyDefinition, assessPhysiology, diagnosisDefinition, diagnosisAssessment. */
 class RpgExpandedFirstAid: object
     bandage = nil
     healer = nil
@@ -1649,6 +1651,7 @@ class RpgExpandedSurgeryAssessment: RpgExpandedResult
     infectionCheckRequired = nil
 ;
 
+/** Surgery context. Carries techLevel, anesthetic, sterile, site, diagnosed. Operations: assess. */
 class RpgExpandedSurgeryContext: object
     techLevel = 8
     anesthetic = true
@@ -1757,6 +1760,7 @@ class RpgExpandedSurgeryOutcome: RpgExpandedResult
     damage = 0
 ;
 
+/** Surgery outcome. */
 rpgExpandedSurgeryOutcome(score, roll, simpleAmputation, damageRolls)
 {
     rpgInteger(score,3,1000);
@@ -1785,6 +1789,7 @@ rpgExpandedResuscitationProcedure(skillKind, medicalTL, trained, modernTechnique
     value.status = 'ready'; return value;
 }
 
+/** Cardiac health. Carries totalInjury, addedInjury. */
 class RpgExpandedCardiacHealth: RpgExpandedResult
     totalInjury = 0
     addedInjury = 0
@@ -1799,6 +1804,7 @@ rpgExpandedCardiacHealth(capacity, injury, survived)
     value.addedInjury = value.totalInjury - injury; value.status = 'ready'; return value;
 }
 
+/** Cardiac result. Carries prevented, fatigueAdded, injuryAdded, deadline. */
 class RpgExpandedCardiacResult: RpgExpandedResult
     prevented = nil
     fatigueAdded = 0
@@ -1963,6 +1969,7 @@ modify RpgExpandedProfile
 ;
 
 
+/** Cardiac resuscitation result. Carries context, revived, injuryAdded. */
 class RpgExpandedCardiacResuscitationResult: RpgExpandedResult
     context = nil
     revived = nil
@@ -2048,6 +2055,7 @@ class RpgExpandedCardiacResuscitation: object
     }
 ;
 
+/** Exhaustion outcome. Carries allowed, incapacitated, unconscious, cardiacTrigger, healthCheck. */
 class RpgExpandedExhaustionOutcome: RpgExpandedResult
     allowed = nil
     incapacitated = nil
@@ -2108,6 +2116,7 @@ modify RpgExpandedProfile
     healthBlocksDefense() { return inherited() || self.exhaustionBlocksAction() || self.cardiacArrest != nil; }
 ;
 
+/** Effort result. Carries consciousnessContext, consciousnessCheck, willContext, healthContext, cardiac. */
 class RpgExpandedEffortResult: RpgExpandedExhaustionOutcome
     consciousnessContext = nil
     consciousnessCheck = nil
@@ -2381,6 +2390,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Fear assessment. Carries score, immune. */
 class RpgExpandedFearAssessment: RpgExpandedResult
     score = nil
     immune = nil
@@ -2397,6 +2407,7 @@ rpgExpandedAssessFear(will, modifier, unfazeable)
     value.status = 'ready'; return value;
 }
 
+/** Fear table result. Carries row, kind, durationDice, durationUnit, fixedSeconds. */
 class RpgExpandedFearTableResult: RpgExpandedResult
     row = 0
     kind = nil
@@ -2435,6 +2446,7 @@ class RpgExpandedRetchingAssessment: RpgExpandedResult
     oralBenefitsLost = true
 ;
 
+/** Assess fear retching. */
 rpgExpandedAssessFearRetching(health,attribute,requiresConcentration)
 {
     rpgInteger(health,1,1000);
@@ -2589,7 +2601,7 @@ class RpgExpandedFearContext: object
         if (self.adverseLighting) modifier -= 1;
         if (self.believesAlone) modifier -= 2;
         if (self.priorExperience) modifier += 1;
-        modifier += self.priorExposures24h + self.briefingBonus;
+        modifier += self.priorExposures24h + self.briefingBonus + self.profile.fearStressModifier();
         local value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),modifier,self.profile.level('unfazeable') > 0);
         value.modifier = modifier; return value;
     }
@@ -2601,6 +2613,7 @@ modify RpgExpandedProfile
     stunRecoveryOwned() { return self.expandedFearStun != nil || inherited(); }
 ;
 
+/** Fear stun result. Carries fatigueLoss. */
 class RpgExpandedFearStunResult: RpgExpandedResult
     fatigueLoss = nil
 ;
@@ -2726,6 +2739,7 @@ modify rpgLedger
     }
 ;
 
+/** Fear stun recovery. Carries recoveryDecision, id, episode, result, boundId. Operations: assess, apply, applyInTurn, resolve. */
 class RpgExpandedFearStunRecovery: object
     recoveryDecision = nil
     id = nil
@@ -2763,7 +2777,7 @@ class RpgExpandedFearStunRecovery: object
         { value.reason = 'fear-recovery-already-attempted'; return value; }
         foreach (local prior in self.episode.recoveries)
             if (prior.id == self.id) rpgExpandedReject('fear-recovery-duplicate');
-        local score = profile.attributeScore(rpgWill) + self.episode.recoveryModifier;
+        local score = profile.attributeScore(rpgWill) + profile.fearStressModifier() + self.episode.recoveryModifier;
         value.reason = rpgExpandedFearRecoveryReason(self,score); if (value.reason != nil) return value;
         rpgInteger(rpgLedger.seconds,0,2147483646);
         value.seconds = 1; value.status = 'ready'; return value;
@@ -2788,7 +2802,7 @@ class RpgExpandedFearStunRecovery: object
     resolve(value,start)
     {
         local profile = self.episode.boundProfile;
-        value.check = rpgExpandedFearRecoveryRoll(self,profile.attributeScore(rpgWill) + self.episode.recoveryModifier);
+        value.check = rpgExpandedFearRecoveryRoll(self,profile.attributeScore(rpgWill) + profile.fearStressModifier() + self.episode.recoveryModifier);
         if (value.check.achieved) self.episode.finish();
         self.boundId = self.id; self.boundEpisode = self.episode;
         self.startedAt = start; self.completedAt = rpgLedger.seconds; self.episode.lastRecoveryStartedAt = start;
@@ -2847,6 +2861,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Retching. Carries id, context, approved, evidence, oralEffectsReviewed. Operations: recoveryCheckRequired, contextAccepted, assess, apply. */
 class RpgExpandedRetching: object
     recoveryCheckRequired() { return nil; }
     id = nil
@@ -2909,6 +2924,7 @@ class RpgExpandedRetching: object
     }
 ;
 
+/** Retching recovery result. Carries context, wound, fatigueAdded, injuryAdded. */
 class RpgExpandedRetchingRecoveryResult: RpgExpandedResult
     context = nil
     wound = nil
@@ -3244,6 +3260,7 @@ rpgExpandedNauseaTriggerModifier(profile,richMealWithinHour)
     return (remedy ? 2 : 0) - (richMealWithinHour ? 2 : 0);
 }
 
+/** Fear fatigue result. Carries fatigueAdded, injuryAdded, wounds. */
 class RpgExpandedFearFatigueResult: RpgExpandedResult
     fatigueAdded = 0
     injuryAdded = 0
@@ -3342,6 +3359,7 @@ modify RpgExpandedProfile
     unconsciousRecoveryApartFrom(owner) { return self.fearFaint != nil && self.fearFaint != owner || inherited(owner); }
 ;
 
+/** Fear faint result. Carries dropPlan, wound, fatigueLoss. */
 class RpgExpandedFearFaintResult: RpgExpandedResult
     dropPlan = nil
     wound = nil
@@ -4229,6 +4247,7 @@ class RpgExpandedFearRetching: RpgExpandedRetching
     recoveryCheckRequired() { return true; }
     contextAccepted() { return self.context != nil && self.context.ofKind(RpgExpandedFearContext); }
 ;
+/** Retching context. Carries profile, approved, evidence. Operations: consequenceAssessment, assess. */
 class RpgExpandedRetchingContext: object
     consequenceAssessment() { return self.assess(); }
     profile = nil
@@ -4246,6 +4265,7 @@ class RpgExpandedRetchingContext: object
 modify RpgExpandedProfile
     nauseaTriggers = []
 ;
+/** Nausea trigger result. Carries checkRequired, context, retching. */
 class RpgExpandedNauseaTriggerResult: RpgExpandedResult
     checkRequired = nil
     context = nil
@@ -4443,6 +4463,7 @@ modify rpgLedger
     }
 ;
 
+/** Clotting assessment. Carries internal, intervalSeconds, injury, ordinaryHealingAllowed, requiresDefinitiveCare. */
 class RpgExpandedClottingAssessment: RpgExpandedResult
     internal = nil
     intervalSeconds = nil
@@ -4554,10 +4575,12 @@ class RpgExpandedClottingEpisode: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Clotting loss result. Carries wound, injury. */
 class RpgExpandedClottingLossResult: RpgExpandedResult
     wound = nil
     injury = 0
 ;
+/** Clotting loss. Carries id, episode, dropDestination, result, boundDefinition. Operations: definition, assess, apply. */
 class RpgExpandedClottingLoss: object
     id = nil
     episode = nil
@@ -4692,6 +4715,7 @@ modify RpgExpandedClottingEpisode
 modify RpgExpandedProfile
     clottingRestorations = []
 ;
+/** Clotting restoration result. Carries healed, stopped. */
 class RpgExpandedClottingRestorationResult: RpgExpandedResult
     healed = 0
     stopped = nil
@@ -4763,6 +4787,7 @@ class RpgExpandedSurgicalOperationResult: RpgExpandedResult
 modify RpgExpandedProfile
     surgicalOperations = []
 ;
+/** Surgical operation. Carries physiology, subjectSpecies, physiologyCheck, diagnosis, diagnosisCaseId. Operations: diagnosisAssessment, prepareRoll, infectionReason, definition. */
 class RpgExpandedSurgicalOperation: object
     physiology = 'authored'
     subjectSpecies = nil
@@ -5167,6 +5192,7 @@ modify RpgExpandedSurgicalOperationResult
     healthLost = 0
     complicationReviewRequired = nil
 ;
+/** Mortal stabilization. Carries durationSeconds, care. Operations: definition, prepareRoll, assess, start. */
 class RpgExpandedMortalStabilization: RpgExpandedSurgicalOperation
     durationSeconds = 3600
     care = nil
@@ -5228,10 +5254,12 @@ class RpgExpandedMortalStabilization: RpgExpandedSurgicalOperation
     }
 ;
 
+/** Trauma assessment. Carries score, interval. */
 class RpgExpandedTraumaAssessment: RpgExpandedResult
     score = nil
     interval = 0
 ;
+/** Trauma check. Carries result, completedAt. */
 class RpgExpandedTraumaCheck: object
     result = nil
     completedAt = nil
@@ -5539,6 +5567,7 @@ class RpgExpandedPersistentWoundAssessment: RpgExpandedResult
     bloodAgentEntry = nil
     infectionModifier = 0
 ;
+/** Assess persistent wound. */
 rpgExpandedAssessPersistentWound(informedAttacker, woundReached, dressedToday, plagueRidden)
 {
     local value = new RpgExpandedPersistentWoundAssessment();
@@ -5622,6 +5651,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Persistent dressing result. Carries context, day, dressed. */
 class RpgExpandedPersistentDressingResult: RpgExpandedResult
     context = nil
     day = nil
@@ -5943,6 +5973,7 @@ class RpgExpandedSeizure: RpgExpandedCoughing
         self.recovery = loss; self.completedAt = rpgLedger.seconds; return value;
     }
 ;
+/** Seizure fatigue loss. Operations: fatigueCause, history, remember, woundId. */
 class RpgExpandedSeizureFatigueLoss: RpgExpandedFearFatigueLoss
     fatigueCause() { return 'seizure'; }
     history() { return self.profile.seizureFatigueLosses; }
@@ -6076,6 +6107,7 @@ class RpgExpandedAgony: RpgExpandedCoughing
         return self.profile.level('low-pain-threshold') > 0 ? 6 : 3;
     }
 ;
+/** Agony fatigue loss. Operations: fatigueCause, history, remember, woundId. */
 class RpgExpandedAgonyFatigueLoss: RpgExpandedFearFatigueLoss
     fatigueCause() { return 'agony'; }
     history() { return self.profile.agonyFatigueLosses; }
@@ -6347,6 +6379,7 @@ class RpgExpandedFallLimbWound: RpgExpandedWound
     }
 ;
 
+/** Lower limb assessment. Carries fallsDown, legSkillPenalty, moveLimit, supportRequired, supportOptions. */
 class RpgExpandedLowerLimbAssessment: RpgExpandedResult
     fallsDown = true
     legSkillPenalty = 0
@@ -6673,6 +6706,7 @@ rpgExpandedMarchFatigueCost(encumbrance, hot, heavyClothing, cooling)
     rpgInteger(encumbrance,0,4);
     return 1 + encumbrance + (hot && !cooling ? (heavyClothing ? 2 : 1) : 0);
 }
+/** March fatigue loss. Operations: maximumAmount, fatigueCause, history, remember. */
 class RpgExpandedMarchFatigueLoss: RpgExpandedFearFatigueLoss
     maximumAmount() { return 7; }
     fatigueCause() { return 'exertion'; }
@@ -6683,6 +6717,7 @@ class RpgExpandedMarchFatigueLoss: RpgExpandedFearFatigueLoss
         return 'march-fatigue-' + self.id + '-' + ['one','two','three','four','five','six','seven'][index];
     }
 ;
+/** March hour result. Carries fatigueCost, fatigueLoss. */
 class RpgExpandedMarchHourResult: RpgExpandedResult
     fatigueCost = 0
     fatigueLoss = nil
@@ -6748,6 +6783,7 @@ class RpgExpandedMarchHourCost: object
     }
 ;
 
+/** March execution result. Carries gate, cost, allowed. */
 class RpgExpandedMarchExecutionResult: RpgExpandedResult
     gate = nil
     cost = nil
@@ -6868,6 +6904,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Thrown protection. Carries penetratingDamage, bluntInjury, healthLoss. */
 class RpgExpandedThrownProtection: RpgExpandedResult
     penetratingDamage = 0
     bluntInjury = 0
@@ -6888,6 +6925,7 @@ rpgExpandedAssessThrownProtection(damage, damageType, outerDR, flexibleDR)
     value.healthLoss = value.penetratingDamage * multiplier / 2 + value.bluntInjury;
     value.status = 'ready'; return value;
 }
+/** Thrown injury result. Carries protection, wound. */
 class RpgExpandedThrownInjuryResult: RpgExpandedResult
     protection = nil
     wound = nil
@@ -7027,6 +7065,7 @@ class RpgExpandedJumpPrepareManeuver: RpgExpandedPhysicalManeuver
     }
 ;
 
+/** Jump launch maneuver. Carries kind, launch, preparedLaunch. Operations: available, canAct, apply. */
 class RpgExpandedJumpLaunchManeuver: RpgExpandedPhysicalManeuver
     kind = 'move'
     launch = nil
@@ -7054,6 +7093,7 @@ class RpgExpandedJumpLaunchManeuver: RpgExpandedPhysicalManeuver
     }
 ;
 
+/** Path move maneuver. Carries kind, operation, preparedPath. Operations: available, canAct, apply. */
 class RpgExpandedPathMoveManeuver: RpgExpandedPhysicalManeuver
     kind = 'move'
     operation = nil
@@ -7082,6 +7122,7 @@ class RpgExpandedPathMoveManeuver: RpgExpandedPhysicalManeuver
 /** Each of the two clamber turns owns a fresh physical health gate. */
 class RpgExpandedClamberManeuver: RpgExpandedPathMoveManeuver;
 
+/** Forage poison assessment. Carries injury, damageDieRequired. */
 class RpgExpandedForagePoisonAssessment: RpgExpandedResult
     injury = 0
     damageDieRequired = nil
@@ -7098,6 +7139,7 @@ rpgExpandedAssessForagePoison(healthScore,healthRoll,injuryDie)
     value.status = 'ready'; return value;
 }
 
+/** Forage poisoning result. Carries recipients, scores, checks, injuryDice, wounds. */
 class RpgExpandedForagePoisoningResult: RpgExpandedResult
     recipients = []
     scores = []
@@ -7260,6 +7302,7 @@ rpgExpandedSurvivalInjury(first, second)
     rpgInteger(first,1,6); rpgInteger(second,1,6);
     local injury = first + second - 4; return injury < 0 ? 0 : injury;
 }
+/** Wilderness day result. Carries day, score, gate, allowed, injuryDice. */
 class RpgExpandedWildernessDayResult: RpgExpandedResult
     day = nil
     score = nil
@@ -7391,6 +7434,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Recurrent pain result. Carries occurs, roll. */
 class RpgExpandedRecurrentPainResult: RpgExpandedResult
     occurs = nil
     roll = nil
@@ -7628,6 +7672,7 @@ class RpgExpandedInstantDeathResult: RpgExpandedResult
 modify RpgExpandedProfile
     instantDeathHistory = []
 ;
+/** Instant death. Carries id, profile, approved, evidence, helpless. Operations: definition, validateBinding, assess, apply. */
 class RpgExpandedInstantDeath: object
     id = nil
     profile = nil
@@ -7706,6 +7751,7 @@ modify RpgExpandedProfile
         value.status = applied.status; value.injury = applied.injuryAdded; return value;
     }
 ;
+/** Postmortem injury. Carries id, profile, amount, approved, evidence. Operations: definition, assess, apply. */
 class RpgExpandedPostmortemInjury: object
     id = nil
     profile = nil
@@ -7772,6 +7818,7 @@ modify RpgExpandedProfile
         return current == nil ? 'unassessed' : current;
     }
 ;
+/** Body assessment. Carries id, profile, disposition, approved, evidence. Operations: definition, validateBinding, assess, apply. */
 class RpgExpandedBodyAssessment: object
     id = nil
     profile = nil
@@ -7889,6 +7936,7 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     fearAcuteInjuries = []
 ;
+/** Fear acute injury result. Carries wound, amount, dice, dropPlan. */
 class RpgExpandedFearAcuteInjuryResult: RpgExpandedResult
     wound = nil
     amount = 0
@@ -8108,7 +8156,7 @@ class RpgExpandedFearPanicRecovery: object
         if (rpgLedger.seconds != self.episode.nextCheckAt) { value.reason = 'fear-panic-recovery-not-due'; return value; }
         foreach (local prior in self.episode.recoveries)
             if (prior.id == self.id) rpgExpandedReject('fear-panic-recovery-duplicate');
-        local score = profile.attributeScore(rpgWill);
+        local score = profile.attributeScore(rpgWill) + profile.fearStressModifier();
         value.reason = rpgExpandedFearRecoveryReason(self,score); if (value.reason != nil) return value;
         rpgInteger(rpgLedger.seconds,0,2147483587); value.status = 'ready'; return value;
     }
@@ -8116,7 +8164,7 @@ class RpgExpandedFearPanicRecovery: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         local profile = self.episode.context.profile;
-        value.check = rpgExpandedFearRecoveryRoll(self,profile.attributeScore(rpgWill));
+        value.check = rpgExpandedFearRecoveryRoll(self,profile.attributeScore(rpgWill) + profile.fearStressModifier());
         self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.boundCheck = [value.check,value.check.score,value.check.roll,value.check.achieved,value.check.margin,value.check.critical];
         self.episode.recoveries = self.episode.recoveries + [self];
@@ -8269,6 +8317,7 @@ class RpgExpandedFearPanicCrying: RpgExpandedPanicActivityReceipt
 modify RpgExpandedProfile
     fearSeizureOutcomes = []
 ;
+/** Fear seizure result. Carries seizure, wound, healthBefore, healthAfter, healthLost. */
 class RpgExpandedFearSeizureResult: RpgExpandedResult
     seizure = nil
     wound = nil
@@ -8466,6 +8515,7 @@ class RpgExpandedFearComa: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Fear coma recovery. Carries recoveryDecision, id, episode, result, recordedAt. Operations: definition, validateReceipt, assess, apply. */
 class RpgExpandedFearComaRecovery: object
     recoveryDecision = nil
     id = nil
@@ -8676,6 +8726,7 @@ class RpgExpandedCatatonia: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Catatonia day. Carries id, episode, careProvided, approved, evidence. Operations: definition, assess, apply. */
 class RpgExpandedCatatoniaDay: object
     id = nil
     episode = nil
@@ -8733,6 +8784,7 @@ class RpgExpandedCatatoniaDay: object
         self.episode.days = self.episode.days + [self]; value.status = 'resolved'; self.result = value; return value;
     }
 ;
+/** Catatonia recovery. Carries recoveryDecision, id, episode, result, recordedAt. Operations: definition, assess, apply. */
 class RpgExpandedCatatoniaRecovery: object
     recoveryDecision = nil
     id = nil
@@ -8822,6 +8874,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Diagnosis result. Carries context, score, finding, findingKind. */
 class RpgExpandedDiagnosisResult: RpgExpandedResult
     context = nil
     score = nil
@@ -9007,6 +9060,7 @@ class RpgExpandedMarchGroupResult: RpgExpandedResult
     allowed = nil
     members = []
 ;
+/** March group. Carries id, hours, result, startedAt, completedAt. Operations: definition, assess, apply. */
 class RpgExpandedMarchGroup: object
     id = nil
     hours = []
@@ -9302,10 +9356,12 @@ class RpgExpandedMarchProgress: object
         return nil;
     }
 ;
+/** March step result. Carries gate, allowed. */
 class RpgExpandedMarchStepResult: RpgExpandedResult
     gate = nil
     allowed = nil
 ;
+/** March step. Carries id, progress, seconds, result, startedAt. Operations: definition, outcomeDefinition, validateReceipt, assess. */
 class RpgExpandedMarchStep: RpgExpandedMarchStepReceipt
     id = nil
     progress = nil
@@ -9535,6 +9591,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** March step group result. Carries members. */
 class RpgExpandedMarchStepGroupResult: RpgExpandedMarchStepResult
     members = []
 ;
@@ -9697,6 +9754,7 @@ modify RpgExpandedFearContext
             self.adverseLighting,self.believesAlone,self.priorExperience,self.priorExposures24h,self.briefingBonus,self.intrusiveReplayContent,self.stimulusInput];
     }
 ;
+/** Fear event result. Carries replayFollowup, stressFollowup, immune, score, tableRoll. */
 class RpgExpandedFearEventResult: RpgExpandedResult
     replayFollowup = nil
     stressFollowup = nil
@@ -10058,6 +10116,7 @@ class RpgExpandedFearTraitCompound: RpgExpandedFearTraitConsequence
         self.context.profile.fearBeliefCompounds = self.context.profile.fearBeliefCompounds + [self]; return value;
     }
 ;
+/** Fear belief compound. */
 class RpgExpandedFearBeliefCompound: RpgExpandedFearTraitCompound;
 modify RpgExpandedProfile
     fearBeliefCompounds = []
@@ -10105,7 +10164,7 @@ class RpgExpandedFearAuraContext: RpgExpandedFearContext
         if (scene.immune || protected)
         { scene.immune = true; scene.score = nil; scene.status = 'ready'; scene.reason = nil; return scene; }
         local modifier = scene.modifier-self.aura.penalty+count;
-        value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),modifier,nil);
+        value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill) + self.profile.fearStressModifier(),modifier,nil);
         value.modifier = modifier; return value;
     }
 ;
@@ -10136,6 +10195,7 @@ class RpgExpandedPostbattleFearEvent: RpgExpandedFearEvent
     stressFollowupRequired(check) { return !check.achieved; }
 ;
 
+/** Postbattle fear context. Carries stimulusInput, trait, dangerPenalty. Operations: eventFacts, assess. */
 class RpgExpandedPostbattleFearContext: RpgExpandedFearContext
     stimulusInput = 'internal'
     trait = nil
@@ -10153,7 +10213,7 @@ class RpgExpandedPostbattleFearContext: RpgExpandedFearContext
         local score = self.profile.postbattleFearScore(self.trait,self.dangerPenalty);
         if (score == nil) { value.reason = 'postbattle-trait-unavailable'; return value; }
         local modifier = score-self.trait.selfControlNumber();
-        value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),modifier,nil);
+        value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill) + self.profile.fearStressModifier(),modifier,nil);
         value.modifier = modifier; return value;
     }
 ;
@@ -10186,8 +10246,9 @@ rpgExpandedPhobiaModifier(kind,condition,crowdCount)
         for (local index = 1; index <= 4; index += 1)
             if (labels[index] == condition) return -index;
     }
-    rpgExpandedReject('phobia-condition');
+    rpgExpandedReject('phobia-condition'); return nil;
 }
+/** Phobia exposure. Carries id, profile, trait, cause, approved. Operations: definition, nextCheckAt, assess, start. */
 class RpgExpandedPhobiaExposure: object
     id = nil
     profile = nil
@@ -10279,6 +10340,7 @@ class RpgExpandedPhobiaExposure: object
         return -(18-self.profile.phobiaControlNumber(self.trait))/3;
     }
 ;
+/** Phobia context. Carries exposure, threatOnly, condition, crowdCount. Operations: eventFacts, stimulusModifier, controlAssessment, assess. */
 class RpgExpandedPhobiaContext: RpgExpandedFearContext
     exposure = nil
     threatOnly = nil
@@ -10311,10 +10373,11 @@ class RpgExpandedPhobiaContext: RpgExpandedFearContext
     assess()
     {
         local control = self.controlAssessment(); if (control.status != 'ready') return control;
-        local value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),control.modifier,nil);
+        local value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill) + self.profile.fearStressModifier(),control.modifier,nil);
         value.modifier = control.modifier; return value;
     }
 ;
+/** Phobia check. Operations: initialAssessment, stressFollowupRequired, assess, resolve. */
 class RpgExpandedPhobiaCheck: RpgExpandedFearEvent
     initialAssessment()
     {
@@ -10600,7 +10663,7 @@ class RpgExpandedExtremePanicReaction: object
             rpgExpandedReject('panic-reaction-unused-route');
         foreach (local prior in self.episode.reactions)
             if (prior.id == self.id) rpgExpandedReject('panic-reaction-duplicate');
-        value.reason = rpgExpandedFearRecoveryReason(self,profile.attributeScore(rpgWill)); if (value.reason != nil) return value;
+        value.reason = rpgExpandedFearRecoveryReason(self,profile.attributeScore(rpgWill) + profile.fearStressModifier()); if (value.reason != nil) return value;
         if (self.wound != nil)
         {
             if (self.kind != 'collapse' || !self.wound.ofKind(RpgExpandedWound) || self.wound.profile != profile
@@ -10641,7 +10704,7 @@ class RpgExpandedExtremePanicReaction: object
         if (self.kind == 'collapse') profile.posture = 'lying';
         if (!profile.dead)
         {
-            value.check = rpgExpandedFearRecoveryRoll(self,profile.attributeScore(rpgWill));
+            value.check = rpgExpandedFearRecoveryRoll(self,profile.attributeScore(rpgWill) + profile.fearStressModifier());
             if (!value.check.achieved) self.nextSeverity = rpgRandom.roll();
         }
         self.startedAt = start; self.finishedAt = rpgLedger.seconds; self.boundDefinition = facts;
@@ -11042,6 +11105,7 @@ class RpgExpandedFearRecoveryDecision: object
     evidence = nil
     facts() { return [self,self.owner,self.recover,self.approved,self.evidence]; }
 ;
+/** Authored recovery result. Carries decision, boundFacts. Operations: validate. */
 class RpgExpandedAuthoredRecoveryResult: RpgResult
     decision = nil
     boundFacts = nil
@@ -11055,6 +11119,7 @@ class RpgExpandedAuthoredRecoveryResult: RpgResult
         return nil;
     }
 ;
+/** Fear recovery reason. */
 rpgExpandedFearRecoveryReason(owner,score)
 {
     local decision = owner.recoveryDecision;
@@ -11065,6 +11130,7 @@ rpgExpandedFearRecoveryReason(owner,score)
     if (!decision.approved || decision.evidence == nil || decision.evidence == '') return 'fear-recovery-author-evidence';
     return nil;
 }
+/** Fear recovery roll. */
 rpgExpandedFearRecoveryRoll(owner,score)
 {
     local reason = rpgExpandedFearRecoveryReason(owner,score); if (reason != nil) rpgExpandedReject(reason);
@@ -11075,6 +11141,7 @@ rpgExpandedFearRecoveryRoll(owner,score)
     value.boundFacts = value.decision.facts() + [value.score,value.achieved,value.roll,value.margin,value.critical,value.reason];
     return value;
 }
+/** Fear recovery check. */
 rpgExpandedFearRecoveryCheck(owner,profile,context)
 {
     local score = rpgLiteScore(profile,context);
@@ -11098,6 +11165,7 @@ class RpgExpandedPanicActionGate: RpgExpandedActionGate
         return self.profile.healthEffortReasonFor(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement,self);
     }
 ;
+/** Panic path maneuver. Carries panicReaction. */
 class RpgExpandedPanicPathManeuver: RpgExpandedPathMoveManeuver
     panicReaction = nil
 ;
@@ -11312,9 +11380,7 @@ class RpgExpandedAdjudicatedStrike: object
                 && request.panicReaction.operation.maneuver == request
                 && self.attacker.profile.panicAuthorization(request) && request.healthGate.result != nil
                 && request.healthGate.result.allowed;
-        else if (request != nil && (request.ofKind(RpgExpandedPathWaitInterruption)
-            || request.ofKind(RpgExpandedOverstimulationCounterManeuver)))
-            permitted = request.permitsStrike(self);
+        else if (request != nil) permitted = self.attacker.profile.permitsRecordedStrike(request,self);
         if (!permitted) rpgExpandedReject('adjudicated-strike-execution-owner');
         local value = self.assess(); if (value.status != 'ready') return value;
         self.boundFacts = self.facts(); self.ammunitionBefore = self.weapon.ammunition;
@@ -11351,6 +11417,7 @@ modify RpgExpandedProfile
     validateFeatures()
     { inherited(); foreach (local strike in self.adjudicatedStrikes) strike.validateReceipt(); return nil; }
 ;
+/** Panic attack maneuver. Carries kind, panicReaction, strike. Operations: resolveStrike. */
 class RpgExpandedPanicAttackManeuver: RpgExpandedPhysicalManeuver
     kind = 'attack'
     panicReaction = nil
@@ -11363,6 +11430,7 @@ class RpgExpandedPanicAttackManeuver: RpgExpandedPhysicalManeuver
         return self.preflight ? self.strike.assess() : self.strike.apply(self);
     }
 ;
+/** Panic attack operation. Carries ownsTime, reaction, battle, maneuver, result. Operations: facts, permitsAuthorization, clockSeconds, permitsBattleClock. */
 class RpgExpandedPanicAttackOperation: RpgExpandedPanicOperation
     ownsTime = true
     reaction = nil
@@ -11441,116 +11509,6 @@ class RpgExpandedPanicAttackOperation: RpgExpandedPanicOperation
 ;
 
 /** B366: a declared stationary ordinary Attack response, valid until the next turn. */
-class RpgExpandedWaitDeclaration: object
-    id = nil
-    fighter = nil
-    battle = nil
-    weapon = nil
-    mode = nil
-    targetProfile = nil
-    triggerHex = nil
-    approved = nil
-    evidence = nil
-    declaredAt = nil
-    declaredTurnSerial = nil
-    boundReceipt = nil
-    boundTrigger = nil
-    boundFacts = nil
-    maneuver = nil
-    triggeredBy = nil
-    facts()
-    {
-        if (self.id == nil || self.id == '' || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
-            || !self.fighter.profile.ofKind(RpgExpandedProfile) || self.battle == nil || !self.battle.ofKind(RpgLiteBattle)
-            || self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon) || self.mode == nil
-            || !self.mode.ofKind(RpgLiteAttackMode) || self.targetProfile == nil
-            || !self.targetProfile.ofKind(RpgExpandedProfile) || self.targetProfile == self.fighter.profile || self.triggerHex == nil
-            || !self.triggerHex.ofKind(RpgExpandedHex)) rpgExpandedReject('wait-declaration-definition');
-        self.triggerHex.validate();
-        return [self,self.id,self.fighter,self.fighter.profile,self.battle,self.weapon,self.mode,self.mode.ranged,
-            self.mode.thrown,self.targetProfile,self.triggerHex.q,self.triggerHex.r,self.approved,self.evidence];
-    }
-    validateReceipt()
-    {
-        local facts = self.facts();
-        if (self.declaredAt == nil || self.declaredTurnSerial == nil || self.boundFacts == nil
-            || self.maneuver == nil || self.maneuver.declaration != self
-            || !holds(self.fighter.profile.waitDeclarations,self) || facts.length() != self.boundFacts.length())
-            rpgExpandedReject('wait-declaration-receipt');
-        for (local i = 1; i <= facts.length(); i += 1)
-            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('wait-declaration-binding');
-        local receipt = [self.declaredAt,self.declaredTurnSerial,self.maneuver,self.maneuver.healthGate,self.maneuver.kind,self.maneuver.movement];
-        if (self.boundReceipt == nil || self.triggeredBy != self.boundTrigger) rpgExpandedReject('wait-declaration-history');
-        for (local i = 1; i <= receipt.length(); i += 1)
-            if (receipt[i] != self.boundReceipt[i]) rpgExpandedReject('wait-declaration-history');
-        if (self.maneuver.healthGate.assess().status != 'reused' || !self.maneuver.healthGate.result.allowed)
-            rpgExpandedReject('wait-declaration-permission');
-        return nil;
-    }
-    assess()
-    {
-        self.facts(); local value = new RpgExpandedResult();
-        if (self.declaredAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
-        if (self.boundFacts != nil || self.maneuver != nil || self.declaredTurnSerial != nil || self.triggeredBy != nil || self.boundTrigger != nil || self.boundReceipt != nil)
-            rpgExpandedReject('wait-declaration-uncommitted');
-        if (!self.approved || self.evidence == nil || self.evidence == '')
-        { value.reason = 'wait-declaration-author-facts'; return value; }
-        if (!self.battle.active || self.battle.current() != self.fighter)
-        { value.reason = 'wait-declaration-turn'; return value; }
-        local targetPresent = nil;
-        foreach (local other in self.battle.fighters)
-            if (other.profile == self.targetProfile) targetPresent = true;
-        if (!targetPresent) { value.reason = 'wait-declaration-target'; return value; }
-        if (self.mode.thrown) { value.reason = 'wait-declaration-thrown-adapter-required'; return value; }
-        if (self.weapon != self.fighter.weapon || self.mode != self.fighter.mode() || !self.weapon.ready
-            || !self.weapon.attackUsableBy(self.fighter.profile) || !holds(self.fighter.profile.equipment,self.weapon))
-        { value.reason = 'wait-declaration-weapon'; return value; }
-        foreach (local prior in self.fighter.profile.waitDeclarations)
-            if (prior.id == self.id) rpgExpandedReject('wait-declaration-duplicate');
-        value.status = 'ready'; return value;
-    }
-    record(request)
-    {
-        if (request == nil || !request.ofKind(RpgExpandedWaitManeuver) || request.declaration != self
-            || self.fighter.maneuver != 'wait' || request.healthGate.result == nil || !request.healthGate.result.allowed)
-            rpgExpandedReject('wait-declaration-execution-owner');
-        local value = self.assess(); if (value.status != 'ready') rpgExpandedReject('wait-declaration-changed');
-        self.maneuver = request; self.boundFacts = self.facts(); self.declaredAt = rpgLedger.seconds;
-        self.declaredTurnSerial = self.fighter.turnSerial;
-        self.boundReceipt = [self.declaredAt,self.declaredTurnSerial,self.maneuver,self.maneuver.healthGate,self.maneuver.kind,self.maneuver.movement];
-        self.fighter.profile.waitDeclarations = self.fighter.profile.waitDeclarations + [self]; return nil;
-    }
-    responseReason()
-    {
-        self.validateReceipt();
-        if (!self.battle.active || self.fighter.turnSerial != self.declaredTurnSerial || self.fighter.maneuver != 'wait')
-            return 'wait-response-expired';
-        if (self.triggeredBy != nil) return 'wait-response-used';
-        local profile = self.fighter.profile;
-        if (profile.dead || profile.unconscious || profile.mortal || profile.stunned || profile.mentalStun)
-            return 'wait-response-incapacitated';
-        return profile.healthEffortReason('action',nil,nil,true);
-    }
-;
-class RpgExpandedWaitManeuver: RpgExpandedHealthManeuver
-    kind = 'wait'
-    declaration = nil
-    available(fighter)
-    {
-        if (self.kind != 'wait' || self.movement != 0 || self.declaration == nil
-            || !self.declaration.ofKind(RpgExpandedWaitDeclaration) || self.declaration.fighter != fighter)
-            rpgExpandedReject('wait-maneuver-definition');
-        local value = self.declaration.assess();
-        return value.status == 'ready' ? nil : value.status == 'reused' ? 'wait-declaration-used' : value.reason;
-    }
-    apply(fighter,result) { inherited(fighter,result); self.declaration.record(self); return nil; }
-;
-modify RpgExpandedProfile
-    waitDeclarations = []
-    validateFeatures()
-    { inherited(); foreach (local declaration in self.waitDeclarations) declaration.validateReceipt(); return nil; }
-;
-
 /** No free attack: this permission applies only to the actor's ordinary Attack turn. */
 class RpgExpandedOverstimulationCounterManeuver: RpgExpandedPhysicalManeuver
     kind = 'attack'
@@ -11614,6 +11572,7 @@ class RpgExpandedOverstimulationCounterManeuver: RpgExpandedPhysicalManeuver
         self.executingStrike = nil; return value;
     }
 ;
+/** Overstimulation counter gate. Carries maneuver. Operations: healthPermissionReason. */
 class RpgExpandedOverstimulationCounterGate: RpgExpandedActionGate
     maneuver = nil
     healthPermissionReason()
@@ -11746,6 +11705,7 @@ class RpgExpandedFearPanicExpression: RpgExpandedFearPanicCrying
         return nil;
     }
 ;
+/** Panic expression gate. Carries activity. Operations: permits, healthPermissionReason, apply. */
 class RpgExpandedPanicExpressionGate: RpgExpandedActionGate
     activity = nil
     permits(profile,purpose,speech,movement)
@@ -11815,6 +11775,7 @@ rpgExpandedRageInjuryThreshold(capacity,injury)
     rpgInteger(capacity,1,1000); rpgInteger(injury,0,1000000);
     return injury * 4 > capacity;
 }
+/** Rage injury result. Carries injury, capacity, triggered, wounds. */
 class RpgExpandedRageInjuryResult: RpgExpandedResult
     injury = 0
     capacity = 0
@@ -12062,4 +12023,102 @@ modify RpgExpandedProfile
         self.validateFrenzyKnockdown(modifier);
         return self.committingFrenzyWound.frenzyRuling.apply(result);
     }
+;
+
+/** B124 post-exit checks use normal health and existing injury thresholds.
+ * An unrollable boundary requires explicit recorded author outcomes; it never
+ * substitutes a roll of three or silently succeeds. */
+class RpgExpandedFrenzyExitHealth: object
+    owner = nil
+    survivalRuling = nil
+    consciousnessRuling = nil
+    approved = nil
+    evidence = nil
+    checks = []
+    completed = nil
+    boundDefinition = nil
+    boundChecks = nil
+    checkFacts()
+    {
+        local facts = [self.checks.length()];
+        foreach (local check in self.checks) facts = facts + [check,check.score,check.roll,check.achieved,check.margin,check.critical];
+        return facts;
+    }
+    definition() { return [self.owner,self.survivalRuling,self.consciousnessRuling,self.approved,self.evidence]; }
+    context(kind,preview)
+    {
+        local value = new RpgLiteContext(); value.attribute = rpgHT; value.kind = kind;
+        if (kind == 'consciousness') value.modifier = -(-self.owner.profile.hp() / self.owner.profile.maxHP);
+        if (preview && self.owner.profile.frenzyActive()) value.modifier -= 4;
+        return value;
+    }
+    assess(exit)
+    {
+        if (self.owner != exit || exit.health != self) rpgExpandedReject('frenzy-exit-health-owner');
+        local value = new RpgExpandedResult();
+        if (self.completed) { self.validateReceipt(exit); value.status = 'reused'; return value; }
+        local profile = exit.profile;
+        if (profile.dead) { value.status = 'ready'; return value; }
+        foreach (local kind in ['death','consciousness'])
+        {
+            local needed = kind == 'death' ? profile.hp() <= -profile.maxHP : profile.hp() <= 0;
+            local ruling = kind == 'death' ? self.survivalRuling : self.consciousnessRuling;
+            if (!needed && ruling != nil) rpgExpandedReject('frenzy-exit-unused-ruling');
+            if (!needed) continue;
+            local score = rpgLiteScore(profile,self.context(kind,true));
+            if (score == nil || score < 3)
+            {
+                if (!self.approved || self.evidence == nil || self.evidence == '' || !holds(['pass','fail'],ruling))
+                { value.reason = 'frenzy-exit-unrollable-ruling-required'; return value; }
+            }
+            else if (ruling != nil) rpgExpandedReject('frenzy-exit-rollable-ruling');
+        }
+        value.status = 'ready'; return value;
+    }
+    validateReceipt(exit)
+    {
+        if (!self.completed || self.owner != exit || !holds(exit.episode.exits,exit)) rpgExpandedReject('frenzy-exit-health-history');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('frenzy-exit-health-binding');
+        rpgExpandedAttentionBinding(self.checkFacts(),self.boundChecks,'frenzy-exit-health-checks');
+        return nil;
+    }
+    apply(exit)
+    {
+        if (self.owner != exit || exit.check == nil || !exit.check.achieved || exit.episode.state != 'finished'
+            || !holds(exit.episode.exits,exit) || self.completed) rpgExpandedReject('frenzy-exit-health-commit');
+        local profile = exit.profile;
+        foreach (local kind in ['death','consciousness'])
+        {
+            if (profile.dead || (kind == 'death' ? profile.hp() > -profile.maxHP : profile.hp() > 0)) continue;
+            local ruling = kind == 'death' ? self.survivalRuling : self.consciousnessRuling;
+            local check = nil; local passed = ruling == 'pass';
+            if (ruling == nil)
+            { check = rpgLiteCheck(profile,self.context(kind,nil)); self.checks = self.checks + [check]; passed = check.achieved; }
+            if (!passed)
+            {
+                if (kind == 'death')
+                {
+                    if (check == nil || profile.mortal || check.margin < -2) profile.dead = true;
+                    else profile.mortal = true;
+                }
+                profile.becomeUnconscious();
+            }
+        }
+        self.boundDefinition = self.definition(); self.boundChecks = self.checkFacts(); self.completed = true; return nil;
+    }
+;
+modify RpgExpandedProfile
+    assessFrenzyExitHealth(exit)
+    {
+        if (exit.health == nil || !exit.health.ofKind(RpgExpandedFrenzyExitHealth)) return inherited(exit);
+        return exit.health.assess(exit);
+    }
+    applyFrenzyExitHealth(exit) { return exit.health.apply(exit); }
+;
+
+modify RpgExpandedProfile
+    permitsRecordedStrike(request,strike)
+    { return request.ofKind(RpgExpandedOverstimulationCounterManeuver) && request.permitsStrike(strike); }
 ;

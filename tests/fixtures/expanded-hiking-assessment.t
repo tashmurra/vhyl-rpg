@@ -25,5 +25,5 @@ act(verb,args)
         eventValue(value.effectiveTerrain); eventValue(value.weatherDivisor); eventValue(value.travelSkill);
         eventValue(value.milesHundredths); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

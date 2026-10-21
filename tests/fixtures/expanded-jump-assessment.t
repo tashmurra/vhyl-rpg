@@ -17,5 +17,5 @@ act(verb,args)
         eventValue(value.highInchTenths); eventValue(value.broadInchTenths);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

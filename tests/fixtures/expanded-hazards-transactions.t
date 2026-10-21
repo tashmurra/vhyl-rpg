@@ -63,10 +63,10 @@ hazardAction: HazardFixtureAction;
 hazardVerb: Verb code = 1810 action = hazardAction label = 'hazard-fixture';
 modify gameMain initialRoom = hazardRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1810) { hazardInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1810) { hazardInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1811)
     {
         event('test.hazard-state'); eventValue(hazardPatient.injury); eventValue(hazardPatient.diseaseInjury);
@@ -84,5 +84,5 @@ act(verb,args)
         eventValue(immuneExposure.result == nil ? 0 : immuneExposure.result.immune ? 1 : 0);
         eventValue(rpgRandom.draws); eventValue(hazardPatient.injury); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

@@ -1,5 +1,4 @@
 #include "expanded-begging-hour.t"
-#include <vhyl-rpg-expanded-equipment.t>
 beggingGiftItem: RpgLiteItem id = 'warm-coat' weight = 300 quantity = 1;
 beggingDonor: RpgExpandedProfile rules = healthRules equipment = [beggingGiftItem];
 modify beggingHour criticalBonus = 'A resident gives a warm coat';

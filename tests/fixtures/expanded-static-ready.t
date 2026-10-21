@@ -40,10 +40,10 @@ staticAction: StaticReadyTestAction;
 staticVerb: Verb code = 2235 action = staticAction label = 'switch static';
 modify gameMain initialRoom = staticRoom;
 startup() { rpgRandom.seed(1); vhylStart(); staticBattle.begin(); return nil; }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2235) { staticInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2235) { staticInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2237)
     {
         event('test.static-health'); eventValue(staticField.active ? 1 : 0); eventValue(staticOwner.unconscious ? 1 : 0);

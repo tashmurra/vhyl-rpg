@@ -61,6 +61,7 @@ rpgExpandedRapidFireDodge(hits, score, roll)
     value.remaining = hits - value.avoided; value.status = 'ready'; return value;
 }
 
+/** Ranged result. Carries outcome, malfunction, defenseAllowed, criticalTable. */
 class RpgExpandedRangedResult: RpgExpandedResult
     outcome = nil
     malfunction = nil
@@ -203,6 +204,7 @@ class RpgExpandedWeaponMissResult: RpgExpandedResult
     randomDisplacement = nil
 ;
 
+/** Weapon break result. */
 rpgExpandedWeaponBreakResult(roll, cheap)
 {
     return holds([3,4,17,18],roll) || cheap && holds([9,10,11],roll);
@@ -257,6 +259,7 @@ rpgExpandedWeaponMiss(context, rolls)
     value.status = 'ready'; return value;
 }
 
+/** Unarmed miss context. Carries kind, limbUsed, naturalWeapon, kicking, normalMishapPenalty. */
 class RpgExpandedUnarmedMissContext: object
     kind = 'attack'
     limbUsed = true
@@ -272,6 +275,7 @@ class RpgExpandedUnarmedMissContext: object
     mobility = 'ground'
 ;
 
+/** Unarmed miss result. Carries outcome, injury, injuryDice, injuryAdds, injuryLocation. */
 class RpgExpandedUnarmedMissResult: RpgExpandedResult
     outcome = nil
     injury = 0
@@ -371,6 +375,7 @@ rpgExpandedUnarmedMissInjury(die)
     rpgInteger(die,1,6); return die > 3 ? die - 3 : 0;
 }
 
+/** Critical drop result. Carries plans, selectedPlan, items, selectionRoll. */
 class RpgExpandedCriticalDropResult: RpgExpandedResult
     plans = []
     selectedPlan = nil
@@ -550,6 +555,7 @@ modify RpgExpandedProfile
     }
 ;
 
+/** Defense failure result. Carries shield. */
 class RpgExpandedDefenseFailureResult: RpgExpandedResult
     shield = nil
 ;
@@ -693,6 +699,7 @@ class RpgExpandedShieldReadyManeuver: RpgLiteManeuver
     }
 ;
 
+/** Weapon miss drop result. Carries assessment, plan. */
 class RpgExpandedWeaponMissDropResult: RpgExpandedResult
     assessment = nil
     plan = nil
@@ -1019,5 +1026,169 @@ class RpgExpandedRageMeleeChoice: object
         }
         else if (self.action != 'move') { value.reason = 'rage-closing-move-required'; return value; }
         value.status = 'ready'; return value;
+    }
+;
+
+/** B124 concrete recorded turn. The author resolves unsupported attack details
+ * and supplies final wounds; this contract commits those wounds, ammunition and
+ * a battle turn. It is not an automatic combat resolver. */
+class RpgExpandedFrenzyTurn: object
+    id = nil
+    episode = nil
+    battle = nil
+    fighter = nil
+    choice = nil
+    maneuver = nil
+    wounds = []
+    position = nil
+    targetKind = 'foe'
+    previousTargetDown = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    executing = nil
+    committed = nil
+    startTime = nil
+    endTime = nil
+    definition()
+    {
+        local facts = [self.id,self.episode,self.battle,self.fighter,self.choice,self.maneuver,self.position,
+            self.targetKind,self.previousTargetDown,self.approved,self.evidence,self.choice.action,self.choice.target,
+            self.choice.distanceYards,self.choice.approved,self.choice.evidence,self.fighter.weapon,self.wounds.length(),self.maneuver.kind,self.maneuver.option,self.maneuver.movement];
+        foreach (local wound in self.wounds)
+            facts = facts + [wound,wound.id,wound.profile,wound.amount,wound.location,wound.bodyPart,wound.frenzyRuling];
+        if (self.choice.ofKind(RpgExpandedRageRangedChoice))
+            facts = facts + [self.choice.shots,self.choice.firearm,self.choice.reloadSeconds,self.choice.quickDrawConfirmed];
+        else facts = facts + [self.choice.inReach,self.choice.movement,self.choice.closestDistance,self.choice.endingDistance,
+            self.choice.moveAttackPossible,self.choice.slamPossible,self.choice.reachAssessed,self.choice.movementAssessed];
+        return facts;
+    }
+    outcomeFacts() { return [self.result,self.result.status,self.result.outcome,self.committed,self.startTime,self.endTime]; }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.episode == nil || self.fighter == nil
+            || !self.fighter.ofKind(RpgLiteFighter) || self.fighter.profile != self.episode.profile
+            || self.battle == nil || !self.battle.ofKind(RpgLiteBattle) || self.choice == nil
+            || !(self.choice.ofKind(RpgExpandedRageMeleeChoice) || self.choice.ofKind(RpgExpandedRageRangedChoice))
+            || self.choice.fighter != self.fighter || self.maneuver == nil
+            || !self.maneuver.ofKind(RpgExpandedFrenzyManeuver) || self.maneuver.turn != self)
+            rpgExpandedReject('frenzy-turn-definition');
+        self.episode.validateReceipt();
+        if (self.result != nil)
+        {
+            rpgExpandedAttentionBinding(self.definition(),self.boundDefinition,'frenzy-turn-binding');
+            rpgExpandedAttentionBinding(self.outcomeFacts(),self.boundOutcome,'frenzy-turn-outcome');
+            if (!holds(self.episode.turns,self)) rpgExpandedReject('frenzy-turn-history');
+            if (self.committed)
+            {
+                foreach (local wound in self.wounds) if (wound.assess().status != 'reused') rpgExpandedReject('frenzy-turn-wound-history');
+                if (self.position != nil) self.position.validateReceipt(self);
+            }
+            value.status = 'reused'; return value;
+        }
+        if (!self.fighter.profile.frenzyActive()) { value.reason = 'frenzy-turn-inactive'; return value; }
+        if (self.boundDefinition != nil || self.boundOutcome != nil || self.committed || self.startTime != nil || self.endTime != nil)
+            rpgExpandedReject('frenzy-turn-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'frenzy-turn-recorded-resolution-required'; return value; }
+        foreach (local prior in self.episode.turns) if (prior.id == self.id) rpgExpandedReject('frenzy-turn-duplicate');
+        if (self.battle.current() != self.fighter || self.choice.action != 'reload' && !holds(self.battle.fighters,self.choice.target))
+        { value.reason = 'frenzy-turn-participants'; return value; }
+        if (!holds(['foe','restraining-friend','friend'],self.targetKind)
+            || self.targetKind == 'friend' && !self.episode.attackFriends)
+        { value.reason = 'frenzy-turn-target-classification'; return value; }
+        if (self.choice.action != 'reload' && self.episode.target != nil && self.episode.target != self.choice.target && !self.previousTargetDown)
+        { value.reason = 'frenzy-target-change-evidence-required'; return value; }
+        local choice = self.choice.assess(); if (choice.status != 'ready') return choice;
+        if (self.choice.action == 'reload' && (self.wounds.length() != 0 || self.position != nil)) rpgExpandedReject('frenzy-reload-unused-consequence');
+        local movement = self.choice.ofKind(RpgExpandedRageMeleeChoice) ? self.choice.movement : 0;
+        if (self.maneuver.movement != movement) { value.reason = 'frenzy-turn-movement-mismatch'; return value; }
+        local moving = movement > 0;
+        if (moving && self.position == nil) { value.reason = 'frenzy-position-required'; return value; }
+        if (!moving && self.position != nil) rpgExpandedReject('frenzy-position-unused');
+        if (self.position != nil)
+        { if (!self.position.ofKind(RpgExpandedFrenzyPosition)) rpgExpandedReject('frenzy-position-type'); local position = self.position.assess(self); if (position.status != 'ready') return position; }
+        local seen = [];
+        foreach (local wound in self.wounds)
+        {
+            if (wound == nil || !wound.ofKind(RpgExpandedWoundContract) || wound.profile != self.choice.target.profile
+                || holds(seen,wound.id)) rpgExpandedReject('frenzy-turn-wound-owner');
+            seen = seen + [wound.id];
+            local injury = wound.assess();
+            if (injury.status != 'ready') { value.reason = 'frenzy-turn-wound-unavailable'; return value; }
+        }
+        if (self.choice.action == 'move' && self.wounds.length() != 0) rpgExpandedReject('frenzy-move-injury-unused');
+        value.status = 'ready'; return value;
+    }
+    commitConsequences()
+    {
+        if (!self.executing || self.committed) rpgExpandedReject('frenzy-turn-execution-required');
+        if (self.position != nil) self.position.apply(self);
+        if (self.choice.ofKind(RpgExpandedRageRangedChoice))
+        {
+            local weapon = self.fighter.weapon; local mode = self.fighter.mode();
+            if (self.choice.action == 'reload')
+            {
+                local amount = mode.individualReload ? 1 : mode.capacity - weapon.ammunition;
+                if (amount > weapon.reserves) amount = weapon.reserves;
+                weapon.ammunition += amount; weapon.reserves -= amount; weapon.reloadProgress = 0; weapon.ready = true;
+            }
+            else weapon.ammunition -= self.choice.shots;
+        }
+        local damage = 0;
+        foreach (local wound in self.wounds)
+        {
+            local injury = wound.apply();
+            if (injury.status != 'resolved') rpgExpandedReject('frenzy-turn-injury-changed');
+            damage += injury.healthLoss;
+        }
+        self.fighter.participated = true; self.fighter.attacked = self.choice.action != 'move' && self.choice.action != 'reload';
+        self.fighter.aimSeconds = 0; if (self.choice.action != 'reload') self.episode.target = self.choice.target;
+        self.episode.boundState = self.episode.stateFacts(); self.committed = true;
+        local result = new RpgLiteCombatResult(); result.status = 'resolved'; result.outcome = 'recorded-frenzy'; result.injury = damage;
+        return result;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.startTime = rpgLedger.seconds; self.executing = true;
+        self.result = self.battle.step(self.fighter,self.maneuver); self.executing = nil;
+        if (self.result.status != 'resolved') rpgExpandedReject('frenzy-turn-changed');
+        self.endTime = rpgLedger.seconds; self.boundOutcome = self.outcomeFacts();
+        self.episode.turns = self.episode.turns + [self]; return self.result;
+    }
+;
+/** Frenzy maneuver. Carries turn. Operations: performReady, available, resolveStrike, apply. */
+class RpgExpandedFrenzyManeuver: RpgLiteManeuver
+    turn = nil
+    performReady(fighter) { return nil; }
+    available(fighter)
+    {
+        if (self.turn == nil || !self.turn.ofKind(RpgExpandedFrenzyTurn) || !self.turn.executing
+            || self.turn.fighter != fighter || self.target != self.turn.choice.target)
+            return 'frenzy-turn-owner';
+        local action = self.turn.choice.action;
+        if (self.kind != (action == 'slam' ? 'move-attack' : action == 'reload' ? 'ready' : action) || self.option == 'double')
+            return 'frenzy-turn-maneuver';
+        return inherited(fighter);
+    }
+    resolveStrike(attacker,defender)
+    {
+        if (self.available(attacker) != nil) rpgExpandedReject('frenzy-turn-strike-owner');
+        if (self.preflight) { local value = new RpgLiteCombatResult(); value.status = 'ready'; return value; }
+        return self.turn.commitConsequences();
+    }
+    apply(fighter,result)
+    { if (!self.turn.committed) self.turn.commitConsequences(); return nil; }
+;
+modify RpgExpandedProfile
+    frenzyManeuverReason(request)
+    {
+        if (request == nil || !request.ofKind(RpgExpandedFrenzyManeuver) || request.turn.episode != self.frenzyEpisode
+            || !request.turn.executing || request.turn.result != nil) return 'frenzy-owned-action-required';
+        return nil;
     }
 ;

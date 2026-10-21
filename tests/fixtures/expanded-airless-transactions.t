@@ -44,7 +44,7 @@ class AirFixtureAction: Action
             local key = '';
             for (local count = 0; count < 121; count += 1)
             {
-                key += 's'; rpgSpendTime(1); local second = new RpgExpandedAirlessSecond();
+                key = key + 's'; rpgSpendTime(1); local second = new RpgExpandedAirlessSecond();
                 second.id = key; second.exposure = airExposure; value = second.apply();
                 if (value.status != 'resolved') throw new RpgError();
             }
@@ -59,10 +59,10 @@ airAction: AirFixtureAction;
 airVerb: Verb code = 1900 action = airAction label = 'air-fixture';
 modify gameMain initialRoom = airRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1900) { airInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1900) { airInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1901)
     {
         event('test.air-state'); eventValue(airPatient.fatigue); eventValue(airPatient.injury); eventValue(airPatient.iq);
@@ -71,5 +71,5 @@ act(verb,args)
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(airPatient.unconscious ? 1 : 0);
         eventValue(airPatient.breathReserve == nil ? 0 : 1); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

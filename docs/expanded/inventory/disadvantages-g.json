@@ -153,7 +153,12 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Status sensitivity is base -5 with self-control after a clear social slight. Failure produces a volatile-temper response, typically giving the offended target -3 reactions. Nonplayer reactions to perceived slights are -5/-4/-3/-2 at self-control six/nine/twelve/fifteen. Preserve who reacts to whom.",
-      "tests": ["tests/expanded.py::test_status_sensitivity", "tests/expanded.py::test_control_choice_mitigation", "tests/expanded.py::test_status_sensitivity_social", "tests/expanded.py::test_status_outburst"],
+      "tests": [
+        "tests/expanded.py::test_status_sensitivity",
+        "tests/expanded.py::test_control_choice_mitigation",
+        "tests/expanded.py::test_status_sensitivity_social",
+        "tests/expanded.py::test_status_outburst"
+      ],
       "implementation": "Typed purchase, fear selection, owned slight response and both reaction directions implemented. Conditional outburst penalty requires recorded author confirmation and completed hostile action. Solitude composition specified. Fixtures registered but unrun; frenzy combination remains blocked."
     },
     {
@@ -164,7 +169,10 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Self-sacrifice is base -5 and requires self-control to put personal needs, including survival, before another person. Author identifies the competing needs and available actions; it does not automatically transfer possessions or authorize impossible rescue.",
-      "tests": ["tests/expanded.py::test_self_sacrifice", "tests/expanded.py::test_control_choice_mitigation"],
+      "tests": [
+        "tests/expanded.py::test_self_sacrifice",
+        "tests/expanded.py::test_control_choice_mitigation"
+      ],
       "implementation": "Typed rated purchase and fear selection with an owned competing-needs trigger, explicit other-first/self-first action contract and immutable completion. Lifecycle fixtures registered but unrun."
     },
     {
@@ -215,7 +223,16 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Short attention is base -10. Prolonged focus or offered distraction prompts self-control; failure automatically fails the current task. Author may grant a small bonus when concentration is crucial. Identify the task and already committed progress/costs without charging an additional attempt or undoing unrelated completed work.",
-      "tests": ["test_attention_task", "test_attention_study", "test_attention_repair", "test_attention_concept", "test_attention_work", "test_attention_prototype", "test_attention_acquisition", "test_attention_rapid_prototype"],
+      "tests": [
+        "tests/expanded.py::test_attention_task",
+        "tests/expanded.py::test_attention_study",
+        "tests/expanded.py::test_attention_repair",
+        "tests/expanded.py::test_attention_concept",
+        "tests/expanded.py::test_attention_work",
+        "tests/expanded.py::test_attention_prototype",
+        "tests/expanded.py::test_attention_acquisition",
+        "tests/expanded.py::test_attention_rapid_prototype"
+      ],
       "implementation": "Typed rated purchase and owned contextual task resolution; failed attention resolves task failure without a task roll. Preview, replay, rollback, undo and cross-process fixtures authored but unrun. Owned study segments now retain attempted time/daily allowance and earlier credit while withholding failed-segment credit. Owned environmental-fault repairs now retain time/installed parts on attention failure without repair dice; minor/major lifecycle fixtures authored, unrun. Ordinary and rapid invention concepts now consume their actual attempt and timed work on failure without concept dice or a theory; lifecycle fixtures authored, unrun. Owned multi-step lifecycle now records actual progress/costs and terminal failure; prototype work/delivery are gated and terminal settlement retains spent money/time. Exact-cost fear acquisition and one-step worsening enabled. New lifecycle fixtures authored, unrun; rapid component reservation acceptance fixture authored and unrun. Other authored tasks use the concrete lifecycle contract, not further peripheral subsystem expansion."
     },
     {

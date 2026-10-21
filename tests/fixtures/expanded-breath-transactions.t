@@ -37,10 +37,10 @@ breathAction: BreathFixtureAction;
 breathVerb: Verb code = 1880 action = breathAction label = 'breath-fixture';
 modify gameMain initialRoom = breathRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1880) { breathInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1880) { breathInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1881)
     {
         local value = breathReserve.assess();
@@ -51,5 +51,5 @@ act(verb,args)
         eventValue(rpgRandom.draws); eventValue(breathReserve.activity); eventValue(breathPatient.fatigue);
         eventValue(breathPatient.airClock); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

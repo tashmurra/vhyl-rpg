@@ -103,10 +103,10 @@ criticalDropAction: CriticalDropAction;
 criticalDropVerb: Verb code = 2030 action = criticalDropAction label = 'critical-drop';
 modify gameMain initialRoom = dropRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2030) { dropInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2030) { dropInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2034)
     {
         event('test.weapon-miss-drop-state'); eventValue(dropFirst.storageLocation); eventValue(dropFirst.ready ? 1 : 0);
@@ -133,5 +133,5 @@ act(verb,args)
         eventValue(dropRequest.result == nil ? 0 : dropRequest.result.items.length());
         eventValue(dropFighter.aimSeconds); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

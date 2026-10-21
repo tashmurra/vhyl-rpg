@@ -78,6 +78,7 @@ class RpgLiteProfile: RpgProfile
     healthAttributeModifier(context) { return 0; }
     healthSelfControlModifier(trait) { return 0; }
     healthCheckReason(context) { return nil; }
+    directStrikeReason(request) { return nil; }
     recordDirectPhysicalAttack(attacker,defender,result) { return nil; }
     healthManeuverReason(kind) { return self.healthManeuverReasonFor(kind,nil); }
     healthManeuverReasonFor(kind,request) { return nil; }

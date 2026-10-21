@@ -851,6 +851,7 @@ modify RpgExpandedPathLeg
     jumpEvidence = nil
 ;
 
+/** Path move result. Carries operation, definition, pathResult, originQ, originR. */
 class RpgExpandedPathMoveResult: RpgExpandedResult
     operation = nil
     definition = []
@@ -938,6 +939,7 @@ class RpgExpandedPathMove: RpgExpandedPathMoveReceipt
     }
 ;
 
+/** Clamber result. Carries definition, completes. */
 class RpgExpandedClamberResult: RpgExpandedResult
     definition = []
     completes = nil
@@ -1531,9 +1533,11 @@ class RpgExpandedTimedPanicPath: RpgExpandedPanicActivityReceipt
         self.episode.activities = self.episode.activities + [self]; self.episode.activityCount += 1; return value;
     }
 ;
+/** Timed panic path maneuver. Carries timedPanicActivity. */
 class RpgExpandedTimedPanicPathManeuver: RpgExpandedPathMoveManeuver
     timedPanicActivity = nil
 ;
+/** Timed panic path gate. Carries timedPanicActivity, requiresMovement. Operations: healthPermissionReason, apply. */
 class RpgExpandedTimedPanicPathGate: RpgExpandedActionGate
     timedPanicActivity = nil
     requiresMovement = true
@@ -1558,4 +1562,176 @@ modify RpgExpandedProfile
         return activity != nil && activity.ofKind(RpgExpandedTimedPanicPath)
             && activity.episode != nil && activity.episode.context.profile == self && activity.permits(request);
     }
+;
+
+/** Concrete uninterrupted tactical position commit for a recorded frenzy turn.
+ * The battle owns time; path assessment owns legality and movement accounting. */
+class RpgExpandedFrenzyPath: RpgExpandedFrenzyPosition
+    owner = nil
+    path = nil
+    uninterrupted = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        local facts = [self.owner,self.path,self.path.figure,self.path.move,self.path.maneuver,self.path.finalFacing,
+            self.uninterrupted,self.evidence,self.path.legs.length()];
+        foreach (local leg in self.path.legs) facts = facts + [leg,leg.kind,leg.heading,leg.travel,
+            leg.destination == nil ? nil : leg.destination.q,leg.destination == nil ? nil : leg.destination.r];
+        return facts;
+    }
+    assess(turn)
+    {
+        if (self.owner != turn || self.path == nil || !self.path.ofKind(RpgExpandedMovementPath)
+            || self.path.figure.profile != turn.fighter.profile) rpgExpandedReject('frenzy-path-owner');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(turn); value.status = 'reused'; return value; }
+        if (!self.uninterrupted || self.evidence == nil || self.evidence == '')
+        { value.reason = 'frenzy-path-interruption-contract'; return value; }
+        if (self.path.move != turn.fighter.profile.moveBeforePosture()
+            || self.path.maneuver != (turn.choice.action == 'slam' ? 'move-attack' : turn.choice.action))
+        { value.reason = 'frenzy-path-maneuver'; return value; }
+        local path = self.path.assess(); if (path.status != 'ready') return path;
+        if (path.enteredHexes != turn.choice.movement) { value.reason = 'frenzy-path-distance'; return value; }
+        local target = turn.choice.target.profile.tacticalFigure;
+        if (target == nil || target.map != self.path.figure.map) { value.reason = 'frenzy-path-target'; return value; }
+        if (rpgExpandedHexDistance(self.path.figure.coordinate,target.coordinate) != turn.choice.distanceYards
+            || rpgExpandedHexDistance(path.destination,target.coordinate) != turn.choice.endingDistance)
+        { value.reason = 'frenzy-path-range'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply(turn)
+    {
+        if (!turn.executing || self.assess(turn).status != 'ready') rpgExpandedReject('frenzy-path-execution');
+        self.boundDefinition = self.definition(); self.result = self.path.assess();
+        self.path.figure.coordinate = rpgExpandedHex(self.result.destination.q,self.result.destination.r);
+        self.path.figure.facing = self.result.heading; return nil;
+    }
+    validateReceipt(turn)
+    {
+        if (self.owner != turn || self.result == nil) rpgExpandedReject('frenzy-path-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('frenzy-path-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('frenzy-path-binding');
+        return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    permitsRecordedStrike(request,strike)
+    { return request.ofKind(RpgExpandedPathWaitInterruption) ? request.permitsStrike(strike) : inherited(request,strike); }
+;
+
+/** Owned wait declaration and its concrete tactical trigger. */
+class RpgExpandedWaitDeclaration: object
+    id = nil
+    fighter = nil
+    battle = nil
+    weapon = nil
+    mode = nil
+    targetProfile = nil
+    triggerHex = nil
+    approved = nil
+    evidence = nil
+    declaredAt = nil
+    declaredTurnSerial = nil
+    boundReceipt = nil
+    boundTrigger = nil
+    boundFacts = nil
+    maneuver = nil
+    triggeredBy = nil
+    facts()
+    {
+        if (self.id == nil || self.id == '' || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
+            || !self.fighter.profile.ofKind(RpgExpandedProfile) || self.battle == nil || !self.battle.ofKind(RpgLiteBattle)
+            || self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon) || self.mode == nil
+            || !self.mode.ofKind(RpgLiteAttackMode) || self.targetProfile == nil
+            || !self.targetProfile.ofKind(RpgExpandedProfile) || self.targetProfile == self.fighter.profile || self.triggerHex == nil
+            || !self.triggerHex.ofKind(RpgExpandedHex)) rpgExpandedReject('wait-declaration-definition');
+        self.triggerHex.validate();
+        return [self,self.id,self.fighter,self.fighter.profile,self.battle,self.weapon,self.mode,self.mode.ranged,
+            self.mode.thrown,self.targetProfile,self.triggerHex.q,self.triggerHex.r,self.approved,self.evidence];
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.declaredAt == nil || self.declaredTurnSerial == nil || self.boundFacts == nil
+            || self.maneuver == nil || self.maneuver.declaration != self
+            || !holds(self.fighter.profile.waitDeclarations,self) || facts.length() != self.boundFacts.length())
+            rpgExpandedReject('wait-declaration-receipt');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('wait-declaration-binding');
+        local receipt = [self.declaredAt,self.declaredTurnSerial,self.maneuver,self.maneuver.healthGate,self.maneuver.kind,self.maneuver.movement];
+        if (self.boundReceipt == nil || self.triggeredBy != self.boundTrigger) rpgExpandedReject('wait-declaration-history');
+        for (local i = 1; i <= receipt.length(); i += 1)
+            if (receipt[i] != self.boundReceipt[i]) rpgExpandedReject('wait-declaration-history');
+        if (self.maneuver.healthGate.assess().status != 'reused' || !self.maneuver.healthGate.result.allowed)
+            rpgExpandedReject('wait-declaration-permission');
+        return nil;
+    }
+    assess()
+    {
+        self.facts(); local value = new RpgExpandedResult();
+        if (self.declaredAt != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundFacts != nil || self.maneuver != nil || self.declaredTurnSerial != nil || self.triggeredBy != nil || self.boundTrigger != nil || self.boundReceipt != nil)
+            rpgExpandedReject('wait-declaration-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'wait-declaration-author-facts'; return value; }
+        if (!self.battle.active || self.battle.current() != self.fighter)
+        { value.reason = 'wait-declaration-turn'; return value; }
+        local targetPresent = nil;
+        foreach (local other in self.battle.fighters)
+            if (other.profile == self.targetProfile) targetPresent = true;
+        if (!targetPresent) { value.reason = 'wait-declaration-target'; return value; }
+        if (self.mode.thrown) { value.reason = 'wait-declaration-thrown-adapter-required'; return value; }
+        if (self.weapon != self.fighter.weapon || self.mode != self.fighter.mode() || !self.weapon.ready
+            || !self.weapon.attackUsableBy(self.fighter.profile) || !holds(self.fighter.profile.equipment,self.weapon))
+        { value.reason = 'wait-declaration-weapon'; return value; }
+        foreach (local prior in self.fighter.profile.waitDeclarations)
+            if (prior.id == self.id) rpgExpandedReject('wait-declaration-duplicate');
+        value.status = 'ready'; return value;
+    }
+    record(request)
+    {
+        if (request == nil || !request.ofKind(RpgExpandedWaitManeuver) || request.declaration != self
+            || self.fighter.maneuver != 'wait' || request.healthGate.result == nil || !request.healthGate.result.allowed)
+            rpgExpandedReject('wait-declaration-execution-owner');
+        local value = self.assess(); if (value.status != 'ready') rpgExpandedReject('wait-declaration-changed');
+        self.maneuver = request; self.boundFacts = self.facts(); self.declaredAt = rpgLedger.seconds;
+        self.declaredTurnSerial = self.fighter.turnSerial;
+        self.boundReceipt = [self.declaredAt,self.declaredTurnSerial,self.maneuver,self.maneuver.healthGate,self.maneuver.kind,self.maneuver.movement];
+        self.fighter.profile.waitDeclarations = self.fighter.profile.waitDeclarations + [self]; return nil;
+    }
+    responseReason()
+    {
+        self.validateReceipt();
+        if (!self.battle.active || self.fighter.turnSerial != self.declaredTurnSerial || self.fighter.maneuver != 'wait')
+            return 'wait-response-expired';
+        if (self.triggeredBy != nil) return 'wait-response-used';
+        local profile = self.fighter.profile;
+        if (profile.dead || profile.unconscious || profile.mortal || profile.stunned || profile.mentalStun)
+            return 'wait-response-incapacitated';
+        return profile.healthEffortReason('action',nil,nil,true);
+    }
+;
+/** Wait maneuver. Carries kind, declaration. Operations: available, apply. */
+class RpgExpandedWaitManeuver: RpgExpandedHealthManeuver
+    kind = 'wait'
+    declaration = nil
+    available(fighter)
+    {
+        if (self.kind != 'wait' || self.movement != 0 || self.declaration == nil
+            || !self.declaration.ofKind(RpgExpandedWaitDeclaration) || self.declaration.fighter != fighter)
+            rpgExpandedReject('wait-maneuver-definition');
+        local value = self.declaration.assess();
+        return value.status == 'ready' ? nil : value.status == 'reused' ? 'wait-declaration-used' : value.reason;
+    }
+    apply(fighter,result) { inherited(fighter,result); self.declaration.record(self); return nil; }
+;
+modify RpgExpandedProfile
+    waitDeclarations = []
+    validateFeatures()
+    { inherited(); foreach (local declaration in self.waitDeclarations) declaration.validateReceipt(); return nil; }
 ;

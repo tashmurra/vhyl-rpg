@@ -1,4 +1,5 @@
 #include "expanded-swim-negative-fatigue.t"
+#include <vhyl-rpg-expanded-skills.t>
 #include <vhyl-rpg-expanded-hazards.t>
 swimSubmersion: RpgExpandedDrowningExposure id = 'underwater' profile = swimPatient swimming = swimEncounter
     approved = true evidence = 'The unconscious swimmer is fully submerged without air';

@@ -23,8 +23,11 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Volatile temper is base -10 with self-control. A failed check in a stressful situation requires an authored hostile response toward the stressor. Preserve the specific trigger and player choices among qualifying responses.",
-      "tests": ["tests/expanded.py::test_volatile_temper"],
-      "validation_note": "Typed rated fear selection, owned stressor-specific action alternatives, self-control, completion and phantom-voice follow-up implemented. Author must execute the legal selected response and its ordinary costs in the same transaction. Uncontrolled-rage interaction explicitly blocked pending its own behavior. Prices, copies, acquisition, denied restraint, stress deduplication, rollback, undo and saved continuation fixtures authored and unrun."
+      "tests": [
+        "tests/expanded.py::test_volatile_temper",
+        "tests/expanded.py::test_frenzy_temper"
+      ],
+      "validation_note": "Owned hostile-response contract and linked frenzy entry reuse the original failed control roll. Fixtures authored; validation pending."
     },
     {
       "id": "disadvantages-b-rage-trigger",
@@ -34,8 +37,15 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Uncontrolled rage is base -10 with self-control. More than one quarter health capacity injured within one second, or witnessing equivalent injury to a loved one, prompts a check. Failed volatile-temper control automatically triggers rage. Voluntary entry takes concentration and successful will. Aggregate injuries in the one-second window rather than checking only each hit.",
-      "tests": ["tests/expanded.py::test_rage_injury_window"],
-      "validation_note": "Pure current-second aggregation of committed wound health loss and strict quarter-capacity threshold implemented. Missing injury serial coverage blocks. Fixtures cover multiple hits, time separation, boundaries, purity and persistence, but are unrun. A qualifying receipt retains capacity and contributing wounds once per profile/second, with duplicate, mutation and persistence cases authored and unrun. No rage entry, voluntary entry, witnessed injury or anger escalation is implemented yet; this is only the injury-trigger prerequisite."
+      "tests": [
+        "tests/expanded.py::test_rage_injury_window",
+        "tests/expanded.py::test_frenzy_entry",
+        "tests/expanded.py::test_frenzy_turn",
+        "tests/expanded.py::test_frenzy_boundaries",
+        "tests/expanded.py::test_frenzy_knockdown",
+        "tests/expanded.py::test_frenzy_acquisition"
+      ],
+      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
     },
     {
       "id": "disadvantages-b-rage-melee",
@@ -45,8 +55,15 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "During rage, an in-range foe requires all-out attack with a hand weapon. Otherwise move as close as possible, using move-and-attack or a slam when possible. Enforce maneuver and defense consequences through the normal turn ledger.",
-      "tests": ["tests/expanded.py::test_rage_melee"],
-      "validation_note": "Pure hand-weapon/approach assessment enforces all-out choice in reach, actual weapon readiness, current Move, authored closest-route facts and moving attack/slam preference. Preview boundary fixtures authored and unrun. Actual turn execution, defense restrictions, unarmed reach and the full rage episode remain unfinished."
+      "tests": [
+        "tests/expanded.py::test_rage_melee",
+        "tests/expanded.py::test_frenzy_entry",
+        "tests/expanded.py::test_frenzy_turn",
+        "tests/expanded.py::test_frenzy_boundaries",
+        "tests/expanded.py::test_frenzy_knockdown",
+        "tests/expanded.py::test_frenzy_acquisition"
+      ],
+      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
     },
     {
       "id": "disadvantages-b-rage-ranged",
@@ -56,8 +73,15 @@
       "kind": "procedure",
       "status": "partial",
       "acceptance": "A foe more than twenty yards away permits a ranged attack without aim. Firearms use maximum firing rate until empty; reloading is allowed only when the weapon and quick-draw capability permit completion in at most one second. Otherwise draw another weapon or charge. Preserve ammunition and actual reach/distance.",
-      "tests": ["tests/expanded.py::test_rage_ranged"],
-      "validation_note": "Pure non-thrown ranged assessment uses actual owned weapon ammunition/rof, strict distance greater than twenty, no aiming and explicitly evidenced quick-draw reload duration at most one second. Boundary and purity fixtures authored and unrun. No turn, attack, reload, draw-or-charge execution or rage episode activation is implemented by this assessment."
+      "tests": [
+        "tests/expanded.py::test_rage_ranged",
+        "tests/expanded.py::test_frenzy_entry",
+        "tests/expanded.py::test_frenzy_turn",
+        "tests/expanded.py::test_frenzy_boundaries",
+        "tests/expanded.py::test_frenzy_knockdown",
+        "tests/expanded.py::test_frenzy_acquisition"
+      ],
+      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
     },
     {
       "id": "disadvantages-b-rage-injury",
@@ -67,7 +91,14 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "Rage prevents shock/stun and injury movement penalties, and grants +4 health to stay conscious/alive. Injury still accumulates and death occurs at negative five times health capacity. On leaving rage, wounds immediately apply and ordinary health consciousness/survival checks are required. Resolve overlaps with other survival traits explicitly.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_frenzy_entry",
+        "tests/expanded.py::test_frenzy_turn",
+        "tests/expanded.py::test_frenzy_boundaries",
+        "tests/expanded.py::test_frenzy_knockdown",
+        "tests/expanded.py::test_frenzy_acquisition"
+      ],
+      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
     },
     {
       "id": "disadvantages-b-rage-exit",
@@ -77,7 +108,14 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "Each downed foe permits optional self-control to exit; failure or declining continues to another foe. Restraining friends count as foes. Once no foes remain, one extra check is available; continued failure turns aggression toward friends. Store episode and downed-target event identity so repeated narration cannot grant extra recovery checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_frenzy_entry",
+        "tests/expanded.py::test_frenzy_turn",
+        "tests/expanded.py::test_frenzy_boundaries",
+        "tests/expanded.py::test_frenzy_knockdown",
+        "tests/expanded.py::test_frenzy_acquisition"
+      ],
+      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
     },
     {
       "id": "disadvantages-b-battle-rage",
@@ -87,7 +125,14 @@
       "kind": "modifier",
       "status": "pending",
       "acceptance": "Combat-triggered rage increases the disadvantage magnitude by +50% and requires self-control on first entering any combat, even without injury. Apply self-control pricing and modifier rounding consistently.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_frenzy_entry",
+        "tests/expanded.py::test_frenzy_turn",
+        "tests/expanded.py::test_frenzy_boundaries",
+        "tests/expanded.py::test_frenzy_knockdown",
+        "tests/expanded.py::test_frenzy_acquisition"
+      ],
+      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
     },
     {
       "id": "disadvantages-b-animalistic",
@@ -147,7 +192,12 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Callousness is -5: teaching and helpful psychology take -3, as do interactions with past victims identified by author. Victims/empaths react at -1. Threat/torture-based interrogation and intimidation gain +1. These bonuses are scoped fictional mechanics, not blanket social skill increases.",
-      "tests": ["tests/fixtures/expanded-callousness.t", "tests/expanded.py::test_callousness", "tests/fixtures/expanded-callous-interrogation.t", "tests/expanded.py::test_callous_interrogation"]
+      "tests": [
+        "tests/fixtures/expanded-callousness.t",
+        "tests/expanded.py::test_callousness",
+        "tests/fixtures/expanded-callous-interrogation.t",
+        "tests/expanded.py::test_callous_interrogation"
+      ]
     },
     {
       "id": "disadvantages-b-learning-bar",
@@ -157,7 +207,10 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Inability to learn is -30 and bars earned-point improvement of dexterity, intelligence, skills and mental advantages, plus new techniques/familiarities. Strength/health and approved physical traits remain eligible. Temporary modular skills are allowed. Apply at advancement assessment, not only character creation.",
-      "tests": ["tests/fixtures/expanded-learning-bar.t", "tests/expanded.py::test_learning_bar"]
+      "tests": [
+        "tests/fixtures/expanded-learning-bar.t",
+        "tests/expanded.py::test_learning_bar"
+      ]
     },
     {
       "id": "disadvantages-b-speech-limited",
@@ -167,7 +220,12 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "No articulated speech is -15 but permits nonlinguistic vocal sounds and compatible voice/imitation traits, excluding stuttering. Total muteness is -25 and forbids all other voice traits; nonverbal channels remain. Communication study time counts fully without duplicating time spent.",
-      "tests": ["tests/fixtures/expanded-speech-limitation.t", "tests/expanded.py::test_speech_limitation", "tests/fixtures/expanded-communication-study.t", "tests/expanded.py::test_communication_study"]
+      "tests": [
+        "tests/fixtures/expanded-speech-limitation.t",
+        "tests/expanded.py::test_speech_limitation",
+        "tests/fixtures/expanded-communication-study.t",
+        "tests/expanded.py::test_communication_study"
+      ]
     },
     {
       "id": "disadvantages-b-speech-authored",
@@ -177,7 +235,10 @@
       "kind": "author-decision",
       "status": "partial",
       "acceptance": "For nonshared signing between player characters, the source requires authored communication rather than a success roll. Provide explicit conveyed meaning/gesture choices with no random roll; a generic callback alone does not establish the contract.",
-      "tests": ["tests/fixtures/expanded-gesture-exchange.t", "tests/expanded.py::test_gesture_exchange"]
+      "tests": [
+        "tests/fixtures/expanded-gesture-exchange.t",
+        "tests/expanded.py::test_gesture_exchange"
+      ]
     },
     {
       "id": "disadvantages-b-compelled-aid",
@@ -187,7 +248,10 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Compelled assistance is base -15 with self-control. When aid is possible/requested but should be resisted, failure requires an offer of help even to enemies or despite orders. Author identifies available assistance and consequences without inventing resources the actor lacks.",
-      "tests": ["tests/fixtures/expanded-compelled-aid.t", "tests/expanded.py::test_compelled_aid"]
+      "tests": [
+        "tests/fixtures/expanded-compelled-aid.t",
+        "tests/expanded.py::test_compelled_aid"
+      ]
     },
     {
       "id": "disadvantages-b-low-motivation",
@@ -197,7 +261,10 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Persistent low motivation is base -15 with self-control. Outside minimum survival necessities, decisions or initiative require a check; failure selects the least-effort course, often inactivity or following a demanding companion. Implement this printed fictional behavior as an authored choice constraint, not a clinical model.",
-      "tests": ["tests/fixtures/expanded-low-motivation.t", "tests/expanded.py::test_low_motivation"]
+      "tests": [
+        "tests/fixtures/expanded-low-motivation.t",
+        "tests/expanded.py::test_low_motivation"
+      ]
     },
     {
       "id": "disadvantages-b-motivation-transition",
@@ -217,7 +284,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Recurrent pain severity mild has base -5, applying -2 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-severe",
@@ -227,7 +301,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Recurrent pain severity severe has base -10, applying -4 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-agonizing",
@@ -237,7 +318,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Recurrent pain severity agonizing has base -15, applying -6 to dexterity, intelligence and self-control during an awake episode. Sleep episodes instead cause sleep deprivation under the rest rules.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-interval-1",
@@ -247,7 +335,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 1 hours multiplies severity cost by 1/2. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-interval-2",
@@ -257,7 +352,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 2 hours multiplies severity cost by 1/1. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-interval-4",
@@ -267,7 +369,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 4 hours multiplies severity cost by 3/2. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-interval-8",
@@ -277,7 +386,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Pain interval 8 hours multiplies severity cost by 2/1. At each interval end health success ends pain for that day; failure continues another interval. Persist due time and recovery checks.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-frequency-6",
@@ -287,7 +403,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 6 multiplies cost by 1/2; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-frequency-9",
@@ -297,7 +420,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 9 multiplies cost by 1/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-frequency-12",
@@ -307,7 +437,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 12 multiplies cost by 2/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-pain-frequency-15",
@@ -317,7 +454,14 @@
       "kind": "table-row",
       "status": "partial",
       "acceptance": "Daily pain frequency 15 multiplies cost by 3/1; drop final fractional magnitude. Table says at-or-below while narrative says below: preserve this boundary inconsistency for explicit resolution. Author selects episode start during the day after the single daily roll.",
-      "tests": ["tests/fixtures/expanded-recurrent-pain.t", "tests/expanded.py::test_recurrent_pain_definition", "tests/fixtures/expanded-recurrent-pain-episode.t", "tests/expanded.py::test_recurrent_pain_episode", "tests/fixtures/expanded-pain-sleep.t", "tests/expanded.py::test_pain_sleep"]
+      "tests": [
+        "tests/fixtures/expanded-recurrent-pain.t",
+        "tests/expanded.py::test_recurrent_pain_definition",
+        "tests/fixtures/expanded-recurrent-pain-episode.t",
+        "tests/expanded.py::test_recurrent_pain_episode",
+        "tests/fixtures/expanded-pain-sleep.t",
+        "tests/expanded.py::test_pain_sleep"
+      ]
     },
     {
       "id": "disadvantages-b-company",
@@ -327,7 +471,13 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Companionship preference is -5, usually improving owner reactions to others by +2 and imposing intelligence-based skill -1 while alone. Strong dependence is -10, owner reactions +4, skill -2 alone or -1 in groups of four or fewer. Clarify whether the group count includes the owner; these are owner reactions, not others reactions toward them.",
-      "tests": ["tests/fixtures/expanded-companionship.t", "tests/expanded.py::test_companionship", "tests/fixtures/expanded-company-interrogation.t", "tests/fixtures/expanded-company-preparation.t", "tests/expanded.py::test_company_social_operations"]
+      "tests": [
+        "tests/fixtures/expanded-companionship.t",
+        "tests/expanded.py::test_companionship",
+        "tests/fixtures/expanded-company-interrogation.t",
+        "tests/fixtures/expanded-company-preparation.t",
+        "tests/expanded.py::test_company_social_operations"
+      ]
     },
     {
       "id": "disadvantages-b-social-obliviousness",

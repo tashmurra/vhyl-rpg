@@ -234,8 +234,11 @@ rpgLiteDistract(fighter)
 /** Resolve one legal strike; normally invoked by the battle turn scheduler. */
 rpgLiteStrike(attacker, defender, request)
 {
+    local reason = attacker.profile.directStrikeReason(request);
+    if (reason != nil) { local value = new RpgLiteCombatResult(); value.reason = reason; return value; }
     return request.resolveStrike(attacker,defender);
 }
+/** Resolve the default strike and deliver committed weapon and injury callbacks. */
 rpgLiteDefaultStrike(attacker, defender, request)
 {
     local weapon = attacker.weapon;
@@ -244,6 +247,7 @@ rpgLiteDefaultStrike(attacker, defender, request)
     if (result.status == 'resolved') defender.profile.recordDirectPhysicalAttack(attacker,defender,result);
     return result;
 }
+/** Assess and execute a strike using the selected weapon and defense rules. */
 rpgLiteResolveStrike(attacker, defender, request)
 {
     local result = new RpgLiteCombatResult();

@@ -27,5 +27,5 @@ act(verb,args)
         event('test.forage-poison'); eventValue(value.status); eventValue(value.reason); eventValue(value.injury);
         eventValue(value.damageDieRequired ? 1 : 0); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

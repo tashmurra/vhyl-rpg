@@ -11,7 +11,7 @@ swarmRoom: Room 'Swarm clearing';
 trainingAnimal: RpgExpandedProfile;
 modify gameMain initialRoom = swarmRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 #include <vhyl-rpg-expanded-health.t>
 swarmRules: RpgExpandedRules scaledInjuryShock = true;
 modify trainingAnimal rules = swarmRules;
@@ -69,7 +69,7 @@ swarmTestAction: SwarmTestAction;
 swarmTestVerb: Verb code = 2220 action = swarmTestAction label = 'swarm contact';
 act(verb,args)
 {
-    if (verb == 2222) { swarmActionInput.code = 20 + args[1]; return vhylAct(2220,args); }
+    if (verb == 2222) { swarmActionInput.code = 20 + args[1]; return rpgDispatchAction(2220,args); }
     if (verb == 2223)
     {
         event('test.swarm-counter-state'); eventValue(combatSwarm.injury); eventValue(combatSwarm.dispersed ? 1 : 0);
@@ -81,7 +81,7 @@ act(verb,args)
         event('test.diffuse'); eventValue(rpgExpandedDiffuseInjury(args[1],args[2],args[3] != 0));
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2220) { swarmActionInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2220) { swarmActionInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2221)
     {
         event('test.swarm-health'); eventValue(trainingAnimal.injury); eventValue(trainingAnimal.expandedWounds.length());

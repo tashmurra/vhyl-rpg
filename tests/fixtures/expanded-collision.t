@@ -32,5 +32,5 @@ act(verb,args)
         eventValue(value.damageDice); eventValue(value.damageAdds); eventValue(value.damageType);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

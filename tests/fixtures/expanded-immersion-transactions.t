@@ -39,10 +39,10 @@ immersionAction: ImmersionFixtureAction;
 immersionVerb: Verb code = 1860 action = immersionAction label = 'immersion-fixture';
 modify gameMain initialRoom = immersionRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1860) { immersionInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1860) { immersionInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1861)
     {
         event('test.immersion-state'); eventValue(immersionPatient.fatigue); eventValue(immersionPatient.temperatureFatigue);
@@ -52,5 +52,5 @@ act(verb,args)
         eventValue(immersionPatient.injury); eventValue(immersionPatient.temperatureInjury);
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

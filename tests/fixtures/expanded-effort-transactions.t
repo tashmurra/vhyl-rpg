@@ -37,11 +37,11 @@ effortAction: EffortFixtureAction;
 effortVerb: Verb code = 1960 action = effortAction label = 'effort-fixture';
 modify gameMain initialRoom = effortRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1960)
-    { effortInput.code = args[1]; effortInput.seedValue = args[2]; return vhylAct(verb,args); }
+    { effortInput.code = args[1]; effortInput.seedValue = args[2]; return rpgDispatchAction(verb,args); }
     if (verb == 1961)
     {
         event('test.effort-state'); eventValue(effortPatient.fatigue);
@@ -51,5 +51,5 @@ act(verb,args)
         eventValue(effortRequest.result == nil ? 0 : 1); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds);
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

@@ -157,3 +157,31 @@ Run `python tools/promote_release.py verify --directory PATH` to check a downloa
 build against the current checkout. Promotion tests cover changed source, skipped
 or missing jobs, unmerged PRs, foreign repositories/workflows, expired artifacts,
 corrupt or rehashed archives and unsafe archive paths.
+
+### Native behavior test host
+
+Native behavior tests default to debug optimization (`--native-opt O0`), because
+large expanded fixtures can exceed the pinned compiler's per-tool deadline at
+`O2`. `--native-opt O2` remains available for optimized validation. On macOS the
+test harness recompiles only the compiler-generated sample consumer with an
+explicit 64 MiB worker stack; the default 512 KiB stack is insufficient for deep
+expanded-library dispatch in debug builds. Compiled game/runtime libraries,
+save identity and resource quotas are unchanged. Integrating hosts must provide
+adequate worker-stack space. The harness validates the sample-host pattern and
+fails if a compiler change requires that integration to be reviewed.
+
+### Recoverable mechanics exceptions at the host boundary
+
+Games using recoverable `RpgError` failures should export actions through
+`rpgDispatchAction(verb, subjects)` and parser input through
+`rpgDispatchTurn(tokens)`. These functions preserve ordinary dispatch and catch
+mechanics exceptions at the outermost action boundary. They release the caught
+exception before ending and undoing the failed journal interval, then begin a
+fresh interval. This ordering permits subsequent saves with the pinned runtime.
+Call them only from the exported host entry points, never from inside another
+action. Unrelated exception types remain host errors.
+
+The fear fixtures test a failure after committed injury and time, followed by
+successful replay, undo, and save/restore in a separate process. Returning a
+rejected assessment is still preferable to throwing for ordinary illegal player
+choices; exceptions protect broken author contracts and unexpected failures.

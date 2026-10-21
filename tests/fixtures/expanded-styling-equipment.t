@@ -1,5 +1,4 @@
 #include "expanded-styling.t"
-#include <vhyl-rpg-expanded-equipment.t>
 stylingCoat: RpgLiteItem id = 'styled-coat' weight = 300;
 stylingScarf: RpgLiteItem id = 'styled-scarf' weight = 20;
 stylingInventoryOutfit: RpgExpandedInventoryOutfit id = 'coat-and-scarf' owner = crossPhysician items = [stylingCoat,stylingScarf];

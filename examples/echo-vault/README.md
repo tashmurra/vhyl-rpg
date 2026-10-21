@@ -33,3 +33,24 @@ or `:plan` for dialogue choices. Structured codes are 1401, 1402, 1403, 1404 and
 1400 respectively. The host supplies undo and exact-compiled-game save/restore.
 This example includes foundation and health directly; traits, skills and the
 all-module umbrella are unnecessary for its ordinary fear event.
+
+## Connected aftermath scene
+
+After finding the inscription, use `open cabinet`, then `recover` until awake.
+Use `hear footsteps` and `wait panic` until composure returns. The cabinet
+uses an explicitly recorded below-three ruling for a compound faint and
+lasting curiosity; no fabricated initial roll is shown. The footsteps use
+the same approved boundary interface for timed panic, with actual crying
+intervals and recovery checks.
+
+Later, `remember` records one of four distinct authored reminders. Each explicitly
+adds three stress. At a threshold choose `cope`, `accept strain` or `face memory`.
+These respectively record coping, timed strain, or a normal owned fear event
+with an explicit confusion ruling if a consequence is needed. `rest hour`
+records guarded recovery, respecting the daily cap. Stress is an original
+optional campaign policy, not a reference-derived sanity rule.
+
+These same operations are available as structured verbs 1420–1428 and dialogue
+choices cabinet/recover/footsteps/panic/remember/cope/strain/memory/rest.
+Structured operation 1429 reports the aftermath state for host integrations.
+The existing reflection scene and its operations remain unchanged.

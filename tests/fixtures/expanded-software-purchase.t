@@ -39,15 +39,15 @@ purchaseAction: SoftwarePurchaseAction;
 purchaseVerb: Verb code = 2093 action = purchaseAction label = 'purchase software';
 modify gameMain initialRoom = purchaseRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2093) { purchaseInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2093) { purchaseInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2094)
     {
         event('test.software-purchase-state'); eventValue(purchaseUser.money); eventValue(purchaseUser.equipment.length());
         eventValue(purchaseHost.copies.length()); eventValue(purchaseHost.runs.length());
         eventValue(purchaseRequest.claimed ? 1 : 0); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

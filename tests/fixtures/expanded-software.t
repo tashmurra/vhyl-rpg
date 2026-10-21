@@ -81,5 +81,5 @@ act(verb,args)
     }
     if (verb == 2091)
     { event('test.software-complexity'); eventValue(rpgExpandedRequiredSoftwareComplexity(args[1])); return nil; }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

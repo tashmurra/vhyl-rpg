@@ -186,10 +186,10 @@ animalHandlingAction: AnimalHandlingAction;
 animalHandlingVerb: Verb code = 2203 action = animalHandlingAction label = 'handle animal';
 modify gameMain initialRoom = creatureRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2216) { handlingInput.code = 100 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2216) { handlingInput.code = 100 + args[1]; return rpgDispatchAction(2203,args); }
     if (verb == 2217)
     {
         event('test.swarm-state'); eventValue(exposureRecord.startedAt); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
@@ -217,34 +217,34 @@ act(verb,args)
         event('test.animal-value'); eventValue(value.status); eventValue(value.reason); eventValue(value.numerator);
         eventValue(value.denominator); eventValue(value.money); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2211) { handlingInput.code = 80 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2211) { handlingInput.code = 80 + args[1]; return rpgDispatchAction(2203,args); }
     if (verb == 2212)
     {
         event('test.animal-milestone-state'); eventValue(trainingAnimal.animalTrainingLevel);
         eventValue(trainingAnimal.animalKnownTricks.length()); eventValue(trainingAnimal.animalTrainingMilestones.length());
         eventValue(animalCourse.successfulDays); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2209) { handlingInput.code = 60 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2209) { handlingInput.code = 60 + args[1]; return rpgDispatchAction(2203,args); }
     if (verb == 2210)
     {
         event('test.animal-daily-state'); eventValue(animalCourse.successfulDays); eventValue(animalCourse.pendingDay);
         eventValue(animalCourse.pendingFailure == nil ? 0 : 1); eventValue(animalCourse.checks.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2207) { handlingInput.code = 40 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2207) { handlingInput.code = 40 + args[1]; return rpgDispatchAction(2203,args); }
     if (verb == 2208)
     {
         event('test.animal-session-state'); eventValue(animalCourse.sessions.length());
         eventValue(trainingAnimal.animalTrainingSessions.length()); eventValue(animalCourse.successfulDays);
         eventValue(animalCourse.pendingDay); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2205) { handlingInput.code = 20 + args[1]; return vhylAct(2203,args); }
+    if (verb == 2205) { handlingInput.code = 20 + args[1]; return rpgDispatchAction(2203,args); }
     if (verb == 2206)
     {
         event('test.animal-performance-state'); eventValue(handlingAttempt.performanceReceipt == nil ? 0 : 1);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2203) { handlingInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2203) { handlingInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2204)
     {
         event('test.animal-handling-state'); eventValue(trainingAnimal.animalHandlingAttempts.length());
@@ -274,5 +274,5 @@ act(verb,args)
         eventValue(value.days); eventValue(value.modifier); eventValue(value.dailySeconds);
         eventValue(value.sessionsPerDay); eventValue(value.sessionSeconds); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

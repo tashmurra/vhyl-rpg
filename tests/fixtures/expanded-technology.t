@@ -144,5 +144,5 @@ act(verb,args)
         }
         event('test.broken-purity'); eventValue(rpgRandom.draws-draws); eventValue(rpgLedger.seconds-clock); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

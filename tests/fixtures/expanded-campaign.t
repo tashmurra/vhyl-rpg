@@ -11,7 +11,7 @@
 campaignRoom: Room 'Registry';
 modify gameMain initialRoom = campaignRoom;
 startup() { return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1151)
@@ -75,5 +75,5 @@ act(verb,args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

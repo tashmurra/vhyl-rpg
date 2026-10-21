@@ -13,6 +13,7 @@
 #include <vhyl-rpg-expanded-campaign.t>
 #include <vhyl-rpg-expanded-social.t>
 #include <vhyl-rpg-expanded-health.t>
+#include <vhyl-rpg-expanded-stress.t>
 #include <vhyl-rpg-expanded-hazards.t>
 
 #include <vhyl-rpg-expanded-combat.t>

@@ -170,10 +170,10 @@ class WarningTestAction: Action
 ;
 warningAction: WarningTestAction;
 warningVerb: Verb code = 2231 action = warningAction label = 'sense danger';
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2245) { warningInput.code = 80 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2245) { warningInput.code = 80 + args[1]; return rpgDispatchAction(2231,args); }
     if (verb == 2246)
     {
         event('test.history-purchase-state'); eventValue(holds(historyBuyer.traits,historyBuyerAbility) ? 1 : 0);
@@ -187,21 +187,21 @@ act(verb,args)
         event('test.history-age'); eventValue(rpgLiteScore(historyProfile,request.context()));
         eventValue(request.assess().status); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2242) { warningInput.code = 60 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2242) { warningInput.code = 60 + args[1]; return rpgDispatchAction(2231,args); }
     if (verb == 2243)
     {
         event('test.history-state'); eventValue(historyProfile.psionicHistoryReadings.length());
         eventValue(historyProfile.lastCheck == nil ? 0 : 1); eventValue(historyAbility.creationCost());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2240) { warningInput.code = 40 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2240) { warningInput.code = 40 + args[1]; return rpgDispatchAction(2231,args); }
     if (verb == 2241)
     {
         event('test.psionic-purchase-state'); eventValue(holds(latentProfile.traits,latentAbility) ? 1 : 0);
         eventValue(latentProfile.unspentPoints); eventValue(latentProfile.developmentRevision);
         eventValue(latentProfile.psionicAbilityPurchases.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2238) { warningInput.code = 20 + args[1]; return vhylAct(2231,args); }
+    if (verb == 2238) { warningInput.code = 20 + args[1]; return rpgDispatchAction(2231,args); }
     if (verb == 2239)
     {
         event('test.psionic-advance-state'); eventValue(warningTalent.level); eventValue(warningObserver.unspentPoints);
@@ -245,7 +245,7 @@ act(verb,args)
         eventValue(assessment.modifier); eventValue(assessment.immune ? 1 : 0); eventValue(score);
         eventValue(checked.status); eventValue(checked.reason); eventValue(rpgRandom.draws); return nil;
     }
-    if (verb == 2231) { warningInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2231) { warningInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2232)
     {
         event('test.warning-state'); eventValue(warningObserver.psionicDangerWarnings.length());

@@ -191,10 +191,10 @@ computerAction: ComputerAction;
 computerVerb: Verb code = 2080 action = computerAction label = 'program';
 modify gameMain initialRoom = computerRoom;
 startup() { return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2080) { computerInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2080) { computerInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2089)
     {
         event('test.remote-state'); eventValue(remoteTerminal.current == terminalOther ? 'local' : 'remote');
@@ -242,5 +242,5 @@ act(verb,args)
         eventValue(computerHost.runs.length()); eventValue(computerRun.active ? 1 : 0);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

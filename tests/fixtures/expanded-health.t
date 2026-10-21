@@ -474,5 +474,5 @@ act(verb,args)
         event('test.surgery-outcome'); eventValue(value.check.achieved ? 1 : 0);
         eventValue(value.check.critical); eventValue(value.damageDice); eventValue(value.damage); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

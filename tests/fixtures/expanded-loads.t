@@ -73,5 +73,5 @@ act(verb,args)
         eventValue(first.loadHundredths()); eventValue(second.loadHundredths());
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

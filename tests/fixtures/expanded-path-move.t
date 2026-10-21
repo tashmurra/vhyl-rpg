@@ -1,5 +1,4 @@
 #include "expanded-tactical-path.t"
-#include <vhyl-rpg-expanded-health.t>
 pathFighter: RpgLiteFighter profile = positionHero;
 pathOtherFighter: RpgLiteFighter profile = positionOther;
 pathBattle: RpgLiteBattle fighters = [pathFighter,pathOtherFighter];

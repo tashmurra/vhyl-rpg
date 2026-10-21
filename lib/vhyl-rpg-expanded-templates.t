@@ -8,7 +8,7 @@ rpgExpandedTemplateTrait(row)
     if (row.length() == 3) return rpgExpandedTemplateTraits.plain(row[1],row[2],row[3]);
     if (row.length() == 5 && row[4] == nil) return rpgExpandedTemplateTraits.configured(row[1],row[2],row[3],row[5]);
     if (row.length() == 4) return rpgExpandedTemplateTraits.rated(row[1],row[2],row[3],row[4]);
-    rpgExpandedReject('template-trait');
+    rpgExpandedReject('template-trait'); return nil;
 }
 modify RpgLiteTrait
     templatePurchaseKind = 'shared-catalogue'
@@ -636,6 +636,7 @@ class RpgExpandedAncestrySkillIncompetence: RpgExpandedContribution
     }
     validate(profile) { self.amounts(profile); return nil; }
 ;
+/** Ancestry skill id. */
 rpgExpandedAncestrySkillId(skill)
 {
     if (skill == nil || !skill.ofKind(RpgLiteSkill)) return nil;
@@ -650,6 +651,7 @@ class RpgExpandedAncestryOmission: object
     approved = nil
     evidence = nil
 ;
+/** Ancestry omission accounting. Carries id, receipt. Operations: validate, amounts. */
 class RpgExpandedAncestryOmissionAccounting: RpgExpandedContribution
     id = 'ancestry-omissions'
     receipt = nil

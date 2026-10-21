@@ -7,7 +7,7 @@ nauseaFirst: RpgExpandedNausea id = 'first-cause' profile = radiationProfile dur
 nauseaSecond: RpgExpandedNausea id = 'second-cause' profile = radiationProfile durationSeconds = 120
     approved = true causeEvidence = 'A separate confirmed two-minute affliction';
 modify RadiationTestAction
-    exec(context)
+    exec(actionContext)
     {
         local code = radiationInput.code;
         if (code >= 20 && code <= 24)
@@ -38,6 +38,6 @@ modify RadiationTestAction
             eventValue(radiationProfile.healthDefensePenalty()); eventValue(radiationProfile.nauseaEpisodes.length());
             eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
-        return inherited(context);
+        return inherited(actionContext);
     }
 ;

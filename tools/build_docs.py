@@ -27,7 +27,7 @@ SOURCES += ('lib/vhyl-rpg-expanded.t', 'lib/vhyl-rpg-expanded-characters.t',
             'lib/vhyl-rpg-expanded-equipment.t', 'lib/vhyl-rpg-expanded-exploration.t',
             'lib/vhyl-rpg-expanded-development.t', 'lib/vhyl-rpg-expanded-templates.t',
             'lib/vhyl-rpg-expanded-campaign.t', 'lib/vhyl-rpg-expanded-social.t',
-            'lib/vhyl-rpg-expanded-health.t', 'lib/vhyl-rpg-expanded-hazards.t',
+            'lib/vhyl-rpg-expanded-health.t', 'lib/vhyl-rpg-expanded-stress.t', 'lib/vhyl-rpg-expanded-hazards.t',
             'lib/vhyl-rpg-expanded-combat.t', 'lib/vhyl-rpg-expanded-technology.t',
             'lib/vhyl-rpg-expanded-creatures.t', 'lib/vhyl-rpg-expanded-psionics.t',
             'lib/vhyl-rpg-expanded-tactical.t')
@@ -179,6 +179,7 @@ def render(symbols: list[Symbol], stage: Path, revision: str, root: Path = ROOT)
             target = stage / source.relative_to(root)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
+    shutil.copytree(root / 'tests/fixtures', stage / 'tests/fixtures', dirs_exist_ok=True)
     reference = stage / 'reference'
     (reference / 'source').mkdir(parents=True, exist_ok=True)
     for source in SOURCES:
@@ -233,6 +234,7 @@ def render(symbols: list[Symbol], stage: Path, revision: str, root: Path = ROOT)
 def check_links(stage: Path) -> None:
     """Validate local Markdown targets and explicit source/member anchors."""
     errors = []
+    anchors_by_target = {}
     for page in stage.rglob('*.md'):
         content = page.read_text(encoding='utf-8')
         for href in re.findall(r'\[[^]]*\]\(([^)]+)\)', content):
@@ -244,9 +246,12 @@ def check_links(stage: Path) -> None:
                 errors.append(f'{page.relative_to(stage)}: missing {href}')
                 continue
             if fragment and target.suffix == '.md':
-                target_text = target.read_text(encoding='utf-8')
-                ids = set(re.findall(r'<(?:a|span) id="([^"]+)"', target_text))
-                ids.update(slug(h).lower() for h in re.findall(r'^#{1,6}\s+(.+)$', target_text, re.M))
+                if target not in anchors_by_target:
+                    target_text = target.read_text(encoding='utf-8')
+                    ids = set(re.findall(r'<(?:a|span) id="([^"]+)"', target_text))
+                    ids.update(slug(h).lower() for h in re.findall(r'^#{1,6}\s+(.+)$', target_text, re.M))
+                    anchors_by_target[target] = ids
+                ids = anchors_by_target[target]
                 if fragment not in ids:
                     errors.append(f'{page.relative_to(stage)}: missing anchor {href}')
     if errors:

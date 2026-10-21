@@ -4767,10 +4767,9 @@ exclude a direct core injury from the total. Historical assessment returns
 capacity at an earlier time. This current-second assessment is not a finalized
 window receipt and does not prohibit later wounds in the same second.
 
-This is a prerequisite, not an executable rage episode. It does not roll
-self-control, determine whether a witnessed victim is a loved one, enable combat
-restrictions or suppress injury effects. Entry ownership, voluntary entry,
-anger escalation, combat behavior and exit checks remain unimplemented.
+The snapshot is consumed by the owned frenzy entry interfaces documented in
+[traits](traits.md#frenzy-implementation-boundary). Those interfaces own
+self-control, witnessed relationship facts, active effects and exit handling.
 `test_rage_injury_window` specifies exact thresholds, multiple-hit aggregation,
 time separation, purity, replay, rollback, undo and saved continuation. It is
 registered but unrun while checks remain paused.
@@ -4802,8 +4801,9 @@ score check to `profile.injuryKnockdownReason(modifier)`; it still prepares the
 existing drop plan and commits injury through the same wound ledger.
 
 This hook is a prerequisite for explicit injury policies, not a new immunity.
-No frenzy override is installed. The supplied frenzy and combined knockdown text
-needs an explicit boundary policy before that integration can be activated.
+The frenzy override uses the approved, recorded knockdown/consciousness ruling.
+`RpgExpandedFrenzyKnockdownRuling` binds that decision to the actual wound and
+episode, retains injury and does not invent a combined-check modifier.
 `test_knockdown_dispatch` specifies default success/failure, one dispatch per
 wound, unchanged random consumption, rollback, undo and saved continuation.
 These regression cases remain unrun while checks are paused.

@@ -77,10 +77,10 @@ cardiacAction: CardiacFixtureAction;
 cardiacVerb: Verb code = 1930 action = cardiacAction label = 'cardiac-fixture';
 modify gameMain initialRoom = cardiacRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 1930) { cardiacInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 1930) { cardiacInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 1933)
     {
         event('test.second-cardiac-state'); eventValue(cardiacSecondPatient.fatigue);
@@ -102,5 +102,5 @@ act(verb,args)
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(cardiacCase.onset == nil ? 0 : 1);
         eventValue(cardiacPatient.unconscious ? 1 : 0); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

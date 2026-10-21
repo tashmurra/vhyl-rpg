@@ -73,7 +73,7 @@ maneuverAction: ManeuverFixtureAction;
 maneuverVerb: Verb code = 1980 action = maneuverAction label = 'maneuver-fixture';
 modify gameMain initialRoom = maneuverRoom;
 startup() { maneuverBattle.begin(); rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1982)
@@ -83,7 +83,7 @@ act(verb,args)
         return nil;
     }
     if (verb == 1980)
-    { maneuverInput.code = args[1]; maneuverInput.seedValue = args[2]; return vhylAct(verb,args); }
+    { maneuverInput.code = args[1]; maneuverInput.seedValue = args[2]; return rpgDispatchAction(verb,args); }
     if (verb == 1981)
     {
         event('test.maneuver-state'); eventValue(maneuverBattle.index); eventValue(maneuverBattle.seconds);
@@ -92,5 +92,5 @@ act(verb,args)
         eventValue(maneuverPatient.effortHistory.length()); eventValue(maneuverPatient.cardiacHistory.length());
         eventValue(rpgRandom.draws); eventValue(maneuverGate.result == nil ? 0 : 1); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

@@ -93,10 +93,10 @@ breakdownAction: BreakdownAction;
 breakdownVerb: Verb code = 2060 action = breakdownAction label = 'exposure';
 modify gameMain initialRoom = breakdownRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2060) { breakdownInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2060) { breakdownInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2064)
     {
         event('test.parts-state'); eventValue(partsPayer.money); eventValue(partsPayer.equipment.length());
@@ -121,5 +121,5 @@ act(verb,args)
         eventValue(breakdownRequest.result == nil ? nil : breakdownRequest.result.check.score);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

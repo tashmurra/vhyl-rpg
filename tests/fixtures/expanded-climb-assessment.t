@@ -39,5 +39,5 @@ act(verb,args)
         eventValue(value.checkCount); eventValue(value.fatigueCost); eventValue(value.maneuver);
         eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

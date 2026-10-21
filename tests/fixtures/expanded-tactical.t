@@ -4,6 +4,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-tactical.t>
 tacticalRoom: Room 'Courtyard';
 modify gameMain initialRoom = tacticalRoom;
@@ -78,5 +79,5 @@ act(verb,args)
         event('test.tactical-turn'); eventValue(value.status); eventValue(value.reason);
         eventValue(value.heading); eventValue(value.halfPoints); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

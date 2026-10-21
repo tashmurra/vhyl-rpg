@@ -1,4 +1,5 @@
 #include "expanded-behavior-templates.t"
+learningSkill: RpgExpandedSkill id = 'test-learning' attribute = rpgIQ difficulty = 1 defaultPenalty = -5;
 isolationState: object source = nil combined = nil;
 isolationFirst: RpgExpandedTemplate
     traitRows = [['charisma',1,nil]]

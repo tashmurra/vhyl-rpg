@@ -7,7 +7,7 @@ painDay: RpgExpandedRecurrentPainDay
 painRecovery: RpgExpandedRecurrentPainRecovery id = 'first-interval' episode = painDay expectedDue = 3610;
 painNextRecovery: RpgExpandedRecurrentPainRecovery id = 'second-interval' episode = painDay expectedDue = 7210;
 modify BleedTestAction
-    exec(context)
+    exec(actionContext)
     {
         local code = bleedInput.code;
         if (code == 4600 || code == 4601)
@@ -32,6 +32,6 @@ modify BleedTestAction
             context.attribute = rpgHT; eventValue(rpgLiteScore(bleedProfile,context));
             eventValue(bleedProfile.healthSelfControlModifier(recurrentPain)); return nil;
         }
-        return inherited(context);
+        return inherited(actionContext);
     }
 ;

@@ -8,7 +8,7 @@ pleasureContext: RpgExpandedPleasureReactionContext subject = bleedProfile obser
 modify masteryAttempt socialContext = pleasureContext;
 pleasureSkill: RpgLiteSkill;
 modify BleedTestAction
-    exec(context)
+    exec(actionContext)
     {
         local code = bleedInput.code;
         if (code == 3000)
@@ -35,6 +35,6 @@ modify BleedTestAction
             local value = pleasureContext.consequence(masteryEncounter.history[1][4]);
             event('test.pleasure-response'); eventValue(value.reason); return nil;
         }
-        return inherited(context);
+        return inherited(actionContext);
     }
 ;

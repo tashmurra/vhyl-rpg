@@ -6,6 +6,7 @@
 #include <vhyl-rpg-progression.t>
 #include <vhyl-rpg-lite.t>
 #include <vhyl-rpg-expanded.t>
+#include <vhyl-rpg-expanded-health.t>
 #include <vhyl-rpg-expanded-tactical.t>
 positionRoom: Room 'Courtyard';
 modify gameMain initialRoom = positionRoom;
@@ -78,7 +79,7 @@ positionAction: PositionTestAction;
 positionVerb: Verb code = 2278 action = positionAction label = 'position operation';
 act(verb,args)
 {
-    if (verb == 2278) { positionInput.code = args[1]; return vhylAct(verb,args); }
+    if (verb == 2278) { positionInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2279)
     {
         event('test.tactical-position-state');
@@ -119,5 +120,5 @@ act(verb,args)
         event('test.tactical-upper-occupancy'); eventValue(value.status); eventValue(value.reason);
         eventValue(value.occupants.length()); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

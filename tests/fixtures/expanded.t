@@ -399,8 +399,8 @@ class ExpandedTestAction: Action
             {
                 local skill = new RpgExpandedSkill(); skill.id = 'underworld-network'; skill.attribute = rpgIQ; skill.difficulty = 0;
                 local training = new RpgExpandedTraining(); training.skill = skill; training.points = 1; recruiterOne.skills = [training];
-                local context = new RpgLiteContext(); context.kind = 'recruiting'; context.skill = skill;
-                illegalAttempt.context = context; illegalAttempt.streetwiseSkill = skill; illegalAttempt.skillEvidence = 'local-network';
+                local recruitingContext = new RpgLiteContext(); recruitingContext.kind = 'recruiting'; recruitingContext.skill = skill;
+                illegalAttempt.context = recruitingContext; illegalAttempt.streetwiseSkill = skill; illegalAttempt.skillEvidence = 'local-network';
                 illegalModifiers.streetwiseSearch = true; illegalModifiers.waiveIllegalPenalty = true;
             }
             if (code == 91 || code == 92 || code == 93) rpgRandom.seed(5);
@@ -481,10 +481,10 @@ class ExpandedTestAction: Action
 expandedTestAction: ExpandedTestAction;
 expandedTestVerb: Verb code = 1100 action = expandedTestAction label = 'test-expanded';
 startup() { return vhylStart(); }
-turn(tokens) { return vhylTurn(tokens); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb, args)
 {
-    if (verb == 1100) { expandedInput.code = args[1]; expandedInput.args = args; return vhylAct(verb,[]); }
+    if (verb == 1100) { expandedInput.code = args[1]; expandedInput.args = args; return rpgDispatchAction(verb,[]); }
     if (verb == 1101) return expandedState();
     if (verb == 1102)
     {
@@ -1906,6 +1906,6 @@ act(verb, args)
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }
 modify gameMain initialRoom = expandedRoom;

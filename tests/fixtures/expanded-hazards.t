@@ -487,7 +487,7 @@ act(verb,args)
         local key = ''; rpgRandom.seed(5);
         for (local count = 0; count < args[1]; count += 1)
         {
-            key += 's'; rpgSpendTime(1); local second = new RpgExpandedAirlessSecond();
+            key = key + 's'; rpgSpendTime(1); local second = new RpgExpandedAirlessSecond();
             second.id = key; second.exposure = exposure; second.apply();
         }
         local before = rpgRandom.draws; local preview = exposure.assessAir('Fresh air');
@@ -616,5 +616,5 @@ act(verb,args)
         eventValue(patient.unconscious ? 1 : 0); eventValue(value.allowed ? 1 : 0);
         eventValue(patient.effortHistory.length()); eventValue(rpgRandom.draws); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

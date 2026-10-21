@@ -17,5 +17,5 @@ act(verb,args)
         eventValue(rpgExpandedMaintenanceCost(args[1],args[2]));
         event('test.maintenance-purity'); eventValue(rpgRandom.draws-draws); eventValue(rpgLedger.seconds-clock); return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

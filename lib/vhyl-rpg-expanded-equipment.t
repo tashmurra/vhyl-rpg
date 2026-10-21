@@ -426,6 +426,7 @@ class RpgExpandedDiggingTool: RpgLiteItem
         return nil;
     }
 ;
+/** Digging tool. */
 rpgExpandedDiggingTool(id,kind)
 {
     if (id == nil || id == '' || !holds(['pickaxe','shovel'],kind)) rpgExpandedReject('digging-tool-definition');
@@ -1667,6 +1668,7 @@ class RpgExpandedEquipmentAccess: object
         return nil;
     }
 ;
+/** Accessible equipment assessment. Carries accessGrants. Operations: definition, itemAccessReason. */
 class RpgExpandedAccessibleEquipmentAssessment: RpgExpandedOwnedEquipmentAssessment
     definition()
     {
@@ -1702,6 +1704,7 @@ rpgExpandedToolkitBaseline(baseCost,quality)
     if (baseCost > 2147483647 / factor) rpgExpandedReject('toolkit-price-limit');
     return baseCost * factor;
 }
+/** Toolkit. Carries quality, baseCost, exceptionalPrice, supportedSkills, approved. Operations: baselinePrice, validateDefinition, validateAcquisition. */
 class RpgExpandedToolkit: RpgLiteItem
     quality = 'basic'
     baseCost = nil
@@ -1967,6 +1970,7 @@ class RpgExpandedPackingBundle: object
         value.status = 'resolved'; return value;
     }
 ;
+/** Packing bundle entry. Carries bundle. Operations: transfer. */
 class RpgExpandedPackingBundleEntry: RpgExpandedTradeTransfer
     bundle = nil
     transfer()

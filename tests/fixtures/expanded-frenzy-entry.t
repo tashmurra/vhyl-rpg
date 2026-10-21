@@ -35,8 +35,8 @@ modify FearTestAction
             event('test.frenzy-effects'); eventValue(fearProfile.move());
             eventValue(fearProfile.combatStunned() ? 1 : 0); eventValue(fearProfile.physicalStunned() ? 1 : 0);
             eventValue(fearProfile.stunned ? 1 : 0); eventValue(fearProfile.effectiveShock());
-            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'death';
-            eventValue(rpgLiteScore(fearProfile,context)); eventValue(fearProfile.survivalAppearanceThreshold()); return nil;
+            local deathContext = new RpgLiteContext(); deathContext.attribute = rpgHT; deathContext.kind = 'death';
+            eventValue(rpgLiteScore(fearProfile,deathContext)); eventValue(fearProfile.survivalAppearanceThreshold()); return nil;
         }
         return inherited(context);
     }

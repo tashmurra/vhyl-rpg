@@ -1,5 +1,4 @@
 #include "expanded-makeup.t"
-#include <vhyl-rpg-expanded-equipment.t>
 makeupKit: RpgExpandedToolkit id = 'stage-kit' quality = 'fine' baseCost = 100 techLevel = 8 weight = 100
     supportedSkills = [makeupCatalogue] approved = true evidence = 'Kit supports this theatrical presentation';
 makeupKitAssessment: RpgExpandedToolkitAssessment toolkit = makeupKit profile = crossPhysician skill = makeupCatalogue

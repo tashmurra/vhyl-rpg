@@ -30,5 +30,5 @@ act(verb,args)
         try { drawback.creationCost(); } catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }
