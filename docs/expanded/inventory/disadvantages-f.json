@@ -609,7 +609,7 @@
       "tests": [
         "tests/expanded.py::test_phobia_learning"
       ],
-      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_phobia_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phobia_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-phobia-magic",
@@ -622,7 +622,7 @@
       "tests": [
         "tests/expanded.py::test_phobia_learning"
       ],
-      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_phobia_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phobia_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-phobia-psi",

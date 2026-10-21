@@ -69,7 +69,7 @@ swarmTestAction: SwarmTestAction;
 swarmTestVerb: Verb code = 2220 action = swarmTestAction label = 'swarm contact';
 act(verb,args)
 {
-    if (verb == 2222) { swarmActionInput.code = 20 + args[1]; return rpgDispatchAction(2220,args); }
+    if (verb == 2222) { swarmActionInput.code = 20 + args[1]; return rpgDispatchAction(2220,[]); }
     if (verb == 2223)
     {
         event('test.swarm-counter-state'); eventValue(combatSwarm.injury); eventValue(combatSwarm.dispersed ? 1 : 0);

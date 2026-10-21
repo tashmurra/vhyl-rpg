@@ -41,7 +41,7 @@ turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
     if (verb == 1960)
-    { effortInput.code = args[1]; effortInput.seedValue = args[2]; return rpgDispatchAction(verb,args); }
+    { effortInput.code = args[1]; effortInput.seedValue = args[2]; return rpgDispatchAction(verb,[]); }
     if (verb == 1961)
     {
         event('test.effort-state'); eventValue(effortPatient.fatigue);

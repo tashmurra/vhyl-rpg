@@ -1108,6 +1108,9 @@ def test_rapid_concepts(s):
         assert cinematic_state(s) == initial
         s.command('undo')
     s.action(2129,10)
+    s.command('undo')
+    assert cinematic_state(s) == initial
+    s.action(2129,10)
     assert last(s,'test.rapid-concept') == ['resolved',None,13,120]
     assert last(s,'test.rapid-funding') == ['blocked','rapid-prototype-components-unavailable']
     completed = [1,'testable',4,120,1000000]
@@ -1115,9 +1118,6 @@ def test_rapid_concepts(s):
     s.action(2129,1)
     assert last(s,'test.rapid-concept') == ['reused',None,13,120]
     assert cinematic_state(s) == completed
-    s.command('undo')
-    s.command('undo')
-    assert cinematic_state(s) == initial
 
 
 def test_rapid_concept_retry(s):
@@ -2950,7 +2950,7 @@ def test_animal_strength_damage(s):
             (45,'striker','cr',0,0,12,None,5,5,'cr'),
             (100,'bite','fangs',0,0,10,12,11,10,'imp'),
             (110,'bite','fangs',0,0,10,12,12,11,'imp')]:
-        s.action(2215,strength,kind,anatomy,weak,horizontal,dx,skill)
+        s.action(2215,strength,kind,anatomy,weak,horizontal,dx,*([] if skill is None else [skill]))
         assert last(s,'test.natural-strength') == ['ready',dice,adds,dtype,0,0]
 
 
@@ -2977,7 +2977,7 @@ def test_animal_natural_damage(s):
         s.action(2214,2,-1,kind,anatomy,weak,horizontal,10,score)
         assert last(s,'test.natural-damage') == ['ready',2,adds,dtype,anatomy_bonus,skill_bonus,0,0]
     # Missing skill grants no bonus. Negative adds remain a formula, not premature damage clamping.
-    s.action(2214,1,-6,'bite','ordinary',1,0,10,None)
+    s.action(2214,1,-6,'bite','ordinary',1,0,10)
     assert last(s,'test.natural-damage') == ['ready',1,-9,'cr',-3,0,0,0]
 
 
@@ -27942,7 +27942,7 @@ def test_shadowing_round(Session, bundle, out):
 
 
 def test_fear_event(Session, bundle, out):
-    """B360 retained initial check and fresh table roll; fixtures unrun."""
+    """B360 retained initial check and fresh table roll."""
     def do(s,code):
         s.action(2250,code,4)
     def state(s):
@@ -30521,10 +30521,11 @@ def test_replay_senses(Session,bundle,out):
         do(s,1061); do(s,1060)
         assert last(s,'test.replay-senses') == expected
         do(s,1062); assert last(s,'test.replay-external-fear') == [blocked,6]
+        s.command(f':save {path}\n@2251')
+        do(s,1063); s.command('undo'); do(s,1060)
+        assert last(s,'test.replay-senses') == expected
         do(s,1063); do(s,1060)
         assert last(s,'test.replay-senses') == expected[:4]+['intrusive-replay-skill-unavailable',6]
-        s.command('undo')
-        s.command(f':save {path}\n@2251')
     finally: s.close()
     s = Session(bundle)
     try:
@@ -31052,7 +31053,7 @@ def test_attention_concept(Session,bundle,out):
 
 
 def test_fear_compound_preflight(Session,bundle,out):
-    """F03: neither rejected component may commit the other; fixtures unrun."""
+    """F03: neither rejected component may commit the other."""
     def do(s,code): s.action(2250,code,4)
     def state(s):
         do(s,344)

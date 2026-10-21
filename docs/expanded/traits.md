@@ -552,9 +552,10 @@ operation; automatic sanction handling is not implemented here.
 
 `test_fear_quirks` specifies sixth-quirk acquisition, unchanged spendable points,
 creation-budget validation, ordinary-sixth-quirk rejection, portrayal decisions,
-preview, rollback, undo, replay and cross-process continuation. The fixture is
-unrun. The health module can combine this acquisition with row-sixteen stun
-atomically; see its authoring guide. Broader fear trait outcomes remain incomplete.
+preview, rollback, undo, replay and cross-process continuation. These scenarios
+passed native acceptance. The health module combines this acquisition with
+row-sixteen stun atomically; see its authoring guide and the
+[complete fear outcome matrix](fear-completion.md#fear-outcome-coverage-matrix).
 
 
 ## Character/social subset authoring
@@ -800,7 +801,7 @@ The `expanded-curiosity.t` integration opens an authored cabinet in five seconds
 then records completion, with no automatic secret reveal. Its assertions cover
 failed and successful resistance, voluntary acceptance, action gating, missing
 definitions, repeat resolution, completion replay, rollback, undo, saved pending
-obligations and rated purchases. All are unrun. Broader story-action integration,
+obligations and rated purchases. These scenarios passed native acceptance. Broader story-action integration,
 parser/dialogue parity and general investigation mechanics remain incomplete;
 this entry remains partial rather than treating the author interface as complete
 catalogue coverage.
@@ -910,7 +911,7 @@ The same permission participates in character training validation.
 The base Lite context hook returns zero when this expansion effect is absent and
 adds no randomness. The social-inhibition fixture covers price tiers, contextual
 penalties, default use, learning rejection, mitigation, duplicate definitions and
-an actual Carousing preparation. Assertions are authored, unrun. Roleplay remains
+an actual Carousing preparation. These scenarios passed native acceptance. Roleplay remains
 authored; later acquisition with existing skills and modified variants remain
 pending.
 
@@ -956,8 +957,8 @@ reaction effect. The trait does not automatically penalize every observer or
 invent an influence immunity. Narrative appreciation, motivation and setting
 consequences remain authored; modified variants and those broader authoring
 contracts remain pending. The pleasure-loss fixture covers all four skill
-categories, an unaffected skill and scoped reaction behavior; assertions are
-unrun.
+categories, an unaffected skill and scoped reaction behavior; these scenarios
+passed native acceptance.
 
 ## Emotional obliviousness
 
@@ -1093,7 +1094,7 @@ and resource costs. Authors must route the scene choice through this interface.
 
 The self-control receipt binds the full choice list and prevents rerolls of the
 same occurrence. Fixtures cover least-effort choices, resistance, minimum needs,
-replay, rollback, undo and saved obligations, but remain unrun. Trait replacement
+replay, rollback, undo and saved obligations, and passed native acceptance. Trait replacement
 and transition accounting, plus automatic parser/dialogue discovery, are pending.
 
 ### Recurrent pain definition (full-2008, B126)
@@ -1403,10 +1404,10 @@ or the owned trigger, rather than calling the core and bypassing policy.
 [`expanded-voice-self-control.t`](../../tests/fixtures/expanded-voice-self-control.t)
 specifies classification, success/failure boundaries, unrelated rolls, mitigation,
 surrender, purchased success, preview, replay, rollback, undo and save continuation.
-Its Validation status is recorded in the [completion checklist](fear-completion.md).
+Its validation status is recorded in the [completion checklist](fear-completion.md).
 
 
-`test_voice_direct_guards` adds unrun fixtures for rejection before randomness,
+`test_voice_direct_guards` passed rejection before randomness,
 voluntary surrender, mitigation and unchanged direct behavior without the trait.
 Both guards throw a structured expanded error so callers cannot mistake an
 unsupported request for a failed resistance roll.
@@ -1588,7 +1589,8 @@ automatically established world facts or additional abilities.
 [`expanded-fixed-beliefs.t`](../../tests/fixtures/expanded-fixed-beliefs.t) and
 `test_fixed_beliefs` specify both fear prices, unchanged earned/unspent points,
 creation-limit allowance, multiple scopes, the forty-point boundary, duplicate
-scopes, preview, replay, rollback, undo and save continuation. They remain unrun.
+scopes, preview, replay, rollback, undo and save continuation. These scenarios
+passed native acceptance; see the [completion checklist](fear-completion.md).
 
 ## Belief truth, knowledge and revelation
 

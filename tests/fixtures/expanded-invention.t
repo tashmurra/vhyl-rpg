@@ -538,26 +538,26 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2126) { conceptInput.code = 220 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2126) { conceptInput.code = 220 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2127)
     {
         event('test.cinematic-state'); eventValue(conceptProject.attempts.length()); eventValue(conceptProject.theory);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(conceptUser.money); return nil;
     }
-    if (verb == 2120) { conceptInput.code = 200 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2120) { conceptInput.code = 200 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2121)
     {
         event('test.production-order-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
         eventValue(productionOrder.result == nil ? 0 : 1); eventValue(productionOrder.delivered ? 1 : 0);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); eventValue(prototypeLine.activeOrder == nil ? 0 : 1); return nil;
     }
-    if (verb == 2118) { conceptInput.code = 180 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2118) { conceptInput.code = 180 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2119)
     {
         event('test.production-line-state'); eventValue(conceptUser.money); eventValue(conceptProject.productionLines.length());
         eventValue(conceptUser.equipment.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2115) { conceptInput.code = 160 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2115) { conceptInput.code = 160 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2116)
     {
         local known = 0; foreach (local defect in prototypeDefects.defects) if (defect.discovered) known += 1;
@@ -565,14 +565,14 @@ act(verb,args)
         eventValue(prototypeDefects.tests.length()); eventValue(prototypeTest.result != nil && prototypeTest.result.falseConfidence ? 1 : 0);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2113) { conceptInput.code = 140 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2113) { conceptInput.code = 140 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2114)
     {
         event('test.prototype-use-state'); eventValue(prototypeMinor1.active ? 1 : 0); eventValue(prototypeMinor1.discovered ? 1 : 0);
         eventValue(prototypeMajor.active ? 1 : 0); eventValue(prototypeDefects.operations.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2111) { conceptInput.code = 120 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2111) { conceptInput.code = 120 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2112)
     {
         local score = rpgLiteScore(conceptUser,prototypeOperation);
@@ -580,7 +580,7 @@ act(verb,args)
         eventValue(score == nil ? prototypeOperation.unavailableReason(conceptUser) : nil);
         eventValue(conceptUser.equipment.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2109) { conceptInput.code = 100 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2109) { conceptInput.code = 100 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2110)
     {
         event('test.prototype-completion-state'); eventValue(conceptProject.activePrototype == nil ? 0 : 1);
@@ -590,70 +590,70 @@ act(verb,args)
         eventValue(conceptUser.injury); eventValue(conceptFacilities.destroyed ? 1 : 0);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2107) { conceptInput.code = 80 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2107) { conceptInput.code = 80 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2108)
     {
         event('test.prototype-accident-state'); eventValue(conceptUser.injury); eventValue(conceptUser.expandedWounds.length());
         eventValue(conceptFacilities.destroyed ? 1 : 0); eventValue(conceptUser.money);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2106) { conceptInput.code = 60 + args[1]; return rpgDispatchAction(2097,args); }
-    if (verb == 2104) { conceptInput.code = 40 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2106) { conceptInput.code = 60 + args[1]; return rpgDispatchAction(2097,[]); }
+    if (verb == 2104) { conceptInput.code = 40 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2105)
     {
         event('test.prototype-start-state'); eventValue(conceptUser.money); eventValue(conceptProject.prototypes.length());
         eventValue(prototypeStart.result == nil ? nil : prototypeStart.result.seconds);
         eventValue(prototypeStart.workedSeconds); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2102) { conceptInput.code = 20 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2102) { conceptInput.code = 20 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2103)
     {
         event('test.facilities-state'); eventValue(conceptUser.money); eventValue(conceptProject.facilityFunding.length());
         eventValue(conceptProject.facilities == nil ? nil : conceptProject.facilities.destroyed ? 'destroyed' : 'available');
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2140) { conceptInput.code = 380 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2140) { conceptInput.code = 380 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2141)
     {
         event('test.device-analysis-state'); eventValue(prototypeProduct.inventionAnalyses.length());
         eventValue(conceptProject.theory); eventValue(conceptUser.equipment.length()); eventValue(conceptUser.money);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2138) { conceptInput.code = 360 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2138) { conceptInput.code = 360 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2139)
     {
         event('test.rapid-material-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
         eventValue(rapidParts.rapidComponentSpent); eventValue(rapidParts.rapidPrototypeReservation == nil ? 0 : 1);
         eventValue(rapidStart.materialSettlement == nil ? 0 : 1); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2136) { conceptInput.code = 340 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2136) { conceptInput.code = 340 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2137)
     {
         event('test.rapid-start-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
         eventValue(conceptProject.prototypes.length()); eventValue(rapidParts.rapidPrototypeReservation == rapidStart ? 1 : 0);
         eventValue(rapidStart.workedSeconds); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2134) { conceptInput.code = 320 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2134) { conceptInput.code = 320 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2135)
     {
         event('test.rapid-salvage-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
         eventValue(conceptProject.rapidSalvages.length()); eventValue(rapidSearch.claimedBy == nil ? 0 : 1);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2132) { conceptInput.code = 300 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2132) { conceptInput.code = 300 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2133)
     {
         event('test.rapid-search-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
         eventValue(conceptProject.rapidSearches.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2130) { conceptInput.code = 280 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2130) { conceptInput.code = 280 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2131)
     {
         event('test.rapid-purchase-state'); eventValue(conceptUser.money); eventValue(conceptUser.equipment.length());
         eventValue(conceptProject.rapidPurchases.length()); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2129) { conceptInput.code = 260 + args[1]; return rpgDispatchAction(2097,args); }
-    if (verb == 2128) { conceptInput.code = 240 + args[1]; return rpgDispatchAction(2097,args); }
+    if (verb == 2129) { conceptInput.code = 260 + args[1]; return rpgDispatchAction(2097,[]); }
+    if (verb == 2128) { conceptInput.code = 240 + args[1]; return rpgDispatchAction(2097,[]); }
     if (verb == 2097) { conceptInput.code = args[1]; return rpgDispatchAction(verb,[]); }
     if (verb == 2098)
     {

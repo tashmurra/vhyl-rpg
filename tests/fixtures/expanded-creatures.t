@@ -189,20 +189,20 @@ startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return rpgDispatchTurn(tokens); }
 act(verb,args)
 {
-    if (verb == 2216) { handlingInput.code = 100 + args[1]; return rpgDispatchAction(2203,args); }
+    if (verb == 2216) { handlingInput.code = 100 + args[1]; return rpgDispatchAction(2203,[]); }
     if (verb == 2217)
     {
         event('test.swarm-state'); eventValue(exposureRecord.startedAt); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2215)
     {
-        local value = rpgExpandedNaturalDamageForStrength(args[1],args[2],args[3],args[4] != 0,args[5] != 0,args[6],args[7]);
+        local value = rpgExpandedNaturalDamageForStrength(args[1],args[2],args[3],args[4] != 0,args[5] != 0,args[6],args.length() >= 7 ? args[7] : nil);
         event('test.natural-strength'); eventValue(value.status); eventValue(value.dice); eventValue(value.adds);
         eventValue(value.damageType); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
     if (verb == 2214)
     {
-        local value = rpgExpandedNaturalDamage(args[1],args[2],args[3],args[4],args[5] != 0,args[6] != 0,args[7],args[8]);
+        local value = rpgExpandedNaturalDamage(args[1],args[2],args[3],args[4],args[5] != 0,args[6] != 0,args[7],args.length() >= 8 ? args[8] : nil);
         event('test.natural-damage'); eventValue(value.status); eventValue(value.dice); eventValue(value.adds);
         eventValue(value.damageType); eventValue(value.anatomyBonus); eventValue(value.skillBonus);
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
@@ -217,28 +217,28 @@ act(verb,args)
         event('test.animal-value'); eventValue(value.status); eventValue(value.reason); eventValue(value.numerator);
         eventValue(value.denominator); eventValue(value.money); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2211) { handlingInput.code = 80 + args[1]; return rpgDispatchAction(2203,args); }
+    if (verb == 2211) { handlingInput.code = 80 + args[1]; return rpgDispatchAction(2203,[]); }
     if (verb == 2212)
     {
         event('test.animal-milestone-state'); eventValue(trainingAnimal.animalTrainingLevel);
         eventValue(trainingAnimal.animalKnownTricks.length()); eventValue(trainingAnimal.animalTrainingMilestones.length());
         eventValue(animalCourse.successfulDays); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2209) { handlingInput.code = 60 + args[1]; return rpgDispatchAction(2203,args); }
+    if (verb == 2209) { handlingInput.code = 60 + args[1]; return rpgDispatchAction(2203,[]); }
     if (verb == 2210)
     {
         event('test.animal-daily-state'); eventValue(animalCourse.successfulDays); eventValue(animalCourse.pendingDay);
         eventValue(animalCourse.pendingFailure == nil ? 0 : 1); eventValue(animalCourse.checks.length());
         eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2207) { handlingInput.code = 40 + args[1]; return rpgDispatchAction(2203,args); }
+    if (verb == 2207) { handlingInput.code = 40 + args[1]; return rpgDispatchAction(2203,[]); }
     if (verb == 2208)
     {
         event('test.animal-session-state'); eventValue(animalCourse.sessions.length());
         eventValue(trainingAnimal.animalTrainingSessions.length()); eventValue(animalCourse.successfulDays);
         eventValue(animalCourse.pendingDay); eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
     }
-    if (verb == 2205) { handlingInput.code = 20 + args[1]; return rpgDispatchAction(2203,args); }
+    if (verb == 2205) { handlingInput.code = 20 + args[1]; return rpgDispatchAction(2203,[]); }
     if (verb == 2206)
     {
         event('test.animal-performance-state'); eventValue(handlingAttempt.performanceReceipt == nil ? 0 : 1);

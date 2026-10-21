@@ -3521,8 +3521,9 @@ rewrites all stored evidence. The exact-compiled-game save policy is unchanged.
 [`expanded-panic-history.t`](../../tests/fixtures/expanded-panic-history.t) and
 `test_panic_history` specify changed deadlines/completion, modified check results,
 removed receipts, changed timestamps and lost ownership through episode queries,
-clock advancement, replay and action gates. They remain unrun alongside the
-existing rollback, undo and cross-process save fixtures.
+clock advancement, replay and action gates. These and the existing rollback,
+undo and cross-process save fixtures passed native acceptance; see the
+[completion checklist](fear-completion.md).
 
 
 ## Seizure from fear
