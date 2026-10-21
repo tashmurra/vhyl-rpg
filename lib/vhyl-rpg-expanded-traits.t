@@ -5451,3 +5451,181 @@ modify rpgExpandedTemplateTraits
     }
 ;
 
+
+/** full-2008 B136: timed intrusive replays. Automatic stress dispatch is pending. */
+class RpgExpandedIntrusiveReplay: RpgLiteTrait
+    id = 'intrusive-replay'
+    labelId = 'intrusive-replay'
+    points = -5
+    approved = nil
+    replayType = nil
+    templatePurchaseKind = 'expanded-intrusive-replay'
+    templatePurchaseOptions() { return [self.replayType]; }
+    creationCost()
+    {
+        rpgInteger(self.level,1,3);
+        if (!self.approved || self.id != 'intrusive-replay' || self.points != [-5,-10,-20][self.level]
+            || self.controlled || self.scope != nil || self.skills.length() != 0
+            || self.replayType == nil || self.replayType == '') rpgExpandedReject('intrusive-replay-definition');
+        return self.points;
+    }
+;
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (id != 'intrusive-replay') return inherited(id,level,scope,options);
+        rpgInteger(level,1,3);
+        if (options.length() != 1) rpgExpandedReject('intrusive-replay-template-options');
+        local trait = new RpgExpandedIntrusiveReplay(); trait.approved = true; trait.level = level;
+        trait.points = [-5,-10,-20][level]; trait.scope = scope; trait.replayType = options[1];
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedIntrusiveReplay)) return inherited(trait);
+        trait.creationCost(); return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
+    }
+;
+modify RpgExpandedProfile
+    intrusiveReplayOccurrences = []
+    intrusiveReplayTrait()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'intrusive-replay')
+            {
+                if (found != nil || !trait.ofKind(RpgExpandedIntrusiveReplay)) rpgExpandedReject('intrusive-replay-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? nil : found;
+    }
+    validateFeatures() { inherited(); self.intrusiveReplayTrait(); return nil; }
+    intrusiveReplaySeverity()
+    {
+        local severity = 0;
+        foreach (local entry in self.intrusiveReplayOccurrences)
+            if (entry.active())
+            {
+                if (severity != 0) rpgExpandedReject('intrusive-replay-overlap-unimplemented');
+                severity = entry.result.severity;
+            }
+        return severity;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (context.skill != nil)
+        {
+            local severity = self.intrusiveReplaySeverity();
+            if (severity == 1) value -= 2;
+            if (severity == 2) value -= 5;
+        }
+        return value;
+    }
+    healthCheckReason(context)
+    {
+        if (context.skill != nil && self.intrusiveReplaySeverity() == 3) return 'intrusive-replay-skill-unavailable';
+        return inherited(context);
+    }
+;
+class RpgExpandedIntrusiveReplayResult: RpgExpandedResult
+    roll = nil
+    occurred = nil
+    severity = 0
+    duration = 0
+;
+/** The author owns the stress occurrence and narrative content; dice own onset/duration. */
+class RpgExpandedIntrusiveReplayOccurrence: object
+    id = nil
+    profile = nil
+    stressor = nil
+    approved = nil
+    evidence = nil
+    content = nil
+    result = nil
+    recordedAt = nil
+    expiresAt = nil
+    boundDefinition = nil
+    boundResult = nil
+    definition() { return [self.id,self.profile,self.stressor,self.approved,self.evidence,self.content,self.recordedAt,self.expiresAt]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.profile.intrusiveReplayOccurrences,self)
+            || self.boundDefinition == nil || self.boundResult == nil) rpgExpandedReject('intrusive-replay-history');
+        local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('intrusive-replay-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('intrusive-replay-binding');
+        local outcome = [self.result,self.result.status,self.result.roll,self.result.occurred,self.result.severity,self.result.duration];
+        if (outcome.length() != self.boundResult.length()) rpgExpandedReject('intrusive-replay-result-binding');
+        for (local i = 1; i <= outcome.length(); i += 1)
+            if (outcome[i] != self.boundResult[i]) rpgExpandedReject('intrusive-replay-result-binding');
+        return nil;
+    }
+    active()
+    { self.validateReceipt(); return self.result.occurred && rpgLedger.seconds >= self.recordedAt && rpgLedger.seconds < self.expiresAt; }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile))
+            rpgExpandedReject('intrusive-replay-occurrence-definition');
+        local value = new RpgExpandedIntrusiveReplayResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.recordedAt != nil || self.expiresAt != nil || self.boundDefinition != nil || self.boundResult != nil)
+            rpgExpandedReject('intrusive-replay-uncommitted-state');
+        if (!self.approved || self.stressor == nil || self.evidence == nil || self.evidence == ''
+            || self.content == nil || self.content == '') { value.reason = 'intrusive-replay-authored-facts'; return value; }
+        local trait = self.profile.intrusiveReplayTrait();
+        if (trait == nil) { value.reason = 'intrusive-replay-inactive'; return value; }
+        foreach (local prior in self.profile.intrusiveReplayOccurrences)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.stressor == self.stressor) rpgExpandedReject('intrusive-replay-duplicate');
+            if (prior.active()) { value.reason = 'intrusive-replay-overlap-unimplemented'; return value; }
+        }
+        rpgInteger(rpgLedger.seconds,0,2147482567);
+        value.severity = trait.level; value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.roll = rpgRandom.roll(); value.occurred = value.roll <= 6;
+        if (value.occurred)
+        {
+            local count = value.severity == 1 ? 2 : value.severity == 2 ? 1 : 3;
+            for (local i = 1; i <= count; i += 1) value.duration += rpgRandom.die();
+            if (value.severity != 1) value.duration *= 60;
+        }
+        self.recordedAt = rpgLedger.seconds; self.expiresAt = self.recordedAt + value.duration;
+        value.status = 'resolved'; self.result = value; self.boundDefinition = self.definition();
+        self.boundResult = [value,value.status,value.roll,value.occurred,value.severity,value.duration];
+        self.profile.intrusiveReplayOccurrences = self.profile.intrusiveReplayOccurrences + [self]; return value;
+    }
+;
+
+/* Reject unintegrated automatic routes instead of silently dropping required rolls. */
+modify RpgExpandedProfile
+    validateDirectFright()
+    {
+        if (self.intrusiveReplayTrait() != nil) rpgExpandedReject('intrusive-replay-fear-dispatch-required');
+        return inherited();
+    }
+    newFearStressFollowup(entry)
+    {
+        if (self.intrusiveReplayTrait() != nil) rpgExpandedReject('intrusive-replay-fear-dispatch-required');
+        return inherited(entry);
+    }
+    validateDirectSelfControl(giveIn)
+    {
+        if (!giveIn && self.intrusiveReplayTrait() != nil) rpgExpandedReject('intrusive-replay-control-dispatch-required');
+        return inherited(giveIn);
+    }
+;
+modify RpgExpandedSelfControlTrigger
+    assess()
+    {
+        if (self.result == nil && self.profile != nil && self.profile.ofKind(RpgExpandedProfile)
+            && self.profile.intrusiveReplayTrait() != nil && !self.giveIn && !self.buySuccess)
+            rpgExpandedReject('intrusive-replay-control-dispatch-required');
+        return inherited();
+    }
+;

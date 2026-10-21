@@ -9864,6 +9864,8 @@ def test(build):
     sacrifice = build.build('expanded-self-sacrifice',ROOT / 'tests/fixtures/expanded-self-sacrifice.t')
     test_self_sacrifice(Session,sacrifice,build.out)
     test_control_choice_mitigation(Session,sacrifice,'test.sacrifice')
+    replay = build.build('expanded-intrusive-replay',ROOT / 'tests/fixtures/expanded-intrusive-replay.t')
+    test_intrusive_replay(Session,replay,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30317,3 +30319,36 @@ def test_self_sacrifice(Session,bundle,out):
         do(s,871); assert state(s) == [0,0,0,None,0,0,0]
     finally: s.close()
 
+
+
+def test_intrusive_replay(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1016)
+        return last(s,'test.replay')
+    for level,duration,draws,modifier,reason in ((1,4,5,-2,None),(2,120,4,-5,None),(3,360,6,0,'intrusive-replay-skill-unavailable')):
+        s = Session(bundle)
+        path = out/f'intrusive-replay-{level}.zsave'
+        try:
+            do(s,1019)
+            assert last(s,'test.replay-prices') == [-5,1,'evacuation memories',-10,1,'evacuation memories',-20,1,'evacuation memories']
+            do(s,1009+level); do(s,1015)
+            assert state(s) == [0,0,0,0,None,0,0]
+            do(s,1014); s.command('undo'); assert state(s) == [0,0,0,0,None,0,0]
+            do(s,1014); do(s,1014)
+            active = [1,duration,level,modifier,reason,draws,0]
+            assert state(s) == active
+            do(s,1018); assert state(s) == active
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1014); assert state(s) == active
+            do(s,1017); assert state(s) == [1,duration,0,0,None,draws,duration]
+            s.command('undo'); assert state(s) == active
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (1010,1013,1014,1014): do(s,code)
+        assert state(s) == [1,0,0,0,None,3,0]
+    finally: s.close()

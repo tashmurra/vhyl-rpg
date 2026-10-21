@@ -2833,3 +2833,34 @@ copying, fear acquisition, successful and failed decisions, concrete shelter
 choices, invalid participants, rollback, undo and save continuation. The fixtures
 are registered but unrun; this selection does not imply that the remaining
 mental-trait catalogue is complete.
+
+
+### Intrusive replay episodes — partial integration
+
+`RpgExpandedIntrusiveReplay` implements the full-2008 B136 purchase levels at
+-5/-10/-20. Configured templates supply one option, the authored `replayType`:
+`['intrusive-replay', 2, nil, nil, ['evacuation memories']]`. Copying preserves
+that type. This purchase is not yet accepted by the fear-acquisition interface.
+
+An owned `RpgExpandedIntrusiveReplayOccurrence` identifies the profile, unique
+ID and `stressor`, with approval, evidence and authored episode `content`.
+`assess()` previews without dice; `resolve()` rolls three dice once, with onset
+on six or less. Onset alone rolls duration: level one uses two dice of seconds,
+level two one die of minutes and level three three dice of minutes. The shared
+clock advances independently; the episode is active before, but not at, its
+expiry. Replaying resolution does not repeat dice. Receipt facts and outcome
+fields are immutable, including the narrative content supplied by the author.
+
+While active, level one imposes -2 on skill rolls and level two imposes -5.
+Level three rejects skill use through the common health check gate. These effects
+belong to the committed episode; they are not recalculated from later purchase
+edits. Raw attribute checks do not receive the skill penalty.
+
+**Incomplete:** automatic fear and failed stress-related self-control follow-ups,
+concurrent-episode policy and complete external-sensory blocking are pending.
+Known automatic trigger routes reject explicitly while the purchase is active;
+a new occurrence overlapping an active one also rejects before randomness.
+Do not enable this purchase in a finished campaign yet. `test_intrusive_replay`
+specifies exact prices, onset boundaries, durations, skill effects, expiry,
+rollback, undo, receipt mutation and saved continuation. It is registered but
+unrun, and does not establish complete integration.

@@ -360,3 +360,15 @@ attributes, avoiding invented rolls, rollback, undo and cross-process save
 continuation. The inventory now links this contract and no longer describes the
 minimum-HT case as having no replacement route. These cases remain unrun; direct
 zero-attribute transitions are still outside the implemented procedure.
+
+
+## Intrusive replay episode implementation
+
+The B136 stress-triggered replay gap now has a typed purchase, retained onset
+roll and source durations, immutable authored content, timed skill penalties and
+the severe skill-use prohibition. Its direct occurrence fixtures specify onset,
+expiry, rollback, undo and save continuation but remain unrun. Automatic fear and
+self-control dispatch, overlapping episodes and complete sensory blocking still
+require implementation; known automatic routes explicitly reject until that
+work is present. The purchase is deliberately not yet accepted as a fear
+selection. This is an implementation increment, not completion of this trait.
