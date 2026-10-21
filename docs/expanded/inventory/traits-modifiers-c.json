@@ -1,0 +1,943 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B110-B117, before new advantages",
+  "review": "Limitations and gadget rules enumerated, with signed pricing, resource/timing constraints and reference example totals. Visual tables, example component fixtures, cross-reference closure and runtime validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-mod-c-signed-pricing",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Limiting a disadvantage reduces its negative value, rounding toward positive infinity: base -25 with -10% becomes -22. Preserve the -80% net discount floor. The existing positive-only trait-price interface does not implement signed disadvantage pricing.",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ],
+      "existing_feature": "signed-trait-pricing",
+      "validation_note": "Runtime arithmetic and native fixtures authored; validation is in progress. Full catalogue eligibility and effect integration are not complete."
+    },
+    {
+      "id": "traits-mod-c-accessibility",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Accessibility requires an authored target or situation predicate and campaign-relative price. About half the population is -20%; other printed target examples range -10% to -50% depending on prevalence. Day/night -20%, direct sunlight -30%, terrestrial water-only -30%, selected lunar phase -40%, and unusable-under-stress -60% are contextual examples, not universal category constants.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-accessibility-actions",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Action-linked accessibility examples are altered-body-form-only -10%, playing an instrument -20%, flying/swimming/trance-only -30%, and one personality-only -40%. Half-power rather than no-power halves the discount. Reject conditions already implicit in the ability or imposing no genuine restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-always-active",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Always-active limitation requires an otherwise switchable ability and real inconvenience: -10% social/cosmetic, -20% physical inconvenience or -40% personal danger. Trait-specific values override the general schedule. Author approves actual consequences.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-weak-penetration-0.5",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 0.5, equivalently protection multiplier 2, is -30%. Zero-protection targets gain one protection against this attack. Only damaging powers/condition attacks qualify; reject other penetration modifiers on the same attack.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-weak-penetration-0.2",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 0.2, equivalently protection multiplier 5, is -50%. Zero-protection targets gain one protection against this attack. Only damaging powers/condition attacks qualify; reject other penetration modifiers on the same attack.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-weak-penetration-0.1",
+      "source": "full-2008",
+      "pages": "B110",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 0.1, equivalently protection multiplier 10, is -70%. Zero-protection targets gain one protection against this attack. Only damaging powers/condition attacks qualify; reject other penetration modifiers on the same attack.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-blood-delivery",
+      "source": "full-2008",
+      "pages": "B110-B111",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Blood-agent delivery is -40%, requires mucous membrane or open wound exposure and is stopped by armor. Intended for condition attacks and toxic/fatigue damage. Area/cone converts it to +100%, adds inhalation and bypasses armor; immunity requires sealing or both respiratory protection and eye membrane/protected vision. It remains a penetration modifier.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-bombardment-14",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Area/cone bombardment effective skill 14 gives -5%. Roll separately for each target, modified only by target size, select hit location randomly and apply cover normally.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-bombardment-12",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Area/cone bombardment effective skill 12 gives -10%. Roll separately for each target, modified only by target size, select hit location randomly and apply cover normally.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-bombardment-10",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Area/cone bombardment effective skill 10 gives -15%. Roll separately for each target, modified only by target size, select hit location randomly and apply cover normally.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-bombardment-8",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Area/cone bombardment effective skill 8 gives -20%. Roll separately for each target, modified only by target size, select hit location randomly and apply cover normally.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-contact-delivery",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Contact-agent limitation is -30%, requires bare skin or porous clothing and armor stops it. Intended for condition/toxic/fatigue attacks. Area/cone converts it to +150%, bypasses armor and is blocked by sealing. Reject incompatible penetration modifiers; do not preserve the negative price after area conversion.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-fatigue-cost",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Added fatigue cost is -5% per point per use. Instant effects pay every activation. Continuing effects pay activation for one minute and half that cost rounded up each maintenance minute. A continuing effect lasting only one second with per-second maintenance instead receives -10% per point. Own boundary charges and reject double spending on the same activation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-no-blunt",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No blunt trauma is -20%, available for crushing/cutting/impaling/piercing powers which ordinarily cause it. It removes only blunt trauma, not penetration injury or knockback.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-no-knockback",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No knockback is -10% for crushing/cutting powers and removes displacement without altering injury.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-no-wounding",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No wounding is -50%. Still roll basic damage and resolve penetration, knockback and eligible blunt trauma, but penetrating damage causes no direct health/fatigue loss. A carrier may still deliver its separately purchased follow-up when it penetrates.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-limited-enhancements",
+      "source": "full-2008",
+      "pages": "B111",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional limited enhancements require explicit campaign choice. Apply a limitation to the enhancement percentage, floor at one fifth its original value, then use the reduced enhancement in trait pricing. Selective-area +20% limited by one-sense -20% becomes +16%. A limitation inherently requiring an enhancement, such as emanation with area, must affect the base ability and cannot receive this treatment.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-dissipation",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Dissipation is -50%, requires area/cone and weakens effects with distance under the area chapter procedure. Keep the previously recorded center-distance ambiguity explicit; do not invent a divide-by-zero result.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-emanation",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Emanation is -20%, requires area, has no range/accuracy and radiates from the owner, exempting the owner from harmful effects. Reject melee limitation and conventional ranged modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-emergency",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Emergency-only is -30% with authored fear/excitement eligibility. Full-power-only-in-emergencies is -20% and otherwise gives half levels or an authored half-effect interpretation for nonleveled traits. Repeated failures do not automatically manufacture an emergency without author judgment.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-recoil-2",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra recoil 2 gives -10%, requires rapid fire; recoil five or higher remains capped at -40%.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-recoil-3",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra recoil 3 gives -20%, requires rapid fire; recoil five or higher remains capped at -40%.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-recoil-4",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra recoil 4 gives -30%, requires rapid fire; recoil five or higher remains capped at -40%.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-recoil-5",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Extra recoil 5 gives -40%, requires rapid fire; recoil five or higher remains capped at -40%.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-inaccurate",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Reduced accuracy is -5% per lost accuracy point and cannot reduce accuracy below zero. Abilities without accuracy are ineligible.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-limited-use-1",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Limited use 1 through 1 uses per twenty-four hours gives -40%. Ordinary continuing use is one minute; each attack use grants firing-rate shots, minimum one. Above ten uses is not a meaningful limitation. Define daily-window policy explicitly and distinguish shots from activations.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-limited-use-2",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Limited use 2 through 2 uses per twenty-four hours gives -30%. Ordinary continuing use is one minute; each attack use grants firing-rate shots, minimum one. Above ten uses is not a meaningful limitation. Define daily-window policy explicitly and distinguish shots from activations.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-limited-use-3",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Limited use 3 through 4 uses per twenty-four hours gives -20%. Ordinary continuing use is one minute; each attack use grants firing-rate shots, minimum one. Above ten uses is not a meaningful limitation. Define daily-window policy explicitly and distinguish shots from activations.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-limited-use-5",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Limited use 5 through 10 uses per twenty-four hours gives -10%. Ordinary continuing use is one minute; each attack use grants firing-rate shots, minimum one. Above ten uses is not a meaningful limitation. Define daily-window policy explicitly and distinguish shots from activations.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-fast-reload",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fast reload restores all uses with authored ammunition in three to five seconds and halves the limited-use discount. Ammo weight/cost is authored. Apply only to attacks unless other abilities are expressly allowed; consume actual reload inventory.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-slow-reload",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Slow reload reduces limited-use discount magnitude by five percentage points. Multiple shots require individual reloads of at least three seconds each; a single shot requires at least six seconds. Use shot count, not nominal uses, to select the timing rule.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-melee-close",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Melee reach close only gives -30%. Melee conversion permits parry, feint and rapid strike, removes conventional ranged statistics and forbids modifiers to those statistics. No parry gives an extra -5% except where specifically excluded.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-melee-one",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Melee reach one or two yards separately gives -25%. Melee conversion permits parry, feint and rapid strike, removes conventional ranged statistics and forbids modifiers to those statistics. No parry gives an extra -5% except where specifically excluded.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-melee-mixed",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Melee reach close/one, one/two, or two/three yards gives -20%. Melee conversion permits parry, feint and rapid strike, removes conventional ranged statistics and forbids modifiers to those statistics. No parry gives an extra -5% except where specifically excluded.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-melee-whip",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Melee reach one through four yards gives -15%. Melee conversion permits parry, feint and rapid strike, removes conventional ranged statistics and forbids modifiers to those statistics. No parry gives an extra -5% except where specifically excluded.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-mitigator",
+      "source": "full-2008",
+      "pages": "B112",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Disadvantage mitigator is -60% for vulnerable equipment or daily treatment, -65% weekly treatment, -70% monthly treatment. Special prescription reduces discount magnitude by five percentage points, unique source by ten. Track actual availability, use and expiry; temporary suppression does not delete the disadvantage purchase.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-nuisance",
+      "source": "full-2008",
+      "pages": "B112-B113",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Nuisance requires genuine authored inconvenience. Reaction penalty gives -5% per -1 to a maximum -4; conspicuousness -5%; physical inconvenience -5%. Multiple independent drawbacks can apply. Reject beneficial destructive powers and harmless cosmetic jokes as discounts.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-onset-60",
+      "source": "full-2008",
+      "pages": "B113",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Onset delay 60 seconds gives -10%; between thresholds use the smaller discount and one week or longer caps at -40%. Require blood/contact/follow-up/remote-resistance/respiratory delivery. Selectable delay uses the delay enhancement instead.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-onset-3600",
+      "source": "full-2008",
+      "pages": "B113",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Onset delay 3600 seconds gives -20%; between thresholds use the smaller discount and one week or longer caps at -40%. Require blood/contact/follow-up/remote-resistance/respiratory delivery. Selectable delay uses the delay enhancement instead.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-onset-86400",
+      "source": "full-2008",
+      "pages": "B113",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Onset delay 86400 seconds gives -30%; between thresholds use the smaller discount and one week or longer caps at -40%. Require blood/contact/follow-up/remote-resistance/respiratory delivery. Selectable delay uses the delay enhancement instead.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-onset-604800",
+      "source": "full-2008",
+      "pages": "B113",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Onset delay 604800 seconds gives -40%; between thresholds use the smaller discount and one week or longer caps at -40%. Require blood/contact/follow-up/remote-resistance/respiratory delivery. Selectable delay uses the delay enhancement instead.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-exposure-time",
+      "source": "full-2008",
+      "pages": "B113",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Continuous exposure-time limitation requires aura or persistence and adds twenty percentage points of discount to onset pricing. The full interval is needed for each effect/repetition. Track exposure continuity and interruptions rather than scheduling damage immediately after a brief touch.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-pact",
+      "source": "full-2008",
+      "pages": "B113",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Granted-power pact discount equals the point value magnitude of separately taken self-imposed mental restrictions. Breaking the code immediately disables the power until authored repentance. The disadvantages still count normally; traits with an included pact cannot claim it again.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-preparation-60",
+      "source": "full-2008",
+      "pages": "B114",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preparation of 60 seconds concentration gives -20%. Weakened-without-preparation halves this discount and requires a meaningful authored half-effect.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-preparation-600",
+      "source": "full-2008",
+      "pages": "B114",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preparation of 600 seconds concentration gives -30%. Weakened-without-preparation halves this discount and requires a meaningful authored half-effect.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-preparation-3600",
+      "source": "full-2008",
+      "pages": "B114",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preparation of 3600 seconds concentration gives -50%. Weakened-without-preparation halves this discount and requires a meaningful authored half-effect.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-preparation-28800",
+      "source": "full-2008",
+      "pages": "B114",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Preparation of 28800 seconds concentration gives -60%. Weakened-without-preparation halves this discount and requires a meaningful authored half-effect.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-preparation-shared",
+      "source": "full-2008",
+      "pages": "B114",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only one ability with preparation-required may be prepared at a time. Select the ability during preparation but not its eventual use. Store a character-owned preparation record; use consumes it on success or failure, while continuing effects may remain maintained. Preparing another replaces the prior record.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-modified-examples",
+      "source": "full-2008",
+      "pages": "B114",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Retain neutral independent pricing fixtures for the seven printed composite attacks, with totals 243,32,12,33,51,30,10 respectively. Map their component definitions and behavior before treating price equality as coverage; the bite example also separately buys its one-point natural attack. Source fictional labels are not public identifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-reduced-range-2",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced range divides by 2 for -10%, applied to both half-damage and maximum where present. Half-damage-only reduction gives half discount; maximum cannot be reduced independently. Only these three printed levels are defined.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-reduced-range-5",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced range divides by 5 for -20%, applied to both half-damage and maximum where present. Half-damage-only reduction gives half discount; maximum cannot be reduced independently. Only these three printed levels are defined.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-reduced-range-10",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced range divides by 10 for -30%, applied to both half-damage and maximum where present. Half-damage-only reduction gives half discount; maximum cannot be reduced independently. Only these three printed levels are defined.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-resistible",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Resistible damage applies only to toxic/fatigue powers with blood/contact/follow-up/respiratory/sensory delivery. Health-5 gives -5%, with each +1 to resistance adding another -5%. On repeating damage, check before every cycle including first; success ends all future damage. Do not add a second identical resistance through the repeating-effect price reduction.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-extra-time",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Extra activation time is -10% per level on authored emergency-useful timed abilities. Ready/concentration duration doubles per level; an attack first gains one second ready before its attack, then later levels double that ready duration. Activation occurs only at the end; interruptions retain normal maneuver consequences.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-recharge",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Recharge discount -10% requires max(five seconds, twice activation duration), -20% max(fifteen seconds, five times), -30% max(one hour, ten times). Longer waits confer no greater discount. Store post-use deadline independently of limited uses and preparation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-temporary-disadvantage",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Temporary disadvantage requires a voluntarily switchable ability taking at least one second to switch. Discount is one percent per negative point, capped at -80%, and absolute point savings cannot exceed eighty percent of the disadvantage value. A thirty-point disadvantage on a hundred-point ability therefore saves at most twenty-four, not thirty.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-temporary-effects",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporary drawbacks must plausibly inconvenience during active time. Failed mental self-control can continue consequences after deactivation until authored recovery. Temporary negation of an advantage uses the same caps; only one side may claim the discount, forbidding reciprocal discount pairs. Restore only affected contributions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-trigger-very-common",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Activation trigger rarity very-common gives -10%, requiring one dose/exposure per minute of use. Illegal/addictive/otherwise dangerous trigger multiplies the discount by 1.5. Author defines supply/condition and eligibility; record actual consumption.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-trigger-common",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Activation trigger rarity common gives -20%, requiring one dose/exposure per minute of use. Illegal/addictive/otherwise dangerous trigger multiplies the discount by 1.5. Author defines supply/condition and eligibility; record actual consumption.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-trigger-occasional",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Activation trigger rarity occasional gives -30%, requiring one dose/exposure per minute of use. Illegal/addictive/otherwise dangerous trigger multiplies the discount by 1.5. Author defines supply/condition and eligibility; record actual consumption.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-trigger-rare",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Activation trigger rarity rare gives -40%, requiring one dose/exposure per minute of use. Illegal/addictive/otherwise dangerous trigger multiplies the discount by 1.5. Author defines supply/condition and eligibility; record actual consumption.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-unconscious-only",
+      "source": "full-2008",
+      "pages": "B115",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Unconscious-only activation is -20%, requires uncontrollable, and permits only author-controlled stress activation. It is not ordinary player activation while sleeping. It can be removed through advancement when control is learned.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-uncontrollable",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Uncontrollable is -10% for nondamaging or -30% for destructive ability. Each distinct authored stressful situation prompts will; fourteen or higher always fails. Failure grants author control. Check again after each uncontrolled act, and before attacks on loved ones; destructive behavior initially targets obvious foes and never the owner. Persist episode identity and permitted actions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-unreliable-5",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Unreliable activation number 5 gives -80%. Roll 3d at or below it independently of normal activation/skill. Success covers this continuous use; restarting requires a new activation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-unreliable-8",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Unreliable activation number 8 gives -40%. Roll 3d at or below it independently of normal activation/skill. Success covers this continuous use; restarting requires a new activation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-unreliable-11",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Unreliable activation number 11 gives -20%. Roll 3d at or below it independently of normal activation/skill. Success covers this continuous use; restarting requires a new activation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-unreliable-14",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Unreliable activation number 14 gives -10%. Roll 3d at or below it independently of normal activation/skill. Success covers this continuous use; restarting requires a new activation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-unreliable-retry",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "After failed unreliable activation, retries are at most once per second and each additional attempt costs one fatigue. At three or fewer fatigue, rest until full fatigue before retrying. Preserve the rest lock even if a small partial recovery raises fatigue above three.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-malfunction-12",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For gadget/built-in firearm attacks, unreliable instead sets malfunction 12 for -25%. Use malfunction resolution rather than adding a separate unreliable activation roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-malfunction-13",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For gadget/built-in firearm attacks, unreliable instead sets malfunction 13 for -20%. Use malfunction resolution rather than adding a separate unreliable activation roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-malfunction-14",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For gadget/built-in firearm attacks, unreliable instead sets malfunction 14 for -15%. Use malfunction resolution rather than adding a separate unreliable activation roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-malfunction-15",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For gadget/built-in firearm attacks, unreliable instead sets malfunction 15 for -10%. Use malfunction resolution rather than adding a separate unreliable activation roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-malfunction-16",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For gadget/built-in firearm attacks, unreliable instead sets malfunction 16 for -5%. Use malfunction resolution rather than adding a separate unreliable activation roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-untrainable",
+      "source": "full-2008",
+      "pages": "B116",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Untrainable is -40% only for skill-operated abilities. Learn related skills as though governing attribute were eight, or one lower than actual if actual is already eight or less, and cap skill at ten. Preserve actual attributes for unrelated purposes.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-scope",
+      "source": "full-2008",
+      "pages": "B116-B117",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Point-priced gadgets require authored nonpurchasable capability beyond ordinary manufacture. Buy ordinary/sold equipment with money except separately protected signature gear. Eligible gadget traits use normal point prices/modifiers plus gadget limitations; do not charge both full capability points and ordinary equipment price as a default.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-dr-0",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget protection 0 through 2 gives -20% durability component. Define weight and object-health calculation, and suppress granted benefits while destroyed until repair.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-dr-3",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget protection 3 through 5 gives -15% durability component. Define weight and object-health calculation, and suppress granted benefits while destroyed until repair.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-dr-6",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget protection 6 through 15 gives -10% durability component. Define weight and object-health calculation, and suppress granted benefits while destroyed until repair.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-dr-16",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget protection 16 through 25 gives -5% durability component. Define weight and object-health calculation, and suppress granted benefits while destroyed until repair.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-dr-26",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget protection 26 through unbounded gives -0% durability component. Define weight and object-health calculation, and suppress granted benefits while destroyed until repair.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-repair",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Breakdown-prone machine adds -5% to breakability. Unrepairable and inconveniently replaceable gadget adds -15%; otherwise author defines repair skills. These components combine with durability and size, not independent replicated copies of the whole gadget.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-size-tiny",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget size modifier -9 or less gives -0% size component and governs detection/targeting.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-size-small",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget size modifier -8 through -7 gives -5% size component and governs detection/targeting.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-size-compact",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget size modifier -6 through -5 gives -10% size component and governs detection/targeting.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-size-medium",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget size modifier -4 through -3 gives -15% size component and governs detection/targeting.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-size-large",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget size modifier -2 through -1 gives -20% size component and governs detection/targeting.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-size-huge",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Breakable gadget size modifier 0 or more gives -25% size component and governs detection/targeting.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-theft-snatch",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Theft vulnerability via unopposed dexterity snatch is -40%, only when the item is recognizably powerful and a likely theft target. Halve discount if it cannot immediately work for the thief. Transfer benefit ownership according to actual item possession and eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-theft-contest",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Theft vulnerability via dexterity or strength contest is -30%, only when the item is recognizably powerful and a likely theft target. Halve discount if it cannot immediately work for the thief. Transfer benefit ownership according to actual item possession and eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-theft-stealth",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Theft vulnerability via stealth or trickery only is -20%, only when the item is recognizably powerful and a likely theft target. Halve discount if it cannot immediately work for the thief. Transfer benefit ownership according to actual item possession and eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-theft-removal",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Theft vulnerability via forceful removal is -10%, only when the item is recognizably powerful and a likely theft target. Halve discount if it cannot immediately work for the thief. Transfer benefit ownership according to actual item possession and eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-c-gadget-unique",
+      "source": "full-2008",
+      "pages": "B117",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Unique gadget is -25% and requires breakability or theft vulnerability. It cannot be replaced; destruction/theft permanently loses invested character points. Distinguish temporary separation, recoverable theft and final loss through explicit authored disposition instead of refunding automatically.",
+      "tests": []
+    }
+  ]
+}

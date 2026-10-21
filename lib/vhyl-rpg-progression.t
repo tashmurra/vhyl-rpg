@@ -2,18 +2,30 @@
  * Include after vhyl-rpg.t. Copyright (c) 2026 John Cunningham. MIT License. */
 
 modify RpgProfile
+    milestoneAwardReason(milestone) { return nil; }
     earnedPoints = 0
     unspentPoints = 0
     developmentOpen = nil
     developmentRevision = 0
+    /* Optional mandatory advancement can reserve discretionary point spending. */
+    developmentSpendingReason() { return nil; }
     /* Optional profile rules may reject learning before any resources are spent. */
     skillLearningReason(skill) { return nil; }
-    skillLearningWithTeacherReason(skill, teacher) { return self.skillLearningReason(skill); }
+    learningAcquisitionReason(kind) { return nil; }
+    developmentOfferReason(offer) { return nil; }
+    trainingPurchaseReason(skill,training) { return nil; }
+    skillLearningWithTeacherReason(skill, teacher)
+    {
+        local reason = self.learningAcquisitionReason('skill');
+        return reason != nil ? reason : self.skillLearningReason(skill);
+    }
 ;
 
 /** Authored objective award. Eligibility is observational; apply can unlock
  * opportunities after the receipt has been claimed. Never award for retries. */
 class RpgMilestone: object
+    awardSession = nil
+    bonusAward = nil
     id = nil
     points = 1
     available(profile) { return nil; }
@@ -81,6 +93,8 @@ rpgAwardMilestone(profile, milestone)
     local value = new RpgProgressResult(); value.profile = profile;
     value.id = milestone.id; value.kind = 'award';
     if (receipt.claimed) { value.status = 'reused'; return value; }
+    value.reason = profile.milestoneAwardReason(milestone);
+    if (value.reason != nil) return value;
     value.reason = milestone.available(profile);
     if (value.reason != nil) return value;
     rpgInteger(profile.earnedPoints, 0, 1000000 - milestone.points);
@@ -124,14 +138,20 @@ rpgAssessDevelopment(offer)
         if (p.will + delta > 100 || p.perception + delta > 100)
         { value.reason = 'rpg.attribute-limit'; return value; }
     }
+    value.reason = p.developmentOfferReason(offer);
+    if (value.reason != nil) return value;
     if (offer.kind == 'skill')
     {
+        value.reason = p.trainingPurchaseReason(offer.training.skill,offer.training);
+        if (value.reason != nil) return value;
         value.reason = p.skillLearningWithTeacherReason(offer.training.skill, offer.teacher);
         if (value.reason != nil) return value;
     }
     value.reason = offer.available(p);
     if (value.reason != nil) return value;
     if (value.points > p.unspentPoints) { value.reason = 'rpg.insufficient-points'; return value; }
+    value.reason = p.developmentSpendingReason();
+    if (value.reason != nil) return value;
     value.status = 'ready'; return value;
 }
 

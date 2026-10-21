@@ -1,0 +1,1239 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B275-B276",
+  "review": "Muscle-powered ranged rows and notes visually reviewed, including launcher components and shared thrown-item identities. Blade materials and silver adjustments enumerated; runtime, boundary decisions and independent validation pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "muscle-ranged-blowpipe",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "blowpipe",
+        "physical_key": "blowpipe",
+        "technology": 0,
+        "skill": "blowpipe",
+        "damage": "1d-3 pi-",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": null,
+          "maximum_multiplier": 4
+        },
+        "weight_pounds": {
+          "unloaded": 1,
+          "shot": 0.05
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 30,
+        "minimum_strength": 2,
+        "bulk": -6,
+        "notes": [
+          1,
+          2,
+          3
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-weighted-entangler",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "weighted-entangler",
+        "physical_key": "weighted-entangler",
+        "technology": 0,
+        "skill": "bolas",
+        "damage": "thr-1 cr",
+        "accuracy": 0,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": null,
+          "maximum_multiplier": 3
+        },
+        "weight_pounds": 2,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 20,
+        "minimum_strength": 7,
+        "bulk": -2,
+        "notes": [
+          4
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-longbow",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "longbow",
+        "physical_key": "longbow",
+        "technology": 0,
+        "skill": "bow",
+        "damage": "thr+2 imp",
+        "accuracy": 3,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 15,
+          "maximum_multiplier": 20
+        },
+        "weight_pounds": {
+          "unloaded": 3,
+          "shot": 0.1
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 200,
+        "minimum_strength": 11,
+        "bulk": -8,
+        "notes": [
+          3
+        ],
+        "hand_rule": "two-hand-mechanism"
+      }
+    },
+    {
+      "id": "muscle-ranged-standard-bow",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "standard-bow",
+        "physical_key": "standard-bow",
+        "technology": 0,
+        "skill": "bow",
+        "damage": "thr+1 imp",
+        "accuracy": 2,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 15,
+          "maximum_multiplier": 20
+        },
+        "weight_pounds": {
+          "unloaded": 2,
+          "shot": 0.1
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 100,
+        "minimum_strength": 10,
+        "bulk": -7,
+        "notes": [
+          3
+        ],
+        "hand_rule": "two-hand-mechanism"
+      }
+    },
+    {
+      "id": "muscle-ranged-short-bow",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "short-bow",
+        "physical_key": "short-bow",
+        "technology": 0,
+        "skill": "bow",
+        "damage": "thr imp",
+        "accuracy": 1,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 10,
+          "maximum_multiplier": 15
+        },
+        "weight_pounds": {
+          "unloaded": 2,
+          "shot": 0.1
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 50,
+        "minimum_strength": 7,
+        "bulk": -6,
+        "notes": [
+          3
+        ],
+        "hand_rule": "two-hand-mechanism"
+      }
+    },
+    {
+      "id": "muscle-ranged-composite-bow",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "composite-bow",
+        "physical_key": "composite-bow",
+        "technology": 1,
+        "skill": "bow",
+        "damage": "thr+3 imp",
+        "accuracy": 3,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 20,
+          "maximum_multiplier": 25
+        },
+        "weight_pounds": {
+          "unloaded": 4,
+          "shot": 0.1
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 900,
+        "minimum_strength": 10,
+        "bulk": -7,
+        "notes": [
+          3
+        ],
+        "hand_rule": "two-hand-mechanism"
+      }
+    },
+    {
+      "id": "muscle-ranged-heavy-cloak",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-cloak",
+        "physical_key": "heavy-cloak",
+        "technology": 1,
+        "skill": "cloak",
+        "damage": "special",
+        "accuracy": 1,
+        "range": {
+          "maximum_yards": 2
+        },
+        "weight_pounds": 5,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 50,
+        "minimum_strength": 8,
+        "bulk": -6,
+        "notes": [
+          4
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-light-cloak",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-cloak",
+        "physical_key": "light-cloak",
+        "technology": 1,
+        "skill": "cloak",
+        "damage": "special",
+        "accuracy": 1,
+        "range": {
+          "maximum_yards": 2
+        },
+        "weight_pounds": 2,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 20,
+        "minimum_strength": 5,
+        "bulk": -4,
+        "notes": [
+          4
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-crossbow",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "crossbow",
+        "physical_key": "crossbow",
+        "technology": 2,
+        "skill": "crossbow",
+        "damage": "thr+4 imp",
+        "accuracy": 4,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 20,
+          "maximum_multiplier": 25
+        },
+        "weight_pounds": {
+          "unloaded": 6,
+          "shot": 0.06
+        },
+        "rate_of_fire": 1,
+        "shots": "1(4)",
+        "cost": 150,
+        "minimum_strength": 7,
+        "bulk": -6,
+        "notes": [
+          3
+        ],
+        "hand_rule": "two-hand"
+      }
+    },
+    {
+      "id": "muscle-ranged-compact-crossbow",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "compact-crossbow",
+        "physical_key": "compact-crossbow",
+        "technology": 3,
+        "skill": "crossbow",
+        "damage": "thr+2 imp",
+        "accuracy": 1,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 15,
+          "maximum_multiplier": 20
+        },
+        "weight_pounds": {
+          "unloaded": 4,
+          "shot": 0.06
+        },
+        "rate_of_fire": 1,
+        "shots": "1(4)",
+        "cost": 150,
+        "minimum_strength": 7,
+        "bulk": -4,
+        "notes": [
+          2,
+          3
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-pellet-crossbow",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pellet-crossbow",
+        "physical_key": "pellet-crossbow",
+        "technology": 3,
+        "skill": "crossbow",
+        "damage": "thr+4 pi",
+        "accuracy": 2,
+        "range": {
+          "basis": "weapon_strength",
+          "half_damage_multiplier": 20,
+          "maximum_multiplier": 25
+        },
+        "weight_pounds": {
+          "unloaded": 6,
+          "shot": 0.06
+        },
+        "rate_of_fire": 1,
+        "shots": "1(4)",
+        "cost": 150,
+        "minimum_strength": 7,
+        "bulk": -6,
+        "notes": [
+          3
+        ],
+        "hand_rule": "two-hand"
+      }
+    },
+    {
+      "id": "muscle-ranged-cocking-lever",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cocking-lever",
+        "physical_key": "cocking-lever",
+        "technology": 3,
+        "skill": "crossbow",
+        "damage": null,
+        "accuracy": null,
+        "range": null,
+        "weight_pounds": 2,
+        "rate_of_fire": null,
+        "shots": "(20)",
+        "cost": 50,
+        "minimum_strength": 7,
+        "bulk": null,
+        "notes": [
+          5
+        ],
+        "hand_rule": "two-hand"
+      }
+    },
+    {
+      "id": "muscle-ranged-lasso",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "lasso",
+        "physical_key": "lasso",
+        "technology": 1,
+        "skill": "lasso",
+        "damage": "special",
+        "accuracy": 0,
+        "range": "special",
+        "weight_pounds": 3,
+        "rate_of_fire": 1,
+        "shots": "T(special)",
+        "cost": 40,
+        "minimum_strength": 7,
+        "bulk": -2,
+        "notes": [
+          4
+        ],
+        "hand_rule": "two-hand"
+      }
+    },
+    {
+      "id": "muscle-ranged-large-net",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "large-net",
+        "physical_key": "large-net",
+        "technology": 0,
+        "skill": "net",
+        "damage": "special",
+        "accuracy": 1,
+        "range": {
+          "maximum_formula": "strength / 2 + skill / 5"
+        },
+        "weight_pounds": 20,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 40,
+        "minimum_strength": 11,
+        "bulk": -6,
+        "notes": [
+          4,
+          6
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-combat-net",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "combat-net",
+        "physical_key": "combat-net",
+        "technology": 2,
+        "skill": "net",
+        "damage": "special",
+        "accuracy": 1,
+        "range": {
+          "maximum_formula": "strength + skill / 5"
+        },
+        "weight_pounds": 5,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 20,
+        "minimum_strength": 8,
+        "bulk": -4,
+        "notes": [
+          4,
+          6
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-sling",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sling",
+        "physical_key": "sling",
+        "technology": 0,
+        "skill": "sling",
+        "damage": "sw pi",
+        "accuracy": 0,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 6,
+          "maximum_multiplier": 10
+        },
+        "weight_pounds": {
+          "unloaded": 0.5,
+          "shot": 0.05
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 20,
+        "minimum_strength": 6,
+        "bulk": -4,
+        "notes": [
+          2,
+          3,
+          7
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-staff-sling",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "staff-sling",
+        "physical_key": "staff-sling",
+        "technology": 1,
+        "skill": "sling",
+        "damage": "sw+1 pi",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 10,
+          "maximum_multiplier": 15
+        },
+        "weight_pounds": {
+          "unloaded": 2,
+          "shot": 0.05
+        },
+        "rate_of_fire": 1,
+        "shots": "1(2)",
+        "cost": 20,
+        "minimum_strength": 7,
+        "bulk": -6,
+        "notes": [
+          3,
+          7
+        ],
+        "hand_rule": "two-hand"
+      }
+    },
+    {
+      "id": "muscle-ranged-spear-launcher",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "spear-launcher",
+        "physical_key": "spear-launcher",
+        "technology": 0,
+        "skill": "spear-thrower",
+        "damage": null,
+        "accuracy": null,
+        "range": null,
+        "weight_pounds": 1,
+        "rate_of_fire": 1,
+        "shots": "1(1)",
+        "cost": 20,
+        "minimum_strength": null,
+        "bulk": null,
+        "notes": [
+          2
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-launcher-dart",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending. The projectile continuation row has no independent technology value; resolve availability from the projectile definition, not by copying launcher technology.",
+      "tests": [],
+      "equipment_data": {
+        "key": "launcher-dart",
+        "physical_key": "launcher-dart",
+        "technology": null,
+        "skill": "spear-thrower",
+        "damage": "sw-1 imp",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 3,
+          "maximum_multiplier": 4
+        },
+        "weight_pounds": 1,
+        "rate_of_fire": 1,
+        "shots": "uses launcher",
+        "cost": 20,
+        "minimum_strength": 5,
+        "bulk": -3,
+        "notes": [],
+        "hand_rule": null,
+        "requires_item": "spear-launcher"
+      }
+    },
+    {
+      "id": "muscle-ranged-launcher-javelin",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending. The projectile continuation row has no independent technology value; resolve availability from the projectile definition, not by copying launcher technology.",
+      "tests": [],
+      "equipment_data": {
+        "key": "launcher-javelin",
+        "physical_key": "javelin",
+        "technology": null,
+        "skill": "spear-thrower",
+        "damage": "sw+1 imp",
+        "accuracy": 3,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 2,
+          "maximum_multiplier": 3
+        },
+        "weight_pounds": 2,
+        "rate_of_fire": 1,
+        "shots": "uses launcher",
+        "cost": 30,
+        "minimum_strength": 6,
+        "bulk": -4,
+        "notes": [],
+        "hand_rule": null,
+        "requires_item": "spear-launcher"
+      }
+    },
+    {
+      "id": "muscle-ranged-hatchet-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hatchet-thrown",
+        "physical_key": "hatchet",
+        "technology": 0,
+        "skill": "thrown-axe-mace",
+        "damage": "sw cut",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 1.5,
+          "maximum_multiplier": 2.5
+        },
+        "weight_pounds": 2,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 40,
+        "minimum_strength": 8,
+        "bulk": -2,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-throwing-axe-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "throwing-axe-thrown",
+        "physical_key": "throwing-axe",
+        "technology": 0,
+        "skill": "thrown-axe-mace",
+        "damage": "sw+2 cut",
+        "accuracy": 2,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 1,
+          "maximum_multiplier": 1.5
+        },
+        "weight_pounds": 4,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 60,
+        "minimum_strength": 11,
+        "bulk": -3,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-mace-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mace-thrown",
+        "physical_key": "mace",
+        "technology": 2,
+        "skill": "thrown-axe-mace",
+        "damage": "sw+3 cr",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 0.5,
+          "maximum_multiplier": 1
+        },
+        "weight_pounds": 5,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 50,
+        "minimum_strength": 12,
+        "bulk": -4,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-small-mace-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-mace-thrown",
+        "physical_key": "small-mace",
+        "technology": 2,
+        "skill": "thrown-axe-mace",
+        "damage": "sw+2 cr",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 1,
+          "maximum_multiplier": 1.5
+        },
+        "weight_pounds": 3,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 35,
+        "minimum_strength": 10,
+        "bulk": -3,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-tethered-harpoon",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tethered-harpoon",
+        "physical_key": "tethered-harpoon",
+        "technology": 2,
+        "skill": "thrown-harpoon",
+        "damage": "thr+5 imp",
+        "accuracy": 2,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 1,
+          "maximum_multiplier": 1.5
+        },
+        "weight_pounds": 6,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 60,
+        "minimum_strength": 11,
+        "bulk": -6,
+        "notes": [
+          8
+        ],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-large-knife-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "large-knife-thrown",
+        "physical_key": "large-knife",
+        "technology": 0,
+        "skill": "thrown-knife",
+        "damage": "thr imp",
+        "accuracy": 0,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 0.8,
+          "maximum_multiplier": 1.5
+        },
+        "weight_pounds": 1,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 40,
+        "minimum_strength": 6,
+        "bulk": -2,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-small-knife-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-knife-thrown",
+        "physical_key": "small-knife",
+        "technology": 0,
+        "skill": "thrown-knife",
+        "damage": "thr-1 imp",
+        "accuracy": 0,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 0.5,
+          "maximum_multiplier": 1
+        },
+        "weight_pounds": 0.5,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 30,
+        "minimum_strength": 5,
+        "bulk": -1,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-wooden-stake-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wooden-stake-thrown",
+        "physical_key": "wooden-stake",
+        "technology": 0,
+        "skill": "thrown-knife",
+        "damage": "thr(0.5) imp",
+        "accuracy": 0,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 0.5,
+          "maximum_multiplier": 1
+        },
+        "weight_pounds": 0.5,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 4,
+        "minimum_strength": 5,
+        "bulk": -2,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-dagger-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "dagger-thrown",
+        "physical_key": "dagger",
+        "technology": 1,
+        "skill": "thrown-knife",
+        "damage": "thr-1 imp",
+        "accuracy": 0,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 0.5,
+          "maximum_multiplier": 1
+        },
+        "weight_pounds": 0.25,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 20,
+        "minimum_strength": 5,
+        "bulk": -1,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-throwing-star",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "throwing-star",
+        "physical_key": "throwing-star",
+        "technology": 3,
+        "skill": "thrown-star",
+        "damage": "thr-1 cut",
+        "accuracy": 1,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 0.5,
+          "maximum_multiplier": 1
+        },
+        "weight_pounds": 0.1,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 3,
+        "minimum_strength": 5,
+        "bulk": 0,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-spear-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "spear-thrown",
+        "physical_key": "spear",
+        "technology": 0,
+        "skill": "thrown-spear",
+        "damage": "thr+3 imp",
+        "accuracy": 2,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 1,
+          "maximum_multiplier": 1.5
+        },
+        "weight_pounds": 4,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 40,
+        "minimum_strength": 9,
+        "bulk": -6,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-javelin-thrown",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement the recorded ranged mode, exact strength/range basis, reload/ammunition and referenced notes. Shared physical keys preserve the same item across melee and thrown use. Source table visually reviewed; runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "javelin-thrown",
+        "physical_key": "javelin",
+        "technology": 1,
+        "skill": "thrown-spear",
+        "damage": "thr+1 imp",
+        "accuracy": 3,
+        "range": {
+          "basis": "wielder_strength",
+          "half_damage_multiplier": 1.5,
+          "maximum_multiplier": 2.5
+        },
+        "weight_pounds": 2,
+        "rate_of_fire": 1,
+        "shots": "T(1)",
+        "cost": 30,
+        "minimum_strength": 6,
+        "bulk": -4,
+        "notes": [],
+        "hand_rule": null
+      }
+    },
+    {
+      "id": "muscle-ranged-defaults",
+      "source": "full-2008",
+      "pages": "B275-B276",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Skill defaults: blowpipe dexterity-6; bolas and lasso none; bow dexterity-5; cloak dexterity-5, net-4 or shield-4; crossbow dexterity-4; net cloak-5; sling dexterity-6; spear launcher dexterity-5 or thrown spear-4; thrown axe/mace and knife dexterity-4; thrown harpoon dexterity-4 or thrown spear-2; throwing star dexterity-4 or general throwing-2; thrown spear dexterity-4, spear launcher-4 or thrown harpoon-2. No-default skills must not acquire an invented attribute default.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-1",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Blowpipe toxin/drug follow-up applies only after penetration and uses the selected substance procedure; the launcher itself supplies no universal poison.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-2",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Readying requires two hands but attacking only one; validate these phases independently.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-3",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Bow/crossbow arrow or bolt costs two; blowpipe dart or lead pellet costs one tenth; sling stones are free. Use correct per-shot weight and compatibility.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-4",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Entangling implements use B411 actual ensnaring rules rather than generic injury.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-5",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cocking lever permits twenty ready actions for a crossbow/prodd up to four strength above the user. Preserve setup/standing requirements from B270.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-6",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Net ranges have no half-damage threshold. Large-net maximum is strength/2 plus skill/5; combat-net maximum strength plus skill/5. Define fractional-yard handling explicitly.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-7",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stone projectiles are technology zero, lead pellets technology two; lead adds one damage and doubles range. The printed base sling row plus this note must be resolved without applying the lead bonus twice.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-note-8",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Tethered harpoon removal takes a ready action and successful strength; failure permits retry next turn. Removal causes half the original entry damage. Retain entry injury and attachment identity, not current weapon damage.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-launcher-components",
+      "source": "full-2008",
+      "pages": "B276",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spear-launcher body and its projectile have separate costs/masses. The javelin projectile is the same physical javelin available for melee/thrown use. Attack profile comes from projectile row plus launcher mechanism; loading does not merge or duplicate ownership.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-blade-defaults",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Muscle-powered cutting/impaling tips default to stone at technology zero, bronze one, iron two and steel three-plus. Wooden stakes and powered cutting tools are excluded. Item availability still applies; outdated materials usually use cheap-quality pricing.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-stone",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Stone blades use armor divisor one half on cutting/impaling, receive no fine-quality damage bonus and count as cheap for breakage against swung metal/advanced weapons regardless of actual quality.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-volcanic-glass",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Volcanic-glass blade at technology one is an ordinary-quality stone blade with cutting/impaling +1 and breakage +2. It permanently loses its extra damage after parrying a weapon, but not an unarmed attack, or striking protection two or more. Own sharpness state and retain stone armor divisor.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-bronze-iron",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Bronze and iron blades receive no fine-quality damage bonus. Against swung superior-material weapons, treat them as cheap for breakage regardless of actual quality. Author defines material ordering for unusual substances.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-steel",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Steel at technology three is the baseline blade material with ordinary quality/breakage rules. Do not add a separate steel damage bonus.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-composite-material",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Advanced nonmetallic material at technology seven halves weight and doubles price. Blades cannot exceed ordinary quality, while crushing weapons use normal grades. Treat material as steel for breakage, using its reduced actual weight; metal detectors cannot detect the nonmetallic weapon itself.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-silver-cost",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Solid silver melee weapons/arrowheads cost twenty times list and break as cheap; silver coating/edges cost three times and retain underlying breakage properties. Solid silver firearm projectiles require technology four-plus and cost fifty times list. Preserve special-order availability and underlying weapon identity.",
+      "tests": []
+    },
+    {
+      "id": "muscle-ranged-silver-vulnerability",
+      "source": "full-2008",
+      "pages": "B275",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Silver gives extra injury only against an actual silver vulnerability. Coated/edged weapons reduce its multiplier: two becomes one-and-a-half, three becomes two, four becomes three. This changes the vulnerability multiplier, not ordinary weapon damage or every target resistance.",
+      "tests": []
+    }
+  ]
+}

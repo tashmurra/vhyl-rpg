@@ -1,0 +1,2418 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B455-B461",
+  "review": "Creature chapter text, encounter statistics, animal training table, natural damage and swarm procedures reviewed. Encounter data preserves printed values and unresolved trait references; it is not an executable catalogue or complete ancestry accounting. Cross-reference, inheritance and independent numeric audits remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "creature-character-model",
+      "source": "full-2008",
+      "pages": "B455",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Animals and monsters use the shared character, ancestry, injury, fatigue and skill model rather than a second incompatible combatant class.",
+      "tests": []
+    },
+    {
+      "id": "creature-encounter-versus-player",
+      "source": "full-2008",
+      "pages": "B455-B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An abbreviated encounter profile may omit irrelevant character-building details, but a player-controlled creature requires full statistics and complete ancestry accounting; mark the profile completeness explicitly.",
+      "tests": []
+    },
+    {
+      "id": "creature-ancestry-average",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Convert listed average attributes to ancestry deltas by subtracting ten; individual purchases remain separate from those ancestry contributions.",
+      "tests": []
+    },
+    {
+      "id": "creature-secondary-defaults",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default health capacity to strength and fatigue capacity to health unless explicitly overridden; preserve listed will, perception, speed and movement deviations instead of overwriting them with human defaults.",
+      "tests": []
+    },
+    {
+      "id": "creature-dodge-derived",
+      "source": "full-2008",
+      "pages": "B456; B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Dodge is floor(basic speed)+3 plus relevant reflex bonuses; avoid adding a bonus twice when importing a printed final dodge value.",
+      "tests": []
+    },
+    {
+      "id": "creature-innate-survival",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A wild-animal package supplies native-habitat survival at perception even when omitted from the abbreviated skill list; an explicit listed survival score remains authoritative.",
+      "tests": []
+    },
+    {
+      "id": "creature-abbreviated-traits",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed trait list describes encounter-relevant abilities and is not a complete priced ancestry template; do not label a generated abbreviated profile fully accounted.",
+      "tests": []
+    },
+    {
+      "id": "creature-individual-variation",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author individual attribute, capacity, perception, will and movement variation while recomputing dependent values; printed suggested variation ranges are guidance, not universal hard caps.",
+      "tests": []
+    },
+    {
+      "id": "creature-fixed-intelligence",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Animal intelligence is normally fixed by its mental package; an exceptional higher-intelligence individual requires explicit authored permission and matching trait/price changes.",
+      "tests": []
+    },
+    {
+      "id": "creature-morphology-invariant",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary individual variation does not change the morphology package; any different body form is an explicit different template or transformation.",
+      "tests": []
+    },
+    {
+      "id": "creature-domestic-wild-choice",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only specifically supported species may substitute domestic and wild mental packages; training alone does not silently replace every wild creature's package.",
+      "tests": []
+    },
+    {
+      "id": "creature-individual-price",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Without a supplied formula, author market adjustments for improved or inferior traits and skills; do not infer a universal exchange rate from character points.",
+      "tests": []
+    },
+    {
+      "id": "creature-ordinary-pet",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary trained animals are purchased with currency and retain authored nonplayer control; purchase does not grant automatic obedience to every command.",
+      "tests": []
+    },
+    {
+      "id": "creature-unique-companion",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A unique animal companion uses a complete character point total and the ally trait rules rather than an ordinary livestock price alone.",
+      "tests": []
+    },
+    {
+      "id": "creature-training-specialty",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Animal training requires the appropriate handling specialty and a declared attainable training level for that creature's intelligence.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans"
+      ],
+      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
+    },
+    {
+      "id": "creature-training-schedule",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Training durations assume approximately four hours daily in two two-hour sessions; create owned progress records and reserve both trainer and animal time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans",
+        "tests/expanded.py::test_animal_sessions",
+        "tests/expanded.py::test_animal_session_persistence"
+      ],
+      "validation_note": "Owned course and two-hour attendance receipts enforce shared time, day boundaries and pending daily check. Fixtures unrun. Daily rolls, attack consequences and learned behavior remain pending."
+    },
+    {
+      "id": "creature-training-general-versus-trick",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The general training-level table and learning a single new trick are distinct operations; finishing one trick must not grant the whole level.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans",
+        "tests/expanded.py::test_animal_milestones",
+        "tests/expanded.py::test_learned_animal_tasks"
+      ],
+      "validation_note": "Owned course milestones feed explicit general-level or learned-trick task eligibility and handling checks. Fixtures unrun. Actual behavior and bad-failure attacks remain pending."
+    },
+    {
+      "id": "creature-wild-training",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Training a wild mental-package animal imposes -5 to handling, plus any separately applicable species modifier.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_plans"
+      ],
+      "validation_note": "Pure approved plan and schedule assessment authored; fixtures unrun. Daily execution and learned behavior remain pending."
+    },
+    {
+      "id": "creature-war-baseline",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "War training requires one year after ordinary intelligence-three-level training and doubles value; the listed light and heavy war-mount prices already include this and must not be doubled again.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-war-era",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Before technology four war training includes aggressive fighting even without the rider; later training emphasizes reliable behavior amid gunfire and screams. Preserve the selected behavior profile.",
+      "tests": []
+    },
+    {
+      "id": "creature-war-additional",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Up to three additional war-training years each grant +1 to combat riding/handling checks and increase base value by fifty percent; retain each completed year rather than stacking duplicate course records.",
+      "tests": []
+    },
+    {
+      "id": "creature-mount-occupancy",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An ordinary horse uses three hexes with rider in the middle; the listed donkeys and mules use two. Riding attachment must follow the actual creature footprint.",
+      "tests": []
+    },
+    {
+      "id": "creature-mount-strength-price",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A strength increase raises listed mount price by the same percentage, with exceptional premium requiring an authored override; do not confuse absolute strength points with percentage increase.",
+      "tests": []
+    },
+    {
+      "id": "creature-mount-speed-price",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Basic movement +1 doubles a riding animal's price and +2 quadruples it; enhanced movement multiplies actual running speed separately.",
+      "tests": []
+    },
+    {
+      "id": "creature-ape-handling",
+      "source": "full-2008",
+      "pages": "B455",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ape handling is at -1; their ordinary close attacks use grappling and biting rather than automatically selecting human punches or kicks.",
+      "tests": []
+    },
+    {
+      "id": "creature-bear-reaction",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A bear protecting cubs has -3 reactions; species temperament and any bad-temper trait remain separately applicable.",
+      "tests": []
+    },
+    {
+      "id": "creature-bear-posture",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A bear occupies two hexes on four legs and one when standing to fight; changing posture updates footprint and legal occupied spaces.",
+      "tests": []
+    },
+    {
+      "id": "creature-cat-training",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Cat training suitability is an authored behavior constraint; do not assume a purchased domestic package guarantees every permitted-intelligence trick can be taught.",
+      "tests": []
+    },
+    {
+      "id": "creature-dog-market",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A healthy trained ordinary dog has a listed minimum price of two hundred; superior breeds or capabilities use explicitly authored market prices.",
+      "tests": []
+    },
+    {
+      "id": "creature-falcon-dive",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A diving falcon can reach movement seventy; validate altitude, route and high-speed flight rules rather than granting that as ordinary level-flight movement.",
+      "tests": []
+    },
+    {
+      "id": "creature-camel-handling",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Camel handling is at -4; its reduced water consumption supports the listed four-day interval while other needs and fatigue remain tracked.",
+      "tests": []
+    },
+    {
+      "id": "creature-elephant-trunk",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The elephant body replaces the usual no-fine-manipulators restriction with its one-arm arrangement and a flexible long trunk at one-quarter strength; trunk tasks must use the appropriate limb strength.",
+      "tests": []
+    },
+    {
+      "id": "creature-gaze-creature",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The gaze-attacking small serpentine monster uses its three-dice toxic, resisted-curse, matter-power and vision-based attack; eye contact and applicable power countermeasures are real eligibility checks.",
+      "tests": []
+    },
+    {
+      "id": "creature-hybrid-immunity",
+      "source": "full-2008",
+      "pages": "B460-B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The winged hybrid is neither a mammal nor bird for abilities restricted to one group; its appearance alone must not select either immunity category.",
+      "tests": []
+    },
+    {
+      "id": "creature-hybrid-training",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A young-captured winged hybrid can be tamed at -3 handling, and its trained cooperation is restricted to its trainer; other wildcard handling rules still apply.",
+      "tests": []
+    },
+    {
+      "id": "creature-hybrid-market",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The listed healthy untamed hybrid has price five thousand; a tame one has no fixed market price and requires an authored availability decision.",
+      "tests": []
+    },
+    {
+      "id": "creature-blood-bird",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The blood-draining bird requires armor penetration before feeding, can target a helmet eye opening, and permits at most two such attackers through eye openings in a second; an eye hit can also cripple that eye.",
+      "tests": []
+    },
+    {
+      "id": "creature-venom-serpent",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The venomous serpent's fang follow-up deals two dice toxic damage, resisted at health-4, on four daily cycles; its specific immediate treatment bonus is +1 and the matching technology-six-or-higher antidote gives +2.",
+      "tests": []
+    },
+    {
+      "id": "creature-behavior-contract",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author threat, young/nest defense, hunger and other reasons for attack or flight; natural creatures do not universally fight to the death or switch targets without cause.",
+      "tests": []
+    },
+    {
+      "id": "creature-combat-integration",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Creature actions use the shared combat rules, including grapples, slams, trampling and multi-hex legality; printed encounter statistics alone do not implement these actions.",
+      "tests": []
+    },
+    {
+      "id": "creature-reach",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default natural-animal reach is close combat unless the definition supplies another reach; entering reach must obey occupied-space and engagement rules.",
+      "tests": []
+    },
+    {
+      "id": "creature-parry",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Animals without fine manipulators cannot parry; those with suitable manipulators may use the dexterity- or brawling-based unarmed parry, plus applicable defense traits.",
+      "tests": []
+    },
+    {
+      "id": "creature-block",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Natural animals cannot block under the ordinary procedure; do not infer shield use merely because a profile has an inventory slot.",
+      "tests": []
+    },
+    {
+      "id": "creature-innate-armor",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hide, shell and other listed natural resistance applies through shared damage assessment, retaining location restrictions such as skull-only protection.",
+      "tests": []
+    },
+    {
+      "id": "creature-training-level-two",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Intelligence-two training can establish recognition, food recall and limited nonaggression toward the trainer, without granting complex work commands.",
+      "tests": []
+    },
+    {
+      "id": "creature-training-level-three",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Intelligence-three training supports appropriate work commands and authored tolerance of humans or selected masters, with limited recall reliability.",
+      "tests": []
+    },
+    {
+      "id": "creature-training-level-four",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Intelligence-four training adds suitable fetch, attack, search and posture commands, warning behavior and defense of the trainer.",
+      "tests": []
+    },
+    {
+      "id": "creature-training-level-five",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Intelligence-five training permits more complex authored tricks but still requires species suitability and actual completed training.",
+      "tests": []
+    },
+    {
+      "id": "creature-training-time-2-2",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 2, training level 2 requires 60 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-2-3",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 2, training level 3 is impossible and must be rejected before spending time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-2-4",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 2, training level 4 is impossible and must be rejected before spending time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-2-5",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 2, training level 5 is impossible and must be rejected before spending time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-3-2",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 3, training level 2 requires 30 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-3-3",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 3, training level 3 requires 360 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-3-4",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 3, training level 4 is impossible and must be rejected before spending time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-3-5",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 3, training level 5 is impossible and must be rejected before spending time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-4-2",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 4, training level 2 requires 7 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-4-3",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 4, training level 3 requires 180 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-4-4",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 4, training level 4 requires 360 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-4-5",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 4, training level 5 is impossible and must be rejected before spending time.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-5-2",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 5, training level 2 requires 2 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-5-3",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 5, training level 3 requires 90 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-5-4",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 5, training level 4 requires 180 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-time-5-5",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For animal intelligence 5, training level 5 requires 720 scheduled training days at the stated daily workload.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-trick-time-3",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A specifically authorized new trick takes 90 training days for intelligence 3; track it separately from general training level.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-trick-time-4",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A specifically authorized new trick takes 30 training days for intelligence 4; track it separately from general training level.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-trick-time-5",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A specifically authorized new trick takes 14 training days for intelligence 5; track it separately from general training level.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure table assessment authored; fixtures unrun. Owned daily training and progress remain pending."
+    },
+    {
+      "id": "creature-training-value-two",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Training does not increase the value of an intelligence-two animal.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-training-value-three-untrained",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An untrained intelligence-three domestic animal costs two-thirds the ordinary trained base value; young specimens begin untrained.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-training-value-four-baseline",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An intelligence-four animal's ordinary price assumes intelligence-three-level training; without that training reduce price by one-third.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-training-value-four-trained",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Full intelligence-four training raises base value by fifty percent.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-training-value-five-trained",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Full intelligence-five training doubles base value, with lower training using the corresponding intelligence-four rule.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-training-value-enhanced-one",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A fully trained domestic animal one intelligence above its species norm uses a four-times-base price multiplier.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-training-value-enhanced-two",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A fully trained domestic animal two intelligence above normal uses a ten-times-base multiplier; this exceptional multiplier must not be accidentally multiplied by another full-training multiplier.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure exact-fraction value assessment authored with explicit baseline handling; fixtures unrun. Owned war training, combined adjustments and market purchases remain pending."
+    },
+    {
+      "id": "creature-natural-damage-bite",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A bite starts at thrust minus one; ordinary bite damage is crushing, sharp teeth change it to cutting and fangs to impaling.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-natural-damage-weak-bite",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weak bite adds a further penalty of two per die to bite damage.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-natural-damage-claw",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A claw starts at thrust minus one; blunt claws add one per die and remain crushing, while sharp claws change damage to cutting without that bonus.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-natural-damage-kick",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A kick starts at thrust; blunt claws or hooves add one per die crushing, while sharp claws yield cutting without that bonus.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-natural-damage-horizontal-kick",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Horizontal posture imposes -1 per die kicking without claws, cancelling the ordinary hoof bonus for the specified large-herbivore case.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-natural-damage-striker",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Horns, tusks and other strikers use thrust plus one per die with the damage type supplied by the actual striker trait.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-natural-damage-brawling",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Brawling at dexterity+2 or better adds one per die to these natural attacks; do not apply the bonus both in a precomputed profile and during attack resolution.",
+      "tests": [
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage"
+      ],
+      "validation_note": "Pure unmodified-thrust and shared strength-table assessments authored with separate anatomy and brawling contributions; fixtures unrun. Attack dispatch, unsupported intermediate strength rows and catalogue wiring remain pending."
+    },
+    {
+      "id": "creature-catalogue-small-ape",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 11,
+        "dexterity": 12,
+        "intelligence": 6,
+        "health": 12,
+        "will": 10,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 7,
+        "size": 0,
+        "weight_lb": 140,
+        "traits": [
+          "arm-strength+3",
+          "bad-grip:2",
+          "brachiation",
+          "armor:1",
+          "sharp-teeth",
+          "wild-animal"
+        ],
+        "skills": {
+          "climbing": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-large-ape",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 15,
+        "dexterity": 12,
+        "intelligence": 6,
+        "health": 12,
+        "will": 10,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 7,
+        "size": 1,
+        "weight_lb": 400,
+        "traits": [
+          "inherit:small-ape"
+        ],
+        "skills": {
+          "climbing": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-small-bear",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 14,
+        "dexterity": 11,
+        "intelligence": 4,
+        "health": 13,
+        "will": 12,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 7,
+        "size": 0,
+        "weight_lb": 300,
+        "traits": [
+          "blunt-claws",
+          "armor:2",
+          "no-fine-manipulators",
+          "semi-upright",
+          "sharp-teeth",
+          "temperature-tolerance:2",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 13
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-large-bear",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 19,
+        "dexterity": 11,
+        "intelligence": 4,
+        "health": 13,
+        "will": 11,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 8,
+        "size": 1,
+        "weight_lb": 800,
+        "traits": [
+          "inherit:small-bear",
+          "bad-temper:9"
+        ],
+        "skills": {
+          "brawling": 13
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-arctic-bear",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 20,
+        "dexterity": 11,
+        "intelligence": 4,
+        "health": 13,
+        "will": 11,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 7,
+        "size": 1,
+        "weight_lb": 1000,
+        "traits": [
+          "inherit:large-bear"
+        ],
+        "skills": {
+          "brawling": 13,
+          "swimming": 13
+        },
+        "movement_modes": {
+          "water": 3
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-prehistoric-bear",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 23,
+        "dexterity": 11,
+        "intelligence": 4,
+        "health": 13,
+        "will": 11,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 7,
+        "size": 1,
+        "weight_lb": 1400,
+        "traits": [
+          "inherit:large-bear"
+        ],
+        "skills": {
+          "brawling": 13
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-domestic-feline",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 4,
+        "dexterity": 14,
+        "intelligence": 4,
+        "health": 10,
+        "will": 11,
+        "perception": 12,
+        "speed": 6,
+        "dodge": 10,
+        "move": 10,
+        "size": -3,
+        "weight_lb": 10,
+        "traits": [
+          "fall-protection",
+          "combat-reflexes",
+          "domestic-animal",
+          "night-vision:5",
+          "quadruped",
+          "sharp-claws",
+          "sharp-teeth"
+        ],
+        "skills": {
+          "brawling": 16,
+          "jumping": 14,
+          "stealth": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-social-large-feline",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 16,
+        "dexterity": 13,
+        "intelligence": 4,
+        "health": 11,
+        "will": 11,
+        "perception": 12,
+        "speed": 6,
+        "dodge": 9,
+        "move": 10,
+        "size": 1,
+        "weight_lb": 500,
+        "traits": [
+          "armor:1",
+          "laziness",
+          "night-vision:5",
+          "quadruped",
+          "sharp-claws",
+          "sharp-teeth",
+          "temperature-tolerance:1",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 15,
+          "running": 13
+        },
+        "hexes": 2
+      }
+    },
+    {
+      "id": "creature-catalogue-solitary-large-feline",
+      "source": "full-2008",
+      "pages": "B456",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 17,
+        "dexterity": 13,
+        "intelligence": 4,
+        "health": 11,
+        "will": 11,
+        "perception": 12,
+        "speed": 6,
+        "dodge": 10,
+        "move": 10,
+        "size": 1,
+        "weight_lb": 500,
+        "traits": [
+          "combat-reflexes",
+          "armor:1",
+          "night-vision:5",
+          "quadruped",
+          "sharp-claws",
+          "sharp-teeth",
+          "temperature-tolerance:1",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 15,
+          "stealth": 13,
+          "swimming": 13
+        },
+        "hexes": 2
+      }
+    },
+    {
+      "id": "creature-catalogue-antlered-herbivore",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 12,
+        "dexterity": 13,
+        "intelligence": 3,
+        "health": 12,
+        "will": 10,
+        "perception": 10,
+        "speed": 6.25,
+        "dodge": 9,
+        "move": 9,
+        "size": 1,
+        "weight_lb": 200,
+        "traits": [
+          "hooves",
+          "impaling-striker:antlers",
+          "quadruped",
+          "weak-bite",
+          "wild-animal"
+        ],
+        "skills": {
+          "running": 13
+        },
+        "hexes": 2
+      }
+    },
+    {
+      "id": "creature-catalogue-guard-canine",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 9,
+        "dexterity": 11,
+        "intelligence": 4,
+        "health": 12,
+        "will": 10,
+        "perception": 12,
+        "speed": 5.75,
+        "dodge": 8,
+        "move": 10,
+        "size": 0,
+        "weight_lb": 90,
+        "traits": [
+          "social-company",
+          "discriminating-smell",
+          "domestic-animal",
+          "quadruped",
+          "sharp-teeth"
+        ],
+        "skills": {
+          "brawling": 13,
+          "tracking": 13
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-hunting-raptor",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 3,
+        "dexterity": 14,
+        "intelligence": 3,
+        "health": 10,
+        "will": 10,
+        "perception": 12,
+        "speed": 6,
+        "dodge": 9,
+        "move": 2,
+        "size": -4,
+        "weight_lb": 5,
+        "traits": [
+          "acute-vision:3",
+          "choose:domestic-or-wild",
+          "enhanced-air-move:1",
+          "winged-flight",
+          "no-fine-manipulators",
+          "sharp-beak",
+          "sharp-claws"
+        ],
+        "skills": {
+          "brawling": 16
+        },
+        "movement_modes": {
+          "air": 12,
+          "air_top": 24,
+          "dive": 70
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-large-marine-predator",
+      "source": "full-2008",
+      "pages": "B457-B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 19,
+        "dexterity": 13,
+        "intelligence": 2,
+        "health": 12,
+        "will": 10,
+        "perception": 12,
+        "speed": 6.25,
+        "dodge": 10,
+        "move": 7,
+        "size": 2,
+        "weight_lb": 900,
+        "traits": [
+          "bad-temper:9",
+          "combat-reflexes",
+          "crushing-striker:snout",
+          "discriminating-smell",
+          "gills",
+          "enhanced-water-move:1:costs-fatigue-2",
+          "fish-body",
+          "pressure-support:2",
+          "sharp-teeth",
+          "subsonic-hearing",
+          "vibration-sense",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 15,
+          "survival-open-ocean": 14
+        },
+        "hexes": 4,
+        "movement_modes": {
+          "water": 7,
+          "water_top": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-giant-marine-predator",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 38,
+        "dexterity": 10,
+        "intelligence": 2,
+        "health": 12,
+        "will": 10,
+        "perception": 10,
+        "speed": 5.5,
+        "dodge": 9,
+        "move": 7,
+        "size": 3,
+        "weight_lb": 7000,
+        "traits": [
+          "inherit:large-marine-predator",
+          "hard-to-kill:2"
+        ],
+        "skills": {
+          "brawling": 12,
+          "survival-open-ocean": 14
+        },
+        "hexes": 7,
+        "movement_modes": {
+          "water": 7,
+          "water_top": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-constrictor",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 13,
+        "dexterity": 12,
+        "intelligence": 2,
+        "health": 11,
+        "will": 10,
+        "perception": 10,
+        "speed": 5.75,
+        "dodge": 8,
+        "move": 4,
+        "size": 0,
+        "weight_lb": 225,
+        "traits": [
+          "cold-blooded:50F",
+          "constriction",
+          "serpentine-body",
+          "wild-animal"
+        ],
+        "skills": {
+          "stealth": 12,
+          "wrestling": 13
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-venomous-serpent",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 5,
+        "dexterity": 13,
+        "intelligence": 2,
+        "health": 11,
+        "will": 10,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 4,
+        "size": -1,
+        "weight_lb": 15,
+        "traits": [
+          "cold-blooded:50F",
+          "fangs",
+          "venom:2d:daily:4-cycles:health-4",
+          "serpentine-body",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 15,
+          "stealth": 13
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-large-tusked-forager",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 15,
+        "dexterity": 12,
+        "intelligence": 5,
+        "health": 14,
+        "will": 12,
+        "perception": 12,
+        "speed": 6.5,
+        "dodge": 10,
+        "move": 8,
+        "size": 1,
+        "weight_lb": 400,
+        "traits": [
+          "bad-temper:9",
+          "combat-reflexes",
+          "cutting-striker:tusks",
+          "armor:2",
+          "quadruped",
+          "wild-animal"
+        ],
+        "skills": {},
+        "hexes": 2
+      }
+    },
+    {
+      "id": "creature-catalogue-small-tusked-forager",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 8,
+        "dexterity": 12,
+        "intelligence": 5,
+        "health": 12,
+        "will": 12,
+        "perception": 12,
+        "speed": 6,
+        "dodge": 10,
+        "move": 7,
+        "size": -1,
+        "weight_lb": 45,
+        "traits": [
+          "inherit:large-tusked-forager",
+          "replace-armor:1"
+        ],
+        "skills": {}
+      }
+    },
+    {
+      "id": "creature-catalogue-pack-canine",
+      "source": "full-2008",
+      "pages": "B458",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 10,
+        "dexterity": 12,
+        "intelligence": 4,
+        "health": 12,
+        "will": 11,
+        "perception": 14,
+        "speed": 6,
+        "dodge": 9,
+        "move": 9,
+        "size": 0,
+        "weight_lb": 120,
+        "traits": [
+          "discriminating-smell",
+          "armor:1",
+          "night-vision:2",
+          "quadruped",
+          "sharp-teeth",
+          "temperature-tolerance:1",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 14,
+          "tracking": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-desert-mount",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 22,
+        "dexterity": 9,
+        "intelligence": 3,
+        "health": 12,
+        "will": 11,
+        "perception": 12,
+        "speed": 5.25,
+        "dodge": 8,
+        "move": 7,
+        "size": 1,
+        "weight_lb": 1400,
+        "traits": [
+          "bad-temper:12",
+          "domestic-animal",
+          "enhanced-ground-move:1",
+          "hooves",
+          "peripheral-vision",
+          "quadruped",
+          "reduced-water-consumption:3",
+          "stubbornness",
+          "weak-bite"
+        ],
+        "skills": {
+          "survival-desert": 12
+        },
+        "price": 1500,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-light-war-mount",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 22,
+        "dexterity": 9,
+        "intelligence": 3,
+        "health": 11,
+        "will": 11,
+        "perception": 12,
+        "speed": 5,
+        "dodge": 9,
+        "move": 8,
+        "size": 1,
+        "weight_lb": 1400,
+        "traits": [
+          "combat-reflexes",
+          "domestic-animal",
+          "enhanced-ground-move:1",
+          "hooves",
+          "peripheral-vision",
+          "quadruped",
+          "weak-bite"
+        ],
+        "skills": {
+          "brawling": 10,
+          "mount": 12
+        },
+        "price": 4000,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 16
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-small-draft-equine",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 15,
+        "dexterity": 10,
+        "intelligence": 3,
+        "health": 11,
+        "will": 11,
+        "perception": 12,
+        "speed": 5.25,
+        "dodge": 8,
+        "move": 5,
+        "size": 1,
+        "weight_lb": 500,
+        "traits": [
+          "domestic-animal",
+          "enhanced-ground-move:0.5",
+          "hooves",
+          "quadruped",
+          "weak-bite"
+        ],
+        "skills": {},
+        "price": 1000,
+        "hexes": 2,
+        "movement_modes": {
+          "ground_top": 8
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-heavy-draft-equine",
+      "source": "full-2008",
+      "pages": "B459-B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 25,
+        "dexterity": 9,
+        "intelligence": 3,
+        "health": 12,
+        "will": 10,
+        "perception": 11,
+        "speed": 5.25,
+        "dodge": 8,
+        "move": 6,
+        "size": 1,
+        "weight_lb": 2000,
+        "traits": [
+          "domestic-animal",
+          "enhanced-ground-move:1",
+          "hooves",
+          "peripheral-vision",
+          "quadruped",
+          "weak-bite"
+        ],
+        "skills": {},
+        "price": 2000,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 12
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-heavy-war-mount",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 24,
+        "dexterity": 9,
+        "intelligence": 3,
+        "health": 12,
+        "will": 11,
+        "perception": 12,
+        "speed": 5.25,
+        "dodge": 9,
+        "move": 7,
+        "size": 1,
+        "weight_lb": 1900,
+        "traits": [
+          "inherit:light-war-mount",
+          "bad-temper:12"
+        ],
+        "skills": {
+          "brawling": 12,
+          "mount": 13
+        },
+        "price": 5000,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-large-pack-hybrid",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 22,
+        "dexterity": 10,
+        "intelligence": 3,
+        "health": 12,
+        "will": 12,
+        "perception": 12,
+        "speed": 5.5,
+        "dodge": 8,
+        "move": 6,
+        "size": 1,
+        "weight_lb": 1400,
+        "traits": [
+          "inherit:small-draft-equine",
+          "sterile"
+        ],
+        "skills": {},
+        "price": 2000,
+        "hexes": 2,
+        "movement_modes": {
+          "ground_top": 9
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-small-riding-equine",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 18,
+        "dexterity": 10,
+        "intelligence": 3,
+        "health": 11,
+        "will": 11,
+        "perception": 12,
+        "speed": 5.25,
+        "dodge": 8,
+        "move": 7,
+        "size": 1,
+        "weight_lb": 800,
+        "traits": [
+          "inherit:heavy-draft-equine"
+        ],
+        "skills": {},
+        "price": 1500,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 14
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-racing-equine",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 20,
+        "dexterity": 9,
+        "intelligence": 3,
+        "health": 11,
+        "will": 11,
+        "perception": 11,
+        "speed": 5,
+        "dodge": 8,
+        "move": 9,
+        "size": 1,
+        "weight_lb": 1100,
+        "traits": [
+          "inherit:heavy-draft-equine"
+        ],
+        "skills": {
+          "mount": 12,
+          "running": 12
+        },
+        "price": 4000,
+        "price_is_minimum": true,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 18
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-ordinary-riding-equine",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 21,
+        "dexterity": 9,
+        "intelligence": 3,
+        "health": 11,
+        "will": 10,
+        "perception": 12,
+        "speed": 5,
+        "dodge": 8,
+        "move": 6,
+        "size": 1,
+        "weight_lb": 1200,
+        "traits": [
+          "inherit:heavy-draft-equine"
+        ],
+        "skills": {
+          "mount": 11
+        },
+        "price": 1200,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 12
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-small-pack-hybrid",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 18,
+        "dexterity": 10,
+        "intelligence": 3,
+        "health": 12,
+        "will": 12,
+        "perception": 12,
+        "speed": 5.5,
+        "dodge": 8,
+        "move": 5,
+        "size": 1,
+        "weight_lb": 800,
+        "traits": [
+          "inherit:small-draft-equine",
+          "sterile"
+        ],
+        "skills": {},
+        "price": 1000,
+        "hexes": 2,
+        "movement_modes": {
+          "ground_top": 8
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-giant-trunked-herbivore",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 45,
+        "dexterity": 12,
+        "intelligence": 5,
+        "health": 12,
+        "will": 10,
+        "perception": 10,
+        "speed": 4,
+        "dodge": 7,
+        "move": 4,
+        "size": 3,
+        "weight_lb": 12000,
+        "traits": [
+          "crushing-striker:tusks",
+          "choose:domestic-or-wild",
+          "armor:4",
+          "enhanced-ground-move:1",
+          "peripheral-vision",
+          "quadruped:replace-manipulators",
+          "one-arm",
+          "trunk:flexible:long+1:quarter-strength",
+          "weak-bite"
+        ],
+        "skills": {},
+        "price": 10000,
+        "weight_is_minimum": true,
+        "hexes": 10,
+        "movement_modes": {
+          "ground_top": 8
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-horned-draft-animal",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 27,
+        "dexterity": 8,
+        "intelligence": 3,
+        "health": 12,
+        "will": 12,
+        "perception": 10,
+        "speed": 5,
+        "dodge": 8,
+        "move": 4,
+        "size": 2,
+        "weight_lb": 2500,
+        "traits": [
+          "domestic-animal",
+          "armor:2:skull-only",
+          "enhanced-ground-move:1",
+          "impaling-striker:horns",
+          "neutered",
+          "quadruped",
+          "weak-bite"
+        ],
+        "skills": {},
+        "price": 1500,
+        "hexes": 3,
+        "movement_modes": {
+          "ground_top": 8
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-gaze-serpent",
+      "source": "full-2008",
+      "pages": "B460",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 2,
+        "dexterity": 12,
+        "intelligence": 3,
+        "health": 12,
+        "will": 10,
+        "perception": 10,
+        "speed": 6,
+        "dodge": 9,
+        "move": 4,
+        "size": -3,
+        "weight_lb": 2,
+        "traits": [
+          "armor:1",
+          "toxic-attack:3d:resisted-curse-1:matter-power:vision-based",
+          "serpentine-body",
+          "wild-animal"
+        ],
+        "skills": {}
+      }
+    },
+    {
+      "id": "creature-catalogue-winged-predator-hybrid",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 17,
+        "dexterity": 12,
+        "intelligence": 5,
+        "health": 12,
+        "will": 11,
+        "perception": 12,
+        "speed": 6,
+        "dodge": 10,
+        "move": 6,
+        "size": 1,
+        "weight_lb": 600,
+        "traits": [
+          "acute-vision:3",
+          "combat-reflexes",
+          "armor:2",
+          "enhanced-air-move:1",
+          "winged-flight",
+          "quadruped",
+          "sharp-beak",
+          "sharp-claws",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 14
+        },
+        "price": 5000,
+        "hexes": 2,
+        "movement_modes": {
+          "air": 12,
+          "air_top": 24
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-blood-draining-bird",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reproduce the supplied encounter values and resolve every listed trait, natural attack and skill. Preserve explicit secondary overrides, innate survival defaults and any inherited trait references. This abbreviated record is not a fully priced player-character template.",
+      "tests": [],
+      "encounter_data": {
+        "strength": 5,
+        "dexterity": 15,
+        "intelligence": 4,
+        "health": 11,
+        "will": 10,
+        "perception": 10,
+        "speed": 6.5,
+        "dodge": 9,
+        "move": 2,
+        "size": -1,
+        "weight_lb": 18,
+        "traits": [
+          "bloodlust:9",
+          "winged-flight",
+          "night-vision:5",
+          "no-fine-manipulators",
+          "blood-draining-bite",
+          "wild-animal"
+        ],
+        "skills": {
+          "brawling": 17
+        },
+        "movement_modes": {
+          "air": 12
+        }
+      }
+    },
+    {
+      "id": "creature-catalogue-price-lower-bounds",
+      "source": "full-2008",
+      "pages": "B457; B460",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The racing-equine price and giant trunked creature's mass are printed lower bounds, not exact maxima; preserve those qualifications in generated catalogue displays.",
+      "tests": []
+    },
+    {
+      "id": "creature-catalogue-hound-specialist",
+      "source": "full-2008",
+      "pages": "B457",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A specialized tracking canine has tracking fifteen or better rather than the ordinary guard-canine thirteen; identify this as a variant with an authored price.",
+      "tests": []
+    },
+    {
+      "id": "creature-swarm-unit",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A swarm is an owned group occupying one hex; it attacks victims within that hex, or one person per second without a map, and needs an authored reason to change victims.",
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
+    },
+    {
+      "id": "creature-swarm-automatic-attack",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Swarm attacks hit without attack or defense rolls and apply their listed damage each turn until dispersed; preserve this random-consumption difference from individual creatures.",
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
+    },
+    {
+      "id": "creature-swarm-tiny-clothing",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary clothing protects completely against tiny creatures for two seconds and low-technology armor for five, after which ingress defeats that protection.",
+      "tests": [
+        "tests/expanded.py::test_swarm_protection"
+      ],
+      "validation_note": "Owned exposure start and pure protection timing authored; fixtures unrun. Swarm damage, injury, encounter transitions and protection changes remain pending."
+    },
+    {
+      "id": "creature-swarm-special-clothing",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Appropriate sealed or specialist clothing may protect against specified swarms; validate the swarm type and covering rather than granting universal swarm immunity.",
+      "tests": [
+        "tests/expanded.py::test_swarm_protection"
+      ],
+      "validation_note": "Owned exposure start and pure protection timing authored; fixtures unrun. Swarm damage, injury, encounter transitions and protection changes remain pending."
+    },
+    {
+      "id": "creature-swarm-large-creatures",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Armor protects normally and indefinitely against larger swarm creatures such as rodents; do not apply insect ingress timing to all swarms.",
+      "tests": [
+        "tests/expanded.py::test_swarm_protection"
+      ],
+      "validation_note": "Owned exposure start and pure protection timing authored; fixtures unrun. Swarm damage, injury, encounter transitions and protection changes remain pending."
+    },
+    {
+      "id": "creature-swarm-countermeasure-contract",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored countermeasure identifies the swarm, required resources or terrain and effect, such as dispersal or loss of access; a generic success callback does not define those consequences.",
+      "tests": []
+    },
+    {
+      "id": "creature-swarm-incoming-attacks",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Attacks against a swarm hit automatically and allow no defense roll; calculate injury using diffuse-target rules, including their damage-type limitations.",
+      "tests": [
+        "tests/expanded.py::test_swarm_counterattacks"
+      ],
+      "validation_note": "Owned shield/stomp injury and dispersal, actor turn limits and pure diffuse caps authored; fixtures unrun. Ordinary weapon attack execution and shared weapon action budgets remain pending."
+    },
+    {
+      "id": "creature-swarm-shield-attack",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A shield can damage a flying swarm for two health per turn while a weapon attacks in the same turn; track the permitted paired actions without enabling unlimited repetitions.",
+      "tests": [
+        "tests/expanded.py::test_swarm_counterattacks"
+      ],
+      "validation_note": "Owned shield/stomp injury and dispersal, actor turn limits and pure diffuse caps authored; fixtures unrun. Ordinary weapon attack execution and shared weapon action budgets remain pending."
+    },
+    {
+      "id": "creature-swarm-stomp",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Stomping nonflying vermin causes one health per turn and can accompany a weapon attack; reject it against airborne swarms.",
+      "tests": [
+        "tests/expanded.py::test_swarm_counterattacks"
+      ],
+      "validation_note": "Owned shield/stomp injury and dispersal, actor turn limits and pure diffuse caps authored; fixtures unrun. Ordinary weapon attack execution and shared weapon action budgets remain pending."
+    },
+    {
+      "id": "creature-swarm-catalogue-flying-biters",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "The flying-biter example moves eight, inflicts one die cutting each turn, uses ordinary armor resistance and disperses after eight health loss.",
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
+    },
+    {
+      "id": "creature-swarm-catalogue-stinging-insects",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "The stinging-insect example flies at six, inflicts one direct injury each turn unless completely protected, disperses at twelve health loss and stops pursuing fifty yards from its nest; several swarms retain independent state.",
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
+    },
+    {
+      "id": "creature-swarm-catalogue-ground-biters",
+      "source": "full-2008",
+      "pages": "B461",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "The ground-biter example moves four, inflicts one die cutting each turn, uses ordinary armor resistance and disperses after six health loss.",
+      "tests": [
+        "tests/expanded.py::test_swarm_attacks"
+      ],
+      "validation_note": "Owned automatic contact attacks use the shared wound ledger with replay and per-second duplicate protection; fixtures unrun. Map occupancy, movement, incoming damage and dispersal remain incomplete."
+    },
+    {
+      "id": "creature-handling-task-modifiers",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Unfamiliar handlers and stressful circumstances each impose -5; complex tasks impose an authored penalty of at least -3.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables",
+        "tests/expanded.py::test_animal_handling",
+        "tests/expanded.py::test_animal_handling_modifiers",
+        "tests/expanded.py::test_learned_animal_tasks"
+      ],
+      "validation_note": "Owned course milestones feed explicit general-level or learned-trick task eligibility and handling checks. Fixtures unrun. Actual behavior and bad-failure attacks remain pending."
+    },
+    {
+      "id": "creature-handling-calming",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Wild or very frightened animals impose -5; man-killers impose -10. Do not stack mutually selected categories.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables",
+        "tests/expanded.py::test_animal_handling",
+        "tests/expanded.py::test_animal_handling_modifiers"
+      ],
+      "validation_note": "Owned shared-skill task/calming checks with time, revalidation and replay authored; fixtures unrun. Actual animal behavior responses, training and performance remain pending."
+    },
+    {
+      "id": "creature-handling-combat-prediction",
+      "source": "full-2008",
+      "pages": "B175",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Handling at 15 imposes -1 on attacks and defenses by animals in the specialty against the handler; at 20 this becomes -2.",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables"
+      ],
+      "validation_note": "Pure modifier assessment authored; fixtures unrun. Task and combat integration remain pending."
+    },
+    {
+      "id": "creature-handling-performance",
+      "source": "full-2008",
+      "pages": "B175; B212-B213",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Animal acts intended to entertain require a separate performance check in addition to handling. Preserve the two results without charging the same activity time twice.",
+      "tests": [
+        "tests/expanded.py::test_animal_performance"
+      ],
+      "validation_note": "Owned distinct performance receipt and replay authored; fixtures unrun. Audience consequences and creature behavior remain authored and are not claimed as implemented."
+    },
+    {
+      "id": "creature-training-daily-check",
+      "source": "full-2008",
+      "pages": "B175; B458-B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Roll handling once per training day; success credits learning and failure does not. A badly failed check provokes an attack. Preserve explicit author classification where the supplied passage does not define a numerical threshold.",
+      "tests": [
+        "tests/expanded.py::test_animal_daily",
+        "tests/expanded.py::test_animal_daily_failure"
+      ],
+      "validation_note": "Owned checks credit one successful day and retain failed days for explicit classification. Ordinary failure resolution and learned milestones authored; fixtures unrun. Attack execution remains pending."
+    },
+    {
+      "id": "creature-mount-move-price",
+      "source": "full-2008",
+      "pages": "B459",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "One additional Basic Move doubles a riding animal price and two additional Basic Move quadruples it. Distinguish this from Enhanced Move speed multiplication.",
+      "tests": [
+        "tests/expanded.py::test_animal_values"
+      ],
+      "validation_note": "Pure zero/one/two-increment price assessment authored; fixtures unrun. Combined baselines and purchasing remain pending."
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B455-B461",
+      "reason": "Exclude descriptive source prose, setting fiction, illustrations and narrative behavior anecdotes. Retain every encounter entry, numeric training row and applicable procedure using neutral identifiers."
+    },
+    {
+      "pages": "B457",
+      "reason": "Suggested individual variation and unspecified market effects remain authored guidance; do not invent mandatory limits or pricing formulas beyond those actually supplied."
+    }
+  ]
+}

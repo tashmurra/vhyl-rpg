@@ -19,9 +19,9 @@ class RpgSkill: object
     labelId = nil
     attribute = rpgIQ
     difficulty = 1
-    defaultPenalty = nil
-    /* Extension point for profiles that support additional difficulty bands. */
+    /* A specialized skill may opt into a wider validated difficulty range. */
     maximumDifficulty() { return 2; }
+    defaultPenalty = nil
 ;
 
 /** Investment in one skill. Zero reserves an untrained slot for progression;
@@ -281,14 +281,20 @@ class RpgAttempt: object
 
 /** Only accounted challenge time, in seconds; not a replacement world clock.
  * vhyl continues to schedule one cycle per accepted command. */
-rpgLedger: object seconds = 0;
+rpgLedger: object
+    seconds = 0
+    validateAdvance(seconds) { return nil; }
+    afterAdvance(previousSeconds) { return nil; }
+;
 
 /** Charge explicit adventure time with a checked persistent counter. */
 rpgSpendTime(seconds)
 {
     rpgInteger(seconds, 0, 86400);
     rpgInteger(rpgLedger.seconds, 0, 2147483647 - seconds);
-    rpgLedger.seconds += seconds; return nil;
+    rpgLedger.validateAdvance(seconds);
+    local previous = rpgLedger.seconds;
+    rpgLedger.seconds += seconds; rpgLedger.afterAdvance(previous); return nil;
 }
 
 /** Deterministic, journalled generator with overflow-safe arithmetic.
@@ -650,4 +656,23 @@ rpgValidateAttribute(value)
     if (!holds([rpgST, rpgDX, rpgIQ, rpgHT, rpgWill, rpgPerception], value))
         throw new RpgError();
     return nil;
+}
+
+/** Structured-action boundary with explicit exception cleanup and journal rollback.
+ * Use at the exported host boundary, not inside another action. This releases
+ * caught mechanics exceptions before returning to the host's save boundary. */
+rpgDispatchAction(verb,subjects)
+{
+    try { return vhylAct(verb,subjects); }
+    catch (RpgError error) { }
+    if (turnJournalLength() > 0) { endTurn(); undo(); beginTurn(); }
+    local result = new RpgResult(); result.reason = 'exception-rolled-back'; return result;
+}
+/** Parser counterpart of rpgDispatchAction, with the same journal boundary. */
+rpgDispatchTurn(tokens)
+{
+    try { return vhylTurn(tokens); }
+    catch (RpgError error) { }
+    if (turnJournalLength() > 0) { endTurn(); undo(); beginTurn(); }
+    local result = new RpgResult(); result.reason = 'exception-rolled-back'; return result;
 }

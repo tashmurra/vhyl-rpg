@@ -1,55 +1,185 @@
-# Character and social integration
+# Expanded rules: experimental implementation
 
-This interim milestone contains the character and social subset of the expanded
-rules project, packaged as v1.1.0-alpha.1 for Bellwether integration.
-It is not a complete conversion of the full reference.
+This is an incremental implementation, **not a complete full-reference conversion**.
+The [library catalogue](../libraries.md) separates available modules from proposed
+ones. The [coverage ledger](coverage.json) records implemented features, pending
+modules and the unfinished detailed source inventory. The [detailed source inventory](inventory/index.md) records individual obligations
+and the evidence still needed. The full conversion cannot be accepted while those
+entries remain unresolved.
 
-## Includes
+The [fear and mental-state completion audit](fear-completion.md) records the
+subsystem requirements, outstanding integration work and validation status.
 
-Include `vhyl-rpg.t`, `vhyl-rpg-progression.t` and `vhyl-rpg-lite.t`, then
-`vhyl-rpg-expanded-character-social.t`. This umbrella includes foundation,
-characters, skills, traits, templates and social exactly once. For smaller games,
-include the foundation and only the components listed in the
-[library catalogue](../libraries.md). No cinematic or wildcard option is enabled
-merely by including a module.
+## Integration
 
-Create an `RpgExpandedRules` object and give each `RpgExpandedProfile` a `rules`
-reference. Keep training, traits, reputation, knowledge and encounter records
-owned by their respective characters. Shared skill definitions and templates are
-immutable author data; each template creation produces fresh character state.
-Use `rpgExpandedValidateCharacter` before admitting a created character to play,
-then set `creationComplete = true`.
+```text
+#include <vhyl.h>
+#include <vhyl.t>
+#include <vhyl-rpg.t>
+#include <vhyl-rpg-progression.t>
+#include <vhyl-rpg-lite.t>
+#include <vhyl-rpg-expanded-all.t>
+```
 
-## Shared state and actions
+Alternatively, include `vhyl-rpg-expanded.t` and individual available modules
+once, in dependency order. Development additionally requires expanded skills;
+hazards requires expanded health and skills. Character-cost queries additionally require
+expanded characters. Technology requires equipment; its effective-software
+technology context also uses skills, while committed prototype accidents and
+completion require health's supported wound adapter. See the
+[technology lifecycle table](technology.md) for operation-specific limits.
+The all umbrella includes only available modules; it is not a promise of complete
+coverage. Existing Lite APIs retain their abridged behavior.
 
-Expanded profiles inherit the Lite injury, fatigue, inventory and money state and
-the progression point bank. There is no second character ledger. Call mutating
-operations from an `Action.exec` or the existing dialogue transaction. Preview
-methods do not spend resources or draw randomness. An authored operation may
-return `blocked`, `ready`, `resolved` or `reused`; inspect its reason instead of
-assuming a callback or table assessment performed a world action.
+Create an owned `RpgExpandedRules` and `RpgExpandedProfile`, assigning `rules`.
+Use `rpgExpandedValidateCharacter` when the characters module is installed.
+Validation covers secondary limits, training-slot duplication and point budgets;
+it does not yet validate the full trait/skill catalogues, social backgrounds,
+ancestry exceptions or all language combinations. Never treat a successful check
+as certification of a complete full-reference character.
 
-Private reaction, recognition and loyalty results belong to trusted author code.
-Publish NPC dialogue and concrete consequences, not private numeric results.
-Keep world truth, NPC beliefs, statements heard and the player's beliefs distinct.
-The [Town Registry](../../examples/bellwether/README.md) demonstrates these
-boundaries with parser, structured-action and dialogue entry points.
+`hpAdjustment`, `fpAdjustment`, `willAdjustment`, `perceptionAdjustment`,
+`speedQuarterAdjustment` and `moveAdjustment` represent purchased changes.
+Derived values remain tied to the underlying attributes. One speed unit is one
+quarter point. The character cost includes each signed component separately, so
+negative adjustments cannot disappear when mixed with positive adjustments.
+The default limits describe ordinary characters; `exceptionalCharacteristics`
+permits the wider authored range. Size-based price reductions are not implemented.
+Inherited core initialization still limits declared basic attributes to 100.
 
-Undo, exception rollback and saves use vhyl's existing transaction mechanism.
-Saves remain tied to the exact compiled game. This milestone supplies no old-save
-migration. Lite behavior should remain unchanged when expansions are absent;
-the release checks cover the existing core and Lite regressions.
+Optional modules can add owned `RpgExpandedContribution` objects. A contribution
+has a unique ID, an owner, a pure list of signed `amounts(profile)`, and a pure
+`validate(profile)` method. Do not count skill/trait investment in a contribution
+if it is already included in `skills` or `traits`.
 
-## Boundaries
+## Skills, techniques and trait pricing
 
-Authored definitions are supported; full trait, skill and spell catalogues are
-not supplied. Trait price arithmetic does not provide supernatural effects.
-Occupational templates do not implement ancestry construction. Influence contests,
-contacts, complete social permissions, expanded combat/injury, campaign economics
-and other full-suite modules remain outside this interim branch. Trade tables
-produce terms; they do not transfer inventory. These exclusions do not remove them
-from the ongoing full-suite project.
+`RpgExpandedSkill` accepts difficulty 0–3. `rpgExpandedSkillLevel` and
+`rpgExpandedSkillCost` implement the four difficulty columns. A wildcard uses
+Very Hard difficulty, triples point prices, and requires `rules.wildcardSkills`.
+A partially funded wildcard below three points has no purchased level.
 
-See [characters](characters.md), [skills](skills.md), [traits](traits.md),
-[templates](templates.md) and [social](social.md), with neutral provenance in the
-[source guide](../provenance.md).
+`defaults` contains explicit `[skill, penalty]` pairs. Only invested source skills
+supply skill defaults: a chain of untrained defaults supplies no level.
+`RpgExpandedTraining.defaultFrom` explicitly selects a listed paid-up default
+basis. Its current equivalent point credit combines with invested points; raising
+the source skill therefore need not immediately raise the purchased destination.
+Cyclic paid defaults throw an error. Automatic redistribution of investment when
+switching the direction of a default is not implemented.
+
+Skills are authored definitions, not a full catalogue. Prerequisites, familiarity,
+optional specialties and technological cross-level penalties have explicit
+interfaces described in the [skills guide](skills.md).
+The inherited Lite score pipeline applies its existing situational adjustments.
+
+`RpgExpandedTechnique` is an owned contribution with a trained parent skill,
+default penalty, maximum above that skill, difficulty and invested points. Add it
+to `profile.contributions` to include its cost. `score()` follows the current parent
+skill and rejects investment above its cap. Technique-specific maneuvers and
+prerequisites beyond the invested parent are not implemented.
+
+`rpgExpandedModifiedCost` prices positive-cost traits using a summed percentage,
+a minimum 20% multiplier and upward integer rounding. `RpgExpandedTrait` requires
+explicit author approval. This is **pricing only**: it neither implements the
+modifiers' effects nor certifies their compatibility. Signed-cost modifiers and self-control pricing have explicit interfaces in the
+[traits guide](traits.md); the full catalogue and many special exceptions remain pending.
+
+## Numeric expansion helpers
+
+`rpgExpandedRangeModifier` uses the full progression, including the seven-yard
+row. It accepts whole yards through 100 million and rounds up to the next row.
+Supply the applicable sum of range and speed; deciding whether speed matters is
+a world-context decision. Existing Lite attacks do not automatically call this
+helper: pass its result through the existing maneuver `rangeModifier` field.
+
+`rpgExpandedDamageDice` supplies printed rows at ST 1–40, then 45, 50, …, 100.
+Unsupported intermediate scores above 40 throw; no interpolation is invented.
+It is a lookup helper, not an expanded combat integration. Existing Lite combat
+continues to use its own damage table and rejects higher ST.
+
+`RpgExpandedTaskTime.assess(rules)` returns `status`, `reason`, `modifier` and
+`seconds`. Positive steps 1–5 select 2, 4, 8, 15 or 30 times normal duration.
+Negative steps reduce duration by 10% each. Fractional seconds round upward,
+an explicit library policy. The author must set `applicable`; combat is excluded.
+Instant tasks additionally require `cinematicInstantTasks`. Skill-specific timing
+rules take precedence; this helper must not be applied to spell casting.
+Assessment never charges time or draws dice. A game commits the selected check
+and its time once, inside an executing action.
+
+## Study and persistence
+
+An owned `RpgExpandedStudy` refers to a training slot already owned by its profile.
+Set the mode to `job`, `self`, `education` or `intensive`, and explicitly permit
+study only after the scene has checked subject prerequisites, access and materials.
+`employment` is `none`, `part` or `full`. Education requires a qualified teacher;
+intensive training additionally checks superior skill/investment, suitable health
+and `lavishMaterials`. The supplied `teachingScore` is the author's verified
+teacher qualification, not a free player input.
+
+`assess(seconds)` is pure. `advance(seconds)` charges the common time ledger and
+credits only its training subject. A started track rejects retargeting to another
+profile, training slot or subject. It never grants spendable adventure points.
+Credit is stored in quarter learning-seconds, preserving fractional rates and
+partial intervals. Daily mode budgets are shared across the profile's study
+tracks. A call crossing midnight is rejected; split it at the boundary. These
+calendar days are measured from the adventure ledger's epoch. Simultaneous group
+study and other overlapping elapsed-time accounting are not supported.
+
+All mutation belongs in a vhyl Action or committed dialogue choice. Undo,
+exceptions and logical saves preserve clocks and investment together. Save files
+still require the exact compiled game. No old-save migration is provided.
+
+## Outstanding conversion
+
+Complete the detailed inventory of sections, tables and catalogue entries first.
+Then finish the character/skill/trait modules, templates, social and exploration
+procedures, the remaining detailed health and hazard procedures, combat/tactical
+integration, supernatural systems,
+creatures, technology, vehicles and campaign procedures. Each pending module has
+its own guide and status in the catalogue. The planned multi-scenario examples and
+complete cross-module validation are also outstanding.
+
+
+### High-capacity shock
+
+The [health module](health.md) now exposes the B419 shock divisor through an
+explicit `scaledInjuryShock` rule choice. It reuses the existing injury and shock
+fields; full detailed injury and treatment remain pending. The all-module umbrella
+includes this capability without enabling the choice. Authored cases are unrun.
+
+
+### Treatment and hazards
+
+The health module also supplies owned supported wounds, upper-limb restrictions,
+disability recovery, physician rosters and checks, bandaging and post-bandaging
+care. Surgery currently has assessment helpers. These interfaces share injury,
+recovery restrictions and time rather than creating another character balance.
+
+The [hazards module](hazards.md) uses those wound records for private infection
+acquisition and daily progression. It adds disease-specific first-attempt immunity
+and calendar-authored aging events. Broader diseases, environmental hazards,
+automatic scheduling and rejuvenation remain incomplete. Their guides and source
+entries identify unsupported cases and authored test coverage; validation is in progress.
+
+
+The [combat module](combat.md) now supplies pure ordinary burst declaration,
+rate-of-fire bonus, recoil hit-count and supplied-roll Dodge assessments. The
+umbrella includes it without replacing existing attacks. Owned attack execution
+and per-hit injury remain incomplete; new fixtures are authored but unrun.
+
+## Character/social subset
+
+The [subset integration guide](character-social.md) documents the smaller
+`vhyl-rpg-expanded-character-social.t` umbrella imported from main. Include it
+instead of the all-module umbrella, never alongside it: both include foundation
+and shared components. The original prerelease validation record does not certify
+this merged branch; validation is in progress.
+
+The [current completion scope](current-scope.md) identifies the selected modules
+and the remaining acceptance obligations.
+
+The [optional accumulating stress library](stress.md) implements original campaign
+rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.
+It is inactive until configured and separate from reference-derived fear.
+The focused fear milestone and its validation status are tracked in the
+completion checklist; the wider rules conversion remains incomplete.

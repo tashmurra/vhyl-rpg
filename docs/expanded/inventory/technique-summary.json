@@ -1,0 +1,788 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B304 techniques; B229-B233 detailed definitions",
+  "review": "All twenty-seven summary rows compared for difficulty/default with the detailed definitions. Twenty-nine detailed definitions now have structured technique metadata; rope-descent difficulty remains an explicit interpretation. Execution and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "technique-summary-joint-restraint",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "key": "joint-restraint",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-joint-restraint"
+        },
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "throw-grappling",
+            "offset": 0
+          },
+          {
+            "skill": "wrestling",
+            "offset": 0
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-rear-kick",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "key": "rear-kick",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-rear-kick"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "advanced-striking",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-throat-restraint",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "key": "throat-restraint",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-throat-restraint"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "throw-grappling",
+            "offset": -2
+          },
+          {
+            "skill": "wrestling",
+            "offset": -3
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-disarm",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "key": "disarm",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-disarm"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "unarmed-combat-or-melee-weapon",
+            "offset": 0
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-paired-weapons",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "key": "paired-weapons",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-paired-weapons"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "one-handed-melee-weapon",
+            "offset": -4
+          },
+          {
+            "skill": "guns-pistol",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": true,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-elbow",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "key": "elbow",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-elbow"
+        },
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "brawling",
+            "offset": -2
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -2
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-feint",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "key": "feint",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-feint"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "unarmed-combat-or-melee-weapon",
+            "offset": 0
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-finger-restraint",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "key": "finger-restraint",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-finger-restraint"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "technique": "joint-restraint",
+            "offset": -3
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-ground-fighting",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "key": "ground-fighting",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-ground-fighting"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "unarmed-combat-or-melee-weapon",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-mounted-bow",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "key": "mounted-bow",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-mounted-bow"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "bow",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-voice-impersonation",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "key": "voice-impersonation",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-voice-impersonation"
+        },
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "mimicry-speech",
+            "offset": -3
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-leaping-kick",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "key": "leaping-kick",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-leaping-kick"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "advanced-striking",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-kick",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "key": "kick",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-kick"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "brawling",
+            "offset": -2
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -2
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-knee",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "key": "knee",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-knee"
+        },
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "brawling",
+            "offset": -1
+          },
+          {
+            "skill": "advanced-striking",
+            "offset": -1
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-water-rescue",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "key": "water-rescue",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-water-rescue"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "swimming",
+            "offset": -5
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-moving-image-camera",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "key": "moving-image-camera",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-moving-image-camera"
+        },
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "photography",
+            "offset": -3
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-neck-twist",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "key": "neck-twist",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-neck-twist"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "attribute": "strength",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-airborne-pickup",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "key": "airborne-pickup",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-airborne-pickup"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "piloting",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-off-hand-training",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "key": "off-hand-training",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-off-hand-training"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "melee-weapon",
+            "offset": -4
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-weapon-retention",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "key": "weapon-retention",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-weapon-retention"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill_category": "melee-weapon",
+            "offset": 0
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-rope-ascent",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "key": "rope-ascent",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-rope-ascent"
+        },
+        "difficulty": "average",
+        "defaults": [
+          {
+            "skill": "climbing",
+            "offset": -2
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-smooth-surface-ascent",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "key": "smooth-surface-ascent",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-smooth-surface-ascent"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "climbing",
+            "offset": -3
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-trigger-rigging",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "key": "trigger-rigging",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-trigger-rigging"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "explosives-demolition",
+            "offset": -2
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-cuff-escape",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "key": "cuff-escape",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-cuff-escape"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "escape",
+            "offset": -5
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-sweep",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "key": "sweep",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-sweep"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "polearm",
+            "offset": -3
+          },
+          {
+            "skill": "spear",
+            "offset": -3
+          },
+          {
+            "skill": "staff",
+            "offset": -3
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-circular-attack",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "key": "circular-attack",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-circular-attack"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "broadsword",
+            "offset": -5
+          },
+          {
+            "skill": "staff",
+            "offset": -5
+          },
+          {
+            "skill": "two-hand-sword",
+            "offset": -5
+          }
+        ],
+        "cinematic_marker": true,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-touch-lockwork",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Summary difficulty and default were compared with the detailed technique definition. Use the detailed prerequisites, cap, specialty and execution conditions; summary omission does not remove an exception. Runtime behavior and independent fixtures remain pending.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "key": "touch-lockwork",
+        "target": {
+          "file": "skills-procedures.json",
+          "entry": "technique-touch-lockwork"
+        },
+        "difficulty": "hard",
+        "defaults": [
+          {
+            "skill": "lockpicking",
+            "offset": -5
+          }
+        ],
+        "cinematic_marker": false,
+        "reconciliation": "summary difficulty/default matched; detailed exceptions retained"
+      }
+    },
+    {
+      "id": "technique-summary-omitted-variants",
+      "source": "full-2008",
+      "pages": "B232-B233; B304",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The summary has twenty-seven rows, while the detailed catalogue also describes unarmed leg sweep and rope descent. Preserve both variants, the ranged weapon-retention dexterity default, the realistic pistol exception for paired attacks, subject-specific voice impersonation and the uncapped camera technique. Do not derive catalogue completeness solely from the summary list.",
+      "tests": []
+    }
+  ]
+}

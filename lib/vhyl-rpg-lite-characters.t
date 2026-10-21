@@ -1,11 +1,14 @@
 /** Owned, parameterized advantage or disadvantage; scope identifies authored subjects or specialties. */
 class RpgLiteTrait: RpgTrait
+    validateDirectControl() { return nil; }
     id = nil
     points = 0
     level = 1
     skills = []
     scope = nil
     controlled = nil
+    selfControlNumber() { return 12; }
+    selfControlPreflight() { return nil; }
     active = true
     mitigated = nil
     nextCheck = 0
@@ -37,6 +40,26 @@ class RpgLiteSkill: RpgSkill
 
 /** Lite character sheet. Injury and fatigue are deficits, not the legacy energy/body pools. */
 class RpgLiteProfile: RpgProfile
+    /* Contextual catalogue bonuses; keep the abridged membership unchanged. */
+    catalogueTalentCheckModifier(skill)
+    {
+        local id = skill.ofKind(RpgLiteSkill) ? skill.id : nil;
+        local bonus = 0;
+        if (holds(['armoury','electronics-repair','engineer','mechanic'],id)) bonus += self.level('artificer');
+        if (holds(['camouflage','naturalist','navigation','survival','tracking'],id)) bonus += self.level('outdoorsman');
+        if (skill.ofKind(RpgLiteSkill) && (skill.influence
+            || holds(['acting','carousing','leadership','public-speaking'],id))) bonus += self.level('smooth-operator');
+        return bonus;
+    }
+    /* Default hooks do not consume time or randomness. Optional modules restore passive abilities. */
+    onUnconscious() { return nil; }
+    onKnockdown() { return nil; }
+    onSleep() { return nil; }
+    stunRecoveryOwned() { return nil; }
+    unconsciousRecoveryOwned() { return self.unconsciousRecoveryApartFrom(nil); }
+    unconsciousRecoveryApartFrom(owner) { return nil; }
+    becomeUnconscious() { self.unconscious = true; self.onUnconscious(); return nil; }
+
     campaignTL = 3
     techLevel = 3
     languages = []
@@ -47,7 +70,59 @@ class RpgLiteProfile: RpgProfile
     creationComplete = nil
     injury = 0
     fatigue = 0
+    afterHealing() { return nil; }
+    validateCombatVision() { return nil; }
+    additionalRecoveryLockedFatigue() { return 0; }
+    validateHealing(amount) { return nil; }
+    /* Contextual health adjustments must not alter purchased attributes. */
+    healthAttributeModifier(context) { return 0; }
+    healthSelfControlModifier(trait) { return 0; }
+    healthCheckReason(context) { return nil; }
+    directStrikeReason(request) { return nil; }
+    recordDirectPhysicalAttack(attacker,defender,result) { return nil; }
+    healthManeuverReason(kind) { return self.healthManeuverReasonFor(kind,nil); }
+    healthManeuverReasonFor(kind,request) { return nil; }
+    healthManeuverRequestReason(request) { return self.healthManeuverReason(request.kind); }
+    voluntaryMovementUnavailable() { return nil; }
+    postureChangeReason(posture) { return nil; }
+    legUsePenalty() { return 0; }
+    onEquipmentDropped(item) { return nil; }
+    onEquipmentUnavailable(item, cause) { return nil; }
+    groundMoveBase() { return self.basicMove(); }
+    healthEffortReason(purpose, mentalAbility, speech, movement)
+    { return self.healthEffortReasonFor(purpose,mentalAbility,speech,movement,nil); }
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization) { return nil; }
+    healthDefensePenalty() { return 0; }
+    afterNeedsCycle(needs) { return nil; }
+    quirkCountsTowardCreationLimit(trait) { return true; }
+    naturalRecoveryInterval() { return 86400; }
+    naturalRecoveryModifier() { return 0; }
+    naturalRecoveryAmount() { return 1; }
+    naturalRecoveryNeeded() { return true; }
+    validateNaturalRecovery(seconds, food, allowed) { return nil; }
     shock = 0
+    /* Effective penalties leave the underlying injury/condition ledger intact. */
+    effectiveShock() { return self.shock; }
+    injuryReducesMove() { return self.hp() * 3 < self.maxHP; }
+    combatStunned() { return self.stunned || self.mentalStun; }
+    physicalStunned() { return self.stunned; }
+    survivalAppearanceThreshold() { return self.ht; }
+    validateInjuryKnockdownCommit(modifier) { return nil; }
+    /* Pure injury extension; the default preserves the abridged penalty. */
+    shockFromInjury(amount) { return amount; }
+    shockLimit() { return 4; }
+    validateInjury(amount) { return nil; }
+    muscleDamageStrength() { return self.st; }
+    handlingStrength() { return self.st; }
+    weaponStrength(weapon) { return weapon.id == 'crossbow' ? weapon.weaponST : self.handlingStrength(); }
+    afterInjuryShock(amount, result) { return nil; }
+    /* Retain only shock from injury suffered during this character's turn. */
+    shockAfterTurn(counterInjury)
+    {
+        if (self.level('high-pain-threshold') > 0) return 0;
+        local penalty = self.shockFromInjury(counterInjury);
+        return penalty > self.shockLimit() ? self.shockLimit() : penalty;
+    }
     stunned = nil
     mentalStun = nil
     unconscious = nil
@@ -111,25 +186,28 @@ class RpgLiteProfile: RpgProfile
     loadHundredths()
     {
         local amount = 0;
-        foreach (local item in self.equipment) amount += item.weightHundredths();
+        foreach (local item in self.equipment)
+            if (item.usableBy(self)) amount += item.weightHundredths();
         return amount;
     }
     encumbrance()
     {
-        local weight = self.loadHundredths(); local lift = self.basicLiftHundredths();
-        local factors = [1, 2, 3, 6, 10];
-        for (local index = 1; index <= 5; index += 1)
-            if (weight <= lift * factors[index]) return index - 1;
-        return 5;
+        return rpgLiteLoadLevel(self.loadHundredths(),self.basicLiftHundredths());
     }
-    move()
+    moveBeforePosture()
     {
         local load = self.encumbrance();
         if (load == 5 || self.unconscious || self.dead) return 0;
-        local amount = self.basicMove() * (5 - load) / 5;
+        local amount = self.groundMoveBase() * (5 - load) / 5;
         if (amount < 1) amount = 1;
-        if (self.hp() * 3 < self.maxHP) amount = (amount + 1) / 2;
+        if (self.injuryReducesMove()) amount = (amount + 1) / 2;
         if (self.fp() * 3 < self.maxEnergy) amount = (amount + 1) / 2;
+        return amount;
+    }
+    move()
+    {
+        local amount = self.moveBeforePosture();
+        if (amount == 0) return 0;
         if (self.posture == 'crouching') amount = amount * 2 / 3;
         if (self.posture == 'kneeling' || self.posture == 'crawling') amount /= 3;
         if (self.posture == 'sitting') amount = 0;
@@ -179,6 +257,7 @@ class RpgLiteContext: object
     language = nil
     written = nil
     resistedTrait = nil
+    requiresConcentration = nil
     scoreFor(profile)
     {
         return self.skill == nil ? profile.attributeScore(self.attribute)
@@ -186,7 +265,14 @@ class RpgLiteContext: object
     }
     controllingAttribute() { return self.skill == nil ? self.attribute : self.skill.attribute; }
     skillUseModifier(profile) { return 0; }
+    legUse = 'auto'
+    limbUseModifier(profile) { return 0; }
     equipmentUseModifier(profile) { return 0; }
+    socialTraitModifier(profile) { return 0; }
+    culturalUseModifier(profile) { return 0; }
+    sensoryUseModifier(profile) { return 0; }
+    validateInfluenceTarget(target) { return nil; }
+    influenceResistanceModifier(target) { return 0; }
     unavailableReason(profile) { return 'training-required'; }
     reroll(profile, result) { return nil; }
 ;
@@ -194,7 +280,10 @@ class RpgLiteContext: object
 /** Calculate effective skill or attribute without consuming randomness; nil means no legal default. */
 rpgLiteScore(profile, context)
 {
+    if (profile.healthCheckReason(context) != nil) return nil;
     local score = context.scoreFor(profile);
+    if (score == nil) return nil;
+    score = profile.environmentBaseScore(context,score);
     if (score == nil) return nil;
     local attribute = context.controllingAttribute();
     local skillId = context.skill != nil && context.skill.ofKind(RpgLiteSkill) ? context.skill.id : nil;
@@ -202,13 +291,18 @@ rpgLiteScore(profile, context)
     if (useModifier == nil) return nil;
     local equipmentModifier = context.equipmentUseModifier(profile);
     if (equipmentModifier == nil) return nil;
-    local adjustment = context.modifier + useModifier + equipmentModifier;
+    local cultureModifier = context.culturalUseModifier(profile);
+    if (cultureModifier == nil) return nil;
+    local sensoryModifier = context.sensoryUseModifier(profile);
+    if (sensoryModifier == nil) return nil;
+    local adjustment = context.modifier + useModifier + equipmentModifier + cultureModifier + sensoryModifier
+        + profile.healthAttributeModifier(context) + context.limbUseModifier(profile) + context.socialTraitModifier(profile);
     if (context.offHand && profile.level('ambidexterity') == 0 && skillId != 'karate') adjustment -= 4;
     local darkness = context.darkness;
     if (context.someLight) darkness -= profile.level('night-vision');
     if (darkness > 0) adjustment -= darkness;
     if (profile.level('high-pain-threshold') == 0 && context.kind != 'defense' && (attribute == rpgDX || attribute == rpgIQ))
-        adjustment -= profile.shock;
+        adjustment -= profile.effectiveShock();
     if (profile.sleepPenalty && (attribute == rpgDX || attribute == rpgIQ)) adjustment -= 2;
     if (attribute == rpgDX && context.kind != 'extinguish') adjustment -= profile.burningPenalty;
     if (context.phobiaPresent && (attribute == rpgIQ || attribute == rpgDX || context.skill != nil))
@@ -241,10 +335,8 @@ rpgLiteScore(profile, context)
         foreach (local trait in profile.traits)
             if (trait.ofKind(RpgLiteTrait) && trait.active && !trait.mitigated && holds(trait.skills, context.skill))
                 adjustment += trait.level;
-        if (holds(['armoury','electronics-repair','engineer','mechanic'], skillId)) adjustment += profile.level('artificer');
-        if (holds(['camouflage','naturalist','navigation','survival','tracking'], skillId)) adjustment += profile.level('outdoorsman');
-        if (context.skill.ofKind(RpgLiteSkill) && (context.skill.influence
-            || holds(['acting','carousing','leadership','public-speaking'], skillId))) adjustment += profile.level('smooth-operator');
+        adjustment += profile.catalogueTalentCheckModifier(context.skill);
+        adjustment += profile.catalogueFeatureCheckModifier(context.skill);
         if (skillId == 'climbing' || skillId == 'escape')
             adjustment += profile.level('double-jointed') > 0 ? 5 : profile.level('flexibility') > 0 ? 3 : 0;
         if (skillId == 'climbing' || skillId == 'acrobatics') adjustment += profile.level('perfect-balance');
@@ -267,7 +359,12 @@ rpgLiteScore(profile, context)
 rpgLiteCheck(profile, context)
 {
     local score = rpgLiteScore(profile, context);
-    if (score == nil) { local result = new RpgResult(); result.reason = context.unavailableReason(profile); return result; }
+    if (score == nil)
+    {
+        local result = new RpgResult(); result.reason = profile.healthCheckReason(context);
+        if (result.reason == nil) result.reason = context.unavailableReason(profile);
+        return result;
+    }
     if (score < 3) return rpgCheck(score, 3);
     local result = rpgCheck(score, rpgRandom.roll());
     if (context.reroll(profile, result)) result = rpgCheck(score, rpgLiteReroll(profile, result.roll, 3, nil));
@@ -295,13 +392,29 @@ rpgLiteRead(profile, languageId)
     result.status = 'resolved'; result.achieved = true; result.outcome = 'automatic'; return result;
 }
 
-/** Resolve a controlled disadvantage against 12, or voluntarily yield without rolling. */
+/** Resolve against the trait rating (Lite defaults to 12), or yield without rolling. */
 rpgLiteSelfControl(profile, trait, modifier, giveIn)
 {
+    profile.validateDirectSelfControl(giveIn);
+    return rpgLiteSelfControlCore(profile,trait,modifier,giveIn);
+}
+
+/* Shared arithmetic for an already preflighted, owned resolution. Internal use. */
+rpgLiteSelfControlCore(profile, trait, modifier, giveIn)
+{
     if (!holds(profile.traits, trait) || !trait.controlled || !trait.active) throw new RpgError();
-    local result = giveIn ? new RpgResult() : rpgCheck(12 + modifier - (profile.sleepPenalty ? 2 : 0), rpgRandom.roll());
-    if (giveIn) { result.status = 'resolved'; result.achieved = nil; result.outcome = 'yielded'; }
-    else { profile.lastCheck = result; profile.lastCheckDraw = rpgRandom.draws; }
+    trait.validateDirectControl();
+    local base = trait.selfControlNumber();
+    if (giveIn)
+    {
+        local yielded = new RpgResult(); yielded.status = 'resolved'; yielded.achieved = nil;
+        yielded.outcome = 'yielded'; return yielded;
+    }
+    local health = profile.healthSelfControlModifier(trait);
+    local score = base + modifier - (profile.sleepPenalty ? 2 : 0) + health;
+    if ((health != 0 || trait.selfControlPreflight()) && score < 3) return rpgCheck(score,3);
+    local result = rpgCheck(score, rpgRandom.roll());
+    profile.lastCheck = result; profile.lastCheckDraw = rpgRandom.draws;
     return result;
 }
 
@@ -340,9 +453,9 @@ rpgLiteValidateTraits(profile)
     local ids = []; local quirks = 0;
     foreach (local trait in profile.traits)
     {
-        if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && trait.id != 'quirk') rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
+        if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && !profile.traitMayRepeat(trait)) rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
         ids = ids + [trait.id];
-        if (trait.id == 'quirk' || trait.scope == 'quirk') quirks += 1;
+        if ((trait.id == 'quirk' || trait.scope == 'quirk') && profile.quirkCountsTowardCreationLimit(trait)) quirks += 1;
         if (trait.id == 'night-vision' && trait.level > 9
             || trait.skills.length() > 0 && trait.level > 4) rpgLiteInvalidCharacter('trait-level');
     }
@@ -361,7 +474,7 @@ rpgLiteValidateTraits(profile)
     return true;
 }
 
-/** Validate language identities, comprehension and the native-language allowance. */
+/** Validate unique languages and the single native-language entitlement. */
 rpgLiteValidateLanguages(profile)
 {
     local ids = []; local natives = 0;
@@ -407,6 +520,8 @@ rpgLiteReaction(total)
 
 /** Authored visibility, recognition, culture and attraction facts for reaction modifiers. */
 class RpgLiteSocialContext: object
+    traitReactionModifier(profile) { return 0; }
+    validateParticipants(profile, target) { return nil; }
     attracted = nil
     sees = true
     hears = true
@@ -423,31 +538,33 @@ class RpgLiteSocialContext: object
 /** Calculate visible and applicable personal reaction modifiers. */
 rpgLiteReactionModifier(profile, context)
 {
-    local amount = context.modifier;
-    if (context.interaction) amount += profile.level('charisma');
-    if (context.hears) amount += 2 * profile.level('voice');
+    local parts = context.baseReactionComponents(profile) + context.traitReactionComponents(profile);
+    if (context.interaction) parts = parts + [['charisma',profile.level('charisma')]];
+    if (context.hears) parts = parts + [['voice',2 * profile.level('voice')]];
     if (context.recognizes)
     {
         local reputation = profile.trait('reputation');
-        if (reputation != nil) amount += reputation.points < 0 ? -reputation.level : reputation.level;
-        amount -= profile.level('bad-reputation');
+        if (reputation != nil) parts = parts + [['reputation',reputation.points < 0 ? -reputation.level : reputation.level]];
+        parts = parts + [['bad-reputation',-profile.level('bad-reputation')]];
     }
     if (context.sameCulture)
     {
         local status = profile.trait('status');
-        if (status != nil) amount += status.points < 0 ? -status.level : status.level;
-        amount -= profile.level('low-status');
+        if (status != nil) parts = parts + [['status',status.points < 0 ? -status.level : status.level]];
+        parts = parts + [['low-status',-profile.level('low-status')]];
     }
-    if (context.noticesHabits) amount -= profile.level('odious-habits') + profile.level('delusions');
+    if (context.noticesHabits) parts = parts + [['habits',-(profile.level('odious-habits') + profile.level('delusions'))]];
     if (context.sees)
     {
-        amount -= 4 * profile.level('hideous') + 2 * profile.level('ugly') + profile.level('unattractive');
-        amount += profile.level('attractive');
-        if (profile.level('handsome') > 0) amount += context.attracted ? 4 : 2;
-        if (profile.level('very-handsome') > 0) amount += context.attracted ? 6 : 2;
+        parts = parts + [['negative-appearance',-(4 * profile.level('hideous') + 2 * profile.level('ugly') + profile.level('unattractive'))]];
+        parts = parts + [['attractive',profile.level('attractive')]];
+        if (profile.level('handsome') > 0) parts = parts + [['handsome',context.attracted ? 4 : 2]];
+        if (profile.level('very-handsome') > 0) parts = parts + [['very-handsome',context.attracted ? 6 : 2]];
     }
-    if (profile.level('overconfidence') > 0) amount += context.naive ? 2 : context.experienced ? -2 : 0;
-    return amount;
+    if (profile.level('overconfidence') > 0) parts = parts + [['overconfidence',context.naive ? 2 : context.experienced ? -2 : 0]];
+    local amount = 0;
+    foreach (local part in parts) amount += context.adjustReactionComponent(profile,part[1],part[2]);
+    return amount + context.observerReactionModifier(profile);
 }
 
 /** Opposed influence outcome, reaction category and optional ordinary reaction roll. */
@@ -461,12 +578,15 @@ class RpgLiteInfluenceResult: object
 rpgLiteInfluence(profile, target, context, social)
 {
     if (context.skill == nil || !context.skill.influence) throw new RpgError();
+    context.validateInfluenceTarget(target);
+    if (social != nil) social.validateParticipants(profile,target);
     local value = new RpgLiteInfluenceResult();
     local score = rpgLiteScore(profile, context);
     if (score == nil || score < 3) return value;
     local resistance = target.will;
     if (context.skill.id == 'intimidation')
     { resistance += target.level('fearlessness'); score -= target.level('fearlessness'); }
+    resistance += context.influenceResistanceModifier(target);
     local ownRoll = rpgRandom.roll();
     if (context.reroll(profile, rpgCheck(score, ownRoll))) ownRoll = rpgLiteReroll(profile, ownRoll, 3, nil);
     local otherRoll = rpgRandom.roll();
@@ -501,4 +621,39 @@ class RpgLiteRegularContest: object
         { self.finished = true; self.winner = first.achieved ? 1 : 2; }
         return self.winner;
     }
+;
+
+/** Shared encumbrance bands; numerator and lift must use the same weight unit. */
+rpgLiteLoadLevel(weight,lift)
+{
+    local factors = [1,2,3,6,10];
+    for (local index = 1; index <= 5; index += 1)
+        if (weight <= lift * factors[index]) return index - 1;
+    return 5;
+}
+
+
+modify RpgLiteProfile
+    environmentBaseScore(context,score) { return score; }
+;
+
+modify RpgLiteProfile
+    catalogueFeatureCheckModifier(skill) { return 0; }
+;
+
+
+/* Default component hooks preserve ordinary reaction arithmetic and draw counts. */
+modify RpgLiteSocialContext
+    baseReactionComponents(profile) { return [['context',self.modifier]]; }
+    traitReactionComponents(profile) { return [['traits',self.traitReactionModifier(profile)]]; }
+    adjustReactionComponent(profile,id,amount) { return amount; }
+    observerReactionModifier(profile) { return 0; }
+;
+
+modify RpgLiteProfile
+    validateDirectSelfControl(giveIn) { return nil; }
+;
+
+modify RpgLiteProfile
+    traitMayRepeat(trait) { return trait.id == 'quirk'; }
 ;

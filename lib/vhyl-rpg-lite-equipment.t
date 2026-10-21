@@ -9,10 +9,21 @@ class RpgLiteItem: object
     worn = nil
     ready = nil
     weightHundredths() { return self.weight * self.quantity; }
+    usableBy(profile) { return true; }
+    validateAcquisition() { return nil; }
+    diggingUseReason(role, material) { return nil; }
+    /* Separate operation hooks allow optional anatomy without changing carried state. */
+    attackUsableBy(profile) { return self.usableBy(profile); }
+    attackHandCount(profile, requested) { return requested; }
+    parryUsableBy(profile) { return self.usableBy(profile); }
+    blockUsableBy(profile) { return self.usableBy(profile); }
+    passiveDefenseBonus(profile) { return self.usableBy(profile) ? self.db : 0; }
 ;
 
 /** Mutable weapon instance with attack modes, ammunition, reserves and reload progress. */
 class RpgLiteWeapon: RpgLiteItem
+    validateStrike(attacker, mode) { return nil; }
+    afterStrike(attacker, mode, result) { return nil; }
     techLevel = 0
     modes = []
     ammunition = 0
@@ -190,11 +201,11 @@ rpgLiteMakeWeapon(id, weaponST)
 /** Query reload eligibility and duration without changing the weapon. */
 rpgLiteReloadSeconds(profile, weapon, mode)
 {
-    if (!holds(profile.equipment, weapon) || !mode.ranged || mode.thrown || weapon.reserves < 1) return nil;
+    if (!holds(profile.equipment, weapon) || !weapon.usableBy(profile) || !mode.ranged || mode.thrown || weapon.reserves < 1) return nil;
     local seconds = mode.reloadSeconds;
     if (weapon.id == 'crossbow')
     {
-        local difference = weapon.weaponST - profile.st;
+        local difference = weapon.weaponST - profile.handlingStrength();
         if (difference >= 5 || difference >= 3 && (!weapon.goatFoot || profile.posture != 'standing')) return nil;
         seconds = difference <= 0 ? 4 : difference <= 2 ? 8 : 20;
     }
@@ -229,6 +240,6 @@ rpgLiteBuy(profile, item)
 rpgLiteArmor(profile)
 {
     local total = 0;
-    foreach (local item in profile.equipment) if (item.worn) total += item.dr;
+    foreach (local item in profile.equipment) if (item.worn && item.usableBy(profile)) total += item.dr;
     return total;
 }

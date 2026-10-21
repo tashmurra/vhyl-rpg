@@ -1,0 +1,1105 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B258-B263; B445-B454",
+  "review": "Text reviewed for template use, composition, design, ancestry and combined packages. Catalogue totals are acceptance targets, not validated executable definitions. Component transcription and independent cross-reference audit remain open.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "package-cost-once",
+      "source": "full-2008",
+      "pages": "B258-B259; B448",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Charge the sum of resolved component investments once; applying a package must not additionally charge the package label or grant a package discount.",
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "validation_note": " Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
+    },
+    {
+      "id": "package-choice-before-commit",
+      "source": "full-2008",
+      "pages": "B259; B449",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Resolve required choices and their budgets before creating or changing a profile; incomplete or ineligible selections cannot leave partial investments.",
+      "tests": [
+        "tests/expanded.py::test_template_choices",
+        "tests/expanded.py::test_template_score_options",
+        "tests/expanded.py::test_template_composition",
+        "tests/expanded.py::test_selected_template_composition"
+      ],
+      "existing_feature": "template-choice-groups",
+      "validation_note": "Choice identity, eligibility, count and signed budget gates include score changes before fresh-profile construction. Native cases unrun; extended components and exchange options pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete. Explicit selection inputs now resolve package choices before occupational composition, retain per-package chosen-option provenance and leave unused options on their source definitions without granting them. Later customization purchases and broader component support remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "package-personal-customization",
+      "source": "full-2008",
+      "pages": "B259; B445",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Permit changes to occupational suggestions and purchases outside the template, with ordinary point costs and campaign constraints; template identity grants no exclusive advancement path.",
+      "tests": [
+        "tests/expanded.py::test_template_customization"
+      ],
+      "validation_note": "Fresh occupational customization supports approved score changes, additive skill investment, explicit trait/skill removals and supported trait replacements. Final character validation combines personal and occupational negatives and enforces quirk limits. Extended components remain pending; assertions authored and unrun."
+    },
+    {
+      "id": "package-personal-negative-cap",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Count occupational negative traits and later personal negatives together against the campaign cap; reserve ancestry exemptions for ancestry entries.",
+      "tests": [
+        "tests/expanded.py::test_template_customization"
+      ],
+      "validation_note": "Fresh occupational customization supports approved score changes, additive skill investment, explicit trait/skill removals and supported trait replacements. Final character validation combines personal and occupational negatives and enforces quirk limits. Extended components remain pending; assertions authored and unrun."
+    },
+    {
+      "id": "package-personal-quirks",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Allow personally selected quirks within the ordinary limit; do not fill unused quirk slots automatically.",
+      "tests": [
+        "tests/expanded.py::test_template_customization"
+      ],
+      "validation_note": "Fresh occupational customization supports approved score changes, additive skill investment, explicit trait/skill removals and supported trait replacements. Final character validation combines personal and occupational negatives and enforces quirk limits. Extended components remain pending; assertions authored and unrun."
+    },
+    {
+      "id": "package-technology-default",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use campaign technology for a character package unless its definition explicitly supplies another level and its associated cost.",
+      "tests": [
+        "tests/expanded.py::test_template_technology"
+      ],
+      "existing_feature": "template-technology-settings",
+      "validation_note": "Factory and composition use explicit campaign and personal settings; new native cases unrun."
+    },
+    {
+      "id": "package-merge-scores",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "When occupational templates overlap, select the highest required attribute and secondary score and recalculate the resulting investment cost.",
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "existing_feature": "occupational-template-composition",
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending."
+    },
+    {
+      "id": "package-merge-traits",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Union required occupational traits and retain the highest required level of a repeated leveled trait or skill; do not add those levels or charge duplicate instances.",
+      "tests": [
+        "tests/expanded.py::test_template_composition",
+        "tests/expanded.py::test_selected_template_composition"
+      ],
+      "existing_feature": "occupational-template-composition",
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete. Explicit selection inputs now resolve package choices before occupational composition, retain per-package chosen-option provenance and leave unused options on their source definitions without granting them. Later customization purchases and broader component support remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "package-merge-conflict",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Reject incompatible occupational trait combinations with the conflicting entries identified; positive and negative trait values do not cancel the incompatibility.",
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "existing_feature": "occupational-template-composition",
+      "validation_note": "Basic-factory composition and Lite trait conflicts implemented; checks unrun, extended components and conflict detail pending. Explicit truthfulness ratings now retain concrete behavior and fresh ownership through template and choice creation; matching composition prices once and conflicting purchase forms reject. Assertions authored, unrun; other rated catalogues and full composition remain incomplete."
+    },
+    {
+      "id": "package-merge-unselected-options",
+      "source": "full-2008",
+      "pages": "B259",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Keep unused template options available for later customization without silently granting them or consuming their costs.",
+      "tests": [
+        "tests/expanded.py::test_selected_template_composition"
+      ],
+      "validation_note": " Explicit selection inputs now resolve package choices before occupational composition, retain per-package chosen-option provenance and leave unused options on their source definitions without granting them. Later customization purchases and broader component support remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-mandatory-components",
+      "source": "full-2008",
+      "pages": "B261; B450; B454",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Require all ancestry components unless an explicit permitted replacement is present; preserve the distinction from optional occupational suggestions.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_traits"
+      ],
+      "validation_note": " Supported ancestry trait rows now create owned concrete purchases, preserve mandatory components, exempt their negatives and quirks from personal caps, and reject ordinary removal/buyoff. Overlapping leveled traits, approved omissions, modifiers and full catalogue support remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-human-baseline",
+      "source": "full-2008",
+      "pages": "B261; B450; B454",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Treat the baseline human ancestry as zero points and unspecified modifiers as zero; species, constructs and supernatural body types use the same package accounting.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The ancestry factory validates after personal assembly and ancestry composition, supporting personal purchases that require nonhuman exemptions and final-budget offsets. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-derived-order",
+      "source": "full-2008",
+      "pages": "B261; B451-B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply ancestry attribute deltas to personal attributes, derive secondary characteristics from those totals, and then apply personal and ancestry secondary adjustments exactly once.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The ancestry factory validates after personal assembly and ancestry composition, supporting personal purchases that require nonhuman exemptions and final-budget offsets. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-derived-health-example",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A personal strength of 11 with +2 purchased health capacity, followed by ancestry strength +6 and health capacity +4, produces strength 17 and health capacity 23 without another charge for ancestry modifiers.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The ancestry factory validates after personal assembly and ancestry composition, supporting personal purchases that require nonhuman exemptions and final-budget offsets. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-derived-speed-example",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Personal dexterity 12 and health 12, ancestry dexterity +2 and health +1, personal speed +1, and ancestry speed -0.75 produce final speed 7.00; the personal speed purchase costs 20.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The ancestry factory validates after personal assembly and ancestry composition, supporting personal purchases that require nonhuman exemptions and final-budget offsets. Ancestry trait/skill components remain unfinished. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-occupational-composition",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compose occupational requirements and ancestry deltas with explicit origin tracking; removing an occupational suggestion cannot remove a mandatory ancestry component.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-composition-levels",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Combine compatible ancestry packages and add leveled ancestry modifiers; strength -1 and +6 combine to +5, with cost recomputed from the resolved components.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores",
+        "tests/expanded.py::test_ancestry_stacking"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The ancestry factory validates after personal assembly and ancestry composition, supporting personal purchases that require nonhuman exemptions and final-budget offsets. Ancestry trait/skill components remain unfinished. Assertions authored, unrun. Verified shared-catalogue per-level traits now add ancestry levels; identical fixed/rated purchases deduplicate once and retain all ancestry origins. Conflicting tiers/ratings and duplicate rows reject. Explicit authored conflict resolutions, remaining per-level traits and personal overlap remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-composition-conflicts",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Require an authored conflict resolution identifying retained and removed traits and the resulting price; never infer that opposing ancestry traits cancel.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_stacking",
+        "tests/expanded.py::test_ancestry_conflicts"
+      ],
+      "validation_note": " Verified shared-catalogue per-level traits now add ancestry levels; identical fixed/rated purchases deduplicate once and retain all ancestry origins. Conflicting tiers/ratings and duplicate rows reject. Explicit authored conflict resolutions, remaining per-level traits and personal overlap remain pending. Assertions authored, unrun. Explicit retained/discarded selectors now resolve recognized cross-ancestry conflicts with approval and evidence, reject missing/contradictory/compatible decisions, preserve snapshots and recalculate final prices. Broader conflict catalogues and personal omissions remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-omission-positive",
+      "source": "full-2008",
+      "pages": "B262; B454",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An approved omission of a positive ancestry trait retains the original ancestry price and records an equal negative personal replacement; that replacement counts against the personal negative cap.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_omissions"
+      ],
+      "validation_note": "Approved complete omissions retain original ancestry cost and an opposite personal adjustment in an owned accounting contribution. Positive omissions count against personal negative limits; negative ancestry components remain exempt. Ordinary restoration rejects. Modified/partial replacements and restoration remain pending; assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-omission-negative",
+      "source": "full-2008",
+      "pages": "B262; B454",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An approved omission of a negative ancestry trait retains the original ancestry price and adds an equal positive personal replacement.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_omissions"
+      ],
+      "validation_note": "Approved complete omissions retain original ancestry cost and an opposite personal adjustment in an owned accounting contribution. Positive omissions count against personal negative limits; negative ancestry components remain exempt. Ordinary restoration rejects. Modified/partial replacements and restoration remain pending; assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-omission-modifiers",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Allow supported modifiers on a replacement trait and calculate its actual cost and functional consequences; partial removal must not erase the entire underlying trait.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-negative-exemption",
+      "source": "full-2008",
+      "pages": "B452; B454",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Exclude ancestry negative components and a negative ancestry package total from the personal negative cap without exempting unrelated personal negatives.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_scores",
+        "tests/expanded.py::test_ancestry_traits"
+      ],
+      "validation_note": "Fresh ancestry score factory adds basic and secondary deltas, keeps owned origins, separates personal and ancestry costs, and exempts ancestry negative score components. Approved nonhuman packages waive physical adjustment limits only; Will/Perception limits remain enforced without explicit campaign permission. The ancestry factory validates after personal assembly and ancestry composition, supporting personal purchases that require nonhuman exemptions and final-budget offsets. Ancestry trait/skill components remain unfinished. Assertions authored, unrun. Supported ancestry trait rows now create owned concrete purchases, preserve mandatory components, exempt their negatives and quirks from personal caps, and reject ordinary removal/buyoff. Overlapping leveled traits, approved omissions, modifiers and full catalogue support remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-quirk-exemption",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Keep ancestry quirks distinct from personal quirks and exclude them from the normal five-personal-quirk limit.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_traits"
+      ],
+      "validation_note": " Supported ancestry trait rows now create owned concrete purchases, preserve mandatory components, exempt their negatives and quirks from personal caps, and reject ordinary removal/buyoff. Overlapping leveled traits, approved omissions, modifiers and full catalogue support remain pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-size-versus-build",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Represent species size with its size modifier, not individual build traits; an individual build adjustment remains relative to that ancestry and can change the final size modifier.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-cosmetic-features",
+      "source": "full-2008",
+      "pages": "B261; B450; B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Store cosmetic and other zero-cost features without inventing prices; distinguish a baseline environmental adaptation from broader environmental tolerance.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_features"
+      ],
+      "validation_note": " Ancestry factories now install owned mandatory prohibition contributions and retain zero-cost cosmetic notes with source ancestry IDs. Definitions are bound and source edits do not rewrite existing characters. Mechanical environmental/physiological features remain unfinished; assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-taboo-validation",
+      "source": "full-2008",
+      "pages": "B261; B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Reject purchased attributes, traits and skills forbidden by an ancestry taboo, including later advancement and template composition, even though the taboo itself costs zero.",
+      "tests": [
+        "tests/expanded.py::test_template_taboo",
+        "tests/expanded.py::test_ancestry_features"
+      ],
+      "validation_note": "Owned zero-cost prohibitions validate trait IDs, purchased skill definitions and inclusive basic-attribute, Will and Perception ranges. Shared learning and ordinary development offers gate prohibited purchases, including derived Will/Perception increases from IQ. Other secondary ranges, ancestry composition and other purchase adapters remain pending; assertions authored and unrun. Ancestry factories now install owned mandatory prohibition contributions and retain zero-cost cosmetic notes with source ancestry IDs. Definitions are bound and source edits do not rewrite existing characters. Mechanical environmental/physiological features remain unfinished; assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-native-environment",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Expose authored native gravity, atmosphere and temperature range to environmental assessment without granting tolerance beyond the declared baseline.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-single-skill-bonus",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A single-skill ancestry bonus costs 2 per +1 up to +3, applies to its specialties and defaults, and does not itself grant training.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_skill_bonus"
+      ],
+      "validation_note": "Owned single-skill bonuses cost two points per level, combine to at most +3, and apply after paid/default resolution across specialties. They do not grant unavailable skills or change advancement investment costs. Groups, penalties, wildcard applications and bonus modifiers remain unfinished. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-single-skill-penalty",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A single-skill ancestry incompetence costs -1 for -4, uses the ordinary incompetence restrictions, and is limited to five qualifying important skills.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_incompetence"
+      ],
+      "validation_note": "Owned ancestry incompetence enforces -4 defaults, no purchased learning, -1 per distinct relevant skill, all specialties and a combined five-skill maximum. Ancestry negatives are exempt from personal caps. Opposing bonuses and wildcard applications reject; omission/modifier support remains pending. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-group-skill-bonus",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Price each +1 to a related group at 5 for up to six skills, 10 for seven through twelve, and 15 for thirteen or more; cap the bonus at +4 and specify the group membership.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-group-skill-penalty",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Price group incompetence with the corresponding negative talent cost and allow only one such group; apply it to all specialties of its member skills.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-skill-investment-separation",
+      "source": "full-2008",
+      "pages": "B452",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Compute training and improvement costs without ancestry skill bonuses or penalties, then apply those modifiers to the final score; bonuses do not purchase investment levels.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_skill_bonus"
+      ],
+      "validation_note": "Owned single-skill bonuses cost two points per level, combine to at most +3, and apply after paid/default resolution across specialties. They do not grant unavailable skills or change advancement investment costs. Groups, penalties, wildcard applications and bonus modifiers remain unfinished. Assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-learned-skill",
+      "source": "full-2008",
+      "pages": "B453",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Price innate training by ordinary skill investment, display its relative level against ancestry-average attributes, and resolve actual level using each individual's attributes.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_training"
+      ],
+      "validation_note": "Ancestry-learned investments combine with personal points in one owned training slot, use final attributes, and preserve a mandatory ancestry minimum during ordinary improvements. Repeated ancestry training, paid defaults and innate-spell exceptions remain unsupported. Printed-example, advancement and persistence assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-learned-skill-improvement",
+      "source": "full-2008",
+      "pages": "B453",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Treat innate and later personal training as one investment history; improving an average innate skill from attribute to attribute+1 costs two additional points.",
+      "tests": [
+        "tests/expanded.py::test_ancestry_training"
+      ],
+      "validation_note": "Ancestry-learned investments combine with personal points in one owned training slot, use final attributes, and preserve a mandatory ancestry minimum during ordinary improvements. Repeated ancestry training, paid defaults and innate-spell exceptions remain unsupported. Printed-example, advancement and persistence assertions authored, unrun."
+    },
+    {
+      "id": "ancestry-mana-sensitive-traits",
+      "source": "full-2008",
+      "pages": "B453",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A magical ancestry ability requires mana; apply the -10% mana-sensitive limitation only when no-mana regions are common in the campaign, with actual suppression in those regions.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-innate-spell-prerequisites",
+      "source": "full-2008",
+      "pages": "B453",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Purchase innate spells as ancestry-learned skills while exempting their ordinary learning prerequisites; this exemption must not leak to unrelated learned spells.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-innate-spell-talent",
+      "source": "full-2008",
+      "pages": "B453",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Add ancestry spellcasting talent to innate spell skill; without that talent innate spells work only in high or very-high mana.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-innate-only-talent-cost",
+      "source": "full-2008",
+      "pages": "B453",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The base spellcasting talent costs five points even for innate-only casting; higher levels may carry the innate-only -40% accessibility limitation.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-subtype-lens",
+      "source": "full-2008",
+      "pages": "B454",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply ancestry subtypes as declared lenses with changed components and matching price differences, preserving mandatory inherited traits unless explicitly replaced.",
+      "tests": []
+    },
+    {
+      "id": "package-trait-bundle",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A combined trait package exposes all component effects while charging their total once; use in ancestry and personal exotic abilities must share the same component identities.",
+      "tests": []
+    },
+    {
+      "id": "package-trait-bundle-variants",
+      "source": "full-2008",
+      "pages": "B262-B263",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A permitted bundle variant specifies changed components and reprices them; optional commonly associated traits are not granted by selecting the base bundle.",
+      "tests": []
+    },
+    {
+      "id": "package-alternate-form",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Switchable elemental forms use the alternate-form trait and the relevant package as its alternate ancestry; an ordinary package purchase must not grant free shape-changing.",
+      "tests": []
+    },
+    {
+      "id": "package-lens-compatibility",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declare the base templates accepted by each lens, mutually exclusive lenses, and resolutions for repeated or conflicting components; reject unresolved combinations before commitment.",
+      "tests": []
+    },
+    {
+      "id": "package-lens-pricing",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Add a resolved lens cost once and expose its components; the 101-point warrior plus -9 and +3 lenses totals 95.",
+      "tests": []
+    },
+    {
+      "id": "package-fixed-cost-choice",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an equal-cost choice group, validate exactly the required number of distinct qualifying selections and their costs after variable-level adjustments.",
+      "tests": []
+    },
+    {
+      "id": "package-scoped-point-pool",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For a point-pool choice, enforce both the allowed candidate set and required total; resolve self-control multipliers and variable-priced traits before testing the total.",
+      "tests": []
+    },
+    {
+      "id": "package-no-hidden-optimization",
+      "source": "full-2008",
+      "pages": "B448",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optimization may replace actual attribute, talent and skill investments, but cannot grant an additional price discount; six average skills reduced from relative +2 to +1 free 24 points, and raising dexterity consumes 20.",
+      "tests": []
+    },
+    {
+      "id": "package-report-investments",
+      "source": "full-2008",
+      "pages": "B448",
+      "module": "templates",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Present each skill's difficulty, relative level, investment and final score so derived totals remain inspectable after customization.",
+      "tests": []
+    },
+    {
+      "id": "package-campaign-eligibility",
+      "source": "full-2008",
+      "pages": "B445-B446; B451",
+      "module": "templates",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author decisions specify player/nonplayer eligibility and campaign availability of each package; those permissions must be checked separately from whether its point total is affordable.",
+      "tests": []
+    },
+    {
+      "id": "package-exotic-traits",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An ancestry definition may grant specifically authorized exotic, supernatural or ancestry-only traits; validation still rejects campaign-forbidden combinations and use outside required ancestry contexts.",
+      "tests": []
+    },
+    {
+      "id": "package-player-created-ancestry",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Player-authored ancestry packages use the same structural and point validation as supplied packages plus an explicit campaign permission with a reason when rejected.",
+      "tests": []
+    },
+    {
+      "id": "package-design-guidance",
+      "source": "full-2008",
+      "pages": "B446-B448",
+      "module": "templates",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Keep recommended design ranges, suggested skill competence and the 90% starting-budget guideline as author guidance, not universal hard rejection thresholds.",
+      "tests": []
+    },
+    {
+      "id": "package-job-context",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An occupational package may reference a job's prerequisites, roll, pay and wealth level; selecting the package alone neither assigns employment nor pays wages.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-strength",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry strength change of 1 at 10 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-dexterity",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry dexterity change of 1 at 20 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-intelligence",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry intelligence change of 1 at 20 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-health",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry health change of 1 at 10 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-health-capacity",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry health-capacity change of 1 at 2 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-fatigue-capacity",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry fatigue-capacity change of 1 at 3 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-speed",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry speed change of 0.25 at 5 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-will",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry will change of 1 at 5 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-perception",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry perception change of 1 at 5 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "ancestry-price-move",
+      "source": "full-2008",
+      "pages": "B451",
+      "module": "templates",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Price an ancestry move change of 1 at 5 points with the same sign as the change, before applicable trait modifiers; retain ancestry origin in accounting.",
+      "tests": []
+    },
+    {
+      "id": "template-catalogue-investigation",
+      "source": "full-2008",
+      "pages": "B259-B260",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 100-point package from independently priced components. Resolve its 15-point positive and -30-point negative pools, three four-point primary skills, two two-point secondary skills and one two-point background skill; a primary choice can instead fund two additional secondary/background choices. Preserve distinct candidates, specialties and self-control pricing.",
+      "tests": [],
+      "printed_cost": 100
+    },
+    {
+      "id": "template-catalogue-spellcaster",
+      "source": "full-2008",
+      "pages": "B260",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 100-point package from independently priced components. Resolve the five-point positive choice and -30-point negative pool, two four-point and ten one-point spells, two two-point secondary skills and one one-point background skill; validate every selected spell prerequisite and apply the two-level casting talent once.",
+      "tests": [],
+      "printed_cost": 100
+    },
+    {
+      "id": "template-catalogue-warrior",
+      "source": "full-2008",
+      "pages": "B260",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 100-point package from independently priced components. Resolve its 20-point positive and -35-point negative pools, two four-point primary skills, separate two-point combat and mobility choices, fixed one-point first aid and two one-point background choices.",
+      "tests": [],
+      "printed_cost": 100
+    },
+    {
+      "id": "template-catalogue-armoured-leader",
+      "source": "full-2008",
+      "pages": "B447-B449",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 95-point package from independently priced components. Reproduce the component totals 100 attributes, 20 positive traits, -55 negative traits and 30 skills; skill results must change with later attributes without rebuying the template.",
+      "tests": [],
+      "printed_cost": 95
+    },
+    {
+      "id": "template-catalogue-warrior-lens-base",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 101-point package from independently priced components. Resolve two distinct average weapon skills at eight points each alongside four-point shield and one-point melee-equipment maintenance; preserve the base attributes for subsequent lenses.",
+      "tests": [],
+      "printed_cost": 101
+    },
+    {
+      "id": "template-catalogue-heroic-lens",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied -9-point package from independently priced components. Apply intelligence +1, the specified self-control honesty, aid vow, two-point leadership and four-point tactics as a lens; recalculate already purchased intelligence skills.",
+      "tests": [],
+      "printed_cost": -9
+    },
+    {
+      "id": "template-catalogue-armoured-role-lens",
+      "source": "full-2008",
+      "pages": "B449",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 3-point package from independently priced components. Apply comfortable wealth, status two, the honor code and duty, one-point heraldry and two-point riding as the role lens without overlapping grants.",
+      "tests": [],
+      "printed_cost": 3
+    },
+    {
+      "id": "template-catalogue-winged-fire-reptile",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 260-point package from independently priced components. Validate size-adjusted strength, the cone attack's use and range limits, winged flight, armor restriction and all listed positive/negative components; size and appendages must affect combat and movement.",
+      "tests": [],
+      "printed_cost": 260
+    },
+    {
+      "id": "template-catalogue-compact-artisan",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 35-point package from independently priced components. Validate health and will bonuses, size -1, craftsmanship talent, vague gold detection, longer lifespan and low-light vision; optional greed and thrift traits are not included.",
+      "tests": [],
+      "printed_cost": 35
+    },
+    {
+      "id": "template-catalogue-feline-humanoid",
+      "source": "full-2008",
+      "pages": "B261",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 35-point package from independently priced components. Validate attribute deltas, hearing and smell, fall protection, natural weapons, reflexes, armor, temperature tolerance, impulsiveness and sleep requirement; cosmetic tail and voice carry no extra points.",
+      "tests": [],
+      "printed_cost": 35
+    },
+    {
+      "id": "template-catalogue-blood-dependent-undead",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Resolve the supplied 150-point package from independently priced components. Validate all listed attributes, alternate bodies, feeding and environmental dependencies, regeneration restrictions, sunlight injury and permitted animal speech; the more durable optional variant costs 100 more and must replace its corresponding trait.",
+      "tests": [],
+      "printed_cost": 150
+    },
+    {
+      "id": "bundle-catalogue-gaseous-body",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 36 points and execute their combined effects. Strength zero and +10 health capacity coexist; lighter-than-air flight, diffuse injury, aerial body, absent manipulators and doubled wind/vacuum vulnerability must all operate. Fixed strength forbids later strength purchase.",
+      "tests": [],
+      "printed_cost": 36
+    },
+    {
+      "id": "bundle-catalogue-earth-body",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 175 points and execute their combined effects. Include armor two, diffuse injury, pressure support three, sealing, vacuum support, no breathing, metabolic immunity and flexible body structure.",
+      "tests": [],
+      "printed_cost": 175
+    },
+    {
+      "id": "bundle-catalogue-flame-body",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 6 points and execute their combined effects. Combine strength zero and +10 health capacity with the always-active close burning aura, oxygen combustion, heat-only armor ten, diffuse injury, no manipulators and water weakness; enforce fixed strength.",
+      "tests": [],
+      "printed_cost": 6
+    },
+    {
+      "id": "bundle-catalogue-ice-body",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 99 points and execute their combined effects. Combine armor three, homogeneous bloodless injury, pressure support three, sealing, slipping resistance three, ice movement, vacuum support, brittleness, double heat/fire vulnerability and variable normal-heat weakness.",
+      "tests": [],
+      "printed_cost": 99
+    },
+    {
+      "id": "bundle-catalogue-metal-body",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 175 points and execute their combined effects. Include armor nine, homogeneous bloodless injury, pressure support three, sealing, vacuum support, no breathing and metabolic immunity.",
+      "tests": [],
+      "printed_cost": 175
+    },
+    {
+      "id": "bundle-catalogue-stone-body",
+      "source": "full-2008",
+      "pages": "B262",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 140 points and execute their combined effects. Include armor five, homogeneous bloodless injury, pressure support three, sealing, vacuum support, no breathing, metabolic immunity and brittleness.",
+      "tests": [],
+      "printed_cost": 140
+    },
+    {
+      "id": "bundle-catalogue-liquid-body",
+      "source": "full-2008",
+      "pages": "B262-B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 175 points and execute their combined effects. Combine amphibious movement, concealment one, constriction, diffuse injury, pressure support three, slippery five, flexible body structure and doubled dehydration vulnerability with no breathing and metabolic immunity.",
+      "tests": [],
+      "printed_cost": 175
+    },
+    {
+      "id": "bundle-catalogue-mechanical-body",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 25 points and execute their combined effects. Include metabolic immunity, bloodless nonliving injury and total inability to heal naturally; do not grant optional machine traits such as no breathing or sealed construction.",
+      "tests": [],
+      "printed_cost": 25
+    },
+    {
+      "id": "bundle-catalogue-artificial-mind",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 32 points and execute their combined effects. Apply exact timing, digital mind, no sleep, intuitive mathematics, photographic memory and reprogrammability.",
+      "tests": [],
+      "printed_cost": 32
+    },
+    {
+      "id": "bundle-catalogue-unreflective-mind",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -85 points and execute their combined effects. Apply constrained creativity, incuriosity at self-control six, low empathy, absent humor and dependent initiative; it can coexist with the artificial-mind package.",
+      "tests": [],
+      "printed_cost": -85
+    },
+    {
+      "id": "bundle-catalogue-domestic-animal",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -30 points and execute their combined effects. Apply no speech, constrained creativity, property stigma and fixed intelligence; handling and social play must observe these effects.",
+      "tests": [],
+      "printed_cost": -30
+    },
+    {
+      "id": "bundle-catalogue-wild-animal",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -30 points and execute their combined effects. Apply bestial behavior, no speech, constrained creativity and fixed intelligence; domestication must not silently remove unrelated traits.",
+      "tests": [],
+      "printed_cost": -30
+    },
+    {
+      "id": "bundle-catalogue-ground-vehicle-body",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -100 points and execute their combined effects. Apply horizontal posture, tracked/wheeled movement, absent manipulators and absent touch sensitivity; body selection does not automatically supply machine or mind packages.",
+      "tests": [],
+      "printed_cost": -100
+    },
+    {
+      "id": "bundle-catalogue-fish-body",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -50 points and execute their combined effects. Apply aquatic legs and absent manipulators; a variant retaining manipulators must explicitly remove and reprice that component.",
+      "tests": [],
+      "printed_cost": -50
+    },
+    {
+      "id": "bundle-catalogue-four-legged-body",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -35 points and execute their combined effects. Apply four legs, horizontal posture and no fine manipulators; an upper-body variant is a separately resolved package.",
+      "tests": [],
+      "printed_cost": -35
+    },
+    {
+      "id": "bundle-catalogue-serpentine-body",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to -35 points and execute their combined effects. Apply extreme flexibility, slithering movement and absent manipulators, with the corresponding movement and handling restrictions.",
+      "tests": [],
+      "printed_cost": -35
+    },
+    {
+      "id": "bundle-catalogue-manifesting-spirit",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 261 points and execute their combined effects. Apply no breathing, food or sleep, metabolic immunity, agelessness, usually-active intangibility able to affect physical targets and usually-active invisibility against physical observers; visibility and tangibility changes inherit their component costs.",
+      "tests": [],
+      "printed_cost": 261
+    },
+    {
+      "id": "bundle-catalogue-nonmanifesting-spirit",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Independently sum the listed components to 171 points and execute their combined effects. Apply the same sustenance and aging exemptions but always-active intangibility and physical-observer invisibility; disallow becoming tangible, visible or affecting physical targets through supernatural powers.",
+      "tests": [],
+      "printed_cost": 171
+    },
+    {
+      "id": "bundle-machine-energy-reserve",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Track the eight-hour mechanical reserve and three refuelings per day on the shared time/resource ledger; explicitly configured consumption traits can modify this baseline.",
+      "tests": []
+    },
+    {
+      "id": "bundle-machine-no-fatigue",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mechanical bodies have no fatigue points to spend; action assessment must route machine exertion through its applicable rules rather than create a second fatigue balance.",
+      "tests": []
+    },
+    {
+      "id": "bundle-machine-wear",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mechanical bodies undergo wear instead of biological aging; use the corresponding aging effects without incorrectly granting unlimited service life.",
+      "tests": []
+    },
+    {
+      "id": "bundle-machine-repairs",
+      "source": "full-2008",
+      "pages": "B263",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mechanical bodies recover lost health only through applicable mechanical or electronic repair, unless an explicit trait changes that restriction.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B258-B263; B445-B454",
+      "reason": "Exclude setting descriptions, character names, illustrations, fiction and source wording. Retain the mechanical sample packages and worked arithmetic as neutral acceptance obligations."
+    },
+    {
+      "pages": "B446-B448; B450; B454",
+      "reason": "Narrative design and worldbuilding advice has no mandatory numerical procedure. Guidance affecting permissions or validation is explicitly inventoried rather than converted into hard rules."
+    }
+  ]
+}

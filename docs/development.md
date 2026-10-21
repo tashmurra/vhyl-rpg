@@ -4,7 +4,7 @@ This is the **Bellwether character/social prerelease, v1.1.0-alpha.1**. Developm
 integrated through pull requests into `main`; version tags identify packaged
 snapshots. API names, event contracts and save compatibility may change before a
 stable release. Injury, recovery, bounded conflicts and advancement are optional
-modules. Supernatural abilities remain a future module.
+modules. The expanded suite is experimental and incomplete; see the [library catalogue](libraries.md).
 
 ## Pinned dependencies
 
@@ -157,3 +157,41 @@ Run `python tools/promote_release.py verify --directory PATH` to check a downloa
 build against the current checkout. Promotion tests cover changed source, skipped
 or missing jobs, unmerged PRs, foreign repositories/workflows, expired artifacts,
 corrupt or rehashed archives and unsafe archive paths.
+
+### Native behavior test host
+
+Native behavior tests default to debug optimization (`--native-opt O0`), because
+large expanded fixtures can exceed the pinned compiler's per-tool deadline at
+`O2`. `--native-opt O2` remains available for optimized validation. On macOS the
+test harness recompiles only the compiler-generated sample consumer with an
+explicit 64 MiB worker stack; the default 512 KiB stack is insufficient for deep
+expanded-library dispatch in debug builds. Compiled game/runtime libraries,
+save identity and resource quotas are unchanged. Integrating hosts must provide
+adequate worker-stack space. The harness validates the sample-host pattern and
+fails if a compiler change requires that integration to be reviewed.
+
+### Recoverable mechanics exceptions at the host boundary
+
+Games using recoverable `RpgError` failures should export actions through
+`rpgDispatchAction(verb, subjects)` and parser input through
+`rpgDispatchTurn(tokens)`. These functions preserve ordinary dispatch and catch
+mechanics exceptions at the outermost action boundary. They release the caught
+exception before ending and undoing the failed journal interval, then begin a
+fresh interval. This ordering permits subsequent saves with the pinned runtime.
+Call them only from the exported host entry points, never from inside another
+action. Unrelated exception types remain host errors.
+
+The fear fixtures test a failure after committed injury and time, followed by
+successful replay, undo, and save/restore in a separate process. Returning a
+rejected assessment is still preferable to throwing for ordinary illegal player
+choices; exceptions protect broken author contracts and unexpected failures.
+
+For native **host** validation only, `--host-slice-on-timeout` permits a completed
+macOS host slice when the compiler times out building the other architecture.
+It is opt-in. The runner requires the host game, runtime, consumer and completed
+build/dependency records, retains the failed universal build, and creates a
+separate `host-validation` directory whose manifest names only the host target.
+The failure is retained beside that manifest. Missing or incomplete host output
+still fails. This option does not qualify a universal build or execution on the
+other architecture; source/document packages are independent of these local
+native test bundles.

@@ -17,6 +17,10 @@ def main():
     parser.add_argument('--vhyl', type=Path, help='vhyl sources; otherwise VHYL_ROOT')
     parser.add_argument('--zebc', help='compiler executable; otherwise ZEBC, then PATH')
     parser.add_argument('--native', action='store_true')
+    parser.add_argument('--host-slice-on-timeout', action='store_true',
+                        help='on macOS, allow a completed host slice when the other architecture times out')
+    parser.add_argument('--native-opt', choices=('O0', 'O2'), default='O0',
+                        help='native test optimization (debug by default; O2 is optional)')
     parser.add_argument('--out', type=Path, help='new output directory; retained after success')
     parser.add_argument('--runtime-cache', type=Path, help='optional reusable native runtime cache')
     args = parser.parse_args()
@@ -30,7 +34,7 @@ def main():
         if not unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful():
             raise RuntimeError('Tool tests failed')
         build = Build(compiler, vhyl, out,
-                      args.runtime_cache.resolve() if args.runtime_cache else None)
+                      args.runtime_cache.resolve() if args.runtime_cache else None, args.native_opt, args.host_slice_on_timeout)
         programs = sorted((ROOT / 'examples').rglob('*.t')) + sorted((ROOT / 'tests/fixtures').glob('*.t'))
         for source in programs:
             build.check(source)

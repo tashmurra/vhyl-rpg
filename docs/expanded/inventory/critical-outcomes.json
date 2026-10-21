@@ -1,0 +1,1254 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B556-B557",
+  "review": "All four critical-outcome tables transcribed as independent rows from supplied text; detailed combat exceptions, rounding, tactical legality and visual audit remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "critical-selection",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Select ordinary-hit, head-hit, weapon-miss or unarmed-miss outcomes from the actual action and target. Head outcomes apply to face, skull and eye. Unarmed outcomes include natural attacks, grappling, collisions and unarmed parries by creatures. Reconcile detailed combat exceptions before dispatch.",
+      "tests": []
+    },
+    {
+      "id": "critical-damage-order",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Critical multipliers modify basic damage before armor and injury factors. Critical hits disallow active defense. Preserve separate damage, penetration and injury values.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-success-boundaries",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rolls 3-4 critically succeed; 5 requires effective skill at least 15 and 6 requires at least 16. Check detailed combat eligibility and exceptions rather than globally changing ordinary checks.",
+      "tests": []
+    },
+    {
+      "id": "critical-failure-boundaries",
+      "source": "full-2008",
+      "pages": "B382; B556",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Roll 18 critically fails. Roll 17 critically fails at effective skill 15 or below, otherwise ordinarily fails. Failure margin at least ten critically fails melee attacks and defenses; B382 explicitly excludes ranged attacks despite the generic B556 summary. Apply firearm malfunction priority before table dispatch.",
+      "tests": []
+    },
+    {
+      "id": "critical-hit-3",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply basic damage by three.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 3
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-4",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "After armor divisors, halve DR and round down.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 4
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-5",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Double basic damage.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 5
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-6",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use maximum normal damage.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 6
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-7",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 7
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-8",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Positive penetration doubles shock with a limit of -8; a struck limb or extremity becomes temporarily unusable for max(2,16-HT) seconds unless ordinary injury causes lasting crippling.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 8
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-hit-9",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary damage only.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 9
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-10",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary damage only.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 10
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-11",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary damage only.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 11
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-12",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary damage and release all held objects even with zero penetration.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_drop_transactions",
+        "tests/expanded.py::test_critical_drop_persistence"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 12
+      },
+      "validation_note": "Owned critical-hit drop uses shared inventory/storage, preflighted random selection and persistent receipt. Transaction, undo and save fixtures authored but unrun. Automatic attack consequence dispatch remains incomplete."
+    },
+    {
+      "id": "critical-hit-13",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 13
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-14",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "If penetration is positive, require major-wound handling irrespective of injury amount.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 14
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-15",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use maximum normal damage.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 15
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-16",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Double basic damage.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 16
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-17",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "After armor divisors, halve DR and round down.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 17
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-hit-18",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply basic damage by three.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
+      ],
+      "outcome_data": {
+        "table": "hit",
+        "roll": 18
+      },
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "critical-head-3",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use maximum normal damage with no DR protection.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 3
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-4",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 4
+      },
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-5",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "After armor divisors, halve DR rounding up; positive penetration also triggers major-wound handling.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 5
+      },
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-6",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 6
+      },
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-7",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A face or skull hit becomes an eye hit even for normally ineligible damage types. If the angle makes an eye hit impossible, apply head outcome 4. Resolve pre-existing eye targets explicitly.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 7
+      },
+      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-8",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary head damage and require inactivity next turn without forbidding normal defenses.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 8
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-9",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary head damage only.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 9
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-10",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary head damage only.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 10
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-11",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary head damage only.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 11
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-12",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "With positive penetration, crushing causes deafness whose recovery uses crippling duration; other damage reduces appearance by one level, or two for burning/corrosion.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 12
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-13",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "With positive penetration, crushing causes deafness whose recovery uses crippling duration; other damage reduces appearance by one level, or two for burning/corrosion.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 13
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-14",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply ordinary head damage and drop the weapon; select randomly between two held weapons.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_critical_drop_transactions",
+        "tests/expanded.py::test_critical_drop_persistence"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 14
+      },
+      "validation_note": "Owned critical-hit drop uses shared inventory/storage, preflighted random selection and persistent receipt. Transaction, undo and save fixtures authored but unrun. Automatic attack consequence dispatch remains incomplete."
+    },
+    {
+      "id": "critical-head-15",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use maximum normal damage.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 15
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-16",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Double basic damage.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 16
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-17",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "After armor divisors, halve DR rounding up.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 17
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-head-18",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply basic damage by three.",
+      "tests": [
+        "tests/expanded.py::test_critical_hit_assessments"
+      ],
+      "outcome_data": {
+        "table": "head",
+        "roll": 18
+      },
+      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-3",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 3
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-4",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 4
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-5",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Self-hit arm or leg with equal chance at full damage, subject to the attack-type reroll exception.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 5
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-6",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Self-hit arm or leg with equal chance at half damage, subject to the attack-type reroll exception.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 6
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-7",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Forbid further actions, including free actions, until the next turn and apply -2 to active defenses for that interval.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 7
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-8",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Require an additional ready action before this weapon can be used.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 8
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-9",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 9
+      },
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-10",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 10
+      },
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-11",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Drop the weapon; cheap weapons instead invoke breakage handling.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 11
+      },
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-12",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Require an additional ready action before this weapon can be used.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 12
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-13",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Forbid further actions, including free actions, until the next turn and apply -2 to active defenses for that interval.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 13
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-14",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A swinging melee weapon travels 1d yards forward or backward with equal chance; a person at its destination checks dexterity or suffers half weapon damage. Thrusting, ranged and parrying actions simply drop it.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 14
+      },
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-15",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Disable the weapon arm for thirty minutes without forcing release of its weapon.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 15
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-16",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Fall down on a melee action; ranged actions use outcome 7 instead.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 16
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-17",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 17
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-weapon-miss-18",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply weapon-breakage procedure with its resistant-weapon confirmation roll.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "weapon-miss",
+        "roll": 18
+      },
+      "validation_note": "Ordinary weapon-miss rows and conditional confirmation assessment authored; fixtures unrun. Weapon-specific overrides, committed break/drop/self-hit, displacement and timed conditions remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-3",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Become unconscious, checking health every thirty minutes to recover; the author supplies the incident description, not arbitrary recovery timing.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 3
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-4",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A limb attack/parry causes one injury and thirty-minute limb incapacity. Other body attacks cause moderate pain for max(1,20-HT) minutes.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 4
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-5",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply own thrust crushing damage to the attacking/parrying part with normal DR. An attack against a ready impaling weapon instead uses that weapon damage based on the attacker\u2019s strength.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 5
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-6",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply outcome 5 with half damage, except natural weapons break and receive -1 future damage until recovery under crippling rules.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 6
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-7",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "On an attack, move one yard beyond the opponent and face away; on a parry, fall. Resolve occupied or impossible destinations with a specific tactical contract.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 7
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-8",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Fall, subject to anatomy and medium substitutions.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 8
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-9",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Forbid all remaining actions, including free actions, until the next turn; active defenses receive -2 during that interval.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 9
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-10",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Forbid all remaining actions, including free actions, until the next turn; active defenses receive -2 during that interval.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 10
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-11",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Forbid all remaining actions, including free actions, until the next turn; active defenses receive -2 during that interval.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 11
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-12",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Check dexterity to avoid falling: -4 for kicks; double the usual mishap penalty for techniques that already require a failure-triggered dexterity check.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 12
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-13",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply -2 to all active defenses next turn; double opposing evaluation bonuses and feint penalties until the next turn. Nearby opponents can perceive the opening.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 13
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-14",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use outcome 7, including the attack/parry distinction.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 14
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-15",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply 1d-3 injury to the used limb (one if two used) or neck for other attacks. Apply -1 to attacks/defenses next turn and -3 to affected-part actions until healed, reduced to -1 with the appropriate pain-resistance trait; neck injury affects all actions.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 15
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-16",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use outcome 5 with its weapon-contact exception.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 16
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-17",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use outcome 4 except an animal with intelligence 3-5 instead flees on its next turn where possible, or submits when cornered.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 17
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-unarmed-miss-18",
+      "source": "full-2008",
+      "pages": "B557",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Become unconscious, checking health every thirty minutes to recover.",
+      "tests": [
+        "tests/expanded.py::test_unarmed_miss_assessments"
+      ],
+      "outcome_data": {
+        "table": "unarmed-miss",
+        "roll": 18
+      },
+      "validation_note": "Supplied-roll unarmed assessment, fall replacements and nonnegative one-die injury authored; fixtures unrun. Owned injury, body-part binding, tactical movement, recovery and timed penalties remain incomplete."
+    },
+    {
+      "id": "critical-breakage-exception",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Solid crushing weapons, enchanted weapons, fine/very-fine weapons and most firearms require another critical-miss table roll before breaking. Wheel-lock, guided-missile and beam categories are exceptions to firearm resistance. A second breakage result breaks the weapon; any other result drops it. Preserve quality, construction and attack-category inputs.",
+      "tests": [
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "validation_note": "Supplied-roll assessment and owned drop branches authored; fixtures unrun. Actual breakage, flinging, weapon-specific overrides and automatic combat dispatch remain incomplete."
+    },
+    {
+      "id": "critical-self-hit-reroll",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For impaling/piercing melee and every ranged attack, a self-hit result requires a second table roll. Another self-hit uses the second result\u2019s full/half damage; any other result replaces the original. Do not recursively repeat this exception.",
+      "tests": []
+    },
+    {
+      "id": "critical-fall-anatomy",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A combatant unable to fall, including one already down, substitutes 1d-3 general injury for unarmed fall results. A flying/swimming combatant instead enters an awkward position with attack -4 and defense -3; specify restoration through movement/posture rules. Preserve injury rounding rules rather than allowing healing from negative dice.",
+      "tests": []
+    },
+    {
+      "id": "critical-persistent-consequences",
+      "source": "full-2008",
+      "pages": "B556-B557",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Commit critical outcomes through shared injury, equipment, condition and tactical state. Retain precise expiry, body part and source identity across undo/save, and avoid rolling a second table during preview or applying a consequence twice.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B557",
+      "reason": "Literary quotation is not a mechanical rule and is excluded."
+    }
+  ]
+}

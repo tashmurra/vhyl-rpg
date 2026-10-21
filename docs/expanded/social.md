@@ -1,11 +1,628 @@
-# Reputation and social interactions
+# Expanded social
+
+**Status: partial.** Reactions, influence and social permissions. Neutral source: `full-2008`, B359; B494-B495; B559-B562.
+
+[Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
+
+Include `vhyl-rpg-expanded-social.t` after the expanded foundation. Available procedures include standing and rank accounting, contextual reactions,
+information exchanges, trade and loyalty. The guide below defines each supported
+subset; full catalogue effects, influence and permissions remain incomplete.
+
+Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
+
+The [reaction inventory](inventory/reactions.json) records B559–B562 by both
+reaction band and context. General attitude, possible combat, trade, assistance,
+information and loyalty have different consequences. A favorable morale result
+can mean flight or surrender during a fight; it does not create friendship.
+
+Authors need specific inputs for perceived relative strength, escape routes,
+reasonable requests, information known, motives and risks. Information can be
+accurate according to a speaker's beliefs while factually wrong. Hidden loyalty
+must remain separate from competence and must not leak through preview results.
+Predetermined attitudes also need an explicit path that consumes no reaction roll.
+
+Trade uses the local fair price, the actual offer and the context-specific price
+limits. Offers, bribes, permitted retries and follow-up modifiers need persistent
+identities so a preview or repeated command cannot spend money or roll twice.
+The B562 counteroffer example contains a visually confirmed arithmetic
+inconsistency: half of an offer at 120% is described as 50%. A documented selection
+policy and independent tests are required before that procedure can be complete.
+
+The subsystem is partially implemented as described below. Individual inventory
+entries retain their remaining gaps; authored fixtures are unrun while build
+validation is in progress.
+
+## Reaction requirements now inventoried
+
+The [campaign procedure ledger](inventory/campaign-procedures.json) records the
+B494–B495 reaction rules under this module. Reactions use secret three-dice totals
+with higher results favorable; they are not ordinary roll-under checks. Context
+selects whose traits and skills apply. Predetermined category bounds clamp a result
+without rerolling, while a fully determined reaction needs no random roll.
+
+A changed approach may permit a retry. Repeated nuisance requests can accumulate
+penalties until an authored sufficient interval passes. Eligibility and attempt
+history need persistent encounter state. Influence uses its own procedure and must
+not also grant an ordinary reaction roll to select the better outcome.
+
+Several context-specific outcomes and owned reaction procedures are implemented
+below. Complete outcome and trait integration remain pending; the inventory alone
+does not establish runtime correctness.
+
+
+## Purchased standing
+
+`RpgExpandedStatus` is an owned point contribution with `id`, `owner`, `culture`
+and `level`. Each level costs five points; negative levels contribute negative
+points. The default allowed interval is -2 through 8. An authored culture can set
+`minimum` and `maximum` explicitly, within the implementation's -100 through 100
+numeric bounds. Duplicate standing for one culture and mixing expanded standing
+with Lite standing traits are rejected.
+
+`rpgExpandedStatusReaction(subjectStatus, observerStatus, recognized, friendly,
+resents)` implements the relative-standing guidelines from full-2008 B29. Hidden
+standing has no effect. Higher standing normally gives the difference as a bonus;
+resentment suppresses that guideline bonus without inventing a new penalty.
+Lower positive standing has no penalty with a friendly observer. Negative standing
+has a penalty against higher standing, capped at -4.
+
+`RpgExpandedStatusEncounter` gathers these explicit facts for `subject`, `observer`
+and `culture`. Its pure `assess()` returns a modifier only. Absent purchased
+standing in that culture means zero. Without a `structure`, this interface considers purchased standing only and
+rejects profiles with organizational rank in the encounter culture. Supply the
+structure described below to incorporate wealth and rank. Courtesy/temporary
+titles, culture-specific privileges and upkeep remain pending. It performs no rolls and grants no social permissions.
+
+The [minimal fixture](../../tests/fixtures/expanded-social.t) and
+`tests/expanded.py::test_social_status` cover prices, relative differences,
+recognition, friendly and resentful attitudes, negative-standing limits and foreign
+cultures. These cases are authored and remain unrun pending recorded validation.
+
+
+## Rank and the social structure
+
+`RpgExpandedRank` contributes five points per level, or ten when `replacesStatus`
+is enabled (full-2008 B29–B30). Set `culture`, `institution`, `level`, the authored
+`maximum` (default 8), and `admitted`. Membership at level zero is distinct from
+having no membership. Duplicate ranks in the same institution are rejected.
+Admission is an explicit world fact: prerequisites, duties, enforcement powers
+and other privileges must be supplied separately. Courtesy and temporary rank are
+not yet represented by this class.
+
+A `RpgExpandedSocialStructure` identifies a `culture`. With ordinary standing,
+each rank contributes +1 at levels 2–4, +2 at 5–7 and +3 at 8 or higher. Multiple
+institutional ranks contribute separately. Set `wealthLinked` only when wealth
+confers standing in that culture. The campaign wealth contribution supplies +1
+from the wealthy tier, +2 at the first multimillionaire level, and +3 from the
+second level onward. The social module does not depend on the campaign module;
+without a wealth contribution there is no wealth-derived bonus.
+
+Set `purchasedMaximum = 2` for the optional two-level ceiling on directly purchased
+standing. Free bonuses remain additional. To replace standing entirely, set
+`replacingInstitution` and mark that institution's rank `replacesStatus = true`.
+The total is then that rank level; purchased standing is rejected and wealth and
+other ranks supply no standing bonus. Inconsistent replacement flags are rejected.
+Attach this structure to `RpgExpandedStatusEncounter.structure`, matching its
+culture. `standing(profile)` and encounter assessment are pure.
+
+The authored `test_social_structure` case checks combined standing, the wealth
+bonus ceiling, purchased limits and replacement rejection. The minimal social
+fixture checks rank price and standing-bonus boundaries without the campaign
+module. All cases remain unrun pending recorded validation. Full reactions, social
+permissions and institutional prerequisite execution remain incomplete.
+
+
+## Reputation and recognition
+
+`RpgExpandedReputation` is an owned contribution with a unique `id`, concrete
+`details`, `facets` and a recognition `frequency`. A facet is
+`[audienceId, reactionModifier, breadth]`. Modifiers range from -4 to +4. Breadth
+is `all`, `most`, `large`, `small` or `negligible`, corresponding to factors 1,
+2/3, 1/2, 1/3 or zero on the five-point-per-modifier cost. Multiple facets require
+an explicit `disjoint` assertion: these are mutually exclusive audience categories
+within a single reputation. Overlapping reputations use separate contributions.
+
+Facet costs are rounded down, then summed. Frequency is `always`, `sometimes`
+(10 or less), or `occasionally` (7 or less); apply factors 1, 1/2 or 1/3 to that
+sum and round down again. These are the explicit exceptions in full-2008 B27–B28,
+including downward rounding for negative values. A zero-net reputation remains
+recorded. Mixing this representation with Lite reputation traits is rejected.
+
+Use `RpgExpandedReputationRecognition` with the owned reputation, a stable person
+or small-group `audience` identity and its applicable `facet`. Supply `inArea` and
+`identityExposed` (a name or face is sufficient) from world facts. Pure `assess()`
+returns readiness without a recognition result or random draw. `resolve()` rolls
+3d for the two limited frequencies; automatic recognition rolls nothing. Success
+or failure is retained in `reputation.recognitions`. A new recognition object for
+the same audience reuses that result. Changing its audience facet is rejected.
+For a large crowd, explicitly identify distinct groups when the author chooses
+multiple recognition rolls; changing IDs merely to retry is outside the contract.
+
+`rpgExpandedReputationModifier(recognitions)` combines resolved reputations for
+one subject and audience, limiting the total to -4 through +4. Unresolved entries,
+duplicated reputations and mixed audiences are rejected. This is a modifier
+assessment, not a full reaction-table resolver. Geographic loss of reputation,
+buyoff, changed reputation over time and resulting world consequences remain
+pending. Stored results are historical snapshots, not automatic recalculations.
+
+`tests/expanded.py::test_reputation` contains expected price checks, a multifaceted
+zero cost, geographic/identity gates, duplicate audiences, pure previews,
+deterministic recognition, rollback and undo. These authored cases remain unrun;
+`test_reputation_failure` and `test_reputation_persistence` additionally cover
+failed recognition and cross-process reuse; they too remain unrun.
+
+
+## Private reaction encounters
+
+Register a `RpgExpandedReactionEncounter` in `subject.reactionEncounters`, with
+unique `id` and a stable `audience`. The encounter owns its history across requests.
+`RpgExpandedReactionAttempt` identifies an authored `approach` and its numeric
+`modifier`. This low-level modifier must already incorporate applicable traits,
+standing, recognized reputations and world conditions exactly once; automatic
+catalogue-wide modifier collection remains pending.
+
+`assess()` checks readiness but never exposes the saved attitude, total or dice.
+`resolve()` returns private author data and records it. Do not send that data to
+player-facing events: portray what the NPC says and does instead. Reaction totals
+use 3d plus modifiers, with higher totals favorable; they are not success rolls.
+Bands are 0 through 7, with upper boundaries 0, 3, 6, 9, 12, 15, 18, then unbounded
+above (full-2008 B560–B561). `worstBand` and `bestBand` clamp the resulting band.
+A `predeterminedBand` supplies the attitude without consuming randomness.
+
+Repeating an approach reuses its record. A new approach requires `approvedChange`
+after the first request; the author must actually change the offer, speaker,
+information or other relevant approach. Set encounter `fighting` when a previous
+request starts a fight; further request rolls are blocked. A predetermined attitude
+also blocks retries until the author explicitly changes that policy.
+
+When the NPC considers further requests a nuisance, set attempt `nuisance`.
+The encounter accumulates a -2 penalty per such retry. An authored
+`waitedReasonably` decision resets that accumulation; it does not itself advance
+time. Any actual waiting must use the shared time ledger once. Set this only when
+the elapsed time satisfies the NPC's circumstances. Attempt history, penalties
+and random state remain within normal transactions and saves.
+
+This implements the roll and retry machinery, not the table's context-specific
+world consequences. Combat/morale, trade, aid, information and loyalty outcomes
+remain pending. A favorable combat reaction must not be interpreted as friendship.
+`tests/expanded.py::test_reaction_encounter` covers band boundaries, private previews,
+predetermined attitudes, retry gates, nuisance accumulation, rollback and undo.
+All authored cases are unrun pending recorded validation.
+
+
+## Potential combat and morale
+
+`RpgExpandedCombatReaction` interprets a known private reaction `band` using
+`inCombat`, `outnumbered`, `hopeless`, `escapePossible` and `visitorsRemain`.
+These are explicit encounter facts, including what the NPCs perceive; they are
+not inferred from hidden character statistics. `assess()` is pure and returns
+an `intent`, `noQuarter`, `leaveDemand` and `aidModifier`.
+
+Low bands can call for attack or continued fighting; the poor band demands that
+visitors leave before its out-of-combat attack/flight decision. Neutral standing
+means peaceful passage or an attempt to disengage from an existing fight.
+During combat the good band calls for flight, the next band for flight if possible
+and surrender otherwise, and the highest band for surrender. Flight is an intent:
+the tactical system must still determine and execute legal movement. It is not a
+teleport or a successful escape guarantee. Outside combat the top three bands
+permit aid/information follow-up rolls at +1, +3 and +5 respectively.
+
+`rpgExpandedCombatReactionModifier(perceivedStrength, commonLanguage, intruders)`
+combines the authored -5 through +5 relative-strength assessment with the -2
+language and -2 home-territory modifiers (full-2008 B561). Add this once when
+preparing the associated reaction attempt. Resolve an encounter result first,
+then pass its private band to this assessment. Do not expose hidden attitude
+through player-facing events.
+
+Combat AI execution, surrender acceptance, possible later ambushes and voluntary
+party membership remain pending. The current interface specifies the table's
+immediate decision, not its complete world consequences. The minimal social
+fixture and `tests/expanded.py::test_combat_reactions` cover the contextual branches
+and modifiers. These cases remain unrun pending recorded validation.
+
+
+## Requests for aid
+
+`RpgExpandedAidReaction` takes the resolved private `band`, whether the request is
+`simple`, and an authored `reasonableness`: `reasonable`, `silly` or
+`totally-unreasonable`. Pure `assess()` reports willingness and follow-up mechanics
+from full-2008 B560–B562. Bands 0–3 deny help; the first two require a potential-combat
+reaction (at -4 for band 0, or capped at neutral for band 1). Band 3 permits a retry
+at -2. At neutral, simple requests are granted and complex requests may be retried
+at -2. Good reactions grant reasonable requests and offer advice when denying
+unreasonable ones. Very good reactions grant anything short of totally unreasonable
+requests and volunteer useful information. The highest band offers additional help
+within the provider's capability.
+
+The result distinguishes `granted`, `extent`, `advice`, `volunteerInformation`,
+`combatFollowup`, `followupModifier`, `followupBestBand`, `retry` and `retryModifier`.
+Do not treat `granted` as completed assistance. A provider still needs the time,
+resources and abilities for the requested task. Follow-up combat rolls and changed
+approaches must use persistent encounter/attempt records; they are not performed
+by this pure assessment. If a hostile follow-up cannot produce combat, its other
+hostile world consequences remain an authored requirement.
+
+`RpgExpandedAidModifiers` supplies the context-specific total: +1 for `verySimple`,
+an authored nonpositive `complexity`, -1 for `inconvenience`, optional `standingRisk`
+of -2 or worse, and optional `physicalRisk` of -1 or worse. Nil risk means absent.
+Risk magnitude and courage are world judgments; the implementation does not guess
+them from unrelated traits. Add this total once to the reaction attempt.
+
+`tests/expanded.py::test_aid_reactions` covers each band, complexity/reasonableness
+branches, escalation caps and modifiers. Cases remain unrun. Provider task execution,
+resource transfer, advice content and follow-up encounter orchestration are still
+pending, so these entries remain partial in the coverage ledger.
+
+
+## Information requests
+
+`RpgExpandedInformationReaction` uses a resolved private `band` and `complexity`
+(0 simple, 1 complex, 2 very complex). Ordinary enquiries use `mode = 'enquiry'`.
+Professional information sales return `information-use-trade`; interrogation
+returns `information-use-interrogation`, preventing silent use of the wrong
+procedure. Both corresponding procedures remain separate implementation work.
+
+At bad reactions, authors select `adverseChoice = 'lie'` or `'payment'`. The latter
+returns a demand until `paymentReceived` is true, then an incomplete answer. Poor
+reactions require `'unknown'` or `'partial'`; an offered bribe permits another
+reaction attempt. The lowest band calls for a combat reaction at -2; the next band
+calls for a malicious lie. Neutral replies are complete only for simple questions.
+Good replies answer the question, very good replies add related knowledge, and
+excellent replies add a research obligation when `knowledgeIncomplete`. If an
+excellent respondent `offersHelp`, a subsequent aid roll receives +2 and cannot be
+worse than band 3. These follow-ups are returned requirements, not extra hidden rolls.
+
+The result's answer modes distinguish `malicious-lie`, `claims-ignorance`,
+`demand-payment`, `incomplete-belief` and `requested-belief`. Belief is what the
+respondent thinks true, which can differ from the world. This assessment does not
+supply text or knowledge: authoring and delivery must constrain answers to the
+respondent's known facts, and deliberate lies require explicit false claims.
+Knowledge storage, research execution, paid delivery and follow-up orchestration
+remain pending. Do not count a response mode as completed information transfer.
+
+`RpgExpandedInformationModifiers` combines -1/-2 complexity, -3 for `intrusive`,
+an optional `danger` penalty of -3 or worse, and an authored
+`knowledgeProfessionBonus` of 2–4 (zero if absent). `bribeScale` is `none`, `day`,
+`week`, `month` or `year`, referring to the respondent's income-equivalent value;
+the resulting bonus is 0–4 (full-2008 B44–B45 and B562). Nonzero bribes require
+`discreet` and `appropriate`. This only assesses the bonus: it neither deducts
+money nor executes a promised favor. Those must be committed once through the
+relevant world operation. Calendar and income equivalence remain authored facts.
+
+`tests/expanded.py::test_information_reactions` covers response modes, partial
+answers, follow-up requirements and modifier scales. All cases remain unrun while
+validation is in progress; the module remains partial.
+
+
+## Knowledge-constrained delivery
+
+Assign each participating profile one `RpgExpandedKnowledge` through `knowledge`,
+with the matching `owner`. `beliefs` contains authored statement identifiers or
+objects the character believes; `fabrications` contains deliberate claims they
+know they are making up. The same statement cannot occupy both lists. World truth
+is separate and is never queried automatically by this module.
+
+`RpgExpandedInformationDelivery` identifies a response by `id`, `provider`,
+`recipient` and its `reaction`. Select `requested` statements from the provider's
+beliefs, a strict `partial` subset for incomplete answers, optional `related`
+beliefs and `lies` from fabrications. The authored selection must represent the
+question's known answer; a complete answer here means all selected known statements,
+not omniscient knowledge. An incomplete answer cannot select the entire nonempty
+requested list. Deliberate lying requires at least one authored fabrication.
+
+Set `available` only when the participants can communicate. `assess()` checks
+readiness and selection but returns no statements. `deliver()` returns the selected
+statements to the author and records `[id, provider, statements, moneyPaid]` in the recipient's
+knowledge `received` list. It does not add them to the recipient's beliefs. Only
+render those statements through authored dialogue; do not expose the provider's
+private belief/fabrication classifications. `selectedStatements()` is an author-only
+query and must not be used for player previews.
+
+The recipient's receipt prevents duplicate deliveries even through another object
+with the same response ID. Claimed delivery objects cannot be retargeted. No time or randomness is charged by delivery. The optional payment contract below
+transfers money atomically; associated speaking time must be committed once by
+the enclosing operation. An unanswered demand, refusal
+or claim of ignorance cannot be delivered as factual content. Research obligations
+and follow-up rolls remain separate requirements. Broader bribery integration, uncertain-knowledge checks and belief revision remain
+pending.
+
+`tests/expanded.py::test_information_delivery` covers bounded knowledge, incomplete
+selection, explicit lies, private previews, receipt reuse, exception rollback and
+undo. These authored cases remain unrun pending recorded validation.
+
+
+## Paid information delivery
+
+For a band-2 respondent choosing payment, set the delivery's positive `price` and
+explicit `paymentApproved`. The recipient is the payer and the provider is the
+payee. The operation validates both balances, affordability, overflow and the answer
+selection before changing either balance. It then transfers the price and records
+the incomplete answer in one transaction. No secondary money account is created.
+
+The reaction is assessed against the proposed payment without setting its shared
+`paymentReceived` flag. A pre-paid reaction cannot also use a positive delivery
+price: that combination is rejected to avoid double payment. A zero-price delivery
+retains the existing externally-paid/free contract. Positive prices for other
+reaction outcomes, self-payment and professional information sales are rejected
+rather than inferred as equivalent transactions. This is payment for an answer,
+not the separate bribe that modifies a new reaction roll.
+
+The receipt stores the amount paid. Repeated delivery, including another object
+with the same recipient/provider/ID, returns `reused` without charging. It does
+not return the earlier answer as new content. `assess()` can report the price but
+still omits all answer statements. `tests/expanded.py::test_paid_information`
+contains approval/funds rejection, payment/answer accounting, rollback, undo and
+repeat-payment cases. These authored checks remain unrun.
+
+
+## Uncertain prior knowledge
+
+`RpgExpandedKnowledgeCheck` takes an owned `knowledge` record, an authored
+`statement`, `context` and explicit `plausible` world fact. Use a `RpgLiteContext`
+(or compatible expanded context) with `kind = 'knowledge'`, checking intelligence
+or a skill appropriate to the fact (full-2008 B562). A statement cannot also be a
+known fabrication. Dead or unconscious characters cannot perform this check.
+The context determines legitimate skill defaults and shared situational modifiers;
+unavailable training is rejected before randomness is consumed.
+
+`assess()` returns readiness without a score, result or known/unknown answer.
+`resolve()` uses the shared check procedure once, stores the result in
+`knowledge.checks`, and adds the statement to beliefs on success. Failure does not
+invent a lie. Another object or context for the same statement reuses the recorded
+result rather than rolling again. Existing beliefs need no roll. Later learning
+can add a belief through a distinct authored acquisition process; it does not
+rewrite the historical check.
+
+This procedure determines prior knowledge, not research progress or objective truth.
+The author must supply a plausible, specific statement and a relevant skill.
+Player dialogue should reveal only the character's resulting recollection, not
+private dice or the whole knowledge record. Standard transaction history includes
+the random state, last check, stored result and any new belief together.
+
+`tests/expanded.py::test_uncertain_knowledge` and `test_unknown_fact` cover private
+preview, deterministic success/failure, no reroll, rollback and undo. These cases
+remain unrun; cross-process knowledge continuation and research procedures still
+need implementation/validation coverage.
+
+
+## Trade reaction prices
+
+`RpgExpandedTradeReaction` takes the private `band`, `direction` (`buy` or `sell`
+from the player party's perspective), local `fairPrice`, and optional
+`offeredPrice` (defaults to fair price). Pure assessment returns a price or refusal.
+The fair price is the current local value, not necessarily the catalogue cost.
+A lowest-band refusal requires a potential-combat follow-up at -2; it does not
+transfer goods or money. Favorable bands also indicate an offer of advice/help.
+
+At bands 1–3 the buy/sell factors are respectively 3 and 1/3, 2 and 1/2, and
+6/5 and 3/4. Neutral and good reactions use fair price. The next band accepts offers
+subject to a purchase minimum of 4/5 fair price and a sale maximum of 3/2; the
+highest band uses 1/2 and 2. These limits do not imply automatic availability,
+affordability or transfer of title. They are quoted prices, not committed trades.
+
+The B562 altered-counteroffer example is internally inconsistent. For bands 1–5,
+an offer differing from fair price returns `trade-counteroffer-source-conflict`.
+No silently chosen interpretation is applied. Exact whole-unit arithmetic uses
+`rpgExpandedTradeFraction`; fractional prices and overflow are explicitly rejected
+pending a currency-precision policy. Exceptional discounts motivated by hidden
+world circumstances remain separate, unimplemented author contracts.
+
+`tests/expanded.py::test_trade_reactions` contains independent expected values for
+all bands, both transaction directions, favorable offer limits, refusal, the source
+conflict and arithmetic boundaries. These cases remain unrun. Bargaining modifiers,
+merchant transfers, employment and professional-information trade integration
+remain pending.
+
+
+## Bargaining modifiers
+
+`rpgExpandedTradeOfferModifier(fairPrice, offeredPrice, direction)` counts complete
+ten-percent steps relative to the local fair price (full-2008 B562). A higher buy
+offer favors the merchant and gives a bonus; a higher requested sale price favors
+the player party and gives a penalty. The reverse applies below fair price.
+Prices need not divide evenly into ten-percent units: the calculation compares
+exact integer thresholds and never rounds an incomplete step into a full bonus.
+It avoids multiplying large prices directly and explicitly rejects modifiers
+outside the supported -1000 through +1000 range.
+
+`RpgExpandedTradeModifiers` combines this result with an authored applicable
+`merchantLevel`: nil gives no skill bonus, a qualifying rating below 20 gives +1,
+and 20 or higher gives +2. Set the rating from the actual character and applicable
+skill; this low-level context does not discover or validate catalogue membership.
+Do not add the general high-skill reaction bonus again for the same commerce skill.
+The assessment itself neither rolls nor commits an offer or money transfer.
+
+`tests/expanded.py::test_trade_modifiers` covers both directions, exact and partial
+ten-percent boundaries, fractional thresholds, large prices and skill boundaries.
+`test_trade_persistence` adds a cross-process saved-trade continuation case. Both
+are authored and unrun pending recorded validation. Altered counteroffer pricing remains
+blocked as documented above, even when its reaction modifier is calculable.
+
+
+## Private loyalty records
+
+Register `RpgExpandedLoyalty` in the subject's `loyalties`, with a unique `id`,
+`subject` and `employer`. Only one relationship per employer is accepted. Loyalty
+is separate from skill, competence and the accuracy of claims made at hiring.
+Use `preset` for a predetermined rating, or `initialModifier` for a random initial
+rating. `initialize()` records preset loyalty without dice, or rolls 3d once and
+adds the modifier (full-2008 B518/B562). Repeated initialization reuses the rating.
+
+`RpgExpandedLoyaltyCheck` references that record and a stable `incident`. The author
+sets `necessary` when the actual situation calls for a check: ordinary combat is
+not automatically mortal peril for an experienced fighter. Supply any circumstantial
+`modifier` explicitly. `assess()` returns readiness without the private rating,
+dice or result. `resolve()` compares 3d directly with effective loyalty; this is
+not an ordinary skill roll with automatic failure on 17/18. An effective rating
+of at least 20 resolves automatically without dice. Success and failure are saved
+per incident, including the rating used, so a second request cannot reroll it.
+
+Failure means the hireling acts in their own interests in that incident; it does
+not automatically enact total betrayal. What action is taken remains specific to
+the situation and must be authored. Do not emit private ratings or checks through
+player-visible events. Preset/random initialization and incident records use the
+normal transaction/save state; no extra elapsed time is charged.
+
+`test_loyalty`, `test_loyalty_automatic` and `test_loyalty_failure` in
+`tests/expanded.py` cover private previews, deterministic outcomes, automatic checks,
+repeat incidents, rollback and undo. All cases remain unrun. Pay changes, rescue,
+forgiveness, employer performance, service anniversaries and timed loyalty effects
+remain pending. This is not yet complete employment or loyalty behavior.
+
+
+## Noncombatant exposure and temporary loyalty
+
+Use `RpgExpandedLoyaltyDanger`, a specialized loyalty check, when an actual
+noncombatant is exposed to combat (full-2008 B519). Set `noncombatant` and
+`necessary` explicitly and identify the incident. A failed check records a -1
+penalty lasting 604800 seconds on the existing shared clock. A successful check
+adds no penalty. Replaying the incident cannot extend its expiry or add another
+penalty. The receipt also records its check kind; an ordinary loyalty incident
+cannot be reused as a danger incident or vice versa.
+
+`loyalty.rating()` calculates current effective loyalty without deleting expired
+history. The penalty applies before, but not at, the expiry time. The check and
+penalty add no elapsed time themselves. Clock advancement belongs to the actual
+encounter and subsequent activities, so undo across an expiry restores the earlier
+effective rating automatically.
+
+The source notes that repeated exposures may have permanent effects, but does not
+specify temporary stacking. A second danger check while the first penalty remains
+active returns `loyalty-overlapping-danger-unresolved`; no roll is consumed. A
+permanent change also requires a separately specified author decision. Do not
+silently replace, refresh or stack the penalty. These combinations remain unresolved
+coverage requirements.
+
+`tests/expanded.py::test_loyalty_danger` contains failed exposure, repeat protection,
+rollback, undo, overlap rejection and exact expiry-boundary cases. The cases remain
+unrun pending recorded validation.
+
+
+## Permanent loyalty changes
+
+`RpgExpandedLoyaltyChange` records specific completed events from full-2008 B519.
+Supply the `loyalty`, event `id` and a concrete authored `evidence` reference.
+For `kind = 'performance'`, set `continuing` and `adventureComplete`, then choose
+`performance = 'great-success'`, `'botched'` or `'ordinary'`. The permanent change
+is respectively +1, -1 or zero. The ID identifies the adventure, so another change
+object cannot reclassify or reapply that adventure's result.
+
+For `kind = 'forgiveness'`, the ID must identify an existing failed loyalty incident.
+Set `forgiven` only after the employer has actually forgiven the hireling, with or
+without punishment. On commitment, current effective loyalty of 16 or higher gives
++1 to base loyalty; below that threshold the event is recorded with zero change.
+Recording the zero change prevents later attempts to collect a bonus for the same
+forgiveness after loyalty rises. These operations add no time, randomness, money
+or character points.
+
+`assess()` checks authored event prerequisites without returning the private rating
+or prospective change. `apply()` changes the base and records
+`[kind, id, change, evidence]` in the relationship's `changes`. These are private
+author interfaces. They do not create the adventure outcome, forgiveness dialogue,
+or a character's decision to forgive.
+
+Authored cases `test_loyalty_performance`, `test_loyalty_botched`,
+`test_loyalty_forgiveness` and `test_loyalty_forgiveness_low` in `tests/expanded.py`
+cover signed changes, duplicate events, the eligibility threshold, zero-change
+receipts, rollback and undo. validation is in progress and unrun. Rescue, pay and
+service-anniversary changes remain pending.
+
+
+## Service anniversaries
+
+`RpgExpandedServiceAnniversary` implements the annual check from full-2008 B519.
+Supply the owned `loyalty`, sequential `year` starting at 1, `anniversaryAt` on the
+shared clock, and the authored `completedService` fact. The campaign calendar must
+calculate the real service anniversary; the runtime does not impose a 365-day year.
+Due dates must increase, years cannot be skipped, and a check cannot run before its
+date. This operation does not itself advance time.
+
+`assess()` reveals no rating or check result. `resolve()` checks current loyalty,
+gives a permanent +1 on success, and records the year even on failure. Effective
+loyalty of 20 or higher succeeds without dice. Results are stored in `serviceYears`,
+with `lastServiceYear` and `lastAnniversaryAt` enforcing chronological processing.
+A repeated year, including a new operation object, reuses the prior result with
+zero additional change. Catch-up must process outstanding years in order; author
+simulation must supply the loyalty state appropriate to each past anniversary,
+rather than silently applying today's state to an earlier year.
+
+Authored cases `test_service_anniversary`, `test_service_failure` and
+`test_service_automatic` in `tests/expanded.py` cover prerequisites, early dates,
+skipped years, success/failure, automatic outcomes, duplicate years, rollback and
+undo. The fixture uses a deliberately short authored calendar interval to exercise
+date behavior without assuming a world calendar. validation is in progress and unrun.
+Calendar scheduling and rescue/pay integration are still incomplete.
+
+
+## Rescue gratitude
+
+`RpgExpandedRescueLoyalty` represents one completed rescue from full-2008 B519.
+Provide the owned relationship, unique rescue `id`, concrete `evidence`, `rescued`
+and `riskedLifeOrMission`. `rescueBonus` is at least +3; the author may choose more
+for the nature of the rescue. Other applicable reaction adjustments belong in
+`otherModifier`. The assessment validates these facts before any roll.
+
+`resolve()` rolls 3d plus those modifiers. At a total of 13 or higher, base loyalty
+becomes the greater of its previous value and the reaction total. A lower reaction
+leaves it unchanged. A serious injury or death among the rescuers may justify an
+optional additional permanent bonus: set `seriousSacrifice` and an explicit
+`sacrificeBonus`. The source leaves that amount to the author; zero is the default.
+This authored extra bonus is applied in addition to the ordinary gratitude result.
+
+The relationship's `rescues` history stores the roll, total, resulting rating,
+evidence and extra bonus. Reusing the rescue ID returns the saved result without
+rerolling or applying a bonus again. A private preview contains no loyalty or dice.
+No rescue time or injury is charged here: those must already be represented by the
+actual rescue operation. Rescue itself is not simulated by setting these facts.
+
+Interactions between temporary loyalty modifiers and the source's “original
+loyalty” comparison remain unresolved. When current effective loyalty differs from
+base, this operation returns `rescue-temporary-loyalty-unresolved` before rolling.
+The independent cases `test_rescue_loyalty`, `test_rescue_no_decrease`,
+`test_rescue_ungrateful` and `test_rescue_sacrifice` cover gratitude thresholds,
+retained higher loyalty, optional sacrifice, replay, rollback and undo. Validation is in progress and unrun.
+
+
+## Higher pay and its lingering bonus
+
+`RpgExpandedLoyaltyPayChange` implements full-2008 B519. Set `mode = 'start'`,
+owned `loyalty`, unique event `id`, `normalPay`, `actualPay` and concrete `evidence`
+of the compensation arrangement. Both amounts cover the same period or loot share.
+Each complete ten-percent increase gives +1 loyalty. Below-normal pay and increases
+smaller than a full step do not create this bonus. This operation records the loyalty
+effect; salary or loot payment must use its own single money transfer.
+
+The relationship keeps `payBonus` separate from `base`. Consequently, exclude this
+same higher-pay factor from `initialModifier` and from any later check's manual
+modifier. Effective `rating()` adds it once. The pay arrangement can be established
+before initial loyalty is determined; initialization returns the resulting effective
+rating without embedding the bonus in the permanent base.
+
+When extra pay actually ends, use a new event with `mode = 'stop'` and `expiresAt`
+set to one calendar month after cessation. The authored calendar must supply that
+absolute shared-clock date; no fixed thirty-day month is assumed. The bonus remains
+active before that date and expires exactly at it. Neither start nor stop advances
+time, and repeated event IDs cannot reapply or extend the effect.
+
+Changing an active bonus, or starting another while its old bonus lingers, returns
+`loyalty-pay-overlap-unresolved`. The supplied rule does not specify overlapping
+rate changes; the engine does not silently stack or refresh them. After expiry a
+new arrangement with a new event ID can start normally. Underpayment, ongoing
+salary processing and employment consequences remain separate requirements.
+
+`tests/expanded.py::test_loyalty_pay` covers bonus/base separation, repeated events,
+rollback, undo and exact expiry. Its short fixture date stands in for an authored
+calendar month. All cases remain unrun pending recorded validation.
+
+
+## Character/social subset authoring
 
 ## Standing and reputation
 
 `RpgExpandedStatus` is a culture-specific contribution. `RpgExpandedRank` adds an
 authored institution, admission and whether rank replaces status.
 `RpgExpandedSocialStructure` defines how purchased status, rank and installed
-wealth contributions interact. No campaign wealth module is included here;
+wealth contributions interact. The character/social umbrella does not include the campaign wealth module;
 wealth-linked behavior requires an explicit compatible contribution.
 `RpgExpandedStatusEncounter` needs recognition, culture and relevant disposition
 facts. A score does not automatically confer access or legal authority.
@@ -62,3 +679,1155 @@ The source-derived API reference documents fields and methods. Full influence
 contests, contacts, complete social permissions and some reaction follow-up
 procedures remain outside this milestone. Source mapping: `full-2008` B27-B30,
 B44-B45, B494-B495, B518-B519 and B560-B562. See the [prerelease validation record](../releases/v1.1.0-alpha.1.md).
+
+The prerelease record applies to the original subset. Checks for this merged
+expanded suite remain paused.
+
+
+### Threatening recurrence of a resolved condition
+
+When the optional health library is included, `RpgExpandedAgonyThreatContext`
+connects a recovered agony episode to interrogation or intimidation scoring.
+Supply the actual target, owned episode, credibility decision and supporting
+threat evidence. It contributes the B428 bonus once through the normal skill
+modifier interface. Use it with the shared score/check functions or, for
+intimidation, `rpgLiteInfluence`; the latter rejects a mismatched target before
+rolling. Keep unrelated adjustments in `modifier`, without adding the recurrence
+bonus a second time. See the [health guide](health.md) for fields and limits.
+This adapter does not supply the full interrogation procedure or automatically
+transfer knowledge. Its fixture is authored and unrun pending recorded validation.
+
+
+### Owned interrogation questions
+
+`RpgExpandedInterrogation` supplies the full-2008 B202 procedure for an authored,
+continuous questioning session. Set its `id`, expanded-profile `interrogator`,
+`prisoner` and IQ/Average `interrogation` skill. Each
+`RpgExpandedInterrogationQuestion` supplies a unique `id`, `session`, question
+identifier, `truthfulAnswer`, `falseAnswer`, `approved` and `evidence`. Responses
+are original authored identifiers or objects; the engine does not manufacture
+facts. Supply both possible answers even when ordinary failure uses silence.
+
+`assess()` is pure and reveals no selected statement. `apply()` spends five
+minutes and resolves a Quick Contest against Will. Victory selects the truthful
+answer; a tie or ordinary defeat selects `failureResponse` (`silence` or `lie`).
+Defeat by more than five selects `believable-lie`. The result records the contest,
+margin, response kind and statement. Keep these results and dice private to the
+author/GM; deliberately decide what narration the player receives. A returned lie
+does not automatically become a belief or an entry in the knowledge ledger.
+Replaying a committed question returns its stored result without time or rolls.
+
+Set `loyaltyResists` for the source's Very Good/Excellent loyalty condition.
+`means` is `ordinary`, `severe-threat` or `torture`; it describes established
+fiction, not an action that inflicts damage. The operation applies the source's
+−5 loyalty modifier, −3 low-empathy modifier, +3 severe-threat or +6 torture bonus,
+and +1 callousness bonus to either of the latter. After the session passes two
+hours, questions receive +2. These adjustments are applied once; put only other
+modifiers in `modifier`. Evidence must establish the declared circumstances.
+
+Questions own their five-minute intervals and receipts. Both participants must
+remain available, and their effective scores must be unchanged at completion.
+Shared-clock deadlines may reject an interval before time is spent. A subsequent
+question must start at the previous question's completion; interrupted sessions,
+repeat questions, exhausted/critical-health participants and institutional teaching
+access remain explicit unfinished integrations. Answer delivery is an explicit
+operation described below.
+The separate recovered-agony threat context is not yet wired into this owned
+question operation; an author can assess its contribution and supply it once as
+an additional modifier. `expanded-interrogation.t` specifies outcomes, modifiers,
+preview purity, replay, rollback, undo, saved continuation and the two-hour
+boundary. Assertions remain unrun.
+
+
+### Delivering an interrogation answer
+
+After a question resolves, `RpgExpandedInterrogationDelivery` records its spoken
+answer in the interrogator's existing `RpgExpandedKnowledge.received` ledger.
+Supply a unique delivery `id`, the completed `question`, and its interrogator as
+`recipient`. The recipient must own a valid knowledge object. `assess()` reveals
+no statements; `deliver()` returns the committed statement and stores its source
+as the prisoner. The five-minute question already paid for the conversation, so
+delivery spends no additional time, money or randomness.
+
+A question can be delivered once, even through differently named delivery
+objects. Replaying the same delivery validates its target, question and knowledge
+receipt, then returns the same statement. Silence creates no delivery. Truthful
+and false answers both enter the received-claims ledger: neither automatically
+changes the recipient's beliefs or fabrications. The private question result
+retains its truth/lie classification; do not expose that classification as player
+knowledge. Witnesses, sharing claims, belief adoption and using a received answer
+to authorize another subsystem still require separate authored operations.
+
+The interrogation fixture specifies unanswered-question rejection, preview
+privacy, truthful and false claims, silence, duplicate prevention, rollback, undo
+and saved continuation. These assertions are authored and unrun.
+
+## Delivering a resolved statement
+
+`RpgExpandedStatementDelivery` connects a concrete resolved communication to a
+recipient's existing `RpgExpandedKnowledge.received` ledger. Currently the
+truthfulness trigger supplies this receipt through its `communication` property.
+The foundation's `RpgExpandedStatementReceipt` keeps the source, speaker,
+statement, private outcome classification and delivery ownership together. Its
+source validates it against the original resolved procedure before delivery.
+
+Set a stable delivery `id`, the `communication`, and an expanded `recipient`
+with owned knowledge. The author must set `heard = true` and nonempty `evidence`
+establishing that this recipient heard and understood this particular utterance.
+This is a story fact, not a substitute for unresolved language, range or perception
+checks: resolve any such uncertainty first. The speaker cannot be its own
+recipient. Separate witnessed recipients require separate evidenced deliveries.
+
+`assess()` returns readiness without revealing the statement. `deliver()` records
+`[id, speaker, [statement], 0]` and returns the statement, without adding time,
+randomness, payment or a second self-control roll. A withheld statement blocks.
+One utterance reaches each recipient at most once, even under another delivery
+ID. Replaying a completed request returns its bound statement; changing its
+fields, source content or received ledger rejects.
+
+Truth, convincing falsehood and obvious falsehood all enter the received ledger
+as heard statements. They do not automatically become beliefs or fabrications,
+and the receipt's private classification is not copied to the recipient. The
+authored conversation may portray an obvious lie according to the resolved
+outcome. Belief adoption, deception contests, parser/dialogue routing and automatic
+witness discovery remain separate integration obligations.
+
+The delivery is an engine integration contract for the full-2008 B159 outcome,
+not an additional published influence mechanic. `expanded-statement-delivery.t`
+and `test_statement_delivery` specify hearing evidence, withheld information,
+truth/lie delivery, ownership, preview purity, replay, duplicate prevention,
+rollback, undo, altered-receipt rejection and cross-process continuation.
+These assertions remain unrun pending recorded validation.
+
+## Occupational reactions to danger avoidance
+
+`RpgExpandedDangerReactionContext` extends the shared social context for the
+full-2008 B129 setting-dependent reaction. Supply an expanded `subject`, an
+`observer`, `approved = true` and nonempty `evidence`. Set `avoidanceKnown` when
+this observer knows about the trait, and `occupationalExpectation` when the
+authored setting and role apply the penalty. Neither fact is inferred from a job
+title or a failed fear check. Both must be true for a penalty.
+
+The context obtains the concrete purchased trait's 4/3/2/1 penalty for ratings
+6/9/12/15. `rpgLiteReactionModifier(subject,context)` applies it once alongside
+other reaction modifiers. The context's ordinary `modifier` remains available
+for unrelated circumstances; do not repeat this trait penalty there. An observer unaware
+of the trait or an inapplicable occupational expectation contributes zero. If applicable
+facts are asserted without a concrete purchased trait, the request rejects.
+
+Pass the same context to `rpgLiteInfluence`. Its observer must match the actual
+target. Participant and authored-fact validation occur before any influence dice;
+Diplomacy's ordinary-reaction result uses the penalty through the shared modifier
+path. This does not turn the reaction penalty into a skill penalty or override
+another influence skill's specific outcome procedure.
+
+The shared context's new hooks return zero/no-op by default. Existing Lite calls
+retain their arithmetic and dice consumption. The fixture covers all four ratings,
+unknown/inapplicable cases, unrelated modifiers, Diplomacy and invalid requests
+before RNG. These assertions remain unrun. General multi-trait reaction composition
+and parser/dialogue routing remain broader integration obligations.
+
+## Automatic social-skill reaction bonus
+
+Attach `RpgExpandedReactionMastery` to a reaction attempt's `mastery` field.
+Supply the same encounter, one selected Diplomacy or Fast-Talk skill, approval
+and concrete context evidence. The assessment uses the subject's skill rating,
+not a fresh skill roll or a temporary skill-check modifier. Diplomacy at level
+20 or higher gives +2 (full-2008, B187). Fast-Talk at that level gives +2 only
+when `canSpeak` establishes that the character is allowed to talk (B195).
+Level 19 gives no bonus. The ordinary definitions are checked against their
+printed attributes, difficulties and attribute defaults.
+
+The reaction attempt adds this bonus once to its existing modifier. Do not also
+include the same bonus manually in `modifier`. The encounter stores the selected
+skill, assessed level, modifier and evidence in `masteryHistory`, alongside its
+existing private reaction history. Preview adds no history or randomness, and
+replay retains the original total after skill changes. Predetermined reactions
+bypass the mastery assessment and consume no dice.
+
+This adapter selects one qualifying skill. Combining multiple mastery sources
+and the separate successful-skill-roll bonus are not implemented by this field.
+It does not replace influence procedures or expose secret attitudes to players.
+`tests/fixtures/expanded-reaction-mastery.t` covers the 19/20 boundary, speaking
+eligibility, predetermined outcomes, replay, rollback, undo and saved
+continuation; assertions are authored, unrun.
+
+## Contextual skill preparation
+
+`RpgExpandedReactionPreparation` owns one Administration or Carousing check for
+an encounter before its reaction history begins. Supply the encounter, skill,
+reaction kind, contextual modifier, approval and evidence. Administration requires
+`reactionKind = 'bureaucracy'` and gives +2 on success (B174). Carousing supports
+`general`, `aid` or `information`, gives +2 on success, and gives -2 on failure
+(B183). The evidence must establish the actual audience and appropriate setting.
+
+Include health for action permission. `requiresMovement` describes the authored
+task. `seconds` is its authored duration, charged through the existing ledger
+once; zero is available for a check whose activity time was already accounted
+for, which must be explained in the evidence. The reference gives no universal
+duration for these contextual tasks. Skill modifiers must likewise have a
+concrete rationale; this request does not automatically purchase entertainment.
+
+Call `assess()` for a pure preview and `resolve()` before the reaction attempt.
+The encounter records the check and automatically includes its modifier in later
+reaction attempts, including approved changed approaches. A failed Carousing
+check therefore continues to penalize that audience. A second preparation cannot
+replace the recorded check, and replay neither spends time nor rolls again.
+Health permission denial is recorded without setting a reaction modifier.
+Predetermined reactions need no preparation and bypass any modifier.
+
+Do not manually add the same modifier to the reaction attempt. Other contextual
+skills, entertainment purchasing, special failure dangers and broader carry-over
+between separately authored encounters remain pending. The preparation fixture
+covers success, distinct failure effects, persistent modifiers, time charged
+once, rollback, undo and saved continuation; assertions are authored, unrun.
+
+## Paid Carousing entertainment
+
+Attach `RpgExpandedCarousingEntertainment` to a contextual preparation's
+`entertainment` field. Set its reciprocal `preparation`, payer, provider, price,
+bonus, availability, approval and evidence. The payer must be the encounter's
+subject; the provider is a distinct profile with an existing money balance.
+The author sets the local price and an appropriate skill bonus of +1 through +3
+(full-2008, B183). There is no invented fixed conversion from money to bonus.
+
+Preparation preview verifies affordability, service facts and the bonus before
+health permission, time or dice. On commitment, the existing money balances
+transfer the price once before the Carousing roll. The receipt is bound to this
+preparation; another preparation cannot borrow it. Replay and saved continuation
+retain the payment. Failure still pays for entertainment already provided and
+retains Carousing's -2 reaction consequence.
+
+The bonus applies to the Carousing skill check, not directly to the reaction
+roll. Do not add it again to `skillModifier`. Health permission denial makes no
+purchase. Entertainment inventory, individual drink consumption, intoxication
+and special venue dangers remain separate pending integrations. The fixture
+`tests/fixtures/expanded-carousing-entertainment.t` covers affordability, service
+availability, +1/+3 score effects, money conservation, replay, rollback, undo and
+saved continuation; assertions are authored, unrun.
+
+### Changes during preparation
+
+Preparation rechecks its bound definition and encounter after health permission,
+after elapsed time, and before recording the result. A changed audience, changed
+price or removed payment object invalidates the operation. A reaction that runs
+during the preparation interval also invalidates it; the earlier preflight is
+not sufficient to attach a later bonus to an already-resolved encounter.
+
+These failures propagate to the enclosing action transaction so time, payment,
+random draws, encounter changes and receipts roll back together. Do not catch
+and suppress the failure inside an action that then commits partial changes.
+The `expanded-social-interruption.t` fixture injects audience, encounter, price,
+definition-length and provider-capacity changes during time advancement, then
+checks rollback and successful retry after cross-process restore. Assertions are
+authored, unrun pending recorded validation.
+
+Carousing preparation now also consumes the traits module's
+[social-inhibition penalty](traits.md#social-inhibition) through the shared score
+hook. Its -1/-2/-4 is separate from entertainment's +1 to +3 and is applied once.
+Other emotional-motivation and pleasure-related trait penalties remain pending.
+
+The traits module now supplies the
+[emotional-understanding deficit](traits.md#emotional-understanding-deficit)
+through the same context hook as social inhibition. Carousing and other listed
+emotion-dependent checks take -3; the skills remain learnable. This replaces the
+earlier missing emotional-motivation penalty for this concrete trait definition.
+Pleasure-related effects and other trait integrations remain pending.
+
+## Observed lack of appreciation
+
+Set a reaction attempt's `socialContext` to
+`RpgExpandedPleasureReactionContext` for the B141 reaction effect. Identify the
+subject and observer matching the encounter, set `noticeable`, choose a penalty
+from 1 to 3, and provide approval and evidence describing what the observer
+noticed. The penalty applies only while the subject's pleasure-loss trait is
+active and unmitigated. The context also uses the ordinary visible/heard reaction
+modifiers; do not add those or this penalty manually to the attempt's modifier.
+A nil `socialContext` preserves the previous reaction calculation.
+
+Use `consequence(band)` for this context's adverse response. It accepts only
+`adverseResponse = 'ridicule'` or `'rejection'`; violent choices are rejected before
+the reaction roll. An unfavorable band returns that authored social consequence
+when the trait is noticeable. Otherwise it returns `ordinary-social-response`.
+Do not feed this trait's adverse reaction into the potential-combat interpreter:
+the source explicitly makes this ridicule or rejection rather than violence.
+
+The fixture covers notice, mitigation, penalty endpoints, private reaction
+replay and nonviolent response validation. Assertions are authored, unrun.
+Cross-context narrative consequences and modified trait variants remain pending.
+
+The traits module's [emotional obliviousness](traits.md#emotional-obliviousness)
+now modifies both acting skill and target resistance for the six ordinary
+influence skills. The new resistance hook defaults to zero, preserving existing
+behavior without the trait. Unsupported effective resistance below three is
+rejected before rolling rather than returned as a misleading ordinary outcome.
+
+### Player-authored gesture exchanges (full-2008, B125)
+
+`RpgExpandedGestureExchange` records communication between two player characters
+without a shared signing language. Supply distinct expanded `sender` and
+`recipient` profiles, `playerParticipants = true`, a visible `gesture`, the
+sender's `intendedMeaning`, and the recipient's chosen `interpretedMeaning`.
+Set `interpretation` to `understood`, `misunderstood`, or `unresolved`; the last
+requires a nil interpreted meaning. These are player choices, never inferred by
+a skill roll. Also supply `observed`, `approved` and scene `evidence`.
+
+`assess()` previews without mutation; `apply()` records the exchange in both
+participants' `gestureExchanges`. An authored `seconds` duration advances the
+shared clock once, with no randomness. Zero seconds is appropriate only when
+another action already accounts for the communication. The default requires
+movement; authors can explicitly describe a channel that does not. Participant
+health and the bound exchange are checked after elapsed-time hooks; propagate
+interruptions to the transaction boundary for rollback.
+
+Replay does not charge time or duplicate records. The receipt preserves both
+meanings without treating either as a world fact or forcing belief. Shared
+languages and NPC interpretation need their own communication procedures.
+The development library can credit the sender’s recorded interval through
+`RpgExpandedCommunicationStudy`; other channels remain pending. Authored fixtures cover all three
+interpretations, unavailable observation, interruption, undo and save replay;
+validation is in progress.
+
+Interrogation questions accept the authored `pastVictim` fact (full-2008 B125).
+For an interrogator with active callousness it applies -3, independently of the
+existing +1 coercion bonus. Include the basis in the question's evidence; do not
+also subtract it through `modifier`. The fact is bound to the question receipt,
+so changing it during elapsed time rejects the question and changing it after
+completion rejects replay. The integration fixture covers ordinary questioning,
+threats, torture, mitigation, interruption and save continuation; it is unrun.
+
+Interrogation questions and reaction preparation accept `company` facts for
+companionship penalties. They pass the same facts into contextual scoring and
+bind the full group membership, approval and evidence to their receipt. Supply
+a separate facts object for a later scene; changing the original object changes
+the completed request and rejects replay. Membership changes during elapsed time
+reject even when the replacement group has the same size and penalty. The two
+integration fixtures cover scoring, interruption rollback and replay; they are
+unrun pending recorded validation.
+
+## Demonstrated talent reactions
+
+`RpgExpandedTalentReactionContext` supplies the reaction benefit for the three
+shared catalogue talents (full-2008, B89-B91). Supply an expanded `subject`, a
+separate `observer`, the subject's owned `talent`, and a `demonstratedSkill` in
+that talent's printed skill group. The traits module supplies the shared group
+list; absent support rejects rather than guessing a talent definition.
+
+The author must approve the facts with nonempty `evidence`. Set
+`observedPerformance`, `eligibleAudience` and `impressed` for the specific
+observer. All three must hold for the active, unmitigated talent to add its level
+(+1 through +4). For mechanical aptitude, the relevant audience is someone the
+subject does work for; for wilderness aptitude, explorers and nature enthusiasts;
+for social aptitude, social professionals such as salespeople or politicians.
+The author determines whether this observer qualifies and appreciates the
+performance. These facts are not inferred from an occupation label alone.
+
+For social aptitude, `manipulatingObserver = true` suppresses the bonus. Possession
+of a talent alone grants no reaction benefit. The context does not grant a bonus
+for an unrelated demonstrated skill, an unowned purchase, or an incorrectly
+identified observer. Invalid facts reject before any reaction dice are spent.
+
+Assign the context to `RpgExpandedReactionAttempt.socialContext`. Existing
+encounter history preserves the result and prevents another roll for the same
+approach. The general personal modifiers still compose through the normal social
+context. Custom talents, combined talent-reaction contexts and overlap policy
+remain unfinished.
+
+`test_talent_reaction` specifies eligibility, mitigation, the manipulation
+exception, pure assessment, rejection before rolling, replay, exception rollback,
+undo and cross-process save continuation. Assertions remain unrun.
+
+
+## Observed behavior in reactions
+
+`RpgExpandedHumorlessnessObservation` implements the situational reaction effect
+from `full-2008`, B146. Its subject receives -2 only when the trait is active and
+`evident = true` for this observer. The author describes the actual communication
+that revealed the behavior; owning the trait alone does not penalize every
+encounter. Interpreting jokes and choosing speech remain authored/player behavior.
+
+`RpgExpandedCallousnessObservation` supplies the existing B125 -1 when the observer
+is a `pastVictim` or an `empathicObserver`. Both concrete observations inherit
+`RpgExpandedSocialObservation`: set a unique `id`, `subject`, `observer`,
+`approved = true` and original `evidence`. `assess()` previews; `record()` stores
+immutable participant-specific evidence at the shared time without a roll or
+elapsed-time charge. Later facts use a new observation rather than rewriting an
+old one. Trait mitigation still suppresses the current trait effect.
+
+Use `RpgExpandedObservedReactionContext` with those participants and an
+`observations` list. Each selected observation must belong to that subject and
+observer. The context combines distinct effects but rejects duplicate kinds,
+including two observations of the same trait. Normal shared reaction modifiers
+still apply once. This supplies a concrete composition path for these two effects;
+other situational trait contexts are not automatically converted to observations.
+
+`RpgExpandedObservedReactionAttempt` uses the existing owned reaction encounter
+and distinct approach identity. It binds the chosen observation definitions to
+its resolved approach and rejects later substitutions. Retrying it reuses the
+stored roll/outcome. Use a new approved approach for a new observation selection.
+Reaction results and observation evidence are trusted-author data; do not expose
+hidden attitudes or rolls directly in player output.
+
+[`expanded-observed-reactions.t`](../../tests/fixtures/expanded-observed-reactions.t)
+contains cost, evident/unevident behavior, combined modifiers, duplicate rejection,
+immutable evidence, preview, replay, rollback, undo and persistence fixtures. They
+are authored but unrun pending recorded validation. Automatic dialogue observation
+and conversion of the remaining situational trait contexts remain pending.
+
+
+## Pervasive distrust
+
+`RpgExpandedDistrustObservation` records the ordinary -2 response to a subject
+with active pervasive distrust (`full-2008`, B148). Set `typicalObserver = true`
+only when the author confirms that this response applies; use the same owned
+observation recording contract described above.
+
+For an observer with this trait, use `RpgExpandedDistrustReactionContext` with
+an expanded `observer`, `observerIsNpc`, `stranger`, `approved` and original
+`evidence`. An active nonplayer observer doubles each other negative reaction
+component, preserves positive components, then adds -4 once for a stranger.
+Player-controlled observers do not receive these automatic attitude changes.
+
+Supply contextual modifiers as `adjustments`: rows of
+`[uniqueId, signedAmount, evidence]`. Keep the inherited `modifier` zero.
+Aggregating a bonus and penalty would lose the information needed for doubling,
+so a nonzero aggregate modifier is rejected before rolling. Existing personal
+modifiers and concrete selected observations participate separately. For example,
+a +4 benefit, a -2 affiliation penalty and a -2 observed behavior penalty total
+-8 for a stranger: +4 -4 -4 -4.
+
+Resolve through `RpgExpandedObservedReactionAttempt`; observer roles and itemized
+facts bind to the stored approach, preventing changed facts from silently reusing
+a result. Ordinary social contexts retain identity component adjustments and no
+extra random draws. Custom contexts supplying an aggregated trait contribution
+must expose separate `traitReactionComponents(profile)` before combining with
+this rule. Automatic dialogue observations and other specialized-context
+integrations remain pending.
+
+[`expanded-distrust-reactions.t`](../../tests/fixtures/expanded-distrust-reactions.t)
+and `test_distrust_reactions` specify costs, both observer roles, separate signs,
+stranger handling, preview, invalid aggregate rejection, replay, rollback, undo
+and save continuation. These fixtures remain unrun pending recorded validation.
+
+
+## Witnessed responses to phantom voices
+
+`RpgExpandedPhantomVoiceObservation` uses the owned observation contract above.
+Supply an `occurrence` belonging to the subject, `witnessedResponse = true`
+and `typicalObserver = true` when the author confirms both facts. An actual
+recorded episode at severity one or two gives -2 (`full-2008`, B148); a failed
+trigger cannot support this observation. The observer must witness a response,
+not merely know that the subject owns the trait.
+
+The observation remains historical after the episode ends. It can compose with
+other distinct observations through `RpgExpandedObservedReactionContext`.
+The traits module must be installed to validate the occurrence; the social module
+alone rejects the request through its foundation hook. The source does not
+explicitly repeat the reaction effect for commanding severity, so that combination
+is rejected pending clarification. Automatic dialogue observation remains pending.
+
+
+## Observed fixed beliefs
+
+`RpgExpandedFixedBeliefObservation` connects an observer to a recorded
+`portrayal` from the traits module. Supply the inherited subject, observer, ID,
+approval and evidence fields, plus `noticed = true` when that observer actually
+noticed the behavior. The active, unmitigated purchase contributes -1/-2/-3 for
+severity one/two/three (`full-2008`, B130). An unnoticed portrayal contributes
+zero; mitigation or removal suppresses the current modifier without deleting
+history. Owning a belief alone does not establish an observation.
+
+Record the portrayal before recording its observation. Both bind the original
+authored facts, and repeated application spends no time or randomness. The social
+module alone rejects requests requiring the absent traits implementation.
+`RpgExpandedObservedReactionContext` accepts one fixed-belief observation;
+multiple belief penalties reject until stacking is resolved. Other distinct
+observation kinds can compose normally. Automatic dialogue routing remains pending.
+
+[`expanded-belief-observation.t`](../../tests/fixtures/expanded-belief-observation.t)
+and `test_belief_observation` specify all three modifiers, noticed versus unnoticed
+behavior, mitigation, duplicate-effect rejection, pure preview, replay, exception
+rollback, undo and cross-process save continuation. These fixtures remain unrun.
+
+
+## Dependent relationships
+
+`RpgExpandedDependent` is a character-accounting contribution (`full-2008`, B131).
+Supply `id`, `owner`, the authored `dependent` identity, `principalPoints`,
+`dependentPoints`, `importance`, approval and evidence. Those totals are approved
+build references, not a recursive query of the principal's cost including this
+relationship. Competence uses the strongest qualifying proportional bracket;
+nonpositive dependent totals use the absolute final row. Positive dependent totals
+with nonpositive principal totals or above the principal's total reject.
+
+Importance is `acquaintance`, `friend` or `loved-one`. Appearance frequency is
+6, 9, 12 or 15; zero represents restricted constant presence (B36) and requires
+`constantAttachment` of `implanted`, `worn` or `supernatural`. A member’s price fractions
+are combined before rounding toward positive infinity; group pricing then doubles
+that member value. Set `group = true`
+for an authored representative member's value doubled, consuming both credit
+slots. At most two slots may earn points. Further relationships can use
+`credited = nil`; they remain relationships but contribute zero accounting credit.
+Repeated person/group identities reject. Explicit group membership snapshots are supported by the group-session interface below.
+
+`RpgExpandedDependentAppearance` owns the adventure's appearance determination.
+Supply the installed `relationship`, an `adventure` identity, approval and evidence
+that the adventure is beginning. `assess()` is pure; `resolve()` rolls once against
+the selected frequency, or consumes no randomness for constant presence. Another
+receipt for the same relationship/adventure rejects; replay returns the saved
+outcome. Appearing means this relationship should cause authored trouble, not an
+automatic move, injury or kidnapping. The author supplies that concrete scene.
+
+Live rescue routing, fractional/nonpositive-total advancement,
+permanent-loss replacement, combined helpful/troublesome roles, combined-package copying
+and group membership changes across sessions remain pending. Pricing and appearance alone do not mark the
+relationship fully implemented.
+[`expanded-dependents.t`](../../tests/fixtures/expanded-dependents.t) and
+`test_dependents` specify brackets, combined multipliers, character accounting,
+rolled/constant appearances, preview, replay, rollback, undo and save continuation.
+Fixtures remain unrun.
+
+
+### Closing a session with dependents
+
+`RpgExpandedDependentSession` records the author's end-of-session adjudication
+(`full-2008`, B131). Supply `profile`, a stable `session` identity, approval,
+evidence and exactly one `outcomes` row for every installed dependent, including
+uncredited relationships. A row contains `[relationship, peril, promptAid,
+seriousHarm, denyBonus, evidence]`. `seriousHarm` means killed or badly hurt;
+the author decides that classification from actual play. `denyBonus` is the
+author's decision after failure to provide prompt aid, and rejects if there was
+no peril or prompt aid was provided. This is a concrete adjudication contract,
+not an automatic interpretation of dialogue or wound totals.
+
+Call pure `assess()` and then `record()` after session events are settled.
+The immutable receipt binds the relationships and all outcomes. Duplicate session
+closures and closure after a claimed session award reject. The record itself
+spends no points, time or randomness. Replay reuses it.
+
+Every `RpgMilestone` awarded to a profile with dependents must identify its
+`awardSession`, matching a recorded closure. Set `bonusAward = true` for a bonus
+subject to the author's rescue judgment. Serious harm blocks every milestone in
+that session; denied rescue bonuses block only bonus milestones. The shared
+`rpgAwardMilestone` path enforces these gates before touching its existing receipt,
+point bank or unlock effects. Other profiles retain their prior default behavior.
+Previously claimed awards remain replayable and previously earned points are not
+removed. Authors must close the session before awarding its points, rather than
+attempt retrospective adjudication after awarding them.
+
+This does not route live rescue actions or settle permanent-loss replacement.
+For member-specific group outcomes, use the group-session subclass described below;
+serious-harm classification remains an authored judgment. `expanded-dependent-sessions.t` and
+`test_dependent_sessions` specify closure requirements, serious harm, discretionary
+bonus denial, ordinary objective awards, preview, replay, rollback, undo and saved
+continuation. These fixtures remain unrun pending recorded validation.
+
+
+### Dependent purchases in templates
+
+`RpgExpandedTemplate.contributionDefinitions` accepts unowned contribution
+prototypes with an explicit `templateCopy(profile)` implementation. The default
+contribution implementation rejects unsupported copying. A dependent prototype
+uses the same approved build totals, importance, frequency and identity as a
+normal dependent purchase, with `owner = nil`. The fixed package and
+`createSelected` path each construct fresh purchases owned by the new profile.
+The completed character still validates credit slots, duplicate identities,
+appearance restrictions and point/disadvantage budgets.
+
+Copies preserve the authored dependent identity (two characters may protect the
+same person), but share no mutable purchase object, appearance history or session
+closure history. Changing one character's purchase does not edit the prototype or
+another character. Templates reject already-owned purchase definitions.
+This adds reusable purchase construction for B131 and B258; contribution-bearing
+package combination remains unsupported.
+`expanded-dependent-templates.t` / `test_dependent_templates` cover fixed and
+selected construction, ownership, accounting, isolation, rollback, undo and saved
+continuation. Fixtures are authored but unrun pending recorded validation.
+
+
+`RpgExpandedTemplateOption.contributionDefinitions` also accepts dependent
+prototypes. The contribution's pure `templateCost()` participates in the choice
+group's signed point bounds. Selecting the option adds its definitions to the
+fixed package definitions, then constructs and validates the complete character.
+This catches the combined two-dependent credit limit, duplicate relationships and
+character disadvantage budget even when each option is individually valid.
+Unselected options contribute no purchases. Unsupported contribution cost methods
+reject instead of being treated as zero. Cost queries allocate only temporary
+purchase objects and leave prototypes and gameplay ledgers unchanged.
+`expanded-dependent-choices.t` and `test_dependent_choices` specify signed bounds,
+combined credit slots, disadvantage limits, rollback, undo and saved continuation;
+the fixtures remain unrun.
+
+
+### Approved dependent growth
+
+`RpgExpandedDependentGrowth` records proportional NPC build advancement
+(`full-2008`, B131). Supply a unique `id`, installed `relationship`, `previous`
+(the latest growth receipt, or nil initially), approved new principal/dependent
+build totals, evidence and itemized `improvements`. Each improvement is
+`[unique ID, positive point cost, description]`; their costs must exactly equal
+the dependent's increase since the preceding record. The author approves concrete
+changes to the NPC build, rather than a generic permission to improve later.
+
+`rpgExpandedDependentGrowthTotal` reduces the original proportion before computing
+the new total, avoiding overflowing intermediate cross-products. Positive starting
+totals and exact whole-point results are supported. Fractional results reject;
+nonpositive starting totals and build changes involving refunds remain unsupported.
+No rounding or special treatment of the absolute nonpositive competence row is
+invented. The principal's approved total must increase; stale/branching predecessor
+records and duplicate IDs reject.
+
+Pure `assess()` and committed `record()` keep receipts in the relationship's
+`growthHistory`. Original purchase facts and cost remain unchanged, preserving
+appearance and session bindings. Replay validates the bound facts and predecessor
+chain. The latest receipt supplies the current approved NPC build totals.
+This is author-maintained NPC build accounting: it neither grants points to the
+principal nor automatically changes an NPC profile's training or characteristics.
+General NPC profile application, fractional and nonpositive-total advancement
+remain pending, so the source inventory still marks progression partial.
+`expanded-dependent-growth.t` and `test_dependent_growth` specify exact proportions,
+itemized accounting, unchanged purchase/bank/RNG, chain replay, rollback, undo,
+save continuation and changed-fact rejection. Fixtures remain unrun.
+
+
+For a growth record consisting entirely of skill improvements,
+`RpgExpandedDependentSkillGrowth` applies the approved purchases to an actual NPC
+profile. The relationship's `dependent` must be that expanded profile. Supply the
+recorded `growth` and `purchases` rows `[improvementID, ownedTraining, oldPoints,
+newPoints, teacherOrNil]`. Every approved improvement must be covered once, with
+a matching point difference; duplicate IDs/slots, changed old investments and
+partial applications reject. Existing zero-point slots may be used to learn a
+new skill. Shared ownership, learning/prerequisite/teacher and development-offer
+gates run before any mutation. Prerequisites must already be satisfied; purchases
+in the same batch cannot unlock one another.
+
+`assess()` is pure. `apply()` changes the NPC's existing training points, advances
+its development revision and records one application per growth receipt. It adds
+no study time or random rolls and changes neither character's earned/unspent bank:
+this executes the approved proportional NPC improvement. Saved replay returns the
+receipt without reapplying points. Subsequent growth uses a fresh receipt and the
+then-current investment. This path does not yet apply attribute, trait or mixed
+build changes; those remain explicit author-maintained records.
+`expanded-dependent-skill-growth.t` and `test_dependent_skill_growth` cover actual
+NPC cost changes, prerequisite and stale-investment rejection, unchanged banks,
+rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.
+
+
+### Group members and session incidents
+
+Use `RpgExpandedDependentGroupSession` when recording member-specific group
+outcomes. Supply `rosters` of `RpgExpandedDependentRoster` objects: each has its
+installed group `relationship`, unique non-null `members`, approval and evidence.
+A member identity differs from the principal and the group identity. The roster
+is a snapshot bound into the session closure, not a new point contribution.
+Population never multiplies the group's two-slot credit.
+
+Supply one `memberOutcomes` row per member: `[roster, member, peril, promptAid,
+seriousHarm, denyBonus, evidence]`. Every group relationship in the session needs
+one roster. Duplicate/missing members and outcomes for an unrelated roster reject.
+The ordinary `outcomes` summary must match the member facts: any peril, prompt aid
+for every endangered member, any serious harm, and any adjudicated bonus denial.
+A member's denied bonus requires peril without prompt aid. An incorrect safe
+summary therefore cannot hide a seriously injured member from the award gate.
+
+Recording binds membership and each incident to the same session receipt and
+shared award restrictions. Replay rejects changed facts. The author supplies
+explicit safe outcomes for unaffected members; no automatic injury classification
+or world movement is implied. Membership changes use a new roster/session snapshot;
+automatic transfers, individual build validation and permanent-loss replacement
+remain pending. The ordinary session class still accepts an authored aggregate
+judgment when individual members are not modeled.
+`expanded-dependent-groups.t` and `test_dependent_groups` cover safe and harmful
+sessions, summary disagreement, omitted members, receipt binding, rollback, undo,
+replay and save continuation. Fixtures remain unrun pending recorded validation.
+
+
+### Permanent loss and funded settlement
+
+`RpgExpandedDependentLoss` records an installed relationship's permanent removal
+(`full-2008`, B131). Supply the loss `session` identity, `disposition` (`dead` or `permanently-incapacitated`),
+`originalBonus`, approval, removal `evidence` and historical `bonusEvidence`.
+The author confirms the points originally awarded; the amount is not inferred
+from a possibly changed present-day price. An uncredited relationship must have
+zero original bonus. Group removal additionally requires explicit
+`entireGroupUnavailable`: losing one member does not remove a surviving group.
+
+`record()` binds one loss per relationship and prevents new appearances, growth
+records and unapplied skill-growth applications. Existing receipts remain
+replayable. The unresolved relationship retains its accounting credit until
+settlement. `RpgExpandedDependentLossBuyoff` takes the recorded `loss`; pure
+`assess()` checks available unspent points and the shared spending restriction.
+`apply()` spends the original bonus exactly once, increments development revision
+and marks the contribution retired. Earned points, time and randomness do not
+change. This is permanent-loss settlement and does not impose a downtime gate.
+
+Retired contributions remain in the profile for historical references but return
+zero point credit and consume no dependent slots. They no longer require outcomes
+in later sessions; an existing loss-session closure still prohibits that session's
+awards. Loss history independently blocks awards for its session even without a
+closure; subsequent milestones must identify their session. Do not remove
+historical contributions or edit their purchase definitions.
+Replacement disadvantages,
+replacement dependents and partial group-loss handling remain pending. Without a character-finalization receipt, the
+historical amount requires explicit author evidence.
+`expanded-dependent-loss.t` and `test_dependent_loss` specify funded/insufficient
+settlement, historical award restrictions, unavailable appearances, surviving
+groups, replay, rollback, undo and save continuation. Fixtures remain unrun.
+
+
+Character finalization now captures contribution credit in
+`RpgExpandedContributionBasis` records alongside the existing trait records.
+`profile.originalContributionBonus(relationship)` returns the verified original
+negative credit, including zero for uncredited relationships. Finalization replay
+validates ownership, receipt membership and the captured amounts. Subsequent
+purchase repricing does not rewrite historical credit.
+
+For a dependent present at finalization, leave `loss.originalBonus` and
+`bonusEvidence` nil to use the captured value. A supplied amount must match;
+conflicting amounts reject. Relationships added later, or characters without a
+finalization receipt, still require an explicit historical amount and evidence.
+Finalization adds no points or time, and funded settlement continues to use the
+single existing unspent bank. Replacement options remain pending.
+`expanded-dependent-original-credit.t` / `test_dependent_original_credit` specify
+zero-credit capture, repricing, mismatched/tampered history rejection, rollback,
+undo and cross-process saved continuation. Fixtures remain unrun.
+
+
+### Replacing a permanently lost dependent
+
+`RpgExpandedDependentReplacement` provides the replacement-dependent option from
+`full-2008`, B131. Supply the recorded `loss`, a fresh `replacement` purchase owned
+by the same profile, explicit approval and story `evidence`. Replacement is an
+authored campaign decision; it is not automatically available just because the
+player can construct a matching purchase. The new person/group identity and ID
+must differ from the old purchase, and its negative credit must exactly match
+the original outstanding bonus. Zero-credit and unequal-value exchanges reject.
+Replacement disadvantages and mixed point/replacement settlements remain pending.
+
+Pure `assess()` checks the new purchase, identity uniqueness and the resulting
+credit-slot count, excluding the retiring relationship. `apply()` retires the old
+contribution in place, installs the fresh purchase, records settlement and advances
+development revision once. Neither earned nor unspent points change. A new owned
+historical-credit basis transfers the obligation, so any later loss of the
+replacement uses the same captured amount instead of requiring another author
+assertion. Replays validate the bound purchase and never duplicate it.
+
+Closed sessions bind their actual outcome relationships, rather than recomputing
+membership from the current contribution list. Installing a later relationship
+therefore preserves earlier receipts; every new session still checks coverage of
+all currently unretired relationships. The original loss session remains ineligible
+for awards. `expanded-dependent-replacement.t` and `test_dependent_replacement`
+specify credit/identity/approval rejection, unchanged banks, inherited historical
+credit, historical session replay, rollback, undo and saved continuation. Fixtures
+remain unrun pending recorded validation.
+
+
+### Replacing loss with an executable disadvantage
+
+`RpgExpandedDependentTraitReplacement` supplies the disadvantage-replacement path
+(`full-2008`, B131). Supply recorded `loss`, a fresh `trait`, approval and evidence
+linking the concrete disadvantage to the loss. The installed traits module
+currently supports `RpgExpandedFixedBelief`: its scope, severity, belief text and
+behavior text are validated, including the aggregate credit cap and duplicate
+scope restrictions. Existing owned traits, inactive/mitigated purchases and
+fear-acquired beliefs reject. Other trait types explicitly reject until they
+provide a compatible validation adapter.
+
+The replacement must exactly match the original outstanding credit. `assess()`
+checks shared development restrictions and author approval before mutation.
+`apply()` installs the actual trait, retires the lost relationship and transfers
+the amount to an owned `RpgExpandedBuyoffBasis`; neither point bank changes.
+The trait uses its normal executable portrayal/reaction interfaces. Subsequent
+ordinary buyoff spends the transferred amount through the existing bank.
+Replaying settlement after buyoff does not recreate the removed trait.
+
+Fixed beliefs and low motivation are supported; broader replacements, bundles and
+mixed funded settlements remain pending. The foundation alone rejects unsupported
+trait adapters. `expanded-dependent-trait-replacement.t` and
+`test_dependent_trait_replacement` specify accounting, approval/mismatched credit,
+rollback, undo, replay, saved continuation and later funded buyoff. Fixtures are
+unrun pending recorded validation.
+
+
+The same disadvantage-replacement interface also supports
+`RpgExpandedLowMotivation` (`full-2008`, B126/B131). Its purchased self-control
+rating determines the replacement credit. New purchases must be active,
+unmitigated, free of prior check state and nonduplicative by trait kind. Settlement
+binds the rating and purchase facts without freezing later runtime checks.
+The normal `RpgExpandedMotivationTrigger` and `RpgExpandedMotivationDecision`
+continue to enforce the authored least-effort choice after failed resistance.
+The integration fixture exercises that consequence, successful compliance and
+later funded buyoff using the transferred historical cost. See
+`expanded-dependent-motivation-replacement.t` and
+`test_dependent_motivation_replacement`; they remain unrun.
+
+
+## Cultural standing for starting clothes
+
+When social and campaign libraries are both installed, set
+`RpgExpandedInitialWardrobe.socialStructure` to an authored
+`RpgExpandedSocialStructure` and leave `applicableStatus` unset. The receipt
+uses `profile.initialWardrobeStanding(culture,structure)` to derive full standing
+from existing cultural status, rank and the structure's wealth policy. The
+structure and receipt must name the same culture, and the physical wardrobe's
+lifestyle status must match the result. Conflicting explicit and derived inputs
+reject. Supported wardrobe standing remains −2 through 8.
+
+This is the full standing used by B266 clothing valuation, not the reduced
+personal monthly expense when an institution supports rank benefits. The
+initial issue still costs no money. After issuance, replay validates the original
+receipt without recalculating later promotions, demotions or wealth changes.
+
+Campaign-only integrations can retain the explicitly authored `applicableStatus`
+path. Supplying a structure without the social adapter rejects explicitly.
+`expanded-cultural-wardrobe.t` / `test_cultural_wardrobe` specify rank integration,
+culture and price mismatches, competing inputs and saved historical replay;
+fixtures remain unrun pending recorded validation.
+
+
+## Private lie detection
+
+`RpgExpandedLieDetection` owns a single assessment of an authored `statement`
+from a `subject` by an `observer`. Supply a `RpgExpandedLieDetectionSkill`,
+`truthKnown`, private `subjectLying`, `approved` and evidence for the scene facts.
+The default defense is intelligence; `defenseSkill` may instead select an authored
+IQ/Average quick-persuasion or acting skill (full-2008 B187).
+
+`assess()` obtains scores without rolling. `apply()` resolves the opposed check
+and records a private `conclusion`: success gives `lying` or `truthful` from the
+known fact; failure gives the authored `failureConclusion`, default `uncertain`.
+A misleading failure conclusion is permitted. No automatic event exposes the
+truth, scores or rolls. Authors choose how to deliver the conclusion.
+
+Modifier facts are explicit: `empathyModifier` is -3, 0, +1 or +3;
+`easyToRead` adds +4; `speciesModifier` is nonpositive. Approval and evidence
+must establish applicable traits and species context. Automatic derivation from
+all trait catalogues remains incomplete. Repeated use of one receipt spends
+nothing; another receipt for the same subject and statement rejects until the
+author supplies a genuinely new observation. No fixed time is imposed by this
+procedure. Body-reading uses remain pending; observer disclosure is described below.
+
+`test_lie_detection` specifies opposed success/failure, misleading reports,
+modifier arithmetic, preview purity, replay, rollback and undo. Fixtures are unrun.
+
+
+### Disclosing a lie-detection impression
+
+`RpgExpandedLieDetectionDisclosure` binds an assessment to its observer and that
+profile's `RpgExpandedKnowledge`. Supply a unique `id` and three authored
+statements: `lyingStatement`, `truthfulStatement` and `uncertainStatement`.
+`assess()` returns status without disclosing any statement. `deliver()` selects
+only from the assessment's reported conclusion and returns that one statement.
+
+Delivery records an impression in `knowledge.received`, attributed to the
+observer, with no payment or time cost. It does not change `beliefs` or
+`fabrications`. Thus a misleading failure can sound credible without becoming
+an established fact. Delivery to another character requires an explicit
+communication procedure. One assessment has one disclosure receipt; replay
+validates the original statement and history and consumes no randomness.
+
+`test_lie_disclosure` covers true and misleading impressions, preview privacy,
+replay, rollback, undo, separate-process continuation and altered-conclusion
+rejection. Fixtures remain unrun.
+
+
+## Visual body-reading lie inference
+
+`RpgExpandedBodyReadingLieDetection` reuses the owned lie assessment and private
+disclosure with a `RpgExpandedBodyReadingSkill` (Per/Average; full-2008 B181).
+It reads one `subject`. Set `visible` and `visualEvidence`; supply the applicable
+`visionModifier`. `concealment` is `none`, `baggy` (-1), `shield` or `cloak`
+(`coverPenalty` from -2 to -4), or `mask` (-5). A mask with `bodyVisible = nil`
+blocks the assessment. Multiple simultaneous concealment sources require an
+authored choice of the applicable category; they are not automatically stacked.
+
+`physiology` accepts `same` (zero penalty), `similar` (-2 through -4), `different`
+(-5), `alien` (-6 or worse), or `machine` (no roll). The chosen `speciesModifier`
+must match. An owned physiology check can remove the penalty as described below.
+Readable-subject +4 remains available. Empathy modifiers for this route reject
+pending source-specific integration. `combat = true` rejects and directs the
+author to combat feints.
+
+The typed skill has no attribute default. Purchased lie detection or psychology
+provides a -4 default; purchased body reading provides lie detection's -4 default.
+`test_body_reading` specifies those edges, concealment modifiers, combined visual
+and physiology penalties, blocked conditions, opposed execution and replay.
+Fixtures remain unrun. General emotion and ally-intention readings remain pending.
+
+
+### Applying physiology knowledge
+
+Bind a `RpgExpandedPhysiologyCheck` to the body-reading operation through
+`physiologyCheck`. Its `profile` must be the observer, `subject` the observed
+character, `operation` that exact assessment, and `species` the assessment's
+`subjectSpecies`. Supply an approved context and evidence. A relevant IQ/Hard
+Physiology skill must have the matching species specialty and a technology
+level. For common animals, IQ/Very Hard Biology uses its matching `planetType`
+specialty and applies -4 (full-2008 B181).
+
+Resolve the check before assessing the observation. Success removes its species
+penalty; failure leaves it unchanged. Neither result removes visual penalties or
+permits reading machines. A receipt is bound to one operation and cannot be
+rerolled or transferred. The skills library owns these checks; the social
+library depends only on the foundation's receipt contract.
+
+`test_body_physiology` covers success/failure, the biology alternative, operation
+binding, replay, rollback, undo and separate-process continuation. Fixtures
+remain unrun. Surgical operations also accept this receipt interface; other medical adapters remain pending.
+
+
+## Owned psychology assessments
+
+`RpgExpandedPsychologyAssessment` resolves one authored inference for an individual
+in a particular situation (full-2008 B216). Supply a unique `id`, observer
+`profile`, a `RpgExpandedPsychologyContext`, a stable `situation` object, `approved`,
+concrete `evidence`, and the bounded `finding` a successful roll can reveal.
+The context records the subject, species, purpose and applicable modifiers.
+Include skills for that context and its typed psychology definition.
+
+`assess()` is pure and does not disclose the finding. `resolve()` checks the
+observer's skill once, returns the finding on success and no conclusion on failure,
+and retains the outcome in `profile.psychologyAssessments`. Replay binds the
+original facts and result. Another request cannot reroll the same subject,
+situation and purpose for that observer. New circumstances require a new authored
+situation. Profile validation checks history ownership and duplicate attempts.
+
+The author decides what prediction or finding the available evidence supports.
+A success is not mind-reading and does not force the subject to act as predicted.
+The operation neither broadcasts the result nor alters another character's beliefs,
+health or decisions. It has no automatic time charge; authors account for any
+interview, observation or travel separately. Small-group prediction and knowledge delivery are described below.
+
+`test_psychology_assessment` covers success/failure, pure preview, changed context,
+rollback, undo, replay and cross-process save continuation. Fixtures remain unrun.
+
+
+## Receiving a psychology finding
+
+`RpgExpandedPsychologyDisclosure` connects a completed assessment to its
+observer's owned `RpgExpandedKnowledge`. Set a unique `id`, the `assessment` and
+its observer profile as `recipient`. `assess()` checks eligibility without
+returning a statement. `deliver()` records the exact successful finding once in
+received knowledge and returns it. Unresolved and failed assessments are blocked.
+
+Replay validates the assessment, recipient, knowledge object, received row,
+statement and original delivery time. It returns the existing statement without
+another roll or time charge. The operation does not add beliefs or fabrications,
+or inform another character; communicating an inference needs a separate authored
+conversation. `test_psychology_disclosure` covers preview purity, success/failure,
+rollback, undo, replay, save continuation and timestamp tampering. Fixtures remain
+unrun pending recorded validation.
+
+
+## Predicting a small group
+
+For the small-group use in full-2008 B216, set the psychology context's `group`
+to a stable authored identity, leave `subject` unset, and supply `members` as a
+list of at least two distinct profiles. Set `smallGroupApproved` and provide
+context evidence that this is a small, coherent group of the stated species for
+which the authored finding is supportable. The source supplies no numeric upper
+limit; the author decides eligibility rather than relying on an invented cutoff.
+
+Only `purpose = 'prediction'` is currently supported for groups. Individual
+familiarity/personality bonuses, presence-based diagnosis and empathy adjustments
+are rejected in group mode until their group applicability is explicitly
+implemented. General contextual adjustments still use `modifier`. Mixed-species
+inference requires a separate author-adjudication design and is not implied by
+one group species identifier.
+
+The owned assessment binds group identity and the complete ordered membership
+list. Replay cannot substitute members. Duplicate-attempt protection distinguishes
+groups by identity within the situation and purpose; authors must reuse the same
+identity for the same group rather than creating fresh identities to reroll.
+Knowledge delivery uses the same observer-only finding record as individual
+assessment. `test_psychology_group` specifies preview, eligibility, membership,
+rollback, undo and replay. Fixtures remain unrun.
+
+
+## Psychology through native actions
+
+`RpgExpandedPsychologyAction` binds an `assessment` and `operation` (`assess` or
+`receive`). For `receive`, also bind a `disclosure` for that same assessment and
+observer. Attach the action to an authored verb/parser rule, or call
+`perform(context.asker)` from a dialogue choice. Normal execution uses
+`context.actor`. The acting character's `rpgProfile` must be the observer.
+
+Both operations share the underlying histories and replay protection. Receiving
+before assessment is blocked; another character cannot run either operation for
+the observer. The `rpg.expanded.psychology` event contains operation, status and
+reason only. Present returned findings only through the intended observer-facing
+interface. The library installs no automatic grammar or dialogue choices.
+`test_psychology_actions` covers parser, structured-action and dialogue parity,
+wrong-actor rejection, rollback, undo and replay. Fixtures remain unrun.
+
+
+## Fossil-study findings
+
+With exploration and skills installed, use `RpgExpandedPaleontologyDisclosure`
+to receive a successful owned specimen finding without changing beliefs, and
+`RpgExpandedPaleontologyAction` for shared command/dialogue execution. The
+[exploration guide](exploration.md#receiving-fossil-findings-through-native-actions)
+describes ownership, preview, delivery and replay contracts. The foundation
+receipt interface keeps social independent of exploration includes; attempting to
+resolve the bare foundation receipt rejects explicitly.
+
+
+## Packing findings
+
+`RpgExpandedPackingDisclosure` delivers a successful evaluation or route finding
+to the actor's owned knowledge record without forcing belief changes.
+`RpgExpandedPackingAction` supplies shared parser, structured-action and dialogue
+execution. See [Packing knowledge and native actions](exploration.md#packing-knowledge-and-native-actions)
+for the contract. Social depends on a foundation receipt interface, so it does not
+require the exploration implementation merely to be included.
+
+### An hour of begging
+
+`RpgExpandedBeggingHour` (full-2008 B212) owns a single hour's attempt. Set its
+unique `id`, expanded `profile`, `RpgExpandedBeggingContext`, and authored
+`location`. The skills and health libraries supply its context and action gate.
+Provide concrete `criticalBonus` and `criticalTrouble` findings in advance, such
+as an offer of food and an encounter with a patrol. Missing findings reject the
+request before time or randomness is spent.
+
+`assess()` is pure. `resolve()` checks the health gate and, when allowed, spends
+3600 seconds on the shared ledger, rolls once, and credits twice a positive
+success margin to `profile.money`. This interface assumes one campaign money unit
+per reference monetary unit. Other currency scales need an adapter and are not
+currently supported. Failure earns nothing. Critical success additionally exposes
+`result.incident` from `criticalBonus`; critical failure exposes `criticalTrouble`.
+The author must resolve that concrete incident through the appropriate food,
+inventory, social or combat operation. The text is not an executed consequence.
+
+Travel-day reservations block the work interval. An existing receipt reuses its
+outcome without another hour, payment or roll. `profile.beggingHours` retains the
+owned history. `test_begging_hour` specifies earnings, failure, critical findings,
+rollback, undo and cross-process save continuation. Fixtures remain unrun. Incident
+settlement, general work scheduling and full trait adapters remain incomplete.
+
+`RpgExpandedBeggingAction` exposes the same hour through native actions. Set
+`hour` and choose `operation = 'preview'` or `'resolve'`. `exec(context)` uses the
+command actor; dialogue choices call `perform(context.asker)`. The actor's
+`rpgProfile` must own the hour, including for previews. Unauthorized calls return
+`begging-action-owner-required` without advancing time or consuming randomness.
+
+The `rpg.expanded.begging` event contains operation, status and reason. Read the
+owned result explicitly when presenting earnings or its authored incident; the
+event does not broadcast the incident. A repeated resolution returns the stored
+resolved result, while a later preview reports `reused`. The integration fixture
+`expanded-begging-actions.t` and `test_begging_actions` specify parser, structured
+and dialogue parity, preview purity, rollback, undo and ownership rejection.
+These fixtures remain unrun.
+
+For a concrete inventory bonus, the equipment library's `RpgExpandedBeggingGift`
+transfers an existing donor-owned stack and binds it to `hour.gift`. The hourly
+receipt binds its roll, margin, success and critical classification, preventing an
+edited result from authorizing the reward. Other critical incidents still need
+explicit settlement integration; a recorded finding alone is not completion.
+
+### Applying a prepared outfit
+
+Any social context can select one `stylingPreparation` together with
+`stylingOccasion`, `stylingOutfit`, `stylingWorn`, `stylingSocialSituation` and
+concrete `stylingEvidence`. A validated preparation adds +1 only when its wearer
+is the reaction subject, its outfit and occasion match, it is worn in a social
+situation, and the observer can see the subject. This composes with specialized
+appearance contexts and does not stack multiple styling records.
+
+Preparation and reaction applicability are separate. A trait purchase alone does
+not add the bonus. The preparation's description and identities are bound against
+later rewriting. For a plain outfit identity, these fields are explicit author attestations.
+Use the equipment library's `RpgExpandedInventoryOutfit` for live ownership,
+accessibility and worn-state checks. Preparation time remains authored.
+`test_styling` specifies preparation purity, replay, rollback, undo, save
+continuation, changed facts, visibility and occasion applicability. Fixtures are
+unrun.
+
+### Ending a cosmetic presentation
+
+Call `makeupApplication.end(evidence)` after an authored removal or expiry event
+has actually occurred. This records the shared-clock timestamp and a concrete
+reason; it does not assume a wash duration or advance time. Resolve any removal
+action's time and materials before recording the end. Repeating the same end
+reuses it; rewriting its reason or timestamp rejects validation.
+
+`presentationReason()` returns nil for the subject's current successful
+presentation, or `makeup-unresolved`, `makeup-no-presentation`, `makeup-ended` or
+`makeup-replaced`. Replaying an ended application's `apply()` never reinstalls it.
+Ending an application clears the subject's presentation only if that exact
+application is still current, so an older receipt cannot erase newer makeup.
+
+`test_makeup_lifecycle` specifies recorded removal, replacement, replay, rollback,
+undo, save continuation and end-timestamp binding. Fixtures remain unrun. Physical
+removal operations and automatic environment-dependent wear remain authored;
+this lifecycle supplies no invented universal cosmetic duration.
+
+`RpgExpandedMakeupAction` exposes `preview`, `apply` and `end` operations for one
+`application`. Command execution uses the command actor; dialogue choices call
+`perform(context.asker)`. Preview and application require the performer's profile.
+Ending requires the subject's profile, so a performer cannot clear another
+person's presentation through this action. Unauthorized calls return
+`makeup-action-owner-required` and change no resources.
+
+For `end`, supply concrete `endEvidence` and use the action only after the authored
+removal event. This records the lifecycle transition; it does not supply a washing
+procedure or duration. `rpg.expanded.makeup` contains operation, status and reason,
+not the cosmetic description. `test_makeup_actions` specifies parser, structured
+and dialogue parity, distinct actor roles, preview, rollback, undo, repeat calls
+and ending without replay resurrection. Fixtures remain unrun.
+
+Applications may now set `materials` to an equipment-backed
+`RpgExpandedInventoryMakeupMaterials` instead of the `materialsAvailable`
+author attestation. The equipment guide describes owned stock and authored units.
+An allowed attempt spends materials once, whether its roll succeeds or fails;
+health denial spends none. This does not add a material consumption rate to the
+printed rule. Existing attestation-only applications retain their behavior.
+
+## Resolving one simple hand signal
+
+`RpgExpandedGestureAttempt` owns one full-2008 B198 skill use. Supply a unique
+`id`, acting `profile`, distinct `counterpart`, `RpgExpandedGestureContext`,
+explicit `seconds`, `approved` and concrete `evidence`. With `operation = 'convey'`
+the actor conveys the idea; with `understand` the actor interprets the observed
+signal. The source sets no fixed duration, so seconds are authored facts.
+
+`assess()` previews scope, cultural score, both participants' schedules, observation
+and the actor's health permission. `resolve()` checks permission, spends the
+interval once and makes one skill roll. Success retains `result.meaning`; failure
+leaves it nil and does not invent a mistaken message. Health denial records its
+reason without a skill roll or elapsed task time. Both participants retain the
+same attempt in `gestureAttempts`; replay returns its original result. Definitions,
+completion fields and check outcomes are bound against later rewriting.
+
+This represents mechanical communication of a simple idea, not persuasion or an
+instruction to act on it. Use the existing player-authored `RpgExpandedGestureExchange`
+when the participants' actual interpretation is supplied by players. An attempt
+does not create a second exchange, grant language comprehension or award study
+credit automatically. `test_gesture_attempt` specifies scope, both skill directions,
+health denial, failure, pure preview, rollback, undo, replay and save continuation.
+Fixtures remain unrun. Automatic observational/sensory integration remains pending; the shared player
+action interface is described below.
+
+`RpgExpandedGestureAction` exposes `preview` and `resolve` for one `attempt`.
+Command execution uses `context.actor`; dialogue choices call
+`perform(context.asker)`. Both require the acting person's profile to match the
+attempt's `profile`. The counterpart cannot roll someone else's attempt merely
+by participating in the exchange. For understanding, author an attempt whose
+profile is the person doing the understanding and whose context operation is
+`understand`.
+
+The `rpg.expanded.gesture` event reports operation, status and reason. It does not
+emit the private intended meaning. Authored presentation may reveal the retained
+meaning after success; failure does not reveal or invent an interpretation.
+`test_gesture_actions` specifies parser, structured and dialogue parity for both
+skill directions, actor ownership, preview purity, rollback, undo, replay and
+cross-process save continuation. Fixtures remain unrun pending recorded validation.
+
+Gesture exchange receipts now retain separate sender and recipient study
+eligibility. Complete hearing loss can qualify either participant, while total
+speech limitation retains its existing sender rule. Each participant can claim
+one full-value credit for the skills used; the exchange consumes elapsed time
+once. The result's interpretation, times and eligibility flags are bound against
+later edits. See [communication credit](development.md#communication-credit-per-participant).
+This extends the existing player-authored gesture contract; complete owned
+writing, sign-language and lip-reading procedures remain separate unfinished work.

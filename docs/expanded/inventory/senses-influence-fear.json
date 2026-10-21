@@ -1,0 +1,1678 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B358-B361",
+  "review": "Supplied B358-B361 text reviewed. Fear rows use owned dispatch, typed consequences and explicit author contracts. Initial scores below three use recorded rulings without invented source dice. Current acceptance evidence is maintained in fear-completion.md; wider senses and catalogue work remains separate.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "senses-base",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use perception plus the acute-sense modifier appropriate to the actual sense; special senses retain their own capabilities and restrictions.",
+      "tests": [
+        "tests/expanded.py::test_vision",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration remain pending. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "senses-comprehension",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Noticing an event is distinct from understanding it; an authored follow-up uses intelligence for ordinary interpretation or the relevant specialist skill.",
+      "tests": [
+        "tests/expanded.py::test_vision",
+        "tests/expanded.py::test_terrain_observation",
+        "tests/expanded.py::test_sense_comprehension",
+        "tests/expanded.py::test_comprehension_actions"
+      ],
+      "validation_note": "Owned comprehension follows successful observation by the same profile using ordinary IQ, an approved expert skill, or hearing with language proficiency. Shared health permission, time and bound replay outcomes are implemented, with owner-authorized parser, structured and dialogue action routes. Ordinary danger warnings have a separate receipt. Specialized context adapters and automatic disclosure remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-danger-warning",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After failing to notice or understand a dangerous event, a qualifying danger-warning trait permits a secret perception roll; success discloses the warning rather than fabricated full knowledge.",
+      "tests": [
+        "tests/expanded.py::test_danger_warning"
+      ],
+      "validation_note": "Ordinary existing 15-point trait now supports one retained secret Perception check per authored hazard situation, general warning on success and detail only for raw3/4. Optional owned failed-sense/comprehension trigger is validated. Psychic/foresight integration, automatic orchestration and controlled disclosure remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-modifiers",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Vision includes applicable acute bonus, +3 broad-spectrum sight, size/range effects and partial-darkness penalties from -1 through -9.",
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-darkness",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Total darkness prevents ordinary sight without an appropriate trait or aid; low-light vision cancels one partial-darkness penalty per level and dark sight ignores darkness.",
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-plain-sight",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Plainly visible objects may grant +10; hidden-object searches, reading and face identification do not automatically get that bonus.",
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-concealment",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored hidden-object task may contest vision or required observation/search against the relevant concealment skill.",
+      "tests": []
+    },
+    {
+      "id": "senses-vision-horizon",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Planetary curvature can block visibility; author observer elevation and world geometry rather than using a fixed three-mile limit everywhere. Space has no planetary horizon by default.",
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-arc",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply the actual visual arc, including peripheral, all-around and restricted vision, to tactical facing before offering a roll.",
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-distance-traits",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Telescopic vision cancels one range penalty per level; nearsightedness penalizes spotting beyond one yard by six and farsightedness penalizes within one yard by six.",
+      "tests": [
+        "tests/expanded.py::test_vision"
+      ],
+      "validation_note": "Owned ordinary visual noticing uses Perception and shared acute/low-light scoring, explicit size/range, spotting-only plain-sight bonus and near/farsighted distance handling. Authored horizon/arc/sight availability and total-darkness blocking are explicit. Special senses, automatic geometry/capability integration, comprehension orchestration and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-vision-blind",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Blindness prevents ordinary visual detection; a substitute sense does not become vision implicitly.",
+      "tests": []
+    },
+    {
+      "id": "senses-hearing-modifiers",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Hearing includes the acute bonus, +4 discriminating hearing and -4 poor hearing, with authored ambient-noise and source-loudness adjustments.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "senses-hearing-distance",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each doubling step beyond a sound's listed zero-penalty range imposes -1 and each nearer step grants +1; ordinary conversation at eight yards is -3.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "senses-hearing-stealth",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Listening for deliberate quiet movement may contest perception against stealth; active listening can use observation when authorized.",
+      "tests": []
+    },
+    {
+      "id": "senses-hearing-special",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Directional amplification and subsonic/ultrasonic senses alter available signals according to their traits; deafness prevents ordinary hearing.",
+      "tests": [
+        "tests/expanded.py::test_hearing_loss"
+      ],
+      "implementation_note": "Complete hearing loss denies ordinary hearing before randomness. Directional and special-frequency hearing remain incomplete. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-hearing-speech",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Hearing speech does not ensure comprehension; resolve an appropriate intelligence and language-dependent interpretation when required.",
+      "tests": [
+        "tests/expanded.py::test_sense_comprehension"
+      ],
+      "validation_note": "Owned comprehension follows successful observation by the same profile, using IQ for ordinary interpretation, an approved skill for expertise, or hearing plus existing language proficiency for speech. Shared time, health permission and bound replay outcomes implemented. Danger warnings, specialized context adapters, automatic disclosure and player actions remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-chemical-modifiers",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Taste and smell share their acute-sense trait, with +4 from the applicable discriminating sense; author intensity and disguise adjustments separately.",
+      "tests": [
+        "tests/expanded.py::test_chemical",
+        "tests/expanded.py::test_chemical_actions",
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Typed fine-sense purchases now supply the applicable +4 through shared scoring. Recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "senses-chemical-detail",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Discriminating taste or smell can identify detailed people, places or objects according to evidence; no taste/smell prevents both forms of ordinary detection.",
+      "tests": [
+        "tests/expanded.py::test_chemical",
+        "tests/expanded.py::test_chemical_actions",
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Ordinary taste/smell contexts share the acute bonus with separate authored intensity and disguise modifiers. Authored capacity and stimulus gates, owned observations, comprehension and danger-warning integration, and shared native actions implemented. Typed fine-sense purchases now supply the applicable +4 through shared scoring. Recognition/memory, automatic trait capacity integration and sampling consequences remain pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "hearing-range-rustling",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The rustling sound category has zero range penalty at 0.25 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-quiet-speech",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The quiet-speech sound category has zero range penalty at 0.5 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-ordinary-speech",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The ordinary-speech sound category has zero range penalty at 1 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-light-traffic",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The light-traffic sound category has zero range penalty at 2 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-loud-speech",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The loud-speech sound category has zero range penalty at 4 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-busy-office",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The busy-office sound category has zero range penalty at 8 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-ordinary-traffic",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The ordinary-traffic sound category has zero range penalty at 16 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-moderate-amplified-music",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The moderate-amplified-music sound category has zero range penalty at 32 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-heavy-traffic",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The heavy-traffic sound category has zero range penalty at 64 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-jet-departure",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The jet-departure sound category has zero range penalty at 128 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-very-loud-amplified-music",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The very-loud-amplified-music sound category has zero range penalty at 256 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "hearing-range-extreme-amplified-sound",
+      "source": "full-2008",
+      "pages": "B358",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The extreme-amplified-sound sound category has zero range penalty at 512 yards; apply doubling-step hearing modifiers around that reference distance.",
+      "tests": [
+        "tests/expanded.py::test_hearing",
+        "tests/expanded.py::test_hearing_observation",
+        "tests/expanded.py::test_sense_actions"
+      ],
+      "validation_note": "All twelve neutral sound categories and exact rational doubling-step distances implemented. Ordinary hearing contexts compose Perception, acute/poor hearing and authored ambient modifiers. Intermediate-distance selection, discriminating/special senses, contests and speech comprehension remain incomplete. Fixtures authored, unrun. Owned hearing results now retain successful/failed detection, with shared observer-authorized player actions for vision and hearing. Comprehension, special senses and contests remain incomplete. Lifecycle and parity fixtures unrun."
+    },
+    {
+      "id": "influence-substitution",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "For an eligible situation an actor may substitute a selected influence skill for an ordinary reaction roll; author suitability and any specially permitted alternative skill.",
+      "tests": []
+    },
+    {
+      "id": "influence-contest",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Resolve influence as skill against subject will in a quick contest, including applicable personal reaction and skill-specific modifiers.",
+      "tests": []
+    },
+    {
+      "id": "influence-inappropriate-skill",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An inappropriate influence approach carries an authored -1 through -10 penalty; do not silently substitute a more suitable skill.",
+      "tests": []
+    },
+    {
+      "id": "influence-success",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Winning yields a good reaction, or very good for attraction-based influence; preserve reaction categories for downstream requests.",
+      "tests": []
+    },
+    {
+      "id": "influence-failure",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A nonwinning result gives a bad reaction, or very bad for specious intimidation; ties do not count as wins.",
+      "tests": []
+    },
+    {
+      "id": "influence-diplomacy",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Diplomacy also obtains an ordinary reaction roll and keeps the better outcome, consuming that extra roll only for this procedure.",
+      "tests": []
+    },
+    {
+      "id": "influence-indomitable",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An unyielding subject defeats influence automatically unless the actor has the appropriate type of empathy.",
+      "tests": []
+    },
+    {
+      "id": "influence-unfazeable",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Intimidation automatically fails against an unflappable subject.",
+      "tests": []
+    },
+    {
+      "id": "influence-dependent-initiative",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A subject with dependent initiative automatically loses to influence, without a contest roll; conflicting automatic cases need explicit source-backed precedence.",
+      "tests": []
+    },
+    {
+      "id": "influence-group-psychology",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Propaganda for media or psychology for other psychological operations uses the cause's reaction modifiers and the target group's average will.",
+      "tests": []
+    },
+    {
+      "id": "influence-player-target",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Against a player character, a successful influence result supplies its victory margin as a contextual roll modifier rather than dictating the player's chosen attitude or actions.",
+      "tests": []
+    },
+    {
+      "id": "influence-player-modifier-contract",
+      "source": "full-2008",
+      "pages": "B359",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The author identifies affected dealings, checks, sign and duration of the influence modifier; scope it to the influencing actor and do not apply it globally.",
+      "tests": []
+    },
+    {
+      "id": "will-cause",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose will or a disadvantage's self-control roll from the cause of stress, not from which target is easier or the similarity of the resulting condition.",
+      "tests": []
+    },
+    {
+      "id": "will-shared-modifiers",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A modifier specifically resisting an effect normally applies to both will and self-control checks against that effect; retain the original check type.",
+      "tests": []
+    },
+    {
+      "id": "will-ordinary-stress",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A successful will check against stress or distraction permits normal action; failed effects require a task-specific authored consequence.",
+      "tests": []
+    },
+    {
+      "id": "fear-trigger",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "An authored fear event identifies why it is extraordinary for this actor, with background and setting considered; ordinary threatening events need not trigger fear checks.",
+      "tests": [
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-immunity",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An unflappable actor does not make fear checks; do not consume random dice before deciding immunity.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_assessments, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-cap",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After modifiers cap fear-check will at thirteen, so fourteen or higher fails; do not apply this cap to ordinary will or later recovery checks.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_assessments, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-table-roll",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "On failure roll three further dice, add failure magnitude and select the full outcome table; do not substitute Lite stun/faint duration formulas.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_assessments, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-trait-award",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "New fear-induced traits must relate to the event and character; lower character value without awarding spendable points.",
+      "tests": [
+        "tests/expanded.py::test_fear_quirks",
+        "tests/expanded.py::test_fear_event"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_event, test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-inappropriate-result",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "A specific authored alternative or reroll can replace an implausible result, including awe or confusion variants; record the reason, selected outcome and any extra randomness.",
+      "tests": [
+        "tests/expanded.py::test_fear_adjudication"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_adjudication. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-owned-recovery",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Persist the selected result, elapsed duration, next recovery check, injury, fatigue and aftereffects as one owned fear episode, sharing health and time ledgers.",
+      "tests": [
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat",
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_stress",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_combat, test_fear_event, test_fear_low_score, test_fear_stress, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-fear-traits",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply the fearlessness bonus or fearfulness penalty.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-reflexes",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Combat reflexes grants +2.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-paralysis",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Combat paralysis imposes -2.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-cowardice",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Cowardice imposes -1 through -4 when physical safety is threatened.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-daring",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Daring grants +1 while charging into a frightening situation.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-purpose",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A higher purpose grants +1 when opposing its sworn threats.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-alien-interest",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Interest in alien beings grants +1 through +4 against monsters as its trait permits.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-prepared-body",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A peaceful body prepared for burial grants +6.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-nonviolent-body",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A body without signs of violence grants +2.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-violent-body",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An ordinary violence victim gives no body-condition modifier.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-mutilation",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Grisly mutilation imposes -1 through -3.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-dependent-victim",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A dependent victim imposes an additional -6.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-battle",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Being in combat when the event occurs or is first noticed grants +5.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-monster",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An authored monster fear severity can impose -1 through -10.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-horde-five",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Five monsters impose -1.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-horde-ten",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Ten monsters impose -2.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-horde-twenty",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Twenty monsters impose -3.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-horde-fifty",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Fifty monsters impose -4.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-horde-hundred",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "One hundred or more monsters impose -5.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-touch",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Contact with the fear source imposes -1.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-distance",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Witnessing from at least one hundred yards grants +1.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-remote",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Remote viewing grants +3.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-isolation",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Physical isolation imposes -1.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-darkness",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Night/darkness imposes -1, or daylight for a nocturnal actor.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-alone",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Being or believing oneself alone imposes -2.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-experience",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Previous personal experience of this threat type grants +1.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-repeated",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Each exposure to this particular threat in twenty-four hours grants +1, based on recorded exposure history.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-modifier-briefing",
+      "source": "full-2008",
+      "pages": "B360",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Prior detailed information grants +1 through +3 according to an authored report-quality assessment.",
+      "tests": [
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-4-5",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Stun for one second, then recover automatically.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-6-7",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Stun for one second, then check unmodified will each second until recovery.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-8-9",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Stun for one second, then check will with the original fear modifiers each second until recovery; do not reuse the fear-only thirteen cap.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-10",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Stun for one die of seconds, then use the modified-will recovery sequence.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-11",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Stun for two dice of seconds, then use the modified-will recovery sequence.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-12",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Retch for twenty-five minus health seconds, then check health each second to recover; apply the incapacitating-condition rules.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_retching",
+        "tests/expanded.py::test_owned_retching",
+        "tests/expanded.py::test_retching_persistence",
+        "tests/expanded.py::test_retching_fatigue",
+        "tests/expanded.py::test_retching_combat",
+        "tests/expanded.py::test_retching_meals",
+        "tests/expanded.py::test_retching_remedy",
+        "tests/expanded.py::test_remedy_persistence"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_retching, test_owned_retching, test_remedy_persistence, test_retching_combat, test_retching_fatigue, test_retching_meals, test_retching_persistence, test_retching_remedy. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-13",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Acquire an event-related mental quirk, including beyond the ordinary personal quirk limit.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-14-15",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Lose one die of fatigue and independently roll one die of initial stun seconds, followed by modified-will recovery.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_fatigue",
+        "tests/expanded.py::test_fear_fatigue_stun",
+        "tests/expanded.py::test_fear_stun"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_fatigue, test_fear_fatigue_stun, test_fear_stun. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-16",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply the one-die stun and modified-will recovery sequence plus a new event-related quirk.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_quirk_stun"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_quirk_stun. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-17",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Faint for one die of minutes, then check health each minute to recover.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_faint"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_faint. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-18",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use the one-die faint sequence and make an immediate health check; failure causes one injury during the collapse.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_faint_injury"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_faint_injury. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-19",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Faint for two dice of minutes, then check health each minute; suffer one injury.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_faint_injury"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_faint_injury. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-20",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Faint for four dice of minutes and lose one die of fatigue; preserve both separately rolled quantities.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_shock_faint"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_shock_faint. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-21",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An authored panic behavior lasts one die of minutes, then unmodified will is checked each minute for recovery.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_panic",
+        "tests/expanded.py::test_panic_crying",
+        "tests/expanded.py::test_panic_history",
+        "tests/expanded.py::test_timed_panic_path",
+        "tests/expanded.py::test_panic_expression_communication"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_panic, test_panic_crying, test_panic_expression_communication, test_panic_history, test_timed_panic_path. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-22",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Acquire an event-related delusion worth negative ten points.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fixed_beliefs"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fixed_beliefs. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-23",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative ten points.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_status_sensitivity",
+        "tests/expanded.py::test_status_outburst",
+        "tests/expanded.py::test_self_sacrifice",
+        "tests/expanded.py::test_acquired_replay_event"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition, test_fear_selection, test_self_sacrifice, test_status_outburst, test_status_sensitivity. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-24",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An authored physical effect adds negative fifteen points of physical disadvantages; each year of event-induced aging counts as negative three points for this selection.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_physical",
+        "tests/expanded.py::test_fear_aging",
+        "tests/expanded.py::test_fear_selection"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_aging, test_fear_assessments, test_fear_physical, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-25",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Worsen a logically related mental disadvantage's self-control by one step; if none applies or it is already six, add a new negative-ten-point mental disadvantage instead.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_worsening",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_selection"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_mental, test_fear_phobia_worsening, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-26",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point delusion.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_compound",
+        "tests/expanded.py::test_fear_compound_preflight"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound, test_fear_compound_preflight. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-27",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point mental disadvantage.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_nightmare_compound",
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_fear_compound_preflight"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound_preflight, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition, test_fear_selection, test_nightmare_compound. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-28",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Remain unconscious until a successful health check at a thirty-minute boundary; after waking apply -2 to all skills and attribute checks for six hours.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_coma"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_coma. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-29",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Remain in a coma for one die of hours, then check health; failure schedules another independently rolled one-die-hour interval. Preserve the row-twenty-eight six-hour recovery penalty.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_coma"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_coma. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-30",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Catatonia lasts one die of days before a health check, repeating on failure; without medical care injury increases from one on day one to two on day two and so on. After recovery apply -2 to skills and attributes for the same number of days as the episode lasted.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_catatonia"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_catatonia, test_fear_assessments. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-31",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A seizure lasts one die of minutes and costs one die of fatigue; a health failure causes one die of injury and critical failure also permanently reduces health by one.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_seizure",
+        "tests/expanded.py::test_fear_adjudication"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_adjudication, test_fear_assessments, test_fear_seizure. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-32",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Collapse and suffer two dice of injury from the acute physical event.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_acute"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_acute, test_fear_assessments. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-33",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Author a panic reaction informed by a three-die severity roll; if the actor survives, check will. Failure triggers another severity roll and reaction until recovery.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_extreme_panic",
+        "tests/expanded.py::test_panic_flight",
+        "tests/expanded.py::test_panic_fall",
+        "tests/expanded.py::test_fear_recovery_ruling",
+        "tests/expanded.py::test_panic_path",
+        "tests/expanded.py::test_panic_object",
+        "tests/expanded.py::test_panic_attack",
+        "tests/expanded.py::test_panic_interrupted_path",
+        "tests/expanded.py::test_panic_wait",
+        "tests/expanded.py::test_panic_computer"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_extreme_panic, test_fear_assessments, test_fear_recovery_ruling, test_panic_attack, test_panic_computer, test_panic_fall, test_panic_flight, test_panic_interrupted_path, test_panic_object, test_panic_path, test_panic_wait. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-34",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Acquire an event-related delusion worth negative fifteen points.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fixed_beliefs"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fixed_beliefs. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-35",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative fifteen points.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-36",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply an authored physical effect worth negative twenty points using the row-twenty-four selection policy.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_physical",
+        "tests/expanded.py::test_fear_aging",
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_fear_hearing_loss"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_aging, test_fear_assessments, test_fear_hearing_loss, test_fear_physical, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-37",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply an authored physical effect worth negative thirty points using the row-twenty-four selection policy.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_physical",
+        "tests/expanded.py::test_fear_aging",
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_fear_hearing_loss"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_aging, test_fear_assessments, test_fear_hearing_loss, test_fear_physical, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-38",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point delusion.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_compound",
+        "tests/expanded.py::test_fear_compound_preflight"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound, test_fear_compound_preflight. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-39",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point phobia or other mental disadvantage.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_compound_preflight"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound_preflight, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "fear-outcome-40-plus",
+      "source": "full-2008",
+      "pages": "B360-B361",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Apply row thirty-nine and permanently reduce intelligence by one, updating all intelligence-based skills and spells without refunding their investment.",
+      "tests": [
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_adjudication"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_adjudication, test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B358-B361",
+      "reason": "Exclude source prose, branded sound examples and narrative vignettes. Preserve neutral sound categories, numerical tables and specific authored outcome contracts."
+    }
+  ]
+}

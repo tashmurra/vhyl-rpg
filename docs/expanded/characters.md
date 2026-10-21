@@ -1,5 +1,30 @@
 # Expanded characters
 
+**Status: partial.** Character accounting and secondary characteristics. Neutral source: `full-2008`, B10-B31.
+
+[Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
+
+## Available interfaces
+
+- `rpgExpandedValidateCharacter` — B16-B17; tested in `tests/expanded.py::test_numbers`.
+
+The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+
+The [character-creation inventory](inventory/creation.json) separates individual
+procedures, modifiers, table rows and author decisions. Its pending entries are
+not covered by the secondary-characteristic validation above.
+
+
+Fear-induced quirks installed by the traits module reduce current character
+value without granting advancement points. Their owned receipts supply a
+post-creation negative-point allowance and a specific exception to the normal
+five-quirk creation cap. Ordinary sixth quirks remain invalid. See the
+[behavioral quirk contract](traits.md#fear-induced-behavioral-quirks) for authored
+outcomes, portrayal records and limitations. The corresponding fixture is unrun.
+
+
+## Character/social subset authoring
+
 `RpgExpandedProfile` adds independent `hpAdjustment`, `fpAdjustment`,
 `willAdjustment`, `perceptionAdjustment`, `speedQuarterAdjustment` and
 `moveAdjustment` to the existing Lite profile. Speed uses quarter-point increments.
@@ -29,3 +54,80 @@ contribution alone does not grant an executable advantage.
 The Town Registry example creates a 34-point investigator: IQ 11 costs 20,
 Will +1 costs 5, two skill investments cost 4, and reputation costs 5. Its budget
 is 40. Source mapping: `full-2008` B14-B17, B23-B30 and B170.
+
+The prerelease record applies to the original subset. Checks for this merged
+expanded suite remain paused.
+
+Training slots must be exclusive to one profile. Character validation now uses
+`trainingPurchaseReason(skill, training)` to reject shared objects and duplicate
+slots for the same skill. The same gate runs during development offers and direct
+skill purchases, so runtime changes cannot bypass creation-time ownership checks.
+A nil training argument represents a genuinely new skill slot. The default hook
+on ordinary profiles leaves existing behavior unchanged.
+
+### Finalizing a starting character
+
+Use `RpgExpandedCharacterFinalization` after applying starting purchases and
+packages. Supply its id, profile, approval and evidence, then call `assess()` or
+`apply()`. Assessment performs the expanded character and budget validation.
+Application marks creation complete and captures each negative trait's actual
+creation cost in an owned `RpgExpandedBuyoffBasis`, linked to the finalization
+receipt. It does not award advancement points or change the starting budget.
+
+Captured bases initially lack buyoff approval: creation approval does not grant
+permission to remove a disadvantage later. For an approved later buyoff, add
+world justification and approval to the captured basis. Its original bonus and
+trait binding remain checked against the historical receipt, even if the current
+trait rating changes. Replaying finalization returns the original result and does
+not recreate records or revalidate the character's later advancement as creation.
+
+Already-complete profiles and profiles with existing buyoff history reject new
+finalization. Existing integrations can keep their manual completion flow, but
+must supply their historical bases explicitly. No old-save migration is implied.
+The fixture covers pure assessment, one-time capture, separate buyoff approval,
+historical-price protection, rollback, undo and save continuation; it is unrun.
+
+Ancestry score composition uses `creationScoreAmounts()` to keep personal and
+ancestry investments separate. `creationDisadvantageExemption()` excludes only
+ancestry negative components from the personal cap; the ordinary negative-cost
+query still reports both sources. Profiles without ancestry retain their
+existing accounting. See [ancestry score composition](templates.md#ancestry-score-composition)
+for current limits and the unrun validation cases.
+
+`physicalCharacteristicLimitsExempt()` distinguishes the printed nonhuman
+exemptions for HP, FP, Basic Speed and Basic Move from the separate permissions
+for Will and Perception. The ancestry module supplies this hook from an approved,
+owned nonhuman classification. Ordinary profiles retain all previous limits;
+`exceptionalCharacteristics` retains its explicit campaign-wide override.
+
+
+Character finalization also captures each installed contribution's original
+negative credit in owned `RpgExpandedContributionBasis` receipts. Positive amounts
+do not offset negative components for this historical-credit record. Zero-credit
+contributions receive zero-valued receipts. Use
+`profile.originalContributionBonus(contribution)` for validated historical credit,
+independent of later purchase repricing. This does not grant or spend points;
+feature modules decide which settlement procedure uses the captured credit.
+Dependent permanent-loss settlement uses this history automatically.
+
+## Cultural background
+
+For explicit cultural tasks, set `profile.nativeCulture` to an approved
+`RpgExpandedCulture` with a stable `id` and concrete `evidence` describing a broad
+shared culture (full-2008 B23). It receives no point charge. Existing profiles
+that do not use cultural tasks may leave this unset.
+
+Add `RpgExpandedCulturalFamiliarity` objects to the ordinary `traits` list for
+additional cultures. Set `culture`, `approved`, `evidence` explaining relatedness,
+and `id` to `culture-` followed by that culture's ID. `alien = nil` costs one
+point; `alien = true` costs two. `creationCost()` contributes directly to the
+existing character accounting. A culture cannot be purchased twice or purchased
+as well as selected as native, even with inactive or mitigated entries.
+
+`culturalPenalty(culture)` returns zero for native or active, unmitigated purchased
+familiarity and minus three otherwise. Culture IDs identify the same culture
+across authored records; use different IDs only for distinct cultures. Familiarity
+does not teach a language, establish citizenship or grant social permission.
+Template copies are described in the templates guide; broad cultural adaptation is described in the traits guide. `test_cultures`
+specifies costs, duplicate rejection, modifiers, undo and saved continuation;
+fixtures remain unrun pending recorded validation.

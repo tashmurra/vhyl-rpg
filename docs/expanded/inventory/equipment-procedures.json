@@ -1,0 +1,696 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B264-B271, before melee table",
+  "review": "Purchasing, lifestyle/wardrobe tables, legality and weapon-statistic semantics enumerated. Item catalogues, visual numeric audits, integration and independent tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "equipment-procedures-starting-budget",
+      "source": "full-2008",
+      "pages": "B264",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Starting equipment budget uses campaign technology starting wealth times the character wealth multiplier from B25-B27. Purchases spend the existing money ledger; do not create an independent expanded starting purse.",
+      "tests": [
+        "tests/expanded.py::test_starting_wealth",
+        "tests/expanded.py::test_starting_equipment_price",
+        "tests/expanded.py::test_starting_purchases"
+      ],
+      "validation_note": "Existing wealth allocation and purchases use one purse; allocation choice/outcomes are now bound. New integration fixture covers settled assets, higher-TL purchase, issue, insufficient funds, rollback/undo/save and later wealth change. Required validation remains unrun."
+    },
+    {
+      "id": "equipment-procedures-price-context",
+      "source": "full-2008",
+      "pages": "B264",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Listed currency values are neutral campaign units for ordinary local trade without shortage/surplus. Author defines currency, market availability and price adjustments; retain listed baseline independently from an actual offer.",
+      "tests": [
+        "tests/expanded.py::test_market_offers"
+      ],
+      "validation_note": "Typed authored market offer separates baseline and actual price, identifies market/currency and binds accepted facts through shared acquisition. Currency conversion and automatic market modeling remain pending. Fixtures unrun."
+    },
+    {
+      "id": "equipment-procedures-coinage",
+      "source": "full-2008",
+      "pages": "B264",
+      "module": "equipment",
+      "kind": "table",
+      "status": "partial",
+      "acceptance": "Optional medieval baseline uses one-unit copper and four-unit silver denominations; one thousand units of silver weighs one pound, equal-weight gold is about twenty times as valuable. Currency form changes encumbrance, unlike abstract bank balances. These are campaign choices, not universal currency laws.",
+      "tests": [
+        "tests/expanded.py::test_coins",
+        "tests/expanded.py::test_coin_purchases",
+        "tests/expanded.py::test_copper"
+      ],
+      "validation_note": "Silver/gold and one-unit copper support inventory value/mass, owned exchanges and exact mixed tender. Unspecified copper mass requires explicit author weight/evidence; synthetic fixtures do not claim a printed weight. Stack mass rounds upward to engine hundredths. Change-making and conversion remain pending. Fixtures unrun."
+    },
+    {
+      "id": "equipment-procedures-money-technology",
+      "source": "full-2008",
+      "pages": "B264",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Paper currency is possible at technology three, common at five and widespread at six; electronic payments supplement/replace it at eight. Author determines actual payment systems and acceptance; do not infer universal electronic access from equipment technology alone.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-8",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 8 is 600000000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-7",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 7 is 60000000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-6",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 6 is 6000000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-5",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 5 is 600000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-4",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 4 is 60000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-3",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 3 is 12000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-2",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 2 is 3000 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-1",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 1 is 1200 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-0",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status 0 is 600 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-minus1",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status -1 is 300 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-minus2",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Baseline monthly living cost for status -2 is 100 currency units. Default charge is at month start; campaign can change amount or schedule explicitly.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-inclusions",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Living costs include ordinary food, housing, clothing replacement and entertainment, plus customary servants from status one. Track represented goods/services so routine expenses are not charged again as item purchases.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-living-choice",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An actor may support a lifestyle above/below actual status within minus two through eight. Underfunding has authored service/housing/nutrition consequences and can lower effective status when observable. Higher expenditure permits comfort or attempted social presentation, not automatic purchased status; etiquette and false-claim consequences remain possible.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-rank-subsidy",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Free status from organizational rank does not increase personal living payment: charge prebonus status and attribute the difference to the organization. Independent fixture: personal status one with supported final seven pays 1200 personally rather than sixty million.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-travel-living",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Away-from-home lodging costs twenty percent of monthly lifestyle cost per day, usually about six times monthly cost for a full month. One status tier lower is permitted without ordinary underfunding consequences. Hospitality entitlement can replace eligible charges. Do not charge both daily travel costs and an additional six-times multiplier.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-meals-rations-liquor",
+      "source": "full-2008",
+      "pages": "B265",
+      "module": "equipment",
+      "kind": "table",
+      "status": "partial",
+      "acceptance": "For food pricing cap status above three at three except author exceptions. Breakfast/lunch costs one percent of venue monthly living cost, dinner two percent; a week of travel rations costs five percent and weighs fourteen pounds; liquor bottle costs one percent. Define meal coverage versus prepaid living costs.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items",
+        "tests/expanded.py::test_purchased_rations",
+        "tests/expanded.py::test_food_access"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun. Purchased ordinary-human ration packages now unpack into 21 meal portions, preserving full-package mass and consuming through the existing daily meal ledger. Fractional remaining mass rounds upward once per stack. Special diets and prepaid meal coverage remain pending; fixtures unrun. New meals reject inaccessible/in-flight/shared food, duplicate inventory occurrences and unbacked ration stock before consumption. Meal rollback and historical replay fixtures added, unrun."
+    },
+    {
+      "id": "equipment-procedures-wardrobe-entitlement",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Initial status-appropriate wardrobe is included and normal replacements are covered by living costs. Sudden replacement uses catalogue pricing. Full wardrobe uses actual status; individual outfits normally cap at status three. Do not add initial wardrobe expense or treat all clothes as weightless.",
+      "tests": [
+        "tests/expanded.py::test_initial_wardrobe",
+        "tests/expanded.py::test_cultural_wardrobe"
+      ],
+      "validation_note": "Starting wardrobe now issues a physical lifestyle item once during creation without charging money. Receipt binds authored full cultural standing and original item, rejects duplicate entitlement and replays without restoring transferred/lost clothes. Availability and permission still apply. Automatic cultural-standing selection and normal replacement coverage remain pending. Fixture covers rollback, undo, cross-process saved replay and invalid claims; unrun pending recorded validation. Optional social-structure integration now derives full cultural standing from existing status/rank/wealth policy, rejecting culture mismatch and competing explicit input. Completed issue remains historical after later standing changes. Automatic initial setup and normal replacement coverage remain pending. Fixtures unrun."
+    },
+    {
+      "id": "equipment-procedures-wardrobe-context",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "The source conservative-clothing setting exception at technology five or higher caps many individual outfits at status two; high-status fashion-specialist benefit still needs status-three expenditure. Make this an authored cultural clothing policy rather than a universal rule inferred from gender.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+    },
+    {
+      "id": "equipment-procedures-clothing-wardrobe",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Listed wardrobe costs 100 percent of applicable monthly living cost and weighs at least twenty pounds. Complete ordinary, sleeping, formal, cold-weather and occupational clothing set; final exact weight is authored.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+    },
+    {
+      "id": "equipment-procedures-clothing-ordinary-outfit",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Listed ordinary-outfit costs 20 percent of applicable monthly living cost and weighs two pounds. One complete normal outfit including footwear.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+    },
+    {
+      "id": "equipment-procedures-clothing-winter-outfit",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Listed winter-outfit costs 30 percent of applicable monthly living cost and weighs four pounds. One heavier outfit with head covering and boots.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+    },
+    {
+      "id": "equipment-procedures-clothing-formal-outfit",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Listed formal-outfit costs 40 percent of applicable monthly living cost and weighs two pounds. One formal outfit with its normal accessories.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+    },
+    {
+      "id": "equipment-procedures-clothing-cosmetics",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Listed cosmetics costs 10 percent of applicable monthly living cost and weighs two pounds. One month supply.",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices",
+        "tests/expanded.py::test_lifestyle_items"
+      ],
+      "validation_note": "Existing lifestyle arithmetic supplies source prices and weights. Physical ration, wardrobe, outfit and cosmetics packages now acquire through the shared purse and inventory. Full wardrobe requires an authored exact weight at or above the printed minimum. Services reject as inventory packages. Consumption, initial wardrobe entitlement, prepaid meal coverage and automatic clothing effects remain pending. New purchase, rollback, undo and save fixtures are authored but unrun."
+    },
+    {
+      "id": "equipment-procedures-lifestyle-assets",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Illustrative modern lifestyle assets describe what status-supported living includes; they are not freely liquidatable equipment grants. Author defines household assets, access, staff and transport rights, including what remains available when funding/support ends.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-purchase-authority",
+      "source": "full-2008",
+      "pages": "B266-B267",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Acquisition must satisfy affordability, campaign law, availability and authored scenario restrictions. Issued gear need not cost the actor money but retains issuer ownership/return terms. Unlisted ordinary items can use approved definitions/prices rather than being silently unavailable.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-carriage",
+      "source": "full-2008",
+      "pages": "B266",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Record carried possessions separately from stored items, including container and manner of carriage. Encumbrance uses actual carried mass and current load, not total wealth or every owned object.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-technology-eligibility",
+      "source": "full-2008",
+      "pages": "B267-B268",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Equipment technology is earliest ordinary availability; older items can persist later. Weapons above campaign technology require the higher-technology trait and actual availability. Speculative-physics marker requires explicit campaign authorization and assigned availability, not an automatic numeric technology.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-legality-4",
+      "source": "full-2008",
+      "pages": "B267",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Legality class 4 means normally open access but restrictive societies can control it. Resolve actual access with B507 social control rating and authored permissions; the class itself is not proof of a legal purchase.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-legality-3",
+      "source": "full-2008",
+      "pages": "B267",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Legality class 3 means normally registration/licensing with possible fee, examination and exclusions. Resolve actual access with B507 social control rating and authored permissions; the class itself is not proof of a legal purchase.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-legality-2",
+      "source": "full-2008",
+      "pages": "B267",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Legality class 2 means normally restricted to authorized services or specifically licensed possession. Resolve actual access with B507 social control rating and authored permissions; the class itself is not proof of a legal purchase.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-legality-1",
+      "source": "full-2008",
+      "pages": "B267",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Legality class 1 means normally military or covert-agency access. Resolve actual access with B507 social control rating and authored permissions; the class itself is not proof of a legal purchase.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-legality-0",
+      "source": "full-2008",
+      "pages": "B267",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Legality class 0 means normally highly restricted government possession. Resolve actual access with B507 social control rating and authored permissions; the class itself is not proof of a legal purchase.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-legality-scope",
+      "source": "full-2008",
+      "pages": "B267; B271",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary tools/clothes usually have no legality class unless the society assigns one. Combat melee/muscle-powered ranged weapons default to class four, except the force-blade class two; hunting/recreation/tools/improvised items can be unclassified. Preserve absent class separately from zero.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-weapon-schema",
+      "source": "full-2008",
+      "pages": "B268; B271",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Weapon tables may encode inapplicable, variable or special values. Keep these distinct from zero. A physical item may have multiple attack modes under different skills; rows do not imply multiple item purchases, masses or ammunition stores.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-ammunition-identity",
+      "source": "full-2008",
+      "pages": "B268",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ammunition compatibility needs exact cartridge/projectile specification, not caliber diameter alone. Preserve cartridge family, length/type and mechanism; similar diameters do not make rounds interchangeable.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-damage-strength",
+      "source": "full-2008",
+      "pages": "B268",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Muscle-powered damage modifies basic thrust/swing; independent fixture strength eleven thrust one die minus one with thrust plus two yields one die plus one. Fixed firearm/powered damage does not scale with wielder strength unless explicitly stated.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-armor-divisor",
+      "source": "full-2008",
+      "pages": "B268",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply armor divisor to relevant protection before subtracting damage or adding protection to affliction resistance. Fractional divisors increase protection: one half doubles, one fifth quintuples, one tenth multiplies by ten. Preserve rational arithmetic and source rounding.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-damage-types",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Map affliction, burning, corrosion, crushing, cutting, fatigue, impaling, four piercing sizes, toxic and special effects explicitly. Small piercing halves penetration, cutting/large piercing multiply by one-and-a-half, impaling/huge piercing double. Fatigue affects fatigue; afflictions use resistance instead of injury. Location/body exceptions still apply.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-explosion-components",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Explosive notation has blast plus optional separate fragmentation. Blast damage divides by three times yard distance; fragmentation cutting damage has danger radius five yards per damage die. A blast armor divisor applies only to direct target penetration, not collateral blast or fragments. Preserve separate components and source rules.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-affliction-weapons",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Affliction weapons provide health resistance modifiers, with armor protection adjusted by divisor added to the health roll. Source example health-minus-three stun lasts twenty minus health seconds on failure; define nonpositive-duration behavior via the specific weapon notes. Do not interpret resistance notation as damage dice.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-linked-followup",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Linked/follow-up weapon lines refer to the same attack and resolve through B381 eligibility rules. Do not spend separate actions/ammunition or apply follow-up through an unsuccessful carrier when that form requires penetration.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-reach",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reach is a set of allowed distances, not always a maximum: reach two alone cannot hit at one. Close reach permits close combat. Marked awkward reach changes require a ready action; unmarked multireach weapons can choose any listed reach. Body-size adjustments use tactical rules.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-parry",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Parry modifier affects defense with that mode. Fencing marker selects fencing rules; unbalanced prohibits attacking then parrying or vice versa in the same turn; no-parry forbids it entirely. Track mode/action history rather than treating all markers as numeric bonuses.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-accuracy",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Weapon accuracy applies after qualifying aim. A separate scope bonus remains separate from base accuracy, with its own aiming requirements. Carrying a scoped weapon does not grant the scope bonus to every un-aimed shot.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-optional-dice-adds",
+      "source": "full-2008",
+      "pages": "B269",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional damage normalization converts +4 adds to one die and +7 to two dice; example two dice plus five becomes three dice plus one. Apply per-die modifiers to original basic thrust/swing dice before conversion. Campaign must explicitly enable this optional calculation.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-range",
+      "source": "full-2008",
+      "pages": "B269-B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One range value is maximum; two are half-damage and maximum. At or beyond half-damage range, damaging attacks halve damage and resistance attacks give +3 health. Minimum-range notes forbid closer targets. Preserve inclusive boundary, actual range and per-mode exceptions.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-range-strength",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Strength-scaled ranges use wielder strength except bows/crossbows/mechanical artillery use the item rated strength. A times-ten/times-fifteen range at strength ten gives one hundred/one hundred fifty yards. Do not recompute a bow range from temporary wielder strength.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-rate-of-fire",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rate is maximum shots per one-second turn, ordinarily selectable down to one. Full-auto-only minimum is ceiling(rate divided by four). Multi-projectile m-times-n notation means m cartridges each releasing n projectiles; jet is a distinct continuous-stream procedure. Ammo spending uses cartridges, not pellet hits.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-reload",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Capacity is shots before reload. Parenthesized reload time counts one-second ready actions; individual-loading marker applies per shot, otherwise entire reload. Thrown items require recovery or readying another actual item. Own interrupted reload progress and ammunition source.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-crossbow-cocking",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Crossbow/prodd at rated strength no greater than wielder readies in four turns; one/two above takes eight; three/four above needs a cocking lever, standing and twenty turns; five or more above cannot be reloaded by that actor. These are source reload tiers, not generic strength penalties.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-included-accessories",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sword/knife price includes sheath/scabbard; firearm price includes minimum cleaning kit. Keep accessories represented without charging their price twice or inventing separate listed mass where unspecified.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-weight-schema",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multi-shot ranged weapon listed weight is loaded, with full reload mass after slash. Single-shot or backpack-powered weapons instead list unloaded weapon then one shot/backpack mass. Negligible remains a distinct mass convention. Inventory must not add a full load twice.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-minimum-strength",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each point below weapon minimum strength gives -1 skill and one extra fatigue at the end of a sufficiently long fatiguing fight. Extra fatigue is an encounter consequence, not one charge per swing or per missing strength point. Melee damage strength caps at triple weapon minimum; natural attacks have no such limits.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-two-hands",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary two-hand marker permits one hand at ceiling(one-and-a-half minimum strength) but becomes unready after attack; twice minimum strength removes that readiness cost. Mechanisms requiring one hand to hold and another to operate always need both, regardless of strength.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-heavy-two-hands",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Heavy two-hand marker becomes unready after attacking even with two hands unless strength reaches ceiling(one-and-a-half minimum). One-hand use without unreadiness needs triple minimum. Do not infer an unsupported intermediate one-hand mode without resolving the source rule.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-rests",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A musket-style rest is included in listed mass and takes a ready action to balance. Thereafter stationary standing aimed shots are braced. Attached bipod while prone braces and reduces strength minimum to ceiling(two thirds listed); thirteen becomes nine.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-mounts",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mounted weapons ignore listed strength and bulk when fired from mount/tripod; unmounted use restores them. Removing or reattaching needs at least three ready actions. Preserve mount ownership, setup and orientation in vehicle/tactical integration.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-bow-strength",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Specify bow/crossbow/prodd rated strength at purchase, used for damage/range. Weaker items are usable; stronger crossbows/prodds use cocking tiers, but stronger ordinary bows cannot be used. Apply minimum-strength weapon-skill rules separately where applicable.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-bulk",
+      "source": "full-2008",
+      "pages": "B270",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Bulk modifies move-and-attack skill and concealment/holdout. It is not an arbitrary encumbrance adjustment and becomes inapplicable when mounted under the stated mounting rule.",
+      "tests": []
+    },
+    {
+      "id": "equipment-procedures-recoil",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With rate at least two, each full recoil multiple in attack success margin gives another hit, capped by actual shots/projectiles under the relevant rapid-fire rule. Recoil one denotes near-recoilless behavior; single-shot modes can still retain recoil for rules that use it.",
+      "tests": []
+    }
+  ]
+}

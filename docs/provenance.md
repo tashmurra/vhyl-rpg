@@ -38,3 +38,9 @@ text, images and title mappings are not distributed. Original implementation cod
 and guides remain under this project's licence; that licence grants no rights to
 the source publications. See the [comparison](rules-comparison.md) and
 [coverage ledger](expanded/coverage.json) for the partial implementation boundary.
+
+The [optional accumulating stress library](expanded/stress.md) implements original campaign
+rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.
+It is inactive until configured and separate from reference-derived fear.
+The focused fear milestone and its validation status are tracked in the
+completion checklist; the wider rules conversion remains incomplete.

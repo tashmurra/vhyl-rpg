@@ -1,0 +1,1088 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B288 camping and survival",
+  "review": "All 47 distinct camping/survival entries visually reviewed; the piton alias is recorded separately. Shared supply, container, environmental and deployment requirements inventoried. Runtime and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "gear-frame-pack",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "frame-pack",
+        "technology": 1,
+        "cost": 100.0,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_pounds": 100
+        }
+      }
+    },
+    {
+      "id": "gear-small-pack",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-pack",
+        "technology": 1,
+        "cost": 60.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_pounds": 40
+        }
+      }
+    },
+    {
+      "id": "gear-blanket",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "blanket",
+        "technology": 1,
+        "cost": 20.0,
+        "weight_pounds": 4.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "sleeping-warmth"
+        }
+      }
+    },
+    {
+      "id": "gear-ceramic-bottle",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "ceramic-bottle",
+        "technology": 1,
+        "cost": 3.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_quarts": 1,
+          "water_mass_pounds": 2
+        }
+      }
+    },
+    {
+      "id": "gear-steel-cable",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "steel-cable",
+        "technology": 5,
+        "cost": 100.0,
+        "weight_pounds": 17.0,
+        "legality_class": 4,
+        "properties": {
+          "unit_yards": 10,
+          "diameter_inches": 1.5,
+          "supports_pounds": 3700
+        }
+      }
+    },
+    {
+      "id": "gear-small-camp-stove",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-camp-stove",
+        "technology": 6,
+        "cost": 50.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "fuel": "kerosene",
+          "fuel_gallons": 0.25,
+          "operation_hours": 4
+        }
+      }
+    },
+    {
+      "id": "gear-tallow-candle",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "tallow-candle",
+        "technology": 1,
+        "cost": 5.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "burn_hours": 12,
+          "smoky": true
+        }
+      }
+    },
+    {
+      "id": "gear-canteen",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "canteen",
+        "technology": 5,
+        "cost": 10.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_quarts": 1,
+          "water_mass_pounds": 2
+        }
+      }
+    },
+    {
+      "id": "gear-pocket-lighter",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pocket-lighter",
+        "technology": 6,
+        "cost": 10.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "function": "fire-starting"
+        }
+      }
+    },
+    {
+      "id": "gear-climbing-hardware",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "climbing-hardware",
+        "technology": 2,
+        "cost": 20.0,
+        "weight_pounds": 4.0,
+        "legality_class": 4,
+        "properties": {
+          "contents": [
+            "hammer",
+            "spikes",
+            "carabiners"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-compass",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "compass",
+        "technology": 6,
+        "cost": 50.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "skill_bonus": {
+            "navigation": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "gear-thin-cord",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "thin-cord",
+        "technology": 0,
+        "cost": 1.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "unit_yards": 10,
+          "diameter_inches": 0.1875,
+          "supports_pounds": 90
+        }
+      }
+    },
+    {
+      "id": "gear-fishing-hooks-line",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fishing-hooks-line",
+        "technology": 0,
+        "cost": 50.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "fishing",
+          "requires": "pole"
+        }
+      }
+    },
+    {
+      "id": "gear-heavy-flashlight",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-flashlight",
+        "technology": 6,
+        "cost": 20.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "beam_feet": 30,
+          "operation_hours": 5
+        }
+      }
+    },
+    {
+      "id": "gear-small-flashlight",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-flashlight",
+        "technology": 7,
+        "cost": 10.0,
+        "weight_pounds": 0.25,
+        "legality_class": 4,
+        "properties": {
+          "beam_feet": 15,
+          "operation_hours": 1
+        }
+      }
+    },
+    {
+      "id": "gear-gasoline",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "gasoline",
+        "technology": 6,
+        "cost": 1.5,
+        "weight_pounds": 6.0,
+        "legality_class": 4,
+        "properties": {
+          "unit_gallons": 1
+        }
+      }
+    },
+    {
+      "id": "gear-satellite-navigation-receiver",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "satellite-navigation-receiver",
+        "technology": 8,
+        "cost": 200.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "grants": "direction-sense",
+          "requires": "satellite-signal",
+          "operation_hours": 24
+        }
+      }
+    },
+    {
+      "id": "gear-grapnel",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "grapnel",
+        "technology": 5,
+        "cost": 20.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "throw_range_strength_multiplier": 2,
+          "supports_pounds": 300
+        }
+      }
+    },
+    {
+      "id": "gear-group-camping-kit",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "group-camping-kit",
+        "technology": 0,
+        "cost": 50.0,
+        "weight_pounds": 20.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": [
+            "cooking",
+            "survival"
+          ],
+          "group_size": [
+            3,
+            8
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-iron-piton",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "iron-piton",
+        "technology": 2,
+        "cost": 1.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "function": [
+            "climbing",
+            "door-spiking"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gear-kerosene",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "kerosene",
+        "technology": 6,
+        "cost": 1.5,
+        "weight_pounds": 6.0,
+        "legality_class": 4,
+        "properties": {
+          "unit_gallons": 1
+        }
+      }
+    },
+    {
+      "id": "gear-oil-lantern",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "oil-lantern",
+        "technology": 2,
+        "cost": 20.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "fuel": "lamp-oil",
+          "fuel_pints": 1,
+          "operation_hours": 24
+        }
+      }
+    },
+    {
+      "id": "gear-flotation-jacket",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "flotation-jacket",
+        "technology": 6,
+        "cost": 100.0,
+        "weight_pounds": 6.0,
+        "legality_class": 4,
+        "properties": {
+          "supports_pounds": 350
+        }
+      }
+    },
+    {
+      "id": "gear-waterproof-matches",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "waterproof-matches",
+        "technology": 6,
+        "cost": 1.5,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "quantity": 50,
+          "function": "fire-starting"
+        }
+      }
+    },
+    {
+      "id": "gear-lamp-oil",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "lamp-oil",
+        "technology": 2,
+        "cost": 2.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "unit_pints": 1
+        }
+      }
+    },
+    {
+      "id": "gear-parachute",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "parachute",
+        "technology": 6,
+        "cost": 1000.0,
+        "weight_pounds": 30.0,
+        "legality_class": 4,
+        "properties": {
+          "skill": "parachuting",
+          "opening_minimum_fall_yards": 80,
+          "deployed_descent_yards_per_second": 5
+        }
+      }
+    },
+    {
+      "id": "gear-personal-camping-kit",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "personal-camping-kit",
+        "technology": 0,
+        "cost": 5.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "absence_modifier": {
+            "survival": -2
+          }
+        }
+      }
+    },
+    {
+      "id": "gear-short-pole",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "short-pole",
+        "technology": 0,
+        "cost": 5.0,
+        "weight_pounds": 3.0,
+        "legality_class": 4,
+        "properties": {
+          "length_feet": 6
+        }
+      }
+    },
+    {
+      "id": "gear-long-pole",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "long-pole",
+        "technology": 0,
+        "cost": 8.0,
+        "weight_pounds": 5.0,
+        "legality_class": 4,
+        "properties": {
+          "length_feet": 10
+        }
+      }
+    },
+    {
+      "id": "gear-small-pouch",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-pouch",
+        "technology": 1,
+        "cost": 10.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "capacity_pounds": 3
+        }
+      }
+    },
+    {
+      "id": "gear-light-rope",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-rope",
+        "technology": 0,
+        "cost": 5.0,
+        "weight_pounds": 1.5,
+        "legality_class": 4,
+        "properties": {
+          "unit_yards": 10,
+          "diameter_inches": 0.375,
+          "supports_pounds": 300
+        }
+      }
+    },
+    {
+      "id": "gear-heavy-rope",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-rope",
+        "technology": 1,
+        "cost": 25.0,
+        "weight_pounds": 5.0,
+        "legality_class": 4,
+        "properties": {
+          "unit_yards": 10,
+          "diameter_inches": 0.75,
+          "supports_pounds": 1100
+        }
+      }
+    },
+    {
+      "id": "gear-diving-kit",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "diving-kit",
+        "technology": 6,
+        "cost": 1500.0,
+        "weight_pounds": 32.0,
+        "legality_class": 4,
+        "properties": {
+          "basic_gear": "scuba",
+          "underwater_air_hours": 2
+        }
+      }
+    },
+    {
+      "id": "gear-sleeping-bag",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sleeping-bag",
+        "technology": 6,
+        "cost": 25.0,
+        "weight_pounds": 7.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "normal-sleeping-conditions"
+        }
+      }
+    },
+    {
+      "id": "gear-insulated-sleeping-bag",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "insulated-sleeping-bag",
+        "technology": 7,
+        "cost": 100.0,
+        "weight_pounds": 15.0,
+        "legality_class": 4,
+        "properties": {
+          "health_bonus_against_freezing": 3
+        }
+      }
+    },
+    {
+      "id": "gear-sleeping-fur",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sleeping-fur",
+        "technology": 0,
+        "cost": 50.0,
+        "weight_pounds": 8.0,
+        "legality_class": 4,
+        "properties": {
+          "function": "sleeping-warmth",
+          "ineffective_when": "wet"
+        }
+      }
+    },
+    {
+      "id": "gear-rigid-suitcase",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rigid-suitcase",
+        "technology": 5,
+        "cost": 250.0,
+        "weight_pounds": 8.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_pounds": 100,
+          "item_resistance": 4,
+          "lock": "key"
+        }
+      }
+    },
+    {
+      "id": "gear-one-person-tent",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "one-person-tent",
+        "technology": 0,
+        "cost": 50.0,
+        "weight_pounds": 5.0,
+        "legality_class": 4,
+        "properties": {
+          "occupants": 1,
+          "ropes_included": true,
+          "required_poles": 0
+        }
+      }
+    },
+    {
+      "id": "gear-two-person-tent",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "two-person-tent",
+        "technology": 0,
+        "cost": 80.0,
+        "weight_pounds": 12.0,
+        "legality_class": 4,
+        "properties": {
+          "occupants": 2,
+          "ropes_included": true,
+          "required_poles": 1,
+          "pole_length_feet": 6
+        }
+      }
+    },
+    {
+      "id": "gear-four-person-tent",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "four-person-tent",
+        "technology": 0,
+        "cost": 150.0,
+        "weight_pounds": 30.0,
+        "legality_class": 4,
+        "properties": {
+          "occupants": 4,
+          "ropes_included": true,
+          "required_poles": 2
+        }
+      }
+    },
+    {
+      "id": "gear-twenty-person-tent",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "twenty-person-tent",
+        "technology": 1,
+        "cost": 300.0,
+        "weight_pounds": 100.0,
+        "legality_class": 4,
+        "properties": {
+          "occupants": 20,
+          "ropes_included": true,
+          "required_poles": 16
+        }
+      }
+    },
+    {
+      "id": "gear-insulated-bottle",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "insulated-bottle",
+        "technology": 5,
+        "cost": 10.0,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "properties": {
+          "capacity_pints": 1,
+          "hot_hours": 24,
+          "cold_hours": 72
+        }
+      }
+    },
+    {
+      "id": "gear-torch",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "torch",
+        "technology": 0,
+        "cost": 3.0,
+        "weight_pounds": 1.0,
+        "legality_class": 4,
+        "properties": {
+          "burn_hours": 1
+        }
+      }
+    },
+    {
+      "id": "gear-travel-ration",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "travel-ration",
+        "technology": 0,
+        "cost": 2.0,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "properties": {
+          "meals": 1
+        }
+      }
+    },
+    {
+      "id": "gear-water-treatment-tablets",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "water-treatment-tablets",
+        "technology": 6,
+        "cost": 5.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "quantity": 50,
+          "quarts_per_tablet": 1
+        }
+      }
+    },
+    {
+      "id": "gear-liquid-skin",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "liquid-skin",
+        "technology": 0,
+        "cost": 10.0,
+        "weight_pounds": 0.25,
+        "legality_class": 4,
+        "properties": {
+          "capacity_gallons": 1,
+          "water_mass_pounds": 8
+        }
+      }
+    },
+    {
+      "id": "gear-wristwatch",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with owned inventory and the recorded capacity, prerequisites, supply or benefit. Distinguish container mass from contents and listed purchase quantity from remaining uses. Qualitative functions need explicit authored use contracts rather than invented numeric bonuses. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wristwatch",
+        "technology": 6,
+        "cost": 20.0,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "properties": {
+          "function": "timekeeping"
+        }
+      }
+    },
+    {
+      "id": "gear-general-conventions",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "General equipment has legality class four unless stated otherwise; omitted weight is negligible, not an unknown negative value. Variable technology tools match the skill technology. Basic gear permits the specified skill without an equipment penalty in ordinary circumstances; it is not a universal bonus or a replacement for specialized prerequisites.",
+      "tests": []
+    },
+    {
+      "id": "gear-capacity-and-consumption",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Container capacity and empty mass are separate from contents. Rope, cord and cable prices and mass are per ten yards with their own load limits. Shared supplies such as fuel, meals, matches and purification tablets are owned quantities. Assess compatibility, capacity and sufficient supply without mutation; commit once across parser, structured and dialogue actions and preserve balances through interruption and save continuation.",
+      "tests": []
+    },
+    {
+      "id": "gear-camp-supply-clocks",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Persist active light and stove fuel consumption across elapsed time, including fractional periods. A stove uses a quarter gallon per four hours; a lantern one pint per twenty-four hours; a candle lasts twelve hours and a torch one hour. Battery-powered lamps have their own rated time. Do not reset durations on item transfer or reequipping. The source does not give universal ignition time or fuel-replenishment time; author those actions explicitly.",
+      "tests": []
+    },
+    {
+      "id": "gear-camp-kit-eligibility",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fishing hooks and line require a pole. The group kit supports cooking and survival for three through eight campers; personal camping gear separately avoids the stated minus-two survival penalty. Tent ropes are included, but the two-person tent requires a six-foot pole, the four-person tent two poles, and the twenty-person tent sixteen. Do not invent pole lengths where not specified or assume included ropes supply all climbing needs.",
+      "tests": []
+    },
+    {
+      "id": "gear-camp-environment",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The insulated sleeping bag grants plus three health only against freezing; sleeping fur loses its warmth when wet. Diving supplies provide two hours of underwater air with the appropriate skill. Flotation is limited to the listed supported mass. Water-treatment tablets each treat one quart; distinguish water quantity from treatment availability and require source-backed or authored rules for contaminants the tablets cannot address.",
+      "tests": []
+    },
+    {
+      "id": "gear-parachute-state",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Parachute use requires the appropriate skill and at least eighty yards of fall before opening, followed by descent at five yards per second. Track deployment and altitude against the shared time ledger; do not grant safe landing merely because the item is carried. Resolve failed deployment and landing through the relevant activity rules rather than inventing an automatic rescue.",
+      "tests": []
+    },
+    {
+      "id": "gear-signal-navigation",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A compass grants plus one navigation. The satellite receiver grants signal-dependent direction sense while powered and receiving a usable signal; it lasts twenty-four hours per listed supply. Require authored world signal availability and obstruction state, and do not grant unrestricted position knowledge or navigation success from ownership alone.",
+      "tests": []
+    },
+    {
+      "id": "gear-piton-alias",
+      "source": "full-2008",
+      "pages": "B288",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The alternate piton listing references the iron-piton item; do not create a second purchase or separate inventory identity for the alias.",
+      "tests": []
+    }
+  ]
+}

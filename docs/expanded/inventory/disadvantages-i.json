@@ -1,0 +1,535 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B162, quirks, through B166",
+  "review": "All mental/physical quirk catalogue entries and custom-disadvantage construction procedures enumerated in this section. Behavioral contracts, price contributions, executable effects and independent tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-i-quirk-cap",
+      "source": "full-2008",
+      "pages": "B162",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Minor individual traits cost -1 each, at most five credited quirks, and can be bought off for one point each. Preserve mental/physical classification and count quirks contributed by templates or active packages without duplicating the actor allowance.",
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-i-quirk-contract",
+      "source": "full-2008",
+      "pages": "B162-B163",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "A mental quirk needs a concrete recurring action/choice or a small occasional/narrow penalty agreed with the author. Merely passive appearance or a name with no limiting effect is insufficient. Track compliance decisions and authored advancement consequences; do not declare every unspecified callback a completed contract.",
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-i-quirk-change",
+      "source": "full-2008",
+      "pages": "B163",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental quirks may change after a justified character development event, with author approval. Creation may leave some of the five slots open for definition during the first sessions. Define accounting for reserved slots and prohibit adding a sixth credited quirk or repeatedly cashing the same slot.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-disadvantage-accounting-example",
+      "source": "full-2008",
+      "pages": "B162",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An independent accounting fixture must combine three five-point restrictions (-15), duty and wealth totaling -35, strength reduction -20 and fatigue reduction -6 into -76 counted disadvantages. Do not count only explicitly named mental traits or omit negative characteristics.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-accounting-example",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Five one-point quirks reduce a running character total by exactly five. With a prior total of 208, final total is 203. Existing reserved-slot credit must not be added a second time when the descriptions are completed.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-task-focus",
+      "source": "full-2008",
+      "pages": "B163",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Lengthy tasks get +1, while noticing an important interruption takes -3. Apply each to the appropriate task/perception check, not every action.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-broad-minded",
+      "source": "full-2008",
+      "pages": "B163",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Define demonstrated openness toward unfamiliar peoples/species and willingness to interact. Do not add the full stranger-affinity fear bonuses.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-careful",
+      "source": "full-2008",
+      "pages": "B163",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Commit extra preparation time or expenditure before danger, with an authored amount and trigger. Do not import full cowardice self-control or fear penalties.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-category-conscious",
+      "source": "full-2008",
+      "pages": "B163",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Author defines behavior emphasizing social differences; sensitive observers may react -1 when it occurs. This does not establish actual differences in ability or worth.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-honor",
+      "source": "full-2008",
+      "pages": "B163",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. A small concrete honor obligation restricts specified choices. Define trigger and permitted behavior instead of applying a full honor-code price.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-group-preference",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Choose group action over solo action when both are available. Do not grant the stronger companionship reaction benefit or isolation penalties.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-trivial-belief",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Maintain one authored mistaken belief with negligible everyday impact and little obvious expression. It grants no knowledge or power and does not imply larger reaction penalties.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-dislike",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Avoid an authored disliked stimulus where possible, without the full fear-table outcome or exposure penalties.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-distractible",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Long tasks take -1; do not automatically fail every distracted task as the full short-attention restriction does.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-dreamer",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Long tasks take -1 because of time spent contemplating alternatives. Define task qualification rather than applying a universal intelligence penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-conventional",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Prefer established methods over novelty in authored decisions, without the full creativity penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-habit-expression",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Specify a recurring performed habit, phrase or action with meaningful opportunities in play. A passive label does not satisfy the minor-trait contract.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-humble",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Ordinarily prioritize group/other needs in authored choices, without mandatory full self-sacrifice checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-idea-sharing",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Regularly propose and share ideas through authored dialogue/actions. No automatic invention success or guaranteed useful information is granted.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-incompetence",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Prohibit learning one relevant skill and impose -4 on its defaults. Cover all specialties, not only one chosen specialty; reject irrelevant skills used solely for free credit. Default chains cannot bypass the restriction.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-preference",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Seek a defined favored item/activity when practical, through ordinary acquisition/time costs. This is a preference, not a compulsory self-control episode.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-psychological-addiction",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. A psychological dependency priced at zero by the full addiction procedure can be a -1 quirk. Retain its concrete substance/use contract without granting a second addiction credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-nosiness",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Intrude into matters outside immediate business, potentially provoking a small authored reaction penalty. Do not automatically reveal hidden facts or force the full curiosity procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-goal",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. An ordinary small overriding ambition guides some choices, without applying a full long-term obsession price.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-controlled-personality-change",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. A specified full mental restriction operates only in circumstances normally under actor control. Define entry, exit and active effects; the temporary restriction does not earn its full additional point credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-pride",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Personal success/status matters in authored choices; nonplayer reactions to orders, insults and slights are -1. Do not use the full status-sensitivity reaction table.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-responsive",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Prefer helping others when other factors are equal, with concrete authored choices; no supernatural emotion-reading is granted.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-staid",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Usually ignore matters outside immediate concerns. Do not impose full incuriosity self-control or its general new-things reaction penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-signature",
+      "source": "full-2008",
+      "pages": "B164",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. A quickly left untraceable sign may be omitted when inconvenient. Do not impose the full signature trait prohibition on leaving the scene.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-solo-preference",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Choose individual action over group action where available. No full solitude self-control or reaction penalties apply.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-vow",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental quirk, -1 point. Specify a trivial but binding behavioral promise. If the promise is a recurring donation, account for the authored fraction of actual income through the money ledger rather than treating the vow as flavor.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-physical-quirk-policy",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Physical quirks require specific minor penalties, are defined at creation and cannot fill initially open mental-quirk slots after play begins. They do not require behavioral performance and are not normally interchangeable without a corresponding physical change.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-acceleration",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. Extreme acceleration resistance health checks take -3.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-alcohol-sensitivity",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. Health checks related to drinking alcohol take -2; apply the ordinary intoxication procedure rather than inventing a fixed immediate state.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-bowed-legs",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. Jumping takes -1 without ordinary movement reduction; relevant observers may react -1.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-no-floating",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. The body sinks in water. Integrate buoyancy and movement/encumbrance procedures without equating this to inability to swim or breathe automatically.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-distinctive-feature",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. Disguise and shadowing take -1; others get +1 to identify/follow the actor from the distinctive physical feature. Any separate exposure vulnerability has its own cost and effects.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-severe-hangover",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. Add another -3 to assessed hangover penalties and three hours to hangover duration, once per episode.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-physiological-addiction",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. A physical dependency priced at zero by the full addiction rules can cost -1 as a quirk, with a concrete substance contract and no duplicate addiction credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-minor-impairment",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. An authored narrow physical restriction may impose -1 to appropriate attribute, skill or reaction checks when it actually interferes. Define eligible situations and affected rolls, not unrestricted penalties.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-sensitive-digestion",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. Health checks against illness from rich/spicy food, strong drink or similar authored triggers take -3. Apply the specific illness effects; this is not vulnerability to all disease.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-quirk-sexless-body",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical quirk, -1 point. The authored absence of reproductive anatomy gives immunity to seduction and accidental parenthood under this source rule. Any cultural appearance/stigma effects are separate purchases; mere sterility is a zero-point feature instead.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-restriction-eligibility",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A custom disadvantage must impose an actual restriction in the campaign. Reuse the custom-advantage design interface for renamed, redefined, combined, modified or adjusted components, but reject a negative-priced component that never constrains the actor.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-composite-fixture",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Independent composite-price fixture: thirty-minute exposure injury base -5 times very-common rarity three, then a -40% limitation, gives -9; adding one distinctive-feature quirk gives -10. Preserve the underlying exposure and recognition mechanics in the combined trait.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-parameterized-types",
+      "source": "full-2008",
+      "pages": "B165",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Parameterized custom restrictions may reuse addiction, honor, compulsions, beliefs, sustenance, fate, disciplines, repulsion, commitment, life support, intolerance, maintenance, goals, habits, fears, diet, revulsion, duty, susceptibility, features, vows, vulnerability and exposure weakness. Require each underlying type specific authored inputs; a shared label or callback does not replace its contract.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-positive-components",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A composite disadvantage may include positive-priced benefits that reduce the net negative credit. Keep reaction bonuses and restrictions separately executable and count the composite total once. Do not negate all component behavior merely because the final price is negative.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-modifiers",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Limitations reduce negative credit: applying -40% to base -15 produces -9. Special disadvantage enhancements can increase credit. Use signed price arithmetic and the applicable rounding convention rather than the positive-trait minimum-cost implementation blindly.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-attribute-penalties",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "For custom situational attribute penalties, base each -1 strength/health at -10 and dexterity/intelligence at -20, then author-adjust for scope. Source independent fixture: health resistance -2 base -20 at forty-percent applicability yields -8. Do not change the actual attribute if the restriction only affects resistance checks.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-skill-penalties",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "skills",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Custom single-skill penalties use the incompetence scale, approximately -1 point for -4 to a campaign-relevant skill; -3 or -5 variants need author judgment. A related skill-group penalty uses the corresponding talent price with negative sign. Do not price isolated penalties as the symmetric inverse of positive skill bonuses.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-reactions",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Custom reaction penalties use B26 reputation pricing even when caused by appearance or an aura rather than reputation. Preserve affected audience and discovery conditions instead of assigning a global penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-unique",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Unique custom restrictions require comparison to existing mechanically similar restrictions, an explicit effect contract and approved price rationale. There is no universal automatic formula for an unprecedented disability.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-i-custom-final-price",
+      "source": "full-2008",
+      "pages": "B166",
+      "module": "characters",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Final custom price sums components with author-approved rarity/treatability/social-impact adjustments. Rarity is not always a discount: difficult treatment or stronger social consequences can increase negative value. Do not infer the price by negating an opposite advantage; require rationale and prevent overlapping credit.",
+      "tests": []
+    }
+  ]
+}

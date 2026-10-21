@@ -1,0 +1,590 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B129, reduced time rate, through B134",
+  "review": "Time-rate restriction, sustaining requirements, dependents, fate, disciplines, depletion, repulsion, external duties and sensory/system restrictions enumerated. Authored clocks, cross-references and executable integrations remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-c-slow-time",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced personal time is -100: one subjective second per two world seconds, granting one combat turn per two seconds. Preserve world-time exposures, initiative phase and subjective action progress separately; do not halve all damage, prices or outside events.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-slow-time-split",
+      "source": "full-2008",
+      "pages": "B129",
+      "module": "combat",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Optional split-turn timing must be an explicit campaign choice: movement can be spread across two turns and an attack declared on one turn resolves on the next. Define interruption, target legality and action ownership at resolution; never grant a second complete action or spend costs twice.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-belief-severity",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Persistent false beliefs cost -5/-10/-15 for minor/major/severe behavioral disruption, with reactions -1/-2/-3 from observers aware of the behavior. A harmless expression can instead be a -1 quirk. Select severity from actual behavior rather than belief text; severe forms require campaign approval.",
+      "tests": [
+        "tests/expanded.py::test_fixed_beliefs",
+        "tests/expanded.py::test_belief_observation",
+        "tests/expanded.py::test_belief_credit"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fixed_beliefs. Remaining registered validation: test_belief_credit, test_belief_observation. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-c-belief-cap",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Aggregate negative credit for false beliefs cannot exceed forty points. Keep each belief and its observed behavior independently authored while enforcing the total cap at character accounting.",
+      "tests": [
+        "tests/expanded.py::test_fixed_beliefs",
+        "tests/expanded.py::test_belief_observation",
+        "tests/expanded.py::test_belief_credit"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fixed_beliefs. Remaining registered validation: test_belief_credit, test_belief_observation. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-c-belief-revelation",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "An authored belief may prove true without immediate buyoff: the buyoff condition is other players recognizing its truth. Track truth, character knowledge and player revelation separately; do not expose hidden world facts through validation results.",
+      "tests": [
+        "tests/expanded.py::test_belief_revelation"
+      ],
+      "validation_note": "Owned private knowledge receipts separate world truth, character awareness and player recognition. Funded revelation buyoff requires current confirmed truth and player recognition and uses historical cost and the shared ledger once. Unavailable disclosure states share one public reason. Unfunded or outside-downtime buyoff remains pending. Fixtures authored, unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-rarity",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirements have base prices -30/-20/-10/-5 for rare/occasional/common/very-common availability, with another -5 if illegal. Author defines the substance, object or environment and world availability before frequency scaling. This is distinct from skilled maintenance and slow dietary starvation.",
+      "tests": [
+        "tests/expanded.py::test_sustenance"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-constant",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency continuous multiplies adjusted base price by 5, discarding fractional points. Missing required access causes one health point injury per one minute. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury",
+        "tests/expanded.py::test_sustenance_continuous"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun. Continuous object/environment access now has owned initial access, loss and restoration transitions; loss starts one-point minute ticks and restoration preserves existing wounds. Automatic movement, continuous substance ingestion and finite supply consumption remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-hourly",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency one hour multiplies adjusted base price by 4, discarding fractional points. Missing required access causes one health point injury per ten minutes. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-daily",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency one day multiplies adjusted base price by 3, discarding fractional points. Missing required access causes one health point injury per one hour. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-weekly",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency one week multiplies adjusted base price by 2, discarding fractional points. Missing required access causes one health point injury per six hours. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-monthly",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency one month multiplies adjusted base price by 1, discarding fractional points. Missing required access causes one health point injury per one day. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-seasonal",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency three months multiplies adjusted base price by 1/3, discarding fractional points. Missing required access causes one health point injury per three days. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-yearly",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Life-sustaining requirement frequency one year multiplies adjusted base price by 1/10, discarding fractional points. Missing required access causes one health point injury per two weeks. Own the dose/access deadline and damage clock; use campaign calendar boundaries for months/years rather than assuming fixed seconds silently.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_injury"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-contact",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Object contact or environmental residence must last as long as the damage interval within each required period. A daily requirement with hourly injury needs one hour of residence per day; a yearly requirement with fortnightly injury needs two weeks per year. Define whether interrupted residence accumulates through an explicit author contract because this passage does not specify it.",
+      "tests": [
+        "tests/expanded.py::test_sustenance",
+        "tests/expanded.py::test_sustenance_contact",
+        "tests/expanded.py::test_sustenance_interruption",
+        "tests/expanded.py::test_sustenance_timely_contact"
+      ],
+      "validation_note": "Executable rarity/illegality/frequency pricing, scoped authored purchases, template copying and schedule/contact-duration metadata. Calendar periods remain explicit months, not fixed seconds. Access satisfaction, consumption, deadlines, injury and aging are not implemented by this purchase. Fixtures authored, unrun. Owned uninterrupted periodic object/environment contact now measures actual elapsed duration and ends deprivation through an author-confirmed receipt. Simultaneous injury/access ordering is an explicit authored ruling. Restored episodes allow a distinct later episode; automatic calendar recurrence, interrupted contact and substance consumption remain pending. Fixtures unrun. An explicit uninterrupted-contact campaign ruling now supports owned interruption and fresh restart; historical intervals cannot overlap or contribute partial time to the restarted interval. Accumulated policies and automatic movement adapters remain pending. Fixtures unrun. Timely uninterrupted object/environment contact ending at the owned due time now records full duration within the period and fulfills without deprivation. Early completion, timely interruption/restart and accumulated policies remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-clock-boundary",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Specify dose deadline, first injury tick, restored-access handling and missed-tick catch-up using the source timing language. Reject ambiguous calendar/access policies before commitment. Save and undo must retain exact elapsed access and prevent replay from duplicating injury.",
+      "tests": [
+        "tests/expanded.py::test_sustenance_injury",
+        "tests/expanded.py::test_sustenance_contact",
+        "tests/expanded.py::test_sustenance_dose",
+        "tests/expanded.py::test_sustenance_deadline",
+        "tests/expanded.py::test_sustenance_timely_dose",
+        "tests/expanded.py::test_sustenance_timely_contact",
+        "tests/expanded.py::test_sustenance_recurrence",
+        "tests/expanded.py::test_sustenance_initial",
+        "tests/expanded.py::test_sustenance_continuous"
+      ],
+      "validation_note": " Owned uninterrupted deprivation now starts at an author-confirmed missed-access boundary and applies one shared wound per exact injury interval. Clock guards prevent skipped ticks; bound receipts prevent replay charges. Restored access, resource consumption, calendar ownership and aging remain pending. Fixtures unrun. Owned uninterrupted periodic object/environment contact now measures actual elapsed duration and ends deprivation through an author-confirmed receipt. Simultaneous injury/access ordering is an explicit authored ruling. Restored episodes allow a distinct later episode; automatic calendar recurrence, interrupted contact and substance consumption remain pending. Fixtures unrun. Periodic substance restoration now consumes one uniquely owned matching dose through the ordinary inventory ledger and releases the clock guard once. Assisted ingestion, regurgitation and automatic scheduling remain pending. Fixtures unrun. Owned deadlines after restored access calculate fixed periods or bind authored campaign-calendar boundaries. The missed path starts a new deprivation episode at the exact due time; a clock guard prevents skipping it. Timely fulfillment, early doses and automatic recurrence remain pending. Fixtures unrun. Timely substance doses at an owned deadline now consume one shared inventory unit and settle fulfillment without deprivation. Fulfillment and missed outcomes are mutually exclusive. Timely contact, early dosing and automatic next-period registration remain pending. Fixtures unrun. Timely uninterrupted object/environment contact ending at the owned due time now records full duration within the period and fulfills without deprivation. Early completion, timely interruption/restart and accumulated policies remain pending. Fixtures unrun. Explicit successor registration now chains from the latest fulfilled deadline at fulfillment time, using fixed periods or the same calendar with a fresh authored boundary. Unfulfilled or branched predecessors reject. Automatic calendar generation and initial satisfied state remain pending. Fixtures unrun. Initial satisfied-access receipts now anchor periodic deadlines without fictional deprivation or resource charges; duplicate or post-history initialization rejects. Live access still uses owned contact or inventory operations. Continuous initialization and automatic setup remain pending. Fixtures unrun. Continuous object/environment access now has owned initial access, loss and restoration transitions; loss starts one-point minute ticks and restoration preserves existing wounds. Automatic movement, continuous substance ingestion and finite supply consumption remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-sustenance-aging",
+      "source": "full-2008",
+      "pages": "B130",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Accelerated aging adds +30% to the sustenance requirement and causes two years of aging per health point lost through that requirement, including normally ageless actors. Attribute aging to this cause, not unrelated injury, and route aging through its normal procedure.",
+      "tests": [
+        "tests/expanded.py::test_sustenance_aging_plan",
+        "tests/expanded.py::test_sustenance_aging",
+        "tests/expanded.py::test_sustenance_aging_adjustments",
+        "tests/expanded.py::test_sustenance_aging_calendar",
+        "tests/expanded.py::test_sustenance_aging_dates",
+        "tests/expanded.py::test_sustenance_rejuvenation",
+        "tests/expanded.py::test_dated_aging"
+      ],
+      "validation_note": "The +30% modifier owns a two-year increment per deprivation injury and executes supported checks in shared aging history, bypassing ordinary aging immunity for this cause. Explicit month/day calendars and anniversary endpoints support day-based intervals and within-month starts; bound plans prevent replay charges and overlapping increments. Full-sequence preflight permits safe secondary adjustments and rejects unsupported derived/low-score states. Dated rejuvenation selects recorded losses exactly, including ordinary events with authored calendarDay; unknown endpoint-year dates remain explicit ambiguity. Pending checks block time advancement and rejuvenation. Sub-day precision, equivalent-trait-loss adjudication and unsupported score combinations remain unresolved. All listed fixtures are authored, unrun."
+    },
+    {
+      "id": "disadvantages-c-dependent-competence",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "social",
+      "kind": "table",
+      "status": "partial",
+      "acceptance": "A dependent with at most 100/75/50/25 percent of the principal character point total has base price -1/-2/-5/-10; an absolute total of zero or less is -15. Use the strongest qualifying bracket, preserve the absolute final row and explicitly reject unresolved proportional comparisons for a nonpositive principal total.",
+      "tests": [
+        "tests/expanded.py::test_dependents",
+        "tests/expanded.py::test_dependent_templates"
+      ],
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-dependent-importance",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "social",
+      "kind": "table",
+      "status": "partial",
+      "acceptance": "Dependent importance multiplies price by one half for an acquaintance/employer, one for a friend and two for a loved one. Author defines permitted risk: rational balancing, protection except overriding stakes, or safety taking precedence. Combine with the appearance multiplier from B36 and apply the general final-price rounding rule once.",
+      "tests": [
+        "tests/expanded.py::test_dependents",
+        "tests/expanded.py::test_dependent_templates",
+        "tests/expanded.py::test_dependent_choices"
+      ],
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun. Selectable template options now include dependent purchase prices in signed choice bounds and validate combined credit slots. Choice fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-dependent-aid",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "development",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Dependent peril requires prompt rescue. Author adjudicates failure to aid for session advancement; a session where the dependent is killed or seriously injured grants no character points. Record session identity, injury judgment and award decision without deleting previously earned points.",
+      "tests": [
+        "tests/expanded.py::test_dependent_sessions",
+        "tests/expanded.py::test_dependent_groups"
+      ],
+      "validation_note": "Owned session closure enforces serious-harm award prohibition and authored rescue bonus denial through the shared milestone bank. Live rescue routing and group incident ownership remain pending. Fixtures unrun. Group session closures now bind roster/member incidents and validate aggregate harm/rescue outcomes; automatic membership transfers and permanent-loss handling remain pending. Group fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-dependent-ally",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One person can be both ally and dependent using the same character total. Sum the two costs into a single positive or negative trait, but permit different appearance frequencies and roll their appearances independently. Both results may apply simultaneously; do not replace one role with the other.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-dependent-count",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At most two dependents earn negative points. A dependent group occupies both slots and is priced at twice a representative member value. Preserve membership and incident ownership without multiplying credit by group population.",
+      "tests": [
+        "tests/expanded.py::test_dependents",
+        "tests/expanded.py::test_dependent_templates",
+        "tests/expanded.py::test_dependent_choices",
+        "tests/expanded.py::test_dependent_groups"
+      ],
+      "validation_note": "Executable competence/importance/frequency pricing, approved build-reference accounting, group doubling and a two-slot credit limit. Uncredited relationships remain possible. Owned adventure appearances roll once or use restricted constant presence without RNG. Group membership/incidents, behavioral obligations, advancement, loss replacement and combined roles remain pending. Fixtures authored, unrun. Fixed and selected templates create fresh owned dependent contributions from unowned definitions; combined-package composition remains unsupported. Template fixtures unrun. Selectable template options now include dependent purchase prices in signed choice bounds and validate combined credit slots. Choice fixtures unrun. Group session closures now bind roster/member incidents and validate aggregate harm/rescue outcomes; automatic membership transfers and permanent-loss handling remain pending. Group fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-dependent-progression",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "development",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Scale a dependent proportionally as the principal gains points, keeping the disadvantage value stable; the author approves concrete improvements. Do not silently grant the principal those points or charge the principal for dependent training.",
+      "tests": [
+        "tests/expanded.py::test_dependent_growth",
+        "tests/expanded.py::test_dependent_skill_growth"
+      ],
+      "validation_note": "Owned growth receipts preserve original costs and principal bank, enforce exact positive whole-point proportions and itemized accounting. Skill-only records can apply to owned NPC training slots through shared learning gates. Fractional/nonpositive totals, refunds and attribute/trait/mixed applications remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-dependent-loss",
+      "source": "full-2008",
+      "pages": "B131",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Death or permanent removal of a dependent requires replacing its negative credit: spend earned points, accept an approved replacement disadvantage, or accept an approved new dependent. Own a single outstanding accounting obligation and resolve it once, with the author deciding permanent removal.",
+      "tests": [
+        "tests/expanded.py::test_dependent_loss",
+        "tests/expanded.py::test_dependent_original_credit",
+        "tests/expanded.py::test_dependent_replacement",
+        "tests/expanded.py::test_dependent_trait_replacement",
+        "tests/expanded.py::test_dependent_motivation_replacement"
+      ],
+      "validation_note": "Permanent loss supports funded settlement, equal-credit replacement dependents and approved fixed-belief/low-motivation disadvantage replacement with transferred buyoff basis. Other disadvantage adapters, unequal/mixed settlements and partial group loss remain pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-c-adverse-fate",
+      "source": "full-2008",
+      "pages": "B131-B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Adverse fate has -5/-10/-15 severity. Minor fate guarantees a setback but ordinarily not death, major fate gives a significant adverse role with survival, and greatest fate threatens death or ruin with wider consequences and needs campaign approval. Use an authored event obligation, milestones and fulfillment decision rather than a generic failure modifier.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-fate-fulfillment",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fulfilled adverse fate must be bought off. Equivalent lost positive traits can satisfy the cost; otherwise insufficient points lead to the specified misfortune trait regardless of original severity, or an author-approved replacement supernatural disadvantage. Record assets lost and settlement to prevent double payment or double negative credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-discipline-denial",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Strict self-denial is -15 and forbids above-average wealth or status beyond religious rank. Author defines required isolation, austerity and practices as enforceable obligations. Validate wealth/status changes as well as initial creation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-discipline-seclusion",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Religious seclusion is -10 and requires at least seventy-five percent of time apart from worldly concerns, with the same wealth/status restrictions as self-denial. Author specifies the accounting period and qualifying activities, then use the shared time ledger to measure compliance.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-discipline-contemplation",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Contemplative discipline is -10, requires most time in its prescribed practices and gives -2 reactions from people other than devout fellow believers. Author defines practices and relevant observers without treating all religious identities as equivalent.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-discipline-ritual",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Elaborate daily ritual discipline is -5. Specify required timing, materials, words and practices in authored obligations; permission prerequisites for supernatural abilities can inspect compliance. Do not infer new universal numerical penalties for violation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-unpleasant-voice",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unpleasant voice is -10 and has the speech-impairment effects specified at B157, with no requirement that the actor actually stammer. It is incompatible with enhanced voice. Resolve the referenced effects before counting this catalogue entry as implemented.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-removable-curse",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A removable supernatural curse uses approved existing disadvantage prices or vow pricing for commandments; it cannot earn more than the corresponding ordinary restriction. If discovery/atonement is not comparably burdensome, halve its value. Store origin, restrictions and concrete atonement conditions independently of generic severe misfortune.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-daily-depletion",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Daily depletion inflicts two health points at a specified daily event or time, without ordinary prevention. That damage cannot heal naturally, by regeneration, technology or supernatural healing; the designated substance is its sole recovery route. Maintain source-tagged damage in the shared injury ledger.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-daily-depletion-price",
+      "source": "full-2008",
+      "pages": "B132",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Daily depletion costs -15/-10/-5 for rare/occasional/common recovery substances, with another -5 when illegal. It can coexist with a life-sustaining requirement; their clocks and consequences remain separate. Require a defined daily dose and explicitly resolve the amount restored, which this passage does not quantify beyond daily-dose recovery.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-repulsion-radius",
+      "source": "full-2008",
+      "pages": "B132-B133",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Supernatural substance repulsion costs -10 for a one-yard exclusion radius, another -1 per yard to a maximum -20 at eleven yards. Multiply by the rarity factors referenced at B161; resolve those factors before implementation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-repulsion-movement",
+      "source": "full-2008",
+      "pages": "B133",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The actor cannot voluntarily enter the exclusion radius. Forced entry requires fastest direct movement out, with no other actions; inability to escape makes the actor helpless. The actor senses presence and direction within the radius, not exact location. Author supplies geometry and feasible escape paths.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-repulsion-forced-entry",
+      "source": "full-2008",
+      "pages": "B133",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "The -50% forced-entry exception preserves the voluntary-entry prohibition but permits normal action after external force puts the actor inside. The restriction rearms after leaving the substance presence. Track cause of entry and rearming state instead of treating proximity as a permanent immunity.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-eligibility",
+      "source": "full-2008",
+      "pages": "B133",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "External duty requires a significant imposed obligation, generally with hazardous orders. Ordinary work, purely voluntary commitments and already-credited dependent care do not automatically qualify. Author approves the obligation and campaign compatibility.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-15",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "External-duty appearance at 15 or less costs -15 points. Roll once at adventure start and store the result; the most frequent category can instead be always active by campaign ruling. Authored assignments may affect leave, agendas or the adventure itself.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-12",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "External-duty appearance at 12 or less costs -10 points. Roll once at adventure start and store the result; the most frequent category can instead be always active by campaign ruling. Authored assignments may affect leave, agendas or the adventure itself.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-9",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "External-duty appearance at 9 or less costs -5 points. Roll once at adventure start and store the result; the most frequent category can instead be always active by campaign ruling. Authored assignments may affect leave, agendas or the adventure itself.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-6",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "External-duty appearance at 6 or less costs -2 points. Roll once at adventure start and store the result; the most frequent category can instead be always active by campaign ruling. Authored assignments may affect leave, agendas or the adventure itself.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-modifiers",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Extreme danger adds -5, coercion adds -5, and nonhazardous service adds +5. Extreme danger and nonhazardous service are mutually exclusive; coercion can combine with either. A nonnegative final price grants no duty disadvantage. Distinguish hazards while performing service from consequences of refusing it.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-obligation-examples",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Independent price fixtures must include rare coerced duty at -7 and most-frequent extremely dangerous duty at -20. Exercise active assignment, refusal and author advancement adjudication separately from cost calculation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-reading-disability",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Severe reading disability is -10 and fixes written comprehension at none in every language, including native language without additional negative credit. Teacher-assisted book-based study proceeds normally; feasible self-teaching without books earns one quarter usual progress. Author decides feasibility; ordinary mild reading difficulty is not this restriction.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-reading-magic",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "magic",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Where campaign spell study requires books, severe reading disability blocks that path to spellcasting. Keep the source traditional-setting restriction as a campaign prerequisite rather than a universal prohibition on every supernatural ability.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-fragile-survival",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced survival costs -2 per level and subtracts one per level from health checks at negative-health death thresholds and other checks whose failure directly causes death. Do not apply it to ordinary health checks. Levels cannot reduce the relevant unmodified health target below three; source example health ten allows seven levels.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-readable-intentions",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Readable intentions is -10: observers get +4 to empathy, body-language and psychology assessments of intent or truth, and +4 to intelligence, lie detection or gambling in quick contests opposing the actor acting, fast-talk or gambling when lying/bluffing. Existing truthfulness still separately penalizes fast-talk by five. Scope the bonus to qualifying tasks rather than all social resistance.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-c-electronic-vulnerability",
+      "source": "full-2008",
+      "pages": "B134",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Electronic vulnerability is -20 and permits targeting by electrical-system-only effects, power drain, surge and electromagnetic pulse. Electrical attack critical hits additionally cause unconsciousness. It does not require the machine package; attacks limited to this target property use -20% accessibility. Use resolved attack properties, not equipment names.",
+      "tests": []
+    }
+  ]
+}

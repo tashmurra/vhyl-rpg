@@ -1,0 +1,2679 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B552-B553",
+  "review": "Humanoid text and each nonhumanoid table cell transcribed; B553 column alignment and notes visually checked against the rendered page. Full location procedure, rounding, critical effects and body-form integration remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "anatomy-random",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Random hit location uses three dice against the target's actual body form. Deliberate targeting uses the specified penalty and must validate existence, exposure, angle and damage-type eligibility.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-missing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A randomly selected missing body part becomes a torso hit. This fallback does not make deliberate attacks on nonexistent parts legal.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-near-miss",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A deliberate eye, skull, face, groin, neck or vitals attack that misses by exactly one hits the torso instead; do not generalize this to every body location.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-eye",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eye targeting permits impaling, piercing or tight-beam burning from front or side. Injury greater than one-tenth maximum health blinds the eye; otherwise use skull treatment without the skull's additional resistance.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-skull",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Skull supplies two extra resistance, quadruple wounding and knockdown at -10; criticals use the head table. The printed toxic-damage exception must be applied through the detailed location procedure.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-face",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Face ignores an open-faced helmet's resistance, uses knockdown -5 and the head critical table. Corrosion has multiplier 1.5 and a major wound blinds one eye, or both when injury exceeds full maximum health. Random rear face hits become skull hits.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-limb",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Limb hits reduce large/huge piercing and impaling multipliers to one. A single injury above half maximum health cripples the limb; apply the general rounding and excess-injury cap rather than subtracting unlimited global health.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-shield-side",
+      "source": "full-2008",
+      "pages": "B552-B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A shield-bearing limb is deliberately targeted at -4 and its extremity at -8. Apply only to the relevant shield-covered limb rather than every limb of the character.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-groin",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For applicable male anatomy, crushing groin damage doubles shock and gives knockdown -5. Otherwise use torso effects; anatomical eligibility is explicit, not inferred from display text.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-extremity",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extremities follow limb wounding but a single injury above one-third maximum health cripples them; cap excess injury through the general injury procedure.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-paired-side",
+      "source": "full-2008",
+      "pages": "B552-B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Where the table marks a paired location, one die 1-3 selects right and 4-6 left; do not reroll an already specified side.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-neck",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Neck crushing/corrosion uses multiplier 1.5 and cutting uses two. Decapitation on a fatal cutting neck hit is an explicit author option.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-vitals",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Vitals permit impaling/piercing at triple wounding and tight-beam burning at double wounding; other attack types cannot target them.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-diffuse",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Diffuse anatomy ignores location-specific shock, knockdown and wounding multipliers while still allowing eye/limb/extremity crippling. Impaling/piercing injury is capped at one, other attacks at two, subject to detailed area-effect exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-homogeneous",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Homogeneous anatomy ignores special location shock, knockdown and wound multipliers while retaining eye/limb/extremity crippling. Apply its damage-type factors from the separate rows.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-no-brain",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Without a brain, skull and face have no special knockdown or wounding modifier. Eye hits can blind but otherwise use face rather than skull treatment.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-no-vitals",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Without vital organs, vitals and groin hits use torso treatment; preserve actual anatomy and any separate restrictions on deliberate targeting.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-nonliving",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Nonliving anatomy retains location effects but reduces impaling/piercing multipliers outside eyes, skull and vitals. Its reduced factors must not override those exceptional locations.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-winged-upright",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an upright body with wings, random nine selects a randomly chosen wing and ten remains torso. Wings are deliberately targeted at -2 and use limb injury.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-fish-tailed-upright",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an upright fish-tailed form, random leg results become torso and foot results become tail. Deliberate tail targeting is -3 and uses aquatic-tail injury.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-hybrid-torso",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For the upright/four-leg hybrid, random nine/ten hit the lower animal torso and eleven the upper humanoid torso. Either torso can be deliberately targeted without penalty.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-hybrid-extremity",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For the hybrid's random extremity, one die 1-2 selects upper hand, 3-4 forefoot, 5-6 hind foot; odd is left and even right. This differs from the ordinary paired-side roll.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-tail",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A grasping, striking or fish tail cripples as a limb; an ordinary tail as an extremity. A crippled tail gives land creatures -1 dexterity, swimmers/flyers -2 dexterity and half movement. Missing or very short tails convert random hits to torso.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-wing",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Wings cripple as limbs, and a crippled wing prevents flight. Falling and recovery must use the actual airborne state rather than only changing a movement number.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-winged-serpent",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Winged serpents replace random 15-18 with wing at -2 deliberate targeting.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-armed-serpent",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An armed serpentine form replaces 7-8 with right arm, 13-14 with left arm, and 17-18 with hand; deliberate arm/hand penalties are -2/-4.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-squid",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The squid variation changes 17-18 to torso. Arms other than the first pair are extremities for injury and targeted at -3, overriding the base eight-arm table.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-scorpion",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The scorpion variation changes random twelve to tail, deliberately targeted at -3.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-eight-arm-roles",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An eight-arm creature's first four arms are its current manipulators and last four its current locomotor limbs; anatomy state must identify the actual limb roles.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-brain",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The brain location for specified nonhumanoid forms uses skull effects but only one extra resistance.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-fin",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A fish-like form selects randomly among its actual fins when a fin is hit. Fins cripple as extremities and a crippled fin gives -3 dexterity; specify duration through injury recovery.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-pincer-leg",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pincer-bodied forms select among actual true legs for a random leg result. Their forelimb pincers are arms, not generic legs.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-eight-leg-order",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An eight-leg body identifies front, middle-front, middle-back and rear pairs as legs 1-2, 3-4, 5-6 and 7-8 respectively.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-homogeneous-impaling",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "homogeneous impaling wound multiplier is 1/2 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-homogeneous-huge-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "homogeneous huge-piercing wound multiplier is 1/2 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-homogeneous-large-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "homogeneous large-piercing wound multiplier is 1/3 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-homogeneous-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "homogeneous piercing wound multiplier is 1/5 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-homogeneous-small-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "homogeneous small-piercing wound multiplier is 1/10 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-nonliving-impaling",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving impaling wound multiplier is 1/1 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-nonliving-huge-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving huge-piercing wound multiplier is 1/1 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-nonliving-large-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving large-piercing wound multiplier is 1/2 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-nonliving-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving piercing wound multiplier is 1/3 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-nonliving-small-piercing",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving small-piercing wound multiplier is 1/5 where that injury model applies; preserve its location exceptions.",
+      "tests": []
+    },
+    {
+      "id": "anatomy-row-upright-eye",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-upright-3-4",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-upright-5",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-upright-6-7",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 6-7 selects right-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "6-7",
+        "location": "right-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-8",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 8 selects right-arm; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "8",
+        "location": "right-arm",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-9-10",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 9-10 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "9-10",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-upright-11",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 11 selects groin; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "11",
+        "location": "groin",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-upright-12",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 12 selects left-arm; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "12",
+        "location": "left-arm",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-13-14",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 13-14 selects left-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "13-14",
+        "location": "left-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-15",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 15 selects hand; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "15",
+        "location": "hand",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-upright-16",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 16 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "16",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-upright-17-18",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: three-dice 17-18 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "17-18",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-upright-vitals",
+      "source": "full-2008",
+      "pages": "B552",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 6 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "6",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 7-8 selects foreleg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "7-8",
+        "location": "foreleg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-9-10",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 9-10 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "9-10",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 12 selects groin; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "12",
+        "location": "groin",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 13-14 selects hind-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "13-14",
+        "location": "hind-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 15-16 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "15-16",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: three-dice 17-18 selects tail; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "17-18",
+        "location": "tail",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-four-leg-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "four-leg body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "four-leg",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 6 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "6",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 7-8 selects foreleg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "7-8",
+        "location": "foreleg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-9-10",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 9-10 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "9-10",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 12 selects wing; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "12",
+        "location": "wing",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 13-14 selects hind-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "13-14",
+        "location": "hind-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 15-16 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "15-16",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: three-dice 17-18 selects tail; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "17-18",
+        "location": "tail",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-winged-four-leg-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-four-leg body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-four-leg",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 5 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "5",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 6 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "6",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 7-8 selects foreleg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "7-8",
+        "location": "foreleg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-9-10",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 9-10 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "9-10",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 11 selects mid-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "11",
+        "location": "mid-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 12 selects groin; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "12",
+        "location": "groin",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 13-14 selects hind-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "13-14",
+        "location": "hind-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 15-16 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "15-16",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: three-dice 17-18 selects mid-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "17-18",
+        "location": "mid-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-six-leg-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "six-leg body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "six-leg",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 5 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "5",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 6 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "6",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 7-8 selects foreleg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "7-8",
+        "location": "foreleg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-9-10",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 9-10 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "9-10",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 11 selects mid-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "11",
+        "location": "mid-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 12 selects wing; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "12",
+        "location": "wing",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 13-14 selects hind-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "13-14",
+        "location": "hind-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 15-16 selects mid-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "15-16",
+        "location": "mid-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: three-dice 17-18 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "17-18",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-winged-six-leg-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "winged-six-leg body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "winged-six-leg",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 5 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "5",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 6 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "6",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 7-8 selects foreleg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "7-8",
+        "location": "foreleg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-9-10",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 9-10 selects lower-torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "9-10",
+        "location": "lower-torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 11 selects upper-torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "11",
+        "location": "upper-torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 12 selects groin; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "12",
+        "location": "groin",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 13-14 selects hind-leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "13-14",
+        "location": "hind-leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 15-16 selects arm; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "15-16",
+        "location": "arm",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: three-dice 17-18 selects extremity; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "17-18",
+        "location": "extremity",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-upright-four-leg-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "upright-four-leg body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "upright-four-leg",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-bird-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-bird-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-bird-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-bird-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 6 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "6",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-bird-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 7-8 selects wing; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "7-8",
+        "location": "wing",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-bird-9-10",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 9-10 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "9-10",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-bird-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-bird-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 12 selects groin; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "12",
+        "location": "groin",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-bird-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 13-14 selects leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "13-14",
+        "location": "leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-bird-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 15-16 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "15-16",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-bird-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: three-dice 17-18 selects tail; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "17-18",
+        "location": "tail",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-bird-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bird body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "bird",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 6 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "6",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 7-8 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "7-8",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-9-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 9-11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "9-11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 12 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "12",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 13-14 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "13-14",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 15-16 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "15-16",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: three-dice 17-18 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "17-18",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-serpentine-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "serpentine body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "serpentine",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: deliberate-only selects eye; deliberate penalty -8. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -8
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 3-4 selects brain; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "3-4",
+        "location": "brain",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 6 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "6",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 7-8 selects arms-1-2; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "7-8",
+        "location": "arms-1-2",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-9-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 9-11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "9-11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 12 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "12",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 13-14 selects arms-3-4; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "13-14",
+        "location": "arms-3-4",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 15-16 selects arms-5-6; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "15-16",
+        "location": "arms-5-6",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: three-dice 17-18 selects arms-7-8; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "17-18",
+        "location": "arms-7-8",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-arm-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-arm body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-arm",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 6 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "6",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 7-8 selects arm; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "7-8",
+        "location": "arm",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-9-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 9-11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "9-11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 12 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "12",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 13-14 selects leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "13-14",
+        "location": "leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 15-16 selects leg; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "15-16",
+        "location": "leg",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: three-dice 17-18 selects foot; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "17-18",
+        "location": "foot",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-pincer-bodied-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "pincer-bodied body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "pincer-bodied",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-fish-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: deliberate-only selects eye; deliberate penalty -8. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -8
+      }
+    },
+    {
+      "id": "anatomy-row-fish-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 3-4 selects skull; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "3-4",
+        "location": "skull",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-fish-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 5 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "5",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-fish-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 6 selects fin; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "6",
+        "location": "fin",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-fish-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 7-8 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "7-8",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-fish-9-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 9-11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "9-11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-fish-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 12 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "12",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-fish-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 13-14 selects fin; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "13-14",
+        "location": "fin",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-fish-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 15-16 selects fin; deliberate penalty -4. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "15-16",
+        "location": "fin",
+        "penalty": -4
+      }
+    },
+    {
+      "id": "anatomy-row-fish-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: three-dice 17-18 selects tail; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "17-18",
+        "location": "tail",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-fish-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "fish body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "fish",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-eye",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: deliberate-only selects eye; deliberate penalty -9. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "eye",
+        "location": "eye",
+        "penalty": -9
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-3-4",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 3-4 selects brain; deliberate penalty -7. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "3-4",
+        "location": "brain",
+        "penalty": -7
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-5",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 5 selects neck; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "5",
+        "location": "neck",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-6",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 6 selects face; deliberate penalty -5. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "6",
+        "location": "face",
+        "penalty": -5
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-7-8",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 7-8 selects legs-1-2; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "7-8",
+        "location": "legs-1-2",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-9-11",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 9-11 selects torso; deliberate penalty +0. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "9-11",
+        "location": "torso",
+        "penalty": 0
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-12",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 12 selects groin; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "12",
+        "location": "groin",
+        "penalty": -3
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-13-14",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 13-14 selects legs-3-4; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "13-14",
+        "location": "legs-3-4",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-15-16",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 15-16 selects legs-5-6; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "15-16",
+        "location": "legs-5-6",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-17-18",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: three-dice 17-18 selects legs-7-8; deliberate penalty -2. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "17-18",
+        "location": "legs-7-8",
+        "penalty": -2
+      }
+    },
+    {
+      "id": "anatomy-row-eight-leg-vitals",
+      "source": "full-2008",
+      "pages": "B553",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "eight-leg body: deliberate-only selects vitals; deliberate penalty -3. Apply body-form notes, side selection and actual anatomy.",
+      "tests": [],
+      "location_data": {
+        "body_form": "eight-leg",
+        "roll": "vitals",
+        "location": "vitals",
+        "penalty": -3
+      }
+    }
+  ]
+}

@@ -1,0 +1,469 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B286 mount armor",
+  "review": "All 15 horse armor rows visually reviewed, including pair-based leg coverage and mount-specific sense/movement effects. Other anatomy fit, runtime integration and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "armor-mount-leather-cloth-face",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-leather-cloth-face",
+        "technology": 1,
+        "body_form": "horse",
+        "locations": [
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 40,
+        "weight_pounds": 3,
+        "legality_class": 4,
+        "restricts_peripheral_vision": true,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-mail-face",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-mail-face",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 60,
+        "weight_pounds": 7,
+        "legality_class": 3,
+        "restricts_peripheral_vision": true,
+        "notes": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-scale-face",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-scale-face",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 200,
+        "weight_pounds": 12,
+        "legality_class": 3,
+        "restricts_peripheral_vision": true,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-plate-face",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-plate-face",
+        "technology": 3,
+        "body_form": "horse",
+        "locations": [
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 200,
+        "weight_pounds": 12,
+        "legality_class": 3,
+        "restricts_peripheral_vision": true,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-leather-cloth-neck",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-leather-cloth-neck",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "neck",
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 80,
+        "weight_pounds": 4,
+        "legality_class": 4,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-mail-neck",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-mail-neck",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "neck",
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 100,
+        "weight_pounds": 15,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-scale-neck",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-scale-neck",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "neck",
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 320,
+        "weight_pounds": 20,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-plate-neck",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-plate-neck",
+        "technology": 3,
+        "body_form": "horse",
+        "locations": [
+          "neck",
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 330,
+        "weight_pounds": 18,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-leather-cloth-front",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-leather-cloth-front",
+        "technology": 1,
+        "body_form": "horse",
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": true,
+        "cost": 260,
+        "weight_pounds": 12,
+        "legality_class": 4,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-mail-front",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-mail-front",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": true,
+        "cost": 440,
+        "weight_pounds": 20,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-scale-front",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-scale-front",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": true,
+        "cost": 480,
+        "weight_pounds": 60,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-leather-cloth-body",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-leather-cloth-body",
+        "technology": 2,
+        "body_form": "horse",
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 345,
+        "weight_pounds": 30,
+        "legality_class": 4,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-mail-body",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-mail-body",
+        "technology": 3,
+        "body_form": "horse",
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 670,
+        "weight_pounds": 59,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-mount-plate-body",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-plate-body",
+        "technology": 3,
+        "body_form": "horse",
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1650,
+        "weight_pounds": 90,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mount-plate-legs",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed mount armor profile on the creature inventory and body map. Facing, crushing resistance and vision restrictions affect the mount, not automatically its rider. Pair-based leg armor requires explicit covered limbs, mass, cost and movement adjustment. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mount-plate-legs",
+        "technology": 3,
+        "body_form": "horse",
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 400,
+        "weight_pounds": 20,
+        "legality_class": 3,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ],
+        "purchase_unit": "pair-of-legs",
+        "move_modifier_per_pair": -1
+      }
+    },
+    {
+      "id": "armor-mount-integration",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Horse armor uses the mount's hit locations, facing, load and senses. Mask note 1 restricts peripheral vision while worn; note 2 selects lower resistance for crushing; note 3 prices and weighs each protected pair of legs and imposes minus one Move per pair. Prevent duplicate equipment application to the same pair. Rider and mount must share transport accounting without copying mount armor into rider encumbrance. Other body forms require an explicit authored fit and coverage contract rather than automatic scaling.",
+      "tests": []
+    }
+  ]
+}

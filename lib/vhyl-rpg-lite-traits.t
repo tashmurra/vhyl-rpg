@@ -125,8 +125,8 @@ class RpgLiteJump: object
 rpgLiteBuyOff(profile, trait)
 {
     if (!profile.developmentOpen || !holds(profile.traits, trait) || trait.points >= 0) return nil;
-    local cost = -rpgLiteTraitCost(trait);
-    if (profile.unspentPoints < cost) return nil;
+    local cost = profile.disadvantageBuyoffCost(trait);
+    if (cost == nil || profile.developmentSpendingReason() != nil || profile.unspentPoints < cost) return nil;
     local kept = [];
     foreach (local owned in profile.traits) if (owned != trait) kept = kept + [owned];
     profile.unspentPoints -= cost; profile.traits = kept; return true;
@@ -137,13 +137,19 @@ rpgLiteLearn(profile, skill, points, teacher)
 {
     rpgInteger(points, 1, 10000);
     if (!profile.developmentOpen) return nil;
+    if (profile.skillLearningWithTeacherReason(skill, teacher) != nil) return nil;
     if (skill.techLevel != nil && skill.techLevel > profile.techLevel
         && (skill.attribute == rpgIQ || !teacher)) return nil;
     local training = nil;
     foreach (local candidate in profile.skills) if (candidate.skill == skill) training = candidate;
+    if (profile.trainingPurchaseReason(skill,training) != nil || profile.developmentSpendingReason() != nil) return nil;
     local cost = points - (training == nil ? 0 : training.points);
     if (cost <= 0 || cost > profile.unspentPoints) return nil;
     if (training == nil)
     { training = new RpgTraining(); training.skill = skill; profile.skills = profile.skills + [training]; }
     profile.unspentPoints -= cost; training.points = points; return true;
 }
+
+modify RpgLiteProfile
+    disadvantageBuyoffCost(trait) { return -rpgLiteTraitCost(trait); }
+;

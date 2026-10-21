@@ -1,0 +1,173 @@
+# Expanded magic
+
+**Status: pending.** Spell procedures, catalogue and enchantment. Neutral source:
+`full-2008`, B234–B253; B479–B483.
+
+[Library selection](../libraries.md) · [Integration](index.md) ·
+[Coverage ledger](coverage.json) · [Enchantment inventory](inventory/enchantment.json)
+
+This module has not been implemented. Its proposed filename,
+`vhyl-rpg-expanded-magic.t`, is reserved in the catalogue; do not include it in a
+game. The [first casting inventory](inventory/magic-procedures-a.json) covers
+learning, ambient energy, rituals, critical outcomes, maintenance and ceremonial
+casting. The [spell-class inventory](inventory/magic-procedures-b.json) adds
+targeting, charged attacks, defensive casting, information, resistance and optional
+magic systems. The [first catalogue segment](inventory/magic-catalogue-a.json)
+and [second](inventory/magic-catalogue-b.json) and
+[final segments](inventory/magic-catalogue-c.json) record the ninety-three printed
+spell entries with costs, classes, prerequisites and effect requirements. This is
+a first inventory pass; cross-reference and numeric audits remain open.
+The enchantment chapter now has a first text pass covering creation,
+level-cost tables, the item catalogue, use and market procedures. Underlying spell
+and trait references, numeric audits and validating tests remain pending.
+
+## Casting requirements
+
+The eventual module must implement learning and prerequisites, energy costs,
+casting actions, resistance, maintenance, interruption and expiry for every applicable
+spell. It must use the character's shared injury, fatigue, advancement and time
+accounts. A spell effect cannot be represented solely by a label and a generic
+callback; authored choices must have explicit, tested inputs and consequences.
+
+An ongoing spell needs owned state identifying its caster, targets, paid energy,
+maintenance schedule and termination conditions. Assessment must reject unsupported
+combinations or insufficient resources before consuming time or randomness. Spell
+execution, persistence and rollback must work through the existing transaction
+mechanisms.
+
+## Enchantment requirements
+
+An enchanted item needs per-spell effective skill, host restrictions, actual effects
+and discovered knowledge. Effective magical skill is distinct from the enchantment
+that reduces energy consumption. High item skill does not itself reduce activation
+time or energy. Low magic can suppress an item without permanently destroying its
+enchantments; physical breakage removes magic, and ordinary repair cannot restore it.
+
+Rapid enchantment spends contributed energy at its completion roll, succeeds or
+fails under the ceremonial rules, and may create hidden altered effects on ordinary
+failure. Slow enchantment instead invests full workdays, with a fixed participant
+roster, interruption penalties and make-up days. Its final roll must not charge all
+the energy again. A mage cannot contribute two simultaneous shifts by joining two
+project objects.
+
+Item use must enforce eligibility and exclusive control. The first eligible toucher
+has priority; an ineligible toucher does not reserve the item. A restriction to
+magically gifted users on one contained spell applies to all spells on that item.
+Continuous items apply their effects only when worn or wielded appropriately, and
+do not teach the user an independently castable spell.
+
+The inventory includes each listed item, energy-cost row, material surcharge and
+host category. Pricing is campaign-owned: common-trade, mass-production and rare-item
+markets are explicit choices, with host and special-material costs added once.
+A mass-production cutoff depends on the actual typical enchanting group, not merely
+the number of energy points that fit in the generic time formula.
+
+## Required validation
+
+Enchantment cases must independently cover prerequisites, every energy table row,
+ammunition and launcher adjustments, mixed spells and restrictions, contributors,
+low-magic eligibility, interruptions, lost participants, hidden failures and critical
+outcomes. Verify that each method spends its distinct resources once and that an
+ordinary failed additional slow enchantment preserves the previously enchanted host.
+
+Full module validation also requires the complete spell catalogue, resistance,
+maintenance, interruption and expiry, plus preview purity, replay, rollback, undo
+and cross-process save continuation. Checks remain suspended during implementation;
+this inventory does not establish executable spell coverage.
+
+
+[Trait integration at B66–B68](inventory/traits-catalogue-h.json) adds aptitude,
+restricted rituals, resistance and local magical-energy changes. Aptitude discounts
+exclude the foundation purchase. Energy changes affect carried subjects by default,
+with a separate area enhancement beginning at one yard. Overlapping enhancers use
+the highest increase; suppression interactions still need the energy chapter.
+Item sensing retains separate first-sight and first-touch history. None of these
+requirements is implemented by a generic trait-cost calculation.
+
+
+[Granted-spell aptitude](inventory/traits-catalogue-j.json) uses an authored spell
+list, separate learned versions and built-in conduct obligations. It does not share
+ordinary spell prerequisites or aptitude bonuses, and its included pact cannot
+receive a second discount. Eligibility, suspension and restoration need explicit
+records; this source coverage does not yet supply executable casting behavior.
+
+
+## Casting lifecycle requirements
+
+Ordinary casting, maintained control and ceremonial casting use different failure
+and spending rules. A critical ordinary success spends no energy, while a completed
+ceremony spends every contribution regardless of outcome. Interruption can spoil
+an unfinished spell, freeze control of an existing spell, or end it on a critical
+control failure. These states need separate transitions on one shared action ledger.
+
+Energy discounts use base skill adjusted for low ambient energy, after effect and
+size costs. Burning health imposes its own casting penalty and has a special
+survival-check exception. Very-high ambient energy refunds only qualifying fatigue
+at the next turn boundary. Maintenance, early cancellation and group contributions
+must each be committed once, with explicit ownership and payment records.
+
+The critical-outcome inventory includes every table result. Alternate targets,
+reversed effects, illusions and hostile arrivals need spell-specific authored
+contracts; none is complete merely because an outcome name exists.
+
+
+## Spell-class integration
+
+Contact and projectile spells own charged state between casting and delivery.
+Their delivery rolls, armor interaction and permitted defenses differ. Defensive
+casting can preserve a held charge while spoiling an unfinished cast, and harmless
+dismissal of a held charge is a specific free-action exception to early cancellation.
+
+Information spells require private outcomes and attempt histories. Their wording
+about always spending energy needs reconciliation with the general critical-success
+rule. Projectile growth discounts and extended range-table thresholds also remain
+explicit source decisions. Resisted area effects share one casting roll but retain
+per-target resistance and outcomes.
+
+Granted and path-based magic are explicit campaign variants with different learning
+and prerequisite rules. Path defaults cannot count aptitude repeatedly through the
+same derivation chain. None of these inventories establishes executable coverage.
+
+
+The first catalogue segment distinguishes permanent changes from maintained effects,
+per-target exposure clocks from cloud lifetime, and charging from contact delivery.
+Surface-thought reading also overrides ordinary resistance notification. The neutral
+spell definitions record these exceptions and prerequisite links; they are source
+inventory data, not a runtime spell library.
+
+
+The second catalogue segment covers persistent material transformations, thermal
+changes, planar summons/transit and healing. Reversible transformations must preserve
+actor and equipment identity. Summoned beings need explicit control, command and
+departure state, and planar arrival grants no automatic environmental protection.
+
+Healing needs distinct attempt histories for each limited spell and patient.
+Temporary health contributions expire, ordinary recovery uses shared clocks, and
+full restoration has a patient-wide daily restriction across casters. Physician
+mitigation and self-healing penalties are separate from the amount restored.
+
+
+The final catalogue segment adds private knowledge, mind effects, movement, undead
+construction, planar banishment, protection and water effects. Information access
+must respect observation history and spell familiarity. Suppressing a known spell
+changes availability rather than deleting the purchase or its dependent skills.
+
+Banishment has a source-specific unknown-cost risk that needs an explicit payment
+contract before execution; ordinary casting affordability rules alone cannot express
+it. Return travel also distinguishes original possessions from later acquisitions.
+Water and fog effects depend on actual volumes, paths and geometry. Catalogue
+enumeration is now recorded, but no spell execution or validation is claimed.
+
+The [spell-summary reconciliation ledger](inventory/spell-summary.json) maps all
+100 summary rows to the detailed spell or enchantment entries. Mapping is not
+field verification or runtime coverage. The detailed rest-recovery spell is passive,
+with no ritual or roll; its summary timing must not introduce a new cast action.
+Countering magic has one learning definition and a separate requirement to know
+the target spell. Enchantment metadata now includes the seven creation spells;
+nearby nonparticipants impose one collective penalty on rapid enchantment, while
+assistants are counted individually. These procedures still need implementation
+and independent fixtures.
+
+Planar summoning has a recorded prerequisite conflict: the detailed entry says
+ten different groups, while the summary says ten other groups. The metadata
+retains the detailed wording, and the eligibility decision remains unresolved.

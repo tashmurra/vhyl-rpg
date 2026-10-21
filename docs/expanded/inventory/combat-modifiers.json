@@ -1,0 +1,1659 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B547-B549",
+  "review": "Each summary condition and numeric band transcribed as an independent requirement. Detailed combat chapters, named skill applicability, unstable turret category and stabilized-sight wording remain to be reconciled. No summary entry is claimed executable.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "combat-summary-melee-base",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Start from the actual weapon/unarmed skill, applying required environmental, suit or riding skill caps before the applicable modifiers. Record the limiting source.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-visibility-cap",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combined melee visibility penalties stop at -10, or -6 for a character accustomed to blindness. Specific unseen-target conditions can also cap final effective skill at nine.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-final-cap",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Move-and-attack, wild swings and the marked blindness/unseen-target cases cap final adjusted melee skill at nine after all bonuses and penalties.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-base",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ranged assessment starts with weapon skill, target size, applicable speed/range and situational modifiers. Combined visibility penalties stop at -10; marked blind/unseen-target attacks cap final skill at nine.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-hits",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rapid fire adds one hit for each full recoil multiple in the success margin. Apply actual fired-shot limits and defensive removal using the full rapid-fire procedure; this summary alone does not authorize unlimited hits.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-base",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Start from the calculated dodge, block or parry including purchased defense traits, then add relevant modifiers exactly once; eligibility is separate from numeric score.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-moving-aim-limit",
+      "source": "full-2008",
+      "pages": "B548; B469",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The table caps accuracy, aim, bracing and targeting bonuses by vehicle stability without a stabilized mount. B469 also exempts stabilized sights; reconcile that wording explicitly with the detailed rule before implementing dispatch.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-target-choice",
+      "source": "full-2008",
+      "pages": "B547-B548",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose one target mode: body location, armor gap or weapon. Do not add every listed target penalty or charge a gap penalty twice; ranged attacks reuse the appropriate target penalty.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-cover-choice",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose either random location without an aiming penalty or a specifically exposed location. Fully covered random locations strike cover; partly covered random locations strike cover on one die 4-6. A partly exposed chosen location adds -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-determined",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply +4 for determined all-out melee attack; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-move-attack",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -4 for melee move-and-attack, also applying final skill cap nine; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-prone",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -4 for crawling or lying attacker; crawling permits only close reach; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-crouched",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -2 for crouching, kneeling or sitting attacker; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-grappled",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -4 for grappled attacker; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-large-shield",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -2 for attacker holding a large shield; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-minor-distraction",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -2 for minor distraction; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-mount-attack",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -2 for mounted attacker whose mount attacked on its last turn; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-mount-speed",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -1 for mounted attacker with relative target velocity at least seven; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-strike-close",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -2 for striking into an existing close combat; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-wild-swing",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply -5 for wild swing, also applying final skill cap nine; preserve eligibility and expiry from the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-footing",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Bad footing imposes -2 or worse, with an explicit authored severity.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-major-distraction",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Major distraction imposes -3 or worse, with an explicit authored severity.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-shock",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Use the previous turn's injury shock, normally minus injury up to -4; integrate scale and immunity rules rather than permanently reducing skill.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-strength",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Weapon strength deficit imposes -1 per missing strength point.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-shield-close",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A shield worn in close combat imposes a penalty equal to its defense bonus.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-deception",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Each -2 voluntarily taken to attack imposes -1 to the defender; validate the detailed minimum skill and eligibility.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-dual",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Dual attacks use -4 primary and -8 off-hand, or -4 each with ambidexterity. The off-hand penalty is already included and must not be added twice.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-evaluate",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Each completed qualifying evaluation turn gives +1, capped at +3, with target and interruption state.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-offhand",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An off-hand attack takes -4 unless ambidexterity removes it.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-rapid",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A rapid strike takes -6 on both attacks, reduced to -3 by a qualifying mastery trait; validate the relevant weapon or unarmed scope.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-blind",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Total inability to see imposes -10, or -6 when accustomed to blindness, plus final skill cap nine.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-unseen",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An unseen foe imposes -6, reduced to -4 when located within one yard, plus final skill cap nine.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-obscured",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Partial darkness, fog or smoke gives an authored -1 through -9, subject to the combined visibility cap.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-melee-affliction",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Use the actual health condition's attack penalties and restrictions instead of a generic affliction number.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-torso",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting torso uses +0.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-arm",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting arm uses -2.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-leg",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting leg uses -2.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-groin",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting groin uses -3.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-hand",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting hand uses -4.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-foot",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting foot uses -4.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-face",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting face uses -5.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-skull",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting skull uses -7.  Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-vitals",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting vitals uses -3. B552 additionally permits tight-beam burning damage beyond the summary's impaling/piercing types; use the detailed eligibility and wound factors. Actual anatomy, exposure and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-location-eye",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting an ordinary humanoid eye uses -9. B552 additionally permits tight-beam burning damage beyond the summary's impaling/piercing types and restricts attacks to front or side. Actual anatomy, exposure, body-form exceptions and damage rules must be validated.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-gap-torso",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting a torso armor gap uses -8.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-gap-other",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting a other armor gap uses -10.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-weapon-close",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting a close-reach weapon or pistol uses -5.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-weapon-one",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting a reach-one weapon uses -4.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-weapon-long",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Targeting a reach-two-or-longer weapon or rifle uses -3.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-disarm",
+      "source": "full-2008",
+      "pages": "B547",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Disarming uses the weapon-size targeting penalty and a further -2 unless using a fencing weapon; retain the subsequent disarm resolution.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-determined",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Determined all-out ranged attack grants +1.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-move-attack",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Ranged move-and-attack takes the worse of -2 and weapon bulk; do not automatically apply the melee final-skill cap.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-footing",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Bad footing imposes an authored -2 or worse.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-close",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Close-combat ranged attacks use weapon bulk as the penalty and validate the actual weapon's close-combat legality.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-weapon-shock",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Weapon injury received last turn gives a temporary penalty equal to injury, capped at -4; keep this distinct from the wielder's own shock.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-major-distraction",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Major distraction imposes -3 or worse.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-minor-distraction",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Minor distraction imposes -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-shock",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "The attacker's own previous-turn shock applies, normally capped at -4, with actual immunity and scale rules.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-strength",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Weapon strength deficit gives -1 per missing point.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-affliction",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply the actual condition's ranged effects and action restrictions.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-check-target",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Checking an opportunity-fire target before shooting imposes -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-aim",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "One qualifying aim turn grants the weapon's accuracy; retain target, weapon and interruptions.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-brace",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Stationary bracing adds +1 only after a qualifying aim turn.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-extra-aim",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Two seconds of aim adds +1 beyond accuracy; three or more adds +2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-dual",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Dual ranged attacks use -4/-8 primary/off-hand, or -4/-4 with ambidexterity, without double-charging off-hand use.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-offhand",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Off-hand ranged use imposes -4 unless ambidexterity applies.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-popup",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A pop-up attack takes -2 and cannot benefit from aim.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-light-cover",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shooting through light cover imposes -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-intervening",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Each intervening figure gives -4 when targeting someone behind them.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-posture",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A crouching, kneeling, sitting or lying target adds -2 when targeting torso, groin or legs.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-partial",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A deliberately targeted partly exposed location adds -2, counted once alongside its location penalty.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-laser",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An actual laser sight grants +1 when its detailed conditions are met.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-scope",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A scope adds +1 per second of aim up to its rated bonus.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-vehicle-targeting",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An installed vehicle targeting system grants its specified +1..+3 after aim.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-unfamiliar",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Unfamiliar weapon or targeting equipment imposes -2 under familiarity rules.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-blind",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Blindness, total darkness or a completely invisible target imposes -10 and final skill cap nine.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-unseen",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An unseen target gives -6 or -4 when its location is known within one yard, with final skill cap nine.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-obscured",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Partial darkness, fog or smoke imposes an authored -1..-9 subject to combined visibility cap.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-ranged-concealment",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Light concealment adds -2; distinguish concealment from damage-absorbing cover.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-watch-one",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opportunity fire watching one hex uses +0. Validate the watched region and the actual crossing event.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-watch-two",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opportunity fire watching two hexes uses -1. Validate the watched region and the actual crossing event.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-watch-four",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opportunity fire watching three/four hexes or a line uses -2. Validate the watched region and the actual crossing event.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-watch-six",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opportunity fire watching five/six hexes uses -3. Validate the watched region and the actual crossing event.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-watch-ten",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opportunity fire watching seven through ten hexes uses -4. Validate the watched region and the actual crossing event.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-watch-many",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opportunity fire watching eleven or more hexes uses -5. Validate the watched region and the actual crossing event.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-2",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 2 through 4 shots gives +0 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-5",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 5 through 8 shots gives +1 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-9",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 9 through 12 shots gives +2 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-13",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 13 through 16 shots gives +3 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-17",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 17 through 24 shots gives +4 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-25",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 25 through 49 shots gives +5 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-50",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 50 through 99 shots gives +6 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-rapid-fire-100",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Firing 100 through 199 shots gives +7 attack bonus. Subsequent bands continue the stated progression; consume actual ammunition, not nominal weapon rate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-air-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From air with handheld, apply moving-platform attack modifier -1; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-air-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From air with open-mount, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-air-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From air with fixed-hardpoint-carriage, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-air-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From air with stabilized-open-or-turret, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-good-road-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From good-road with handheld, apply moving-platform attack modifier -1; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-good-road-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From good-road with open-mount, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-good-road-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From good-road with fixed-hardpoint-carriage, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-good-road-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From good-road with stabilized-open-or-turret, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-bad-road-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From bad-road with handheld, apply moving-platform attack modifier -3; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-bad-road-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From bad-road with open-mount, apply moving-platform attack modifier -2; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-bad-road-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From bad-road with fixed-hardpoint-carriage, apply moving-platform attack modifier -1; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-bad-road-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From bad-road with stabilized-open-or-turret, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-off-road-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From off-road with handheld, apply moving-platform attack modifier -4; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-off-road-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From off-road with open-mount, apply moving-platform attack modifier -3; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-off-road-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From off-road with fixed-hardpoint-carriage, apply moving-platform attack modifier -2; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-off-road-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From off-road with stabilized-open-or-turret, apply moving-platform attack modifier -1; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-space-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From space with handheld, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-space-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From space with open-mount, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-space-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From space with fixed-hardpoint-carriage, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-space-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From space with stabilized-open-or-turret, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-calm-water-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From calm-water with handheld, apply moving-platform attack modifier -3; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-calm-water-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From calm-water with open-mount, apply moving-platform attack modifier -2; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-calm-water-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From calm-water with fixed-hardpoint-carriage, apply moving-platform attack modifier -1; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-calm-water-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From calm-water with stabilized-open-or-turret, apply moving-platform attack modifier +0; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-rough-water-handheld",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From rough-water with handheld, apply moving-platform attack modifier -4; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-rough-water-open-mount",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From rough-water with open-mount, apply moving-platform attack modifier -3; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-rough-water-fixed-hardpoint-carriage",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From rough-water with fixed-hardpoint-carriage, apply moving-platform attack modifier -2; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-rough-water-stabilized-open-or-turret",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "From rough-water with stabilized-open-or-turret, apply moving-platform attack modifier -1; other exposure, aiming and control penalties remain separate.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-unstabilized-turret",
+      "source": "full-2008",
+      "pages": "B548; B467-B469",
+      "module": "combat",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The summary moving-platform rows do not separately name an unstabilized enclosed turret in rough terrain/water. Resolve its category from the detailed rules or an explicit author contract before supporting that combination.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-hanging",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An exposed rider hanging alongside and shooting over/under the platform takes -6.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-rearward",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Turning in an exposed saddle/seat to shoot behind takes -4.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-dodge",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "After the platform dodged last turn, a nonoperator/nonrider takes -2, or -4 in flight.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-platform-control",
+      "source": "full-2008",
+      "pages": "B548",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A failed vehicle control check gives the failure-margin attack penalty for its actual duration; do not apply it twice through vehicle and combat modules.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-knife",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A dagger or knife parry takes -1.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-flexible",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A weighted-chain or whip parry takes -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-staff",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Quarterstaff parry gains +2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-shield",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shield or cloak defense bonus applies except against firearms, subject to actual coverage and defense eligibility.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-unarmed",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Unarmed parry against a weapon takes -3, with the summary exceptions for thrusts or qualifying grappling/striking disciplines. Verify detailed exceptions before generalizing them to every thrust or skill.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-all-out",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An all-out attack forbids active defense.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-increased",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "The increased-defense maneuver grants +2 to one selected defense type.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-move-attack",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Move-and-attack permits dodge/block but not parry under the summary; reconcile any detailed exceptions explicitly.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-prone",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Crawling or lying gives -3 to defense.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-kneeling",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Kneeling or sitting gives -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-footing",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Bad footing imposes -1 or worse as authored.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-unseen",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An unseen attacker gives -4; blocking or parrying additionally requires hearing at -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-close",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Only close-reach weapons can parry in close combat.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-distraction",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A distraction gives an authored -1 or worse.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-encumbrance",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply encumbrance level as a penalty to dodge, the listed grappling/striking discipline parries and fencing parries; resolve the full named skill applicability against the skill catalogue.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-mounted",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Mounted defense takes a penalty equal to max(0,12-riding skill).",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-stun",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Stun gives -4 defense and retains its other action restrictions.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-rear",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A rear attack normally permits no defense; peripheral vision permits defense at -2 under the stated summary.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-side",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A side or runaround attack gives -2 unless peripheral vision removes it.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-laser",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A visible aiming dot gives the defender +1 dodge.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-deception",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "The defender suffers -1 per -2 the attacker elected for a deceptive attack.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-dual",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Two simultaneous weapon attacks at the same target give that target -1 defense; do not apply this merely because an attacker holds two weapons.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-flail",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A flail gives -4 parry and -2 block, and cannot be parried by fencing weapons.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-short-flail",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A short jointed flail gives -2 parry and -1 block, retaining the fencing restriction.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-feint",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A successful feint applies its victory margin to the eligible defense, with target and expiry tracked.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-thrown",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Parrying a thrown weapon takes -1, or -2 when it weighs at most one pound.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-acrobatic",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An acrobatic dodge gives +2 after successful acrobatics, or -2 after failure; record the prerequisite roll and usage limit.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-drop",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Dodging and dropping gives +3 against ranged attacks and commits the posture change.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-effort",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "The optional strenuous defense grants +2 for one fatigue point; enforce its campaign choice and payment eligibility.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-multiple-parry",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Each parry after the first adds cumulative -4; halve for fencing and for qualifying mastery. Resolve combined reductions and weapon scope through the detailed procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-offhand",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Off-hand parry takes -2 unless ambidexterity applies.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-retreat",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Retreat gives +3 dodge or qualifying boxing/grappling/striking/fencing parry, and +1 otherwise; require legal retreat space and the detailed use limit.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-affliction",
+      "source": "full-2008",
+      "pages": "B548-B549",
+      "module": "combat",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Use the actual condition's defense modifier and eligibility.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-above-3",
+      "source": "full-2008",
+      "pages": "B549",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A defender 3 feet above the attacker gains +1; larger and smaller differences need the detailed height procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-below-3",
+      "source": "full-2008",
+      "pages": "B549",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A defender 3 feet below the attacker takes -1.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-above-4",
+      "source": "full-2008",
+      "pages": "B549",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A defender 4 feet above the attacker gains +2; larger and smaller differences need the detailed height procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-below-4",
+      "source": "full-2008",
+      "pages": "B549",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A defender 4 feet below the attacker takes -2.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-above-5",
+      "source": "full-2008",
+      "pages": "B549",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A defender 5 feet above the attacker gains +3; larger and smaller differences need the detailed height procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-summary-defense-below-5",
+      "source": "full-2008",
+      "pages": "B549",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A defender 5 feet below the attacker takes -3.",
+      "tests": []
+    }
+  ]
+}

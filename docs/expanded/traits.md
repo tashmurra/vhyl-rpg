@@ -1,4 +1,564 @@
-# Trait price specifications
+# Expanded traits
+
+## Pricing interfaces
+
+**Status: partial; new native cases await recorded validation.**
+
+| Interface | Purpose | Source |
+| --- | --- | --- |
+| `rpgExpandedModifiedCost(base, percentages)` | Existing positive-cost pricing, preserving its positive-only contract | B101 |
+| `rpgExpandedSignedModifiedCost(base, percentages)` | Positive, negative or zero arithmetic with the net −80% modifier floor and rounding toward positive infinity | B101; B110 |
+| `rpgExpandedSelfControlCost(base, rating)` | Negative base priced at rating 6, 9, 12 or 15, discarding fractional magnitude | B121 |
+| `RpgExpandedDisadvantage` | Approved negative price specification integrated through `creationCost()` into character accounting | B110; B120–B121 |
+
+For a negative specification, set `points` to a negative integer, `level` to its
+purchased count, and `approved = true` after author review. Use either
+`percentages` or `selfControlRating`. Combining a self-control rating with a
+nonempty modifier list is currently rejected as
+`self-control-modifier-combination`; the composed rounding order has not been
+resolved. Invalid ratings are rejected as `self-control-rating`.
+
+A −25 base with a −10% limitation costs −22. A −5 base at self-control 9 costs
+−7. Both calculations are pure: they consume no time, points or random rolls.
+Negative contributions count toward the existing disadvantage limit and never
+credit the unspent-point ledger merely by being assessed. Approval of a price
+does not implement that trait's behavior, trigger, compatibility or modifier
+effects. These interfaces do not yet constitute a playable full trait catalogue.
+
+The [trait inventory](inventory/traits-foundation.json) begins the detailed
+catalogue pass at B32–B37. It records categories, origins, activation, potential
+purchases and the initial ability definitions. The existing pricing helper does
+not implement these effects; their coverage remains pending.
+
+Abilities need explicit permanent, switchable or attack behavior. A switchable
+ability ordinarily changes immediately through a ready action and defaults on
+during unconsciousness; an attack ability only acts through its attack procedure.
+Mental and physical traits also follow different owners during body transfer,
+while social identity requires a concrete campaign policy.
+
+Potential purchases reserve character value without creating a freely spendable
+point balance. Revelation, fulfillment and remaining payment have different rules
+for inheritance, emergent abilities and secret traits. Hidden abilities must not
+leak through preview or public accounting reports.
+
+Condition attacks require actual resistance, effect phases, recovery and expiry.
+Temporary attribute penalties have specific derived-stat exceptions. Repeated
+effects normally use the worst severity; only eligible enhanced definitions can
+stack. Suppression must restore the affected contribution without undoing unrelated
+advancement or injuries that occurred during the effect.
+
+Companion pricing is separate from companion agency and appearance. Adventure-level
+appearance checks, invested replacement value, betrayal consequences and growth
+need owned relationship records. The following catalogue pages and special
+modifiers still need review before the companion definition is complete.
+
+The [second catalogue segment](inventory/traits-catalogue-b.json) adds companion
+modifiers and abilities through B42. Summoning reuses an existing companion and
+retains failed-attempt deadlines. Shared-fate effects need propagation identities
+to prevent cycles. Companion-granted powers retain their purchases while the link
+is unavailable, rather than being deleted and repurchased.
+
+Arm-specific attributes affect only eligible tasks and use different combination
+rules for multiple hands. Accelerated subjective time adds maneuvers without
+changing initiative and still respects actions that depend on another actor's
+reaction. Neither feature can be represented by a blanket attribute or speed bonus.
+
+Restraint powers own their strength, layers, damage, escape progress and retry
+restrictions. Remote perception owns a viewpoint and displaced senses, while
+ordinary ability ranges still originate at the body. Hidden impressions and
+failed viewpoint placement require specific author contracts without revealing
+private world facts through assessment. These effects remain unimplemented.
+
+The [third catalogue segment](inventory/traits-catalogue-c.json) adds mental
+compartments, contacts and protection modifiers. Mental compartments can act and
+receive influence independently, but share one body and its physical limits.
+Vehicle control stations likewise grant operator access without creating extra
+weapons or movement capacity.
+
+Contact availability belongs to the contact, including when several characters
+share that person. Question penalties, research delays, reliability and private
+information need persistent records. An abstract information score must not
+silently replace the contact's actual character skills.
+
+Protection layers retain fixed order, coverage, attack restrictions, depletion
+and recovery. Absorbed damage creates temporary capability investment rather
+than advancement points. Reflection applies to eligible direct hits only and
+must not combine with absorption. These effects need integrated damage tests;
+the existing trait-cost helper supplies none of this runtime behavior.
+
+**Status: partial.** Trait catalogues, modifiers, benefits and restrictions. Neutral source: `full-2008`, B32-B166.
+
+[Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
+
+## Available interfaces
+
+- `rpgExpandedModifiedCost` — B101; tested in `tests/expanded.py::test_numbers`.
+
+The module provides only these interfaces. Its full catalogue and remaining chapter procedures are not implemented. See the integration guide for restrictions.
+
+
+The [fourth catalogue segment](inventory/traits-catalogue-d.json) records detection,
+respiration and nutrition exceptions, controlled infection, duplication, memory,
+empathic impressions and cinematic defense purchases. These remain pending effects.
+Detection and empathic impressions need separate private evidence and public output:
+a pure assessment must not reveal that a hidden target exists or whether an
+impression is truthful. Retry deadlines belong to the character's observation
+history, so constructing a fresh action cannot reset a failed memorization attempt.
+
+Duplication requires separately owned bodies connected to one character origin.
+Ordinary merging averages current health and fatigue; shared reserves instead
+conserve allocations and add them on reunion. Copied signature equipment needs
+origin records even after transfer or dropping, because merging removes those
+copies. Copy deaths, replacement purchases and optional extra lives must use one
+advancement ledger. Rounding, absent participants and secondary death propagation
+remain explicit source decisions, not implemented behavior.
+
+Respiration exceptions are specific: independence from oxygen does not protect
+against contact toxins, pressure or vacuum. Reduced respiration variants can
+still require environmental oxygen or a finite reserve. Nutrition and sleep
+independence do not grant arbitrary recovery. Infectious control likewise separates
+infection, delayed transformation, purchased companion control and later release;
+insufficient advancement points cannot prevent an otherwise valid infection.
+
+
+The [fifth catalogue segment](inventory/traits-catalogue-e.json) distinguishes top
+speed from basic movement, and faster perception from extra actions. Additional
+arms, heads and mouths have separate occupancy and injury consequences. They do
+not automatically grant attacks, spell actions or mental compartments. All-out
+attack and rapid-strike allocations must share the existing turn ledger.
+
+Replacement lives need a durable consumption record even when restoring an older
+character snapshot. Backup location, preparation duration, permitted tampering and
+body acquisition require explicit authored decisions. Favors likewise retain
+adventure-level retry restrictions and can be consumed only once per successful
+call, subject to their specified exceptional roll.
+
+Fitness changes recovery according to fatigue cause. Exertion and supernatural
+power costs must retain their provenance within one fatigue ledger, including
+when both occur between rest periods. Fractional loss rates cannot be rounded
+independently for every newly constructed action. These capabilities remain
+inventory requirements and are not provided by the current trait pricing helper.
+
+
+The [sixth catalogue segment](inventory/traits-catalogue-f.json) records flexibility,
+flight variants, contingency equipment, growth, restorative touch and scoped
+bonuses. Flight mode is part of the capability definition: powered flight,
+gliding and reaction-mass space travel use different movement and reserve rules.
+Neither flight nor greater size automatically supplies environmental protection,
+strength or resized equipment. These definitions remain pending implementation.
+
+Contingency equipment requires a session allowance and explicit item eligibility.
+An existing owned item must retain its identity when revealed. Improvised devices
+also need materials, skill resolution and a committed failed-use cost. Growth
+requires separate supporting strength and checks against actual surrounding
+space, with timed barrier penetration when eligible.
+
+
+The [seventh catalogue segment](inventory/traits-catalogue-g.json) covers sensory
+bands, injury anatomy, damaging powers, alternate attacks, phasing and invisibility.
+Anatomical protections compose through explicit included traits and incompatible
+body forms. A purchased attack retains damage type, delivery and exact fractional
+dice pricing; an alternate family also owns shared failure and suppression state.
+
+Phasing needs region-level material state, barrier eligibility, respiration and
+carried-object transitions. Invisibility needs observer and sensing-domain checks,
+with separate evidence for sound, tracks, shadows and reflection. Neither is a
+single universal immunity flag. Intuitive guidance also retains a question identity
+and bounded authored outputs so repeated previews cannot reveal hidden answers.
+All of these effects remain pending implementation and validation.
+
+
+The [eighth catalogue segment](inventory/traits-catalogue-h.json) records innate
+travel, legal permissions, real-play rerolls, magical aptitude and mental effects.
+Real-play cooldowns need an explicit clock policy and roll-event window; advancing
+the fictional clock cannot refresh them. A reroll must replace the selected result
+before its consequences are committed, including when the roll remains private.
+
+Mental command, conditioning, probing and thought reading have different subject
+histories, expiry rules and output contracts. A question identity must survive
+rephrasing; a new action object cannot bypass a subject cooldown. A mental shield
+also retains its voluntary state while unconscious. These effects are pending,
+and the rapport continuation is now recorded in the ninth segment.
+
+
+The [ninth catalogue segment](inventory/traits-catalogue-i.json) completes the
+rapport text and adds temporary ability pools, patrons, payload and consciousness
+transfer. Pool assignments own temporary contributions; reallocating capacity
+must not refund permanent advancement or retain removed capabilities. Borrowed
+powers similarly retain their source, modifiers and expiry.
+
+Body transfer separates the acting mind, physical host, suppressed occupant and
+original body. Host attributes and relative physical skills change while mental
+traits persist. Failed transfers can create permanent subject immunity. Memory
+attempts, purchased return access and remote-control termination need persistent
+records. The module remains incomplete; these are implementation obligations.
+
+
+The [tenth catalogue segment](inventory/traits-catalogue-j.json) adds foresight,
+ancestral and object histories, recovery, active sensors and shadow form. Sensors
+retain their own range, emission visibility, environmental limits and detail
+outputs. A targeting lock is distinct from discovery, and switching sensor modes
+must not accumulate bonuses from incompatible modes. These effects remain pending.
+
+
+The [eleventh catalogue segment](inventory/traits-catalogue-k.json) records fixed
+and adaptive transformations, shrinking, protected equipment, parallel item
+acquisition and natural appendages. Shrinking scales different quantities from
+stretching, and each full-value exception applies only to its selected quantity.
+Acquired items retain origin, expiry and retry-family records; transferred or
+consumed items must not evade their return rule. These effects remain pending.
+
+
+The [twelfth catalogue segment](inventory/traits-catalogue-l.json) records skill
+aptitude groups, communication channels, remote manipulation and environmental
+control. Remote hands perform one maneuver under concentration and retain grip,
+position and aim state. Throwing releases the object and uses different distances
+for physical range and accuracy. Communication likewise retains contacts, channel
+compatibility and interference rather than treating transmission as public speech.
+
+
+The [thirteenth catalogue segment](inventory/traits-catalogue-m.json) completes
+the main advantage catalogue through B100, before perks. This is a first inventory
+pass, not complete implementation. Teleportation keeps preparation and distance
+rules separate, owns failure cooldowns and limits defensive use to once per turn.
+Spontaneous skill retention also owns its point reservation, learning restrictions
+and month-long provisional state.
+
+
+The [first modifier segment](inventory/traits-modifiers-a.json) records perks,
+percentage arithmetic, compatibility and initial attack enhancements. Perks cannot
+receive modifiers. Most enhancements cannot be switched off individually without
+an explicit permission. Default range, area and duration apply only where a
+modifier requires an otherwise unspecified dimension.
+
+Repeating damage owns recovery restrictions and termination actions. Delayed
+attacks retain their selected trigger or deadline and neutralization method.
+Follow-up attacks depend on a carrier's hit and penetration result and inherit
+only the specified modifier subset for pricing. These behaviors are pending;
+the existing positive-price helper does not validate or execute them.
+
+
+The [second modifier segment](inventory/traits-modifiers-b.json) records guidance,
+linked actions, persistent areas, sensory delivery, symptoms and walls. Linked
+attacks share one hit roll only when their listed combat statistics match; they
+retain separate damage and protection resolution. Mobile areas and projectiles
+also need persistent identities, positions and control dependencies.
+
+Symptoms follow damage caused by their particular attack and end through healing
+that damage. Side effects instead use resistance, duration and sometimes sequential
+phases. Ranged conversion bars reuse while any prior effect remains, except where
+a specific trait overrides that rule. These lifecycle requirements remain pending
+and are not implemented by the existing modifier arithmetic.
+
+
+The [third modifier segment](inventory/traits-modifiers-c.json) covers limitations
+and gadget rules. Signed disadvantage pricing rounds toward positive infinity.
+Temporary disadvantages also cap absolute point savings, so a percentage-only
+price helper is insufficient. Optional limited enhancements require an explicit
+campaign choice and apply restrictions to their selected enhancement alone.
+
+Preparation is character-owned: only one prepared ability can be retained at a
+time. Limited uses, ammunition reloads, recharge deadlines and unreliable-activation
+rest locks are separate constraints. Every use must validate them before spending
+resources, while failed attempts still commit their specified costs. Gadget damage,
+theft, repair and unique loss also need identity-based lifecycle records. These
+behaviors remain unimplemented.
+
+
+The [initial disadvantage inventory](inventory/disadvantages-a.json) covers
+custom-trait design, self-control and the catalogue through impaired sight.
+Self-control has a purchased rating independent of Will, with an optional paid
+success rule requiring explicit campaign selection. Acquired injuries reduce
+character value without granting spendable points; buying them off uses earned
+points and any required recovery conditions.
+
+Hidden disadvantages and memory loss need private definitions plus controlled
+public disclosure. Repeated withdrawal, focus, injury-trigger and recovery checks
+need dated episode histories. Reconstructing an action must not reset those
+histories, while narrative uncertainty must not overwrite already committed facts.
+All new entries remain pending implementation and validation.
+
+
+The [second disadvantage segment](inventory/disadvantages-b.json) distinguishes
+rage, combat freezing and stimulus confusion. Each constrains different actions
+and has different defenses or recovery checks; none can be implemented as a
+generic stun flag. Pain episodes and temperature-dependent attribute losses need
+independent clocks and source-tagged recovery. The pain-frequency table and prose
+also differ at the activation boundary, which remains an explicit source decision.
+
+Compulsions carry real time, expenditure, living-cost and reaction consequences.
+Hidden truthfulness rolls and sensory restrictions need controlled information
+outputs. Existing character accounting does not execute these new effects.
+
+
+The [third disadvantage segment](inventory/disadvantages-c.json) separates
+missed-sustenance injury from daily depletion that ordinary healing cannot restore.
+Both need owned clocks and source-tagged injury in the shared health ledger.
+Calendar boundaries, qualifying contact durations and the depletion recovery amount
+need explicit source decisions before those procedures can be completed.
+
+Dependents, external duties and adverse fate also affect advancement and character
+accounting. Their author interfaces must record appearances, assignments, losses
+and settlement decisions; a general narrative callback cannot establish coverage.
+Reduced personal time changes action scheduling, while outside events retain their
+world-time schedule. These entries remain pending executable implementation.
+
+
+The [fourth disadvantage segment](inventory/disadvantages-d.json) covers personal
+opponents, stress episodes and catastrophic anatomy. Opponent appearances need
+persistent adventure/session identities, while permanent removal creates a
+character-accounting settlement. Appearance checks alone do not implement the
+authored encounter obligations.
+
+Brittle, combustible, explosive and externally animated bodies change injury
+outcomes rather than simply increasing damage. Persistent bleeding also needs
+per-wound original injury and separate external/internal recovery stages. Added
+sleep, food and life-support requirements use the existing time, inventory and
+health ledgers. All these integrations remain pending.
+
+
+The [fifth disadvantage segment](inventory/disadvantages-e.json) distinguishes
+missed-maintenance attribute loss from injury and records its staffing, frequency
+and restoration requirements. Sleep interruptions, nightmares, indecision and
+cycling moods each need owned clocks with different retry and recovery rules.
+
+Mobility traits also alter valid hit locations, manipulator access, armor coverage
+and point accounting. Acquired leg loss, naturally legless movement and anchored
+bodies must remain distinct. The inventory records these integration requirements;
+it does not yet provide their runtime behavior.
+
+
+The [sixth disadvantage segment](inventory/disadvantages-f.json) records each
+stimulus-specific fear, including technology-dependent prices and exposure
+modifiers. Successful resistance still imposes penalties, failed resistance uses
+the full fear table, and continuing exposure has its own retry clock. Believed
+threats must not disclose whether hidden supernatural effects are real.
+
+Violence constraints depend on authored intent, perceived targets and consequences.
+Limb and sensory restrictions require task-specific permissions and information
+filtering. These are pending integration requirements, including the unresolved
+relationship between single-eye ranged and general coordination penalties.
+
+
+The [seventh disadvantage segment](inventory/disadvantages-g.json) includes
+visually reviewed lifespan and sleep-fraction tables. Calendar units and legal age
+remain distinct: biological maturity does not automatically grant adult social
+permissions. Recovery and meal-time restrictions use the shared clocks rather
+than separate deductions for the same elapsed time.
+
+Secrets require a transactional replacement when disclosed, while social stigmas
+need concrete, campaign-specific restrictions and observer knowledge. Merely
+storing their names or reaction penalties would leave their applicable procedures
+unimplemented. These entries and their validating fixtures remain pending.
+
+
+The [eighth disadvantage segment](inventory/disadvantages-h.json) separates
+resistance susceptibility, post-armor injury multiplication and timed exposure
+loss. Their affected rolls, order of operations and clocks differ. The vulnerability
+price table has been visually reviewed; executable behavior and expected-value
+fixtures remain pending.
+
+Alternate personality packages must share the actor's physical state and ledgers.
+Conditional healing, session misfortune and supernatural event traits also need
+specific authored contracts, not unrestricted callbacks or duplicate actors.
+
+
+The [quirk and custom-disadvantage inventory](inventory/disadvantages-i.json)
+records the five-slot limit, each listed mental and physical minor trait, and
+custom pricing requirements. Mental traits need concrete behavior or narrow
+penalties; physical quirks need defined effects at creation. Open mental slots do
+not permit later acquisition of arbitrary physical restrictions.
+
+Composite restrictions can contain benefits, and their signed prices need separate
+component accounting without duplicate credit. The first source-enumeration pass
+now reaches the end of this trait chapter; that does not establish catalogue
+completeness, executable effect coverage or passing validation.
+
+## General modifier summary
+
+The [modifier summary](inventory/modifier-summary.json) maps 49 enhancement rows
+and 38 limitation rows to the detailed inventory. Fixed and per-unit summary
+prices have been compared with those detailed entries. Full eligibility, effect
+resolution, trait-specific modifiers and independent execution fixtures remain
+pending; the current price helper does not implement this catalogue.
+
+Summary headings do not remove detailed caps or exceptions. Explosion enhancement
+has at most three levels. Additional recoil requires rapid fire and gives no more
+than a 40% discount. Accuracy cannot fall below zero. Fragmentation has both a
+twelve-die ceiling and a main-attack damage limit. The interpretation of mixed dice
+and damage additions in that second limit remains unresolved.
+
+Delivery modifiers also have mutually exclusive price forms. Blood exposure costs
+−40% ordinarily but +100% with area or cone; skin exposure changes from −30% to
++150%. Sensory delivery becomes a limitation when the underlying ability already
+bypasses armor or uses the specified remote-resistance procedure. A builder must
+select the applicable form after checking the complete ability, then price it
+once. Group summary rows are navigation to actual modifiers, not extra purchases.
+
+## Trait summary reconciliation
+
+The [first trait-summary segment](inventory/trait-summary-a.json) maps 112 rows
+to the detailed character and trait ledgers. These include named tiers, sensory
+variants, relationship groups, perks and skill aptitudes. The full field comparison and executable catalogue remain pending.
+
+Orientation, internal timekeeping and bodily flexibility have alternative tiers.
+Their listed prices are totals for the selected tier; an upgrade replaces the
+lower tier's contribution rather than adding a second purchase and stacking both
+sets of bonuses. Thermal-only sight is a zero-point feature, while switching
+between ordinary and thermal sight costs ten points. The inventory records that
+distinction so a zero price cannot accidentally grant both senses.
+
+Arm-specific attribute purchases also have bounded scope: dexterity pricing covers
+one or two arms, and strength pricing covers one through three. Broader purchases
+use the overall attribute. Alternate identities have separate legal/illegal costs
+and eligibility, but never create funds. These records await executable character
+accounting, application and advancement fixtures.
+
+The [second trait-summary segment](inventory/trait-summary-b.json) maps another
+148 rows, completing the positive-trait summary mapping. It records further tier
+families and bundled senses. Exclusive low-frequency hearing, ultrasonic hearing
+and ultraviolet sight have zero-point forms; retaining ordinary senses costs
+extra. The corresponding speech traits include their special hearing capability.
+A summary range must not become an arbitrary price slider: detailed ultrasonic
+speech has zero- and ten-point variants.
+
+Base-plus-level prices also need a defined level origin. The life-draining bite's
+base price includes one health point per second; its increments buy additional
+drain. Tunneling increments instead price each movement point, and fear increments
+price each added penalty point. The summary ledger stores these distinctions for
+future accounting tests. The detailed higher recovery tier still has its recorded
+source-wording discrepancy; mapping its summary does not resolve that behavior.
+
+The [first negative-trait summary segment](inventory/trait-summary-c.json) maps
+128 rows. Starred entries use the listed cost at self-control 12; ratings 6, 9
+and 15 apply multipliers of 2, 1.5 and 0.5 respectively. Discard fractional point
+magnitudes, so a −5 base at rating 9 is −7, not −8. These ratings are independent
+of Will. The ledger keeps this pricing separate from the eventual trigger and
+consequence contracts.
+
+One-point minor variants need their own concrete behavior and share the character's
+five-quirk credit allowance, including contributions from templates. They do not
+automatically inherit the full trait's penalties. The skill-incompetence variant
+is an explicit exception with specified mechanics: prohibit learning the selected
+skill and apply −4 to its defaults across all specialties. It must be relevant to
+the campaign. Companionship traits modify the owner's reactions toward others;
+those modifiers must not be applied in the opposite direction.
+
+The [final negative-trait summary segment](inventory/trait-summary-d.json) maps
+99 rows. All 487 trait-summary rows now have detailed targets: 260 positive and
+227 negative entries. This is a completed row mapping, not completed source or
+runtime coverage. Classification, pricing, modifiers, effects and the remaining
+source ambiguities still need reconciliation.
+
+The final segment distinguishes mutually exclusive speech, manipulation, fitness
+and coordination variants. Two labels for the same reproductive-anatomy quirk
+share a single purchase and credit. The minor goal costs one negative point without
+a self-control multiplier; the full short- and long-term goals use that multiplier.
+The permanently active shadow form uses its complete negative-cost version rather
+than adding that credit to the positive-cost switchable version.
+
+Absent natural healing blocks ordinary recovery and medical health restoration,
+while first aid can still stop bleeding. Its partial and total variants differ in
+conditional recovery and health theft; neither automatically forbids every form of
+body-compatible surgery, repair or exotic restoration. These distinctions must
+reach the shared health ledger before the corresponding traits can be complete.
+
+## Maintenance staffing and frequency prices
+
+`rpgExpandedMaintenanceBase(people)` implements the B143 staffing table and its
+full-doubling extension above one hundred people. The base is minus seventy for
+51–199 people, minus eighty for 200–399, and continues by full doublings. The
+printed ten-thousand-person example therefore has a base of minus 130.
+
+`rpgExpandedMaintenanceCost(people, frequency)` applies `monthly`, `fortnightly`,
+`weekly`, `alternate-days`, `daily`, `twice-daily`, `three-to-five-daily` or
+`constant`. Final negative fractional point costs round toward zero; one person's
+fortnightly requirement costs minus three, and alternate-day service costs minus
+seven. These helpers accept one through one million people and reject other
+frequency identifiers. They neither grant points nor spend staff time.
+
+Pricing does not implement a maintenance obligation. An executable requirement
+still needs eligible staff or qualifying traits, appropriate facilities, one-hour
+installments, concrete due times and any explicitly approved substitution of
+additional person-hours for simultaneous workers. Monthly timing is a calendar
+choice; three-to-five-daily and constant service need explicit coverage policies.
+No consumed supplies are implied by maintenance itself.
+
+A missed installment reduces HT and requires the source's further HT check.
+Ordinary failure needs an authored additional incapacity, and critical failure
+requires a potentially fatal consequence appropriate to the maintained subject.
+The current price helpers do not resolve those outcomes or restore lost HT.
+Technology's environmental-fault repair is a separate procedure and must not be
+counted as maintenance-loss recovery. Each lost HT point requires its own major
+repair where that technology procedure applies.
+
+The [minimal price fixture](../../tests/fixtures/expanded-maintenance-price.t) and
+`test_maintenance_prices` record staffing boundaries, full doublings, every
+frequency, fractional negative costs and zero time/randomness. They are authored
+and unrun pending recorded validation. Maintenance remains partial in the inventory.
+
+
+## Purchased invention capability
+
+`RpgExpandedInventor` uses the neutral identifier `inventive-capability` and a
+`tier` of `cinematic` (25 points) or `rapid` (50 points). These are alternative
+purchases, not cumulative levels. Approval is required; repeated instances,
+nonunit levels and percentage modifiers are currently rejected. The existing
+character trait-cost interface includes the selected cost. The trait grants no
+scientific or technical training.
+
+`RpgExpandedProfile.inventionCapabilityTier()` returns the active, unmitigated
+capability, or nil. Without this traits module the foundation returns nil. The
+technology permission interface adds campaign and world gates. Owned cinematic
+execution and advancement between these tiers remain incomplete; pricing and
+permission are not a complete implementation of the trait. The permission fixtures
+are authored and unrun. Source: `full-2008`, B56–B57 and B475.
+
+
+## Fear-induced behavioral quirks
+
+`RpgExpandedMentalQuirk` represents the recurring-action branch of the mental
+quirk contract in `full-2008`, B162–B163. Set `approved`, `triggerText` and
+`responseText` to a concrete situation and behavior the player can portray.
+Empty descriptions are invalid. The trait retains the shared `quirk` identity,
+one level and minus-one character value. Passive labels and unspecified
+callbacks do not satisfy this interface. Narrow numeric-penalty quirks require
+separate effect implementations.
+
+`RpgExpandedFearQuirkAcquisition` records an authored fear consequence. Supply
+an `id`, unique `eventId`, expanded `profile`, a new `quirk`, `approved` and
+`relationEvidence` explaining how it relates to the frightening event and the
+character. This is an explicit author-selected outcome interface, not a full
+fear-table roll. It requires completed character creation. Apply it inside an
+engine action transaction.
+
+The acquisition installs the trait, reduces character value by one and advances
+`developmentRevision`. It changes neither `earnedPoints` nor `unspentPoints`.
+Its receipt permits this fear-induced quirk beyond the normal five-quirk creation
+limit and excludes its acquired negative point from that creation limit's
+negative-point budget. Ordinary quirks still use the five-quirk limit. Removing
+an acquired trait removes its allowance; replaying the old acquisition does not
+reinstall it or grant points. Event and behavior bindings prevent retargeting an
+existing receipt. Quirk changes and buy-off still need their own procedures.
+
+`RpgExpandedQuirkPortrayal` makes the author contract explicit for a scene. Supply
+an `id`, owning `profile`, `quirk`, `triggerPresent`, `decision`, `observedBehavior`
+and `approved`. When triggered, the decision is `followed` or `departed`; otherwise
+it must be `inapplicable`. The record retains the observed behavior and decision
+once, under normal transaction and save handling. It does not force the player's
+choice, invent an advancement penalty, or pretend the character followed the
+quirk. Any authored advancement sanction requires its own supported ledger
+operation; automatic sanction handling is not implemented here.
+
+`test_fear_quirks` specifies sixth-quirk acquisition, unchanged spendable points,
+creation-budget validation, ordinary-sixth-quirk rejection, portrayal decisions,
+preview, rollback, undo, replay and cross-process continuation. These scenarios
+passed native acceptance. The health module combines this acquisition with
+row-sixteen stun atomically; see its authoring guide and the
+[complete fear outcome matrix](fear-completion.md#fear-outcome-coverage-matrix).
+
+
+## Character/social subset authoring
 
 `rpgExpandedModifiedCost` prices a positive cost with percentage modifiers.
 `rpgExpandedSignedModifiedCost` also handles negative costs, using the source's
@@ -14,9 +574,2740 @@ price specification, not that the library implemented all described effects.
 
 Existing Lite traits remain usable and retain their executable behavior.
 Additional authored effects must be implemented in concrete mechanics and tested.
-This interim branch does not supply a full advantage/disadvantage catalogue,
+The character/social umbrella does not supply a full advantage/disadvantage catalogue,
 generic power effects or an automatic self-control trigger procedure. Do not give
 a character an advertised capability based only on the calculated point cost.
 
 Source mapping: `full-2008` B101-B121. Full trait catalogues and their effects remain
 part of the broader expansion project. See the [prerelease validation record](../releases/v1.1.0-alpha.1.md).
+
+The prerelease record applies to the original subset. Checks for this merged
+expanded suite remain paused.
+
+
+## Radiation resistance
+
+`RpgExpandedRadiationResistance` implements the nine purchased dose divisors in
+`full-2008`, B79. Set `approved = true`, retain its `radiation-resistance` identity,
+and choose a level:
+
+| Level | Divisor | Character points |
+| --- | --- | --- |
+| 1 | 2 | 5 |
+| 2 | 5 | 10 |
+| 3 | 10 | 15 |
+| 4 | 20 | 20 |
+| 5 | 50 | 25 |
+| 6 | 100 | 30 |
+| 7 | 200 | 35 |
+| 8 | 500 | 40 |
+| 9 | 1000 | 45 |
+
+Install one instance in `profile.traits`; character accounting includes its cost.
+The hazards exposure recorder divides after shielding, keeping exact fractional
+doses. Inactive or mitigated traits retain their purchased cost but supply no
+protection. Duplicate instances and generic traits using this identity are
+rejected during exposure assessment. Percentage modifiers are unsupported and
+rejected; purchasing or changing this trait during advancement still requires a
+supported advancement procedure. Do not directly change its level to spend points.
+
+The minimal integration fixture is `tests/fixtures/expanded-radiation-traits.t`.
+Its expected-value cases in `test_radiation_traits` are authored and unrun. This
+addition does not complete the traits catalogue or radiation syndrome procedures.
+
+
+## Pain sensitivity
+
+`RpgExpandedPainSensitivity` is the fixed -10-point trait from `full-2008`, B142.
+Set `approved = true` and install one instance in `profile.traits`. The health
+module, with scaled injury shock selected, supplies doubled shock, physical
+resistance penalties and the Will check to avoid crying out after injury above
+one HP. Its shared health result exposes the cry-out outcome. Modifier pricing,
+observer-dependent discovery and optional reaction consequences remain incomplete.
+See the [health guide](health.md#pain-sensitivity-in-the-injury-pipeline) and
+`tests/fixtures/expanded-pain-sensitivity.t`; the fixture is authored and unrun.
+
+
+The health module also supplies `RpgExpandedTerminalCondition` for an acquired
+one-year deadline with -75 character value. See its [authoring contract](health.md#acquired-one-year-terminal-condition).
+It participates in shared character accounting without awarding spendable points.
+Other duration tiers, creation purchases and cure/buy-off are still pending.
+
+
+## Impaired clotting
+
+`RpgExpandedImpairedClotting` supplies the fixed -30-point purchase and HT-ten cap
+from `full-2008`, B138. Set `approved = true`. Its special bleeding procedure is
+still partial: the health module has a pure care-stage assessment and prevents
+ordinary bleeding from silently approximating it. See the
+[health contract](health.md#impaired-clotting-assessment) for the unresolved owned
+loss and treatment work. The fixture is authored and unrun.
+
+### Persistent open wound
+
+`RpgExpandedPersistentWound` is the fixed -5-point disadvantage from `full-2008`,
+B162. It requires approval, one level and no percentage or self-control modifiers.
+Acquiring it does not remove HP. The health module provides an explicit
+`RpgExpandedRecoveryWoundAcquisition` for a critical mortal-recovery consequence;
+ordinary creation can use the trait's normal character-cost contribution.
+
+`rpgExpandedAssessPersistentWound` exposes B162's source values from explicit
+facts: an informed attacker can target the opening at -7 with a 3/2 wounding
+multiplier; a blood agent that actually reaches it has a broken-skin entry route;
+an undressed wound in plague-ridden surroundings gives -3 infection resistance.
+These are assessments, not automatic attack, poison or treatment execution.
+Damage-type/location composition and blood-agent entry remain unfinished. Daily
+dressing now has an owned health operation, and infection resistance uses its
+current-day result in the hazard module. Do not apply the assessed multiplier twice or treat it as a
+new HP loss merely for having the trait.
+
+
+### Executable self-control ratings and owned triggers
+
+`RpgExpandedDisadvantage.selfControlNumber()` now supplies the approved rating
+6, 9, 12 or 15 to the shared `rpgLiteSelfControl` operation (full-2008 B121).
+Omitting the rating selects twelve. This is independent of Will. Authored stimulus
+modifiers, sleep penalties and the health self-control hook apply afterward.
+Invalid ratings or unapproved expanded traits reject before rolling. Expanded
+scores below three block without randomness; voluntary acceptance remains
+available without a roll. Ordinary Lite traits retain their fixed rating twelve
+and prior random-number behavior.
+
+For a persistent occurrence, use `RpgExpandedSelfControlTrigger` with unique `id`,
+`profile`, owned controlled `trait`, stable `trigger` identifier, `modifier`,
+`giveIn` and `evidence` describing the actual triggering circumstance. `assess()`
+is pure; `resolve()` commits one check and its obligation. Replays return the same
+check. A new request ID cannot reroll the same trait/trigger pair. Use a new trigger
+identifier only for a genuinely new occurrence established by the author.
+
+The operation inherits the obligation interface: `active` is true after failed
+resistance or voluntary acceptance, and `permits(action)` uses the authored
+action's `satisfies(obligation)` decision. Before resolution, it grants no action
+permission. This contract requires concrete authored behavior for each trait; it
+does not implement an entire behavioral catalogue through a generic callback.
+`begin(modifier,giveIn)` is a compatibility entry into the same owned resolution.
+Trait-specific trigger/counter rules remain incomplete. The explicit point-funded
+option is described below. `expanded-self-control.t` specifies all four ratings, Will independence,
+pain modifiers, invalid inputs, voluntary acceptance and once-only triggers with
+preview, rollback and undo. These assertions are authored and unrun.
+
+
+### Optional point-funded self-control
+
+The full-2008 B121 option is disabled by default. Enable
+`rules.pointFundedSelfControl` for a campaign that permits it, then set
+`buySuccess = true` on a fresh `RpgExpandedSelfControlTrigger`. This is a choice
+before resolving the occurrence. It cannot be combined with `giveIn` or retrofitted
+onto a failed check; retroactive purchases remain unsupported.
+
+Assessment checks campaign permission, trait approval, the existing
+`developmentSpendingReason()` gate and one available `unspentPoints`. Resolution
+consumes one point permanently in the ordinary progression ledger and increments
+`developmentRevision`. It records an automatic successful check and no active
+obligation, without rolling or spending time. Earned-point history is unchanged.
+No separate point bank, reservation or automatic refund is created. Replay,
+including after a policy change or save restoration, uses the original receipt.
+Normal transaction rollback and undo still restore the entire action.
+
+`test_self_control_points` specifies disabled policy, insufficient funds,
+conflicting choices, mandatory-development spending protection, a modified score
+below three, preview, replay, rollback, undo and cross-process continuation.
+These assertions are authored and unrun. Campaign reward judgments about repeated
+resistance remain authored rather than automatic point penalties.
+
+
+### Truthfulness
+
+`RpgExpandedTruthfulness` implements the full-2008 B159 base −5 controlled trait.
+Set `approved = true` and an optional `selfControlRating` (default twelve).
+Its fixed identity, level and base price are validated; percentage modifications
+are not yet supported. Shared scoring already supplies −5 to Fast-Talk and −5 to
+Acting when `context.deceptive` is true. Nondeceptive Acting retains its normal
+score. The penalty remains even after successful self-control for an occurrence.
+
+Use `RpgExpandedTruthfulnessTrigger` for a concrete communication opportunity.
+Supply the inherited ID, profile, trait, stable trigger and evidence, plus `mode`
+(`omission` or `falsehood`), the relevant authored `truth`, and a proposed
+`falsehood` when applicable. Omission uses the selected self-control rating;
+speaking a falsehood adds −5 to the effective modifier. `failureChoice` is `truth`
+or, for falsehood attempts, `obvious-lie`. This is an authored choice between the
+two source-described consequences, not automatic disclosure of arbitrary secrets.
+
+On success, the receipt reports `withheld` with no statement or `falsehood` with
+the proposed statement. On failure or voluntary acceptance, it reports
+`disclosed-truth` or `obvious-falsehood` and the corresponding authored statement.
+Successful self-control does not make a lie convincing; any later Acting or
+Fast-Talk procedure still applies its penalty. Render the receipt through the
+story's communication action; it does not send messages or alter knowledge by
+itself. Replays reuse the original outcome, and altered requests reject. The
+inherited obligation interface remains available for authored action permission.
+
+`expanded-truthfulness.t` specifies skill penalties, omission, falsehood, both
+failure choices, voluntary acceptance, preview, replay, rollback, undo and saved
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md). The social module now provides evidenced
+statement delivery through `RpgExpandedStatementDelivery`, using the resolved
+trigger’s `communication` receipt. Parser/dialogue routing and integrations with
+broader social contests remain incomplete.
+
+Self-control pricing requires `controlled = true` on the disadvantage. A rating
+on an uncontrolled disadvantage rejects with `self-control-ineligible-trait`
+both when priced directly and through character accounting. Runtime rating
+lookup uses the same eligibility gate. This explicit declaration identifies an
+authored resistance procedure; it does not establish catalogue eligibility or
+implement that procedure's consequences. Pure numeric pricing remains available
+for assessment. Regression assertions cover all three rejection paths and remain
+unrun pending recorded validation. Source: full-2008, B121.
+
+The template adapter accepts an explicit truthfulness rating in a fourth trait-row
+field, retaining `RpgExpandedTruthfulness` behavior and fresh ownership. See
+[purchased template traits](templates.md#purchased-self-control-in-template-rows)
+for supported rows, composition guards and choice accounting.
+
+## Curiosity occurrences
+
+`RpgExpandedCuriosity` implements the base −5 rated investigative compulsion
+(full-2008, B129). Set `approved = true` and an optional `selfControlRating`;
+its price and runtime rating use the shared B121 procedure. Warning or judgment
+traits do not bypass this trigger. An explicit template row
+`['curious',1,scope,rating]` creates this concrete trait.
+
+For each interesting situation create an owned `RpgExpandedCuriosityTrigger`.
+Set the inherited profile, trait, stable ID, trigger and evidence, plus a
+`subject`, `interesting = true`, and a nonempty, unique `investigationActions`
+list. Entries are stable authored action identities for concrete ways to
+investigate that subject. They may share one parser/structured/dialogue operation.
+`assess()` rejects incomplete definitions before rolling. `resolve()` performs
+self-control once, or accepts voluntary surrender, retaining the resulting
+obligation. Merely resolving it spends no action time and reveals no hidden facts.
+
+Before the ordinary story action executes, call `permits(actionIdentity)`.
+Unresolved occurrences permit nothing. After a failed check only the listed
+investigative actions are permitted through this contract; after success or
+completion the occurrence imposes no restriction. The author must install this
+gate in each applicable entry path. It is not an automatic global parser filter,
+and unrelated emergency or forced-action exceptions are not inferred.
+
+Execute the permitted action through its normal mechanics, charging its normal
+time/resources and applying its actual consequences. At the end of that same
+transaction, call `complete(actionIdentity,evidence)` with a nonempty account of
+the completed investigation. Do not call it for an assessment or failed attempt
+that did not investigate the subject. Completion clears the obligation and binds
+the action, evidence and game time. Identical completion calls reuse that record;
+a different action or explanation rejects. A transaction failure rolls back both
+the action and the completion. An investigation need not discover a secret to
+satisfy the compulsion.
+
+The `expanded-curiosity.t` integration opens an authored cabinet in five seconds,
+then records completion, with no automatic secret reveal. Its assertions cover
+failed and successful resistance, voluntary acceptance, action gating, missing
+definitions, repeat resolution, completion replay, rollback, undo, saved pending
+obligations and rated purchases. These scenarios passed native acceptance. Broader story-action integration,
+parser/dialogue parity and general investigation mechanics remain incomplete;
+this entry remains partial rather than treating the author interface as complete
+catalogue coverage.
+
+## Physical-danger avoidance
+
+`RpgExpandedDangerAvoidance` is the full-2008 B129 base −10 self-control trait.
+It uses the shared `cowardice` catalogue key for compatibility. Set `approved`
+and the purchased rating; explicit template rows accept
+`['cowardice',1,scope,rating]`. The four ratings cost −20/−15/−10/−5 and supply
+physical-danger fear penalties of 4/3/2/1 respectively. Its definition requires
+one level and no unimplemented percentage modifiers.
+
+Use `RpgExpandedDangerAvoidanceTrigger` for one proposed physical risk, with the
+inherited owned occurrence fields, `physicalDanger = true`, and a nonempty unique
+`riskyActions` list of authored action identities. Set `risksDeath` when appropriate;
+it adds −5 to this self-control check. `resolve()` rolls once and retains the
+refusal obligation on failure. It does not execute an action or charge its costs.
+
+Gate the proposed actions with `permits(identity)`: an unresolved occurrence
+permits nothing, a successful check permits the risk, and a failed check rejects
+listed risky actions while allowing other actions such as retreat. Set
+`greaterDanger` and nonempty `greaterDangerEvidence` before resolving when another
+physical threat compels the risk. That explicit exception permits the risky action
+even after failed resistance. These facts are bound to the occurrence; changing
+them afterward rejects rather than allowing a reroll. Dynamic changes of threat
+require a separate authored occurrence and remain an integration responsibility.
+
+The health module derives the fear penalty through
+`profile.physicalDangerFearPenalty()`. It applies only when a fear context declares
+physical risk. A matching explicit penalty is not added again; a conflicting
+nonzero override rejects. Contexts using older authored trait records retain their
+existing explicit-classification path. Including traits alone does not install the
+health module or enable fear encounters.
+
+The fixture specifies all four prices and fear penalties, ordinary versus mortal
+risk, refusal versus retreat, the evidenced greater-threat exception, malformed
+facts, replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+Social reactions from informed occupational observers are available through
+`RpgExpandedDangerReactionContext`. Dynamic threat transitions and parser/dialogue
+action gates remain incomplete; this catalogue entry remains
+partial. The author determines actual physical danger and greater threats, and
+must route all relevant action entry points through the permission contract.
+
+
+## Advanced martial training
+
+`RpgExpandedMartialTraining` represents the thirty-point cinematic permission
+from `full-2008`, B93. Set `approved` and `prerequisiteEvidence` to record the
+campaign's availability decision and its additional prerequisites (or their
+absence). The fixed single-level form currently rejects percentage modifiers.
+An active, unmitigated instance halves the repeated bare-hand parry penalty in
+owned catch attempts. Duplicate instances are rejected before a catch roll.
+
+The trait grants no skills automatically. Rapid-strike integration, cinematic
+skill prerequisite integration and other melee-parry adapters remain pending;
+this catalogue entry is partial. `test_catch_repeat_parry` contains expected
+scores for ordinary and trained repeated parries, inactive benefits and independent
+hand counters. These assertions are authored, unrun pending recorded validation.
+
+## Enhanced jumping
+
+`RpgExpandedEnhancedJump` costs ten points per level (`full-2008`, B89).
+Set `approved`; the current definition supports the unmodified trait and rejects
+percentage modifiers. `RpgExpandedJumpDistance` consumes active, unmitigated
+levels and doubles final distance per level. Duplicate trait instances are
+rejected when querying that benefit. The trait does not grant Jumping skill.
+
+Jump movement speed, jump attacks and the trait's fall-protection procedure
+remain pending, so the catalogue entry remains partial. Pure profile fixtures
+cover pricing, disabled benefits, running/preparation multipliers, optional
+strength boundaries and paid skill selection. Assertions are authored, unrun.
+
+Enhanced-jump fall protection now uses an owned exploration landing receipt:
+see [enhanced-jump fall protection](exploration.md#enhanced-jump-fall-protection).
+It compares the full prepared running high-jump maximum with the fall and can
+reuse one successful Acrobatics landing for the five-yard extension. Jump
+movement speed and jump attacks remain pending; the trait is still partial.
+
+The enhanced-jump speed rule is now available through exploration's pure
+`travelAssessment`: current ground Move or one fifth of maximum broad-jump
+range, whichever is greater. It retains fractional speed and calculates elapsed
+whole seconds. Committed travel, interruption and jump attacks remain pending.
+
+## Social inhibition
+
+`RpgExpandedSocialInhibition` implements the ordinary three-tier trait from
+full-2008 B154 with neutral public identifiers. Set `approved = true` and `level`
+1, 2 or 3. Fixed costs are -5, -10 and -20; contextual interpersonal-skill
+penalties are -1, -2 and -4 respectively. Percentage modifiers, self-control
+variants and duplicate instances are rejected.
+
+The shared contextual score hook applies the penalty once to the printed list
+of interpersonal skills, including Carousing, Diplomacy, Fast-Talk and Teaching.
+An authored additional skill can set `requiresSocialInteraction` to establish
+that the broader printed interpersonal-skill condition applies. Administrative
+checks are not automatically penalized. Inactive or mitigated traits retain their
+point cost but contribute no current penalty.
+
+Tier 3 blocks learning affected skills through expanded profile learning
+permission, including when the optional skills module is absent. It permits
+penalized default use. An already-paid affected skill at this tier is explicitly
+rejected as requiring an acquisition/retention adapter; the reference's learning
+prohibition is not silently interpreted as deleting the character's investment.
+The same permission participates in character training validation.
+
+The base Lite context hook returns zero when this expansion effect is absent and
+adds no randomness. The social-inhibition fixture covers price tiers, contextual
+penalties, default use, learning rejection, mitigation, duplicate definitions and
+an actual Carousing preparation. These scenarios passed native acceptance. Roleplay remains
+authored; later acquisition with existing skills and modified variants remain
+pending.
+
+## Emotional-understanding deficit
+
+`RpgExpandedEmotionalUnderstandingDeficit` implements the ordinary B142 trait
+under a neutral identifier. It costs -20 points, requires approval, and rejects
+levels, self-control and percentage-modifier variants. It applies -3 to the
+printed emotion-dependent skills, including Acting, Carousing, Criminology,
+Detect Lies, Diplomacy, the audience-influence skills, Fast-Talk, Interrogation,
+Leadership, Merchant, Politics, Psychology, Savoir-Faire, Sex Appeal, Sociology
+and Streetwise. These skills remain learnable.
+
+An additional authored skill can set `requiresEmotionalUnderstanding` when it
+relies on emotional motivation. The flag and the printed list identify one
+applicability condition; appearing in both does not apply the penalty twice.
+The shared context hook adds this penalty to other distinct effects such as
+social inhibition. It contributes zero when inactive or mitigated, with its
+purchased point cost unchanged. It does not remove the character's own emotions.
+
+Profile validation rejects duplicate instances and incompatible traits with IDs
+`empathy`, `callous`/`callousness`, or `oblivious`/`emotional-obliviousness`.
+The last pair identifies the B146 emotional-motivation disadvantage, not every
+other form of social awkwardness. Custom trait definitions must preserve those
+semantic identities for the compatibility check.
+
+The emotional-understanding fixture covers pricing, penalties, stacking,
+mitigation, learning permission, explicit additional-skill applicability,
+incompatible traits and a Carousing preparation. Assertions are authored, unrun.
+Modified variants, complete catalogue mapping and any setting-specific emotional
+reasoning contracts remain pending.
+
+## Loss of pleasure
+
+`RpgExpandedPleasureLoss` implements the ordinary B140-B141 trait at -15 points.
+It applies -3 through the shared context hook to Carousing, Connoisseur, Erotic
+Art and Gambling. It rejects duplicate instances and modified/self-control
+variants. Inactive or mitigated instances contribute no current penalty; their
+purchased cost is unchanged.
+
+The social module provides an explicit observation context for the separate
+reaction effect. The trait does not automatically penalize every observer or
+invent an influence immunity. Narrative appreciation, motivation and setting
+consequences remain authored; modified variants and those broader authoring
+contracts remain pending. The pleasure-loss fixture covers all four skill
+categories, an unaffected skill and scoped reaction behavior; these scenarios
+passed native acceptance.
+
+## Emotional obliviousness
+
+`RpgExpandedEmotionalObliviousness` implements B146 at -5 points. It applies -1
+to use and resist Diplomacy, Fast-Talk, Intimidation, Savoir-Faire, Sex Appeal and
+Streetwise. The public identifier `emotional-obliviousness` distinguishes this
+motivation-understanding trait from other social-awkwardness entries.
+
+The shared skill hook handles the acting character. A separate influence
+resistance hook handles the target and composes with the existing intimidation
+resistance modifier. With no active expansion effect, that hook returns zero and
+the existing Lite calculation and dice consumption are unchanged. Inactive or
+mitigated instances contribute neither penalty. Duplicate definitions and
+modified/self-control variants are rejected; the emotional-understanding deficit
+also rejects this trait as incompatible.
+
+Effective resistance below three is explicitly rejected before any influence
+dice are spent because the existing contest adapter does not resolve that case.
+This integration does not claim to complete all expanded influence exceptions or
+other traits' resistance rules. The fixture covers actor and target penalties
+separately and together, mitigation, the absent-effect path, low-resistance
+rejection, rollback, undo and cross-process continuation. Assertions are authored,
+unrun.
+
+### Callousness (full-2008, B125)
+
+`RpgExpandedCallousness` costs -5 and applies -3 to Teaching through the
+shared score path. `RpgExpandedCallousnessContext` names the subject, target,
+skill, approval and evidence. Set `helpfulPsychology` for assistance rather than
+research, `pastVictim` for an interaction with someone previously harmed by the
+subject's conduct, and `coercive` for threats or torture using Interrogation or
+Intimidation. The first two conditions impose -3; coercion grants +1. Overlapping
+penalty descriptions apply once. Ordinary research receives no penalty.
+
+Supply these facts for the particular interaction; the engine cannot infer a
+history of mistreatment from dialogue. Pass this context to the shared skill or
+influence operation. The existing interrogation question procedure recognizes
+the new trait for its threat/torture bonus. Set the question's `pastVictim` fact
+when the prisoner previously suffered from the interrogator's conduct; the
+question then applies -3 as well. Do not repeat either effect in its modifier. Inactive or mitigated traits retain their cost but suspend their
+effects. The emotional-understanding deficit remains incompatible.
+
+`RpgExpandedCallousnessReactionContext` in the social library names an observer
+and accepts `pastVictim` and `empathicObserver` facts with approval and evidence.
+Either condition gives -1; both together still give -1. Attach it to a reaction
+attempt's `socialContext`. This does not infer observer abilities or histories.
+The minimal fixture covers these contextual calculations and invalid facts;
+validation is in progress, so this entry remains partial and unverified.
+
+### Learning bar (full-2008, B125)
+
+`RpgExpandedLearningBar` costs -30. It leaves starting skills valid and usable,
+but blocks new skill investment through development offers, direct skill
+purchases and study. It also blocks familiarity practice and recognition before
+time or randomness is spent. Existing familiarities remain usable. Active,
+unmitigated instances block DX and IQ advancement; ST and HT offers can proceed
+through their ordinary approval and point gates.
+
+A trait purchase must supply `expandedTraitNature` (`mental` or `physical`) and
+`expandedTraitEvidence` on its `RpgDevelopment` offer. Mental purchases are
+blocked; approved physical purchases remain possible. Unclassified traits and
+secondary-characteristic advancement return explicit unresolved reasons rather
+than guessing. Buying off the disadvantage uses the existing removal path.
+
+`learningAcquisitionReason(kind)` distinguishes acquisition from creation
+validation. Custom technique acquisition must consult it with `technique` before
+spending resources. `RpgExpandedTechniquePurchase` now enforces this gate for
+shared point purchases. Temporary modular ability integration remains pending;
+a callback alone does not complete it.
+Direct assignments to character fields are author operations and must not be
+used to bypass advancement assessment. The fixture covers rejection without
+spending, allowed purchases, mitigation, replay, rollback, undo and save
+continuation; it awaits recorded validation.
+
+### Speech limitation (full-2008, B125)
+
+`RpgExpandedSpeechLimitation` costs -15 for inability to articulate speech, or
+-25 with `total = true` and `points = -25` for inability to vocalize at all.
+The first form permits nonlinguistic sounds and compatible voice traits. Both
+reject stuttering; the total form also rejects voice, mimicry, disturbing voice,
+and custom traits marked `voiceRelated`. Compatibility is checked independently
+of mitigation; mitigation suspends the action restriction, not the point cost.
+
+Set `requiresSpeech` on a context for articulated words, or
+`requiresVocalization` for a nonlinguistic sound. The shared score/check path
+rejects unavailable communication before randomness. Existing effort checks
+using `talk` or a speech requirement also respect the limitation. Contexts for
+writing, shared signing and other nonvocal channels remain available; authors
+must describe the actual channel rather than infer it from a skill name.
+
+Nonshared signing between player characters uses `RpgExpandedGestureExchange`
+in the social library. Its sender can receive full-rate credit through
+`RpgExpandedCommunicationStudy` in development; other channels remain pending. The fixture covers costs, channel distinctions, compatibility
+and rejection without random draws; validation is in progress.
+
+### Compelled assistance (full-2008, B125)
+
+`RpgExpandedCompelledAid` has a -15 base price and uses the shared self-control
+ratings. Create one `RpgExpandedAidTrigger` per occurrence, identifying the
+recipient, available `assistance`, why the character `shouldResist`, approval and
+evidence. The author must establish actual means to help; the trait creates no
+items, money or abilities. Hostility, orders and possible traps do not exempt an
+otherwise eligible opportunity. `assess()` is pure; `resolve()` uses the existing
+self-control machinery, including voluntary surrender and the explicit campaign
+policy for point-funded resistance. Repeated resolution does not reroll.
+
+Bind an `RpgExpandedAidDecision` to the resolved trigger with `choice = 'offer'`
+or `'decline'`. A failed check requires the offer. Recording it satisfies this
+obligation without performing or paying for the promised assistance; use the
+relevant action and resource rules for subsequent help. The recorded choice
+cannot be changed on replay. Authors must route this scene decision through the
+interface; automatic parser/dialogue discovery of aid opportunities is pending.
+
+The fixture covers resistance, surrender, invalid opportunities, required offers,
+replay, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md), so the inventory entry remains partial.
+
+### Low motivation (full-2008, B126)
+
+`RpgExpandedLowMotivation` has a -15 base cost and shared self-control pricing.
+`RpgExpandedMotivationTrigger` supplies a unique occurrence, distinct string
+`choices`, an authored `leastEffort` choice, approval and evidence. Describe the
+actual available courses of action, including a companion's demand when that is
+the easier course. Failed resistance constrains the decision to that choice;
+success permits any listed choice. This implements a fictional behavior rule,
+not a clinical model or an inference about a person's intentions.
+
+With `minimumNecessitiesOnly` and exactly one choice, assessment returns
+`motivation-no-trigger` without a roll; perform that ordinary action through its
+normal interface. Multiple choices still call for resistance. Mitigation also
+returns no trigger. `RpgExpandedMotivationDecision` records a resolved choice
+once and clears its obligation; the subsequent action retains its ordinary time
+and resource costs. Authors must route the scene choice through this interface.
+
+The self-control receipt binds the full choice list and prevents rerolls of the
+same occurrence. Fixtures cover least-effort choices, resistance, minimum needs,
+replay, rollback, undo and saved obligations, and passed native acceptance. Trait replacement
+and transition accounting, plus automatic parser/dialogue discovery, are pending.
+
+### Recurrent pain definition (full-2008, B126)
+
+`RpgExpandedRecurrentPain` defines severity 1, 2 or 3; `intervalHours` of 1, 2,
+4 or 8; and appearance `frequency` of 6, 9, 12 or 15. Approval is required.
+`creationCost()` multiplies the severity's base price by both interval and
+frequency factors before dropping fractions. Do not round each factor's result
+separately. Its fixed definition rejects self-control ratings and additional
+percentage modifiers.
+
+`awakePenalty()` returns -2, -4 or -6, and `intervalSeconds()` exposes the
+recovery interval. `appears(roll)` is a pure threshold assessment using the
+frequency table's explicit “or less” boundaries. It does not roll, schedule or
+apply an episode. The paragraph's informal “below” wording is interpreted using
+those explicit table boundaries.
+
+The health library now supplies `RpgExpandedRecurrentPainDay` and
+`RpgExpandedRecurrentPainRecovery` for daily waking episodes and interval checks.
+Sleep episodes use the health library’s sleepless-rest adapter; overlapping-day
+handling remains pending. These definition
+methods alone do not modify character scores. The fixture independently lists all 48 prices and appearance boundaries;
+it remains unrun and all corresponding inventory entries remain partial.
+
+### Companionship preference (full-2008, B126)
+
+`RpgExpandedCompanionship` costs -5 at level 1 or -10 at level 2. For IQ-based
+skill checks, attach an approved `RpgExpandedCompany` to the context's `company`.
+Its distinct `members` include the subject: one member means alone; four means
+the subject and three companions. This is the interface's explicit convention
+for the printed group-size threshold. Evidence establishes who actually provides
+company, rather than counting all characters in a room automatically.
+
+Level 1 applies -1 while alone. Level 2 applies -2 alone, -1 in groups of two
+through four, and zero with five or more. IQ-based skill checks without company
+facts reject while the trait is active; attribute-only checks are unaffected.
+Inactive or mitigated traits retain their price but suspend their effects.
+
+`RpgExpandedCompanionshipReactionContext` in the social library names the subject
+and the reacting `observer`. With approved evidence and `usualReaction`, it adds
++2 or +4 for the observer's trait. It never adds this bonus merely because the
+subject has the trait. Unusual reactions are explicitly authored with that flag
+unset. Attach the context to the reaction attempt's `socialContext`.
+
+The fixture covers both levels, group-size boundaries, reaction ownership,
+exceptions and missing facts before randomness. Validation status is recorded in the [completion checklist](fear-completion.md). Automatic
+scene membership and integration with every specialized skill operation remain
+pending, so the inventory entry remains partial.
+
+## Additional catalogue talents
+
+Use `rpgExpandedMakeCatalogueTalent(id, level, approved)` to create a fresh
+purchase, then install it in the character's owned `traits` list. Approval records
+the campaign's permission; levels are 1–4. Prices are per level (full-2008,
+B89–B91). Skill memberships are fixed in `catalogueTalentSkills(id)`.
+
+| ID | Points per level | Eligible reaction audience, subject to demonstrated and appreciated aptitude |
+|---|---:|---|
+| `animal-aptitude` | 5 | Animals |
+| `artistic-aptitude` | 5 | Buyers or critics of the subject's artwork |
+| `commercial-aptitude` | 10 | Business counterparts |
+| `medical-aptitude` | 10 | Current or former patients |
+| `musical-aptitude` | 5 | Listeners or critics of the subject's music |
+| `numerical-aptitude` | 10 | Engineers or scientists |
+| `plant-aptitude` | 5 | Gardeners or sentient plants |
+
+The existing three talent IDs remain supported. Musical aptitude includes only
+the conducting specialty of group performance; other included skills receive
+their usual specialty coverage. `catalogueTalentApplies(id, skill)` is the shared
+predicate for skill, study and reaction eligibility. Optional specialties retain
+the parent's required specialty through `studySpecialty()`.
+
+Overlapping catalogue talents add skill bonuses, including totals above four.
+Study uses the greatest applicable level, so reductions do not stack. Reaction
+contexts still select one demonstrated talent and require authored audience facts;
+combining several talent reaction claims remains unsupported. The seven additional IDs support ordinary template rows and fresh reconstruction.
+Source-skill default transfers remain pending. Fixtures are authored but unrun.
+
+## Custom talent groups
+
+`rpgExpandedMakeCustomTalent(profile, id, skillIds, level, approved, evidence)`
+creates a fresh `RpgExpandedCustomTalent`; install it in that profile's `traits`
+list. The author must approve the group's related, believable innate aptitude
+and record the rationale in `evidence` (full-2008, B90–B91). This interface does
+not infer relatedness or authorize an arbitrary all-purpose weapon group.
+
+List distinct base skill IDs; specialties count once. One through six skills cost
+5 points per level, seven through twelve cost 10, and thirteen or more cost 15.
+Levels range from one to four. The implementation accepts up to 1,000 listed IDs.
+Exceptional author pricing is unsupported and rejected. The purchased skill list,
+ID, owner and approval rationale are bound; changing them requires a separately
+authored replacement procedure rather than mutating this purchase. Levels may
+change through the usual advancement accounting; no factory spends points.
+
+Raw and contextual skill benefits, prerequisites, study reductions and optional
+specialties use the existing talent paths. Overlapping skills add bonuses while
+study uses the strongest talent. `RpgExpandedTalentReactionContext` also accepts
+this purchase: the author supplies the appreciative audience and demonstrated
+skill. It still resolves only one talent reaction claim.
+
+A custom purchase cannot be shared by profiles or reconstructed by template
+composition. Template cloning, custom specialty-only groups, group amendments
+and exceptional prices remain unsupported. Price-boundary, ownership, binding,
+reaction, mitigation, undo and save-continuation fixtures are authored but unrun.
+
+## Pressure support
+
+`RpgExpandedPressureSupport` implements the three standard ambient-pressure tiers
+(full-2008, B77–B78): set `level` to 1, 2 or 3 and `approved = true`, then install
+the purchase in the character's traits. Costs are 5, 10 and 15 points. Template
+rows `['pressure-support', level, nil]` create fresh approved purchases, and
+composition reconstructs them without sharing objects.
+
+`profile.pressureSupportLevel()` returns active, unmitigated protection and
+validates the purchase. The hazard module uses it for constant-pressure exposure
+thresholds and decompression risk. It does not grant armor against localized
+crushing, explosions, vacuum protection, sealing or breathable air. Nonstandard
+`profile.nativePressureHundredths` is a zero-point authored feature (default 100).
+Character templates preserve this feature and reject conflicting compositions.
+Ancestry packages also support a mandatory bound native-pressure feature;
+changing-pressure procedures remain pending. Tier, mitigation, purchase-copy and exposure-binding fixtures are
+authored but unrun.
+
+
+## Free-fall susceptibility
+
+`RpgExpandedFreeFallSusceptibility` costs -10 points, with `level = 1`,
+`approved = true` and `scope = 'regular-space-travel'`. The scope is the author's
+explicit declaration that the campaign features regular space travel; omitting it
+rejects the purchase (`full-2008`, B156). The fixed trait rejects alternative cost,
+levels, self-control or custom skill lists. Template plain/copy operations preserve
+the declaration and create independent purchases.
+
+An active, unmitigated purchase supplies susceptibility to free-fall entry: health
+-4 and no eight-hour adaptation after failure. Character validation and the shared
+learning gate reject paid free-fall training, including optional specialties by
+study identity. Defaults remain usable. The paid-skill resolver also rejects an
+invalid injected purchase. Temporarily mitigating the hazard effect does not
+remove the prohibition on buying the skill; removing the trait is a separate
+character-development decision.
+
+An unresolved free-fall exposure binds the effective susceptibility at entry.
+Changing protection or trait activation during that episode rejects instead of
+rewriting its recovery rules. Return to normal gravity before starting an exposure
+with changed physiology. General free-fall task caps, ancestry composition and
+mid-exposure trait transformation remain pending. The integration fixture is
+[`expanded-free-fall-trait.t`](../../tests/fixtures/expanded-free-fall-trait.t);
+its cost, campaign, learning and hazard cases are authored but unrun.
+
+
+## Orientation sense
+
+`RpgExpandedOrientationSense` has two fixed levels costing 5 and 10 points
+(`full-2008`, B34). Set `approved = true`; the trait rejects custom costs, scopes,
+self-control and skill lists. The template factory copies each purchase independently.
+
+World authors must set `profile.orientationEnvironment` to `local`, `deep-space`
+or `cross-dimensional` before requesting skill scores from a character with the
+active trait. The local category includes ordinary planetary, underground and
+underwater settings where directional orientation applies. The lower level gives
+no bonus in deep space; neither level supplies a bonus across dimensions. Missing
+world facts reject instead of inferring that the ability functions.
+
+Both levels give +3 to `body-sense` and `navigation` specialties `air`, `land` and
+`sea` where the ability functions. Level two also gives +1 to `piloting` and +2
+to `aerobatics`, `free-fall`, and navigation specialties `space`/`hyperspace`.
+Bonuses enter the shared skill score once, including its legal defaults and
+prerequisite level comparisons, and therefore also affect free-fall task caps.
+They do not change purchased points or training costs. The check-only path also
+supports characters using the foundation without the expanded skill resolver.
+
+North answers and whole-route retracing now have explicit world-fact interfaces
+in the [exploration guide](exploration.md). Automatic world/calendar feeds,
+partial routes, automatic network coverage, ancestry composition and world-transition
+automation remain pending. Those interfaces preserve the original journey ledger and require authored world facts.
+See [`expanded-orientation-sense.t`](../../tests/fixtures/expanded-orientation-sense.t)
+for the minimal fixture and independent bonus/default/cap expectations; unrun.
+
+
+## Signal-dependent orientation
+
+Set `RpgExpandedOrientationSense.signalDependent = true` for the printed -20%
+limitation (`full-2008`, B35). Total cost is 4 points at level one or 8 at level
+two. Template copying preserves this flag. The reduction does not itself declare
+that a network exists or works in the character's location.
+
+The world author sets `profile.orientationFrame` to an identity for the current
+location/context and records a `RpgExpandedOrientationSignalReport` with matching
+`frame`, a unique `id`, `profile`, `approved = true` and original `evidence`.
+`available`, `compatible` and `jammed` describe the actual signal; an available
+signal also requires a `network` identity. `assess()` previews these facts and
+`record()` stores an immutable observation at the shared clock time, making it
+the character's current report. Reports consume no randomness or elapsed time.
+
+The ability works only with available, compatible, unjammed coverage. A known
+unavailable/incompatible/jammed signal suppresses both skill bonuses and the
+north/retracing interfaces. Missing reports, reports from another character, a
+changed frame or elapsed time reject the query until a fresh report is recorded.
+This deliberately requires current author facts instead of silently extending
+coverage. Replaying an old report does not refresh its timestamp or replace a
+newer report. Historical reports remain available for save, undo and audit.
+
+Character cost validation does not require a current signal; the observation is
+required when using the limited ability. Automatic coverage sensors, jamming
+contests, combinations with other trait modifiers and ancestry composition remain
+pending. The fixture
+[`expanded-orientation-signal.t`](../../tests/fixtures/expanded-orientation-signal.t)
+covers costs, copying, eligibility, time/frame staleness, preview, replay,
+rollback, undo and save continuation. It remains unrun pending recorded validation.
+
+
+## Humorlessness
+
+`RpgExpandedHumorlessness` is a fixed -10-point purchase with `level = 1` and
+`approved = true` (`full-2008`, B146). It rejects custom cost, scope, self-control
+and skill lists. Template plain/copy operations create independent purchases.
+Character validation rejects duplicates. Its reaction penalty requires a recorded
+observer-specific indication that the behavior was evident; see
+[observed behavior](social.md#observed-behavior-in-reactions). No universal
+reaction penalty or compulsory player dialogue is added.
+
+
+## Pervasive distrust
+
+`RpgExpandedPervasiveDistrust` costs -10 points with `level = 1` and
+`approved = true` (`full-2008`, B148). Custom costs, scopes, self-control
+and skill lists are rejected. Character validation rejects duplicate purchases;
+template plain/copy operations produce independent purchases. Active, unmitigated
+traits enable the [observer-specific effects](social.md#pervasive-distrust).
+Trust decisions and character dialogue remain authored/player choices.
+
+
+## Phantom voices
+
+`RpgExpandedPhantomVoices` implements the three purchase severities from
+`full-2008`, B148: `level` 1/2/3 with `points` -5/-10/-15. Set
+`approved = true`; custom scopes, self-control and skill lists are rejected.
+Template plain/copy operations preserve severity in independent purchases.
+Duplicate purchases reject during character validation.
+
+`RpgExpandedPhantomVoiceOccurrence` implements an optional author-selected stress
+check. Set a unique `id`, owning expanded `profile`, a unique `stressor` object,
+`approved = true` and original `evidence` describing the stressful occurrence.
+`assess()` is pure. `resolve()` rolls three dice once; six or less starts an
+episode. It records the severity, roll and onset on the character's shared time
+ledger without charging time or fatigue. Another object for the same stressor
+is rejected; repeating the original returns its stored result.
+
+`active()` reports whether that occurrence produced an episode which has not
+ended. The source specifies no fixed duration: call `end(true, evidence)` when
+the author confirms cessation. Ending is recorded and repeatable without extra
+charges. Different stressors can have separate occurrences; ending one does not
+end another. Existing fear, injury and other consequences are not replaced.
+These records contain private author information, not automatically player-visible
+explanations of the character's experiences.
+
+Owned full fear events now execute the mandatory check after failure or exact
+success, as documented below. Direct rolled
+self-control and abridged fear calls reject active phantom-voice combinations
+before randomness; owned self-control triggers integrate as described below.
+Episode-induced fear and broader treatment procedures remain incomplete.
+Command resistance, sound masking and a funded origin-aware cure path use the
+concrete interfaces below. This interface must not be presented
+as the complete disadvantage.
+
+[`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
+specifies costs, copies, the six/seven trigger boundary, preview, duplicate
+occurrences, replay, explicit ending, rollback, undo and save continuation.
+`test_phantom_voices` passed native lifecycle validation, including onset and
+ending timestamps on the shared clock. See the [completion checklist](fear-completion.md)
+for the final-suite gate.
+
+
+### Stress-related self-control integration
+
+For an owned `RpgExpandedSelfControlTrigger` on a character with active phantom
+voices, set `stressRelation` to `stress-related` or `unrelated` before a rolled
+attempt. Missing classification blocks assessment before randomness or spending.
+The author uses the trigger's existing `evidence` to explain the relationship.
+Characters without the active trait keep their existing behavior and draw count.
+
+A failed stress-related roll automatically resolves one additional voice check
+and stores it in `phantomVoiceOccurrence`. The original self-control obligation
+remains active regardless of whether voices occur. Exact self-control success,
+unrelated rolls, voluntary surrender and purchased success do not trigger the
+extra check. The latter two are choices without a failed die roll. Trait
+mitigation suppresses the extra check.
+
+The generated occurrence uses `self-control:` followed by the trigger ID, and
+the trigger object as its stressor. These identities are preflighted before the
+original roll. Reserve that ID prefix for this integration. Replay validates the
+linked occurrence and returns both saved results without rolling. Engine
+transactions restore both histories and randomness together on exception or undo.
+
+Use the owned trigger interface for this combination. Direct low-level
+`rpgLiteSelfControl` calls reject rolled attempts with active phantom voices using
+`phantom-voices-owned-self-control-required`; voluntary surrender remains
+available without a roll. `rpgLiteFright` rejects the active-trait combination
+with `phantom-voices-full-fear-integration-required`, because abridged fear cannot
+supply the required full procedure. Mitigated or absent phantom voices preserve
+existing behavior. Full fear events use their own preflighted stress follow-up;
+the direct abridged call remains guarded.
+
+The shared `rpgLiteSelfControlCore` function is internal arithmetic used after
+owned-trigger preflight. Author integrations must use the public direct function
+or the owned trigger, rather than calling the core and bypassing policy.
+[`expanded-voice-self-control.t`](../../tests/fixtures/expanded-voice-self-control.t)
+specifies classification, success/failure boundaries, unrelated rolls, mitigation,
+surrender, purchased success, preview, replay, rollback, undo and save continuation.
+Its validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+`test_voice_direct_guards` passed rejection before randomness,
+voluntary surrender, mitigation and unchanged direct behavior without the trait.
+Both guards throw a structured expanded error so callers cannot mistake an
+unsupported request for a failed resistance roll.
+
+
+### Command resistance
+
+`RpgExpandedVoiceCommand` implements the author-selected Will roll for commanding
+severity (`full-2008`, B148). Supply a unique `id`, an owned active `occurrence`
+at severity three, a distinct `command` token, original `instruction` text,
+`approved = true` and `evidence`. At least one of `underStress` or `intoxicated`
+must describe the current authored situation. Approval explicitly selects the
+source's discretionary resistance check; the module does not roll for every
+spoken command. Current mitigation, unconsciousness or death prevents a new check.
+
+`assess()` is pure. `resolve()` uses the shared Will resistance check, including
+applicable health effects, and stores its result in the occurrence's `commands`
+history. It returns `resisted`, `check`, `instruction` and the assessed `score`.
+There is no additional time, fatigue, point or inventory charge. A successful
+check resists this command. On failure, the author/player flow must adjudicate
+the named action, including its legality, targets, costs and ordinary success
+checks. The resistance result never makes the commanded action succeed or directly
+changes another character, item or injury ledger. This is an explicit narrative
+decision point tied to the recorded instruction and check.
+
+The same command token or ID cannot be rolled again within the occurrence.
+Repeating the original request validates its bound instruction, qualifying facts
+and result, then returns `reused`. Historical results remain readable after the
+episode ends; new checks require an active episode. Distinct commands use new
+tokens and author approval. Command content and episode origins remain private
+author data unless deliberately revealed by the game.
+
+[`expanded-voice-command.t`](../../tests/fixtures/expanded-voice-command.t)
+and `test_voice_command` specify stress and intoxication eligibility, exact Will
+success and failure, duplicate rejection, inactive episodes, mitigation, preview,
+replay, rollback, undo and cross-process save continuation. This focused native
+acceptance passed. Automatic command/action routing remains deferred; authored
+commands use the retained resistance result.
+
+
+### Sound masking
+
+For disruptive severity, `RpgExpandedVoiceSoundMask` records an author-confirmed
+interval in which the episode drowns out ordinary sound (`full-2008`, B148).
+Supply a unique `id`, the active severity-two `occurrence`, `approved = true`
+and original `evidence`. The current trait must still be active at severity two.
+`assess()` is pure; `begin()` records the shared clock without rolling or charging
+time, fatigue or points. Repeating the same interval reuses its receipt. Another
+interval within the same episode must wait until the earlier interval ends.
+
+The shared scoring path returns unavailable with
+`phantom-voices-sound-masked` for hearing and spoken-input tasks while a mask is
+active. The corresponding check returns a blocked result without random draws.
+`RpgLiteContext.auditoryInput` defaults to `auto`: hearing checks and
+`understandsSpeech` tasks require sound unless marked `written`. Set `required`
+for other tasks dependent on ordinary sound, or `none` when the authored task
+uses a non-auditory channel, such as reading visible signs. These fields describe
+the actual task channel; they do not confer alternative senses. Invalid channel
+values reject while masking applies. This does not remove the character's ability
+to speak or impose a general mental penalty.
+
+Call `end(true, evidence)` when the author confirms ordinary sound is audible
+again. No fixed duration is invented. Ending the episode also deactivates all of
+its masks; mitigation suppresses their effects while it applies. Histories remain
+available for replay and saves. Separate episodes can mask simultaneously, and
+ending one mask does not end another episode's effect. Commanding severity does
+not automatically inherit masking because that inheritance is not explicit in
+the supplied entry.
+
+[`expanded-voice-mask.t`](../../tests/fixtures/expanded-voice-mask.t) and
+`test_voice_mask` specify hearing, speech, writing, alternate channels, absence of
+extra dice/time, preview, replay, overlapping episodes, mitigation, rollback, undo
+and cross-process save continuation. This focused native acceptance passed. Startling
+voices use the owned fear-cue interface below.
+
+
+### Private origins and funded exorcism buyoff
+
+`RpgExpandedVoiceOrigin` records author-known cause (`full-2008`, B148). Set the
+expanded `profile`, owned `RpgExpandedPhantomVoices` purchase in `trait`,
+`origin = 'psychological'` or `'possession'`, `approved = true` and original
+`evidence`. `assess()` is pure; `record()` stores the immutable origin without
+rolling or charging time. One origin record is allowed per purchase. This is
+private author state, not a diagnosis or knowledge automatically available to
+the character.
+
+`assessPsychotherapy()` explicitly blocks discovering or curing a possession
+cause with `voice-origin-psychotherapy-cannot-discover-or-cure`. For psychological
+origin it returns `voice-origin-psychotherapy-procedure-required`: knowing the
+category does not itself perform diagnosis, treatment or recovery.
+
+`RpgExpandedVoiceExorcism` supports a funded cure after author-confirmed successful
+exorcism. Set the recorded `origin`, `successful = true`, `approved = true` and
+`evidence` describing the externally resolved exorcism. It requires possession,
+an approved historical `RpgExpandedBuyoffBasis`, open development time, sufficient
+unspent points and no spending restriction. Assessment returns the exact original
+award as `points`; it does not guess the cost from the current severity.
+
+`apply()` delegates to `rpgLiteBuyOff`, removing the purchase and spending that
+amount once. It then closes active voice episodes and records the cure on the
+origin. Commands, masks and historical checks remain as receipts; no check is
+rerolled and no extra time is charged. Repeating the cure returns `reused` and
+the original charge without spending again. The existing engine transaction
+restores the purchase, points and episodes together on failure or undo.
+
+This path does not roll the exorcism itself. A cure without sufficient funds or
+outside the existing buyoff downtime gate is explicitly blocked pending a
+source-grounded deferred-payment procedure. The game must not present such a
+blocked transaction as a completed cure. Psychotherapy and automatic origin
+discovery remain unfinished.
+
+[`expanded-voice-origin.t`](../../tests/fixtures/expanded-voice-origin.t) and
+`test_voice_origin` specify origin exclusions, historical cost, affordability,
+downtime and approval gates, preview, single charging, episode closure, replay,
+rollback, undo and cross-process save continuation. This focused native acceptance passed.
+
+
+## Fixed beliefs and fear acquisition
+
+`RpgExpandedFixedBelief` represents the three severity tiers in `full-2008`,
+B130: `level` 1/2/3 costs -5/-10/-15. Supply a distinct nonempty `scope`,
+original `beliefText`, `behaviorText` describing its actual behavioral impact,
+and `approved = true`. Approval includes campaign suitability, particularly for
+the most disruptive tier. Severity follows behavior, not the unusual wording of
+the belief alone. The one-point harmless form remains a separate quirk.
+
+Expanded character validation permits distinct scoped purchases of this type
+under the common neutral ID. It rejects repeated scopes, invalid definitions and
+combined credit over forty points. `traitMayRepeat(trait)` defaults to the
+existing quirk-only exception for ordinary profiles. Mixing these purchases with
+the older `delusions` identifier rejects until composition is implemented.
+For ownership above forty nominal points, set `creditedPoints` explicitly on
+one or more purchases. Each allocation is between zero and its nominal severity
+cost. Before creation closes, allocations must total the smaller of forty and
+the nominal total. Leaving the field unset uses full severity credit; there is
+no implicit list-order allocation. This is an author-selected accounting
+allocation, not an additional source rule about which belief receives credit.
+
+Severity, reactions and behavior remain unchanged by reduced credit. Character
+costs, negative-component limits and template copying use the allocated credit.
+Creation finalization records original buyoff bases even for zero-credit negative
+purchases. After creation, historical allocations are retained rather than
+redistributed when a purchase is removed. Buyoff still requires explicit approval
+of that historical basis. Fear acquisition checks nominal severity separately
+from its credited value and never creates spendable points.
+
+Template copying creates a fresh purchase with the same severity, scope and
+author text. Plain shorthand rejects with
+`fixed-belief-authored-definition-required`, because a name and severity alone
+cannot supply the belief and behavior. Historical acquisition receipts are not
+copied to the new purchase.
+
+`RpgExpandedFixedBeliefAcquisition` executes the accounting part of fear rows
+twenty-two and thirty-four (B361). Set unique `id` and `eventId`, `profile`, an
+unowned authored `trait`, `tableTotal = 22` or `34`, `approved = true` and
+`evidence` connecting the purchase to that selected outcome. It requires a
+completed creation profile and exactly the row's nominal -10 or -15 severity.
+
+`assess()` is pure. `apply()` installs the purchase once, records the event and
+increments the development revision. It does not award earned or unspent points.
+The post-creation disadvantage allowance keeps this involuntary acquisition from
+retroactively violating the creation disadvantage limit. Repeated application
+returns its receipt without another purchase or revision.
+
+`RpgExpandedFixedBeliefPortrayal` records concrete author adjudication. Supply
+`id`, `profile`, the owned `belief`, a `situation` identity, `decision` (`followed`
+or `departed`), actual `observedBehavior`, and `approved = true`. Pure `assess()`
+checks these facts; `apply()` records them once without time, points or randomness.
+Each belief has at most one portrayal per situation. Replay binds the original
+behavior, severity and decision. A departure is recorded, not automatically
+permitted or penalized. Authors still route actions and dialogue explicitly.
+
+Use the social module's `RpgExpandedFixedBeliefObservation` for witnessed
+reactions. Multi-belief reaction stacking, automatic action/dialogue routing,
+unfunded or outside-downtime revelation buyoff and compound fear outcomes remain
+pending. These entries remain partial. Beliefs are character fiction, not
+automatically established world facts or additional abilities.
+
+[`expanded-fixed-beliefs.t`](../../tests/fixtures/expanded-fixed-beliefs.t) and
+`test_fixed_beliefs` specify both fear prices, unchanged earned/unspent points,
+creation-limit allowance, multiple scopes, the forty-point boundary, duplicate
+scopes, preview, replay, rollback, undo and save continuation. These scenarios
+passed native acceptance; see the [completion checklist](fear-completion.md).
+
+## Belief truth, knowledge and revelation
+
+`RpgExpandedFixedBeliefKnowledge` records private authored facts separately:
+`truthConfirmed`, `characterAware` and `playersRecognize`. Supply a unique `id`,
+`profile`, owned `belief`, approval and evidence. Subsequent records name the
+latest receipt for that belief as `previous`; they do not rewrite history.
+`record()` binds the facts without publishing them, changing points, or rolling.
+False or unknown truth and mistaken recognition can be represented independently.
+Authors must not expose these objects or private evidence in player views.
+
+`RpgExpandedFixedBeliefRevelationBuyoff` uses the latest `knowledge` receipt,
+approval and evidence. Both confirmed truth and player recognition are necessary
+for this route (`full-2008`, B130); character awareness alone is insufficient.
+Unavailable disclosure states share one reason and return no private facts.
+The operation requires an approved historical buyoff basis, open advancement and
+sufficient unspent points, then delegates to the shared buyoff ledger once.
+Replaying a completed operation does not charge again. It does not force a reveal,
+grant an ability, or automatically remove the purchase when truth is recorded.
+Unfunded mandatory buyoff and outside-downtime resolution remain pending.
+
+[`expanded-belief-revelation.t`](../../tests/fixtures/expanded-belief-revelation.t)
+and `test_belief_revelation` specify private-state result parity, recognition,
+affordability, replay, rollback, undo and save continuation. They remain unrun.
+
+
+[`expanded-belief-credit.t`](../../tests/fixtures/expanded-belief-credit.t) and
+`test_belief_credit` specify forty-five nominal points with forty credited,
+unchanged severity, template copying, zero-credit original bases, allocation
+rejection, replay, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Life-sustaining requirements
+
+`RpgExpandedSustenanceRequirement` defines an authored substance, object or
+environment needed for life support (`full-2008`, B130). Supply distinct `scope`,
+`requirementKind`, original `requirementText`, `rarity`, `frequency`, approval and
+evidence. `illegal` adds the source surcharge before frequency scaling. Rarity is
+`rare`, `occasional`, `common` or `very-common`; frequency is `continuous`,
+`hourly`, `daily`, `weekly`, `monthly`, `seasonal` or `yearly`.
+
+`rpgExpandedSustenanceCost` applies the four rarity prices and seven frequency
+multipliers, discarding fractional magnitude. Character accounting uses that
+cost, and template copies preserve the complete authored definition. Multiple
+requirements need distinct scopes; shorthand without the definition rejects.
+This purchase does not represent skilled maintenance or slow dietary starvation.
+
+`rpgExpandedSustenanceSchedule` returns the multiplier numerator, denominator,
+injury interval in seconds, fixed dose period in seconds and calendar period in
+months. Monthly, seasonal and yearly periods deliberately have no fixed-seconds
+substitute. `requiredContactSeconds()` returns the required residence/contact
+duration for periodic objects and environments; it rejects continuous access
+and substance doses, whose satisfaction cannot be inferred from that duration.
+
+This is definition, pricing and schedule metadata coverage. Owned access,
+consumption, calendar deadlines, missed-access injury and accelerated aging are
+still pending; including the trait does not yet execute those effects. No generic
+author callback is counted as their implementation.
+[`expanded-sustenance.t`](../../tests/fixtures/expanded-sustenance.t) and
+`test_sustenance` tabulate all 56 ordinary/legal-price combinations, seven
+schedules, contact durations and template copying. Fixtures remain unrun.
+
+
+Sustenance purchases also accept `acceleratedAging = true` (+30%, B130).
+The hazards module requires an owned aging advance on every associated injury
+and executes supported crossed boundaries through the shared aging history.
+See [deprivation-related aging](hazards.md#applying-deprivation-related-aging)
+for age evidence, calendar requirements and explicit unsupported combinations.
+
+
+## Motion susceptibility
+
+`RpgExpandedMotionSusceptibility` is an approved −10-point purchase (full-2008,
+B144), with no levels, scope or self-control multiplier. The template trait
+factory supports independent copies under `motion-susceptibility`.
+`profile.motionSusceptible(activeOnly)` distinguishes the purchased restriction
+from currently active symptoms. Mitigation suppresses active susceptibility; it
+does not grant permission to learn prohibited skills.
+
+For characters with this purchase, classify each skill's `vehicleOperationClass`
+as 1 for vehicle operation or 0 for other skills. For authored skills outside the existing catalogue, nil is explicitly
+unclassified and rejects learning. This author classification must follow the
+actual task; it is not inferred from arbitrary skill IDs. Learning hooks and
+character validation reject paid vehicle-operation training, while unrelated
+classified skills remain available. Full catalogue classification remains
+pending. `expanded-motion-trait.t` / `test_motion_trait` specify cost, independent
+template copying, mitigation, classification and existing-training rejection.
+Fixtures remain unrun; persistent journey symptoms are still outstanding.
+
+
+The existing Lite catalogue now supplies operation classification through
+`vehicleOperationClassification()`: bicycling, boating, driving, piloting and
+submarine are operation skills (full-2008 B180, B188, B214 and B223). Other
+existing catalogue entries default to non-operation. This does not install the
+full expanded skill catalogue or change Lite behavior when the expansion is
+absent. An explicit contradictory classification on a known operation skill
+rejects. Optional expanded specialties inherit classification from their parent
+and reject conflicting overrides. Remaining authored skills still require an
+explicit classification when the susceptibility restriction applies.
+
+`expanded-motion-catalogue.t` / `test_motion_catalogue` specify the five operation
+identities, navigation exclusion, optional specialty inheritance and conflicting
+overrides. Fixtures remain unrun. Expanded crew, command and custom operation
+skills still need their source-specific catalogue definitions.
+
+
+## Exceptional breath reserve
+
+`RpgExpandedBreathReserveTrait` uses neutral ID `breath-reserve` and costs two
+points per level (full-2008 B41). Set `approved`, `eligibility` (`nonhuman` or
+`super`) and evidence for that eligibility. Ordinary humans reject. The current
+integer implementation supports levels 1–10 and explicitly rejects higher
+levels; this is an implementation bound, not a source maximum.
+
+`profile.purchasedBreathReserveLevels()` validates the purchase and returns its
+active, unmitigated levels. Duplicate purchases reject. Template copying makes a
+fresh trait and preserves eligibility and evidence; these are purchase options
+for composition comparisons. Existing character accounting uses `creationCost()`.
+
+Set a `RpgExpandedBreathReserve`'s `usePurchasedReserve = true` to derive and
+snapshot its levels from the profile. Each level doubles duration, including a
+successful breathing-skill bonus. Later mitigation affects future reserves;
+changing physiology during an existing reserve requires a separate transition.
+The `test_breath_reserve_trait` fixture covers cost, combined duration, mitigation,
+eligibility, duplication and independent template copies. Fixtures remain unrun.
+
+### Sympathy
+
+`RpgExpandedSympathy` implements the ordinary five-point trait from full-2008
+B22. Set `approved = true` and install it in the profile's `traits`. The fixed
+identity, price and single level are validated; percentage variants are rejected.
+`profile.sympathyActive()` honors activation and mitigation and rejects duplicate
+instances. Character accounting uses its normal `creationCost()`.
+
+The begging skill context adds the purchased trait's +3 automatically. Existing
+`RpgExpandedSocialInhibition` applies its −1/−2/−4 tiers because begging is marked
+as requiring social interaction; the strongest tier also prohibits learning it.
+Do not repeat those purchased effects through the context's authored `pitiable`
+or `shynessPenalty` fields: simultaneous active sources are rejected.
+
+`RpgExpandedSympathyReactionContext` in the social library requires the actual
+`subject`, `observer`, approval and evidence for `perceivedNeed`. It grants +3
+only when the subject's trait is active and the observer perceives that need.
+Callous observers receive no bonus. The context verifies the reaction's observer
+identity. `test_begging_traits` specifies costs, tiers, learning restrictions,
+mitigation, observer exclusions and duplicate modifier rejection. Fixtures remain
+unrun; modified trait variants and appearance interpretation remain unsupported.
+
+### Expanded appearance
+
+`RpgExpandedAppearance` implements the fixed tiers from full-2008 B21. Install
+one approved trait with `tier` from −5 through 4. In ascending order the point
+costs are −24, −20, −16, −8, −4, 0, 4, 12, 16 and 20. Tier zero is ordinary
+appearance. Duplicate expanded appearances and simultaneous legacy appearance
+traits are rejected, including when temporarily mitigated.
+
+The corresponding reaction modifiers through tier 1 are −6, −5, −4, −2, −1, 0
+and +1. Tiers 2–4 give +4/+6/+8 to attracted observers and +2 otherwise.
+For ordinary presentation at tiers 3–4, a same-sex observer with other reaction
+penalties totaling below −4 instead gives −2. Supply the negative penalties
+before offsetting bonuses; −4 exactly does not trigger resentment.
+
+`presentation = 'androgynous'` is available at tiers 2–4; `'impressive'` is
+available from tier 1. At tiers 2–4 these use flat +3/+4/+5 modifiers. Visibility,
+compatibility, activation and mitigation still apply. The named universal and standardized options below are supported; arbitrary
+percentage lists remain rejected.
+
+Use `RpgExpandedAppearanceReactionContext` with subject, observer, approval and
+evidence. Its `compatibleAppearance`, inherited `sees` and `attracted`, `sameSex`
+and `otherReactionPenalties` fields describe the specific observer. It validates
+the observer identity and contributes the appearance modifier to the ordinary
+reaction calculation. This does not automatically simulate social exclusion or
+attention from strangers associated with extreme tiers; those incidents remain
+an author integration gap. `test_expanded_appearance` specifies the fixed table,
+flat options, visibility, compatibility, mitigation and resentment threshold.
+Fixtures remain unrun.
+
+
+Set `universal = true` to apply the appearance modifier to every observer who can
+see the subject, regardless of compatibility. Tiers 2–4 use the flat +3/+4/+5
+bonuses. Universal applicability adds 25% to the trait price, including negative
+appearance prices as specified by the signed rounding rule.
+
+Set `standardized = true` only above tier 1. This reduces cost by 50% and halves
+positive appearance bonuses for same-culture observers. Fractions round down
+under the ordinary result rounding convention (full-2008 B9); flat +3 becomes +1
+and flat +5 becomes +2. Other cultures receive the usual modifier. Resentment is
+a penalty, so this limitation does not halve it. Combine the two price modifiers
+before rounding the point cost upward (B9/B101): tier 2 with both costs 9 points.
+
+The appearance reaction context uses its inherited `sameCulture` fact. Begging
+inverts the resulting appearance modifier and binds that audience fact in its
+hourly record. `test_appearance_modifiers` covers signed prices, combined pricing,
+visibility, compatibility, culture, odd bonuses, resentment and ineligible tiers.
+Fixtures remain unrun. Narrative consequences of extreme appearance still need
+explicit authored incident integration.
+
+### Styling expertise
+
+`RpgExpandedStyling` is an approved, fixed five-point trait (full-2008 B21).
+Activation and mitigation determine whether the designer can prepare an outfit.
+Templates support `['styling', 1, nil]` and preserve typed copies. Duplicate owned
+instances and unsupported price modifiers are rejected.
+
+The social library's `RpgExpandedStylingPreparation` records concrete advance
+preparation: give it an ID, designer, wearer, occasion, outfit identity, outfit
+description, approval and evidence, with `plannedInAdvance = true`. Designer and
+wearer may be the same person. `prepare()` records the authored preparation once;
+it does not invent a duration or consume materials. The wearer owns the receipt.
+Later loss of the designer's trait does not undo the already prepared outfit.
+
+### Distinctive features
+
+`RpgExpandedDistinctiveFeatures` implements full-2008 B22's unusual cosmetic
+features at −1 point per level, with levels 1–5. Supply a species identity, concrete
+`description`, `origin`, and approval that these features are unnatural for that
+species. This is independent of attractiveness and may coexist with appearance.
+Activation and mitigation control the effect; duplicate instances are rejected.
+
+Use `RpgExpandedDistinctiveContext` for the affected task. Set `subject` to the
+person with the features and give approved evidence describing the task and crowd.
+For `purpose = 'disguise'` or `'shadowing'`, the acting profile must be that subject
+and the context's skill must match the purpose; each level subtracts one. For
+`'identify'` or `'follow'`, the acting profile must be someone else, and each level
+adds one to that attempt. This permits observation or other authored appropriate
+checks rather than imposing a new universal identification skill.
+
+Set `sharedByCrowd = true` only when almost everyone in the crowd shares those
+features; both modifiers then become zero. Author evidence determines whether
+the features are usable in the task. The context does not reveal an identity,
+create a pursuit or resolve detection automatically; it modifies the actual check.
+
+A configured template row is
+`['distinctive-features', levels, nil, nil, [species, description, origin]]`.
+Copies preserve those facts and the executable trait class. The plain row is
+rejected because it lacks the required origin and description.
+`test_distinctive_features` specifies price, both modifier directions, the crowd
+exception, mitigation, typed copying and missing-origin rejection. Fixtures remain
+unrun; concrete pursuit and disguise scenario integration remains pending.
+
+## Broad cultural adaptation
+
+`RpgExpandedCulturalAdaptation` implements the two full-2008 B46 coverage prices:
+`coverage = 'own-species'` costs ten points; `coverage = 'world'` costs twenty.
+Supply `approved` and concrete `evidence`. The campaign must explicitly enable
+`rules.cinematicCulturalAdaptation`; it defaults off. Duplicate purchases are
+rejected, including inactive duplicates. Percentage modifications are unsupported.
+
+For own-species coverage, set `profile.culturalSpecies` to an authored species
+identity and populate each relevant `RpgExpandedCulture.species` list. For world
+coverage, set the purchase's `world` and each culture's `world` identity. Missing
+scope facts reject assessment rather than assuming broad coverage. Cultural
+membership is authored independently of appearance, nationality and language.
+An active, unmitigated purchase removes the unfamiliarity penalty only within
+its scope; native and separately purchased familiarity continue to work normally.
+No language, reaction bonus, status or permission is granted.
+
+Templates accept a configured row:
+`['cultural-adaptation',1,nil,nil,[coverage,world,evidence]]`.
+Set the template's `culturalSpecies` for own-species coverage; use nil for that
+purchase's world option. Ordinary and selected creation preserve the species
+identity, and occupational composition rejects conflicting species identities.
+Trait copies remain independent. `test_cultural_adaptation` specifies costs,
+scope, campaign rejection, suppression, template isolation, undo and save replay.
+Fixtures remain unrun. Ancestry transformations and automatic cultural-context
+selection across all skills remain pending.
+
+
+## Fine sensory purchases and detection bonuses
+
+`RpgExpandedSensoryRecognition` represents the unmodified purchases in
+full-2008 B49. Set `approved = true`, level one, and matching `id`/`sense`:
+`fine-hearing`/`hearing` costs 15, `fine-smell`/`smell` costs 15, and
+`fine-taste`/`taste` costs 10. Each sense may be purchased once. Inactive or
+mitigated purchases give no bonus. Unsupported percentages, scopes and levels
+are rejected. Plain template rows use those IDs; copying creates an independent
+purchase in the existing character cost ledger.
+
+The shared scoring hook adds four once to hearing contexts and to the matching
+mode of `RpgExpandedChemicalContext`, in addition to its acute-sense bonus.
+It does not bypass missing capacity or stimulus. The default hook returns zero
+when the expansion is absent. Other authored skill contexts can override
+`sensoryRecognitionMode()` to name a justified sensory channel, but this does
+not supply missing prerequisites or special task procedures.
+
+Purchase accounting and scoring are implemented here. Sound and scent
+memorization is documented in the traits guide. Individual recognition, taste
+sampling/analysis, tracking and noisy-target following integration, and special
+modifiers remain pending. Purchasing the trait alone must not be presented as
+implementing those procedures. `test_sensory_recognition` specifies prices,
+stacking, suppression, invalid modifiers, duplicate rejection, template copying,
+undo and saved continuation. Fixtures remain unrun.
+
+
+## Sound and scent memory
+
+`RpgExpandedSensoryMemoryAttempt` implements the B49 memorization procedure for
+`hearing` or `smell`. Supply `id`, `profile`, an authoritative `signature` object,
+`sourceAvailable`, `approved` and concrete `evidence` that exposure lasts for the
+whole interval. `seconds` defaults to 60 and cannot be less. Use the same
+signature object for later attempts at the same sound or odor; a display name
+or a newly allocated request must not bypass the retry restriction.
+
+An active matching fine-sense purchase is required. `assess()` previews the
+shared health permission, schedule, clock capacity and Intelligence score.
+`resolve()` spends the exposure interval once, then makes the Intelligence
+check. The learning check is distinct from detecting the stimulus and does not
+add the detection bonus. Invalid requests spend nothing. Health denial records
+an outcome with no exposure time or memory roll and imposes no retry delay.
+
+Success retains the signature. Failure sets `retryAt` to completion plus 86,400
+seconds; another attempt is blocked until that exact boundary, including after
+save continuation. Repeating the same request returns its original result.
+`profile.knowsSensorySignature(sense, signature)` queries the retained knowledge
+without performing a detection or recognition check. Bound request and outcome
+fields prevent rewriting a completed attempt or its deadline.
+
+Author evidence is required for uninterrupted exposure; automated moving-source
+availability and interruption events remain pending. Taste sampling remains unfinished. Matching successful observations against
+known signatures is documented in the exploration guide. The shared player action interface is described below. `test_sensory_memory` specifies both senses,
+minimum duration, trait suppression, health denial, replay, rollback, undo,
+failed-attempt tampering and saved retry-boundary continuation. Fixtures are
+unrun pending recorded validation.
+
+
+## Shared sensory memory actions
+
+Bind `RpgExpandedSensoryMemoryAction.attempt` to a
+`RpgExpandedSensoryMemoryAttempt`, and set `operation` to `preview` or `resolve`.
+Parser and structured commands call `exec(context)`; dialogue choices call
+`perform(context.asker)`. The actor must own the attempt's profile. Ownership is
+checked before assessment, preventing another character from probing remembered
+signatures or retry deadlines through this action.
+
+The action delegates to the same attempt for time, health permission, learning
+and replay. Its `rpg.expanded.sensory-memory` event contains operation, status
+and reason only; signature identity, die rolls and retry timestamps are not
+broadcast. Authors may use the returned outcome for recipient-specific feedback.
+Switching to another request for the same signature still respects the owned
+history and retry deadline.
+
+`test_sensory_memory_actions` specifies parser, structured and dialogue routes
+for hearing and smell, ownership denial, preview purity, rollback, undo, repeated
+execution and saved continuation of a failed-attempt retry barrier. These
+fixtures are unrun while validation is in progress.
+
+
+### Full fear and phantom-voice follow-ups
+
+`RpgExpandedFearEvent` preflights an owned voice occurrence before rolling when
+this trait is active (full-2008 B148). On failure, it first retains the separate
+consequence-table roll, then resolves one voice check. An exact success also
+resolves one voice check; success by a positive margin and immunity do not.
+The occurrence is stored in `result.stressFollowup`, with the fear event as its
+stressor and `fear:` plus the event ID as its ID. Reserve this prefix.
+
+Both the selected fear consequence and any voice episode persist. Replaying the
+event validates the linked receipt without another check. The original event,
+its table selection and the voice receipt share the engine transaction for
+rollback, undo and saved continuation. `test_fear_stress` specifies these cases;
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Fear auras
+
+`RpgExpandedFearAura` supplies the B93 purchase and source-specific fear effect.
+Choose `sense = 'sight'` or `'hearing'`, `penalty` (additional negative points on
+the fear check), `alwaysOn`, `touchOnly`, and `approved = true`. Base cost is 30
+plus 10 per penalty point. Always-on applies -20%; close-contact-only applies
+B112's -30% reach-C limitation. The shared positive-cost rounding and limitation
+floor apply. Custom extra modifiers and alternative melee reaches are not part
+of this interface. Template copying preserves these choices in a fresh purchase.
+
+Install the trait on the source profile. For each affected perceiver, author a
+`RpgExpandedFearAuraContext` with `auraOwner`, `aura`, `perceived`, `activated`,
+and the ordinary approved scene evidence. `perceived` means the chosen sense
+actually received the stimulus; it does not grant sight or hearing. Voluntary
+activation requires an available conscious source; always-on ignores the
+activation choice. Contact-only requires `contactEstablished` and the ordinary
+`touching` modifier, preventing omission of the contact fear penalty.
+
+Resolve that context through an owned fear event. History belongs to each
+victim/source/purchase combination. Every earlier actual check within the last
+86,400 seconds grants +1; immune observations do not count as checks. Success
+protects that victim from the same source for 3,600 seconds. Both boundaries are
+exclusive at expiry. History includes events that reuse the same immutable scene-context object;
+context identity neither resets exposure nor bypasses protection. History is
+derived from retained events, so authored
+`priorExposures24h` must remain zero. Existing ordinary scene modifiers still
+apply. Authors enumerate the affected observers and identify each activation;
+this interface does not discover world visibility or broadcast hidden results.
+
+`test_fear_aura` specifies costs, contact and activation eligibility, exact
+one-hour immunity and 24-hour exposure boundaries, shared-context occurrences,
+immune-event replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Other aura modifier combinations,
+automatic perception routing and the remaining full fear outcomes remain open.
+
+
+## Postbattle stress
+
+`RpgExpandedPostbattleStress` implements the B150 -5 base purchase with the
+standard independent self-control rating. Template copying preserves the rating.
+Use `RpgExpandedPostbattleFearContext` with the owning profile, purchase as
+`trait`, approved ending evidence and a nonpositive authored `dangerPenalty`.
+Use that context in `RpgExpandedPostbattleFearEvent`, with the same trait and
+penalty, `battleEnded = true`, unique event ID and the battle as `occurrence`.
+
+The initial check uses the purchased self-control number, sleep effects and
+existing health self-control modifiers. It does not use Will or the initial fear
+cap. Failure adds its margin to a separate three-die consequence roll and enters
+the same owned consequence workflow. The specialized context retains the
+original modifiers for those consequences that later use modified Will. Ending
+the same battle again cannot produce another check. Author approval establishes
+that the battle really ended and explains any danger/gruesomeness penalty.
+
+A failed check also performs the existing mandatory phantom-voice stress
+follow-up when applicable. Exact self-control success does not trigger it.
+`test_postbattle_fear` specifies independence from Will, exact success versus
+failure, ending eligibility, replay, exception rollback, undo and consequence
+commitment. Validation status is recorded in the [completion checklist](fear-completion.md). Scores outside the supported range and
+unsupported selected consequences remain explicit limitations of the shared flow.
+
+## Phobia purchases and exposures
+
+`RpgExpandedPhobia` prices the B149–B150 catalogue through a neutral `scope`:
+`isolation`, `blood`, `cats`, `crowds`, `darkness`, `dead`, `dirt`, `canines`,
+`enclosure`, `fire`, `heights`, `insects`, `loud-noise`, `machinery`, `magic`,
+`monsters`, `number-thirteen`, `large-water`, `open-space`, `psi`, `reptiles`,
+`sexual-contact`, `sharp`, `spiders`, `unfamiliar`, `sunlight` or `weapons`.
+Set `points` to the matching base price, `approved = true`, and the independent
+`selfControlRating`. Machinery/sharp-object prices use the authored `technology`;
+magic/psionic prices use `prevalence` (`common`, `uncommon`, `unknown`).
+`rpgExpandedPhobiaBase` supplies those prices before self-control adjustment.
+Template copying preserves the settings and rating.
+
+Start a `RpgExpandedPhobiaExposure` with a unique `id`, owning `profile`, purchased
+`trait`, `cause` identity, approval and evidence explaining the perceived stimulus.
+The initial check is due immediately. Create a `RpgExpandedPhobiaContext` with
+that exposure, the same profile and approved stimulus evidence, then resolve a
+`RpgExpandedPhobiaCheck` with its own unique ID and occurrence. Success applies
+-4/-3/-2/-1 to DX, IQ and all skill checks at ratings 6/9/12/15 respectively,
+while that cause persists. The initial roll uses self-control, not Will, and
+is not capped at thirteen. Failure selects the full fear table and uses the
+same committed consequence interfaces and failed-stress follow-ups.
+
+With `threatOnly = true`, the check gets +4 and no actual-stimulus condition or
+crowd count may be supplied. Otherwise `condition = 'ordinary'` selects no extra
+modifier. Named conditions implement known/animated bodies, unfamiliar food,
+fall risk, large/poisonous/numerous creatures, robots and hostile machines,
+friendly/hostile magic targeting, Friday, weapon use/threat and unfamiliar
+nonhuman company. Monster severity is selected explicitly from `severity-one`
+through `severity-four`. Crowds require `crowdCount` and apply the printed
+25/100/1,000-and-later boundaries. Approval establishes that the situation
+actually triggers this character's purchased fear; imagined supernatural causes
+are not treated as proof of real supernatural activity.
+
+Every check schedules the next one 600 seconds later. The shared clock cannot
+skip that boundary. Use a fresh context/check and occurrence at the boundary;
+repeating an old check returns its old result. `exposure.end(true, evidence)`
+records that the perceived cause has ceased, removes the ongoing penalty and
+cancels future checks. It cannot skip the initial check or cancel an unresolved
+fear consequence. Histories bind purchases, checks, start and ending records.
+Use the engine transaction boundary for starting, checking and ending exposure.
+
+`test_phobia` specifies initial and repeat timing, threat-only success above the
+ordinary fear cap, DX penalties, failure-to-consequence execution, stress
+follow-ups, replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+The learning, voluntary activity, overlap and unconscious-perception adapters
+below supply explicit interfaces for these interactions. They require authored
+world facts; they do not infer every catalogue trigger from room descriptions.
+Prohibited initial rolls below score 3 require the recorded author ruling
+documented in the health guide. Unsupported consequence choices remain explicit.
+
+
+### Fear-induced phobia acquisition
+
+`RpgExpandedFearPhobiaAcquisition` implements a specific phobia choice for B361
+rows 23 and 35. Supply a new unowned `RpgExpandedPhobia`, completed-creation
+`profile`, unique `id`, source `eventId`, `tableTotal`, approval and evidence
+connecting this new fear to that event. The fully adjusted purchase must cost
+exactly -10 or -15 respectively. An already-owned phobia of the same scope is
+rejected; worsening an existing purchase uses the separate owned procedure below.
+
+`assess()` is pure; `apply()` installs the purchase once, records ownership and
+increments the existing development revision. Earned and unspent points remain
+unchanged. The purchase receives a post-creation disadvantage allowance, without
+changing the ordinary creation limit. The owned fear event accepts the matching
+acquisition for a direct result, or the health module can combine it with the
+specified faint/coma and permanent IQ consequence. Non-phobia mental traits are
+not accepted as substitutes by this specific interface.
+
+
+## Worsening an existing phobia
+
+`RpgExpandedFearPhobiaWorsening` implements the phobia branch of full-2008 B361
+row 25. Author `id`, `eventId`, `profile`, the `previous` owned purchase,
+`related`, approval and evidence connecting the incident to the existing fear.
+When related and above self-control 6, supply a fresh `replacement` with the same
+scope, base price, technology and prevalence, and a self-control rating exactly
+one step lower. The replacement takes the old purchase's place; existing
+exposures retain their original facts and follow the owned transition for future
+checks and shaken penalties. Historical check results are never rewritten.
+
+If no related purchase exists, or its rating is already 6, supply `fallback`
+as a fresh `RpgExpandedFearPhobiaAcquisition` for row 23 and the same profile
+and event ID. It must introduce a distinct phobia worth exactly ten points.
+A transition or fallback increments development revision once and never grants
+earned or unspent points. The additional disadvantage allowance follows owned
+receipts, including later transitions from fear-acquired purchases.
+The typed mental-purchase transition adapter below covers additional controlled
+traits. Other catalogue entries still need specific transition adapters.
+`test_fear_phobia_worsening` specifies current-exposure continuity, exact step
+validation, fallback, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Phobia perception during unconsciousness
+
+`RpgExpandedPhobiaAwarenessPause` provides an explicit author contract for a
+faint or coma that interrupts perception of a persistent stimulus. Set a unique
+`id`, the `exposure`, approval and evidence, then call `begin()` while the
+profile is actually unconscious. This suspends that exposure's ten-minute check
+boundary and shaken penalty; it neither ends the stimulus nor skips health
+recovery checks. A conscious profile cannot begin this pause.
+
+After waking, call `resume(true,evidence)` when the stimulus is perceived again.
+The next phobia check is due immediately; subsequent checks resume the ten-minute
+schedule. Time cannot advance past waking until the author resumes perception or
+ends the exposure with evidence that the stimulus is no longer perceived.
+This is an explicit perception decision, not an automatic source rule for
+unconsciousness. `test_phobia_awareness` specifies a twelve-minute faint,
+recovery, resumption, replay, rollback, undo and saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Physical effects acquired from fear
+
+`RpgExpandedFearPhysicalAcquisition` implements concrete choices for full-2008
+B361 rows 24, 36 and 37. Supply `id`, `eventId`, `profile`, `tableTotal`, approval,
+evidence describing the actual change, and fresh `purchases`. Supported purchase
+types include `RpgExpandedPainSensitivity`, `RpgExpandedPersistentWound`,
+`RpgExpandedSpeechLimitation`, negative `RpgExpandedAppearance`,
+`RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
+`RpgExpandedHearingImpairment`. Their combined cost must be exactly -15, -20 or
+-30 respectively. Include the health library for their health effects.
+
+The acquisition adds the actual traits, preserving their existing speech, pain
+and wound effects. A persistent wound purchase does not subtract HP at acquisition.
+Duplicate effects, already-owned purchases, unsupported types and speech
+conflicts are rejected before committing. Development revision increments once;
+there is no earned-point or spendable-point reward. Forced aging is available
+through the hazards adapter below. Conversion of an existing appearance purchase and other physical
+transformations still need specific adapters. Approval of a price
+alone cannot satisfy this interface. `test_fear_physical` specifies all three
+required totals, speech blocking, accounting, rollback, undo and saved replay;
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+`RpgExpandedFixedBeliefAcquisition` also accepts rows 23 and 35 as an authored
+choice of another mental disadvantage. Those rows require the exact actual cost,
+not a reduced credit allocation. They compose with faint row 27 and coma rows
+39/40 through `RpgExpandedFearTraitCompound`, using acquisition rows 23/35.
+The distinct mandated-belief rows 22/34 and compounds 26/38 retain their behavior.
+The compound fixture includes both alternatives; validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Phobia learning restrictions
+
+Machinery and magic phobias participate in the skills library's shared
+`skillLearningReason` gate (full-2008 B149), including study paths that use that
+gate. While either phobia is active, skill definitions require an explicit
+`phobiaLearningKinds` list and `phobiaLearningEvidence`. Supported classifications
+are `machine-repair`, `complex-machine-use`, `simple-machine-use`, `magic` and
+`other`; use multiple classifications when appropriate. No classification is
+inferred from a skill's name.
+
+Machinery phobia blocks repair learning and complex-machine operation learning,
+while permitting explicitly classified simple-machine use. Magic phobia blocks
+learning magic. Missing classification blocks learning before time, points or
+dice are spent. These gates do not erase previously acquired training.
+`test_phobia_learning` specifies the shared gate and no-randomness behavior; it
+has its validation recorded in the [completion checklist](fear-completion.md). Voluntary-activity permissions use the owned classifications below.
+
+Direct low-level self-control and generic self-control triggers reject typed
+phobias and postbattle stress before spending resources. Their owned exposure or
+battle event is required so table consequences and stress follow-ups cannot be
+bypassed. `RpgLiteTrait.validateDirectControl()` is a no-op for existing traits;
+its expanded overrides supply these guards without changing ordinary Lite dice
+consumption. The phobia fixture includes a direct-call rejection assertion,
+whose validation is recorded in the [completion checklist](fear-completion.md).
+
+
+## Concurrent phobia exposures
+
+Declare `phobiaOverlapPolicy` and `phobiaOverlapEvidence` on the profile before
+starting its first exposure if concurrent phobias are possible. `sum` combines
+shaken penalties; `worst` applies the greatest penalty. These are explicit
+campaign rulings: the supplied B149 passage does not specify aggregation of
+several simultaneous phobias. With no declared ruling, a second active exposure
+is rejected. The policy is bound into each exposure's history.
+
+Distinct purchases may respond to the same scene, but the same current purchase
+and cause cannot create duplicate active exposure records. Each exposure retains
+its own check schedule, outcomes and perception pauses. Resolve each due check
+and its consequence before advancing time. Ending one exposure does not cancel
+another. `test_phobia_overlap` specifies both rulings, missing-policy rejection,
+independent penalties, rollback, undo and save continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Voluntary activity permissions
+
+Attach `RpgExpandedPhobiaActivity` to the `phobiaActivity` property of an
+`RpgExpandedEffort` or `RpgExpandedActionGate`. The activity must name the same
+profile, approval and evidence describing the world facts. This supplements
+ordinary health permission; it does not spend a second action or time cost.
+
+For `kind = 'height'`, supply `heightFeet`, `insideBuilding` and
+`awayFromWindows`. An active heights phobia blocks voluntary movement above
+15 feet unless both building and window conditions hold (full-2008 B149).
+For `kind = 'power-consent'`, an active psi phobia blocks voluntary consent to
+receiving that power (B150). Forced exposure uses the exposure/check interface
+instead; passing an action permission cannot replace that check.
+
+The gate binds the actual activity facts into its receipt. Replaying a granted
+permission does not spend again or reassess it against a different place.
+Actions involving these situations must attach this contract; geometry and
+consent are authored facts. `test_phobia_activity` specifies the height boundary,
+exception, consent restriction, rollback, undo and saved replay; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Frightening cues from disturbing voices
+
+`RpgExpandedVoiceFearContext` connects an active, owned severity-two
+`RpgExpandedPhantomVoiceOccurrence` to a specific authored frightening cue.
+Supply `profile`, `voiceOccurrence`, a stable `cue` identity, approval and
+evidence. Create an ordinary owned fear event using that context. An ended,
+non-occurring or differently severe voice episode cannot start this cue.
+Once recorded, the fear event remains replayable after the voices end.
+
+The context supplies evidence for ordinary fear selection; it does not make
+every voice episode frightening. A failed or exactly successful resulting fear
+check still creates the separate mandatory voice follow-up. No new fear event
+is recursively invented from that follow-up: another frightening cue requires
+another explicit author decision. The `expanded-voice-fear.t` fixture and
+`test_voice_fear` cover the retained link, expiry, follow-up, rollback, undo and
+cross-process continuation; this focused native acceptance passed.
+
+## Other lasting mental outcomes and worsening
+
+`RpgExpandedFearMentalAcquisition` uses the same retained acquisition and
+character-accounting path as phobias for B361 rows 23 and 35. It accepts concrete
+purchases whose existing effects and author interfaces are implemented:
+truthfulness, curiosity, danger avoidance, compelled aid, low motivation,
+postbattle stress, pleasure loss and phantom voices. Select an actual typed
+purchase with exact adjusted cost -10 or -15, respectively. Generic price-only
+traits are rejected, as are inactive, mitigated, already-owned or duplicate
+purchases. No spendable points are awarded.
+
+The same acquisition fits `RpgExpandedFearTraitCompound` for rows 27, 39 and 40.
+It supplies the lasting trait while the existing faint/coma episode supplies
+unconsciousness, and row 40 owns the permanent IQ reduction. Acquiring phantom
+voices does not retroactively add a stress check to the already-resolved initial
+fear event; subsequent qualifying occurrences use the new trait normally.
+
+`RpgExpandedFearMentalWorsening` supports row 25 for the controlled purchases in
+that list and for phobias. Supply logically related `previous` and fresh
+`replacement` purchases of the same kind with self-control exactly one step
+worse. Historical receipts keep the old purchase; subsequent new triggers use
+the replacement. Continuous phobia exposures follow the existing successor
+lookup. Uncontrolled purchases cannot be worsened through a self-control
+interface. At the minimum rating, or without a related purchase, select a fresh
+ten-point phobia, supported mental purchase or fixed belief through `fallback`.
+
+The existing `RpgExpandedFearPhobiaAcquisition` and
+`RpgExpandedFearPhobiaWorsening` interfaces remain available. All these paths
+share their existing receipt lists, point allowance and development revision.
+Fixtures `expanded-fear-mental.t` and `expanded-fear-mental-compound.t` cover
+prices, actual trait effects, worsening, compound outcomes, preview, duplicate
+prevention, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Other
+catalogue traits still require concrete acquisition adapters; this is not a
+claim that every mental trait or treatment procedure is complete.
+
+
+## Forced aging selected by fear
+
+An optional `aging` on `RpgExpandedFearPhysicalAcquisition` accepts
+`RpgExpandedFearAging` from hazards. Set its matching `profile`, `years` (1–10),
+`calendarId`, `oldAgeMonths`, `medicalTL`, approval and age evidence. The selection
+budget counts each added year as -3; this is only a selection value. It does not
+award character points or add a trait priced at that amount. Combine it with
+actual purchases to meet the selected row's exact total, or use five years alone
+for row 24. Attribute losses retain ordinary aging accounting.
+
+The advance evaluates every crossed aging boundary through the existing loss
+ledger, including lifespan bands, fitness, longevity and natural death. Unaging
+rejects this outcome. No elapsed gameplay time is charged. The last age reached
+constrains later ordinary and deprivation-related aging, and rejuvenation restores
+the existing recorded losses. Use `RpgExpandedFearAgingCalendar` where an exact
+campaign day map is required; its span must match the selected years.
+
+When a crossed boundary can have an effective score below 3, provide a contingent
+`RpgExpandedFearAgingRuling` as `lowScoreRuling`: matching `owner`, four `losses`
+in ST/DX/IQ/HT order (each 0–2), approval and evidence. It is used only at an
+unrollable boundary. That boundary retains `author-selected-aging-losses` with an
+empty rolls list. No failure margin is invented. The ruling is bound before the
+advance begins so a later random loss cannot leave a partly paid advance awaiting
+an undefined decision. Ordinary rollable boundaries keep their four existing rolls.
+
+`expanded-fear-aging.t` / `test_fear_aging` specify selection accounting, crossed
+boundaries, ordinary losses, no-dice author losses, rejuvenation, receipt mutation,
+rollback, undo and saved continuation. This focused native acceptance passed.
+
+## Additional fear-acquired trait selections
+
+The mental acquisition interface now also accepts `RpgExpandedHumorlessness`,
+`RpgExpandedPervasiveDistrust`, `RpgExpandedSocialInhibition` and
+`RpgExpandedCompanionship`. Their existing behavior remains active: reaction and
+observer modifiers, social skill penalties, and the requirement for an authored
+company context on relevant IQ-based skills. The current -10-point selections are
+humorlessness, pervasive distrust, level-two social inhibition and level-two
+companionship. They can satisfy row 23 and the mental component of row 27.
+They cannot be repriced to satisfy a -15-point outcome.
+
+A supported fixed trait without a self-control rating cannot have a rating
+reduced. `RpgExpandedFearMentalWorsening` accepts it as the retained `previous`
+trait only with a concrete fresh -10-point `fallback` and author approval/evidence
+for that selection. It preserves the existing fixed trait. The normal one-step
+procedure still applies to supported controlled traits with a rating above six;
+no self-control number is fabricated for fixed traits.
+
+The row-25 prior-trait interface also recognizes the existing
+`RpgExpandedEmotionalUnderstandingDeficit`, `RpgExpandedEmotionalObliviousness`,
+`RpgExpandedCallousness` and `RpgExpandedLearningBar` implementations. The author
+must still record why that particular trait is related to the new incident and
+select the exact-cost fallback. Their original costs, skill modifiers and learning
+restrictions remain intact. Recognition as a prior trait does not make their
+five-, twenty- or thirty-point costs valid new selections for a ten- or
+fifteen-point outcome. Those acquisition constraints remain unchanged.
+
+`test_fear_selection` specifies all four prior-trait paths, retained mechanical
+effects and costs, one fallback acquisition, unchanged spendable points, preview,
+exception rollback, undo, altered-history rejection and saved continuation.
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+Physical acquisitions additionally accept negative `RpgExpandedAppearance`,
+`RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
+`RpgExpandedHearingImpairment` purchases. Appearance observer modifiers,
+distinctive-feature recognition effects, owned recurrent-pain days and hearing
+penalties use their existing scoring and condition interfaces. Acquisition does
+not itself start a pain bout or inflict additional injury.
+
+`RpgExpandedHearingImpairment` is the approved, fixed -10-point hearing-loss
+purchase from full-2008 B138. It uses the shared -4 modifier for hearing checks
+and skills requiring spoken comprehension. It conflicts with acute hearing and
+complete hearing loss. The separate `RpgExpandedHearingLoss` adapter below
+implements hearing denial and gesture-study eligibility; this partial-loss
+purchase does not approximate that condition.
+
+Physical bundles must still total exactly -15, -20 or -30, including any selected
+forced-aging value. Only negative appearance tiers are accepted. Existing
+appearance purchases and legacy appearance tiers are rejected rather than
+silently replaced; conversion of existing appearance requires its own accounting
+contract. Recurrent pain retains severity, duration and frequency in the acquisition
+receipt. Appearance retains its tier and presentation/modifier choices; distinctive
+features retain species, description and origin. Later edits to these acquisition
+facts invalidate replay instead of changing a historical point allowance.
+
+`expanded-fear-selection.t` / `test_fear_selection` cover these costs and actual
+skill/hearing/appearance/pain effects, fixed-trait fallback, faint compounds,
+rollback, undo, duplicate execution, option mutation and saved continuation.
+Validation status is recorded in the [completion checklist](fear-completion.md). Remaining catalogue selections are still
+explicitly unsupported; this extension does not complete the full trait catalogue.
+
+## Complete hearing loss
+
+`RpgExpandedHearingLoss` is the fixed -20-point purchase from full-2008 B129.
+It requires approval, uses `id = 'deaf'`, and is accepted by physical fear
+acquisitions and template copying. It can satisfy the twenty-point physical
+outcome alone. A purchase cannot stack with acute hearing, partial hearing loss
+or fine hearing in this implementation; those restoration/conditional-purchase
+combinations need a separate accounting contract.
+
+The shared check interface returns `complete-hearing-loss` before rolling for
+ordinary hearing, spoken-comprehension contexts and contexts marked
+`auditoryInput = 'required'`. Written and other nonauditory contexts keep their
+normal scoring and language requirements. This also covers ordinary combat's
+hearing check for detecting an unseen attack. It does not remove the actor's
+ability to speak. Hearing-based fear auras reject with
+`fear-aura-hearing-unavailable`; sight-based auras remain eligible. An author's
+`perceived = true` cannot override an unavailable hearing channel.
+
+Active complete hearing loss makes both sending and receiving a supported
+visual gesture exchange eligible for full-value study of the relevant skill.
+Eligibility is retained from the actual exchange, so later mitigation does not
+rewrite its learning history. Each eligible participant may receive credit once;
+the exchange still charges elapsed time only once. See the
+[development guide](development.md#communication-credit-per-participant).
+
+Taught study requires a recorded accessible channel: `communicationMode` is
+`written`, `signed` or `visual`, with `communicationEvidence` describing the
+lesson. Written and signed lessons also require `communicationLanguage`, known
+by both teacher and learner in the appropriate channel. Visual instruction is an
+authored demonstration contract; it does not assert that all subjects can be
+taught visually. Study's existing permission and subject requirements still apply.
+
+The ordinary hearing/aura and gesture-study paths are implemented, with registered
+fixtures in `expanded-hearing-loss.t` and `expanded-fear-hearing-loss.t`. Complete
+owned written/sign-language/lip-reading exchange procedures and individual
+sound-dependent powers/skill exceptions remain unfinished. This is partial
+catalogue coverage, not a claim that every hearing-related rule is complete.
+
+## Overstimulation and reactive action
+
+`RpgExpandedOverstimulation` implements the controlled B129 selection under
+`full-2008`. Its base cost is −10; self-control 9 costs −15. Both are eligible
+for matching lasting mental fear outcomes. Template copying preserves the rating.
+
+Create an owned `RpgExpandedOverstimulationTrigger` with a unique `id`, `profile`,
+installed `trait`, occurrence object in `trigger`, approved `situation`
+(`unfamiliar-place` or `commotion`), `modifier` and evidence. `assess()` is pure;
+`resolve()` retains the check once and uses the shared self-control procedure.
+Classify `stressRelation` when the actor has phantom voices; an applicable failed
+check retains the usual owned stress follow-up. Scores below 3 block without dice.
+
+Failure blocks deliberate initiative through the effort gate and requires Do
+Nothing in combat. Planning contexts set `deliberatePlanning = true`; Tactics,
+Strategy and `kind = 'planning'` also reject before rolling. Authors must route
+other deliberate actions through the effort gate. The episode does not set stun
+or penalize ordinary defense. Independent injuries and mental conditions still
+apply. A successful check creates no active restriction.
+
+Resolved physical strikes retain `RpgExpandedOverstimulationAttackNotice`
+receipts in the episode. A stationary ordinary Attack may use
+`RpgExpandedOverstimulationCounterManeuver`, targeting the notice's attacker,
+with a fresh `RpgExpandedOverstimulationCounterGate`. Set the gate's `maneuver`
+back-reference, matching `profile`, unique `id`, `requiresMovement = true` and
+evidence. Choose `resolution = 'abridged'` explicitly for the existing ordinary
+strike resolver, or `resolution = 'recorded'` with `battle` and an owned
+`RpgExpandedAdjudicatedStrike` in `strike`. An omitted choice blocks before
+spending. Recorded resolution requires approved external scores, rolls and final
+injury; it shares the panic/Wait attack adapter's limitations and commits its
+owned wound once. The battle scheduler owns the turn and clock; this grants no free
+attack. The notice must belong to the acting fighter. Unconsciousness and other
+independent incapacity cannot be bypassed. Recorded strikes require the current
+fighter's permitted turn and an active execution scope; calling the strike directly cannot spend ammunition or cause
+injury. Expanded critical/multi-hit attacks and other reactive maneuver variants
+remain outside this adapter.
+
+The source provides no recovery interval. End the episode only with recorded
+world evidence through `end(reason, evidence)`, where `reason` is
+`stimulus-ended` or `quiet-familiar-place`. This explicit author-adjudication
+contract asserts that the triggering conditions have ended; it invents neither
+a recovery roll nor a duration. Replaying the same end does not spend resources.
+
+`expanded-overstimulation.t` / `test_overstimulation` cover eligible acquisition
+costs, preview purity, failure/success, ordinary defense penalties, target-specific
+counter permissions, independent unconsciousness, low-score rejection, receipt
+mutation, rollback, undo and cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Catalogue status is
+partial until unsupported reactive maneuvers and validation are resolved.
+
+The additional `expanded-overstimulation-strike.t` /
+`test_overstimulation_strike` fixture specifies recorded hits, defended attacks
+and misses, explicit resolver selection, direct-execution rejection, independent
+incapacity, receipt mutation, rollback, undo and cross-process continuation.
+Recorded strike dice are supplied by the author; only required
+permission, injury or distraction checks may consume new randomness. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Fear-acquired motion and free-fall susceptibility
+
+`RpgExpandedFearPhysicalAcquisition` also accepts the existing typed
+`RpgExpandedMotionSusceptibility` and `RpgExpandedFreeFallSusceptibility`
+purchases (full-2008 B144, B156, with author selection under B361). Each costs
+ten negative points; combine purchases to meet the selected physical row's
+exact total. Acquisition still requires recorded evidence linking the authored
+physical change to the incident. It does not infer such a cause from an event.
+Free-fall susceptibility retains its required `scope = 'regular-space-travel'`;
+the receipt binds that scope along with the other purchase facts.
+
+Before committing, motion susceptibility checks every existing trained skill's
+vehicle-operation classification. Missing classifications and existing vehicle
+operation training block the selection. Existing trained Free Fall similarly
+blocks free-fall susceptibility. These cases need another authored selection;
+the acquisition does not erase training, refund points or silently install an
+invalid character. Assessment and rejection do not change traits or accounting.
+
+After acquisition, the existing learning restrictions and hazard-owned journey
+or free-fall procedures apply. Acquiring a susceptibility does not itself start
+a journey, invent exposure or roll for illness. The author must supply the actual
+exposure through the existing hazards interfaces. Replaying the acquisition
+cannot duplicate the trait or grant spendable points.
+
+`test_fear_selection` specifies exact-cost compound purchases with a persistent
+wound, learning restrictions, incompatible and unclassified prior training,
+preview, replay, rollback, undo and separate-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md); the existing journey and free-fall fixtures also require the
+post-implementation validation pass.
+
+
+## Overriding goal
+
+`RpgExpandedGoalFixation` implements the authored goal procedure from full-2008
+B146. Set `approved`, original `initialGoal`, `term` (`short-term` or `long-term`)
+and matching base `points` (-5 or -10). The normal self-control ratings and pricing
+apply. It is a supported fear mental acquisition when its resulting cost exactly
+matches the selected row. Goal text and term are retained in the acquisition;
+worsening may change the self-control rating but cannot silently change either.
+This trait does not itself impose a reaction penalty.
+
+For an occasion when deviation would be wise, create an
+`RpgExpandedFixationTrigger` with the ordinary trigger ID, profile, trait,
+occurrence and evidence. Supply `goal = profile.fixationGoal(trait)`,
+`goalVersion = profile.fixationGoalVersion(trait)`, `deviationWise = true` and
+explicit `pursuitActions`. Resolve once. Failure permits only those pursuit
+alternatives; success permits deviation for this occurrence. The existing
+self-control machinery retains optional purchased success and stress follow-ups.
+Low effective self-control scores retain the existing explicit rejection.
+
+Authors must use `RpgExpandedFixationActionPermission` at their ordinary action
+boundary. Supply the profile, trait, current goal, concrete action, approval and
+`rationale` explaining its relationship to the goal. For wise deviation also
+supply the resolved trigger in `deviation`; an unresolved or failed check cannot
+permit an unrelated action. `assess()` returns permission only. The ordinary
+world action still owns execution, time and costs. This specific author contract
+is necessary because the engine cannot infer whether an arbitrary action pursues
+a narrative goal. The fixture demonstrates an actual scene action being denied.
+
+When the goal is achieved, record an `RpgExpandedFixationFulfillment` with unique
+ID, profile, currently owned trait, `previousGoal`, approval and evidence of the
+world outcome. Set a different nonempty `nextGoal` to replace it without changing
+the trait's pricing term or rating. Omit `nextGoal` for buyoff through the existing
+approved-downtime and original-award basis rules. Insufficient points or a missing
+basis blocks before mutation. Acquired disadvantages that awarded no spendable
+points require an explicit zero-award basis; no credit is invented. Replacing a
+goal grants no points. Replay cannot replace the goal or charge again.
+
+Fulfillment history retains goal versions independently of wording. Triggers for
+an earlier goal cease restricting actions after fulfillment, even if a later goal
+reuses the same words. Queries validate the bound history; old acquisition
+receipts continue to refer to the original goal. Template purchases use the configured row described below. Copies preserve the
+initial authored goal and never inherit another character's fulfillment history.
+
+`test_goal_fixation` specifies all eight prices, fear acquisition, denied concrete
+deviation, permitted pursuit, recorded replacement, zero-award and paid buyoff,
+insufficient funding, altered receipt rejection, replay, rollback, undo and saved
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Additional mental catalogue entries remain outside this implementation increment.
+
+
+### Overriding goals in templates
+
+Use `['goal-fixation', 1, nil, nil, [term, initialGoal, rating]]` in a template's
+`traitRows`. Both term and goal must be explicit, and rating must be 6, 9, 12 or
+15. The factory derives the matching base cost from the term and validates the
+purchase. Plain or rated rows without authored goal options reject.
+
+Every construction and `rpgExpandedCopyTemplateTrait()` call creates a fresh
+`RpgExpandedGoalFixation` purchase. Its purchase options retain term, initial goal
+and rating for template composition and receipt comparisons. Copying is purchase
+reconstruction: a character's completed goals, active obligations and fear
+acquisition history remain with that character. A copy does not inherit them or
+substitute the character's latest goal for the authored template goal.
+
+`test_goal_template` specifies two independently constructed characters, goal
+replacement affecting only one, copy fidelity, invalid configuration rejection,
+rollback, undo and saved continuation. `test_goal_fixation` also specifies actual
+successful and failed self-control rolls, with a denied or permitted scene action
+and no reroll on receipt replay. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Impulsive action
+
+`RpgExpandedImpulsiveAction` implements the self-control procedure in full-2008
+B139. Set `approved = true`; base cost is -10, with the standard rated costs
+(-20, -15, -10, -5 for ratings 6, 9, 12, 15). Rated template purchases use
+`['impulsive-action', 1, nil, rating]`. Copies are independent purchases. Exact
+-10 and -15 purchases are supported mental fear selections without granting
+spendable advancement points.
+
+Create an owned `RpgExpandedImpulsiveActionTrigger` for each occasion when
+waiting would be wise. Supply the ordinary ID, profile, trait, trigger and
+evidence, set `waitingWise`, and provide nonempty, disjoint `immediateActions`
+and `deliberativeActions` lists of concrete action identities. `assess()` is pure;
+`resolve()` uses the shared self-control procedure once. Failure permits only
+immediate actions; success also permits the listed deliberative alternatives.
+Unresolved occurrences and unclassified actions do not grant permission.
+
+At the ordinary action boundary, call `permits(action)` alongside target,
+incapacity, turn and resource validation. Execute the actual action and its normal
+costs, then call `recordAction(action, evidence)` in the same transaction. This
+method records the chosen action; it does not execute it, advance time or bypass
+ordinary legality. Do not record a merely proposed action as completed. Replaying
+a completed occurrence permits only its recorded choice; the action owner must
+also avoid repeating the world effect, as the fixture demonstrates. Use a new
+occurrence for a later decision. The source supplies no universal action duration
+or automatic target selection, so those remain explicit author responsibilities.
+
+The trigger retains the check, choice, completion time and evidence. Altered
+receipts and pre-filled completion state reject. Standard optional purchased
+success, giving in and stress follow-ups use the shared self-control machinery;
+prohibited low-score rolls retain its explicit rejection policy.
+
+`expanded-impulsive-action.t` demonstrates opening a door or stopping to plan,
+including actual world mutation and one shared time charge. Registered
+`test_impulsive_action` cases specify both fear-row prices, acquisition accounting,
+a denied deliberation action, successful/failed checks, invalid classifications,
+copy pricing, receipt mutation, rollback, replay, undo and cross-process saved
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Volatile temper
+
+`RpgExpandedVolatileTemper` implements full-2008 B124's stress-triggered anger
+procedure. It retains the existing neutral purchase ID `bad-temper`. Set
+`approved = true`; base cost is -10 and normal rated pricing applies. The rated
+template row is `['bad-temper', 1, nil, rating]`. Exact -10 and -15 purchases can
+be selected by fear outcomes without granting spendable points.
+
+For each stressful occurrence, author an `RpgExpandedVolatileTemperTrigger`
+with profile, trait, unique ID, occurrence, evidence, `stressful = true` and the
+specific `stressor`. Supply disjoint, nonempty `hostileActions` and
+`restrainedActions`. Every hostile alternative must act against that stressor;
+insult, attack and other hostile responses are authored alternatives, not an
+automatic choice to attack. Resolve self-control once. Failure permits only
+hostile alternatives; success also permits the listed restrained responses.
+Unresolved or unclassified choices cannot grant permission.
+
+Call `permits(action)` at the normal action boundary, alongside ordinary legality,
+incapacity, turn and resource checks. Execute the chosen scene action and its
+costs, then call `recordAction(action, evidence)` in the same transaction. The
+receipt records completion rather than executing an attack or inventing damage.
+Replay must not repeat the scene effect. The fixture demonstrates a door struck
+in frustration or a restrained wait, with the time charge owned by that action.
+No automatic reaction modifier is added by this trait.
+
+These triggers are always stress-related, so an existing phantom-voice trait
+uses the shared failed-self-control follow-up exactly once. Legacy placeholder purchases remain unsupported: active `uncontrolled-rage` or
+`berserk` purchases block resolution with `volatile-temper-rage-adapter-required`.
+Do not bypass that restriction with an ordinary anger response; the source
+requires the separate rage behavior. Use the typed frenzy purchase and owned temper-entry adapter described below.
+
+`test_volatile_temper` specifies prices and copies, both fear-row costs, successful
+and failed control, actual scene choices, receipt mutation, invalid stressors,
+unsupported rage, stress follow-up deduplication, rollback, undo and saved
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Nightmares on waking
+
+`RpgExpandedNightmares` is the rated -5-base trait from full-2008 B144–B145.
+Use the standard self-control pricing and `['nightmares', 1, nil, rating]`
+template row. Rating six produces the exact -10 purchase eligible for a mental
+fear outcome. Copies reconstruct the purchase without inheriting waking history.
+
+For each morning awakening, author an `RpgExpandedNightmareWaking` with unique
+ID, profile, a fresh `RpgExpandedSelfControlTrigger` in `control`, a stable `day`
+identity, `dayEndsAt`, `morningConfirmed` and evidence. The control must reference
+the profile and its nightmare trait, with its own occurrence identity and
+evidence. Supply a drop destination if overflow injury could require one. The
+health library must be installed. A mitigated trait or unconscious/dead character
+cannot start this event. The author must call this concrete operation when the
+character wakes; it does not infer an awakening from arbitrary narration.
+
+`assess()` preflights control and possible fatigue consequences without rolls or
+resource changes. `apply()` owns one check, records the result and applies one
+sleep-only fatigue loss on failure. It reuses the health ledger, including
+fatigue overflow injury; ordinary rest cannot recover the sleep debt. Raw rolls
+17 or 18 additionally impose -1 to every skill and Perception check until the
+authored day boundary. Other raw attributes receive no nightmare modifier.
+Recovery of the fatigue does not prematurely remove that day's penalty.
+
+The day boundary is an explicit campaign fact, not an assumed 24-hour expiry
+from the time of the call. Duplicate IDs, day identities or overlapping waking
+days reject. Replay cannot reroll, spend again or extend the penalty. Definitions,
+check facts and fatigue ownership are retained. Standard purchased-success,
+giving-in and stress-classification rules belong to the supplied control;
+prohibited control scores still reject before any roll.
+
+`test_nightmares` specifies successful and failed mornings, raw 17/18 penalties,
+sleep-only recovery, day expiry, duplicates, altered receipts, overflow injury,
+rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+Playing out a dream, transferring authored dream consequences and participation
+awards remain separate unfinished campaign procedures; this operation does not
+silently modify other characters or invent dream-world effects.
+
+
+`expanded-nightmare-compound.t` composes this purchase with the row-27 faint.
+A waking request while the character is unconscious rejects without a check.
+Recovery from the faint alone does not create a nightmare waking event: the
+fixture then completes a real sleep period and explicitly records the next
+morning. The same acquired trait produces the fatigue and day penalty without
+another point award. `test_nightmare_compound` specifies acquisition and waking
+rollback, undo, duplicate execution and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Overconfidence
+
+`RpgExpandedOverconfidence` implements full-2008 B148 with base cost -5 and
+standard self-control pricing. Use `['overconfidence', 1, nil, rating]` in rated
+templates. Rating six supplies the exact -10 mental fear selection. A copy owns
+its purchase independently and inherits no occurrence history.
+
+Create `RpgExpandedOverconfidenceTrigger` for a specific challenge when the
+author judges caution unreasonable. Supply the standard control ID, profile,
+trait, occurrence and evidence, set `cautionUnreasonable`, and list disjoint
+nonempty `confidentActions` and `cautiousActions`. Resolve once. Failure permits
+only the confident alternatives; success also permits the cautious choices.
+Unclassified actions do not grant permission. At the ordinary action boundary,
+check `permits(action)`, execute the legal scene action and its ordinary costs,
+then `recordAction(action, evidence)` in the same transaction. Replay cannot
+repeat the action. The trait grants no actual attribute or skill increase.
+
+With social support installed, record an
+`RpgExpandedOverconfidenceObservation` for the subject and the reacting observer.
+Set `audienceKind` to `young-or-naive`, `experienced` or `neither`, with approval
+and evidence supporting that classification. The modifier is respectively +2,
+-2 or zero while the subject's trait is active and unmitigated. This is the
+observer's reaction to the subject, not the subject's reaction to someone else.
+Use the observation in `RpgExpandedObservedReactionContext` and the normal owned
+reaction attempt. The classification is retained, and duplicate observations
+cannot apply the same effect twice. Where categories overlap, the author must
+record the applicable category explicitly rather than letting the engine infer
+age, experience or naivety.
+
+`test_overconfidence` specifies prices, copies, acquisition, permitted/denied
+scene choices, rollback, undo and saved continuation. The companion social
+fixture specifies both reaction directions, actual reaction totals, duplicate
+rejection and lifecycle behavior. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Action-choice restrictions during mitigation
+
+Impulsive-action, volatile-temper and overconfidence triggers now consult the
+currently owned purchase when answering `permits(action)`. A resolved but
+unfinished trigger does not restrict actions while its purchase is inactive,
+mitigated or no longer owned. Ordinary action legality and costs still apply.
+Temporary mitigation ending before any action is completed restores the retained
+failed-check restriction; it does not grant a new roll.
+
+A completed trigger remains a receipt for its one recorded choice. Suppression
+or later reactivation cannot turn replay into permission to execute a different
+choice. The trigger's `active` field records its unresolved failed check; use
+`permits(action)` for effective permission rather than treating that historical
+flag as proof that a mitigated trait currently restricts the character.
+`test_control_choice_mitigation` runs against each of the three integration
+fixtures and specifies suppression, reactivation, completion, replay and undo.
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Solitude and unwanted proximity
+
+`RpgExpandedSolitude` implements full-2008 B142 with base cost -5 and standard
+self-control pricing. Use `['solitude', 1, nil, rating]` in rated templates.
+Rating six is an exact ten-point fear selection. `RpgExpandedSolitudeTrigger`
+reuses the owned volatile-temper response procedure: supply the ordinary control
+fields, the other person's profile in both `person` and `stressor`,
+`proximityUnwanted = true`, evidence, and concrete `hostileActions` and
+`restrainedActions`. The person must differ from the affected character.
+
+On failure, only the listed hostile responses toward that person are permitted.
+On success, restrained responses are also available. Perform ordinary action
+validation and execution before recording the choice with `recordAction` in the
+same transaction. No attack, damage or reaction penalty against the visitor is
+invented. Mitigation, completed receipts, replay and stress follow-ups use the
+shared hostile-response machinery. A linked owned frenzy entry reuses a failed
+control check through the same temper-entry contract.
+
+`RpgExpandedSolitudeReactionContext` handles the separate NPC reaction rule.
+Its `observer` is the solitude-bearing character who is reacting; its `subject`
+is the person being reacted to. Supply `observerIsNpc`, approval and evidence,
+then use the normal owned observed-reaction attempt. Self-control ratings
+6/9/12/15 apply -4/-3/-2/-1 respectively. A player observer receives no automatic
+modifier from this context. The subject's solitude trait adds nothing to this
+observer-side effect. This is not a universal penalty on reactions to someone
+who prefers solitude.
+
+`test_solitude`, the shared choice-mitigation cases and `test_solitude_social`
+specify exact prices, copy/acquisition behavior, hostile or restrained scene
+choices, invalid proximity facts, both-participant reaction direction, all four
+NPC penalties, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Status sensitivity and social slights
+
+`RpgExpandedStatusSensitivity` implements the full-2008 B153 purchase at base
+cost -5 with standard self-control pricing. Rated templates use
+`['status-sensitivity', 1, nil, rating]`; rating six is an exact ten-point fear
+selection. `RpgExpandedStatusSensitivityTrigger` reuses the owned hostile-response
+procedure. Supply `clearSlight = true`, the offending person's profile in both
+`person` and `stressor`, evidence, and concrete `hostileActions` and
+`restrainedActions`. The offending person must differ from the affected character.
+Execute an allowed scene action and call `recordAction` in the same transaction.
+The trigger does not inflict damage or execute a hostile action by itself.
+Mitigation and immutable completed receipts follow the shared response procedure;
+a linked owned frenzy entry uses the same temper-entry contract.
+
+Two social adapters preserve the direction of the reaction:
+
+- `RpgExpandedStatusSensitivityReactionContext` applies the reacting NPC's own
+  rating-dependent penalty when `perceivedSlight` and `observerIsNpc` are true.
+  Ratings 6/9/12/15 give -5/-4/-3/-2. Supply approval and evidence as for the
+  solitude context it extends. Any independently applicable solitude penalty
+  also contributes; the subject's status-sensitivity purchase contributes nothing.
+- `RpgExpandedStatusOutburstObservation` applies to the offended person's reaction
+  to the character's completed outburst. Set `subject` to the acting character,
+  `observer` to the offended person and `trigger` to the completed failed-control
+  trigger. Supply approval, evidence and `badReactionApplies` to record the
+  author's decision about the source's conditional bad reaction. A confirmed bad
+  reaction contributes -3; otherwise it contributes zero. An unresolved check,
+  successful check or unexecuted hostile response cannot support this observation.
+
+Record the observation through the ordinary owned social-observation interface
+and resolve an observed-reaction attempt. Neither adapter invents another
+self-control check, duplicates the hostile action or changes advancement points.
+`test_status_sensitivity`, shared mitigation cases, `test_status_sensitivity_social`
+and `test_status_outburst` specify purchases, invalid slight facts, actual scene
+choices, both reaction directions, all rating penalties, composed solitude,
+rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Self-sacrifice and competing needs
+
+`RpgExpandedSelfSacrifice` implements the full-2008 B153 purchase at base -5,
+with standard self-control pricing and rated template form
+`['self-sacrifice', 1, nil, rating]`. Rating six supplies an exact ten-point fear
+selection without spending advancement points.
+
+For each authored conflict, own an `RpgExpandedSelfSacrificeTrigger` on the
+character. Supply its ID, trait, occasion and evidence through the ordinary
+self-control interface, the other person's profile as `person`, and
+`competingNeeds = true`. Classify concrete available actions into nonempty,
+disjoint `otherFirstActions` and `selfFirstActions`. The person must differ from
+the actor. Classify the occasion's stress relationship explicitly when required
+by other installed mental-state features.
+
+Resolve once. Failure permits only the other-first actions; success also permits
+self-first choices. Check `permits(action)`, validate and execute the ordinary
+world action, and call `recordAction(action, evidence)` in the same transaction.
+Recording does not spend time, move possessions or rescue anyone by itself.
+The retained completion prevents another action from being recorded for that
+occasion. Inactive, removed or mitigated purchases release an unfinished
+restriction; reactivation restores it without another roll. Completed receipts
+remain immutable.
+
+`test_self_sacrifice` and the shared mitigation cases specify all four prices,
+copying, fear acquisition, successful and failed decisions, concrete shelter
+choices, invalid participants, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md); this selection does not imply that the remaining
+mental-trait catalogue is complete.
+
+
+### Intrusive replay episodes
+
+`RpgExpandedIntrusiveReplay` implements the full-2008 B136 purchase levels at
+-5/-10/-20. Configured templates supply one option, the authored `replayType`:
+`['intrusive-replay', 2, nil, nil, ['evacuation memories']]`. Copying preserves
+that type. The level-two purchase is an exact ten-point fear selection; the
+acquisition receipt binds its replay type and does not award spendable points.
+
+An owned `RpgExpandedIntrusiveReplayOccurrence` identifies the profile, unique
+ID and `stressor`, with approval, evidence and authored episode `content`.
+`assess()` previews without dice; `resolve()` rolls three dice once, with onset
+on six or less. Onset alone rolls duration: level one uses two dice of seconds,
+level two one die of minutes and level three three dice of minutes. The shared
+clock advances independently; the episode is active before, but not at, its
+expiry. Replaying resolution does not repeat dice. Receipt facts and outcome
+fields are immutable, including the narrative content supplied by the author
+and the selected replay type captured from the purchase at onset.
+
+While active, level one imposes -2 on skill rolls and level two imposes -5.
+Level three rejects skill use through the common health check gate. These effects
+belong to the committed episode; they are not recalculated from later purchase
+edits. Raw attribute checks do not receive the skill penalty.
+
+Concurrent-episode rulings and sensory integration are described below. The direct abridged fear and direct self-control routes reject
+explicitly while the purchase is active;
+a new occurrence overlapping an active one requires a recorded combination
+ruling before randomness. `test_intrusive_replay`
+specifies exact prices, onset boundaries, durations, skill effects, expiry,
+rollback, undo, receipt mutation and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+Owned self-control triggers now support intrusive-replay follow-ups. When an
+active purchase is present, classify the occasion as `stress-related` or
+`unrelated`. For a potentially rolled stress-related check, supply
+`intrusiveReplayContent` on the trigger; the content and required episode are
+preflighted before the control roll. A failed rolled check resolves one retained
+replay occurrence. Success, including exact success, does not; voluntary giving
+in and point-funded success do not fabricate a failed roll. The follow-up spends
+no additional time. With phantom voices also installed, the voice check resolves
+first and the replay check second, each once, in the same transaction. Existing
+voice-only dice order is unchanged. Replay of the control result validates the
+owned follow-up and does not re-roll. `test_replay_self_control` specifies these
+branches, missing-content rejection, rollback, undo and cross-process continuation;
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+Owned fear events now prepare an independent replay follow-up. Supply
+`intrusiveReplayContent` on the fear context before resolution. Ordinary failed
+or exactly successful fear checks resolve the follow-up after the existing
+phantom-voice follow-up, when present. Better successes discard the prepared
+request without an onset roll. Existing specialized fear-event trigger policies
+continue to decide whether their check requires a stress follow-up.
+
+For a prohibited initial roll, `RpgExpandedLowScoreFearDecision.replayStress`
+must explicitly be `check` or `none` whenever an active replay purchase is
+present. This is a recorded ruling independent of `voiceStress`; it does not
+invent an initial roll or failure margin. Missing content or a missing low-score
+decision blocks before randomness. `test_replay_fear` specifies ordinary failure,
+exact/better success, both follow-ups, low-score choices, preflight rejection,
+rollback, undo and saved replay. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+Severe episodes expose `profile.externalInputReason()` as the author interface
+for sensory disclosure outside a mechanical check. A non-nil reason means the
+actor receives no new external information: do not reveal the room, dialogue,
+warning or other sensory content. This does not erase prior knowledge or prevent
+an internal recollection. Custom narration must use this gate; the rules library
+cannot intercept arbitrary authored prose.
+
+Shared checks automatically require external input for Perception, the built-in
+vision/hearing/taste-smell/touch/nature-observation kinds and reading or speech
+comprehension. Custom contexts may declare `externalInput = 'required'` or
+`'none'` (default `'auto'`). `none` cannot bypass a known sensory check or the
+separate all-skill prohibition. Fear auras also consult the input gate. New owned
+fear events bind `stimulusInput` on their context: default `'external'` blocks
+unperceived stimuli; `'internal'` is an authored memory or internal experience.
+Postbattle and phantom-voice contexts use internal input by default. This gate
+applies before a new event; it does not invalidate or erase an already committed
+fear consequence when its follow-up subsequently blocks sensory input.
+
+`test_replay_senses` specifies no-dice sensory denial, attempted classification
+bypass, the author disclosure hook, aura gate, new external fear denial,
+independent skill blocking, expiry and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+Before an occurrence that could overlap an active episode, set
+`intrusiveReplayOverlapPolicy` to `sum` or `worst` and provide
+`intrusiveReplayOverlapEvidence` on the profile. This is an explicit author
+ruling for an unspecified interaction, not a published stacking rule. `sum`
+adds active numeric skill penalties; `worst` applies the largest. A level-three
+episode always prohibits skill use and external input regardless of the numeric
+policy. Episodes retain their own onset and expiry; a new episode never restarts
+an older one's clock. Each receipt captures the policy and evidence, so later
+profile edits do not rewrite history. Conflicting policies among active episodes
+reject before a new onset roll. No policy is required for an isolated episode.
+
+`test_replay_overlap` specifies missing-ruling rejection, both combination choices,
+independent expiry, receipt mutation, rollback, undo and saved continuation. It
+also specifies ten-point fear acquisition, immutable replay type, actual skill
+effects and unchanged earned/unspent points. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+`test_acquired_replay_event` connects these interfaces in one continuing scene:
+a real failed fear check selects row 23, the consequence installs the ten-point
+purchase, a later fear event triggers its first replay, and that event's brief
+stun expires independently of the replay's skill penalty. Acquisition does not
+retroactively trigger an episode from the first event. The fixture specifies
+unchanged advancement points, no duplicate dice or purchases, rollback, undo and
+save continuation across the full chain. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Low confidence
+
+`RpgExpandedLowConfidence` implements full-2008 B143 at -10 points and is an
+exact ten-point fear selection. A self-control rating is invalid for this
+uncontrolled purchase and is rejected rather than silently ignored. Plain templates use `['low-confidence', 1, nil]`.
+The active purchase requires an authored judgment for each skill-check context:
+set `confidenceSituation` to `ordinary` or `adverse`, and supply
+`confidenceEvidence`. Adverse means the actor believes the odds are unfavorable
+or others expect failure. A difficult numeric target alone does not establish
+that belief. The ordinary classification explicitly records that this condition
+does not apply.
+
+Adverse skill checks receive -3 in shared scoring, in addition to normal scene
+modifiers. Raw attribute checks are unaffected. A missing or invalid judgment
+rejects the skill check before dice; inactive or mitigated purchases impose no
+penalty or classification requirement. Do not also subtract the same -3 manually.
+For custom owned operations, include `context.confidenceFacts()` in the facts
+retained with the action; classification must describe the actual scene at
+execution, not an unrelated cached context.
+
+`test_low_confidence` specifies exact-cost copying/acquisition, no advancement
+refund, missing-judgment rejection without dice, ordinary/adverse scoring,
+modifier composition, raw-attribute preservation, mitigation, rollback, undo and
+cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Incuriosity and novelty
+
+`RpgExpandedIncuriosity` implements full-2008 B140 at base -5 with standard
+self-control pricing. Rated templates use `['incuriosity', 1, nil, rating]`;
+rating six is an exact ten-point fear selection. An owned
+`RpgExpandedIncuriosityTrigger` binds the strange occurrence in `novelty`,
+`strangeConfirmed = true`, evidence and disjoint nonempty `ignoreActions` and
+`investigationActions`. Classify its stress relationship when another installed
+trait requires that information.
+
+Failed control permits only the listed ignore actions. Success also permits
+investigation. Execute an allowed, ordinarily legal scene action and record it
+with `recordAction` in the same transaction. Investigation does not automatically
+reveal hidden information; use the ordinary observation or search procedure.
+Ignoring does not undo information already received. The owned completion,
+mitigation and replay behavior follows the other controlled-choice interfaces.
+
+`RpgExpandedIncuriosityReactionContext` applies the independent -1 reaction to
+new things. Its `observer` owns the trait; its `subject` is being reacted to.
+Supply approval, evidence and `newToObserver`. Familiar subjects receive no
+modifier, and the subject's own incuriosity does not penalize the observer's
+reaction. This flat penalty does not vary with self-control rating.
+
+`test_incuriosity`, the shared mitigation cases and `test_incuriosity_social`
+specify pricing, fear acquisition, concrete ignored/investigated choices,
+invalid novelty facts, reaction direction, actual reaction totals, rollback,
+undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Indecision — decision and retry procedure
+
+`RpgExpandedIndecision` implements the full-2008 B140 rated purchase at base -10.
+Create an `RpgExpandedIndecisionEpisode` for an actual decision, with its profile,
+trait, unique ID, approval/evidence and distinct visible `choices` (at least two).
+Set `highStress` for combat or an authored equivalent; otherwise retries use the
+ordinary interval. One visible path does not require this procedure.
+
+Each attempt is an owned `RpgExpandedIndecisionCheck`, with the same episode,
+profile and trait, its own ID and occurrence token in `trigger`, evidence and
+any required stress classification. The check subtracts the number of visible
+alternatives from self-control. Its generic `modifier` must remain zero to avoid
+charging that penalty twice. After failure, the shared effort and maneuver gates
+permit only rest/do-nothing; retry is unavailable before 60 seconds, or one
+second when `highStress` is set. The world or battle clock owns that elapsed time:
+resolving a due retry does not charge it again. Success releases the restriction
+for this decision. A later distinct decision needs a new episode.
+
+The episode retains its choices, timing classification and ordered attempt
+sequence. Removing or reordering attempts rejects rather than resetting the
+retry deadline. Prior attempts remain immutable receipts, including their check
+results and timestamps. Mitigation
+releases an unfinished restriction without manufacturing success; ending it
+restores the restriction and its existing retry schedule.
+
+The rated purchase is now available to exact-cost fear selections. An active
+overstimulation purchase requires the combined procedure described below. `test_indecision` specifies the initial failure,
+exact retry boundaries, shared action gate, success, mitigation, immutable
+choices, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+For combined indecision and confusion, attach an owned
+`RpgExpandedDecisionConfusion` in `episode.confusion`. Supply the same profile,
+the overstimulation trait, `decisionEpisode`, a unique control-trigger ID/token,
+approval, evidence, stimulus modifier and applicable stress-follow-up content.
+Its `situation` is `decision`. The request is preflighted before the indecision
+roll, but `resolve()` rejects execution until that episode has a successful
+indecision check. A successful indecision attempt automatically resolves it in
+the same transaction. Failed indecision does not roll confusion; replay does not
+roll either check again. The successful attempt retains the required confusion
+receipt; clearing that link is rejected. No second time charge is introduced.
+
+A failed confusion check produces the existing owned overstimulation state,
+including do-nothing/planning restrictions, normal defensive responses and its
+explicit ending procedure. A successful check permits ordinary action, subject
+to other independently active conditions. `test_indecision_confusion` specifies
+both outcomes, blocked premature resolution, missing request, rollback, undo and
+saved continuation. `test_indecision` also specifies ten-point fear acquisition
+and subsequent restrictions without advancement refunds. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+`test_indecision_turns` exercises `RpgLiteBattle.step`, rather than only calling
+the permission methods. It specifies that denied Move preserves turn serial,
+battle time and shared time; Do Nothing advances one second; and the now-due
+retry changes neither clock before a permitted next maneuver. Throw/undo and
+cross-process continuation cover the blocked turn, waiting turn, retry and
+subsequent maneuver. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Credulity — story and skill effects
+
+`RpgExpandedCredulity` implements the full-2008 B137 rated purchase at base -10.
+`RpgExpandedCredulityTrigger` owns one presentation of a `story`, its normal
+control-trigger identity/evidence and `plausibility`: `convincing-or-unfamiliar`
+applies -6, `familiar` applies -3, and `outlandish` applies zero. Keep the generic
+`modifier` at zero; the category supplies the adjustment. Below-three scores
+reject before rolling. A mitigated purchase, unavailable listener or blocked
+external input also prevents a new presentation check.
+
+After resolution, `acceptedStory()` returns the presented story on failure and
+nil on success. This is the retained outcome of that presentation, not evidence
+that the story is true and not an automatic disclosure of hidden facts. Use it
+when authoring the listener's response. Do not edit the retained story or check
+to represent later discoveries; those belong to subsequent authored events.
+Replayed resolution does not roll again.
+
+An active purchase gives -3 to Merchant checks. Other checks may declare
+`credulityExploited = true` with `credulityEvidence`; this also gives -3, including
+appropriate raw-attribute judgments. Merchant plus explicit exploitation still
+applies only one penalty. Custom owned actions can retain `credulityFacts()` with
+their other context facts. The shared social-learning hook rejects new
+`detect-lies` training while the purchase is active. Mitigation releases these
+scoring and learning restrictions.
+
+Credulity is available to exact-cost fear acquisition. If the character already
+has positive-point lie-detection training, acquisition or worsening rejects with
+`credulity-existing-training-author-replacement`. The supplied procedure does not
+specify how to remove previously learned skill; select another fear consequence
+instead of silently erasing training or refunding its investment. `test_credulity`
+specifies the three plausibility modifiers, accepted-story receipts, no-dice
+boundaries, scoring composition, learning eligibility, mitigation, rollback,
+undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+`test_credulity_learning` exercises actual acquisition, point-funded development,
+direct learning and study. It specifies no points, training, study credit, time
+or dice spent on prohibited learning; mitigation allows a later purchase through
+the normal point ledger. Pre-existing training survives rejected acquisition.
+Replay, rollback, undo and saved continuation are also specified. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+### Short attention: owned check-based tasks
+
+`RpgExpandedShortAttention` implements the base -10 controlled purchase
+(`full-2008` B153), including rated template construction and copying.
+`RpgExpandedAttentionTask` owns both the attention check and the actual
+`RpgLiteContext` task check. Set `occasion` to `extended-focus` or `distraction`,
+identify the task with a unique `id` and `trigger`, and supply `evidence`.
+A positive control `modifier` requires `crucialEvidence`; its size is an authored
+ruling, since the source specifies no fixed bonus or check interval.
+
+Call `assess()` for a pure preview and `resolve()` inside the action transaction.
+Read `check` for attention and `taskCheck` for task success. Failed attention
+produces a resolved task failure with reason `short-attention-task-failure` and
+no task roll, invented margin or critical failure. Successful attention executes
+the actual contextual check. Reusing the operation returns its retained result;
+it does not retry the task. Stress follow-ups use the shared owned control path.
+
+The operation spends no time or task materials. The caller owns the existing
+attempt's costs and consequences in the same transaction, consumes `taskCheck`
+instead of making another task check, and retains costs already committed before
+the distraction. It must not refund earlier progress or unrelated completed work.
+A mitigated purchase blocks this attention operation; ordinary task resolution
+remains available. Historical resolved failures remain historical after mitigation.
+
+The contextual operation handles a task resolved by one check. The study adapter
+below handles an authored study segment; the owned task lifecycle below covers
+other authored multi-step work. Short attention is now an eligible exact-cost
+fear selection and supports one-step worsening. `expanded-attention-task.t` and `test_attention_task` specify
+preview purity, failure/success dice consumption, rollback, undo, receipt
+mutation rejection and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+#### Study interruption
+
+With development installed, `RpgExpandedAttentionStudy` owns an attention check
+and one `RpgExpandedStudy` segment. Set `profile`, `trait`, `study`, `seconds`,
+`occasion`, `trigger`, and `evidence`. The author defines which current segment
+is the task being attempted; the duration is not an automatic checking interval.
+`assess()` preflights the study schedule, learning restrictions and control check.
+`resolve()` commits the control check and study settlement in one transaction.
+
+On failed attention, the segment spends its time and daily study allowance once
+but adds no learning credit or skill points. Earlier credit and points remain.
+On success it uses the existing study arithmetic. `studyResult` retains the
+segment's costs and credited points; reuse never repeats the segment. Stress
+follow-ups run through the shared control path after settlement. Direct calls to
+`advanceAttention()` outside that owned settlement reject before spending.
+
+While short attention is active, ordinary `study.advance()` requires either this
+owned operation or an authored `attentionSituation = 'brief-undistracted'` with
+nonempty `attentionEvidence`. That exception identifies a segment to which
+neither source trigger applies; it must not be used for extended focus or an
+offered distraction. Mitigation restores ordinary advancement. No new study
+point bank or time ledger is introduced. The internal `advanceCredit()` method
+is settlement machinery, not an author entry point.
+
+`test_attention_study` specifies the threshold-crossing success and failed
+segment, preservation of previous credit, daily allowance, duplicate rejection,
+preview purity, rollback, undo, save continuation, unavailable study and
+mitigation. These fixtures have not run.
+
+#### Environmental-fault repair interruption
+
+With technology installed, `RpgExpandedAttentionRepair` owns attention for one
+`RpgExpandedBreakdownRepair`. Set `profile`, `trait`, `repair`, `occasion`,
+`trigger`, and `evidence`. `assess()` preflights the concrete repair, including
+parts availability, the repairer's condition and the contextual repair score.
+`resolve()` commits attention and the repair attempt in the same transaction;
+`repairResult` retains the actual repair outcome.
+
+Failed attention leaves the equipment fault active, records a failed repair
+attempt, and retains the existing 1,800-second cost and any parts installed by
+that attempt. It does not roll the repair skill or invent a critical failure.
+Successful attention performs the ordinary repair check. The original repair
+object continues to own its time, parts and history; neither the control receipt
+nor replay charges them again. `uninterrupted` describes the externally available
+work period, not a guarantee that the character maintains attention.
+
+An active short-attention purchase blocks direct `repair.apply()` until the
+owned control operation is used. Mitigation restores ordinary repair execution.
+Internal `applyAssessed()` is settlement machinery, not an author entry point.
+A new attempt requires a new repair and control identity. The completed control
+validates its retained repair receipt and the original repair's history.
+
+`test_attention_repair` specifies minor/major repairs, successful/failed focus,
+parts retention, one time charge, pure preview, preflight rejection, rollback,
+undo, save continuation, receipt mutation and mitigation. Validation status is recorded in the [completion checklist](fear-completion.md). This adapter does not establish support for invention projects or other
+ongoing work.
+
+#### Invention concept interruption
+
+`RpgExpandedAttentionConcept` owns attention for an
+`RpgExpandedInventionConcept`, including its rapid subclass. Set `profile`,
+`trait`, `concept`, `occasion`, `trigger`, and `evidence`. Pure `assess()` checks
+the actual proposal and attempt eligibility; the rapid adapter also validates
+all possible elapsed-time advances before control dice are consumed.
+
+On failed attention, `resolve()` records an ordinary failed concept attempt:
+there is no theory, concept roll, invented margin or critical failure. The
+attempt still occupies the ordinary daily allowance. Rapid concepts retain
+their existing duration roll and elapsed time. Successful attention performs
+the normal concept check. `conceptResult` holds the original operation's result;
+reuse validates that receipt and its project/character history without adding
+another attempt or advancing time.
+
+Direct concept execution with active short attention requires the owned adapter
+or an evidenced `attentionSituation = 'brief-undistracted'` when neither source
+trigger applies. Mitigation restores ordinary execution. Internal
+`applyAssessed()` is settlement machinery, not an author entry point.
+`test_attention_concept` specifies both ordinary and rapid attempts, success and
+failure, daily limits, pure preview, unavailable proposals, rollback, undo,
+receipt mutation and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+Prototype failure uses the terminal contract below. Other authored work must use
+the owned lifecycle; extending every peripheral subsystem is outside this milestone.
+
+#### Owned multi-step tasks and terminal prototype failure
+
+`RpgExpandedAttentionWork` owns an authored task's identity, subject, profile,
+required step count and approval evidence. `begin()` registers it in the profile's
+history. `RpgExpandedAttentionWorkStep` owns one concrete segment, its time and
+money costs, its evidence and, when attention is challenged, its
+`RpgExpandedAttentionWorkControl`. A brief undistracted segment must explicitly
+say so; an active purchase otherwise requires the owned control operation.
+
+`step.assess()` previews without changing state. `step.apply()` resolves control
+and commits the actual segment in one action transaction. Failed control moves
+the task to `failed`; success increments completed steps and the final successful
+step moves it to `completed`. Both terminal states reject further progress.
+The failed segment retains its costs, while previous steps and other tasks are
+unchanged. Repeated receipts do not re-spend time or money. Mitigation does not
+reopen a historically failed task. A retry is a new owned task identity.
+
+Authors must make task success and continuation depend on this lifecycle, not
+merely call a notification callback. Each segment identifies concrete work and
+charges through the existing money and time ledgers. If time or materials were
+already committed by another owned operation, use a zero-cost attention segment
+and retain that operation as the task's subject; do not charge it again.
+
+For prototype attempts, bind `work.subject` to the actual
+`RpgExpandedPrototypeStart`. A failed bound task immediately blocks further
+prototype work and completion. `RpgExpandedAttentionPrototypeFailure` verifies
+that failure, records the attempt's spent money and worked time, marks a terminal
+failure and releases the project's active-attempt slot without refund or delivery.
+For rapid attempts it releases the component reservation while retaining the
+components, matching an ordinary noncritical failed attempt. No invented damage,
+critical result, material destruction or new invention mechanics are added.
+
+The multi-step cipher fixture demonstrates real progress, costs and terminal
+failure. The prototype fixture demonstrates previous expenditure and work,
+blocked delivery, terminal settlement and mitigation. The acquisition fixture
+covers exact-cost purchase, one-step worsening and actual failed work after
+save/restore. `test_attention_work`, `test_attention_prototype` and
+`test_attention_acquisition` have their validation recorded in the [completion checklist](fear-completion.md). `test_attention_rapid_prototype` also specifies retaining purchased components
+and money while releasing the failed attempt's reservation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+### Frenzy implementation boundary
+
+`RpgExpandedFrenzy` and `RpgExpandedFrenzyEpisode` currently provide owned
+injury-triggered entry. `RpgExpandedFrenzyInjuryTrigger` requires an actual
+`RpgExpandedRageInjuryReceipt`; witnessed injury additionally requires authored
+perception and loved-one facts. An episode retains its originating trigger and
+remains active if the purchase is subsequently mitigated.
+
+Active episodes suppress effective combat stun, shock and injury-based Move
+reduction without deleting those underlying conditions. Survival and
+consciousness checks receive the source-defined adjustment. Active defenses
+are unavailable. A major wound requires an approved
+`RpgExpandedFrenzyKnockdownRuling`, linked through the wound's `frenzyRuling`.
+The ruling records knockdown and consciousness choices and evidence; the
+ordinary wound still applies its injury. It creates no fictional check or
+margin and does not inflict stun. This is the approved author-ruling boundary
+for the supplied printing's combined procedure.
+
+Frenzy is now admitted through the existing fear acquisition and worsening
+interfaces. `RpgExpandedFrenzyTurn` binds an evidenced melee/ranged choice,
+actual final wounds, ammunition and a battle maneuver. Unsupported automatic
+combat is resolved by the author before committing this specific receipt.
+Tactical movement uses `RpgExpandedFrenzyPath`; movement legality and endpoints
+are checked against the actual map. The battle owns the single turn charge.
+
+`RpgExpandedFrenzyExit` records a downed-foe or no-foes opportunity. Reusing an
+opportunity rejects. Declining uses the ordinary give-in choice without dice.
+Failure retains frenzy and, after the extra no-foes decision, permits the
+recorded friend-target phase. Success ends only this episode and invokes
+`RpgExpandedFrenzyExitHealth` for normal post-exit health checks. Unrollable
+health boundaries require explicit evidenced pass/fail author rulings; these
+are adjudications, not invented source dice. The ruling does not revive a dead
+or independently unconscious character. Unrelated wounds and conditions remain.
+
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+A `RpgExpandedVolatileTemperTrigger` with an active frenzy purchase requires a
+`RpgExpandedFrenzyTemperEntry` in its `frenzyEntry` field before rolling. Bind
+that adapter to the same character, the frenzy purchase, the temper trigger
+and its episode. A failed temper check starts that episode automatically; it
+does not roll again. A successful temper check retains the adapter receipt
+without starting an episode. `test_frenzy_temper` covers this path; see the [completion checklist](fear-completion.md) for validation.
+
+Voluntary entry uses `RpgExpandedFrenzyVoluntaryEntry` with a bound
+`RpgExpandedFrenzyConcentrate` maneuver, fighter and battle. Calling `apply()`
+preflights the episode, turn and Will score, then commits the actual maneuver.
+The maneuver callback checks Will and starts the episode only on success.
+Incapacity before concentration prevents the Will check; replay does not repeat
+the turn or roll. `test_frenzy_voluntary` has its validation recorded in the [completion checklist](fear-completion.md).
+
+The optional battle-entry enhancement requires both `battleEntry = true` on
+the purchase and `frenzyBattleEntry = true` in campaign rules. Its
+`RpgExpandedFrenzyBattleTrigger` binds the concrete battle and fighter and
+requires explicit first-entry evidence. The same encounter cannot trigger a
+second check for that character. The +50% enhancement uses the rated cost
+and signed rounding: ratings 6, 9, 12 and 15 cost −30, −22, −15 and −7 points.
+These are source-derived options, separate from the original accumulating
+stress policy. `test_frenzy_battle` has its validation recorded in the [completion checklist](fear-completion.md).

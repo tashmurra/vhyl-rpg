@@ -1,0 +1,425 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B117 new advantages-B123",
+  "review": "Custom design contracts, disadvantage accounting, self-control, acquisition/buyoff and initial catalogue entries enumerated. Hidden-state contracts, episode timing, catalogue conflicts and executable validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-a-custom-existing",
+      "source": "full-2008",
+      "pages": "B117-B118",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author-created traits may rename/re-explain existing mechanics, combine priced components or modify an existing definition. Preserve component provenance and costs despite a new display name. Minor perk/quirk tuning requires explicit effects; a renamed package is not an independent stackable copy.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-custom-attributes",
+      "source": "full-2008",
+      "pages": "B118",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Custom situational attribute bonuses begin from ten per strength/health point or twenty per dexterity/intelligence point, then receive authored frequency adjustment. The printed narrow-recovery example prices five health-check bonus at five points; it is design guidance rather than permission to apply arbitrary ninety-percent discounts to normal purchases.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-custom-skills",
+      "source": "full-2008",
+      "pages": "B118",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Custom skill bonuses use talent pricing, or two points per +1 to one skill up to +3 for six points. Reaction bonuses use reputation-style scope/frequency pricing, with genuinely tiny audience effects optionally free. Author approves applicability and prevents duplicate underlying bonuses.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-custom-final-cost",
+      "source": "full-2008",
+      "pages": "B118",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Unique capabilities are priced by authored comparison to existing mechanics. Sum components, optionally increase up to one hundred percent for exploitable rarity or decrease up to fifty percent for deliberately common abilities. Record comparison, concrete effects and final approved price; an additional restricted-background requirement remains separately priced.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-negative-traits",
+      "source": "full-2008",
+      "pages": "B119-B120",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disadvantage limits count all negative-point traits including reduced attributes and social/wealth disadvantages, except mandatory author-assigned traits. Creation credit, current character value and spendable earned points remain distinct ledgers/views.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-compatibility",
+      "source": "full-2008",
+      "pages": "B120",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reject contradictory disadvantages and drawbacks mitigated or negated by existing advantages unless an explicit source exception applies. Author controls allowed character concepts and trait compatibility; a negative cost alone does not authorize a self-canceling purchase.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-ownership",
+      "source": "full-2008",
+      "pages": "B120",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental disadvantages follow the mind, physical disadvantages the body, and social disadvantages follow authored identity policy. Exotic additions require eligible construction and permission; supernatural drawbacks require a compatible setting. Acquired physical disadvantages apply immediately and lower value without refunding spendable points.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-secret",
+      "source": "full-2008",
+      "pages": "B120",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One secret-disadvantage entry may contain several related authored traits unknown to character/player. It grants their combined negative value plus five extra negative points; when revealed, the extra five must be bought off as soon as possible. Restrict to plausibly unknown traits and keep private definitions out of public previews/accounting details.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-self-control-6",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Self-control rating 6 multiplies listed disadvantage value by 2/1, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing",
+        "tests/expanded.py::test_expanded_self_control"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Pricing and runtime self-control now share the approved rating; Will does not alter it. Health modifiers and preflight rejection are integrated. Matrix and owned-trigger fixtures authored, unrun. Full catalogue eligibility and effect integration are not complete. Explicit ratings now require a controlled disadvantage in direct pricing, character accounting and runtime lookup; rejection assertions are authored and unrun."
+    },
+    {
+      "id": "disadvantages-a-self-control-9",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Self-control rating 9 multiplies listed disadvantage value by 3/2, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing",
+        "tests/expanded.py::test_expanded_self_control"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Pricing and runtime self-control now share the approved rating; Will does not alter it. Health modifiers and preflight rejection are integrated. Matrix and owned-trigger fixtures authored, unrun. Full catalogue eligibility and effect integration are not complete. Explicit ratings now require a controlled disadvantage in direct pricing, character accounting and runtime lookup; rejection assertions are authored and unrun."
+    },
+    {
+      "id": "disadvantages-a-self-control-12",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Self-control rating 12 multiplies listed disadvantage value by 1/1, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing",
+        "tests/expanded.py::test_expanded_self_control"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Pricing and runtime self-control now share the approved rating; Will does not alter it. Health modifiers and preflight rejection are integrated. Matrix and owned-trigger fixtures authored, unrun. Full catalogue eligibility and effect integration are not complete. Explicit ratings now require a controlled disadvantage in direct pricing, character accounting and runtime lookup; rejection assertions are authored and unrun."
+    },
+    {
+      "id": "disadvantages-a-self-control-15",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Self-control rating 15 multiplies listed disadvantage value by 1/2, dropping fractional magnitude: -22.5 becomes -22. Default rating is twelve. This is not an attribute check and Will does not improve it.",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing",
+        "tests/expanded.py::test_expanded_self_control"
+      ],
+      "existing_feature": "self-control-pricing",
+      "validation_note": "Pricing and runtime self-control now share the approved rating; Will does not alter it. Health modifiers and preflight rejection are integrated. Matrix and owned-trigger fixtures authored, unrun. Full catalogue eligibility and effect integration are not complete. Explicit ratings now require a controlled disadvantage in direct pricing, character accounting and runtime lookup; rejection assertions are authored and unrun."
+    },
+    {
+      "id": "disadvantages-a-self-control-resolution",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At an applicable trigger, player may voluntarily accept the drawback without rolling or roll 3d at/below modified self-control to resist this occurrence. Author supplies mild/severe stimulus and specific effect modifiers. Persist trigger identity and consequence rather than allowing unlimited attempts through repeated requests.",
+      "tests": [
+        "tests/expanded.py::test_expanded_self_control"
+      ],
+      "validation_note": "Owned trigger records preserve one check and obligation per trait/occurrence, rejecting renamed duplicate requests. Voluntary acceptance and authored action satisfaction use the existing obligation interface. Fixtures authored, unrun; trait-specific trigger/effect integrations remain incomplete; point-funded resistance now has its separate explicit campaign-choice operation."
+    },
+    {
+      "id": "disadvantages-a-self-control-points",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Optional campaign permission allows spending one unspent character point for automatic self-control success. Deduct it permanently once; this is not ordinary skill advancement or a refundable reservation after successful resolution. Authored reward consequences for repeated resistance are separate from mechanical failure.",
+      "tests": [
+        "tests/expanded.py::test_self_control_points"
+      ],
+      "validation_note": "Explicit campaign choice and fresh-trigger automatic success consume one shared unspent point and advance the development revision without rolling. Mandatory spending gates, replay, rollback, undo and saved continuation have authored, unrun assertions. Retroactive purchases and broader integration validation remain incomplete; reward adjudication stays authored."
+    },
+    {
+      "id": "disadvantages-a-buyoff",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "development",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Buying off a drawback costs its negative point-value magnitude, including those acquired in play. With permission, remove levels or raise self-control gradually at the difference between old and new values. Require actual earned-point funds and applicable recovery/permission conditions, preserving unrelated contributions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-self-imposed",
+      "source": "full-2008",
+      "pages": "B121",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Authored honor codes, faith disciplines, fanatic commitments, honesty, intolerance, duty to others, trademarks and vows have distinct self-imposed status. They may be bought off at any time, cannot be imposed by ordinary condition attacks/drugs/surgery, and may support pacts. Imposition requires an appropriate magic/control/prolonged-conditioning procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-distracted-focus",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Distractibility is -15. Intelligence and intelligence-based skills take -5 except the task currently occupying attention. Without an engaging task attention drifts after five minutes, then noticing events short of personal injury uses perception-5. Forcing attention to a boring task requires will-5 every five minutes. Own task focus and elapsed intervals.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-distracted-memory",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "When an unrecorded trivial task/item becomes important, author may require intelligence-2 for remembering it. Failure can reveal an omitted action such as reloading, but must reconcile existing committed inventory/action records rather than retroactively undoing an explicitly completed action. Define eligible unresolved facts.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-cost-cheap",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily addictive-dependency cost component is -5 for at most 0.1 percent average starting wealth per day. Compute from setting average starting wealth rather than individual wealth.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-cost-expensive",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily addictive-dependency cost component is -10 for above 0.1 and at most 0.5 percent per day. Compute from setting average starting wealth rather than individual wealth.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-cost-very-expensive",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Daily addictive-dependency cost component is -20 for above 0.5 percent per day. Compute from setting average starting wealth rather than individual wealth.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-modifiers",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Addictive dependency adds -10 for incapacitating/hallucinogenic effects, -5 for highly addictive withdrawal at -5 or -10 for totally addictive withdrawal at -10. Legality adds +5 when legal, zero when illegal. Define drug/category effects from the hazard catalogue; this is a fictional rules model, not clinical classification.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-activity",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Nonchemical activity dependency uses actual daily cost or, when free, cheap for broadly accessible activity and expensive for restrictive conditions. Usually mental/psychological; author defines required access and deprivation behavior instead of requiring a consumable item.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-withdrawal",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Daily omission invokes the withdrawal procedures. Psychological dependency uses will and mental consequences; physiological dependency uses health and bodily consequences. Successful withdrawal requires buying off the disadvantage. Reuse owned withdrawal episodes rather than starting a fresh series whenever treatment is re-requested.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-dependency-effects",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Authored intoxicant effects distinguish stimulation/comedown, roughly two-hour incapacitation, hallucinogenic inability to work/fight, and substances without those acute effects. Use the detailed hazard entries and onset/duration records; dependency price does not itself specify all intoxication behavior.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-minor-dependency",
+      "source": "full-2008",
+      "pages": "B122",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "For a -5-point dependency, author may substitute minor withdrawal: failed will/health gives one selected temporary -1 to dexterity, intelligence, self-control or reactions. Repeated failures prolong rather than stack severity; fourteen successive successes require buyoff. A computed zero-point dependency is always minor and may be a -1 quirk.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-alcohol-dependency",
+      "source": "full-2008",
+      "pages": "B122-B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Alcohol dependency is -15 when legal or -20 when illegal, overriding the ordinary additive price. Presence of alcohol requires will to avoid a binge lasting 2d hours followed by normal hangover rules. Author defines episode behavior and exposure events without repeated rolls for the same continuous encounter.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-alcohol-remission",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After withdrawal daily use is no longer required, but exposure still requires will+4 to avoid a binge. One failure does not reinstate dependency; three binges within a week do. Normal buyoff is unavailable. Persist dated binges and remission rather than deleting the trait at first withdrawal success.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-alcohol-long-term",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Until withdrawal, annual health+2 failure loses one randomly selected basic attribute level. Schedule the annual check and permanent loss once, recalculate derived values, and do not refund spendable points.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-partial-amnesia",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Partial autobiographical memory loss is -10. Player can inspect mechanical character information, but author may reserve up to thirty negative points of the disadvantage allotment for unknown traits. Skill use remains known without its history; discovering a name does not itself restore memories.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-total-amnesia",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Total autobiographical memory loss is -25. Creation choices are limited to visibly apparent traits; other definitions and skill rolls remain private to the author. Intelligence-based skills take -2 unless memory is irrelevant. Author handles unknown mental-trait constraints through explicit consequences while public outcomes reveal only what has been learned.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-amnesia-recovery",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Memory-loss buyoff requires an authored plausible recovery event tied to its cause. Retain private facts and revealed history separately; narrative identification alone must not silently grant missing memories or refund points.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-back-trigger",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Back vulnerability prompts an additional health check after every strength check and after natural 17/18 on melee attack/defense or athletic skill checks. Carry over the original activity modifiers. For planned long work, successful intelligence-2 or physiology+4 grants +2. Preserve original roll identities so triggers do not recursively trigger themselves.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-back-mild",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mild back vulnerability is -15. Failure gives dexterity-3 until rest/help and intelligence-3 for the next second only; first aid-2 can reset it. Critical failure gives dexterity-5 and requires will for physical actions. Define rest duration and whether the brief intelligence penalty remains on critical failure explicitly.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-back-severe",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Severe back vulnerability is -25 and takes health-2 on trigger checks. Failure gives dexterity/intelligence-4 until rest/help; critical failure inflicts 1d-3 injury and dexterity-6/intelligence-4. Pain resistance halves these attribute penalties dropping fractions, rather than eliminating them. Persist the episode and treatment eligibility.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-weak-grip",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weak grip is -5 per level, maximum three, giving -2 per level overall on firm-grip tasks including melee weapons, climbing and catching. It is not multiplied per hand. Reject combination with no fine manipulation and require actual grip-dependent task classification.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-short-sight",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Nearsightedness is -25 across every visual sense. Small text beyond one foot and signs beyond roughly ten yards cannot be read; spotting beyond one yard takes -6, melee attacks -2, and ranged accuracy uses twice actual distance. Distinguish actual projectile range from effective aiming range.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-long-sight",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Farsightedness is -25 across every visual sense. Reading takes triple time, spotting within one yard takes -6 and close manual work including close combat takes dexterity-3. It does not apply a global dexterity penalty to unrelated actions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-a-sight-mitigator",
+      "source": "full-2008",
+      "pages": "B123",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Corrective eyewear is a mandatory -60% mitigator at starting technology levels permitting correction: glasses at level five and contact lenses at seven. Protection lasts only while the actual corrective item is worn/usable. Breakage/loss reactivates the underlying sight condition without creating a new disadvantage purchase.",
+      "tests": []
+    }
+  ]
+}

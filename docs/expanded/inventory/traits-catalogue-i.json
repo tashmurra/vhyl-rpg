@@ -1,0 +1,739 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B71-B76",
+  "review": "Rapport continuation, modular pools, suppression, patronage, payload, perception, material passage and consciousness transfer enumerated. B74 vision diagram inspected; coordinate fixtures, cross-reference closure, ownership contracts and executable tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-i-rapport-membership",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Permanent rapport normally permits companions, contacts, dependents, duplicates or consenting player characters. Author approves membership and ordinarily requires matching thought-reading/sending modifiers. This continues the B70 price/range definition; it does not itself supply the underlying communication ability.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-modular-pool",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A modular ability pool reallocates purchased capacity into temporary skills, spells, techniques or mental advantages, including improvement of existing traits. Each ordinary slot holds one trait with its own fixed capacity. Remove prior temporary contributions on reassignment without deleting independently purchased levels, returning spendable advancement points or retaining effects that require the removed ability.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-modular-programs",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Program-based pool slots cost six plus four per capacity point. Author defines available programs and acquisition. Telecommunication can download them at authored transfer speed, with one second and one hundred currency units per character point given as typical time/price, not universal constants.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-modular-chips",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Physical-program slots cost five plus three per capacity point. Inserting or removing a chip takes three seconds. Chips typically have negligible weight and cost one hundred to one thousand currency units per ability point. Track actual chip inventory, slot occupancy and loaded definition; buying slot capacity does not grant every chip.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-modular-study",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Rapid-study slots cost five plus three per capacity point and take one second per assigned point to learn from a suitable authored reference work. Forgetting is immediate. Reference acquisition cost is authored and separate from slot points; unavailable references cannot be substituted with an arbitrary trait identifier.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-modular-unrestricted",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unrestricted reconfiguration costs ten per capacity point, uses one pool partitionable into any number of eligible traits, and takes one second per ability. It differs from ordinary one-trait slots. Validate the complete replacement allocation and prerequisites before mutation.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-modular-modifiers",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Preparation and limited-use modifiers can respectively extend reconfiguration time and make a loaded ability disappear after use. Physical-only allocation is +50%; both mental and physical allocation is +100%. Spell-only is -20% and incompatible with physical allocation. Restricted-realm use is -50% and applies only in the authored virtual/astral/other realm.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-psi-suppression",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Power suppression costs fifty. Touch via attack and win a will contest to suppress all subject psionic powers for victory-margin minutes, leaving talents intact. Cannot affect that subject again until recovery. Critical failure disables the suppressor ability for 1d hours. Origin need not itself be psionic.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-psi-theft",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Power borrowing enhancement is +200% and grants all suppressed abilities with their modifiers for the suppression duration. Suppression cannot be used again while borrowed powers remain. Retain temporary ownership, original source and expiry; never refund their nominal value into advancement.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-psi-single-family",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Single-family suppression is -50% and restricts eligible powers to one defined psionic family. It does not suppress all supernatural traits merely because they have a mental effect.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-eye-membrane",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Protective eye membrane costs one per level, permits normal underwater vision and protects against sand/irritants. Each level adds one eye-only protection and one to health checks concerning eye damage. Keep its open/closed state and protection location distinct from body armor.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-low-light",
+      "source": "full-2008",
+      "pages": "B71",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Low-light adaptation costs one per level, maximum nine, canceling that many points of darkness penalties to vision/combat only when some light exists. It cannot reduce the total-darkness penalty of ten.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-sense-obscuring",
+      "source": "full-2008",
+      "pages": "B72",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sense obscuring costs two per level and affects a specified ordinary sense or particular sensory ability within two yards of the owner. Detection of anything in the area takes -1 per level; ten levels completely block the sense. Detecting the zone boundary instead gains +1 per level. Apply area enlargement separately.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-obscure-exceptions",
+      "source": "full-2008",
+      "pages": "B72",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Owner exemption costs +50%. Each additional related sense costs +20%. Hidden-boundary enhancement is +100% and removes the boundary detection bonus. Always-active limitation is -50% and prevents switching off. Ordinary obscuring affects its owner unless exempted.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-obscure-ranged",
+      "source": "full-2008",
+      "pages": "B72",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Remote obscuring costs +50% and produces a ten-second area at a targeted point, with maximum range 100, accuracy three, firing rate one, no finite shots and recoil one; no half-damage range. Multiple areas can coexist. Own each area, source, position and expiry instead of replacing the previous area when reused.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-omens",
+      "source": "full-2008",
+      "pages": "B72",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Omen reading costs fifteen and normally takes at least an hour, once per day. Author may place an unsolicited omen sooner. Secret discovery uses a sense check: success finds an omen, critical success grants +5 interpretation, failure finds none and critical failure produces a false omen. Persist daily use and distinguish authored event delivery from another free requested reading.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-omen-interpretation",
+      "source": "full-2008",
+      "pages": "B72",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Interpretation uses secret intelligence: success gives general guidance, critical success specific guidance, failure unusable vagueness and critical failure a misleading reading. Author supplies genuine/false evidence and bounded interpretations. Resolve whether to consume the second roll after failed discovery explicitly while preserving the printed two-roll procedure.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-focused-hearing",
+      "source": "full-2008",
+      "pages": "B72",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Focused hearing costs four per level and doubles clear-hearing distance per level for a selected sound/area while filtering background noise. Reuse the hearing distance rules and retain selected attention rather than increasing every sense range.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-powerful",
+      "source": "full-2008",
+      "pages": "B72-B73",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Patron base cost 10 represents a person normally at least 150% of player starting points or organization assets at least one thousand times setting starting wealth. Author approves the category; supernatural or exceptional reach/power requires the separate special-abilities modifier. These are guides for campaign resources, not guaranteed point-perfect construction.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-greater",
+      "source": "full-2008",
+      "pages": "B72-B73",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Patron base cost 15 represents a person at least twice player starting points or organization assets at least ten thousand times starting wealth. Author approves the category; supernatural or exceptional reach/power requires the separate special-abilities modifier. These are guides for campaign resources, not guaranteed point-perfect construction.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-exceptional",
+      "source": "full-2008",
+      "pages": "B72-B73",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Patron base cost 20 represents an author-defined exceptionally powerful person or organization assets at least one hundred thousand times starting wealth. Author approves the category; supernatural or exceptional reach/power requires the separate special-abilities modifier. These are guides for campaign resources, not guaranteed point-perfect construction.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-vast",
+      "source": "full-2008",
+      "pages": "B72-B73",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Patron base cost 25 represents an organization with assets at least one million times starting wealth. Author approves the category; supernatural or exceptional reach/power requires the separate special-abilities modifier. These are guides for campaign resources, not guaranteed point-perfect construction.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-supreme",
+      "source": "full-2008",
+      "pages": "B72-B73",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Patron base cost 30 represents a national-scale government, giant multinational organization or personally intervening deity. Author approves the category; supernatural or exceptional reach/power requires the separate special-abilities modifier. These are guides for campaign resources, not guaranteed point-perfect construction.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-availability",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply the frequency-of-appearance multiplier and make the adventure-start availability roll privately. Author can omit an implausible appearance; if available, a later feasible contact normally permits help. Usually only one help contact per adventure. The player must not learn availability through preview without making the request.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-party",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each character pays full patron price, with a separate appearance roll at adventure start. Availability to any normally makes the patron available to the group; author scales aid by successful rolls. Do not divide price or roll once for the whole party.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-contract",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author defines advice, protection, aid and assignments plus any separate duty, behavioral restriction or enemy relationship. Ordinary employment is insufficient without exceptional support. Record the actual assistance and consequences; a generic callback alone does not implement patron behavior.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-equipment",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "After appearance-frequency pricing, gifted-equipment enhancement is +50% when value does not exceed average starting wealth or +100% above it. Apply only when equipment becomes the character property, not required returnable work equipment. Use inventory transfer records and avoid duplicating a gift on repeated contact.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-access",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Always-accessible contact costs +50% and permits a request despite ordinary communication isolation. It does not guarantee successful availability or the requested aid.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-special",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Exceptional social/political power costs +50%; extraordinary magic in an otherwise mundane world, superior technology, granted powers or unusual temporal/spatial reach costs +100%. Author specifies concrete access and effects, not just a label.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-minimal",
+      "source": "full-2008",
+      "pages": "B73",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Minimal intervention is -50%. After successful availability, use the aid-request reaction procedure; neutral or better gives assistance chosen by the patron, potentially different from the request. Author supplies eligible assistance options and reasons.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-secret",
+      "source": "full-2008",
+      "pages": "B73-B74",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Secret patron is -50%; identity and motives remain private and direct requests are unavailable. Author may allow indirect calls without guaranteed response. Aid must have a concrete information, equipment or intervention event while preserving secrecy and any later obligations.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-patron-coerced",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Coerced patron is -50%, with author-defined overreach or broken leverage ending the relationship and removing its character value. Appearance roll eighteen is a suggested trigger, not mandatory. The former patron may become an enemy through an authored decision, not an automatic free point refund.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-internal-payload",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Internal payload costs one per level and carries basic lift divided by ten pounds per level. Allocate capacity between cargo and occupants at purchase. Above five levels requires author permission unless uniform-body or machine construction applies. Internal payload counts as body rather than carried load for movement and capacity-limited abilities.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-payload-volume",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cargo volume is approximately one cubic foot per twenty pounds capacity. A human-sized occupant requires about two hundred pounds capacity; other occupants require average ancestry weight increased by one third. An actual cabin requires ten times that capacity. Preserve weight and allocated volume separately where geometry matters.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-payload-occupants",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Owner defensive traits protect internal occupants. Occupant controls require a separate controls purchase. External pushing/pulling/lifting uses lifting strength rather than internal capacity. Do not silently grant passenger control or vehicle towing strength.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-payload-exposed",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Exposed payload is -50%, can apply to a specified portion and removes concealment and owner defensive protection for that portion. Preserve capacity partition identity and occupant protection during transfers.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-penetrating-sight",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Penetrating sight costs ten per level and sees through six inches of ordinary matter per level, retaining a faint nonobscuring outline. It works with other visual abilities. Track combined intervening thickness and eligible material rather than ignoring any number of separate walls.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-sight-blocked",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A complete blocking material gives -30% for common substances, -20% for less common and -10% for one particular material. Author defines the exact material predicate and campaign rarity.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-sight-specific",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Penetrating sight through only one substance gives -40% common, -60% uncommon or -80% exceptionally rare. It does not permit sight through unrelated intervening layers merely because the target layer is eligible.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-balance",
+      "source": "full-2008",
+      "pages": "B74",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exceptional balance costs fifteen: ordinary narrow anchored footing requires no roll. Wet/slippery/unstable footing checks receive +6; combat dexterity or dexterity-based skill checks to retain footing/avoid knockdown receive +4. Acrobatics, climbing and piloting receive +1. Clarify overlapping situational bonuses instead of stacking every listed number on one roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-wide-vision",
+      "source": "full-2008",
+      "pages": "B74-B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Wide peripheral vision costs fifteen and gives a 240-degree observation/ranged arc: 180 front plus thirty on each side. Side-hex melee is allowed, but opposite-hand side attacks and directly rear attacks use the awkward-swing procedure. Side defenses have no penalty; rear active defenses take -2. The B74 diagram was visually inspected: side wedges extend the ordinary front field while the rear wedge remains excluded. Final coordinate fixtures must verify boundary hexes.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-wide-vision-awareness",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Outside combat, wide peripheral vision adds three to detecting shadowing or rear ambush and always permits an authored vision check for dangers behind. It does not automatically detect every hidden foe.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-wide-vision-eyes",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Vulnerable-eye limitation is -20%; eyes may be targeted from within the actor vision arc at -6. Preserve actual observer/target orientation and eye anatomy.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-passage-ubiquitous",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Material passage costs 40 for ubiquitous structural material families. Rarity describes encounters as barriers, not simply total material abundance. Author defines exact material coverage and tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-passage-common",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Material passage costs 20 for specific common construction materials. Rarity describes encounters as barriers, not simply total material abundance. Author defines exact material coverage and tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-passage-occasional",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Material passage costs 10 for less common barriers or materials ordinarily penetrable with sustained muscle-powered work. Rarity describes encounters as barriers, not simply total material abundance. Author defines exact material coverage and tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-passage-rare",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Material passage costs 5 for materials rarely forming large barriers. Rarity describes encounters as barriers, not simply total material abundance. Author defines exact material coverage and tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-passage-state",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Passing through selected matter creates no passage by default, retains gravity and ordinary movement, requires separate penetrating sight to see inside and retains breathing limits. Attacks reaching the actor still work, including attacks made of the selected material. It grants no general phasing immunity.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-carry-none",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Material passage carrying up to none encumbrance costs +10%. Dropped items emerge in open space at the material-entry point; they cannot remain embedded. Own the entry location and item identity, including interrupted or multi-material travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-carry-light",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Material passage carrying up to light encumbrance costs +20%. Dropped items emerge in open space at the material-entry point; they cannot remain embedded. Own the entry location and item identity, including interrupted or multi-material travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-carry-medium",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Material passage carrying up to medium encumbrance costs +50%. Dropped items emerge in open space at the material-entry point; they cannot remain embedded. Own the entry location and item identity, including interrupted or multi-material travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-carry-heavy",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Material passage carrying up to heavy encumbrance costs +100%. Dropped items emerge in open space at the material-entry point; they cannot remain embedded. Own the entry location and item identity, including interrupted or multi-material travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-material-tunnel",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Optional tunnel creation costs +40%, rearranges nonliving matter without damaging it and leaves an opening roughly the actor size. It cannot tunnel living targets. Record the authored geometry change as persistent world state rather than merely making a movement check pass.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-plant-empathy",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Plant empathy costs five. Encountering a plant prompts secret intelligence for general health and natural/supernatural origin. Sentient plants use the empathic-perception contract and permit influence skills. Related talent and plant-protection obligations remain separately purchased; influence is not automatic obedience.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-transfer",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Consciousness transfer costs one hundred and normally requires a living host to survive. One second concentration and touch precede intelligence versus will; an owned compliant host succeeds automatically. Wary or fighting subjects resist at +5. Loss or tie causes 1d seconds mental stun and permanent immunity of that subject to that possessor.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-transfer-success",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A win suppresses the new host personality and releases the old host, who regains control after 1d seconds mental stun without memories of the possession. Host death ordinarily kills the possessor. Maintain distinct mind/body ownership and the suppressed mind, not destructive replacement of the host object.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-transfer-traits",
+      "source": "full-2008",
+      "pages": "B75",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use host strength, dexterity, health and derived physical characteristics plus physical traits; preserve possessor intelligence, perception, will and mental traits. Social traits follow explicit setting policy. Preserve intellectual/perceptual/will skills; other skills retain relative level against the new attribute. Define independent secondary purchases and owner ledgers explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-memory",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Early host-memory access provides identity/routine but no intellectual skills. Specific fact recall checks intelligence at -1 per elapsed hour since takeover, once per memory. Author defines accessible facts and memory identity; no retry through rephrasing or recreating a possession action.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-value",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author may adjust character value for sustained use of more expensive bodies under the character-development rules. Do not duplicate body purchases, refund suppressed traits automatically or treat host resources as newly restored.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-exclusive-origins",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Digital, magical, parasitic, spiritual and telepathic transfer variants are mutually exclusive. Validate origin and required traits before making contact or spending concentration time.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-assimilation",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Skill assimilation is +10%. On entering a body, voluntarily delete selected own skills and spend their released points plus available points on host strength/dexterity/health skills up to one relative level below host knowledge. Deleted skills are permanently lost; learned skills travel with the possessor. Commit the selected conversion once with exact point accounting.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-return-access",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Persistent host access is +20% and permits purchase of the departing host as a compliant host for future automatic transfer. Sufficient unspent points must exist when leaving. Retain permission and purchase identity rather than marking every previously occupied body freely accessible.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-swap",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Mind exchange is +10% and moves the target mind into the former body instead of suppressing it. Recompute both occupants under the same trait/skill ownership rules and preserve both resource ledgers.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-remote",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Remote possession is +50% and leaves the original body in trance. Voluntary return is permitted; target unconsciousness or death forces return, but ordinary sleep does not. Target death does not kill the remote possessor. Define original-body interruption and simultaneous events explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-digital",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Digital transfer is -40%, requires a software mind, network connection and complete target access. Target complexity must be at least half intelligence rounded up. A transferred copy without the separate digital-duplication purchase becomes an independent authored character rather than another player-controlled body.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-magical",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Magical transfer is -10%. Protective hostile-magic repulsion must first be overcome by intelligence versus spell contest; then make the ordinary transfer attempt. Target magic resistance reduces possessor intelligence and increases target will in the actual attempt. Preserve the distinct rolls and failed-precondition outcomes.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-link-required",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Rapport-required transfer is -40%. Only linked subjects are eligible and losing/jamming/exceeding link range ends possession. Current communication-link requirements also apply when selected on the rapport; retain the dependency and terminate the episode when it fails.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-no-memory",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No host-memory access is -10% and excludes routine and specific fact extraction. Do not expose host private knowledge through inspection merely because the actor controls its body.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-parasite",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Parasitic transfer is -60%, requires a larger host and physical entry through flesh passage or sufficient internal payload. After entry the subject resists with the better of health/will. Failure leaves the parasite inside but permanently immune to its control. Detection/removal remains possible through authored technology.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-parasite-injury-food",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An attack penetrating or ignoring host protection can injure the internal parasite with host health acting as extra protection. Resolve whether current or maximum health applies explicitly. The host nourishes the parasite and may require extra food; dispersed-body protection must be separately bought. Owner may leave or release control while remaining inside, but regaining control needs a new contest.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-owned-only",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Owned-host-only transfer is -30%, allowing automatic transfer to purchased compliant hosts and forbidding other hosts. It does not grant host purchases or bypass their availability conditions.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-spiritual",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Spiritual transfer is -20% and requires the spirit package. The spirit body travels inside the host, remains phased, inaccessible and effectively mindless; only attacks affecting phased entities can harm it under the internal-parasite injury procedure. Exorcism versus possessor will can expel it and blocks return to that host for at least 24 hours. Voluntary exit is permitted and host recovery takes 1d seconds mental stun.",
+      "tests": []
+    },
+    {
+      "id": "traits-i-body-telepathic",
+      "source": "full-2008",
+      "pages": "B76",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Telepathic transfer is -10% and uses the telepathy power rules, including appropriate interference and resistance. It cannot be combined with other exclusive transfer origins.",
+      "tests": []
+    }
+  ]
+}

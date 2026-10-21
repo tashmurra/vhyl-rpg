@@ -1,0 +1,641 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B156, alternate personalities, through B162, before quirks",
+  "review": "Remaining major disadvantages enumerated, including identity packages, resistance/penetration/exposure distinctions, injury restrictions and supernatural event contracts. B161 vulnerability table visually reviewed. Runtime and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-h-alternate-personalities",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Alternate personalities cost base -15 with self-control and require at least two equal-priced mental packages, each with at most five quirks. Author may approve differing intelligence/perception/will or mental advantages. Charge package price once plus the switching trait; physical traits, skills and unpackaged mental traits remain shared.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-personality-switch",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stress prompts personality-switch self-control no more than once per game hour. Failure activates another package, selected by the author or an explicitly configured random selection. Reactions are -1 generally or -3 from witnesses of a change. Keep one actor ledger and do not clone inventory, injuries or advancement when switching.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-personality-price-fixture",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Equal mental packages priced -21 each plus base switching at self-control twelve total -36, regardless of having two or three packages. Reject unequal package totals before changing the actor.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-squeamishness",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Squeamishness is base -10 with self-control and uses the full stimulus-fear procedure for unpleasant small creatures, gore and filth. Do not equate it to all insects, clean soil, ghosts or every large reptile; author identifies the actual disgusting stimulus.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-negative-status",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Negative status remains a disadvantage accounted through B28 status rules. Reuse that social/accounting contribution rather than introducing duplicate credit in this catalogue.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-instinct-regression",
+      "source": "full-2008",
+      "pages": "B156-B157",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stress regression normally requires an uplifted-animal ancestry. Fear, anger, fatigue or injury prompts self-control. After stress ends, retry each minute with +2 for comforting friends and another +2 if a helper has human/animal empathy. Passing out from fatigue/injury ends the episode on waking.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-regression-mild",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mild stress regression costs base -10: intelligence is required to utter a sentence, complicated machinery is unavailable, and weapon attacks are wild at -4. Own the episode rather than permanently lowering intelligence or removing skills.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-regression-moderate",
+      "source": "full-2008",
+      "pages": "B156",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Moderate regression costs base -15, includes mild effects and requires intelligence to understand a sentence. Being challenged/attacked requires self-control to avoid an authored instinctive reaction.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-regression-severe",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Severe regression costs base -20 and prevents speech, language comprehension and tool use except possible club-like use, with instinctive behavior throughout. Additional selected mental restrictions add half their negative cost, fractions discarded, before the regression self-control multiplier.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-stubbornness",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stubbornness costs -5, gives -1 reactions and requires an authored reluctance to accept others plans, potentially overcome by persuasion. Do not require a new arbitrary will check for every action without an applicable procedure.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-speech-impairment",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Speech impairment costs -10, gives -2 reactions where conversation is necessary and -2 to diplomacy, fast-talk, performance, public speaking, attraction and singing. Author specifies excluded speech-dependent occupations. The unpleasant-voice entry uses these same effects.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-concealed-features",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Concealed supernatural features require specific observation conditions and then affect reactions and relevant identification rolls. They cannot earn credit with the two most extreme frightening appearance categories; less extreme appearance levels remain compatible. Author defines the secret and qualified observers.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-cold-body",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cold body costs -5 with -1 reactions from physical contact and +1 to deduce supernatural origin. If warmth can be gained temporarily, cost is -1; record its actual duration and conditions rather than permanently suppressing the feature.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-no-reflection",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Absent reflection costs -10: mirrors, reflective surfaces and camera images do not show the actor. Observers who notice react -2 and get +2 to deduce supernatural origin. Define optical capture behavior without treating the actor as invisible to ordinary direct sight.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-no-shadow",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Absent shadow costs -10, with -2 reactions and +2 origin inference from observers noticing it. Remove cast shadow across light directions/intensities without suppressing direct visual perception.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-pallor",
+      "source": "full-2008",
+      "pages": "B157",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unnatural pallor costs -10, or -5 when temporarily suppressed by an authored condition. In adequate light without covering makeup, observers react -2 and get +2 to infer the supernatural origin. Track suppression and observation conditions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-psychic-overload",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Psychic crowd sensitivity costs -15. Unshielded nonmachine sapient actors with intelligence at least six within twenty yards cause dexterity/intelligence penalties: -1 for one to nine, -2 for ten to ninety-nine, -3 for one hundred to nine hundred ninety-nine, continuing by powers of ten. Collapse if either score falls strictly below half its original value. Recover action when the offending noise abates.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-psychic-overload-information",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Psychic crowd noise reveals presence and approximate count within twenty yards, not locations or thoughts. Exclude machine minds and any effective telepathic shielding before counting. Define whether overlapping forms/companions count as distinct minds through the actor identity model.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-susceptibility-cost",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Resistance susceptibility subtracts levels from health checks against an authored harmful class, costing -4/-2/-1 per level for very-common/common/occasional classes. Normally maximum five levels per class and two classes without approval; effective unmodified health cannot fall below three. Incompatible with resistance protecting against the same class.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-susceptibility-trace",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Trace doses that would not ordinarily affect others prompt health plus one minus susceptibility level. Failure applies half the normal dose consequences, including injury/fatigue/attribute loss/incapacity duration. Author determines actual exposure and effect scaling; do not treat susceptibility itself as an injury multiplier.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-terminal-deadline",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "hazards",
+      "kind": "table",
+      "status": "partial",
+      "acceptance": "Terminal deadline costs -100/-75/-50 for death within one month/one year/two years. Beyond two years grants no credit, and short campaigns should disallow irrelevant deadlines. Persist actual source/calendar deadline rather than rerolling lifespan on load.",
+      "tests": [
+        "tests/expanded.py::test_terminal_condition"
+      ],
+      "implementation": "Health provides an acquired one-year condition, fixed -75 character value, explicit authored calendar length and guarded death deadline. No spendable points are awarded. Other duration tiers, creation purchases, cure and buy-off remain pending. Deadline and persistence fixtures authored and unrun."
+    },
+    {
+      "id": "disadvantages-h-terminal-cure",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extending life beyond the terminal deadline requires buyoff. If points are insufficient, author-approved related disadvantages can settle the difference. Update deadline, underlying cause and character accounting atomically; no additional credit for already represented restrictions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-transit-sickness",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exotic-transit sickness costs -10 in campaigns with regular time/dimension travel or teleportation. Prohibit related psionic talents, spells, technological skills and orientation-after-transit skill. Each transit prompts health: success stuns for one die times ten minutes, failure one die hours, critical failure twice that failure duration.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-transit-variants",
+      "source": "full-2008",
+      "pages": "B158",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The author may define faster-than-light transit variants of exotic-transit sickness with equivalent mechanics. Specify eligible transit events and resulting stun behavior explicitly rather than applying ordinary immediate-recovery stun rolls to a fixed-duration condition.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-signature-simple",
+      "source": "full-2008",
+      "pages": "B159",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsory signature costs -5 for an untraceable quickly left sign; the actor cannot leave the scene until it is done. Author defines actual materials/action, separate from the main mission objective.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-signature-complex",
+      "source": "full-2008",
+      "pages": "B159",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Complex signature costs -10, takes at least thirty seconds and gives investigators +2 criminology/forensics to identify or trace the actor. Commit elapsed time and persistent scene evidence.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-signature-elaborate",
+      "source": "full-2008",
+      "pages": "B159",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Elaborate signature costs -15 and allows authored investigative clues without a successful investigation roll. Only one signature trait can earn credit; several acts form one composite signature severity.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-dangerous-trickery",
+      "source": "full-2008",
+      "pages": "B159",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Dangerous trickery is base -15 with a daily self-control check; failure requires attempting to outwit a genuinely dangerous target. Each resisted day adds cumulative -1 until a failed check. Own daily check identity and accumulated penalty; harmless pranks do not discharge the obligation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-truthfulness",
+      "source": "full-2008",
+      "pages": "B159",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Truthfulness is base -5: self-control to omit an uncomfortable truth, at -5 to tell a falsehood. Failure discloses truth or makes the lie obvious. Fast-talk always takes -5 and acting takes -5 when used to deceive. Keep the actual communicated content authored and avoid exposing unrelated private facts.",
+      "tests": [
+        "tests/expanded.py::test_truthfulness",
+        "tests/expanded.py::test_statement_delivery"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_truthfulness. Remaining registered validation: test_statement_delivery. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-h-predatory-appetite",
+      "source": "full-2008",
+      "pages": "B159",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Uncontrolled predatory appetite is base -15 for an authored resource obtained from sapient beings. Opportunity prompts self-control at -2 for deliberate temptation or sensed abundance; if feeding restores health add -1 per missing health point. Failure requires feeding, followed by another control check to stop when satisfied; failure then causes dangerous overfeeding.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-poor-fitness",
+      "source": "full-2008",
+      "pages": "B160",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Poor fitness costs -5 and gives -1 to health checks without reducing the attribute or health-based skills, and doubles fatigue loss from exertion, heat and similar causes. Severe form costs -15 with -2 health checks and half fatigue recovery, and prohibits resistance traits. Neither alters fatigue spent powering magic/psionics.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-no-healing-base",
+      "source": "full-2008",
+      "pages": "B160",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Absent natural healing blocks daily health recovery and natural crippling recovery. First aid can stop bleeding but it and physician care cannot restore health; natural-healing accelerants do not help. Author-defined surgical, repair or exotic restoration may still work according to body nature.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-no-healing-partial",
+      "source": "full-2008",
+      "pages": "B160",
+      "module": "health",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Partial absent healing costs -20: natural healing is available under one authored rare condition, and health can be stolen through an existing appropriate power. Total absent healing costs -30 and prohibits both natural healing and health theft. Do not infer immunity to all external repair/healing from the latter.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-single-timeline",
+      "source": "full-2008",
+      "pages": "B160",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Single-timeline existence costs -5 only where paradox/history erasure can occur. The actor lacks memory of paradoxes and severe changes may erase them through an authored event. Alternate worlds have no counterpart and grant the unrecorded-identity benefit there. Campaign may disallow this for player characters.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-bad-luck",
+      "source": "full-2008",
+      "pages": "B160",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Bad luck costs -10 and gives the author one adverse event each play session. It cannot kill the actor outright. Own the used-session marker, concrete consequence and any selected theme; a theme is not a guarantee that every event fits it.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-unusual-biochemistry",
+      "source": "full-2008",
+      "pages": "B160",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unusual biochemistry costs -5. Appropriate specialized drugs cost ten times normal; ordinary drugs roll one die: one to three normal effect, four/five normal plus an authored harmful effect, six no effect. Normal food remains usable. Do not automatically select the illustrative one-die fatigue consequence for every drug.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vow-values",
+      "source": "full-2008",
+      "pages": "B160-B161",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Binding vows cost -5/-10/-15 for minor/major/great inconvenience. Author specifies obligations and judges impact. Credit cannot overlap an equivalent ordinary disadvantage; finite vows require buyoff when their term ends, and terms shorter than one year do not qualify under this procedure. Early release can require authored penance.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vow-catalogue-patterns",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Minor vow patterns include daylight silence, dietary exclusion and abstinence; major patterns include rejecting edged weapons, complete silence, outdoor sleeping or strict carried-property limits; great patterns include unconditional aid, always using the nondominant hand, an overriding pursuit or compulsory challenges. Each authored instance needs a concrete action restriction and its ordinary consequences.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-procedure",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attack vulnerability multiplies damage that penetrates armor and then applies ordinary wound-type multipliers. Independent fixture: one penetrating point times four vulnerability times one-and-a-half cutting gives six injury. Do not multiply armor reduction or basic attack damage before penetration.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-rare-2",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a rare class at injury multiplier 2 costs -10. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-rare-3",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a rare class at injury multiplier 3 costs -15. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-rare-4",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a rare class at injury multiplier 4 costs -20. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-occasional-2",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a occasional class at injury multiplier 2 costs -20. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-occasional-3",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a occasional class at injury multiplier 3 costs -30. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-occasional-4",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a occasional class at injury multiplier 4 costs -40. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-common-2",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a common class at injury multiplier 2 costs -30. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-common-3",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a common class at injury multiplier 3 costs -45. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-common-4",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a common class at injury multiplier 4 costs -60. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-very-common-2",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a very-common class at injury multiplier 2 costs -40. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-very-common-3",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a very-common class at injury multiplier 3 costs -60. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-very-common-4",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack vulnerability to a very-common class at injury multiplier 4 costs -80. Printed table visually inspected; category uses B46 defense rarity and author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-limits",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "More than two attack vulnerabilities require approval. A specific defense against the same attack class, including tailored armor/resistance, cannot coexist with that vulnerability. Supernatural durability can coexist but its interaction must follow the source durability restrictions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-vulnerability-fatigue",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "health",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue-only vulnerability is -50% and affects specified fatigue-draining attacks or mundane fatigue causes instead of injury. Keep spending to power abilities distinct unless explicitly part of the defined cause.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-weak-bite",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "combat",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Weak bite costs -2 and subtracts two per die after computing ordinary bite damage. Preserve damage minimum and dice/add conventions from the combat engine.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-exposure-weakness-rate",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "hazards",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Exposure weakness inflicts direct health loss ignoring armor/defensive advantages: one die per minute costs base -20, per five minutes -10, per thirty minutes -5. The trigger cannot be ordinary food or something equally easy to avoid. Own exposure accumulation and each damage tick.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-exposure-weakness-rarity",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Exposure weakness rarity multipliers are one half/one/two/three for rare/occasional/common/very-common. One-die-per-minute very-common exposure costs -60. More than two forms require approval. These rarity multipliers also resolve the referenced substance-repulsion pricing.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-exposure-fatigue",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "hazards",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue-only exposure weakness is -50%, replacing health loss with fatigue. Variable-intensity exposure is -40%: one authored common barrier halves damage rate while intense sources double rate. Modify tick intervals rather than silently halving each die result, and define changing-intensity accumulation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-negative-wealth",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below-average wealth remains a disadvantage under B25 wealth accounting. Include its existing contribution once in point totals and disadvantage caps.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-strange-events",
+      "source": "full-2008",
+      "pages": "B161",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Attraction of strange events costs -15. Author supplies inconvenient supernatural encounters, sometimes beneficial, without immediate lethal outcomes. Informed ordinary observers react -2; interested investigators/enthusiasts may instead follow the actor. Specify event obligations and consequences rather than claiming a generic callback completes this trait.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-compulsive-work",
+      "source": "full-2008",
+      "pages": "B162",
+      "module": "development",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive work costs -5 and requires at least one-and-a-half ordinary workday duration, with resulting sleep loss through the shared time ledger. Initial reactions may be +1 but prolonged neglect produces -1/-2 from affected observers. Author defines baseline workday and relationship history.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-h-persistent-wound",
+      "source": "full-2008",
+      "pages": "B162",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Persistent open wound costs -5 without initially missing health. Informed attackers can target it at -7 with one-and-a-half wounding multiplier; blood agents reaching it count as entering broken skin. Daily first-aid/physician dressing prevents the -3 infection-resistance penalty in disease-ridden surroundings. Own dressing date and wound location; resolve its multiplier with location/type rules.",
+      "tests": [
+        "tests/expanded.py::test_recovery_wound",
+        "tests/expanded.py::test_persistent_dressing",
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Fixed price, source effect assessment, owned critical-recovery acquisition and daily dressing authored. Successful care changes live wound/surgical acquisition and daily infection resistance in plague-ridden surroundings without healing HP. Fixtures unrun. Same-day retries, live attack targeting, damage composition and blood-agent entry remain incomplete. Blood-agent entry now recognizes established contact with an active persistent wound; the poison lifecycle remains incomplete."
+    },
+    {
+      "id": "disadvantages-h-stranger-affinity",
+      "source": "full-2008",
+      "pages": "B162",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Compulsive attraction to strangers is base -10 with self-control on meeting a strange/exotic being; failure assumes willingness to interact socially. Fear checks for strange creatures receive +4/+3/+2/+1 at self-control six/nine/twelve/fifteen, with equivalent nonplayer reactions toward exotic characters. The assumption does not determine the other actor actual attitude.",
+      "tests": []
+    }
+  ]
+}

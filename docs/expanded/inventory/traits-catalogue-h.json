@@ -1,0 +1,849 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B64-B70",
+  "review": "Innate travel, social permissions, rerolls, magical aptitude/energy, metabolic abilities and mental interactions enumerated. Mental-link continuation is recorded in traits-catalogue-i; cross-reference resolution, authored contracts and validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-h-cross-world-travel",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Innate temporal travel and parallel-world travel each cost 100 and are separately purchased. Visualize destination, concentrate ten seconds and check intelligence; each omitted preparation second gives -1, including -10 for immediate use. A roll of 14 or more fails regardless of score. Failure stays in place; critical failure uses an authored wrong destination.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-arrival",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Temporal travel preserves location at a different date; world travel preserves location and date in a different world. Select corresponding safe space within 100 yards or fail and disclose that cause. Geometric safety does not exclude radiation, hostile actors or other hazards. Eligible danger perception checks precede hazardous commitment and can warn the actor.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-fatigue",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every innate jump attempt costs at least one fatigue even on failure; author may assign higher distant-destination costs, suggested up to ten. Machine travelers pay none themselves but every passenger pays the cost. Define cost and payer eligibility before rolling and use one shared time/resource transaction.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-load",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default transported load is basic lift plus payload. Greater encumbrance or another person requires the carrying enhancement. Same-kind travelers in physical contact may voluntarily accompany the initiating traveler even without the initiator permission; only the initiator rolls and all share the result. Resolve accompanying-traveler payment from the full travel rules rather than inventing an exemption.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-world-learning",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Without new-world permission, following another traveler or a critical failure is the route to an unvisited world. After arrival learn its signature as an intelligence/easy skill, taking one hour per purchased point. Future returns use that skill; an unmemorized visited world uses intelligence-3. Time travel has no corresponding visited-world restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-advancement",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enhancements and removed limitations can be purchased through practice and advancement. Author may declare particular campaign limitations permanent. Preserve discovery, world-skill investment and mandatory restrictions across changes.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-load-light",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Innate travel carrying up to light encumbrance costs +10%. Sufficient capacity permits transporting one person. Keep this ordinary passenger rule distinct from same-kind traveler following and from separately authored group travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-load-medium",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Innate travel carrying up to medium encumbrance costs +20%. Sufficient capacity permits transporting one person. Keep this ordinary passenger rule distinct from same-kind traveler following and from separately authored group travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-load-heavy",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Innate travel carrying up to heavy encumbrance costs +30%. Sufficient capacity permits transporting one person. Keep this ordinary passenger rule distinct from same-kind traveler following and from separately authored group travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-load-extra-heavy",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Innate travel carrying up to extra-heavy encumbrance costs +50%. Sufficient capacity permits transporting one person. Keep this ordinary passenger rule distinct from same-kind traveler following and from separately authored group travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-new-world",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "New-world targeting costs +50% and is world-travel-only. Deliberate unvisited destinations take intelligence-3 or worse by author decision, and double fatigue cost. A nonexistent destination fails without revealing why; pure preview cannot disclose existence.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-both",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Combined temporal/world travel costs +10% on each of the two purchased abilities and uses one intelligence roll to change both time and world. Require both modified purchases and define combined cost/target validation explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-artifact",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Artifact-origin travel costs +20%. Touch or hold a manufactured artifact; temporal travel targets shortly after creation, world travel the present date in its origin world. Check intelligence-2 with one attempt per traveler/artifact. Retain artifact identity and attempt history, not just item type.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-portal",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Portal-producing travel costs +40% and always creates a portal approximately the traveler size, lasting 3d seconds. Other actors can pass, including enemies. Own portal endpoints, expiry and occupancy instead of a one-time companion list.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-teleport",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Combined teleport/travel costs +10% on both purchases and requires the separate teleport ability. Resolve one roll for each; either can independently succeed or fail. Define all four outcomes and movement commit order without collapsing partial success into a single boolean.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-following-limits",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "World-travel-only limitations can prohibit taking other travelers along (-10%) or following another traveler (-20%). Keep the direction of each restriction distinct and reject these variants on temporal-only travel.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-drift",
+      "source": "full-2008",
+      "pages": "B64",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Arrival drift costs -15%. Author selects arrival within ten miles of the intended site, closer for better success, without arriving unsupported in air or embedded underground. Record the actual destination and selected safety evidence.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-range-limits",
+      "source": "full-2008",
+      "pages": "B64-B65",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Per-jump range limits require multiple hops; absolute range limits restrict total temporal/world separation regardless of hops. Author sets range metric and discount for each, with -10% merely suggested for the per-jump version. Track origin-relative absolute bounds rather than resetting them after each hop.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-bare",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No-carried-load travel costs -30% and leaves all carried equipment behind. Define inventory location transition and validate conflicts with carried-load variants before execution.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-travel-stun",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Post-travel mental stun costs -10% and applies after a jump. Use the mental-stun recovery procedure and clarify failed/nonmoving attempt applicability rather than repeatedly charging time or stun.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-language-aptitude",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Language aptitude costs ten. Any purchased comprehension above none functions one tier higher, giving accented overall comprehension for two points or native for four. Apply through the separate spoken/written language accounting and cap at the highest tier; no language is granted without learning.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-enforcement-authority",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Law-enforcement authority costs five for local arrest/search-warrant powers and possible concealed-carry permission; ten adds broader jurisdiction or one listed exceptional civil-rights/covert/lethal-authority privilege; fifteen includes at least three of those exceptional privileges. Author defines the fictional jurisdiction and precise permissions. Each includes institution rank zero, with higher rank purchased separately.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-enforcement-obligations",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Law-enforcement authority normally accompanies an appropriate duty and may carry reputation consequences. Validate campaign requirements separately from its price; neither authority nor rank erases the legal constraints specified by the authored setting.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-legal-exemption",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Legal exemption costs five for a separate but equally strict governing code, ten for a less restrictive code, or fifteen for broad freedom subject to loyalty to the granting power. Author defines the sole judging authority, jurisdiction and boundaries. Protected correspondence adds five. These are fictional game permissions, not statements about current law.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-performer-exemption",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Protected performance costs ten in an eligible historical/fantastic setting and requires at least one purchased point each in performance, poetry and singing. It protects performance content, not other behavior. Author adjudicates allowed lesser sanctions and reputational consequences for violators; no automatic physical immunity.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-diplomatic-exemption",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Diplomatic-status game package costs twenty with a government-agency duty and possible administrative-rank prerequisite. It uses the source setting model of foreign prosecution immunity, possible detention and expulsion, and home-government/extradition decisions. Implement through authored fictional legal events rather than claiming applicability to real-world law.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reduced-sleep",
+      "source": "full-2008",
+      "pages": "B65",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduced sleep costs two per level, maximum four, reducing the ordinary eight-hour requirement by one hour per level. Update the sleep requirement in the same rest ledger without immediately recovering fatigue or granting separate time credits.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-lifting-strength",
+      "source": "full-2008",
+      "pages": "B65-B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Lifting strength costs three per point and adds to strength/basic lift for carrying, lifting, pushing, pulling and steady pressure such as grappling or choking. It does not increase health, throwing distance, melee damage or thrown-weapon damage. Apply the existing size discount where applicable but not the no-fine-manipulation discount.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-calculation",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Instant arithmetic costs two and permits calculation without game-time delay, including under pressure. Advanced mental mathematics costs five and supports higher mathematics and equipment-free computational work such as navigation calculations or engineering design. Neither grants the underlying professional skills or unrelated equipment.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aging-resilience",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Aging resilience costs two. Aging checks fail only on 17 or 18, or only on 18 when modified health is at least 17. Dispatch this exception only for aging checks and preserve the aging schedule and loss consequences.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-60",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fortunate reroll tier costs 15 and allows one use per 60 minutes of real play. An eligible roll is rolled twice more and the best of three retained. Availability is a sliding deadline after use, not wall-clock hour buckets; unused uses do not accumulate. Persist the play-clock policy and cooldown without treating game-time advancement as elapsed play.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-30",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fortunate reroll tier costs 30 and allows one use per 30 minutes of real play. An eligible roll is rolled twice more and the best of three retained. Availability is a sliding deadline after use, not wall-clock hour buckets; unused uses do not accumulate. Persist the play-clock policy and cooldown without treating game-time advancement as elapsed play.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-10",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fortunate reroll tier costs 60 and allows one use per 10 minutes of real play. An eligible roll is rolled twice more and the best of three retained. Availability is a sliding deadline after use, not wall-clock hour buckets; unused uses do not accumulate. Persist the play-clock policy and cooldown without treating game-time advancement as elapsed play.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-window",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary reroll must be declared immediately after the roll and before any subsequent roll by anyone. For secret checks it must be declared in advance and the best of three is privately selected. Keep roll identity, event ordering and pending consequences so rerolling does not commit an abandoned outcome or disclose hidden values.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-scope",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rerolls apply to the owner success, damage or reaction rolls, outside events affecting owner/party, or an attack against the owner, where the attacker takes the worst of three. They cannot be transferred to another actor task. Author classifies eligible outside events and defines best/worst for the specific roll procedure.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-active",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Conscious predeclared reroll limitation is -40% and prohibits post-result invocation. Reserve the use before randomness and commit its cooldown with the actual roll sequence.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-aspect",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Task-aspected reroll is -20%. Author defines one related task class. The printed combat class covers weapon skills, active defenses and strength/dexterity close-combat checks, but excludes unrelated balance checks and survival health checks.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-reroll-defensive",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Defensive-only reroll is -20% and permits failed active defenses, resistance, health checks against injury consequences, or rerolling an incoming critical hit. It does not permit every incoming ordinary attack reroll.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-magical-aptitude-base",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Magical aptitude foundation costs five and is required before enhanced levels. First sight and first touch of a magical item each trigger a secret sense check; success identifies magic, while roll three/four also conveys broad helpful/dangerous character and strength. Persist per-actor/item sensory encounter history.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-magical-aptitude-levels",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each enhanced aptitude level costs ten, adds to intelligence for spell learning and theoretical-magic skill, and to perception for item sensing. New-spell learning time falls ten percent per level, floor sixty percent at level four; point cost is unchanged. Spell prerequisites/effect limits and campaign maximum remain separate.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-magic-unfamiliar-culture",
+      "source": "full-2008",
+      "pages": "B66",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A character from a nonmagical culture retains sensing but receives an unfamiliar impression rather than automatic technical identification, begins without spells, and can later learn with opportunity. Aura observers can identify potential. Author supplies culturally appropriate information and reactions.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-limit-scope",
+      "source": "full-2008",
+      "pages": "B66-B67",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Printed aptitude limitations discount only the ten-point enhanced levels, never the five-point foundation. Validate their effects across casting, sensing and learning instead of applying a blanket modifier to all purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-dance",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Movement-required aptitude is -40% and always requires free bodily motion despite high spell skill; verbal casting is unnecessary. Maintain ritual occupancy and interruptibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-dark",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Darkness-restricted aptitude is -50% and unavailable in light brighter than candlelight or starlight regardless of time of day. Aura still reveals magical aptitude. Author supplies light-category evidence.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-day",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Day-restricted aptitude is -40% and depends on the sun above the horizon, not local illumination or being indoors. Solar eclipse suppresses it; other astronomical events are authored. Awake users know one minute before sunrise and sunset.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-night",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Night-restricted aptitude is -40% and requires the sun below the horizon, independent of indoor/underground location. Awake users receive the one-minute sunrise/sunset knowledge. Aura remains detectable while powers are unavailable.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-music",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Instrument-required aptitude is -50%, requires an instrument for casting and never permits silent casting. Song-required aptitude is -40%, requires singing and retains verbal ritual regardless of high spell skill. Treat these as distinct selected requirements.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-school",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Single-school aptitude is -40%, benefits one school plus the energy-recovery spell, and detects only items containing that school spells. Other spells are learned as by a noncaster and cast only in high magical-energy conditions, but remain eligible prerequisites. Preserve first-sight/first-touch detection history.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-aptitude-solitary",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Solitary aptitude is -40%. Each sapient being within five yards imposes -3, with -6 for touching. Define whether contact replaces the proximity contribution per being. Intelligence can detect a single being entering/leaving the area, but not another entrant when someone is already nearby. Use actual occupancy transitions rather than a repeatable unrestricted detection action.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-magic-resistance",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Magic resistance costs two per level, subtracts level from direct spell casting against the owner and adds level to any spell resistance. Magical elixirs permit health plus level resistance. It cannot be disabled for friendly magic. Exclude thrown spell projectiles, magical weapon attacks, indirect information gathering and nonmagic supernatural powers.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-magic-resistance-compatibility",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Ordinary magic resistance forbids spellcasting and magical aptitude but permits magical weapons. Aura inspection by an eligible caster or casting directly on the owner reveals its exact level. Improved resistance costs +150% and permits own spellcasting/aptitude without removing protection.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-energy-suppression",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Local magical-energy suppression costs ten per level, maximum three, reducing the energy tier one step per level for the owner and carried persons/objects. It forbids spellcasting and aptitude. An incoming projectile cast elsewhere remains unaffected at creation; direct effects use the suppressed tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-energy-suppression-area",
+      "source": "full-2008",
+      "pages": "B67",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Area suppression costs +50% per level, first radius one yard and doubled thereafter. Switchable suppression costs +100%. Track coverage and selected state without incorrectly using the generic area enhancement starting radius.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-energy-enhancement",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Local magical-energy enhancement costs fifty per level, maximum two, raising the tier for owner and carried persons/objects. Overlapping enhancers use the highest increase rather than summing. It does not itself grant spell knowledge or aptitude, although high energy permits eligible noncaster use.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-energy-enhancement-limits",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Energy enhancement forbids magic resistance and can be detected by a caster intelligence-plus-aptitude check. Area and switchable enhancements use +50% per radius level starting at one yard and +100% respectively. Resolve suppression/enhancement overlap through the energy rules; the highest-enhancer rule alone does not determine that ordering.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-spirit-dialogue",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Spirit dialogue costs ten, provides nonvisual awareness of nearby spirits and communication with present spirits through shared language. Summoned spirits hear a call but need not attend. It grants neither favorable reaction nor control. Author defines eligible presence and response without inventing a guaranteed summon.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-metabolic-control",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Metabolic control costs five per level and adds level to applicable health checks selected by the author, including bleeding and recovery from disease/poison but not resistance to acquiring them. Reject machine-package construction.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-metabolic-trance",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In metabolic trance, unfamiliar examiners contest diagnosis against health plus control level to recognize survival. Each level cuts oxygen requirement ten percent, reaching none at ten, and doubles safe food/water deprivation duration. The actor is unaware, wakes when injured, and may set a timed awakening. Track actual deprivation and trance boundaries.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-hibernation",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Hibernation limitation is -60%, retains trance only and removes the health-check bonus. Authored environmental triggers require will to avoid entry; voluntary entry checks will-4 each hour until success. Chosen duration is multiplied by (2d+3)/10, replacing exact wake scheduling. Keep trigger state and failed hourly attempts persistent.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-microscopic-sight",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Magnifying sight costs five per level, each multiplying magnification by ten, and applies only within one foot. Level one supports ordinary fine forensic viewing; levels three, five and six correspond to progressively finer microscopic details. It supplies visual access rather than analysis-skill expertise.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-sound-imitation",
+      "source": "full-2008",
+      "pages": "B68",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sound imitation costs ten. A simple sound requires one second listening and intelligence success; a voice requires at least ten seconds listening live or recorded/remote and intelligence success. It does not grant damaging volume or ability to pronounce otherwise impossible spell words.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-command",
+      "source": "full-2008",
+      "pages": "B68-B69",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental command costs fifty. Seeing or touching the subject permits one-second concentration then intelligence versus will contest, modified by range and -1 for each already controlled subject. One minute preparation adds two; one hour adds four. Winning installs temporary obedience to the controller.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-command-duration",
+      "source": "full-2008",
+      "pages": "B68-B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Control continues during uninterrupted concentration, then lingers one minute per original victory margin. Incapacitation or a command against deeply held principles triggers another contest at the decisive moment; a victim victory frees them. Author defines the principle conflict and action boundary, not every harmless preparatory step.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-command-failure",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Losing control attempt blocks that subject for 24 hours and gives the subject an impression of coercion from the actor. Critical failure also releases all other controlled subjects. Persist subject deadlines and shared controller episodes; clarify tie treatment through the contest rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-command-modifiers",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental command can use authored accessibility/sense requirements, attack modifiers allowed under the remote-resistance attack restrictions, and the cybernetic modifiers from thought reading. Validate modifier compatibility and subject domain before concentration.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-conditioning",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Conditioning enhancement is +50% and alters mundane mental disadvantages, including authored memory delusions/amnesia. Subject must be controlled, cooperative and conscious. Resolve a second contest, optionally substituting conditioning skill for intelligence, at -1 per full five disadvantage points changed. Duration is victory margin in days; winning with a critical success is permanent.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-conditioning-state",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Conditioning remaining after direct control ends does not count against the controller subject penalty. Another eligible operator can undo it. Store contribution origins, expiry and authored mental changes so removal restores only that conditioning rather than wiping later advancement. Define cost magnitude for mixed additions/removals explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-command-no-memory",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No-memory command costs +10% and removes memory of the controlled interval. Retain private episode facts while preventing public recall from exposing them; do not erase unrelated prior memories.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-conditioning-only",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Conditioning-only limitation is -50%, forbids ordinary command and permits work on uncooperative subjects only when restrained. Define its replacement eligibility relative to the normal controlled/cooperative requirement; do not require the forbidden command ability as an unavoidable prerequisite.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-command-passive",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Passive-subject command is -40% and adds temporary lack of initiative while controlled. Telepathic origin is -10% and subjects the power to its psionic family rules. These affect distinct aspects of the episode.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-probe",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental probing costs twenty, requires touch or successful thought reading and a shared language. One-second concentration resolves the better of intelligence/interrogation against subject will. A win reveals a brief answer to one specific question as the subject believes it, including ignorance, not objective omniscience.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-probe-retries",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a failed probe, repeated same/similar questions within the past hour accumulate -2 per retry. Critical failure blocks all probing of that person for 24 hours. Each question costs a separate second and contest. Author supplies question identity and subject belief; history survives rephrasing and fresh action objects.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-reading",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Thought reading costs thirty. Seeing/touching the subject permits one second concentration then intelligence versus will with range penalties. Success conveys spoken, subvocalized and active thoughts at speech speed. Without common language or sapience, output is feelings/images/general intent.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-maintenance",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reading needs no further concentration and lasts until ended; switching subjects ends the current stream before the new contest. Concurrent subjects require mental compartments. Failure retries against the same subject within an hour accumulate -2; critical failure bars that subject for 24 hours.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-sensory-access",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sense-based variants constrain acquisition; hearing-based reading requires audible words, while universal interpretation permits cross-language understanding. Origin may be magic, psi, divine or technology and must be explicit rather than automatically inferred as psionic.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-cybernetic",
+      "source": "full-2008",
+      "pages": "B69-B70",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cybernetic thought access is +50%, permitting software minds and ordinary computers with an intelligence penalty equal to system complexity. Nonsentient systems do not resist: roll intelligence minus complexity. Cybernetic-only is -50% and excludes nonsoftware minds.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-sensory",
+      "source": "full-2008",
+      "pages": "B69-B70",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Sensory access enhancement is +20% and shares subject experiences. Author may require will against stun or a fear check when the subject suffers extreme events. Sensory-only is -20% and excludes thoughts. Define the event policy and eligible output instead of applying every subject injury to the reader.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-universal",
+      "source": "full-2008",
+      "pages": "B69",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Universal interpretation costs +50% and understands thoughts without shared language or sapience. It supplies interpretation, not access to knowledge absent from the subject.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-thought-domain-limits",
+      "source": "full-2008",
+      "pages": "B70",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Ancestry-restricted thought access is -20% for own or very similar ancestry; communication-link-only is -20% and requires a current telecommunication connection; telepathic origin is -10%. The probe ability can use thought-reading special modifiers, but each still needs a meaningful probe-specific contract.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-shield",
+      "source": "full-2008",
+      "pages": "B70",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mental shielding costs four per level and adds level to intelligence/will resistance against telepathic-origin abilities and the specified communication/empathy or mental-command spell groups. Mind-location magic/psi must win a contest against will plus shield. Scope depends on actual origin and spell group, not every mental-looking effect.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-shield-toggle",
+      "source": "full-2008",
+      "pages": "B70",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield raising/lowering is a free action only at the start of the owner turn. It protects during sleep/unconsciousness unless voluntarily lowered when that state began. Persist chosen state; do not automatically reactivate it at each defense or after save continuation.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-shield-cybernetic",
+      "source": "full-2008",
+      "pages": "B70",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cybernetic shield is -50%, requires software mind and protects against specified computer-related intrusion instead of magic/psi. Telepathic shield origin is a separate -10% limitation. Validate origin compatibility and avoid granting both protection domains for the price of one.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-link",
+      "source": "full-2008",
+      "pages": "B70",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permanent mental rapport automatically contacts designated subjects using mental sending or thought reading when the subject does not resist or lacks independent initiative. It does not supply either underlying ability. Automatic contact cannot cross other dimensions/worlds or distances greater than 0.1 light-year.",
+      "tests": []
+    },
+    {
+      "id": "traits-h-mental-link-price",
+      "source": "full-2008",
+      "pages": "B70",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Rapport costs five for one subject, ten for two through nine, twenty for ten through ninety-nine, thirty for one hundred through 999, then ten more for each tenfold capacity increase. Retain a defined membership set. B71 continuation and modifiers are recorded in traits-catalogue-i; the combined definition remains unimplemented.",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,2233 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B349-B357",
+  "review": "Physical activity text and printed numeric tables reviewed. Procedures, optional rules, gravity, thrown objects and effort are enumerated. Independent table verification and cross-reference resolution remain open; no complete runtime activity is claimed.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "activity-physical-fallback",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an authored physical task without a specific procedure, select dexterity for precision, health for endurance, lifting capacity for work/weight and movement for speed; preserve the selected rationale.",
+      "tests": []
+    },
+    {
+      "id": "activity-climb-rolls",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "For non-ladder climbs roll climbing at entry and each five-minute boundary, with the climb modifier and a penalty equal to encumbrance level.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "activity-climb-failure",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Any failed climb causes a fall; a secured rope limits the fall to its end except on critical failure. Use the shared falling and injury procedure.",
+      "tests": [
+        "tests/expanded.py::test_climb_fall_assessment"
+      ],
+      "validation_note": "Pure failed-check geometry now distinguishes success, ordinary/critical failure, rope arrest and earlier obstacles. Full printed whole-yard velocity table is available separately. Assertions authored, unrun; owned fall resolution, fractional distance and damage integration remain pending."
+    },
+    {
+      "id": "activity-climb-combat",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Combat-speed climbing requires a movement maneuver and fatigue cost of at least one or twice the authored ordinary cost; do not also charge another ordinary climb cost.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "activity-dig-volume",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Compute cubic-foot volume from dimensions and divide by the applicable cubic-feet-per-hour rate to obtain duration; preserve fractional lifting capacity and work credit.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "activity-dig-tools",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The listed digging rates assume iron or steel tools; wooden tools halve them and improvised tools divide them by at least four according to an authored equipment condition.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "activity-hike-base-distance",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ideal daily miles equal ten times current ground movement after encumbrance, injury and fatigue; apply the ground enhanced-movement multiplier where present.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "activity-hike-skill",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "One daily hiking success increases distance by twenty percent; failure grants no bonus and does not create free repeated attempts.",
+      "tests": [
+        "tests/expanded.py::test_hiking_attempt",
+        "tests/expanded.py::test_hiking_party"
+      ],
+      "validation_note": "Owned ordinary daily solo/group attempts share participant histories, prevent alternate-ID and alternate-skill retries, bind definitions, preserve the single roll and select the slowest current member for shared pace. Group leadership threshold and average skill/default arithmetic use B200/B204/B220-B221/B351. Ledger-day boundaries are explicit. Pure preview, failed/successful rolls, rollback, undo, saved replay and next-day assertions authored, unrun. Independent-roll parties now consume existing solo receipts and require every member to succeed for the common bonus; regrouping does not reroll. Their rollback, undo, saved replay and invalid-receipt fixtures remain unrun. Extra effort, full-day occupation, interruptions, fatigue and movement execution remain incomplete."
+    },
+    {
+      "id": "activity-hike-group",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A leader with leadership at least twelve permits a single roll against average group hiking, using health-5 defaults for untrained members; the bonus applies to everyone or no one.",
+      "tests": [
+        "tests/expanded.py::test_hiking_attempt",
+        "tests/expanded.py::test_hiking_party"
+      ],
+      "validation_note": "Owned ordinary daily solo/group attempts share participant histories, prevent alternate-ID and alternate-skill retries, bind definitions, preserve the single roll and select the slowest current member for shared pace. Group leadership threshold and average skill/default arithmetic use B200/B204/B220-B221/B351. Ledger-day boundaries are explicit. Pure preview, failed/successful rolls, rollback, undo, saved replay and next-day assertions authored, unrun. Independent-roll parties now consume existing solo receipts and require every member to succeed for the common bonus; regrouping does not reroll. Their rollback, undo, saved replay and invalid-receipt fixtures remain unrun. Extra effort, full-day occupation, interruptions, fatigue and movement execution remain incomplete."
+    },
+    {
+      "id": "activity-hike-group-pace",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A group travels at its slowest member's rate unless it splits; choosing the shared hiking roll commits it to staying together for that assessment.",
+      "tests": [
+        "tests/expanded.py::test_hiking_attempt",
+        "tests/expanded.py::test_hiking_party"
+      ],
+      "validation_note": "Owned ordinary daily solo/group attempts share participant histories, prevent alternate-ID and alternate-skill retries, bind definitions, preserve the single roll and select the slowest current member for shared pace. Group leadership threshold and average skill/default arithmetic use B200/B204/B220-B221/B351. Ledger-day boundaries are explicit. Pure preview, failed/successful rolls, rollback, undo, saved replay and next-day assertions authored, unrun. Independent-roll parties now consume existing solo receipts and require every member to succeed for the common bonus; regrouping does not reroll. Their rollback, undo, saved replay and invalid-receipt fixtures remain unrun. Extra effort, full-day occupation, interruptions, fatigue and movement execution remain incomplete."
+    },
+    {
+      "id": "activity-hike-independent-party",
+      "source": "full-2008",
+      "pages": "B200, B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "When a party uses individual daily travel rolls, every member must succeed for its common twenty-percent distance bonus. Use the slowest member for shared pace; splitting or regrouping must not grant fresh daily rolls. Shared leadership-roll participants cannot reclassify that receipt as individual rolls.",
+      "tests": [
+        "tests/expanded.py::test_hiking_party"
+      ],
+      "validation_note": "Owned party decisions bind already resolved solo receipts from the same ledger day, preserve individual outcomes, require all successes, and assess the minimum common pace. Failed/successful groups, unresolved/duplicate/expired/shared receipts, rollback, undo and cross-process continuation fixtures authored, unrun. Full-day occupation, interruptions and world movement remain incomplete."
+    },
+    {
+      "id": "activity-hike-schedule",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Daily marching includes preparation and rest and leaves no time for study or unrelated activity; interruptions expose fatigue through the health rules rather than treating a full travel day as spare time.",
+      "tests": []
+    },
+    {
+      "id": "activity-breath-preparation",
+      "source": "full-2008",
+      "pages": "B351-B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Breath duration assumes one second of preparation, requiring concentration in combat; without that opportunity halve duration.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence",
+        "tests/expanded.py::test_breath_preparation"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Owned one-second preparation and a trained skill check now feed a single-use reserve receipt. Ordinary expiry has an explicit hazard handoff. Combat concentration integration, hyperventilation, trait eligibility and activity changes remain incomplete. New fixtures unrun."
+    },
+    {
+      "id": "activity-breath-hyperventilation",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Prepared hyperventilation multiplies duration by 1.5, or 2.5 with pure oxygen; these are alternatives, not cumulative oxygen and ordinary bonuses.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "activity-breath-control",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A successful breath-control roll adds a further factor of 1.5 to permitted breath duration.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "activity-breath-trait",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each breath-holding advantage level doubles duration regardless of preparation circumstances.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "activity-breath-expiry",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After the breath interval spend one fatigue per second; at zero fatigue require a will check each second to avoid unconsciousness and apply the suffocation procedure.",
+      "tests": []
+    },
+    {
+      "id": "activity-jump-small-obstacle",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An ordinary obstacle at least three size-modifier steps smaller than the actor is automatically jumpable unless it is an explicitly significant hazard.",
+      "tests": [
+        "tests/expanded.py::test_tactical_small_jumps"
+      ],
+      "validation_note": "Pure actor-relative size threshold and tactical small-jump path assessment implemented. An approved ordinary obstacle at least three size steps smaller uses Move and adds one movement point, preserving other path costs. Significant hazards, non-Move maneuvers, unsupported posture/deep water and missing facts are rejected. Threshold, additive crouching costs, invalid cases and preview purity assertions authored, unrun. Committed full-path movement remains pending."
+    },
+    {
+      "id": "activity-jump-high",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Standing high-jump height in inches is six times basic movement minus ten; a running start adds its yards to movement in the formula, with running height capped at twice standing height.",
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
+    },
+    {
+      "id": "activity-jump-broad",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Standing broad-jump distance in feet is twice basic movement minus three; a running start adds its yards before evaluation, with distance capped at twice standing distance.",
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
+    },
+    {
+      "id": "activity-jump-enhanced-move",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With a running start, enhanced ground movement multiplies movement before the jumping formulas instead of also adding run-up yards.",
+      "tests": []
+    },
+    {
+      "id": "activity-jump-super",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each enhanced-jump level doubles final jump distance, cumulatively with enhanced movement where applicable.",
+      "tests": [
+        "tests/expanded.py::test_jump_profile"
+      ],
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
+    },
+    {
+      "id": "activity-jump-combat-preparation",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Full combat jump distance requires two consecutive concentration maneuvers; an unprepared jump has half distance.",
+      "tests": [
+        "tests/expanded.py::test_jump_assessment",
+        "tests/expanded.py::test_jump_preparation",
+        "tests/expanded.py::test_jump_launch",
+        "tests/expanded.py::test_physical_maneuver_gates"
+      ],
+      "validation_note": "Pure distance preparation halving now has a battle-owned concentration adapter. Two consecutive successful health-gated concentration turns establish readiness; fighter/battle binding, concentration count, round stamps and ledger progression detect interruption or unrelated work. The battle alone charges time. Combat assessment derives preparation from the receipt. Consecutive/interrupted turns, unrelated concentration, rollback, undo and save continuation assertions authored, unrun. Actual launch consumption, travel and position changes remain pending. Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending. Physical maneuver gates now require movement and exclude mental-only permission. Malformed-gate and exhausted-denial rollback/undo/save assertions are authored, unrun."
+    },
+    {
+      "id": "activity-jump-combat-small",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A small-obstacle combat jump uses a movement maneuver and costs one additional movement point.",
+      "tests": [
+        "tests/expanded.py::test_tactical_small_jumps",
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_physical_maneuver_gates"
+      ],
+      "validation_note": "Pure actor-relative size threshold and tactical small-jump path assessment implemented. An approved ordinary obstacle at least three size steps smaller uses Move and adds one movement point, preserving other path costs. Significant hazards, non-Move maneuvers, unsupported posture/deep water and missing facts are rejected. Threshold, additive crouching costs, invalid cases and preview purity assertions authored, unrun. Committed full-path movement remains pending. Uninterrupted Move paths now commit to the existing tactical figure through a health-aware battle maneuver. Shared pre-posture allowance avoids duplicate posture costs; battle alone owns time. Replay, invalid input, rollback, undo, save continuation and Lite movement assertions authored, unrun. Interrupted routes and other maneuvers remain pending. Physical maneuver gates now require movement and exclude mental-only permission. Malformed-gate and exhausted-denial rollback/undo/save assertions are authored, unrun."
+    },
+    {
+      "id": "activity-jump-combat-large",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Jumping a larger obstacle or onto a surface uses the whole movement turn; vertical and long horizontal jumps require a dexterity check when specified by the hazard.",
+      "tests": [
+        "tests/expanded.py::test_jump_launch",
+        "tests/expanded.py::test_jump_placement",
+        "tests/expanded.py::test_physical_maneuver_gates"
+      ],
+      "validation_note": " Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending. Horizontal tactical placement now preflights authored successful and prone-failure endpoints and commits the same figure once. Terrain, occupancy, missing plans, rollback, undo and saved replay assertions authored, unrun. Vertical placement and multi-second enhanced travel remain unsupported. Physical maneuver gates now require movement and exclude mental-only permission. Malformed-gate and exhausted-denial rollback/undo/save assertions are authored, unrun."
+    },
+    {
+      "id": "activity-jump-failure",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A failed difficult jump leaves the actor fallen and requires two posture changes to stand; critical failure invokes falling damage from the actual height.",
+      "tests": [
+        "tests/expanded.py::test_jump_launch",
+        "tests/expanded.py::test_jump_launch_fall",
+        "tests/expanded.py::test_jump_placement"
+      ],
+      "validation_note": "Owned launch failure sets prone posture. Critical failure consumes an authored fall-height plan through the owned collision/protection/wound pipeline; the complete possible damage range is preflighted before accuracy dice. Success and ordinary failure leave the plan unused. Replay validates the child impact. Damage, armor, missing-plan, rollback, undo and saved continuation assertions authored, unrun. Actual destination placement, travel interruption and newly reactive landing maneuvers remain pending. Horizontal tactical placement now preflights authored successful and prone-failure endpoints and commits the same figure once. Terrain, occupancy, missing plans, rollback, undo and saved replay assertions authored, unrun. Vertical placement and multi-second enhanced travel remain unsupported."
+    },
+    {
+      "id": "activity-jump-clamber",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Clambering onto a vertical obstacle with two consecutive movement maneuvers avoids the risky dexterity roll; validate the route and reachable obstacle before committing.",
+      "tests": [
+        "tests/expanded.py::test_clamber"
+      ],
+      "validation_note": "Owned adjacent-surface clamber records two consecutive physical-health-gated Move turns, automatically placing the existing figure after the second without accuracy dice. Author supplies reachable stable upper-surface facts. Origin, terrain, occupancy, body support, binding and ledger/turn continuity are validated. Skipped-turn, invalid-reach, occupancy, rollback, undo and saved continuation assertions authored, unrun. General elevation, changing supports and interrupt resolution remain pending."
+    },
+    {
+      "id": "activity-jump-skill",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Permit half jumping skill, rounded down, in place of basic movement for distance and jumping skill in place of dexterity for difficult jump checks.",
+      "tests": [
+        "tests/expanded.py::test_jump_assessment",
+        "tests/expanded.py::test_jump_profile",
+        "tests/expanded.py::test_jump_launch"
+      ],
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending. Owned whole-Move-turn launch now snapshots preparation after health permission and before the scheduler clears concentration. It validates range, records required contextual DX or selected Jumping checks, leaves failed jumps prone and marks critical falls for later settlement. Battle alone charges time. Outcome, range rejection, rollback, undo and saved continuation assertions authored, unrun. Destination placement, travel interruption and critical-fall damage remain pending."
+    },
+    {
+      "id": "activity-jump-strength-option",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "When explicitly enabled and lifting capacity exceeds body weight, permit the higher of floor(strength/4) and basic movement in the jump formulas.",
+      "tests": [
+        "tests/expanded.py::test_jump_profile"
+      ],
+      "validation_note": "Profile-backed pure distance assessment validates paid DX/Easy Jumping with no default, applies the explicit strength basis only when lift strictly exceeds measured body weight, and consumes active approved enhanced-jump levels with ten-point-per-level trait accounting. Final distances double per level with overflow rejection. Pricing, strict boundary, disabled benefit, running/preparation and skill-selection assertions authored, unrun. Owned preparation, difficult-jump rolls, enhanced movement, actual movement, jump attacks and fall protection remain pending."
+    },
+    {
+      "id": "activity-jump-encumbrance-option",
+      "source": "full-2008",
+      "pages": "B352",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "When explicitly enabled, multiply distance by the encumbrance factor 1, 0.8, 0.6, 0.4 or 0.2; do not assume this optional reduction in the baseline formulas.",
+      "tests": [
+        "tests/expanded.py::test_jump_assessment"
+      ],
+      "validation_note": "Pure ordinary distance assessment implements standing/running formulas and independent caps, explicit half-skill substitution, preparation halving and optional fifth-based encumbrance factors without losing fractional inches. Printed examples, boundaries and preview purity assertions authored, unrun. Owned preparation, skill eligibility, difficult-jump rolls, enhanced traits, optional strength basis, movement and landing consequences remain pending; effective basis below two is explicitly unsupported."
+    },
+    {
+      "id": "activity-lift-cooperation",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "For an authored cooperative lift or pull, add participants' lifting capacities rather than their strength scores.",
+      "tests": [
+        "tests/expanded.py::test_cooperative_loads",
+        "tests/expanded.py::test_load_distribution",
+        "tests/expanded.py::test_shared_carry",
+        "tests/expanded.py::test_shared_release",
+        "tests/expanded.py::test_shared_support_loss",
+        "tests/expanded.py::test_shared_limb",
+        "tests/expanded.py::test_shared_hands"
+      ],
+      "validation_note": "Authored cooperative capacity assessment sums individually rounded BL, rejects duplicate/incapacitated helpers and uses shared lift/dragging arithmetic. Boundary and scenario assertions authored, unrun. Joint physical execution, per-participant load distribution, movement and fatigue remain pending. Pure authored share allocation now conserves object weight and assesses each helper alongside existing inventory, blocking unsupported individual overload. Unequal-share and boundary assertions authored, unrun; committed shared carrying still pending. Equipment now commits one shared lift with a single item owner and per-helper ledger shares, then ends it through evidenced authored lowering. Transfer guards, rollback, undo and saved active carrying assertions authored, unrun. Coordinated movement, emergency dropping and reallocation remain pending. Explicit emergency release now verifies support loss and requires evidence for whole-load dropping and resolved impact consequences, clearing shares at event time. Rollback/undo/save assertions authored, unrun; automatic health dispatch, remaining-helper retention and redistribution remain pending. Health hooks now record unconsciousness/knockdown/bound-limb support loss and block positive time while unresolved; event persistence and recovery-before-release assertions authored, unrun. Dedicated limb-wound fixtures and remaining support transitions remain pending. Dedicated real-wound fixtures now specify bound-hand and parent-arm loss, unbound-hand exclusion, simultaneous knockdown/unconsciousness/limb events, rollback, undo and saved pending injury. Assertions remain unrun. Active support reservations now gate attacks/parries/shield blocks and new lifts while preserving explicitly free hands and lowering. Capability and pre-RNG strike assertions authored, unrun; unarmed defense capacity and movement remain pending. Unarmed defense capacity now excludes reserved supports; direct defense-query fixtures cover zero/one free arm, unmapped support and lowering restoration, unrun."
+    },
+    {
+      "id": "activity-lift-back-fatigue",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Carrying more than ten times lifting capacity costs one fatigue per second, including when another procedure also spends effort fatigue.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "activity-lift-ready-small",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An item no heavier than basic lifting capacity takes one ready second to pick up; heavier allowed one-handed and two-handed lifts require two and four consecutive ready actions respectively.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. B15 cross-reference now supplies one-second pickup within Basic Lift in and out of combat. Strength-rounding and skill-adjusted threshold assertions authored, unrun; existing profile rounding is preserved."
+    },
+    {
+      "id": "activity-lift-unwilling",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Lifting an unwilling actor first requires grappling and allows attempts to escape during the subsequent lift; a successful inventory transfer cannot replace the grapple contest.",
+      "tests": []
+    },
+    {
+      "id": "activity-lift-obstacle-combat",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shifting an inanimate obstacle up to twelve times capacity requires an attack; a full-movement run can shift twenty-four times capacity with a movement maneuver. Resisting creatures use slam rules instead.",
+      "tests": []
+    },
+    {
+      "id": "activity-lift-map-effects",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Picking up or knocking down an object updates its tactical position and occupancy consistently with inventory ownership.",
+      "tests": []
+    },
+    {
+      "id": "activity-lift-skill",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Roll lifting once per lift; success increases capacity for that lift by five percent per success margin, without permanently changing strength or encumbrance capacity.",
+      "tests": [
+        "tests/expanded.py::test_lifting_skill",
+        "tests/expanded.py::test_skilled_pickup",
+        "tests/expanded.py::test_lift_attempt"
+      ],
+      "validation_note": "Owned once-per-lift skill attempt retains exact five-percent-per-margin capacity without changing encumbrance or carrying. Paid training and physical-action gates precede RNG; replay and alternate-ID duplicate attempts cannot reroll. Fixtures authored, unrun. Equipment pickup now consumes the exact bound capacity and validates physical eligibility before the roll; carrying remains unmodified. Joint rollback and between-stage save fixtures are authored, unrun. Combined attempts now require explicit author-evidenced failure timing, because the source does not specify it, and record either outcome once. Joint rollback, undo and saved failure assertions authored, unrun. Broader action routing remains pending."
+    },
+    {
+      "id": "activity-drag-cap",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Include the transport device in gross load, apply all allowed drag reductions and reject effective weight above fifteen times capacity; derive encumbrance and movement from the final effective weight.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-base",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ground running uses basic movement modified for encumbrance; combat running consumes movement maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-sprint",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After one second of forward running, ordinary sprint speed becomes 120% of movement; retain fractions outside hex movement and grant at least one extra movement unit on the combat map.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-enhanced",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enhanced ground movement replaces the ordinary sprint bonus; accelerate by basic movement each second until the multiplied maximum is reached.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-turns",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Maximum sprint requires good ground and approximately straight travel; leaving forward movement requires one second at ordinary movement before sprinting resumes.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-paced",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Paced running speed is exactly half sprint speed, retaining fractional distance where the time scale permits it.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-fatigue",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every fifteen sprint seconds or sixty paced seconds roll the higher of health or running; failure spends one fatigue. Below one-third fatigue, halve running movement through the common health state.",
+      "tests": []
+    },
+    {
+      "id": "activity-run-machine",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mechanical bodies do not make biological fatigue expenditures; retain their own energy and movement restrictions without synthesizing a fatigue pool.",
+      "tests": []
+    },
+    {
+      "id": "activity-swim-rolls",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Nonamphibious and nonaquatic actors roll swimming upon entering deep water and every five minutes thereafter; ordinary untrained default is health-4.",
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context",
+        "tests/expanded.py::test_swimming_transactions",
+        "tests/expanded.py::test_swimming_persistence"
+      ],
+      "validation_note": "Owned balance and fixed-pace endurance schedules authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Exhaustion, drowning, heat, extra effort, changing pace, movement adjustments and broad cross-module verification remain incomplete."
+    },
+    {
+      "id": "activity-swim-modifiers",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use +3 for intentional entry, minus twice encumbrance level, and the applicable body-build buoyancy bonus.",
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context",
+        "tests/expanded.py::test_swimming_transactions",
+        "tests/expanded.py::test_swimming_persistence"
+      ],
+      "validation_note": "Owned balance and fixed-pace endurance schedules authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Exhaustion, drowning, heat, extra effort, changing pace, movement adjustments and broad cross-module verification remain incomplete."
+    },
+    {
+      "id": "activity-swim-failure",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A failed swim check inhales water and spends one fatigue, with retry after five seconds; after successful recovery check again in one minute, then return to five-minute intervals after success.",
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context",
+        "tests/expanded.py::test_swimming_transactions",
+        "tests/expanded.py::test_swimming_persistence"
+      ],
+      "validation_note": "Owned balance and fixed-pace endurance schedules authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Exhaustion, drowning, heat, extra effort, changing pace, movement adjustments and broad cross-module verification remain incomplete."
+    },
+    {
+      "id": "activity-swim-shed-equipment",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After the first successful swimming roll, shedding each item requires dexterity, at -4 for shield, helmet or torso armor; failure inhales water and uses the normal swim-failure sequence.",
+      "tests": []
+    },
+    {
+      "id": "activity-swim-zero-fatigue",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero fatigue require will each second to remain conscious and use suffocation consequences; prevent duplicate charges from swimming and suffocation clocks.",
+      "tests": []
+    },
+    {
+      "id": "activity-swim-speed",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Land-dweller water movement is floor(basic movement/5), minimum one, before applicable purchased changes; aquatic and amphibious actors use full basic movement.",
+      "tests": [
+        "tests/expanded.py::test_swimming_movement_endurance"
+      ],
+      "validation_note": "Pure ordinary water movement and HT/Swimming endurance selection authored; fixtures unrun. Owned movement/endurance intervals, low-fatigue/injury adjustments, heat, extra effort and balance-check integration remain incomplete."
+    },
+    {
+      "id": "activity-swim-distance",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use ten-second distance intervals for long swims and apply encumbrance to ten times water movement; water movement one with heavy encumbrance covers four yards in ten seconds.",
+      "tests": [
+        "tests/expanded.py::test_swimming_movement_endurance"
+      ],
+      "validation_note": "Pure ordinary water movement and HT/Swimming endurance selection authored; fixtures unrun. Owned movement/endurance intervals, low-fatigue/injury adjustments, heat, extra effort and balance-check integration remain incomplete."
+    },
+    {
+      "id": "activity-swim-fatigue",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At top speed roll the higher of health or swimming each minute; slow swimming or floating checks every thirty minutes. Failure costs one fatigue and low-fatigue state halves water movement.",
+      "tests": [
+        "tests/expanded.py::test_swimming_movement_endurance",
+        "tests/expanded.py::test_swimming_owned_endurance",
+        "tests/expanded.py::test_swimming_transactions",
+        "tests/expanded.py::test_swimming_persistence"
+      ],
+      "validation_note": "Owned balance and fixed-pace endurance schedules authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Exhaustion, drowning, heat, extra effort, changing pace, movement adjustments and broad cross-module verification remain incomplete."
+    },
+    {
+      "id": "activity-swim-rescue",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A lifesaving check uses swimming-5 plus rescuer strength minus victim strength, with any authored technique bonus.",
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments"
+      ],
+      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
+    },
+    {
+      "id": "activity-swim-rescue-failure",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary failed rescue costs one fatigue through inhaled water and allows retry after a minute; critical failure costs six fatigue and forces abandonment of the attempt.",
+      "tests": [
+        "tests/expanded.py::test_swimming_assessments"
+      ],
+      "validation_note": "Pure modifiers, check cadence and lifesaving outcomes authored; fixtures unrun. Owned swimming, skill resolution, fatigue, consciousness, equipment shedding and rescue integration remain incomplete."
+    },
+    {
+      "id": "activity-flight-substitution",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For flight use floor(twice basic speed) as air movement, air enhanced movement, and flight skill in place of hiking/running; apply encumbrance, injury, fatigue and acceleration consistently.",
+      "tests": []
+    },
+    {
+      "id": "activity-flight-weather",
+      "source": "full-2008",
+      "pages": "B354",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flying ignores ground terrain but applies authored wind and weather effects; terrain substitution does not authorize flight through occupied obstructions.",
+      "tests": []
+    },
+    {
+      "id": "climb-surface-ladder-up",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use no roll for the climb check, combat speed 3 rungs/second and ordinary speed 1 rung/second; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-ladder-down",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use no roll for the climb check, combat speed 2 rungs/second and ordinary speed 1 rung/second; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-tree",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use +5 for the climb check, combat speed 1 foot/second and ordinary speed 1 foot/3 seconds; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-mountain",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use 0 for the climb check, combat speed 1 foot/2 seconds and ordinary speed 10 feet/minute; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-stone-wall",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use -3 for the climb check, combat speed 1 foot/5 seconds and ordinary speed 4 feet/minute; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-building",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use -3 for the climb check, combat speed 1 foot/10 seconds and ordinary speed 2 feet/minute; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-rope-up",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use -2 for the climb check, combat speed 1 foot/second and ordinary speed 20 feet/minute; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-rope-down-unassisted",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use -1 for the climb check, combat speed 2 feet/second and ordinary speed 30 feet/minute; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "climb-surface-rope-down-equipped",
+      "source": "full-2008",
+      "pages": "B349",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use -1 for the climb check, combat speed 12 feet/second and ordinary speed 12 feet/second; keep units explicit.",
+      "tests": [
+        "tests/expanded.py::test_climb_assessment"
+      ],
+      "validation_note": "Pure exact-rate assessment reuses the shared B349 table, includes encumbrance, whole-second duration, scheduled check count and replacement combat fatigue. Table, boundary and purity assertions authored, unrun. Owned climb execution, skill checks, interruptions and falling consequences remain pending."
+    },
+    {
+      "id": "digging-rate-loose",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Loose soil removal rate is twice lifting capacity cubic feet per hour; fatigue cost is one per work hour.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-ordinary",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Ordinary soil removal rate is lifting capacity cubic feet per hour; fatigue cost is two per hour.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-ordinary-pick",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A pick loosens ordinary soil at four times lifting capacity cubic feet per hour; removal of that loosened material is separately accounted.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-hard-pick",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A pick breaks hard soil at twice lifting capacity cubic feet per hour before shoveling.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-hard-shovel",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Broken hard soil is shoveled at twice lifting capacity cubic feet per hour; hard-soil work costs three fatigue per hour.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-hard-solo",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "One worker alternating pick and shovel removes hard soil at 0.6 times lifting capacity cubic feet per hour.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team",
+        "tests/expanded.py::test_digging_work"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-rock-pick",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A pick breaks rock at lifting capacity cubic feet per hour or a specifically slower authored rate for unusually hard rock.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "digging-rate-rock-shovel",
+      "source": "full-2008",
+      "pages": "B350-B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Broken rock is removed at lifting capacity cubic feet per hour; rock work costs four fatigue per hour.",
+      "tests": [
+        "tests/expanded.py::test_digging_assessment",
+        "tests/expanded.py::test_digging_material",
+        "tests/expanded.py::test_digging_team"
+      ],
+      "validation_note": "Exact rate/duration assessments and owned sequential hours now preserve fractional values, tool ownership, fatigue and material credits. Pick work creates prepared stock; shovel work consumes it; common-denominator rescaling is exact. Matrix, stock, rollback, undo and save-continuation assertions authored, unrun. Concurrent team hours now preflight combined flow and commit separate workers within one shared interval; team fixtures are unrun. Partial hours and exhausted/heat-adjusted work remain incomplete."
+    },
+    {
+      "id": "hiking-terrain-very-bad",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply ideal daily distance by 0.2 for very-bad terrain.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-terrain-bad",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply ideal daily distance by 0.5 for bad terrain.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-terrain-average",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply ideal daily distance by 1 for average terrain.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-terrain-good",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Multiply ideal daily distance by 1.25 for good terrain.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-rain",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Rain halves off-road speed; roads use their separate wet-surface rule.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-shallow-snow",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Ankle-deep snow halves speed.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-deep-snow",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Deeper snow divides speed by at least four, with the exact worse condition authored.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-skis",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Skis treat snow of any depth as average terrain and substitute skiing for hiking.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-ice-coating",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An ice coating halves speed in any terrain.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-solid-ice",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Solid ice is bad terrain, or good terrain for skaters using skating instead of hiking.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-dry-road",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "In fine weather roads are average terrain, with the best roads optionally good.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-wet-poor-road",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Wet unsurfaced dirt or gravel becomes very bad terrain.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-wet-good-road",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Better roads in rain are average and cannot receive the good-terrain bonus.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "hiking-weather-snowy-road",
+      "source": "full-2008",
+      "pages": "B351",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Snowy or icy roads are average terrain with weather penalties unless cleared.",
+      "tests": [
+        "tests/expanded.py::test_hiking_assessment"
+      ],
+      "validation_note": "Pure B351 daily-mileage assessment implements terrain, rain, snow, ice, roads, cleared roads, ski/skate substitutions and an authored enhanced-ground-movement multiplier. Fractional factors are retained until the final hundredth-mile truncation. Expected values and purity fixtures are authored but unrun. Owned ordinary daily skill attempts and shared group pace now have separate unrun fixtures. Independent-roll party coordination also has unrun fixtures. Trait-derived multipliers, travel-time occupation, fatigue, mixed conditions and route execution remain incomplete."
+    },
+    {
+      "id": "breath-exertion-none",
+      "source": "full-2008",
+      "pages": "B351-B352",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Prepared breath-holding duration is health multiplied by 10 seconds for none exertion, before other breath modifiers.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "breath-exertion-mild",
+      "source": "full-2008",
+      "pages": "B351-B352",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Prepared breath-holding duration is health multiplied by 4 seconds for mild exertion, before other breath modifiers.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "breath-exertion-heavy",
+      "source": "full-2008",
+      "pages": "B351-B352",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Prepared breath-holding duration is health multiplied by 1 seconds for heavy exertion, before other breath modifiers.",
+      "tests": [
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence"
+      ],
+      "validation_note": "Duration arithmetic and fixed-activity owned reserve authored. Expected-value, transaction, undo and separate-process continuation fixtures remain unrun. Preparation actions, skill execution, trait eligibility, activity changes and suffocation handoff remain incomplete."
+    },
+    {
+      "id": "lifting-capacity-one-hand",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "One hand can lift twice basic capacity in two seconds.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments",
+        "tests/expanded.py::test_equipment_lift"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending. B15 cross-reference now supplies one-second pickup within Basic Lift in and out of combat. Strength-rounding and skill-adjusted threshold assertions authored, unrun; existing profile rounding is preserved."
+    },
+    {
+      "id": "lifting-capacity-two-hands",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Two hands can lift eight times basic capacity in four seconds.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments",
+        "tests/expanded.py::test_equipment_lift"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending. Owned noncombat pickups now charge the lift duration once and transfer stored gear into the existing carried inventory after health, hand and capacity revalidation. Transaction/undo/save assertions authored, unrun; combat and cooperative execution remain pending. B15 cross-reference now supplies one-second pickup within Basic Lift in and out of combat. Strength-rounding and skill-adjusted threshold assertions authored, unrun; existing profile rounding is preserved."
+    },
+    {
+      "id": "lifting-capacity-shove",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A shove can knock over twelve times capacity; a running start doubles this.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "lifting-capacity-back",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Back carrying can support fifteen times capacity, subject to overload fatigue.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "lifting-capacity-shift",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Suitable bracing and footing can permit rocking or slightly shifting fifty times capacity; require the authored physical conditions.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "dragging-device-unassisted",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Use the full gross weight for unassisted dragging.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "dragging-device-sledge",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A sledge on snow or ice halves gross weight.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "dragging-device-cart",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A two-wheeled cart divides gross weight by ten.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "dragging-device-wagon",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A four-wheeled wagon divides gross weight by twenty.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "dragging-device-surface",
+      "source": "full-2008",
+      "pages": "B353",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A smooth level surface halves effective weight again, cumulatively with the device reduction.",
+      "tests": [
+        "tests/expanded.py::test_load_assessments"
+      ],
+      "validation_note": "Pure B353 lifting/dragging assessments implement capacity, known durations, exact device/surface ratios and shared encumbrance boundaries. Expected-value and boundary fixtures authored, unrun. Inventory/map execution, cooperation, skill bonuses and owned overload costs remain pending."
+    },
+    {
+      "id": "gravity-mass-weight",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Keep mass invariant under gravity changes; derive local weight separately for encumbrance and lifting.",
+      "tests": []
+    },
+    {
+      "id": "gravity-microgravity",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Gravity below 0.1G is microgravity; zero gravity is a distinct movement condition and must not divide formulas by zero.",
+      "tests": []
+    },
+    {
+      "id": "gravity-high-encumbrance",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Above one gravity, add (body weight plus gear weight) times (local gravity minus one) to ordinary carried gear weight; 150-pound body plus 30-pound gear at 1.2G yields effective encumbrance 66 pounds.",
+      "tests": []
+    },
+    {
+      "id": "gravity-low-encumbrance",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one gravity, multiply gear weight by local gravity for encumbrance; reduced body weight affects jumping but is not a negative carried load.",
+      "tests": []
+    },
+    {
+      "id": "gravity-zero-push",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Without flight or another movement aid, zero-gravity movement requires pushing off a solid surface and proceeds at floor(strength/2) until contact or another applicable force changes it.",
+      "tests": []
+    },
+    {
+      "id": "gravity-jump",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Scale ordinary jumping distances by one divided by local gravity, except the running-start bonus to high-jump height; if distance at least doubles, use enhanced-jump bounding movement rules.",
+      "tests": []
+    },
+    {
+      "id": "gravity-throw",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Scale throwing distance by one divided by local gravity but leave damage based on mass, not locally reduced weight.",
+      "tests": []
+    },
+    {
+      "id": "gravity-fall",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Scale terminal velocity by local gravity and resolve resulting falls through the hazard rules.",
+      "tests": []
+    },
+    {
+      "id": "gravity-free-fall-skill",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply free-fall skill and dexterity rules in zero gravity, except beam weapons with recoil below two and vehicles or tools designed for zero gravity.",
+      "tests": []
+    },
+    {
+      "id": "gravity-increments",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use home gravity and the actor's tolerance increment, normally 0.2G; count full increments of difference by rounding down with stable threshold arithmetic.",
+      "tests": []
+    },
+    {
+      "id": "gravity-dexterity",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply -1 dexterity per full increment for agility and ballistic tasks, or -1 per two full increments with relevant gravity experience; do not apply it to beam weapons or lock manipulation.",
+      "tests": []
+    },
+    {
+      "id": "gravity-intelligence",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Higher gravity imposes -1 intelligence per two full increments; lower gravity imposes no corresponding intelligence penalty.",
+      "tests": []
+    },
+    {
+      "id": "gravity-health",
+      "source": "full-2008",
+      "pages": "B350",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Higher gravity imposes -1 health and -1 fatigue capacity per two full increments; lower gravity does not grant a bonus. Route temporary-score effects through health rules.",
+      "tests": []
+    },
+    {
+      "id": "throwing-eligibility",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary objects up to eight times lifting capacity may be thrown; ready them first, use one hand only up to twice capacity, and use an attack maneuver in combat.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw",
+        "tests/expanded.py::test_throw_release"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete. Inventory release now consumes a bound throw receipt, preserves one inventory owner, marks the object in flight and prevents storage/trade/lift/shared-carry bypasses. Landing settlement preserves replay without moving a recovered object again; unresolved flight blocks positive ledger advancement. Release/landing rollback, undo, pending save and critical-failure fixtures are authored, unrun. A composed timed throw action, catches, impact consequences and critical-failure release remain incomplete."
+    },
+    {
+      "id": "throwing-accuracy",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary object accuracy is dexterity-3 against a specific target or dexterity for a general area, with applicable size, speed and range modifiers.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw",
+        "tests/expanded.py::test_throw_attempt",
+        "tests/expanded.py::test_throw_release",
+        "tests/expanded.py::test_thrown_limbs",
+        "tests/expanded.py::test_throw_ranged_failure"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete. An owned throw-roll stage now preserves permission and check outcomes for one occurrence, blocks alternate-ID rerolls and validates the intended recipient when assessing a catch from recorded dice. Rollback, undo, saved replay, permission denial and retargeting assertions are authored, unrun. Physical release, maneuver time, target defense, critical consequences and committed catching remain incomplete. Inventory release now consumes a bound throw receipt, preserves one inventory owner, marks the object in flight and prevents storage/trade/lift/shared-carry bypasses. Landing settlement preserves replay without moving a recovered object again; unresolved flight blocks positive ledger advancement. Release/landing rollback, undo, pending save and critical-failure fixtures are authored, unrun. A composed timed throw action, catches, impact consequences and critical-failure release remain incomplete. Selected living arms, hands, legs and feet are now bound to the original throw request with B399 accuracy penalties, including the authored shield-location exceptions. Injury consumes the same bound part, reduces impaling to a unit multiplier and uses ordinary wound caps, severance, drops and lower-limb knockdown. Four-location, cutting, impaling, rollback, undo and saved continuation assertions are authored, unrun. Other locations/anatomy and complete attack composition remain incomplete. Throw checks now use the shared full ranged classification (B382): failure by ten alone is not critical, so the ordinary release path remains available. The regression fixture is authored and unrun."
+    },
+    {
+      "id": "throwing-range-selection",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Divide object weight by lifting capacity, select the next higher table ratio at an in-between value, then multiply strength by the corresponding distance factor. Table rows above ordinary lift eligibility do not waive the weight limit.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete."
+    },
+    {
+      "id": "throwing-damage",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Base damage on strength thrust and the weight-band adjustment; use crushing unless an authored shape supports cutting, piercing or impaling.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_thrown_damage",
+        "tests/expanded.py::test_thrown_injury",
+        "tests/expanded.py::test_thrown_limbs"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Owned ordinary-hit damage rolls now preserve separate target and fragile-object/character dice and totals from the bound throw expression. The stage requires a specific target entity, confirmed hit, resolved defense facts and shape evidence for non-crushing damage, and rejects critical outcomes before RNG. Independent one-/three-die, minimum damage, duplicate occurrence, rollback, undo and saved continuation fixtures are authored, unrun. Armour, injury, object damage commitment, physical release and critical damage integration remain incomplete. A bound target or represented thrown-character side can now apply ordinary torso injury through the shared wound ledger, with explicit outer-then-flexible protection, no duplicated blunt trauma, and duplicate-side protection. Layer arithmetic, zero injury, major wounds, two-character effects, rollback, undo and saved continuation assertions are authored, unrun. Other anatomy/locations, material-object damage, critical outcomes and full action composition remain incomplete. Selected living arms, hands, legs and feet are now bound to the original throw request with B399 accuracy penalties, including the authored shield-location exceptions. Injury consumes the same bound part, reduces impaling to a unit multiplier and uses ordinary wound caps, severance, drops and lower-limb knockdown. Four-location, cutting, impaling, rollback, undo and saved continuation assertions are authored, unrun. Other locations/anatomy and complete attack composition remain incomplete."
+    },
+    {
+      "id": "throwing-fragile-object",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A fragile thrown object or thrown character also takes damage, rolled independently from damage to its target.",
+      "tests": [
+        "tests/expanded.py::test_thrown_damage",
+        "tests/expanded.py::test_thrown_injury"
+      ],
+      "validation_note": " Owned ordinary-hit damage rolls now preserve separate target and fragile-object/character dice and totals from the bound throw expression. The stage requires a specific target entity, confirmed hit, resolved defense facts and shape evidence for non-crushing damage, and rejects critical outcomes before RNG. Independent one-/three-die, minimum damage, duplicate occurrence, rollback, undo and saved continuation fixtures are authored, unrun. Armour, injury, object damage commitment, physical release and critical damage integration remain incomplete. A bound target or represented thrown-character side can now apply ordinary torso injury through the shared wound ledger, with explicit outer-then-flexible protection, no duplicated blunt trauma, and duplicate-side protection. Layer arithmetic, zero injury, major wounds, two-character effects, rollback, undo and saved continuation assertions are authored, unrun. Other anatomy/locations, material-object damage, critical outcomes and full action composition remain incomplete."
+    },
+    {
+      "id": "throwing-ordinary-skill",
+      "source": "full-2008",
+      "pages": "B356",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Throwing skill can replace accuracy for palm-sized objects; relative skill +1 adds one strength for range, and relative +2 or higher adds two.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment",
+        "tests/expanded.py::test_held_throw"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete. Held-object assessment now derives ordinary skill bonuses from paid training and computes specific-target/default or general-area scores, with readiness, ownership, actual hand bindings, disabled/reserved supports and competing grips. Shock/off-hand and invalid-state fixtures are authored, unrun. Cinematic prerequisite integration, low-fatigue throwing, pickup/attack commitment and target defense remain incomplete."
+    },
+    {
+      "id": "throwing-art-skill",
+      "source": "full-2008",
+      "pages": "B356",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The cinematic throwing skill can throw any eligible object; at relative level zero add one strength for range and one damage per die, increasing both bonuses to two at relative +1 or better.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-weapons",
+      "source": "full-2008",
+      "pages": "B356",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Purpose-built thrown weapons use their own weapon skills, ranges and damage instead of ordinary-object formulas, with the cinematic throwing-skill exception.",
+      "tests": []
+    },
+    {
+      "id": "throwing-catch",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An intentional successful area lob may be caught using dexterity or suitable sport skill, at -4 without waiting and +1 per two full points of thrower success margin; it counts as a parry with the catching hand.",
+      "tests": [
+        "tests/expanded.py::test_catch_assessment",
+        "tests/expanded.py::test_throw_attempt",
+        "tests/expanded.py::test_catch_attempt",
+        "tests/expanded.py::test_catch_capture",
+        "tests/expanded.py::test_catch_repeat_parry",
+        "tests/expanded.py::test_catch_concentration"
+      ],
+      "validation_note": "Pure assessment and owned deliberate-pass throw/catch rolls implement the B355 waiting penalty and margin bonus with full ranged/defense check classification. The owned catch requires a released flight, its intended recipient, a functional free hand and explicit authored awareness, Wait and sports-suitability facts. It consumes the selected fighter hand-parry counter once, rejects duplicate flights and binds replay inputs. Repeated hand parries use a cumulative four-point penalty, halved by active approved advanced martial training. Active fighter concentration now receives a recorded contextual Will-3 distraction check and is cleared on failure; task-specific interruption consequences remain pending. Heavy catches and nonstandard anatomy are explicitly unsupported. Owned capture now transfers a successful catch to its recipient hand and settles the flight once, with current hand, ownership and item checks. Maneuver scheduling, critical consequences and interception remain pending. Preview, success/failure, blocked requests, rollback, undo and cross-process saved replay assertions are authored and unrun pending recorded validation."
+    },
+    {
+      "id": "throwing-intercept",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Intercepting an object en route to someone else uses a thrown-weapon parry; success captures the object and updates its ownership/position once.",
+      "tests": []
+    },
+    {
+      "id": "throwing-distance-row-1",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.05 maps to distance factor 3.5; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-2",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.1 maps to distance factor 2.5; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-3",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.15 maps to distance factor 2; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-4",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.2 maps to distance factor 1.5; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-5",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.25 maps to distance factor 1.2; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-6",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.3 maps to distance factor 1.1; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-7",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.4 maps to distance factor 1; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-8",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.5 maps to distance factor 0.8; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-9",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 0.75 maps to distance factor 0.7; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-10",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 1 maps to distance factor 0.6; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-11",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 1.5 maps to distance factor 0.4; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-12",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 2 maps to distance factor 0.3; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-13",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 2.5 maps to distance factor 0.25; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-14",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 3 maps to distance factor 0.2; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-15",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 4 maps to distance factor 0.15; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-16",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 5 maps to distance factor 0.12; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-17",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 6 maps to distance factor 0.1; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-18",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 7 maps to distance factor 0.09; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-19",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 8 maps to distance factor 0.08; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-20",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 9 maps to distance factor 0.07; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-21",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 10 maps to distance factor 0.06; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-distance-row-22",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Weight ratio ceiling 12 maps to distance factor 0.05; validate the exact threshold and a value immediately above the preceding threshold.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-eighth",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight up to 0.125 times lifting capacity in this band, adjust thrust damage by -2 per die.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-quarter",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight up to 0.25 times lifting capacity in this band, adjust thrust damage by -1 per die.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-half",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight up to 0.5 times lifting capacity in this band, adjust thrust damage by no change.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-one",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight up to 1 times lifting capacity in this band, adjust thrust damage by +1 per die.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-two",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight up to 2 times lifting capacity in this band, adjust thrust damage by no change.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-four",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight above twice and up to four times lifting capacity, add a negative half-point per damage die, rounding that negative adjustment down: one die gives -1 and three dice give -2.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "throwing-damage-eight",
+      "source": "full-2008",
+      "pages": "B355",
+      "module": "exploration",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "For weight up to 8 times lifting capacity in this band, adjust thrust damage by -1 per die.",
+      "tests": [
+        "tests/expanded.py::test_throw_assessment"
+      ],
+      "validation_note": "Pure full-table assessment now implements exact ratio ceilings, lift eligibility, required hands, range, weight-based thrust adjustments and ordinary/cinematic skill bonuses. Negative half-point-per-die adjustments round downward, consistent with B9. Expected table endpoints, immediately-above boundaries, printed examples, odd dice and purity assertions authored, unrun. Owned pickup/readiness, attack execution, actual skill eligibility, target modifiers, impact injury, thrown-object injury, catching and world movement remain incomplete."
+    },
+    {
+      "id": "extra-effort-eligibility",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Extra effort is unavailable to mechanical bodies and cannot extend breath holding; declare the specific supported physical quantity being increased.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-roll",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Roll will at -1 per five-percent increase and an additional penalty equal to fatigue already missing; authorized fear, anger or concern may grant +5.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-skill-substitution",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use a will-based relevant physical skill instead of will when better, preserving that skill's investment and the task-specific effort procedure.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-cost-order",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary extra effort costs one fatigue per attempt or interval after its roll, whether successful or failed; that newly spent fatigue does not penalize the same roll.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-success",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Success grants the selected physical increase but does not guarantee the underlying task succeeds; critical success waives the effort fatigue cost.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-failure",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary failure yields only baseline capability; critical failure fails the task and inflicts health injury equal to all fatigue spent on the attempt, including its ordinary task cost.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-natural-eighteen",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A natural eighteen additionally requires immediate health resolution for a task-appropriate temporary impairment, using crippling-duration rules that can make it permanent.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-digging",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Digging checks effort hourly and adds one fatigue to the normal work cost; critical injury affects the back and heals by rest rather than first aid, with the natural-eighteen back impairment rule.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-hiking",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hiking checks once daily and adds two fatigue to the stop penalty; critical injury is assessed at day end from that modified fatigue amount.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-hiking-skill",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A single will-based hiking effort roll includes the ordinary twenty-percent hiking bonus, with -1 per additional five percent; do not also roll ordinary hiking for another bonus.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-jumping",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Effort improves final jumping distance rather than basic movement; critical injury affects a foot or leg and natural eighteen risks a crippled leg.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-lifting",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Continuing lifting effort checks once per minute and adds one fatigue; will-based lifting uses -1 per ten-percent extra capacity instead of the ordinary five-percent-per-margin bonus.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-running",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Check effort each fifteen sprint seconds or paced minute and add its fatigue to any ordinary failed endurance-check cost; critical injury affects a leg.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-swimming",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Check effort each swimming minute and add one fatigue in addition to ordinary failed swimming-endurance costs.",
+      "tests": []
+    },
+    {
+      "id": "extra-effort-throwing",
+      "source": "full-2008",
+      "pages": "B356-B357",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Effort strength affects throw range and damage but not the initial permissible lift; lifting effort is a separate attempt, and skill bonuses apply after effort strength.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-enablement",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combat effort is an explicit campaign option and uses its own procedure rather than the ordinary will-based effort roll.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-commit-order",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Declare effort and pay its fatigue before the attack or defense roll; invalid combinations must be rejected before payment.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-critical-injury",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical failure adds one injury to the used arm or leg, ignoring armor, in addition to ordinary critical effects.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-defense",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Except during an all-out attack, one fatigue grants +2 to one active defense, including offsetting a repeated-parry penalty.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-rapid-attacks",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With an attack maneuver, pay one fatigue per attack to halve its rapid-strike penalty.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-strong-attacks",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With a melee attack maneuver, pay one fatigue per attack for the strong all-out-attack damage bonus while retaining defenses.",
+      "tests": []
+    },
+    {
+      "id": "combat-effort-mutual-exclusion",
+      "source": "full-2008",
+      "pages": "B357",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The rapid-attack and strong-attack effort options cannot be combined on the same use.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B349-B357",
+      "reason": "Exclude source prose, narrative examples and illustrations. Preserve numerical worked examples and each table row as original acceptance criteria."
+    }
+  ]
+}

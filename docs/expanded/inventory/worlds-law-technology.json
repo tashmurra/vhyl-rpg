@@ -1,0 +1,1408 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B505-B514; B519-B522",
+  "review": "First text pass of language relationships, law, trials, society choices, technology-by-field guidance and world travel. Detailed transit mechanics on later pages and all cross-reference/visual audits remain pending.",
+  "enumeration_complete": false,
+  "excluded_material": [
+    {
+      "pages": "B511; B514",
+      "reason": "Historical dates and genre recommendations describe the supplied printing, not extra executable rules or predictions."
+    },
+    {
+      "pages": "B519-B522",
+      "reason": "Illustrative fictional worlds and cosmological narrative are excluded; explicit route, form and world-context requirements are retained."
+    }
+  ],
+  "entries": [
+    {
+      "id": "world-related-language",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored language relationship grants comprehension one or two levels below a known language, with subsequent improvement from that level. Specify directional relationships and prevent unsupported transitive chains.",
+      "tests": []
+    },
+    {
+      "id": "world-customs",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "World and local rules distinguish statutory offenses, civil claims and custom violations. Law or streetwise can discover applicable rules; custom violations create authored reaction consequences rather than automatic criminal charges.",
+      "tests": []
+    },
+    {
+      "id": "world-control-rating",
+      "source": "full-2008",
+      "pages": "B506-B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Local control rating ranges zero through six and is independent of government type. When legality or enforcement is genuinely undecided, one die below rating means prohibited/intervention, above means permitted/overlooked, and equality requires an encounter or reaction.",
+      "tests": [
+        "tests/expanded.py::test_control_table",
+        "tests/expanded.py::test_control_question"
+      ],
+      "existing_feature": "control-rating-questions",
+      "validation_note": "Numeric comparison and persistent encounter decision authored; new cases unrun, concrete reaction/consequence systems pending."
+    },
+    {
+      "id": "world-fixed-law",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Do not randomize a question with an established logical or authored answer; an uncertain-enforcement roll must not overwrite the actual known law.",
+      "tests": []
+    },
+    {
+      "id": "world-split-control",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A jurisdiction can have separate control ratings for rights, taxation, weapons, information, magic and other powers; resolve the applicable domain before checking legality.",
+      "tests": []
+    },
+    {
+      "id": "world-item-legality",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Item legality class and jurisdiction control rating jointly determine access. A specific license and identity restrictions attach to an actual person/item scope, not merely a global permission boolean.",
+      "tests": [
+        "tests/expanded.py::test_legal_access"
+      ],
+      "existing_feature": "equipment-legal-access",
+      "validation_note": "Access table and person/item binding authored; tests unrun, license issuance/fees/expiry pending."
+    },
+    {
+      "id": "world-spell-legality",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A magic-using society can assign legality to spells; damage spells commonly use class three and others four, with explicit local exceptions. Neither spell existence nor magical aptitude makes its use universally lawful.",
+      "tests": []
+    },
+    {
+      "id": "world-arrest-procedure",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In a jurisdiction recognizing procedural safeguards, secretly check the officer's policing law. Critical failure releases without trial; ordinary failure permits the accused or lawyer a learned criminal/policing-law check to spot the defect and obtain dismissal, with defaults disallowed.",
+      "tests": []
+    },
+    {
+      "id": "world-detention",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Detention conditions and delay before trial are authored facts, with time, restraints and permitted activities represented explicitly; control rating does not supply a fixed sentence or automatic execution rule.",
+      "tests": []
+    },
+    {
+      "id": "world-bail",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Bail requires an authored amount and conditions based on charge, record and reaction. Paying reserves or transfers actual funds; flight creates additional charges rather than simply refunding the money.",
+      "tests": []
+    },
+    {
+      "id": "world-ordeal",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An ordeal specifies actual survival checks and consequences; it is not an ordinary social verdict roll. Combat trials use the actual combatants and encounter rules.",
+      "tests": []
+    },
+    {
+      "id": "world-ordeal-balance",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed narrow-crossing ordeal checks dexterity-4 every ten feet, except perfect balance bypasses those checks; timing and distance boundaries must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-ordeal-endurance",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed hot-object ordeal requires strength-3 and will-3, each with +3 for high pain tolerance; actual exposure consequences need an authored definition.",
+      "tests": []
+    },
+    {
+      "id": "world-ordeal-maze",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The printed maze ordeal uses intelligence with direction-sense +3; success must resolve an actual escape route or declared abstract ordeal result.",
+      "tests": []
+    },
+    {
+      "id": "world-judge-verdict",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A unilateral judge uses reaction toward the accused, with eligible law influence replacing reaction only when that forum permits advocacy. A two-party dispute compares each party's reaction.",
+      "tests": []
+    },
+    {
+      "id": "world-judge-evidence",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A receptive judge applies favorable evidence +1..+3 or adverse evidence -1..-3, with applicable reputation, regard, stigma and status; authored bias determines relevance.",
+      "tests": []
+    },
+    {
+      "id": "world-adversarial-contest",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An adversarial trial first contests prosecution and defense criminal law. Self-representation adds authored -1..-3; preserve the signed victory margin for the subsequent judge/jury reaction.",
+      "tests": []
+    },
+    {
+      "id": "world-adversarial-modifiers",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Add defense victory margin or subtract prosecution margin, plus authored compelling defense at least +2, supporting/opposing evidence \u00b11..3, plausible alibi at least +1, adverse publicity at most -1, bail flight -2, eyewitness placement -3 and applicable reputation.",
+      "tests": []
+    },
+    {
+      "id": "world-adversarial-verdict",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A reaction below neutral convicts and above neutral acquits; neutral follows the law-contest winner, with a tied contest acquitting. Do not use the skill-contest outcome alone as the verdict.",
+      "tests": []
+    },
+    {
+      "id": "world-sentence",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A conviction requires an authored sentence with actual currency, time, reputation, status, injury, access or imposed-task consequences. Preview must not invent a punishment or expose a hidden judge decision.",
+      "tests": []
+    },
+    {
+      "id": "world-bribery",
+      "source": "full-2008",
+      "pages": "B508",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A corrupt judge may accept a defined bribe for reaction or verdict benefit; an honest one may impose a penalty and new charges. Establish the judge's disposition privately and commit payment/charges atomically.",
+      "tests": []
+    },
+    {
+      "id": "world-technology-baseline",
+      "source": "full-2008",
+      "pages": "B511",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A world has a baseline technology and local exceptions. Personal technology differences use the appropriate character trait cost; purchasing an advanced prototype alone does not increase personal technology.",
+      "tests": []
+    },
+    {
+      "id": "world-technology-fields",
+      "source": "full-2008",
+      "pages": "B511-B512",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A society may override technology by field. Personal technology stays at its baseline while technological skills use their relevant field's level.",
+      "tests": []
+    },
+    {
+      "id": "world-technology-availability",
+      "source": "full-2008",
+      "pages": "B511",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A technology level does not guarantee every listed device exists locally. Author actual availability, older retained equipment and optional same-level unfamiliarity penalties of -1 or worse.",
+      "tests": []
+    },
+    {
+      "id": "world-borrowed-technology",
+      "source": "full-2008",
+      "pages": "B513",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A society with lower native production and higher imported equipment grants the lower personal technology; it can teach higher-level operation but not higher-level design or repair merely from familiarity.",
+      "tests": []
+    },
+    {
+      "id": "world-local-development",
+      "source": "full-2008",
+      "pages": "B513",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Raising one technological field one level normally takes two years with adequate labor, materials and all relevant lower/higher-level skills at twelve or better. This introduces known technology; it is distinct from inventing an unknown design.",
+      "tests": []
+    },
+    {
+      "id": "world-divergent-technology",
+      "source": "full-2008",
+      "pages": "B513",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Represent a divergent technology by origin level, advancement count and path identity; origin plus advancement gives effective level. Different paths impose an additional -2 unfamiliarity beyond ordinary level penalties.",
+      "tests": []
+    },
+    {
+      "id": "world-cross-level-skill",
+      "source": "full-2008",
+      "pages": "B513",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Learning the same technological skill at another level uses its level-adjusted default and paid-default improvement procedure when favorable; it remains a distinct skill record, not a free replacement.",
+      "tests": []
+    },
+    {
+      "id": "world-exotic-technology",
+      "source": "full-2008",
+      "pages": "B513-B514",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Exotic physics capabilities require explicit campaign approval and may occur at any assigned technology level; their marker does not automatically change the society's overall level or technology path.",
+      "tests": []
+    },
+    {
+      "id": "world-world-transition",
+      "source": "full-2008",
+      "pages": "B520-B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Changing worlds switches explicit physical, legal and capability contexts while preserving character identity, obligations and inventory subject to declared transit limits. Reject unsupported capability combinations before committing arrival.",
+      "tests": []
+    },
+    {
+      "id": "world-plane-model",
+      "source": "full-2008",
+      "pages": "B521",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Physical worlds, overlapping realms, phases of one reality and connecting voids need explicit spatial relationships and perception/access rules; terminology alone grants no travel ability.",
+      "tests": []
+    },
+    {
+      "id": "world-world-graph",
+      "source": "full-2008",
+      "pages": "B521-B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The author defines world adjacency, nesting and permitted routes. A traveler cannot infer a direct edge merely because two destinations are known.",
+      "tests": []
+    },
+    {
+      "id": "world-travel-duration",
+      "source": "full-2008",
+      "pages": "B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A route declares instantaneous or elapsed travel and the relationship between local clocks. Process permitted study and other work during travel without duplicating elapsed time or ignoring destination-world time.",
+      "tests": []
+    },
+    {
+      "id": "world-physical-transit",
+      "source": "full-2008",
+      "pages": "B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Physical travel carries the same body and only permitted goods, subject to payload and route constraints; ensure origin occupancy and destination placement change atomically.",
+      "tests": []
+    },
+    {
+      "id": "world-projected-transit",
+      "source": "full-2008",
+      "pages": "B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Projection leaves the body behind with separately represented location and exposure, while its projected form has explicit allowed abilities and return conditions. Do not clone inventory or create independent spendable advancement/fatigue accounts by default.",
+      "tests": []
+    },
+    {
+      "id": "world-travel-device",
+      "source": "full-2008",
+      "pages": "B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A transit artifact declares whether it accompanies the traveler, remains at origin, permits a return and can carry companions. Validate these terms before activation.",
+      "tests": []
+    },
+    {
+      "id": "world-travel-window",
+      "source": "full-2008",
+      "pages": "B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Conditional transit requires the actual authorized place, date, state or combination; a known destination does not bypass the window.",
+      "tests": []
+    },
+    {
+      "id": "world-travel-power",
+      "source": "full-2008",
+      "pages": "B522",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Power-based transit invokes the actual learned spell or purchased ability, including its resistance, risk and passenger capacity. Campaign travel scaffolding cannot provide that power for free.",
+      "tests": []
+    },
+    {
+      "id": "world-control-0",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 0: No government laws, taxation or controls in this model. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-control-1",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 1: Access to legality zero is controlled. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-control-2",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 2: Access to legality zero and one is controlled. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-control-3",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 3: Access through legality two is controlled. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-control-4",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 4: Access through legality three is controlled, with authored communications restrictions. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-control-5",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 5: All goods require the defined paperwork or ration permissions; information systems are regulated. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-control-6",
+      "source": "full-2008",
+      "pages": "B506",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Control rating 6: All goods are controlled; private information technology is forbidden under the default model. Specific local exceptions must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "world-legality-0",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Default legality class 0: Strategic destructive weapons and platforms. Actual item classes remain authored and may differ.",
+      "tests": []
+    },
+    {
+      "id": "world-legality-1",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Default legality class 1: Heavy military weapons, armed vehicles and related military sensors. Actual item classes remain authored and may differ.",
+      "tests": []
+    },
+    {
+      "id": "world-legality-2",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Default legality class 2: Restricted assault weapons, covert surveillance, explosives and other locally restricted equipment. Actual item classes remain authored and may differ.",
+      "tests": []
+    },
+    {
+      "id": "world-legality-3",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Default legality class 3: Licensed personal weapons, transmitters, ordinary vehicles and medical equipment. Actual item classes remain authored and may differ.",
+      "tests": []
+    },
+    {
+      "id": "world-legality-4",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Default legality class 4: Open ordinary tools, receivers, computers, cameras and nonlethal equipment. Actual item classes remain authored and may differ.",
+      "tests": []
+    },
+    {
+      "id": "world-access-above",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At least one class above control permits ordinary citizens to carry.",
+      "tests": []
+    },
+    {
+      "id": "world-access-equal",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Class equal to control permits noncriminal citizens; registration may be required without a permit fee.",
+      "tests": []
+    },
+    {
+      "id": "world-access-one-below",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One class below requires a license supported by legitimate need or government work; its usual fee is one die times ten percent item price.",
+      "tests": []
+    },
+    {
+      "id": "world-access-two-below",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Two classes below restricts access to approved tactical police, military and intelligence personnel.",
+      "tests": []
+    },
+    {
+      "id": "world-access-three-below",
+      "source": "full-2008",
+      "pages": "B507",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three or more below restricts access to military or secret-police personnel.",
+      "tests": []
+    },
+    {
+      "id": "world-government-anarchy",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The anarchy design option suggests control 0; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-direct-democracy",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The direct-democracy design option suggests control 2-4; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-representative-democracy",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The representative-democracy design option suggests control 2-4; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-clan",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The clan design option suggests control 3-5; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-caste",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The caste design option suggests control 3-6; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-single-ruler",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The single-ruler design option suggests control 3-6; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-technical-rule",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The technical-rule design option suggests control 3-6; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-religious-rule",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The religious-rule design option suggests control 3-6; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-corporate-rule",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The corporate-rule design option suggests control 4-6; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-government-feudal",
+      "source": "full-2008",
+      "pages": "B509-B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The feudal design option suggests control 4-6; author the actual rating, local authority and permissions rather than deriving them from the label.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-bureaucracy",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Suggested control at least four.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-colony",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Suggested control at least one lower than the parent society, with authority still held by the parent; floor and exceptions must be authored.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-computer-rule",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Requires technology at least eight and is unusual before nine; suggested control at least three.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-female-authority",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Authority roles are restricted to women in this authored model; any control rating.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-merit-selection",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Government entry requires specified tests; suggested control at least three.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-military-rule",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Suggested control at least four.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-oligarchy",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Suggested control at least three.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-male-authority",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Authority roles are restricted to men in this authored model; any control rating.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-sanctuary",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Defines refusal of extradition and outsider law-enforcement permissions; control is usually at most four.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-managed-economy",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Defines subsidized services, employment and taxes; suggested control at least three.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-external-rule",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Authority is controlled externally; suggested control at least four.",
+      "tests": []
+    },
+    {
+      "id": "world-variation-utopia",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Actual rules and any hidden control must be authored; apparent freedom alone does not determine the true rating.",
+      "tests": []
+    },
+    {
+      "id": "world-region-embargo",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Trade is prohibited, with authored inspection/enforcement.",
+      "tests": []
+    },
+    {
+      "id": "world-region-hazard",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Entry is warned against and rescue is not promised; entry itself remains permitted.",
+      "tests": []
+    },
+    {
+      "id": "world-region-prohibited",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Entry requires permission, with explicit intrusion consequences.",
+      "tests": []
+    },
+    {
+      "id": "world-region-protected",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Entry can require quarantine, equipment limits or disguise to protect local life/culture.",
+      "tests": []
+    },
+    {
+      "id": "world-region-reserved",
+      "source": "full-2008",
+      "pages": "B510",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Settlement or development is prohibited.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-0",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-0 transport availability guidance covers ski/sled/canoe. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-1",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-1 transport availability guidance covers riding/wheel/sail. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-2",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-2 transport availability guidance covers saddle/roads/oared-warship. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-3",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-3 transport availability guidance covers stirrups/ocean-sail. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-4",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-4 transport availability guidance covers coach/advanced-sail/navigation. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-5",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-5 transport availability guidance covers steam-rail/steamship/balloon. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-6",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-6 transport availability guidance covers car/aircraft/submarine. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-7",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-7 transport availability guidance covers jet/helicopter/crewed-space. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-8",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-8 transport availability guidance covers satellite-navigation/single-stage-orbit. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-9",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-9 transport availability guidance covers automated-car/space-elevator/interplanetary. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-10",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-10 transport availability guidance covers fast-interplanetary. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-11",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-11 transport availability guidance covers crewed-interstellar. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-12",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-12 transport availability guidance covers fast-interstellar. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-0",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-0 armament availability guidance covers stone-wood/hide/shield. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-1",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-1 armament availability guidance covers bronze. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-2",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-2 armament availability guidance covers iron/mail/siege. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-3",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-3 armament availability guidance covers steel/early-firearms/plate. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-4",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-4 armament availability guidance covers musket/artillery. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-5",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-5 armament availability guidance covers repeating-firearms/rifling/ironclad. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-6",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-6 armament availability guidance covers automatic-firearms/tank. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-7",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-7 armament availability guidance covers guided-weapons/ballistic-armor/nuclear. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-8",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-8 armament availability guidance covers smart-weapon/uncrewed-combat. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-9",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-9 armament availability guidance covers heavy-laser/electrical-weapon/powered-armor/robot. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-10",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-10 armament availability guidance covers compact-laser/particle-beam/coilgun/nano-armor. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-11",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-11 armament availability guidance covers compact-particle-beam/disassembly/defensive-nanotech. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-12",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-12 armament availability guidance covers gamma-laser/living-metal/extreme-gravity. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-0",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-0 power availability guidance covers human/canine. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-1",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-1 power availability guidance covers draft-livestock. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-2",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-2 power availability guidance covers horse/waterwheel. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-3",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-3 power availability guidance covers heavy-draft/windmill. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-4",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-4 power availability guidance covers improved-wind/belts/clockwork. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-5",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-5 power availability guidance covers steam/direct-current/battery. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-6",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-6 power availability guidance covers turbine/combustion/alternating-current/hydroelectric. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-7",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-7 power availability guidance covers gas-turbine/fission/solar. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-8",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-8 power availability guidance covers fuel-cell/improved-battery. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-9",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-9 power availability guidance covers micro-fuel-cell/fusion/superconductor. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-10",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-10 power availability guidance covers advanced-fusion/antimatter. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-11",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-11 power availability guidance covers portable-fusion. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-12",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-12 power availability guidance covers portable-antimatter. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-0",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-0 medicine availability guidance covers first-aid/herbs/agriculture. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-1",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-1 medicine availability guidance covers surgery/husbandry/fermentation. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-2",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-2 medicine availability guidance covers early-chemical-treatment. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-3",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-3 medicine availability guidance covers prosthesis/anatomy. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-4",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-4 medicine availability guidance covers cell-microscopy. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-5",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-5 medicine availability guidance covers germ-theory/anesthesia/vaccines. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-6",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-6 medicine availability guidance covers antibiotic/transfusion/heredity/biochemistry. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-7",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-7 medicine availability guidance covers genetics/transplant/pacemaker. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-8",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-8 medicine availability guidance covers gene-therapy/cloning. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-9",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-9 medicine availability guidance covers engineered-human/tissue/artificial-gestation/implant. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-10",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-10 medicine availability guidance covers brain-transfer/mind-upload/artificial-organism/uplift. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-11",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-11 medicine availability guidance covers living-machine/rejuvenation. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-12",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The supplied technology-12 medicine availability guidance covers metamorphosis/regeneration. Use authored actual equipment/procedures; this row grants no free device, skill or unrestricted effect.",
+      "tests": []
+    },
+    {
+      "id": "world-field-transport-exotic",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reactionless acceleration, gravity control, faster-than-light motion, matter transfer and time/world transit. These require explicit exotic-physics permission at an authored level.",
+      "tests": []
+    },
+    {
+      "id": "world-field-armament-exotic",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Molecular blades, force fields, gravity weapons, nuclear suppression and disintegration. These require explicit exotic-physics permission at an authored level.",
+      "tests": []
+    },
+    {
+      "id": "world-field-power-exotic",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Wireless large-scale supply, cold fusion, vacuum energy, total conversion and cosmic sources. These require explicit exotic-physics permission at an authored level.",
+      "tests": []
+    },
+    {
+      "id": "world-field-medicine-exotic",
+      "source": "full-2008",
+      "pages": "B512",
+      "module": "campaign",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid cloning, psychic drugs and regeneration beams. These require explicit exotic-physics permission at an authored level.",
+      "tests": []
+    }
+  ]
+}

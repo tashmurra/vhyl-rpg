@@ -1,0 +1,4800 @@
+# Expanded health
+
+**Status: partial.** Injury, treatment, recovery, fear consequences and fatigue. Neutral source: `full-2008`, B360-B361; B418-B429; B552-B553.
+
+[Library selection](../libraries.md) · [Integration](index.md) · [Coverage ledger](coverage.json)
+
+Include `vhyl-rpg-expanded-health.t` after the expanded foundation. The current
+implementation supplies the B419 high-capacity shock calculation, standard-location
+knockdown assessment and a limited committed wound request using the shared ledger. Set `rules.scaledInjuryShock = true`
+to select that difference; inclusion alone preserves the existing calculation.
+`rpgExpandedInjuryShock(capacity, injury)` is a pure calculation for one wound:
+capacity below 20 uses each injury point, while larger capacities use complete
+increments of capacity/10 as the divisor. Drop fractional penalties and cap at 4.
+
+The existing wound path adds the resulting penalty to the same `profile.shock`,
+retains high-pain resistance and charges injury once. Combat turn cleanup uses
+the same scaling hook for counter-injury, and a turn without new injury clears
+the prior shock. Pain sensitivity doubles the calculated shock and uses a ceiling
+of eight; its injury hooks are described below. The hook defaults to the existing
+Lite calculation when the option is disabled. No new injury or fatigue pool is
+introduced. `test_scaled_injury_shock` provides independent threshold expectations
+and integrated repeated-wound/resistance cases.
+`test_scaled_shock_turn_boundary` covers ordinary turn expiration, counter-injury
+scaling and rejection before injury or randomness is spent. These cases have not
+run pending recorded validation.
+
+Critical-hit doubled shock remains assessment-only. The existing battle result
+retains aggregate counter-injury, not per-wound critical effects. Committed support
+must preserve which wounds survive the actor's turn boundary, apply the critical
+cap without letting a later ordinary wound reduce an existing penalty, and retain
+high-pain immunity. Merely doubling the stored shock value would also double
+unrelated earlier injury and would not satisfy this contract.
+
+Detailed injury, anatomy exceptions, medical care, recovery and fear have partial
+implementations described below. This option does not enable a complete expanded injury profile;
+other wound behavior remains the explicitly selected existing foundation behavior.
+
+Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
+
+The [fear inventory](inventory/senses-influence-fear.json) separately records every
+full-reference fear-table outcome and its modifiers. Full fear resolution caps
+the initial effective score at thirteen and selects a consequence with a new
+three-dice roll plus failure margin. It must not replace Lite's existing
+stun/faint calculation unless the expanded procedure is explicitly selected.
+
+Recovery checks use different attributes, modifiers and intervals by outcome.
+Some outcomes also impose injury, fatigue, temporary penalties, new traits or
+permanent attribute loss. An owned episode must retain those details across
+time advancement, rollback, undo and save continuation. Lasting traits require a
+specific event-related author decision and alter character value without granting
+spendable points. Implemented components include initial assessment, scene
+modifiers, complete consequence-table specifications, owned stun, retching,
+fainting, panic, coma, catatonia, seizure and injury handlers, and selected
+lasting-trait acquisitions. The owned event flow below connects initial checks
+to supported handlers, including compound consequences and forced aging with
+recorded losses at otherwise unrollable boundaries. Trait catalogue coverage,
+automatic expanded attacks and some tactical reaction variants remain incomplete;
+these fixtures await recorded validation. See the
+[overstimulation adapter](traits.md#overstimulation-and-reactive-action) for
+target-specific reactive permission that preserves independent incapacity.
+
+The [injury and recovery inventory](inventory/health.json) covers the first text
+pass through B418–B427. It records location-specific crippling, optional bleeding
+and accumulated wounds, survival and waking checks, treatment tables, advanced
+drug design, fatigue causes and restricted recovery. Detailed entries have pending or partial status; the sections below describe
+implemented behavior. Shared Lite helpers alone are not proof of full coverage.
+
+Expanded health must retain one global injury and fatigue balance while also
+recording wound locations, uncapped injury relevant to destruction, disabled body
+parts and recovery deadlines. Optional location accumulation and bleeding must
+remain disabled unless explicitly selected. Extra limbs and nonhuman anatomy
+change both thresholds and consequences.
+
+Temporary attribute penalties generally leave derived capacities unchanged and
+exclude defensive reactions. Permanent changes require recalculation. These
+paths cannot share an unconditional attribute setter without preserving their
+different effects.
+
+Medical procedures need owned sessions and patient-level eligibility. The source
+specifies caregiver qualifications, technology-dependent capacity and frequency,
+retry penalties, equipment requirements and treatment consequences. Healing must
+also scale with unusually high health capacity without being scaled twice by
+both the treatment and its caller.
+
+Fatigue recovery remains specific to its cause: quiet rest, adequate meals, water
+and uninterrupted sleep have different requirements. Successful recovery of one
+cause must not erase another cause's restrictions. Drug effects likewise need
+onset, resistance, dose history and expiry, with suppressed traits restored only
+when that suppression ends.
+
+The condition catalogue on B428–B429 is recorded in the
+[environmental inventory](inventory/environmental-hazards.json), with health as
+its owning module. Conditions such as paralysis, retching, daze and cardiac
+arrest have different action permissions, resistance and recovery rules. They
+cannot all be implemented by setting the existing stun flag. Each cause needs
+owned duration and consequence records so resolving one condition does not erase
+another.
+
+The [anatomy inventory](inventory/anatomy-locations.json) adds the B552–B553
+location tables and damage exceptions. Random targeting must use the actual body
+form. A missing random location falls back to the torso; deliberately selecting a
+nonexistent or inaccessible part must be rejected. Eyes and vital organs also
+restrict eligible damage types and angles.
+
+Location records need separate identities for individual limbs, wings, fins and
+tails. Crippling can disable flight or impose specific movement and dexterity
+penalties. A single limb-damage counter cannot represent these consequences.
+Global injury, local crippling thresholds and excess injury limits must be
+resolved together without charging damage twice. Critical temporary incapacity
+must expire independently of lasting crippling from the same wound.
+
+The [appendix review](inventory/appendix.json) records a boundary discrepancy:
+B420 requires injury strictly greater than half capacity for an ordinary major
+wound, while B564 includes equality. Completion requires a documented precedence
+policy and an independent exact-half test; the inventory does not silently erase
+either wording.
+
+The [damage review](inventory/damage-readiness.json) also records differing
+low-health formulas. B380 halves basic speed and movement, while B419 halves
+movement and dodge. These are numerically different because dodge includes a
+constant bonus and encumbrance. The expanded profile needs a documented
+precedence choice and boundary cases; Lite behavior must remain unchanged.
+
+
+Trait integration requirements at [B58–B59](inventory/traits-catalogue-f.json)
+include apparent death when a survival bonus is decisive, scoped knockout/pain
+resistance and restorative touch. The latter needs wound-specific crippling
+history, one-attempt-per-healer/limb restrictions and dated successful treatments.
+Ordinary injury restoration, disease cure and limb repair have different costs
+and eligibility. Source ambiguity about repetition across healers and types is
+recorded explicitly; no full healing implementation is claimed.
+
+
+[Recovery and resistance traits](inventory/traits-catalogue-j.json) require
+cause-aware healing, scheduled regeneration and missing-part restoration. Daily
+draining losses are excluded from regeneration; radiation healing can remove
+permanent accumulated dose. The source's faster-healing paragraph names lost HT
+before describing restored HP. This was visually confirmed on the printed page;
+its interpretation remains explicitly unresolved.
+Resistance also depends on effect delivery and cannot become a blanket bonus
+against every attack. None of these inventory entries is counted as implemented.
+
+
+[Deathless variants](inventory/traits-catalogue-m.json) differ from unusual
+durability: ordinary pain and crippling remain, while survival, bodily destruction
+and reformation use tier-specific rules. Continuous damaging exposure can prevent
+remains from healing even when further injury is capped. Embedded obstructions and
+post-destruction healing triggers require separate state. These are pending rules,
+not extensions already supplied by the Lite injury functions.
+
+
+Pain sensitivity now follows the full source procedure: compute ordinary shock
+under B419, then double that shock under B142, giving a ceiling of eight. This
+replaces the earlier blocker based on curated records alone. Observer-dependent
+reaction and discovery consequences still require further integration.
+
+## Location knockdown assessment
+
+`rpgExpandedAssessKnockdown(capacity, injury, location, maleGroin)` assesses the
+standard torso, face, skull, vitals and groin cases from `full-2008` B419-B420.
+Pass injury already adjusted for protection and damage type. The result reports
+`major`, `required`, the location `modifier` and ordinary `shock`; it consumes no
+resources, rolls no dice and applies no injury. Pain traits are not included in
+this location modifier. `maleGroin` is an authored anatomical fact and is accepted
+only for the groin location.
+
+The assessment gives precedence to B420's strictly-greater-than-half major-wound
+threshold over the appendix equality. Thus a half-capacity torso wound is not
+major, while a shock-producing face wound still requires a check. This pure helper rejects eye and limb locations. Owned arm/hand wounds use the separate crippling assessment described below.
+This helper is restricted to standard anatomy; it cannot represent absent brains
+or vitals, diffuse bodies or other injury-tolerance exceptions.
+
+`test_knockdown_assessment` enumerates threshold, location and high-capacity
+expectations. It remains unrun. Use the supported committed request below; do not call the
+ordinary wound function and then add another knockdown check, which would
+double-check major wounds. Modified targets below
+three also need explicit resolution before commit integration, since B345 bars
+ordinary success attempts below three and the knockdown consequences depend on a
+failure margin. This assessment does not invent that margin.
+
+
+## Committing a supported wound
+
+Create one owned `RpgExpandedWound` with an opportunity `id`, `profile`, final
+injury `amount`, supported `location` and the applicable `maleGroin` fact. The
+profile must explicitly select `scaledInjuryShock`. `assess()` performs no injury,
+roll or time charge; `apply()` uses the shared wound commit and stores the original
+health result in both the request and `profile.expandedWounds`. Run `apply()` in
+an action transaction. A repeated request returns `reused`; its `health` is the
+original receipt, not newly applied damage. A different request with the same ID
+rejects, as does retargeting a committed request.
+
+The request supplies one location-specific knockdown trigger and modifier instead
+of adding a second major-wound check. Existing pain resistance, stun/prone state,
+unconsciousness and mortality processing remain in the shared commit. There is
+no second injury ledger. Raw attack damage, armour and damage multipliers must be
+resolved before creating this request.
+
+The supported subset requires humanoid locations, permits the absent-brain and
+absent-vitals knockdown exceptions below, excludes eye and lower-limb crippling and other
+unsupported body/pain traits, and blocks a
+required check with an unavailable score. If a knockdown check could require held equipment to be dropped, include the
+expanded equipment module and supply `dropDestination`. Without that integration
+or destination, the request blocks before injury. These are
+explicit limitations, not full health coverage.
+
+`test_expanded_wound_commit` covers exact-half/no-check, minor face injury,
+location penalties, failure-by-five unconsciousness, one-time application and
+preflight rejection without injury or random draws. It is authored but unrun.
+`test_owned_wound_transactions` covers rollback after the roll, undo/replay,
+repeat protection and rejected duplicate/retargeted requests.
+`test_owned_wound_persistence` restores both unapplied requests and committed
+receipts in separate processes. Wound history validates receipt ownership and
+identity. These cases are authored but unrun; their presence is not runtime
+validation.
+
+
+## Equipment dropped by knockdown
+
+With `vhyl-rpg-expanded-equipment.t` installed, `dropDestination` identifies the
+authored floor or other receiving location. Preflight captures carried, ready,
+non-worn items in a concrete `RpgExpandedKnockdownDrop` plan. A failed knockdown
+check commits that plan even if the same check leaves the character unconscious.
+A successful check moves nothing. Worn and packed items remain carried.
+
+Dropped items retain ownership in the existing equipment list but receive the
+storage location, become unusable as carried gear, and no longer contribute to
+carried load. Relevant aim state is cleared. `wound.droppedEquipment` retains the
+committed plan and its item identities; it is not a second inventory. Repeating a
+wound does not drop the objects again. Picking them up uses the existing authored
+storage-transfer procedure and its accessibility checks.
+
+`test_knockdown_equipment_drop` covers missing-destination rejection, item/load
+changes, aim cleanup, rollback, undo and repeat protection. It remains unrun.
+
+
+`test_knockdown_equipment_retained` covers a successful check retaining the held
+item and rejecting a changed destination on the committed request.
+`test_knockdown_drop_persistence` saves and restores both successful and failed
+checks, preserves the drop receipt's item identities, and checks that retrieving
+a dropped item does not let replay of the old wound drop it again. Its pickup
+fixture assumes an authored later recovery; it is not a medical recovery test.
+These cases remain unrun under the build-check pause.
+
+
+## Absent-organ knockdown exceptions
+
+`rpgExpandedAssessAnatomyKnockdown` adds explicit `noBrain` and `noVitals` facts
+to the standard location assessment. Under B420, absent brain removes the minor
+face/skull trigger and the major-wound location penalty; absent vitals does the
+same for vitals/groin. A major wound still requires an unpenalized check. The
+unrelated location family is unchanged.
+
+Committed wounds derive these flags from active `no-brain` and `no-vitals` trait
+IDs and retain the assessment in `wound.knockdownAssessment`. This integrates the
+knockdown effects only; it neither supplies trait prices nor changes final injury,
+protects other locations or implements every injury-tolerance effect. Authors
+still supply validated trait definitions and final injury. Homogeneous/diffuse
+bodies, eyes and lower limbs remain explicitly unsupported by this request.
+
+`test_knockdown_anatomy_exceptions` covers minor/major cases, unchanged unrelated
+locations, retained assessment flags and random draw counts. It is authored but
+unrun. The broader anatomy/trait inventory remains partial.
+
+
+## Single-injury crippling assessment
+
+`rpgExpandedAssessCrippling(capacity, injury, kind, count, severing)` returns a
+`RpgExpandedCripplingAssessment` without changing a character or drawing random
+numbers. `injury` is final injury before the location's health-loss cap; `kind`
+is `limb`, `extremity` or `eye`. `count` is the anatomical count of that kind,
+including already disabled parts. It must not shrink as parts become unusable.
+
+Under full-2008 B421, the returned `minimumInjury` is the smallest integer above
+the applicable threshold. `healthLoss` caps limb and extremity loss at that
+minimum; eye injury remains uncapped. `crippled` and `destroyed` use the original
+injury, with destruction starting at twice the minimum. `severed` additionally
+requires cutting or explosive trauma, supplied through `severing`, and applies
+only to limbs and extremities. For example, at capacity 10 an ordinary limb hit
+for 12 returns minimum 6, health loss 6, and destruction; an eye hit for 4 returns
+minimum 2, health loss 4, and destruction.
+
+This helper assesses one ordinary injury. It does not accumulate location injury,
+apply critical-result overrides, determine disability duration, or disable a
+body part. The owned wound path below integrates the arm/hand subset; other
+locations remain unavailable. Applying only its capped
+health loss through a torso wound would omit those consequences and is not a
+supported integration.
+
+`test_crippling_thresholds` enumerates exact boundaries, odd capacity, additional
+limbs and extremities, uncapped eyes, and severing distinctions. It is authored
+but unrun pending recorded validation. The inventory entries remain partial.
+
+
+## Owned arm and hand state
+
+`RpgExpandedBodyPart` describes an owned arm or hand in `profile.bodyParts`.
+Set a unique `id`, `profile`, and `kind` (`arm` or `hand`). A hand's `parent`
+references its arm in the same profile. An arm has no parent. Only one hand per
+arm is currently supported. Other anatomy rejects explicitly. `disabled` records
+loss of function; `severed` requires `disabled`. These fields describe functional
+state and do not store or spend health points.
+
+`validateBodyParts()` checks ownership, identities, supported kinds and parent
+relationships. `functional()` returns false for a disabled part or a hand on a
+disabled arm. Authors can supply existing disabilities with these fields. The owned upper-limb wound path below sets disability and its wound reference.
+The duration procedure below can clear temporary disability at full health;
+permanent-disability point accounting is not yet supplied.
+
+Bind a weapon's `bodySupports` to the hands holding it; bind an attached shield
+to its arm. The shared combat engine now dispatches weapon attacks, weapon
+parries, shield blocks and passive shield protection separately:
+
+- `attackUsableBy(profile)` requires all bound parts and, for an arm-mounted
+  item, its hand to function. Missing hand anatomy rejects rather than assuming
+  an unaffected hand.
+- `parryUsableBy(profile)` uses those same functional requirements.
+- `blockUsableBy(profile)` requires functioning arm supports. An attached hand's
+  disability alone does not prevent a shield block.
+- `passiveDefenseBonus(profile)` removes a severed arm's protection and reduces
+  an attached disabled arm's bonus by one, to a minimum of zero.
+
+All four methods retain ordinary equipment availability, including storage when
+the equipment module is installed. Empty bindings retain existing behavior.
+The Lite implementations delegate to `usableBy(profile)` and preserve the
+original bonus. These hooks do not roll dice. A disabled bound weapon rejects
+in strike preflight before an attack can spend resources or randomness.
+
+The bindings are explicit author facts. They do not infer which hand holds an
+unbound item, drop items, change unarmed defenses, prevent reloads or readying,
+or supply nonhuman limb effects. Do not use this partial interface to claim full
+crippling support. Only the explicit arm/hand wound path below is available.
+`test_body_supports` covers functional distinctions, early attack rejection,
+ownership errors and unsupported anatomy. It is authored but unrun; transaction,
+undo and save continuation of these new fields remain to be covered.
+
+
+## Committing an upper-limb wound
+
+Set `RpgExpandedWound.bodyPart` to the owned arm or hand and set `location` to
+its kind. `amount` remains final injury before the location cap. Set `severing`
+for cutting or explosive trauma. The assessment returns `healthLoss` and a
+`crippling` assessment separately from the original amount. The shared injury
+commit receives the capped loss; every crippling injury still requests one
+major-wound check, including hand wounds below half health capacity.
+
+On commitment, the part becomes disabled and retains `disablingWound`. A severed
+part is also marked severed; raw destruction facts remain in the wound's
+`cripplingAssessment`. Repeat application returns the historical result without
+spending health or randomness again. Changing the bound part or damage category
+on a committed request rejects.
+
+All carried held items and shields need explicit body supports before a
+crippling wound can be assessed. Single-grip affected items drop to
+`dropDestination`. A worn shield remains on a disabled arm unless the arm is
+severed; severing drops it and clears its worn state. The equipment module's
+`prepareForcedDrop` supplies storage and aim cleanup. Knockdown and local drops
+share item identities so an item is not dropped twice. Missing integration or
+destination blocks before injury or dice are spent.
+
+Unsupported worn bindings, further injury to an already
+disabled part, critical-result crippling overrides, duration, recovery, unarmed
+combat and full limb-based action restrictions remain incomplete. Already-disabled-part wounds explicitly block. This is a partial upper-limb
+integration, not complete crippling coverage. Authors must not assume the new
+state covers every action or supplies an automatic recovery schedule.
+
+`test_limb_wound_transactions` covers capped loss, below-half major wounds,
+retained/severed shields, overlapping knockdown drops, preview purity, rollback,
+undo and repeat protection. `test_limb_wound_persistence` covers the committed
+part/wound relationship and repeat protection after cross-process restoration.
+Both are authored but unrun pending recorded validation.
+
+
+## Unarmed parries after upper-limb injury
+
+Full-2008 B147 distinguishes a missing or disabled hand from an unusable arm:
+a functioning handless arm can still make an unarmed parry. The combat engine
+queries `fighter.unarmedParryCapacity()` and
+`fighter.unarmedParryRequirement(otherHand)` before assessing that defense.
+With owned anatomy, capacity counts functioning arms, excludes arms occupied by
+held items, and remains capped by the author's `freeHands` value for additional
+restraints. A disabled hand alone does not reduce this count. A disabled or
+severed arm does. Body supports must describe held equipment; an unbound ready
+item rejects with `unarmed-grip-map-required` rather than guessing its grip.
+
+A second unarmed parry needs two eligible arms, including when the primary weapon
+is the built-in punch or kick representation. Merely retaining such an object
+must not make a single arm count twice. Profiles without owned anatomy retain
+the existing authored `freeHands` behavior and requirement calculation.
+
+With owned anatomy, punch and hand-mounted striking equipment require explicit
+hand supports for attacks. Missing bindings reject with
+`unarmed-hand-support-required`; disabling the bound hand or its arm makes the
+attack unavailable. This attack restriction does not remove a handless arm's
+unarmed parry. Natural attack representations should remain fighter attack
+objects rather than carried inventory items.
+
+`test_unarmed_limb_capacity` enumerates healthy, disabled-hand, disabled-arm,
+occupied-arm and authored-capacity cases against actual defense assessment. It
+also covers the built-in punch representation, invalid grip information, attack
+eligibility, no random draws and profiles without anatomy. Validation status is recorded in the [completion checklist](fear-completion.md). Full grappling, limb-specific maneuver choices and the B147 modifiers to
+other tasks remain outstanding; this closes only the unarmed-parry capacity gap.
+
+
+## Retaining an item held in several hands
+
+When a disabled hand or arm releases an item still held by another functioning
+hand, full-2008 B421 provides a DX check to retain it. Preflight now collects
+those items and verifies the check is available before committing injury or
+randomness. All grips in this case must explicitly name hands. The destination
+for a possible drop is still required even if the later check succeeds.
+
+`RpgExpandedLimbDropPlan` records conditional items, `checks`, `retainedItems`,
+and actual dropped `items`. The wound commits its knockdown consequences first.
+An item already dropped by knockdown needs no retention roll. Incapacitation also
+prevents retention. Otherwise, each eligible item gets one immediate DX check.
+A success removes the injured support from the item's grips and keeps the item
+carried; a failure sends it through the same forced-drop storage operation.
+Repeating the wound reuses this record without rerolling.
+
+`RpgExpandedGripContext` treats immediate retention as a defensive reaction under
+the temporary-attribute exception in B419/B421. It does not apply the wound's
+shock or other temporary attribute reductions. This is the implementation's
+application of that general exception to the specified immediate retention roll;
+the source does not list retention by name among its examples.
+
+`attackHandCount(profile, requested)` defaults to the existing requested count.
+For body-bound equipment it limits that count to the distinct functioning arms
+supporting the item. Combat uses the effective count for hand requirements,
+two-handed bracing and becoming unready. Retaining an item with one hand therefore
+does not make a mandatory two-hand attack available.
+
+`test_limb_grip_retention` and `test_limb_grip_persistence` cover successful and
+failed retention, shock exclusion, knockdown superseding the check, retained
+weapons with a severed-arm shield drop, invalid low scores, rollback, undo,
+remaining-grip attack eligibility and repeat protection after save/restore.
+They are authored but unrun. Multiple-grip retention no longer blocks solely
+because an unaffected hand remains; duration, repeated-location injury and the
+other listed incomplete procedures still remain outstanding.
+
+
+## Classifying crippling duration
+
+`RpgExpandedCripplingDuration` is owned by an existing committed crippling wound
+through `wound.durationRecord`. Set `wound` and the authored `combatEnded` fact,
+then call `assess()` or `apply()` inside an action transaction. Assessment checks
+ownership and rejects duplicate duration records. It also checks active battle
+objects: an authored end-of-combat assertion cannot bypass a still-active battle
+containing this patient. For an injury outside combat, the author sets
+`combatEnded` to indicate no combat remains to be concluded.
+
+Under full-2008 B422-B423, success on the health check gives `temporary`, ordinary
+failure gives `lasting`, and critical failure gives `permanent`. Destruction is
+permanent without this check or a month roll; it need not wait for combat to end.
+The active `rapid-healing` or `very-rapid-healing` trait supplies the B79 bonus of
+five, once. This integrates that effect without supplying the trait catalogue or
+its other recovery effects.
+
+The stored `result` contains the classification, check and, for lasting injury,
+`monthRoll` and `months`. `rpgExpandedCripplingMonths(roll, medicalTL)` applies the
+B422 reductions for physician care, with a one-month minimum. A nil level means
+no qualifying treatment. To use this adjustment in the owned request, provide
+`physician`, `medicalTL` and nonempty `careEvidence` identifying completed care.
+These are authored world facts: the interface records the provider and completed
+care, but does not perform treatment, validate a physician's full qualifications,
+or charge its resources. Missing or inconsistent care fields reject before the
+duration roll. The broader medical subsystem remains incomplete.
+
+Repeated application returns `reused`; the original outcome remains available
+as `record.result`. The wound, combat-end fact and care fields are bound at
+commit and cannot be changed to reroll or obtain a different discount. Requests
+with unavailable health scores reject before consuming randomness.
+
+The shared `afterHealing()` hook has a no-op Lite default. Expanded profiles use
+it to clear only a temporary disability from its own still-current wound when
+injury reaches zero. Partial healing does not clear it. Full healing does not
+clear lasting or permanent disability. The stored result marks `recovered`, and
+the historical wound remains available. Classifying a temporary injury when the
+patient is already fully healed also clears that disability immediately.
+
+Lasting recovery is recorded in calendar months, not converted to a fixed number
+of ledger seconds. The calendar milestone and later-care interfaces below handle lasting expiry and its physician adjustment; surgery and permanent repair
+and the character-value consequences of permanent disability remain pending.
+This procedure grants no advancement points. It is not complete injury recovery.
+
+`test_crippling_duration`, `test_crippling_duration_persistence` and
+`test_crippling_months` cover classifications, destroyed-part roll suppression,
+trait bonuses, care reductions, full-health restrictions, active-combat gates,
+duplicate/retargeted requests, rollback, undo and cross-process continuation.
+They are authored but unrun pending recorded validation.
+
+
+## Lasting recovery on the campaign calendar
+
+`RpgExpandedRecoveryMonth` commits one observed monthly anniversary of a lasting
+injury. Set `duration` to the wound's committed duration record, `ordinal` to the
+anniversary number starting at one, and supply `calendarId`, `boundaryId`,
+`evidence` and `reached`. The author or host calendar determines actual dates:
+`boundaryId` must identify the corresponding monthly anniversary of the injury,
+not simply the next month-end or another unrelated boundary. `evidence` records
+that authored calendar fact. This is a concrete integration contract, not a date
+parser or a second clock.
+
+`assess()` blocks until the boundary is reached and requires consecutive
+ordinals. `apply()` appends the owned milestone to `duration.recoveryMonths`.
+Calendar identity must stay consistent, boundary IDs cannot be reused, and a
+committed request binds its ordinal and evidence. Reapplying that same request
+returns `reused`; changing it or supplying a duplicate boundary rejects. Profile
+validation checks the retained history and completion state.
+
+At the required number of months, the operation clears the current wound's
+functional disability and marks its duration result recovered. It does not add
+health points, consume randomness, grant advancement points, or charge elapsed
+time again. Unlike temporary disability, lasting disability does not require
+full global health at this boundary. Dead patients cannot recover through this
+operation. Temporary and permanent classifications are unavailable here.
+
+For example, a recorded three-month recovery uses three distinct authored
+anniversaries. Months one and two retain the disability; month three clears it.
+If the character later suffers a new injury to the same part, replaying month
+three of the old injury cannot clear the new disability. Ownership is checked
+against the specific wound before recovery, and completed requests are historical
+receipts thereafter.
+
+An author may commit several separately identified milestones when the story
+advances across several months. The host must establish that each anniversary
+was reached. The library deliberately does not equate a month with thirty days
+or use `rpgLedger.seconds` as a world calendar. Surgery that changes months to
+weeks, later physician care and permanent repair still need their own procedures.
+
+`test_lasting_recovery` and `test_lasting_recovery_persistence` cover early/skipped
+boundaries, calendar changes, duplicate and retargeted requests, rollback, undo,
+partial and completed save continuation, unchanged injury/time/randomness and
+replay after a newer wound. These fixtures are authored but unrun.
+
+
+## Optional last wounds
+
+Set `rules.lastWounds = true` to select the full-2008 B420 last-wounds option.
+It is off by default and applies only to the currently supported owned arm/hand
+wounds. When current health is strictly below one-third of capacity, the request
+ignores a limb wound unless it is critical, cripples the part, or inflicts at
+least one-third capacity in a single injury. Comparisons use integer products
+rather than rounded third-health thresholds. At exactly one-third current health
+the option does not apply.
+
+Set `wound.criticalHit` from the resolved attack outcome. That fact is bound into
+the receipt, so it cannot later be changed to reinterpret an applied wound. The
+assessment and committed request expose `ignored`; `healthLoss` is zero for an
+ignored wound. The operation retains an owned history record for replay, but
+leaves health, shock, wound serial and randomness unchanged. It does not suppress
+torso wounds or disable crippling consequences for a qualifying hand injury.
+
+`test_last_wounds_option` enumerates the health and injury boundaries, critical
+and crippling exceptions, torso exclusion, disabled-option behavior and preview
+purity. `test_last_wound_transactions` and `test_last_wound_persistence` cover
+undo, retarget rejection, retained ignored outcomes and cross-process replay.
+All are authored but unrun.
+
+This option is separate from B420's accumulated-wounds option. The latter needs
+an active location-injury ledger and healing allocation, which are not yet
+implemented. The source places the rule about ignoring further health loss from
+a capped location under that optional procedure; this implementation does not
+silently enable it or assume it governs every repeated limb wound. Requests to
+already-disabled parts remain explicitly unavailable pending that integration.
+
+
+## Physician care after classification
+
+`RpgExpandedCripplingCare` applies completed physician care to an existing lasting
+disability. Supply a unique `id`, its owned `duration`, the `physician`, the
+`medicalTL` used for care and nonempty `evidence` identifying that completed care.
+As with care recorded during classification, these are authored world facts.
+This operation records the calendar effect; it does not conduct treatment,
+certify a provider's qualifications or charge treatment time and supplies.
+
+Assessment computes the B422 reduction from `duration.result.monthRoll`, never
+from a previously discounted duration. A treatment that offers no shorter
+recovery blocks without appending another effect. Better care may shorten the
+period once; repeating the same request returns its saved outcome. Duplicate IDs
+and retargeted committed care reject. Temporary, permanent, already recovered or
+dead-patient cases do not receive this lasting-recovery adjustment.
+
+`duration.result.months` retains the classification-time value.
+`duration.requiredMonths()` gives the effective total calendar duration after
+later care. `duration.laterCare` retains the ordered care records; each result
+reports `monthsBefore`, `monthsAfter` and whether that care completed recovery.
+The history validates against the original die, so neither multiple providers
+nor repeated applications stack discounts. The calendar-milestone operation uses
+the effective requirement. If the completed milestone count already meets the
+shortened requirement, the care operation clears only this wound's disability
+immediately, without restoring health points or drawing more random numbers.
+
+For example, an untreated three-month result becomes two months after qualifying
+level-five care. Level-seven care reduces the original three-month result to the
+one-month minimum. If one monthly anniversary has already passed, that improved
+care completes the local recovery. Applying level-five care twice would still
+leave a two-month requirement.
+
+`test_later_crippling_care`, `test_later_care_calendar` and
+`test_later_care_persistence` cover preview purity, non-stacking reductions,
+initial-versus-later care, immediate and future calendar expiry, evidence and
+identity rejection, rollback, undo and cross-process replay. Validation status is recorded in the [completion checklist](fear-completion.md). The full treatment, surgery and permanent-repair procedures remain pending.
+
+
+## Expanded natural recovery
+
+Set `rules.expandedNaturalRecovery = true` to use the expanded natural-recovery
+subset through `rpgLiteRest`. The option is off by default. The existing
+`healingClock`, global time-spending ledger and healing operation remain the only
+clock and balances involved; there is no parallel recovery counter.
+
+Full-2008 B424 gives a daily health check after eligible rest and food. The
+expanded hooks add the B79 rapid-healing bonus of five, once, and double base
+healing for the higher level. `rapid-healing` levels one/two or the separate
+`very-rapid-healing` ID supply these effects; authors still need valid trait
+purchases and prerequisites. B155 slow healing doubles the check interval for
+each of its three supported levels: two, four or eight days. These effect hooks
+do not supply the trait catalogue or all of those traits' interactions.
+
+`rpgExpandedHealingAmount(capacity, amount)` applies B424's high-capacity healing
+multiple. Natural recovery uses it after selecting the one- or two-point base
+amount. The committed healing is capped to injury eligible for natural recovery,
+so a larger result cannot consume protected disease or temperature injury.
+Fully healed patients, and patients with only that protected injury, consume no
+natural-recovery roll under this option. Other recovery sources do not yet
+receive the new multiple automatically.
+
+`naturalRecoveryConditions` is the author's numeric modifier for the good or bad
+conditions allowed by B424. It does not certify medical supervision or replace
+its separate qualification rules. The rest call's existing food and eligibility
+arguments still describe the authored interval. Physician supervision and scheduled
+healing checks are described below. Rest-period interruption and automatic care
+scheduling remain incomplete; hosts must not count ineligible activity as recovery rest.
+
+The shared hooks are `naturalRecoveryInterval`, `naturalRecoveryModifier`,
+`naturalRecoveryAmount`, `naturalRecoveryNeeded` and `validateNaturalRecovery`.
+Their Lite defaults retain the former interval, check, amount and random draw
+behavior. Expanded preflight rejects inconsistent protected-injury balances and
+unavailable required checks before time or randomness is spent. Active unhealing
+with otherwise eligible injury requires an unimplemented exception context and
+rejects explicitly. Natural healing alongside a mortal-wound regimen also
+rejects pending chronological medical integration.
+
+`test_expanded_natural_recovery` covers source values, interval boundaries,
+scaling, conditions, protected injury, option-off behavior and preflight errors.
+`test_natural_recovery_transactions` and `test_natural_recovery_persistence`
+exercise the last second of a slow-healing interval, rollback, undo/replay and
+cross-process continuation. These fixtures are authored but unrun.
+
+
+## Physician supervision and capacity
+
+`rpgExpandedMedicalSchedule(techLevel)` returns B425's patient limit and base
+interval for additional physician healing checks. Level zero has no physician
+service. Levels one through three share the weekly row; later rows progress to
+five checks per day and 200 patients at level twelve or above. The result is a
+table assessment, not an automatic treatment scheduler. The owned check interface below applies patient-specific slow healing and
+executes an eligible additional check.
+
+`RpgExpandedMedicalPractice` owns one physician's active patient roster. Supply
+an `id`, `physician` and its technology-specific `physician` skill definition.
+`assess()` requires a skill rating of at least twelve for this competent-care
+interface. At technology six or higher, set `advancedEquipment` when the familiar
+gadgetry is available. Without it, clean surroundings permit the B425 level-six
+capacity and frequency fallback; otherwise assessment blocks. The actual skill
+rating is retained. The `available` fact means the provider is supplying the care
+for the authored recovery interval; a dead or unconscious provider is unavailable.
+
+Use `admit(patient)` and `release(patient)` in action transactions. The provider's
+`medicalPractice` and patient's `medicalSupervision` point back to the same roster.
+A physician cannot acquire a second roster to evade capacity, and a patient
+cannot acquire a second supervising practice to stack benefits. Admission checks
+capacity before changing either reference. Re-admitting the same patient is
+idempotent. Release permits leaving an unavailable practice and frees the
+physician's assignment when the roster becomes empty.
+
+With expanded natural recovery enabled, an assigned patient's recovery modifier
+includes the B424 bonus of one. Preflight verifies ownership, qualification,
+capacity and provider availability before spending recovery time or randomness.
+The bonus combines with a healing trait's separate bonus; multiple providers do
+not multiply it. Rest that does not attempt natural recovery does not require
+this bonus assessment. Authors must keep availability and roster membership
+consistent with the whole recovery interval: this interface does not yet track
+the physician's work schedule or certify continuous care from world events.
+
+`test_medical_schedule` enumerates every printed row, equipment fallback,
+qualification and capacity rejection. `test_medical_supervision_transactions`
+and `test_medical_supervision_persistence` cover assignment, release, duplicate
+providers, bonus application, unavailability, rollback, undo and cross-process
+ownership. These fixtures are authored but unrun. The separately scheduled physician check is described below; full medical
+procedures remain incomplete.
+
+
+## Additional physician healing checks
+
+`RpgExpandedPhysicianCheck` resolves the B424-B425 check in addition to natural
+recovery. Supply a unique `id`, the admitted `patient`, its `practice`, the
+`continuousCare` fact and nonempty `evidence` describing the completed eligible
+care interval. `modifier` represents authored circumstances for this roll. A
+physician's base skill must still qualify the supervising practice. The request
+requires the expanded wound path to be available for a possible critical failure;
+set the patient's `scaledInjuryShock` rule and, where relevant, a
+`dropDestination` for that possible injury's knockdown consequences.
+
+Admission records `medicalCareSince` and the applicable `medicalCareInterval` on
+the patient. The interval comes from the medical-help table, doubled for each
+slow-healing level under B155. The parent activity advances `rpgLedger.seconds`
+once; assessment observes this ledger and does not spend time again. Hosts must
+use this only for accounted intervals of qualifying care, not infer eligibility
+from unrelated activity merely because the ledger advanced. The completed-care
+assertion and evidence are required in addition to the timestamp check.
+
+The interval must have elapsed since both the current admission/care baseline
+and the last physician check. Only one provider can be assigned; changing doctors
+requires a fresh admission and cannot grant an immediate extra check. Changes
+to the effective interval during an admission explicitly block until the host
+releases and re-admits the patient for a new care interval. A late check resolves
+one current opportunity, not a backlog of historical rolls. Missed opportunities
+are not automatically performed retroactively.
+
+`rpgExpandedPhysicianOutcome(capacity, score, roll)` exposes the source outcome
+assessment: ordinary success restores one base health point, critical success
+two, ordinary failure none, and critical failure causes one injury. High-capacity
+scaling applies to healing only. Execution uses `rpgLiteHeal` or a prepared owned
+torso wound, sharing the existing health balance, recovery hooks and consequences.
+Preflight checks the harmful outcome before rolling. Protected disease or
+exposure injury, unhealing and mortal-wound regimens remain explicitly unavailable
+pending their complete treatment rules.
+
+The patient's `medicalChecks` retain the request, original check, actual healing
+or injury, provider and completion time. `medicalLastCheckAt` persists across
+provider changes. Repeating a committed request returns its saved result; a new
+request at the same time is not due. IDs cannot be reused and committed request
+facts cannot be retargeted. The same completed care interval is never charged or
+rolled twice.
+
+`test_physician_outcomes`, `test_physician_check_transactions` and
+`test_physician_check_persistence` cover source outcomes, capacity scaling,
+critical-failure injury, the last second of eligibility, pure preview, rollback,
+undo, duplicate requests, provider changes and saved continuation. They are
+authored but unrun. Continuous-care activity scheduling and the wider medical
+procedures remain incomplete.
+
+
+## First-aid calculations
+
+`rpgExpandedFirstAidTable(techLevel)` returns a `RpgExpandedFirstAidTable`
+with `tableSeconds`, `bandageSeconds` and `healingAdjustment`, following
+`full-2008`, B424. Bandaging takes 60 seconds; the table interval is the
+additional treatment after bandaging. Technology nine and higher share the
+highest row. This query does not advance time.
+
+`rpgExpandedFirstAidOutcome(capacity, techLevel, score, roll, healingRoll,
+bandageCredit)` assesses supplied dice without drawing randomness or changing
+health. Supply the patient's maximum health capacity, effective first-aid score,
+three-die check, and actual health previously restored by this treatment's
+bandaging. `healingRoll` is a one-die result for ordinary success; critical
+success uses the maximum automatically, and failed checks need no healing die.
+
+The result exposes:
+
+- `bandageAllowance`: one health multiplied by the B424 capacity factor.
+- `bandageCredit`: the supplied actual prior recovery, limited to that allowance.
+- `healingAllowance`: the successful table result, minimum one, scaled once.
+- `additionalHealing`: the successful allowance minus the bandage allowance.
+- `injury`: two plus actual prior bandage credit on critical failure; zero otherwise.
+- `check`: the assessed success and critical classification.
+
+The allowance and actual recovery differ when bandaging reaches full health.
+For capacity 30, technology eight and a healing die of four, the total allowance
+is 12 and additional allowance is nine, even if only one of the three potential
+bandage points could be restored. Unused bandage allowance is not carried forward
+to heal a later wound. An owned session must enforce this eligibility before
+committing any recovery.
+
+Reversing actual prior bandage credit on critical failure is the accounting
+interpretation used here and in the existing treatment path: the whole treatment
+then causes a net loss of two health. The extra injury itself is not multiplied
+by the healing factor. This helper does not apply that injury or resolve its
+consequences.
+
+These are numerical interfaces, not a complete expanded treatment session.
+The owned bandaging and post-bandaging interfaces below provide committed time,
+recovery and duplicate-treatment protection for their supported cases. Interrupted
+care, bleeding and complete equipment/skill contexts remain incomplete.
+Do not call a shared healing function directly with these allowances as a
+substitute for those eligibility checks. Existing Lite treatment remains unchanged.
+`test_expanded_first_aid_values` contains independent table-row and outcome
+expectations, including capped bandage credit and critical outcomes. It is
+unrun pending recorded validation.
+
+
+## Owned bandaging
+
+`RpgExpandedBandage` supplies the one-minute bandaging step for the latest
+supported committed `RpgExpandedWound`. Set `wound`, `healer`, `evidence` and
+`eligibleInjury`. The author must identify why pressure or a tourniquet is
+appropriate and how much of the current injury remains eligible. The amount
+cannot exceed either current injury or that wound's committed health loss.
+This explicit amount does not create another injury ledger.
+
+`assess()` returns the prospective scaled healing and 60-second cost without
+changing health, time or randomness. `apply()` spends that time once and heals
+through the shared health function. The wound owns the receipt; a repeated
+request returns `reused` with no additional time or recovery. A second request
+for the wound is blocked. The existing `bandagedSerial` marker also prevents
+repeating a bandage already performed through the Lite treatment path.
+
+The request rejects earlier wound serials, mortal patients, protected disease or
+temperature injury, and unsupported unhealing exceptions. These restrictions
+remain coverage gaps, not alternative rules. Bandaging can invoke the existing
+awakening check when healing an unconscious patient. Call the operation within
+an engine transaction, as with other committed actions.
+
+This atomic one-minute operation does not yet support interrupted treatment,
+or bleeding checks. The subsequent treatment stage uses a separate owned request
+described below. Bandaging relies on authored
+eligibility evidence; it does not infer injury allocation from a generic callback.
+`test_expanded_bandage` covers preview purity, scaled recovery, repeated requests
+and shared time accounting. `test_bandage_rejections` asserts no spending for missing evidence, invalid
+eligible injury, protected injury, incapacity, earlier wounds and an existing
+bandage marker. `test_bandage_transactions` covers preview, exception rollback,
+undo, replay, duplicate requests and changed evidence after completion.
+`test_bandage_persistence` saves before and after treatment, restores in a separate
+process and continues or reuses the same owned request. These are authored
+expectations; all new fixtures remain unrun pending recorded validation.
+
+
+## Post-bandaging treatment
+
+`RpgExpandedFirstAid` applies the B424 treatment stage after an owned bandage.
+Supply `bandage`, `healer`, a technology-specific `first-aid` `skill`, and the
+combined applicable `modifier`. Set `comfortable = true` and `careEvidence` to
+establish that the patient stays warm, comfortable, calm and still for this
+uninterrupted interval. The current API executes the whole interval atomically;
+it does not schedule intervening world events or handle interruptions.
+
+Assessment checks the completed bandage, current wound serial, patient and healer
+conditions, usable skill score, care evidence and the possible critical-failure
+wound before spending time or randomness. Set `dropDestination` when that failure
+could require an equipment drop. A blocked failure path blocks the request before
+its skill roll, even if the actual roll might succeed.
+
+Execution charges only the additional table interval: the bandage already charged
+its own minute. Ordinary success draws one healing die; critical success uses the
+maximum without that die. Additional recovery is capped by the original authored
+eligible injury minus actual bandage healing, and by current injury through the
+shared healing function. Critical failure uses an owned wound for two points plus
+actual prior bandage recovery. It can trigger the usual injury consequences.
+The patient's shared `aidUsed` marker and the bandage's `treatment` receipt prevent
+another treatment from spending resources again. Reusing the completed request
+returns its historical outcome with zero new seconds.
+
+This stage remains partial: earlier-wound allocation, interrupted care, bleeding,
+and complete equipment/physiology/diagnosis contexts remain incomplete. Authors supply the applicable contextual modifier;
+that input alone does not constitute implementation of every context rule.
+`test_first_aid_treatment` provides successful and critical-failure expectations,
+preview purity and repeated-request checks. `test_aid_transactions` covers both
+outcomes, rollback after mutation, undo, deterministic replay, duplicate requests
+and altered receipt evidence. `test_aid_persistence` restores the exact compiled
+game in another process before treatment and after success or critical failure;
+it checks continuation and historical receipt reuse. These fixtures are authored
+but unrun pending recorded validation.
+
+
+## Surgical assessment
+
+`RpgExpandedSurgeryContext.assess()` calculates surgical modifiers from
+`full-2008`, B223 and B424 without performing an operation. Its explicit inputs
+are `techLevel`, `anesthetic`, `sterile`, `site` (`head`, `chest` or `other`),
+`diagnosed`, `physicianTrained` and `fieldExpedient`. These describe established
+world facts, not inferred skill ownership. A future committed operation must
+verify them against its surgeon, patient, diagnosis and available equipment.
+
+The result separates `equipmentModifier`, `anestheticModifier`,
+`cleanlinessModifier`, `siteModifier`, `diagnosisModifier` and `trainingModifier`.
+Its total `modifier` also includes authored `equipmentQualityModifier`,
+`physiologyModifier` and `otherMissingEquipmentModifier`. The last input must
+exclude missing anesthetic: the dedicated penalty replaces that item's ordinary
+missing-equipment penalty. Quality and physiology values remain authored inputs;
+the context does not implement their full rule families.
+
+`earlyAntisepsis` selects the technology-five poor-antisepsis campaign condition.
+`infectionCheckRequired` is true at lower technologies and at technology five
+when that choice is selected. This flag does not resolve infection. Technology
+zero is explicitly unsupported because the surgical equipment table begins at
+one. Higher technologies use the table's continuing formula.
+
+`rpgExpandedSurgeryOutcome(score, roll, simpleAmputation, damageRolls)` assesses
+supplied dice for the general B223 result. Failure requires exactly two damage
+dice for a simple amputation and three for other operations; each die must be
+one through six. Success requires no damage roll. The result reports `check`,
+`damageDice` and `damage`. A critical failure still needs its operation-specific
+consequences in addition to this general failure result.
+
+These interfaces do not commit damage, time, skill prerequisites, infection,
+stabilization or disability repair. Those inventory entries remain partial or
+pending. `test_surgery_assessments` records expected technology rows, combined
+penalties, field-expedient exceptions, infection triggers and failure damage.
+The fixtures remain unrun pending recorded validation.
+
+
+The medical roster also records `medicalAdmittedAt` for the current assignment.
+It remains fixed when a scheduled physician check advances `medicalCareSince`;
+release clears it and readmission records a new start. The hazards module uses
+this timestamp when assessing care over a full infection interval. This preserves
+one provider roster and avoids treating a check timestamp as the admission date.
+
+
+## Resuscitation assessment
+
+`rpgExpandedResuscitationProcedure(skillKind, medicalTL, trained,
+modernTechnique, cause)` supplies the B425 attempt duration and skill modifier.
+Use `physician` or `first-aid`, and cause `drowning`, `asphyxiation` or
+`heart-attack`. The recorded procedure requires technology seven or higher.
+Each attempt takes sixty seconds. Physician has no procedure penalty. First aid
+normally has minus four; trained modern rescue breathing for drowning or
+asphyxiation reduces that penalty to minus two. A default roll or a heart-attack
+attempt retains minus four. Equipment and other applicable skill circumstances
+must be assessed separately.
+
+This helper performs no skill check and starts no treatment. It does not establish
+that a victim is revivable, extend a cause-specific deadline or interrupt ongoing
+suffocation. Owned treatment, repeated attempts, lung clearance and deadline
+integration remain incomplete. `test_resuscitation_assessment` records the skill,
+technology, training and cause distinctions and remains unrun while validation is in progress.
+
+
+## Cardiac arrest onset and deadline
+
+`RpgExpandedCardiacArrest` owns a confirmed cardiac-arrest trigger. Supply a unique
+`id`, `profile` and `evidence` from the actual triggering procedure. `start()` checks
+the supported diffuse, homogeneous and no-vitals anatomy immunities first. Immune
+onsets are recorded as prevented without fatigue loss, collapse or a deadline.
+Other onsets set the existing fatigue deficit to twice fatigue capacity, producing
+negative full fatigue and unconsciousness. This is a condition assignment, not
+an FP expenditure: it does not inflict fatigue-overflow injury or erase existing
+recovery restrictions.
+
+The B429 deadline is twenty seconds per point of HT, captured at onset. Repeating
+`start()` cannot refresh it. `assessExpiry()` is pure; `expire()` at or after the
+deadline records death and clears active condition ownership. The author must
+schedule this deadline on the shared clock. Ordinary rest is rejected while the
+condition is active. The cardiac treatment below supports uninterrupted resuscitation. Changing
+physiology and interactions with other causes of death remain incomplete. Do not clear the active
+condition manually as a substitute for a successful treatment procedure.
+
+`rpgExpandedCardiacHealth(capacity, injury, survived)` supplies the condition's
+health floor using the existing injury-deficit representation. Survival requires
+at least full capacity in injury, meaning zero current HP; death requires at least
+twice capacity, meaning negative full HP. A worse existing injury total is retained.
+The helper itself changes nothing. Untreated expiry applies the death consequence
+directly without attack damage, shock or survival rolls. A successful cardiac resuscitation applies the survival consequence directly,
+without an attack damage roll.
+
+`test_cardiac_condition` records duration, fatigue assignment without overflow,
+repeated onset, early expiry, exact expiry, preserved recovery restrictions,
+immunities and both health-floor formulas. Fixtures remain unrun while validation is in progress. Interrupted care remains outstanding; opt-in deadline dispatch is described
+below. The
+transaction and continuation fixtures below are authored but unrun.
+
+
+## Committed cardiac resuscitation
+
+`RpgExpandedCardiacResuscitation` owns one uninterrupted attempt against an active
+`arrest`. Supply a unique `id`, an able `healer`, a technology-specific `skill`,
+any assessed contextual `modifier`, and `careEvidence` establishing uninterrupted
+access and suitable equipment for the full minute. Skill must be IQ/Easy first aid
+or IQ/Hard physician at technology seven or later. The healer's actual training
+and defaults are resolved through the shared skill scorer. First aid retains the
+minus-four cardiac penalty; the drowning/asphyxiation rescue-breathing reduction
+does not apply to cardiac arrest.
+
+`assess()` previews the attempt without spending time or randomness. It rejects
+an invalid skill, an incapacitated or exhausted healer, concurrent mortal injury,
+a missing care contract, or a completion time at or beyond the arrest deadline.
+`apply()` charges sixty seconds once and makes the skill check. Failure leaves the
+arrest active; another attempt needs a new ID and enough remaining time. Replaying
+an attempt returns its receipt, so neither a success nor a failure can be rerolled
+or refunded. The shared action transaction must enclose this operation.
+
+On success, the case records `revivedBy`, releases active arrest ownership and
+raises the injury deficit to at least full health capacity. Worse existing injury
+is retained. This is the specified post-arrest condition consequence, without
+attack shock, knockdown or a new survival roll. Fatigue remains at its negative
+capacity limit and ordinary recovery is subsequently allowed. Successful revival
+therefore does not immediately awaken or fully heal the patient. The old deadline
+cannot kill a successfully revived case.
+
+The operation supports only the uninterrupted minute asserted by the care
+contract. It does not schedule other actors' events during that minute; scenarios
+with intervening hazards, interrupted treatment, multiple simultaneous providers
+or additional revival restrictions require further integration. Drowning and
+asphyxiation treatment remain separate incomplete procedures.
+
+`test_cardiac_resuscitation` records physician and first-aid targets, a retained
+worse injury total, repeat protection, failed-then-successful treatment, unavailable
+technology and a deadline that cannot accommodate an attempt. Fixtures remain
+unrun pending recorded validation; the dedicated persistence and rollback fixtures below remain unrun.
+
+
+The dedicated
+[`expanded-cardiac-transactions.t`](../../tests/fixtures/expanded-cardiac-transactions.t)
+adds exception rollback after onset, failed treatment, revival and untreated
+expiry. `test_cardiac_transactions` records undo and replay of onset and treatment,
+preview purity, blocked rest, bound-care rejection and stale requests after
+revival. `test_cardiac_deadline_transactions` checks rollback and undo at the fatal
+boundary. The original expiry request must remain blocked after revival, even
+when the old deadline has passed.
+
+`test_cardiac_persistence` restores separate-process saves after onset, after a
+failed attempt, after revival and after death. Continuation preserves attempted
+care, elapsed time, shared fatigue/injury and random state. Historical successful
+and failed treatment requests must not reroll or recharge time. All fixtures are
+unrun pending recorded validation; no passing persistence claim is made.
+
+
+## Expanded exhaustion assessments
+
+`rpgExpandedExhaustionOutcome(remaining, capacity, collapsed, purpose,
+willScore, willRoll, healthScore, healthRoll)` assesses B426 using supplied rolls.
+Purpose is `action`, `talk`, `rest` or `do-nothing`. Positive remaining fatigue
+permits the action without this check. At zero or less, a new action needs a Will
+check; talking, resting and doing nothing are exempt until an existing collapse
+prevents activity. A previously collapsed actor cannot obtain another effort roll
+while fatigue remains nonpositive. Resting or doing nothing remains available.
+
+Ordinary failure returns `incapacitated` without declaring unconsciousness.
+Critical failure additionally assesses the supplied HT roll; failure returns
+`cardiacTrigger`. This flag is a trigger for the owned cardiac condition, whose
+immunity check must still run. It does not itself apply cardiac collapse or start
+a deadline. At negative full fatigue capacity, the outcome instead identifies
+unconsciousness without an effort roll. Scores and rolls are only required for
+checks that the selected branch actually uses.
+
+`rpgExpandedLowFatigueValue(value, remaining, capacity)` supplies the B426 halving
+arithmetic for Move, Dodge or effective ST: strictly below one-third remaining
+fatigue, halve and round up. It must not be used to reduce HP, damage or other
+ST-based derived quantities. This numeric helper grants no permission to act;
+a deeply exhausted actor can have a computed movement value while unable to use it.
+
+Both helpers are pure. They do not mutate collapse, resolve a cardiac trigger,
+spend time or draw randomness. The owned request below commits those outcomes.
+Parser/structured/dialogue dispatch integration remains incomplete; these helpers
+alone are not a replacement for `rpgLiteCanAct`.
+
+`test_exhaustion_assessments` records positive-fatigue exemptions, ordinary and
+critical effort failures, HT resistance, high-score automatic failure, prevention
+of repeated efforts during collapse, negative-limit unconsciousness and exact
+one-third rounding boundaries. Fixtures remain unrun pending recorded validation.
+
+
+## Owned effort permissions
+
+Create `RpgExpandedEffort` with a unique action `id`, `profile`, `purpose` and
+`evidence` identifying the actual attempted action. The four purposes are those
+of the pure assessment. Assess the action's own legality and costs before calling
+`apply()` within the enclosing action transaction. An allowed result permits that
+one action; it does not execute it, advance time or spend its costs. Reusing the
+same request returns the historical result without another roll. A different
+action requires a new request; a historical permission is not a reusable permit.
+
+`assess()` prepares the Will check and possible HT/cardiac branch without consuming
+randomness. Cardiac onset now exposes `assessOnset()` so all possible outcomes can
+be checked before the effort roll. Ordinary failure sets `exhaustionCollapsed`
+while leaving consciousness unchanged. Critical failure makes the HT check; failure
+commits the owned cardiac condition, including its anatomy-immunity decision.
+Immunity prevents the cardiac consequences but does not negate the failed effort's
+incapacity. Subsequent efforts during that collapse resolve without another roll.
+
+The existing `rpgLiteCanAct` gate now calls the default-inert
+`exhaustionBlocksAction()` hook after its existing incapacity and Do Nothing checks.
+The expanded implementation prevents the old gate from rerolling a committed
+collapse. Otherwise the old gate retains its previous behavior. Authors using an
+owned expanded effort must not also invoke the Lite effort check for that action;
+automatic replacement across all action adapters remains incomplete.
+
+`afterFatigueRecovery()` is called by the shared health-time procedure and clears
+expanded collapse once fatigue becomes positive. External fatigue-restoration
+procedures must use that hook after updating the shared balance. Historical failed
+requests do not reapply collapse after recovery. Other incapacities remain separate.
+`test_owned_effort` covers success, conscious collapse, HT resistance, cardiac
+onset, immunity, preview purity and repeat protection. `test_effort_recovery`
+covers the legacy guard, no reroll during collapse, ordinary rest recovery and
+replaying an old failure. `test_effort_transactions` covers rollback of all four rolled branches, undo,
+changed-evidence rejection, recovery rollback and historical replay after recovery.
+`test_effort_persistence` saves each branch and continues it in a separate process,
+including the link to its owned cardiac condition. Fixtures remain unrun while
+validation is in progress. Broad action-dispatch integration remains outstanding.
+
+## Owned action health gate
+
+`RpgExpandedActionGate` extends `RpgExpandedEffort` for an active turn. Use purpose
+`action` or `do-nothing`. It combines the B426 effort procedure with the B419
+injury-consciousness check, so authors using its permission must not call
+`rpgLiteCanAct` again for that turn. Other legality, action costs and execution
+remain the action's responsibility and must be preflighted before this gate.
+
+Assessment prepares both potential checks without spending randomness. Execution
+first resolves exhaustion; only an allowed active action then checks consciousness
+if current HP is zero or lower. That HT check has -1 per full HP capacity below
+zero. Do Nothing skips both checks, but cannot grant an action to an already
+unconscious or mortally wounded character. A consciousness failure sets
+unconsciousness without adding exhaustion collapse. The receipt exposes
+`consciousnessCheck` separately from its effort `check` and cardiac `healthCheck`.
+
+The result belongs to one authored turn. Repeated calls return the recorded
+permission and checks without rerolling, including after consciousness failure.
+The gate charges no time or fatigue. Use it inside the enclosing action transaction.
+The maneuver adapter below provides an opt-in integration point. Other parser,
+structured and dialogue adapters still need explicit integration; merely including
+this class does not replace their existing health gate.
+
+`test_action_gate` records the combined-roll order, early stop on exhausted
+collapse or cardiac onset, injury-only checks, the full-negative-HP penalty,
+Do Nothing exemptions, preview purity and historical replay. It is authored but
+unrun pending recorded validation.
+
+
+## Using the health gate for a maneuver
+
+Use `RpgExpandedHealthManeuver` where an existing encounter accepts a
+`RpgLiteManeuver`. Set `healthGate` to a fresh `RpgExpandedActionGate` owned by the
+fighter's expanded profile. The gate purpose must be `do-nothing` for the `nothing`
+maneuver and `action` for all other maneuvers. Give it a unique ID and evidence
+identifying that one attempted turn.
+
+The encounter performs its existing maneuver and attack preflight first, then
+calls `healthAvailable(fighter)`. Invalid movement or attack requests therefore do
+not roll or record the health gate. A ready request calls `canAct(fighter)` once.
+The expanded adapter uses the owned gate in place of the ordinary combined health
+check. A failed permission consumes the encounter turn as incapacitation; it does
+not execute the maneuver or charge its costs. Inspect `healthGate.result` for the
+separate effort, cardiac and consciousness results.
+
+A completed gate cannot authorize a later turn, even if the original request is
+submitted again: the adapter returns `maneuver-health-gate-used` before rolling or
+advancing the encounter. Give each subsequent turn a fresh gate. The two hooks on
+`RpgLiteManeuver` default to its existing health behavior, so ordinary maneuvers
+retain the existing path and draw order. This compatibility is not yet verified.
+
+This adapter covers maneuver entry only. Defense checks during Do Nothing,
+journeys, travel abilities and other action adapters remain to be integrated.
+`test_health_maneuver` records successful effort with one roll, failed effort,
+combined injury checks, Do Nothing, invalid movement and rejection of a consumed
+gate on the next turn. Fixtures remain unrun pending recorded validation.
+
+
+The `expanded-maneuver-transactions.t` fixture exercises the adapter inside a real
+engine action transaction and encounter. `test_maneuver_transactions` records
+exception rollback and undo of the effort, injury-consciousness and cardiac
+branches, including the encounter index and RNG state. It also records rollback
+of a later actor's turn and the associated shared second of time, changed-evidence
+rejection, and refusal to reuse a gate in the next round.
+`test_maneuver_persistence` saves before the first action, after its health outcome,
+and after the round boundary, then continues each phase in a separate process.
+These checks are authored but unrun. The route-parity fixture below covers this
+maneuver entry point; owned defense-turn consciousness checks remain outstanding.
+
+## Low-fatigue strength checks
+
+Set `rules.expandedFatigueStrength = true` to apply the B426 temporary strength
+reduction through `rpgLiteScore` and `rpgLiteCheck`. Below one-third FP, direct ST
+checks use half ST, rounded up. Trained skills whose controlling attribute is ST
+receive the same attribute reduction while retaining their relative training.
+This includes a trained `RpgExpandedSkillContext` with `rollAttribute = rpgST`.
+Fixed-base checks have no controlling attribute and retain their fixed base.
+
+The adjustment is contextual: purchased `st`, `maxHP`, basic lifting capacity,
+strength-based damage and character-point accounting do not change. Existing
+Move and Dodge procedures already apply their separate low-health and low-fatigue
+halvings. Do not apply the pure low-fatigue helper again to their final values.
+The default-inert `healthAttributeModifier(context)` hook preserves the existing
+score path when the option is absent or disabled.
+
+An untrained strength-based default at low fatigue is explicitly rejected with
+`fatigue-strength-default-unavailable`; the interaction between temporary strength,
+attribute-default caps and chained defaults is not implemented here. Callers that
+read `attributeScore` directly, other strength-based procedures, and the separate
+core resilience system are not automatically redirected to this option.
+
+`test_fatigue_strength` records the strict one-third boundary, odd-strength rounding,
+relative training, fixed-base exemption, preserved purchased characteristics and
+lifting capacity, combined low-health/low-fatigue Move and Dodge, the disabled
+option, and pure assessment. These fixtures are authored but unrun.
+
+
+The fixture also exposes `first turn`, `second turn`, `first rollback` and
+`second rollback` parser commands, corresponding structured verbs, and instructor
+dialogue choices. All three routes call the same `maneuverDo` operation inside
+their engine transaction. The instructor is an observer of the encounter; issuing
+a fixture command is not an in-world action by the incapacitated fighter.
+
+`test_maneuver_route_parity` compares successful effort, injury-consciousness failure, exhausted
+collapse and cardiac onset across those routes. For each branch it records
+exception rollback, undo and deterministic replay of the first turn, rollback of
+the round boundary, and rejection of a consumed gate on the following turn.
+The fixture is authored but unrun; it establishes no passing parity claim yet.
+Other shared health operations still need equivalent route coverage.
+
+
+## Defense eligibility during exhausted collapse
+
+The shared defense scorer now consults `healthBlocksDefense()`. Its Lite default
+returns false. The expanded health implementation blocks defenses during conscious
+exhaustion collapse while FP remains zero or below, and during an active owned
+cardiac arrest. This is an eligibility query: it does not roll, spend a defense,
+or modify the character. The usual unconsciousness and other existing defense
+restrictions still apply.
+
+Ordinary rest clears expanded collapse when FP becomes positive, restoring defense
+eligibility subject to the remaining restrictions. Dodge can still be reduced by
+low fatigue after eligibility returns. `test_collapse_defense` creates collapse
+through a committed failed effort, records the absence of Dodge, Block and Parry,
+then records the return of Dodge after recovery, with no extra random draws.
+The fixture is authored but unrun. This guard does not yet replace the legacy
+consciousness/effort checks for a defense attempted during Do Nothing.
+
+
+## Cardiac deadlines on the shared clock
+
+Set `rules.automaticCardiacDeadlines = true` before starting an owned cardiac
+condition to register it with `rpgExpandedCardiacClock`. This choice is captured
+at onset: changing the campaign option later does not cancel a registered case.
+Immune onsets are not registered. Existing cases created with the option disabled
+continue to require an explicit `expire()` call.
+
+`rpgSpendTime` now calls the default-inert `rpgLedger.validateAdvance(seconds)`
+and `afterAdvance(previousSeconds)` hooks. Expanded health preflights registered
+case ownership, deadline identity and due injury consequences before the clock
+changes. After the single shared time charge, due untreated cases commit their
+existing expiry operation. An advance that crosses the deadline records `endedAt`
+at the deadline, even when the shared clock ends later. Repeated advances do not
+repeat injury; successful resuscitation prevents the scheduled expiry. No random
+numbers are consumed by deadline dispatch.
+
+Use these operations inside an engine action transaction. The clock, registration,
+condition and receipt then share rollback, undo and the exact-game save policy.
+Writing directly to `rpgLedger.seconds` bypasses the hooks and is unsupported for
+scheduled cases. Death from another cause while a cardiac case remains active is
+explicitly rejected at its due boundary pending a separate termination contract.
+This scheduler handles cardiac deadlines only: it does not simulate intervening
+care choices, exposure ticks or arbitrary world events during a long time advance.
+
+`test_cardiac_clock` records the exact boundary, crossing it in a larger advance,
+exception rollback, undo, changed-case rejection, captured scheduling policy and
+repeat protection. `test_cardiac_clock_revival` records cancellation by successful
+treatment. `test_cardiac_clock_persistence` continues saves immediately before and
+after expiry in a separate process. All fixtures are authored but unrun while
+validation is in progress.
+
+
+`test_cardiac_clock_batch` adds two cases with deadlines at 100 and 200 seconds,
+registered in the opposite order. It records onset rollback, one advance crossing
+both deadlines, undo of both expiries, and separate advances through each boundary.
+Its unsupported-death case catches the rejection inside the fixture operation,
+then inspects both patients and the clock. Thus transaction rollback cannot conceal
+a partial commit before validation rejected the later registered case.
+`test_cardiac_clock_batch_persistence` saves between the deadlines and continues
+the remaining case in another process. These batch fixtures remain unrun.
+
+
+## Critical injuries treated as major wounds
+
+A caller resolving a qualifying critical-hit effect may set both `criticalHit`
+and `forceMajorWound` on its owned `RpgExpandedWound`. Supply the actual final
+injury in `amount`, and set this flag only after damage penetrates protection.
+Zero injury and a missing critical-hit declaration are rejected. This input does
+not raise injury to the ordinary major-wound threshold or charge damage again.
+
+The wound preflights the existing knockdown/drop path with a mandatory major-wound
+check. `rpgExpandedMajorWoundModifier` supplies the location penalty, including
+supported absent-brain/vitals exceptions. Supported body-part wounds use the limb
+modifier. Execution keeps the original injury amount, shared health ledger and
+one wound receipt. Replaying it does not roll again; changing the major-wound
+flag on an existing receipt is rejected.
+
+`test_critical_major_wound` records one-point critical injuries to torso, face,
+skull, vitals and groin, anatomy exceptions, blocked low scores, unchanged injury,
+repeat protection and immutable declaration. Fixtures remain unrun. This supports
+the major-wound consequence, not the complete attack or other critical-hit effects.
+
+
+`test_critical_major_transactions` exercises the one-point critical wound with
+held equipment inside an action transaction. It records rollback of injury,
+knockdown, random draws and the forced drop; rejection of a missing critical
+qualification or drop destination; undo; and rejection of changed historical
+flags or destinations. `test_critical_major_persistence` saves before and after
+the wound, then continues in another process without repeating the check or
+inventory transfer. These fixtures remain unrun pending recorded validation.
+
+## Full-reference fear assessments
+
+`rpgExpandedAssessFear(will, modifier, unfazeable)` applies the B360 initial
+check cap after the supplied modifiers: modified Will above thirteen becomes
+thirteen. Immunity returns without a score or random draw. Scores below three
+are explicitly unavailable in this interface. The cap must not be reused for
+ordinary Will checks or later fear recovery. This helper does not assemble
+situational modifiers or execute the check.
+
+`rpgExpandedFearTable(total)` records the B360–B361 consequence specification
+for every printed result from four through forty, with higher totals selecting
+the forty-plus row. The caller must supply the three-die table roll plus failure
+magnitude; this helper does not roll, commit consequences or invoke the Lite
+fear formula. It returns the selected kind, duration dice/unit, fixed duration,
+recovery policy, fatigue and injury dice, conditional injury, trait requirements,
+repeat durations and aftereffects. A negative `traitPoints` is a required
+character-value change, not an award of spendable points.
+
+Conditional fields matter: the injury on rows eighteen, twenty-six and
+twenty-seven requires a failed immediate health check; row thirty-one likewise
+conditions injury and separately specifies permanent health loss on a critical
+failure. Row twenty-five first attempts a related self-control reduction, with
+`fallbackTraitPoints` identifying the alternative. Catatonia records escalating
+neglect injury and a recovery penalty lasting as long as the episode. Extreme
+panic requires authored consequential reactions, preceded by its specified
+reaction dice. No generic callback is treated as implementing these outcomes.
+
+Row twenty's post-duration recovery is marked `source-followup-required` because
+the inspected paragraph specifies duration and fatigue without explicitly
+repeating a recovery roll. Do not silently select a recovery policy. Several later rows
+still need owned execution, exact resource spending, recovery scheduling and
+where applicable author-selected trait or behavior consequences. Terrifying
+object-history readings therefore remain blocked.
+
+`test_fear_assessments` supplies independent expected initial-score boundaries
+and every primary table row. Conditional resource and aftereffect fields still
+need independent validation when their executors are added. The fixture is
+unrun pending recorded validation; this is partial source coverage only.
+
+## Fear scene modifiers
+
+`RpgExpandedFearContext` combines the B360 modifier categories without rolling.
+Set an expanded `profile`, `approved` and `evidence` establishing why this event
+requires a fear check for this character. The assessment reads owned fearlessness,
+fearfulness, combat reflexes, combat paralysis, daring and higher-purpose traits;
+conditional fields determine when their effects apply. It adds each once before
+calling the initial-check cap helper.
+
+Use `physicalRisk` with an explicit `cowardicePenalty` from one through four
+when the character has that trait. Likewise, an owned alien-interest trait
+requires its `xenophiliaBonus` when confronting `monsters`. Missing or unused
+severity classifications are rejected. `charging` and `purposeThreat` activate
+the corresponding owned trait bonuses.
+
+`body` is `none`, `prepared`, `nonviolent`, `violent` or `mutilated`. Mutilated
+bodies require a one-to-three `mutilationPenalty`; `dependentVictim` requires a
+body. `inCombat` supplies the separate battle bonus. Monster scenes supply
+`monsterPenalty` from zero through ten and `hordeBand` from zero through five.
+The printed horde anchors are five, ten, twenty, fifty and at least one hundred
+creatures for bands one through five. The author classifies unlisted counts;
+this interface does not invent interpolation between those anchors.
+
+`touching`, whole-yard `distance` and `remote` describe physical access. Remote
+viewing uses its own bonus instead of stacking the distant-viewing bonus; a
+touching event cannot also be remote or have nonzero distance. `isolated`,
+`adverseLighting` and `believesAlone` apply the remaining circumstance penalties.
+For night-dwellers the author sets adverse lighting according to that reversal.
+
+Preparation uses `priorExperience`, `priorExposures24h` and `briefingBonus`
+(zero through three). The exposure count is an explicit author fact for now;
+automatic twenty-four-hour encounter history is still pending. The result
+reports the complete `modifier`, capped `score` and immunity. It does not
+execute a fear event or recovery check. `test_fear_context` specifies the printed
+categories, trait contributions, distance boundary, exclusive remote bonus and
+combined modifiers. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Owned short fear-stun episodes
+
+`RpgExpandedFearStun` executes an authored outcome from `full-2008`, B360,
+rows four through eleven and fourteen through sixteen. Supply a unique `id`, a ready `RpgExpandedFearContext`,
+`tableTotal`, `approved` and `evidence` recording the selected outcome. This is
+an explicit outcome interface; it does not yet roll the initial fear check or
+select an outcome from the whole table. Unsupported rows are rejected before
+randomness or state changes. Apply it inside an engine action transaction.
+
+The episode owns the profile's mental-stun condition and records its start,
+initial deadline and original scene modifier. Rows four and five clear that
+condition automatically when shared time reaches the one-second deadline.
+Rows six through nine have a one-second initial duration; ten and eleven roll
+one or two duration dice. Starting an episode does not advance time. Existing
+stun, another fear episode, unconsciousness or death prevents starting it.
+
+After the initial duration, create a distinct `RpgExpandedFearStunRecovery`
+with an `id` and `episode` for each recovery attempt. `assess()` is pure;
+`apply()` spends one shared second and then rolls. Rows six and seven use
+unmodified Will. Later supported rows retain the original fear modifier even
+when the scene changes. Recovery does not apply the initial-check cap of
+thirteen. A failed attempt leaves the episode active. Replaying a committed
+attempt returns its receipt without another time charge or roll.
+
+The Lite recovery hook defers while an expanded fear episode owns recovery.
+Completion clears mental stun without clearing an independently acquired
+physical stun. Use the combat adapter below inside battle turns instead of
+calling the standalone timed route. Episodes and
+receipts use ordinary persistent game objects and the engine's transaction,
+undo and exact-compiled-game save mechanisms.
+
+`test_fear_stun`, `test_fear_stun_modifiers` and `test_fear_stun_persistence`
+specify duration boundaries, automatic recovery, pure previews, exception
+rollback, original modifier retention, uncapped recovery, undo, failed-attempt
+receipts and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Full-table dispatch uses the owned fear-event flow below. Encounter facts remain
+explicit author inputs; supernatural reading is outside this milestone.
+
+
+### Combat recovery
+
+Use `RpgExpandedFearRecoveryManeuver` for a Do Nothing turn after the initial
+stun duration. Bind its `battle`, a fresh `recovery` request for the actor's
+owned episode, and a fresh `RpgExpandedActionGate` as `healthGate`. The gate's
+purpose must be `do-nothing`. Keep movement zero. The battle must have this
+fighter as its current participant; mismatched ownership and reused requests
+are rejected before spending resources.
+
+The maneuver performs the recovery check at the end of that actor's turn.
+`applyInTurn` is the adapter's internal execution route: its receipt has zero
+additional seconds because the battle scheduler advances the shared clock.
+The standalone `apply()` still spends its own second. Both routes record the
+attempt's starting time and prevent another attempt within that same second.
+A fresh request is needed after a failed roll; reusing the old maneuver cannot
+obtain another recovery check or another free turn. During the initial stun
+period use an ordinary Do Nothing maneuver; no recovery roll is yet eligible.
+
+`test_fear_combat` specifies initial-duration rejection, health-gate integration,
+no duplicate time charge, successful and failed recovery, same-second rejection,
+preview purity, exception rollback, undo and replay rejection. It remains unrun.
+
+
+### Fear-induced retching assessment
+
+`rpgExpandedAssessFearRetching(health, attribute, requiresConcentration)`
+assesses the row-twelve duration and B428–B429 condition effects without
+changing state. For health below twenty-five, `initialSeconds` is twenty-five
+minus health; subsequent recovery uses `recoveryScore` with a one-second
+interval. The inspected source does not specify a minimum for exceptional
+health values at or above twenty-five, so those requests return
+`retching-duration-source-required` instead of inventing a duration.
+
+The result applies a minus-five `modifier` to dexterity, intelligence and
+perception, with zero for the other base attributes. `automaticFailure` and
+`actionAllowed` identify concentration's special restriction. This condition
+permits attempted actions despite the general incapacitating-condition rule;
+do not implement it by setting mental stun. Its effective-stun defense penalty
+is minus four. `finishingFatigue` records one fatigue point due at the end, and
+`oralBenefitsLost` records the need to revoke affected meals and oral medication.
+These fields describe required consequences; this helper does not charge or
+revoke them, change defense scores, or create a recovery episode.
+
+`test_fear_retching` contains independent duration, attribute, concentration and
+resource expectations. Validation status is recorded in the [completion checklist](fear-completion.md). Owned execution is described below. Broader oral-medicine effects
+remain outside this milestone; row twelve uses the owned retching contract below.
+
+
+### Owned retching episodes
+
+`RpgExpandedFearRetching` owns one active condition on an expanded profile.
+Provide a unique `id`, an approved fear `context`, outcome `approved` and
+`evidence`, and `oralEffectsReviewed`. The latter is an explicit author finding
+about recent meals and oral medicine. `affectedOralBenefits` accepts the owned meal credits and oral nausea remedies
+described below. Other benefit types remain explicitly unavailable. The selected
+list is bound when the episode starts; changing it prevents recovery until
+the original reviewed list is restored. New meals cannot be credited while
+retching remains active.
+
+Starting the episode records the initial deadline without spending time or
+randomness. It applies the attribute penalties through ordinary contextual
+checks and the effective-stun defense penalty through the existing defense
+calculation. Physical or mental stun does not double that defense penalty.
+The actor is not marked mentally stunned and can attempt other actions.
+`RpgLiteContext.requiresConcentration`, a `concentrate` check kind, and the
+combat Concentrate maneuver all identify the unavailable operation. Authors
+must mark concentration-dependent checks explicitly; the engine cannot infer
+that requirement from descriptive text.
+
+After the deadline, a fresh `RpgExpandedRetchingRecovery` with an `id` and
+`episode` spends one shared second and checks health. Successful recovery ends
+the condition and charges one fatigue point through the shared increment
+function. If remaining fatigue is zero or negative, successful recovery also
+commits one point of injury through `RpgExpandedWound`. This requires the scaled
+injury rule and supported wound anatomy and traits; missing wound support blocks
+before the recovery attempt spends time or dice. Supply `dropDestination` when
+the wound procedure could require dropping equipment. Reaching negative maximum
+fatigue invokes the shared unconsciousness hook and records fatigue collapse.
+A changed oral review or affected benefit also blocks before time or dice.
+Replaying a committed request does not charge fatigue, time or dice again.
+Use this standalone recovery outside an already charged combat turn. Within
+a battle use the adapter below.
+
+`test_owned_retching` and `test_retching_persistence` specify contextual penalties,
+concentration rejection, duration boundaries, final fatigue, pure preview,
+rollback, undo, replay, unsupported combinations and continuation in a new
+process. They are authored and unrun pending recorded validation.
+
+
+Recovery receipts use `RpgExpandedRetchingRecoveryResult`: `fatigueAdded` and
+`injuryAdded` report committed costs, and `wound` retains the owned injury record.
+A failed health roll commits neither fatigue nor injury. Recovery reassesses the
+cost after spending its second so intervening time effects cannot leave a stale
+injury plan. Exception rollback restores the condition, wound history, resource
+ledgers, elapsed time and random stream together.
+
+`test_retching_fatigue` specifies positive, zero and near-collapse fatigue;
+success and failure; preflight rejection without the required wound rule;
+preview, rollback, undo and replay. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Retching recovery in combat
+
+`RpgExpandedRetchingRecoveryManeuver` binds a `battle`, a fresh `recovery` and a
+fresh `healthGate` whose purpose is `do-nothing`. The request's kind must remain
+`nothing` and movement must be zero. The actor must be the battle's current
+participant and own the recovery episode. Initial-duration and oral-review
+requirements are checked before the health gate or any random roll.
+
+The adapter calls the recovery's `applyInTurn` route. It uses the same injury
+preflight and final fatigue charge as standalone recovery, but reports zero
+additional seconds: the battle scheduler owns elapsed time. Both recovery routes
+record their starting time and reject a new attempt in that same second. A
+completed request cannot be reused as a fresh combat maneuver; after a failed
+check, author a new recovery and health gate for the next eligible turn.
+
+`test_retching_combat` specifies positive and zero fatigue, failed and successful
+checks, concentration rejection before turn consumption, pure preview, exception
+rollback, undo, same-second rejection, no duplicate resource spending and the
+single battle-clock advance. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Meal credits and expelled food
+
+`RpgExpandedMealCredit` records an eaten meal in the existing `RpgLiteNeeds`
+ledger. Set `id`, the expanded `profile`, its `needs` object, `meals` (one through
+three), `approved` and `evidence`. This credits food already obtained and eaten;
+it neither buys inventory nor charges time for eating. Start the needs ledger
+with only its otherwise supplied meals, leaving capacity for these credits.
+Do not separately count the same meal in `needs.meals`.
+
+Applying a credit adds its meals once and records the needs cycle. Replaying it
+never adds food again, including after revocation. The daily needs settlement
+uses credited meals for that day and then removes those credits from the next
+cycle's count. The original Lite daily plan remains unchanged when there are no
+owned credits. No second food or fatigue ledger is introduced.
+
+The retching author identifies which recent meal credits were expelled and
+places those objects in `affectedOralBenefits`. The source supplies no universal
+elapsed-time cutoff for “recent”; that classification remains an explicit world
+fact in the reviewed outcome evidence. Starting the episode revokes the listed
+credits atomically with its condition. Duplicate references, another actor's
+credits, unrecorded food and already settled cycles reject before mutation.
+Multiple credits on one needs ledger are assessed together before any removal.
+A meal's receipt retains `revokedBy`, and replay cannot restore expelled food.
+
+`test_retching_meals` specifies credit replay, revocation, pure previews,
+rollback, undo, changed-review rejection, duplicate references and the daily
+settlement boundary. These fixtures remain unrun. Retroactive reversal of a
+settled day's fatigue and broader oral-medicine effects remain unsupported.
+
+
+### Oral nausea remedies
+
+`RpgExpandedOralNauseaRemedy` records an already administered oral treatment
+whose supported effect is the B428 nausea-trigger bonus. Set its unique `id`,
+`profile`, `approved`, `evidence`, `effectStartsAt` and `effectEndsAt`. The source
+specifies the bonus but no universal onset or duration for medicines; those
+times must be explicit authored facts for the selected treatment. Missing timing
+blocks registration. This record does not purchase, consume or administer an
+inventory item and does not add a separate time charge.
+
+`rpgExpandedNauseaTriggerModifier(profile, richMealWithinHour)` returns the
+source's plus-two remedy adjustment and minus-two recent-rich-meal adjustment.
+The modifier applies only to the vomiting-trigger health check. It does not
+remove nausea's general penalties or improve retching recovery. Multiple active
+remedies still contribute a single plus two. Effects begin at `effectStartsAt`
+and cease at `effectEndsAt` on the shared clock; queries never roll or mutate.
+Global nausea state, trigger scheduling and its retching-on-failure procedure
+remain to be implemented.
+
+Include an expelled remedy record in the retching episode's reviewed
+`affectedOralBenefits`, alongside any meal credits. The start transaction removes
+both benefits atomically and binds each `revokedBy` receipt. Replaying remedy
+registration cannot restore an expelled effect. New oral remedies cannot be
+registered during active retching. Unrecorded, foreign, expired or previously
+revoked remedies reject; other medicines require their own concrete effect
+implementations and are not represented by this class.
+
+`test_retching_remedy` and `test_remedy_persistence` specify the numeric bonus,
+non-stacking behavior, onset and expiry boundaries, combined meal/medicine
+revocation, preview, rollback, undo, replay and cross-process continuation.
+They remain unrun pending recorded validation.
+
+
+### Fatigue-plus-stun outcomes
+
+Rows fourteen and fifteen use `RpgExpandedFearStun` with the same original
+modifier and recovery policy as row ten. The operation preflights the maximum
+six-point fatigue cost before randomness, rolls one die for fatigue and one for
+stun duration, then commits the owned cost and episode in the same action.
+Supply `dropDestination` if possible fatigue injury needs a forced-drop plan.
+An unsupported possible consequence rejects before either die is drawn.
+
+`RpgExpandedFearFatigueLoss` handles the prescribed one-through-six-point fear
+cost with a unique `id`, expanded `profile` and `amount`. It introduces no time
+charge. Points lost at nonpositive fatigue each create a separate one-point
+owned wound; they are not combined into a larger wound with different major-wound
+behavior. The fatigue ledger clamps at negative maximum while further costs
+still cause injury. Reaching that limit invokes the shared unconsciousness hook
+before further injury is resolved. Death terminates further expenditure.
+
+Assessment prepares all potential wounds, equipment drops and crossed survival
+thresholds. The resulting `RpgExpandedFearFatigueResult` reports actual
+`fatigueAdded`, `injuryAdded` and committed `wounds`. Replaying the loss returns
+zero new costs. The stun episode retains its `fatigueLoss` receipt, so repeated
+calls and saved-game continuation cannot spend the cost again. A fatal cost
+records the episode as completed instead of creating an active stun on a corpse.
+
+`test_fear_fatigue`, `test_fear_fatigue_stun` and the extended `test_fear_stun`
+specify positive, zero and negative fatigue, clamping, separate wounds, both
+randomized outcomes, preflight rejection, preview, rollback, undo, replay and
+cross-process recovery. They remain unrun.
+
+
+### Combined stun and mental quirk
+
+For row sixteen, set `RpgExpandedFearStun.quirkAcquisition` to a fresh
+`RpgExpandedFearQuirkAcquisition` from the traits module. Its `profile` must
+match the fear context and its `eventId` must equal the episode's `id`. The
+acquisition must have the explicit behavior and event-relation evidence described
+in the [traits guide](traits.md#fear-induced-behavioral-quirks).
+
+Both consequences are assessed before the one-die stun duration is rolled.
+The same engine action commits the new quirk and owned stun. This row does not
+charge fatigue. Recovery follows the modified-Will procedure of row ten, while
+the quirk persists after stun ends. An already used acquisition, missing approval
+or missing trait implementation blocks before randomness. A quirk acquisition
+supplied for another stun row is rejected rather than silently ignored.
+
+`RpgExpandedFearQuirkContract` lives in the foundation solely to avoid circular
+or mandatory catalogue dependencies. Its default implementation is unavailable;
+it does not count as implemented author adjudication. The traits module supplies
+the concrete acquisition. Health-only integrations retain their existing include
+set and can continue using other supported outcomes.
+
+`test_fear_quirk_stun` specifies compound preview and rollback, unchanged
+spendable points, no fatigue cost, missing-contract rejection, replay and recovery
+after cross-process restoration. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Owned fainting
+
+`RpgExpandedFearFaint` implements rows seventeen through nineteen of
+`full-2008`, B361; `tableTotal` defaults to seventeen. Supply an `id`, approved fear `context`, outcome `approved`
+and `evidence`. A held-item drop requires the equipment module and an authored
+`dropDestination`; missing drop support blocks before randomness. The operation
+requires a conscious actor with positive health and fatigue and no conflicting
+unconsciousness owner. It rolls one die of minutes, records `nextCheckAt`, puts
+the actor lying down and invokes the shared unconsciousness hook.
+
+The initial recovery check becomes due when that duration ends. A fresh
+`RpgExpandedFearFaintRecovery` owns each health check, with its own `id` and
+`episode`. The request charges no additional time: the shared clock has already
+reached the boundary. Failure schedules the next check sixty seconds later;
+success ends the faint. Replaying an attempt neither rerolls nor reschedules.
+This uses a dedicated health-check context, without borrowing the ordinary
+wake context's trait adjustments.
+
+Time advancement stops at pending faint recovery boundaries. Attempts to jump
+past a boundary reject before time changes; advance to it, resolve the due check,
+and then continue. This prevents long rests or travel from silently skipping
+required checks. Ordinary unconsciousness timers, healing and fatigue recovery
+cannot wake an actor while the faint owns recovery. The base hooks preserve
+ordinary behavior when no expansion owns the condition.
+
+Ending the faint clears only its ownership. It does not wake an actor whose
+health, fatigue, mortality, other unconsciousness owner or other recorded
+medical condition still prevents waking. Those conditions keep their existing
+recovery procedures. Later compound faint outcomes use the owned compound adapters described below.
+Each episode retains its own recovery and independent incapacity checks.
+
+`test_fear_faint` specifies initial duration, suppression of early ordinary wake
+and healing checks, exact deadlines, failure/retry timing, boundary rejection,
+preview, rollback, undo, replay, save continuation and retained unconsciousness
+from another cause. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+For `tableTotal = 18`, the faint keeps the one-die-minute duration and makes its
+separate immediate health check. Failure commits one point of injury through an
+owned wound; success does not create a wound. For `tableTotal = 19`, duration is
+two dice of minutes and one point of injury is unconditional, without an extra
+health check at onset. Both retain the same minute recovery schedule.
+
+The possible wound and forced drop are assessed before duration dice or the
+immediate check. Missing wound-rule or anatomy support blocks the entire event.
+Unconsciousness and the fall are established before the collapse injury, so the
+injury cannot cause a second knockdown of an already unconscious actor. `onset`
+retains the immediate `check` when present and the committed `wound` when injury
+occurs. Replay never rolls or injures again.
+
+`test_fear_faint_injury` specifies conditional and unconditional injury, both
+durations, successful immediate resistance, zero-cost rejection, preview,
+rollback, undo, replay and saved-game continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Optional bleeding: minute outcome
+
+`rpgExpandedBleedingOutcome(health, lossBasis, modifier, roll, clearMinutes)`
+implements the supplied-roll minute outcome from `full-2008` B420. It subtracts
+one from the HT score per full five HP in `lossBasis`, then adds the explicitly
+supplied contextual `modifier`. It returns the ordinary check plus `injury`,
+`clearMinutes` and `stopped`. Ordinary failure loses one HP, critical failure
+three; either resets the clear-minute streak. Ordinary success increments the
+streak, stopping at three; critical success stops immediately.
+
+The prior streak must be zero, one or two. A completed bleeding episode must not
+be assessed as another active minute. A score below three returns an explicit
+unavailable result. The helper consumes no randomness or time and commits no
+injury. Its `ready` result is an assessment, not a resolved bleeding episode.
+
+The caller must supply a verified loss basis; this helper does not decide whether
+partially healed injuries, multiple wound times or subsequent blood loss alter
+that basis. Those policies need reconciliation in the owned episode implementation.
+Bleeding eligibility remains a concrete author decision tied to actual wounds.
+Campaign selection, persistent episodes, minute scheduling, injury execution and
+successful first-aid termination are still pending. Merely including health does
+not activate bleeding.
+
+`test_bleeding_outcomes` specifies five-HP boundaries, ordinary and critical
+results, three consecutive clear minutes, failure resetting the streak, modifiers
+and blocked scores. The fixture is authored and unrun pending recorded validation.
+
+
+### Owned bleeding onset and eligibility
+
+`RpgExpandedRules.bleeding` defaults to nil. With it explicitly enabled,
+`RpgExpandedBleedingWound` classifies a committed `RpgExpandedWound` using
+`damageKind`, `bleeds`, `approved` and concrete `evidence`. Supported categories
+are cutting, impaling, piercing, crushing, burning, corrosion and other. Ordinary
+cutting/impaling/piercing wounds bleed; ordinary crushing wounds do not. Burns
+and corrosion use the wound's actual major-wound assessment. Departures from
+these defaults, and the `other` category, require `exceptionEvidence`. This records
+an explicit author decision rather than inferring unseen injury anatomy.
+
+`RpgExpandedBleedingEpisode` takes a unique `id` and this `classification`.
+`apply()` must occur at the wound's recorded `committedAt` time, normally in the
+same engine transaction. It installs `profile.bleedingEpisode`, adds an owned
+history entry and sets `nextCheckAt` sixty seconds after onset. It neither causes
+another wound nor spends time. Replaying its bound receipt does not reset that
+deadline. Late registration and overlapping active episodes return explicit
+requirements for the pending aggregation procedure.
+
+The shared ledger may advance exactly to a pending check, but rejects crossing
+it. Binding changes are rejected before clock advance. Dead characters no longer
+block the clock. Episode scheduling and wound timestamps follow the exact-game
+save policy; no old-save migration is supplied.
+
+**This lifecycle is incomplete.** Automatic wound enrollment,
+subsequent-wound aggregation, the loss-basis policy and first-aid termination are
+not yet supplied. Do not enable bleeding in a playable integration until those
+operations are available for the intended scenario. An active episode stops time
+at each required check until it is resolved below. This boundary must not be bypassed by manually
+changing the deadline or clearing ownership fields.
+
+`test_bleeding_onset` and the
+[fixture](../../tests/fixtures/expanded-bleeding.t) specify opt-in, wound ownership,
+eligibility evidence, registration timing, preview, rollback, undo, replay and
+cross-process preservation of the exact minute boundary. They remain unrun.
+
+
+### Executing a bleeding minute
+
+`RpgExpandedBleedingMinute` requires a unique `id`, owned `episode`, explicit
+`lossBasis`, `basisEvidence` and `approved`. At exactly `episode.nextCheckAt`,
+`assess()` prepares the HT context and all possible injury before any die roll.
+`apply()` rolls once, commits any blood-loss injury through an owned expanded
+wound, records the result, and either schedules the next minute or stops the
+episode. It does not spend the elapsed minute again. Advance the shared ledger
+to the deadline, then resolve the check inside an action transaction.
+
+The episode retains the clear-minute streak. Ordinary or critical failure resets
+it; critical success or three successive clear minutes sets `stoppedAt` and clears
+`profile.bleedingEpisode`. Death also releases the pending clock boundary. Minute
+receipts retain their committed injury, check and timestamp. Replay reports
+`reused` without another roll, wound or deadline change. Distinct attempts cannot
+resolve the same minute twice.
+
+The loss basis remains an explicit, approved source interpretation; this does not
+claim automatic aggregation of healing, later injuries or preceding blood loss.
+The standard wound adapter is supported only at maximum HP six or greater and
+without `rules.lastWounds`. Smaller bodies would introduce an unresolved
+blood-loss/major-wound interaction; the optional injury-ignoring rule also needs
+explicit reconciliation. Both are rejected before randomness. Other unsupported
+wound configurations propagate their normal preflight blocker.
+
+`test_bleeding_minutes` specifies exact due times, retained failed/successful
+minutes, injury amounts, reset/termination of the streak, replay, preview,
+rollback, undo, saved continuation and release of the clock after termination.
+These fixtures remain unrun. Automatic wound enrollment,
+multiple-wound aggregation and a fully reconciled loss basis still prevent a
+complete bleeding-system claim.
+
+
+### First Aid to stop bleeding
+
+`RpgExpandedBleedingAid` owns the B424 pressure/tourniquet interval and its First
+Aid check. Supply `id`, active `episode`, `healer`, a technology-specific
+`first-aid` skill, applicable `modifier`, `approved` and concrete `careEvidence`.
+`start()` retains the request and sets `completesAt` one minute later. Advance the
+shared clock normally; neither starting nor completing this operation charges
+the interval again. Any intervening bleeding deadlines must still be resolved.
+
+At exactly `completesAt`, set `uninterrupted` only if the full care interval was
+actually maintained. `assessCompletion()` is pure. `complete()` checks the
+healer's current condition and skill, then rolls once. Success sets the episode's
+`stoppedAt` and clears its active ownership; failure leaves the due bleeding check
+pending. Even critical failure here does not borrow the two-HP consequence from
+the separate shock-treatment procedure. A completed or cancelled receipt cannot
+be rolled again. `cancel()` records interrupted care without a roll or benefit,
+allowing another owned attempt to begin.
+
+When a full care interval ends at the first bleeding deadline, successful care
+can be resolved before that check, preventing initial blood loss. Later success
+stops future loss without undoing prior wounds. It also leaves the normal wound
+healing accounting intact. Earlier loss does not disappear from injury history.
+
+Without a `bandage` this operation implements bleeding control only. Supply the
+linked bandage described below to apply the healing credit in the same interval;
+do not separately execute another timed bandage operation for that benefit. Concurrent aid attempts, changing healers, lost supplies and
+multi-wound care also need explicit integration. Failed-care retries use a fresh
+owned attempt and a new full minute; broader attempt modifiers remain authored.
+
+`test_bleeding_aid` specifies early and late successful control, retained prior
+loss, exact due times, failed/interrupted care, cancellation, no duplicate clock
+charge, preview, rollback, undo, replay and saved continuation. These fixtures
+are authored and unrun pending recorded validation.
+
+
+### Bandage credit in the same care interval
+
+Optionally set `RpgExpandedBleedingAid.bandage` to an owned
+`RpgExpandedBandage` for the classified wound and the same healer. Supply its
+normal `eligibleInjury` and evidence. Both starting care and completing it preflight
+that credit, including protected injury and once-only restrictions, before rolling.
+If First Aid succeeds, the aid operation stops bleeding and calls
+`bandage.applyAfterBleedingCare(care)` within the same transaction. This commits
+the ordinary scaled, capped healing credit with zero additional seconds.
+
+The linked bandage retains its normal wound pointer, result and character serial
+marker. Its receipt is also usable by the existing subsequent shock-treatment
+interface, subject to that interface's limits. The care result reports `healed`.
+Replaying either treatment or ordinary bandaging cannot grant a second credit.
+Failed or cancelled bleeding care leaves the linked credit uncommitted.
+
+The specialized commit requires a retained successful care receipt, matching
+wound/healer, completed full interval and the current completion time. It cannot
+be used to manufacture untimed treatment. The ordinary `bandage.apply()` still
+charges its existing minute. Shared healing/marker mutation is factored into the
+internal `commitHealing` method; integrations should use the assessed public
+operations rather than call that internal commit directly.
+
+Earlier-wound allocation remains restricted. If subsequent blood-loss injury
+has changed the patient's latest-wound serial, the original wound's linked
+bandage is rejected before the care roll. Bleeding-control-only care can still
+stop further loss. Broader wound-specific healing allocation needs its own
+reconciliation rather than bypassing the existing serial protection.
+
+`test_bleeding_bandage` specifies one total care minute, one healing credit,
+preview purity, failure without healing, invalid-eligibility rejection, rollback,
+undo, replay and cross-process preservation of treatment markers. All fixtures
+remain unrun pending recorded validation.
+
+
+### Offset care deadlines
+
+Bleeding-minute checks and care completion use separate deadlines. If an injury
+occurs at time zero and care begins at ten seconds, the next events are the
+bleeding check at sixty and care completion at seventy. Resolving the first event
+does not authorize an advance straight to the following bleeding check at 120.
+The ledger rejects crossing the outstanding care deadline with
+`bleeding-care-boundary`. It consumes no time or randomness on rejection.
+
+At the care deadline, complete or cancel the owned attempt before advancing.
+Interrupted or newly ineligible care still requires an explicit cancellation;
+otherwise the scheduler would silently discard a pending player decision.
+Cancellation releases only that care boundary, preserving the next bleeding
+check. Natural cessation or death removes the episode's clock restrictions;
+retained historical care may be cancelled without inventing a treatment effect.
+The scheduler does not automatically resolve private rolls or heal on clock ticks.
+
+`test_bleeding_care_boundaries` specifies offset event ordering, rejection at both
+boundaries, cancellation and cross-process continuation with pending care.
+It is authored and unrun, alongside the other paused validation fixtures.
+
+
+## Pain sensitivity in the injury pipeline
+
+With the health module installed and `rules.scaledInjuryShock = true`, an active
+`low-pain-threshold` trait doubles calculated injury shock, including scaled shock
+for high HP, and raises the accumulated and turn-cleanup ceiling to eight. The
+trait also imposes -4 on `major-wound`, `physical-stun` and physical `torture`
+contexts. Mental-stun recovery receives no penalty from this implementation.
+Simultaneously active high and low pain thresholds are rejected before injury.
+
+Every wound of more than one HP makes a Will check to avoid crying out, after
+injury and shock but before knockdown and survival checks. The shared health
+result retains `painCryCheck` and `criedOut`, and includes the roll in `checks`.
+This ordering is deterministic; it consumes no roll for one-HP wounds or when
+the trait is absent. A score below three is rejected during preflight before
+injury, resource changes or randomness. Wound replay retains the saved check.
+
+The existing profile hooks `validateInjury`, `afterInjuryShock` and `shockLimit`
+have no-effect defaults for Lite integrations. The expanded owned-wound preview
+also uses injury validation. The shared pipeline covers direct wounds and fatigue
+overflow, so these paths do not maintain separate pain or injury records.
+
+The trait price class is `RpgExpandedPainSensitivity` in the traits module. Its
+fixed -10 purchase supports no percentage modifiers or self-control repricing.
+The cry-out result reports the physical outcome; it does not decide who heard it,
+reveal hidden actors automatically or impose the source's optional observer
+reaction. Those world-observation and social consequences remain incomplete.
+
+`tests/fixtures/expanded-pain-sensitivity.t` and `test_pain_sensitivity` specify
+shock, cost, resistance modifiers, cry-out thresholds, unavailable-score rejection,
+preview, rollback, undo, replay and saved continuation. Existing scaled-shock
+fixtures now expect the supported pain-sensitive case. All remain unrun.
+
+
+## Acquired one-year terminal condition
+
+`RpgExpandedTerminalCondition` implements the acquired one-year tier from
+`full-2008`, B158, as a prerequisite for radiation's lasting consequences.
+Supply `profile`, positive `yearSeconds`, `approved`, `calendarEvidence` describing
+the campaign calendar, and `meaningfulDuration = true` when that duration matters
+to the campaign. The library does not assume a 365-day year. The approval covers
+the authored cause and duration; no disease or radiation roll is implied by
+acquiring the condition directly.
+
+`assess()` is pure. `acquire()` requires completed character creation and a living
+patient, installs this concrete trait in the existing trait list, records ownership
+in `profile.terminalConditions`, and advances `developmentRevision` once. Character
+value falls by 75; earned and unspent points do not change. An acquired negative
+value is excluded from the creation disadvantage limit through the existing
+allowance hook. Duplicate, repeated or pre-existing terminal conditions are
+explicitly unsupported.
+
+The condition stores `acquiredAt` and `deathDue`. Its calendar and ownership
+bindings are checked on replay and time advancement. The shared clock cannot
+advance beyond a pending deadline for a living patient. At exactly `deathDue`,
+`resolveDeath()` commits death and unconsciousness once without a random roll;
+`assessDeath()` is pure. A patient already dead from another cause does not hold
+the clock at this deadline. Use engine transactions for acquisition and death.
+
+This interface implements one-year acquired conditions only. Creation purchases,
+other duration tiers, miraculous cures, replacement disadvantages and point-funded
+buy-off remain pending. Deleting, deactivating or mitigating the trait is not a
+supported cure and is rejected by receipt validation. Radiation-burn recovery composes its two independent checks with this acquisition
+interface; see the hazards guide.
+
+`tests/fixtures/expanded-terminal-condition.t` and `test_terminal_condition`
+specify character-value accounting, unchanged spendable points, deadline edges,
+preview, replay, rollback, undo and cross-process continuation. They are authored
+and unrun.
+
+
+## Owned nausea
+
+`RpgExpandedNausea` records the condition from `full-2008`, B428. Supply `id`,
+`profile`, `approved`, concrete `causeEvidence` and, for a timed cause, positive
+`durationSeconds`. The source of the affliction determines duration; the condition
+itself supplies no default. With nil duration, the episode lasts until its cause
+is explicitly ended. It does not invent a resistance roll for an unspecified cause.
+
+`assess()` is pure and `apply()` records onset in `profile.nauseaEpisodes`. Replaying
+an episode never refreshes its timer. At the expiry instant its penalty ends.
+For a cause removed earlier, set `endEvidence` and call `end()` inside a transaction;
+`assessEnd()` previews that operation. This ends only that episode. Multiple causes
+retain separate lifetimes, while `profile.nauseated()` applies the nausea penalty
+once whenever any cause remains active.
+
+The shared health modifier applies -2 to attribute and skill checks once; purchased
+scores and skill training remain unchanged. The active-defense hook applies -1
+separately, rather than applying the attribute penalty to a defense as well.
+Self-control checks are excluded because B428 does not list them for nausea.
+Other condition effects retain their own modifiers. The existing oral-remedy and
+rich-meal helper remains specific to vomiting-trigger checks and does not remove
+these general nausea penalties.
+
+Eating, foul odors, failed fear checks, stun and hourly motion exposure still need
+their owned vomiting-trigger integration. This condition record does not imply
+those triggers or retching consequences have run. The fixture
+`tests/fixtures/expanded-nausea.t` and `test_nausea_episodes` cover attribute/defense
+penalties, independent overlapping causes, expiry, ending one cause, preview,
+rollback, undo, replay and saved continuation. They are authored and unrun.
+
+
+### Nausea events and fixed-duration vomiting
+
+`RpgExpandedNauseaTrigger` accepts `kind` values `meal`, `odor`, `fear-failure`
+and `stun`. Supply a unique `eventId`, `profile`, `observedAt` equal to the current
+clock, `approved`, and concrete evidence of the event. `richMealWithinHour`
+records the authored dietary fact. This explicit event interface does not itself
+hook every parser, fear or combat event; those automatic adapters remain pending.
+The owned hourly exposure interface below supplies free-fall and motion-sickness scheduling.
+
+Prepare an unstarted `RpgExpandedRetching` episode with an approved
+`RpgExpandedRetchingContext` for the same profile. It requires the existing oral
+benefit review and exact affected meal/remedy records. Trigger assessment validates
+the possible vomiting outcome before dice. It uses the shared HT context, including
+the nausea penalty, and the rich-meal/remedy modifier. Success records the check
+without starting vomiting. Failure starts the prepared episode and atomically
+revokes reviewed oral benefits. A used event cannot roll or start vomiting twice.
+
+The general `RpgExpandedRetching` uses the fixed `(25 - HT)`-second duration from
+B428. At its endpoint, apply `RpgExpandedRetchingRecovery` to finish the condition
+and charge its one fatigue point, including supported overflow injury. This fixed
+ending consumes no extra second or random roll; the clock cannot skip it. The
+existing `RpgExpandedFearRetching` identifier remains a subclass with its distinct
+fear-table recovery-check procedure. Both share physical penalties, oral-benefit
+handling, fatigue and receipts. Fear recovery checks now use the shared HT score
+so active health penalties apply.
+
+Exceptional HT of 25 or higher, unsupported oral-benefit revocation and unavailable
+scores are rejected before the trigger roll. `tests/fixtures/expanded-nausea-trigger.t`
+and `test_nausea_triggers` specify success, failure, preflight, fixed-end timing,
+no duplicate fatigue, preview, rollback, undo, replay and saved continuation.
+Existing fear/meal/remedy fixtures remain required regressions. All are unrun.
+
+
+### Hourly motion exposure
+
+`RpgExpandedNauseaMotion` records a continuing `motion` or `free-fall` situation
+from `full-2008`, B428. Supply a unique `id`, `profile`, `approved` and evidence
+that the situation can cause motion sickness. `assess()` is pure; `apply()` owns
+the exposure in `profile.nauseaMotionExposures` and sets its first check one hour
+later. Replaying it does not reset that epoch. Only one motion exposure can be
+active for a profile; overlapping source composition remains unsupported.
+
+For each completed hour, supply a fresh `RpgExpandedNauseaMotionHour` with the
+`motion` reference and the usual trigger fields: unique `eventId`, matching
+`profile`, `observedAt`, approval and event evidence. Its kind remains
+`motion-hour`. When nausea is active, prepare the same reviewed retching episode
+used by other triggers; current meal/remedy modifiers apply. When nausea is absent,
+the hour records no check and needs no vomiting episode. `checkRequired` in the
+result distinguishes these cases. Replay does not advance the deadline twice.
+
+The clock cannot pass `nextCheckAt` until that hour is recorded, even when no roll
+is needed. Recording an hour advances the next deadline by exactly 3,600 seconds
+and spends no time again. A failed check can create a nearer vomiting endpoint;
+that independent endpoint must also be completed before time passes it.
+
+To stop exposure, supply `endEvidence` and call `end()` in a transaction. At an
+already-due hour the record must be resolved first; stopping cannot bypass it.
+Ending before a full hour elapses requires no hourly check. Ending nausea does
+not itself stop motion, and stopping motion does not cure nausea. A dead profile
+does not hold the clock at an hourly boundary.
+
+`tests/fixtures/expanded-nausea-motion.t` and `test_nausea_motion` specify protected
+hour boundaries, success and vomiting, healthy hours without randomness, stopping,
+preview, rollback, undo, replay and saved continuation. They are authored and
+unrun. Automatic world-event adapters remain separate unfinished work.
+
+
+## Impaired-clotting assessment
+
+`rpgExpandedAssessImpairedClotting(originalInjury, torsoImpaling, care)` assesses
+the distinct procedure in `full-2008`, B138. `care` is `untreated`, `first-aid` or
+`definitive`. These are supplied clinical facts, not executed treatment actions.
+The result exposes `intervalSeconds`, `injury`, `internal`,
+`ordinaryHealingAllowed` and `requiresDefinitiveCare`.
+
+Untreated wounds lose the original injury amount every minute. First aid stops
+that external stage; torso impalements retain the original amount as daily
+internal loss until definitive treatment. Accumulated bleeding must never become
+the next tick's basis. HP lost to internal bleeding requires surgery or supernatural
+healing to restore; stopping the bleeding does not grant ordinary healing of that
+loss. The helper neither changes injury nor rolls, advances time or records care.
+
+`RpgExpandedImpairedClotting` in the traits module supplies the fixed -30 purchase
+and enforces HT no greater than ten. Percentage and self-control modifiers are
+unsupported. Ordinary optional bleeding episodes and minutes explicitly reject
+this trait, preventing their HT checks and one/three-point losses from substituting
+for the mandatory procedure.
+
+Owned per-wound mandatory loss, bandaging restrictions and surgical/supernatural
+restoration remain pending. Do not treat the price or pure assessment as the
+completed disadvantage. Radiation's temporary acquisition in a patient with HT
+above ten also needs an explicit source-consistent resolution; no HT reduction is
+invented here. `tests/fixtures/expanded-impaired-clotting.t` and
+`test_impaired_clotting` specify the rates, care stages, cost, cap and ordinary-path
+rejection. They are authored and unrun.
+
+
+### Owned mandatory clotting losses
+
+`RpgExpandedClottingEpisode` owns one committed untreated `RpgExpandedWound`.
+Supply a unique `id`, `wound`, `approved`, wound evidence and `torsoImpaling` when
+that original injury came from an impaling torso wound. Register at the same
+ledger instant as the wound. The active impaired-clotting trait and HT cap are
+required; the optional ordinary-bleeding switch does not control this procedure.
+Late registration and transition from an existing ordinary bleeding episode are
+explicitly unsupported.
+
+The record retains `originalInjury` and a first `nextLossAt` sixty seconds later.
+Multiple wounds have separate records and deadlines. `RpgExpandedClottingLoss`
+accepts a unique `id`, `episode` and any required `dropDestination`. At the exact
+deadline it commits the original amount through one shared wound record and
+advances that episode's deadline by sixty seconds. It does not roll an ordinary
+bleeding HT check. Normal injury consequences can still require their own checks.
+Accumulated loss never increases the original amount, and generated blood-loss
+wounds must not be registered as new bleeding sources.
+
+The clock cannot pass any unresolved loss deadline. Replay preserves injury,
+randomness and the next deadline. Current support requires original loss no larger
+than half maximum HP and excludes the optional last-wounds rule until their
+blood-loss-specific interaction is resolved.
+
+Internal loss is retained as a protected component of the existing injury total.
+The shared `validateHealing(amount)` hook limits ordinary healing to injury
+outside registered protected components; natural recovery skips its healing roll
+when no eligible injury remains. Its Lite default is inert.
+Unrelated unprotected injury remains eligible. Bandage preview also checks the
+restriction; the specialized first-aid adapter below assesses its stage transition.
+
+The adapter below supplies first-aid transition and daily internal losses.
+Definitive care and restoration remain pending, so this is not yet the complete
+clotting disorder. Automatic wound
+enrollment is also pending. `tests/fixtures/expanded-clotting-loss.t` and
+`test_clotting_loss` specify independent wounds, fixed loss bases, deadline and
+healing protection, preview, rollback, undo, replay and saved continuation.
+They are authored and unrun.
+
+
+### First aid for impaired clotting
+
+`RpgExpandedClottingBandage` extends the existing bandage operation for a registered
+`episode`. Supply its original `wound`, a capable `healer`, concrete bandaging
+`evidence`, and `eligibleInjury` equal to the episode's original injury. This
+adapter can treat the original wound after blood-loss records have advanced the
+shared wound serial. Each wound retains its own bandage receipt, preventing
+repeated credit. Preview checks the upcoming clock boundary and supported injury
+combinations before spending time.
+
+Applying takes sixty seconds of shared time. At completion it changes care to
+`first-aid`, then commits the existing scaled bandaging healing credit once.
+Finishing at a due minute staunches that minute's loss, matching the one-minute
+pressure procedure. Late completion cannot skip an earlier unresolved loss.
+Interrupted care rolls back inside an engine transaction. The ordinary optional
+bleeding-care adapter cannot be substituted for this operation.
+
+External bleeding then has no further loss deadline. A torso impalement instead
+sets its next loss to one day after first-aid completion, and subsequent daily
+`RpgExpandedClottingLoss` operations retain the original injury amount. This
+anchors the new daily stage to completed first aid. Internal loss accumulated
+before or afterward remains protected from ordinary healing.
+
+`profile.clottingProtectedInjury()` sums components of the existing injury total:
+original wounds and their loss while untreated, or internal bleeding loss after
+first aid. It is not a second HP pool. Ordinary healing and natural recovery can
+restore only injury outside those components; bandaging frees the treated wound's
+eligible component before applying its healing credit. Surgery or supernatural
+restoration still needs its own definitive-care implementation.
+
+`tests/fixtures/expanded-clotting-care.t` and `test_clotting_care` specify stopping
+external loss, minute-to-day transition, preserved internal loss, shared healing
+credit, preview, rollback, undo, replay and saved continuation. They are authored
+and unrun. Automatic enrollment, definitive treatment and exceptional large-loss
+handling remain incomplete.
+
+
+### Supernatural restoration of internal loss
+
+`RpgExpandedClottingRestoration` is the concrete author interface for the
+supernatural-healing alternative in `full-2008`, B138. Supply a unique `eventId`,
+the internal-bleeding `episode`, `approved`, detailed `effectEvidence`, and
+`occurredAt` equal to the current ledger time. The evidence identifies the authored
+effect and establishes its granted outcome. This interface does not invent a spell,
+ability, casting roll, cost or duration; the originating system must resolve those
+and compose this operation in the same transaction.
+
+Set `restoredHP` to the exact internal-loss HP granted by the effect, from zero
+through the episode's remaining `internalLoss`. Independently set `stopsBleeding`
+when the effect definitively treats this bleeding source. At least one effect is
+required. Restoring HP alone leaves the existing minute/daily cadence intact;
+stopping alone leaves previous loss protected. The operation cannot restore
+unrelated HP or resurrect a dead patient.
+
+`assess()` validates the current event, ownership, protected injury and healing
+preconditions before mutation. `apply()` reduces the protected component, restores
+that amount through the shared healing pipeline, and, if authorized, changes care
+to `definitive` and clears the future deadline. `restoredInternal` preserves the
+amount removed from historical untreated loss so it cannot become protected a
+second time. Existing healing side effects, such as supported waking checks, remain
+in the shared pipeline. No additional treatment time or power cost is charged.
+
+A profile owns receipts in `clottingRestorations`; an event ID may be committed only
+once for that profile. Replay neither heals again nor changes a later deadline.
+Use distinct explicitly resolved effects for additional grants. This adapter can
+be used before or after first aid. Surgery remains unfinished: no unsupported
+operation duration or surgical HP grant is inferred from this supernatural path.
+
+`tests/fixtures/expanded-clotting-restoration.t` and `test_clotting_restoration`
+specify combined restoration, partial restoration, stopping alone, continued
+bleeding, stale-event rejection, preview, rollback, undo, replay and saved
+continuation. They are authored and unrun.
+
+### Surgeon eligibility and current score
+
+`RpgExpandedSurgicalAssessment` connects an authored `surgeon`, `skill` and
+`conditions` (`RpgExpandedSurgeryContext`) without performing an operation. The
+Surgery skill must use IQ, Very Hard difficulty and an explicit technology level.
+Include the skills library for its expanded Very Hard skill type and scoring.
+Purchased Surgery requires purchased First Aid or Physician at the operation's
+technology level. Untrained Surgery can instead use a published default through
+`RpgExpandedSurgerySkill`; learning prerequisites do not block default use. Equipment from a different technology level uses the B168 cognitive-skill
+penalty in addition to the B424 surgical equipment modifier. Equipment four or
+more levels above the skill is unavailable. `technologyModifier` exposes this
+component separately; it is included once in the returned total `modifier`.
+
+The assessment derives Physician training from the surgeon's owned investments;
+it does not trust or change `conditions.physicianTrained`. Non-field surgery
+without Physician receives the B223 penalty. The resulting `context` uses the
+shared skill pipeline, including current health modifiers; `score` is its current
+value. Equipment, site, diagnosis, physiology and anesthetic modifiers still come
+from the B223/B424 context assessment. Its technology level describes the care
+and equipment actually available; skill prerequisites and default sources use
+the surgeon's learned skill technology level. Incapacitated surgeons and unavailable
+scores are rejected before spending resources or randomness.
+
+A ready result only establishes eligibility and a score. It does not stop
+bleeding, heal, spend treatment time, or resolve infection. The returned
+`infectionCheckRequired` remains an obligation for a future operation adapter.
+Timed surgery, failure wounds and protected-HP restoration remain unfinished.
+No fixed duration or healing grant is inferred. The fixture
+`expanded-surgical-assessment.t` and `test_surgical_training_assessment` specify
+independent source-derived scores, prerequisites, blocked combinations and repeat
+assessment purity. They are authored and unrun pending recorded validation.
+
+### Owned surgical operations
+
+`RpgExpandedSurgicalOperation` implements the common B223 operation roll and
+failure-injury lifecycle. Supply a unique `id`, expanded `patient`, a
+`RpgExpandedSurgicalAssessment`, positive `durationSeconds`, `approved` and
+`procedureEvidence`. Evidence identifies the actual non-amputation procedure and
+justifies its duration. This common operation grants no HP and does not itself
+stabilize mortal wounds, shorten crippling recovery or treat internal bleeding;
+those procedure adapters remain unfinished. It must not substitute for them.
+
+`assess()` preflights the current surgeon and every possible 3d failure injury.
+`start()` binds the procedure and stores it in the patient's `surgicalOperations`.
+It does not advance time. Advance the shared clock while care occurs, allowing
+other health deadlines to resolve; the clock cannot pass the completion time
+without resolving or interrupting the operation. Overlapping operations on the
+same patient or by the same surgeon are rejected. Authors call `interrupt()` if
+care is interrupted; this records cancellation without refunding elapsed time,
+rolling dice or granting benefits.
+
+At the exact completion time, `assessCompletion()` re-evaluates current eligibility
+and modifiers. `complete()` rolls once using the shared skill pipeline. A failure
+rolls three damage dice and applies one owned wound through the shared injury
+pipeline, including applicable shock and survival consequences. The result exposes
+`check`, `succeeded`, `wound` and actual `injury`. Repeating completion reuses the
+receipt and cannot roll or injure again. Use the normal action transaction to
+compose procedure-specific consequences; no callback is counted as their
+implementation.
+
+Infection-requiring care needs the hazards library and an owned
+`RpgExpandedSurgicalInfectionExposure`; without that adapter it is rejected before
+time or randomness. Impaired clotting and optional bleeding still require
+unimplemented surgical failure adapters. Amputation's two-die failure procedure is
+also outside this general-operation class. These remain explicit coverage gaps.
+A dead patient releases the clock deadline; interruption still closes the owned
+record. Changing bound procedure facts after starting is rejected.
+
+`expanded-surgical-operation.t` supplies an original authored one-minute procedure
+solely as an integration fixture, not a source duration. `test_surgical_operation`
+specifies preview purity, timing, overlap, failure injury, replay, interruption,
+rollback, undo and cross-process continuation. These fixtures are authored and
+unrun pending recorded validation.
+
+### Repairing a lasting crippling injury
+
+`RpgExpandedLastingRepair` specializes the common surgical operation for B424.
+It requires an owned `RpgExpandedCripplingDuration` that is still lasting and
+currently disables the recorded body part. `durationSeconds` must remain 7200.
+A successful operation converts the remaining month units into week units. An
+ordinary failure retains the original recovery schedule and applies the common
+3d injury; a critical failure also makes the original disability permanent.
+No result grants HP or immediately restores the part.
+
+Provide `remainingMonthNumerator` and `remainingMonthDenominator` describing the
+actual remaining month units at operation completion, plus the campaign's
+`weekSeconds` and `calendarEvidence`. These are concrete calendar facts, not an
+extra treatment benefit. The remaining fraction must lie in the current uncompleted
+month interval established by the owned duration and monthly receipts. For
+example, 3.5 remaining months become 3.5 weeks; a seven-day campaign week gives
+2,116,800 seconds. The author must establish that remaining fraction from the
+campaign calendar. The engine does not assume a fixed month length. Fractions
+that require sub-second rounding and clock overflow are rejected before starting.
+
+Success binds the duration's `surgicalRecovery` and records `recoversAt`. The
+original monthly completion and later physician-care adjustments cannot change
+this surgical schedule. At the exact deadline, `recover()` restores the disabled
+part and records recovery while leaving HP injury unchanged. The clock cannot
+skip that deadline for a living patient. Preview and replay do not change the
+schedule. Permanent-injury repair remains a distinct unfinished procedure.
+
+The adapter uses the common operation's infection exposure when hazards is
+installed and retains its limitations for optional bleeding and impaired clotting. Calendar changes after scheduling,
+sub-second conversion and further physician adjustments require additional
+verified rules rather than silent approximation. `expanded-lasting-repair.t` and
+`test_lasting_repair` cover a fractional conversion, ordinary and critical failure,
+old-schedule rejection, exact boundaries, replay, rollback, undo and saved
+continuation. They are authored and unrun.
+
+### Stabilizing a mortal wound
+
+`RpgExpandedMortalCare` owns one observed mortal condition. Supply its unique `id`,
+`patient`, `approved` and evidence identifying that condition, then `open()` while
+the patient is alive and mortal. A patient can have only one open care record.
+Use this record for every surgeon and retry; creating another operation cannot
+reset its failed-attempt count. Close it after observed spontaneous recovery or
+death, interrupting any unfinished operation first. A new mortal condition needs
+a new record after the old condition has closed.
+
+`RpgExpandedMortalStabilization` uses this `care` and the common operation fields.
+Its duration must be 3600 seconds. B424's severity modifier is -2 at -3 times
+maximum HP or worse, replaced by -4 at -4 times maximum HP or worse. Each earlier
+failed operation on this condition adds another -2. Interrupted attempts have no
+failed roll and do not add this penalty. Current severity, surgeon conditions and
+retry history are assessed again at completion; a score below three blocks the
+attempt before randomness. The shared clock continues ordinary mortal survival
+checks during the hour. This adapter does not supply trauma-maintenance support.
+
+Success ends the mortal condition without healing HP or automatically waking the
+patient. It then makes B423's permanent-health check. Failure reduces HT by one
+and increments the existing development revision without changing earned or
+unspent points. A critical failure sets `complicationReviewRequired`, exposing the
+source's discretionary additional consequence for the author; no disadvantage or
+appearance change is silently installed. The roll is retained in
+`permanentHealthCheck`, and `healthLost` records the actual change. Authored
+additional complications still require their own applicable trait interfaces.
+
+Failure uses the common 3d injury and leaves the condition open if the patient
+survives. The next attempt retains its penalty. Successful stabilization, or
+failure that kills the patient, closes the care record. Infection and unsupported
+bleeding/clotting combinations follow the common surgical adapter. Neither
+stabilization nor replay grants extra healing, time or advancement credit.
+
+`expanded-mortal-stabilization.t` and `test_mortal_stabilization` specify severity
+thresholds, persistent retry penalties, ongoing half-hour survival rolls,
+permanent HT loss, critical complication flags, preview, replay, rollback, undo
+and cross-process continuation. They are authored and unrun.
+
+### Trauma maintenance and life support
+
+`RpgExpandedTraumaMaintenance` implements B423's technology-six-or-higher
+maintenance procedure. Supply the expanded `patient`, `caregiver`, technology-
+qualified Physician `skill`, unique `id`, `approved` and `equipmentEvidence`
+identifying continuous CPR, oxygen, transfusion or equivalent support. Set
+`lifeSupport` for a heart-lung machine or comparable continuous support; its
+availability must be established in the evidence. The operation charges no extra
+HP, fatigue or treatment time.
+
+`assess()` compares the patient's current contextual HT score with the caregiver's
+current contextual Physician score and chooses the higher. `start()` replaces the
+half-hour mortal check interval with one hour, or one day for life support. The
+shared ledger processes these checks, records their results and times in `checks`,
+and retains the ordinary death/critical-success recovery consequences. This can
+run alongside surgical stabilization on the same patient without a second clock.
+A medical rest also uses this clock exactly once.
+
+The initial implementation requires starting and ending support at an existing
+mortal-check interval boundary (`mortalClock == 0`), unless the patient is no longer
+mortal or is dead when support ends. A partial supported interval cannot be erased
+by toggling care. Transfers or loss of support mid-interval remain unsupported;
+changing bound facts is rejected, and an unavailable caregiver blocks further
+clock advancement until an applicable transition is authored. Suspended animation
+is not implemented by this interface. Do not describe these gaps as complete
+life-support coverage.
+
+The engine now exposes `mortalSurvivalInterval`, `mortalSurvivalCheck` and
+`mortalClockOwned`. Their default behavior preserves the existing half-hour roll
+and random consumption. `rpgLiteMortalTime` contains only that condition clock.
+Expanded mortal care or trauma maintenance owns its dispatch from the ledger;
+legacy `rpgLiteHealthTime` skips that part while owned, preventing duplicate rest
+checks. Profiles without owned care retain their previous dispatch behavior.
+
+`expanded-trauma-maintenance.t` and `test_trauma_maintenance` specify hourly/daily
+boundaries, the higher caregiver score, coexistence with stabilization, stopping,
+preview, rollback, undo, save continuation and prevention of duplicate rest rolls.
+They remain authored and unrun.
+
+### Suspended animation and mortal checks
+
+`RpgExpandedMortalSuspension` supplies B423's no-survival-roll exception for an
+already established supernatural or advanced-technology suspension effect. Set
+`kind` to `supernatural` or `advanced-technology`, identify the effect in
+`effectEvidence`, and provide `approved`, a unique `id` and the expanded `patient`.
+The patient must already be unconscious, alive, mortal and enrolled in owned
+mortal care. The source effect remains responsible for its activation, equipment,
+energy, broader physiology and eventual release; this receipt supplies the
+specific mortal-survival consequence rather than inventing those mechanics.
+
+`assess()` is pure. `start()` records the current partial `mortalClock` without
+resetting it. While active, ledger advancement and resting neither accumulate
+mortal time nor roll survival checks. Ordinary unconscious recovery cannot wake
+the patient, even if healing resolves the mortal condition. `end()` releases the
+exception without a roll, HP grant or automatic awakening. If the patient remains
+mortal, owned care must still be available to resume the preserved partial clock.
+Replay cannot reset that clock or end a later effect.
+
+Overlapping trauma support and surgery are rejected; interrupt or finish them
+before applying suspension. Changed effect facts and attempts to wake the patient
+while the receipt remains active invalidate clock advancement. The host must end
+this receipt in the same transaction that terminates the actual suspension.
+Other hazards, metabolism, aging and sources of suspended animation remain outside
+this narrow adapter and must not be represented as fully implemented by it.
+
+`mortalSurvivalSuspended()` defaults to false, preserving the abridged clock.
+`expanded-mortal-suspension.t` and `test_mortal_suspension` specify a partial interval
+held across a day, resumption, surgery rejection, retained unconsciousness after
+healing, preview, rollback, undo, replay and cross-process continuation. They are
+authored and unrun.
+
+### Shared mortal-recovery consequences
+
+Expanded patients now retain `mortalRecoveryHistory` for recovery through healing,
+survival critical success or surgery. Each `RpgExpandedMortalRecoveryReceipt`
+records its `cause`, event time, permanent-health `check`, and HT before and after
+that check. Failure reduces HT once and increments the existing development
+revision once; earned and unspent points are untouched. Existing surgery results
+reference that same check and loss, rather than applying a second consequence.
+A survival receipt uses the actual half-hour/hour/day boundary even when the host
+advances a longer interval in one transaction.
+
+On a critical failure, the author can explicitly elect no further consequence
+with `declineAdditionalConsequence(true, evidence)`. This records `none`, requires
+an explanation and reuses an identical repeated decision. It does not negate the
+mandatory HT loss. Choosing an additional disadvantage, scar or appearance change
+still requires its verified implementation; no invented trait is installed.
+
+`validateMortalRecovery` and `afterMortalRecovery` are engine dispatch hooks, not
+standalone healing actions. The defaults preserve the abridged check and minimum
+HT behavior. Expanded recovery at HT one is explicitly unsupported pending the
+source interaction for losing the last point; it is rejected before healing or
+owned clock advancement can spend resources or randomness. Recovery dispatch is
+performed only by a genuine transition out of the mortal condition.
+
+`expanded-mortal-recovery.t` and `test_mortal_recovery` specify all three causes,
+once-only HT/revision changes, unchanged advancement balances, actual event time
+and replay/undo of the author decision. They are authored and unrun; the existing
+surgical persistence fixtures also exercise the shared receipt path.
+
+### Persistent wound after critical recovery
+
+`RpgExpandedRecoveryWoundAcquisition` implements one concrete B423/B162 author
+choice after a critical permanent-health failure. Supply the owned `recovery`
+receipt, an approved -5-point `persistent-wound` trait, anatomical `location`,
+`approved` and evidence explaining the consequence. The patient must have finished
+creation, be alive and have no existing trait of this identity. The trait object
+must not already belong to another character. `assess()` is observational;
+`apply()` commits one trait and one decision receipt.
+
+The acquisition leaves HP, earned points and unspent points unchanged. It increments
+development revision once and contributes five points to the post-creation
+disadvantage allowance. Replay cannot install it again, replace a prior decision
+or recalculate a different price. The original HT loss remains a separate,
+already-committed recovery consequence. Source-specific dressing, attacks and
+exposures remain partial; the accompanying pure assessment is not a substitute
+for those runtime procedures.
+
+`expanded-recovery-wound.t` and `test_recovery_wound` specify approval/ownership,
+once-only acquisition, unchanged HP/advancement balances, source assessment values,
+decision conflict, preview, rollback, undo and cross-process continuation. The
+fixtures are authored and unrun.
+
+### Daily persistent-wound dressing
+
+`RpgExpandedPersistentDressing` implements B162's First Aid or Physician check.
+Supply `patient`, `healer`, the appropriate technology-qualified `skill`, unique
+`id`, `approved`, evidence of careful dressing, and authored `durationSeconds`.
+The source does not specify a fixed duration. Preview validates eligibility,
+current score and the shared time boundary; application charges the interval once,
+rechecks conditions, rolls once and stores the receipt in `persistentDressings`.
+It does not grant the HP credited by ordinary bandaging or remove the disadvantage.
+
+Success applies to the ledger day on which care completes. Days use the shared
+86400-second ledger boundaries; a dressing finishing at the next boundary belongs
+to that new day. `persistentWoundDressedToday()` derives current protection from
+successful receipts without a second timer. Replay cannot refresh an old dressing.
+Repeated attempts within one day are explicitly unsupported until their retry
+interaction is verified, including after failure.
+
+`persistentWoundInfectionModifier(plagueRidden)` returns the source's -3 only for
+an active persistent wound, plague-ridden surroundings and no successful dressing
+that day. The hazard module applies it to wound/surgical acquisition and daily
+infection resistance. Ordinary disease checks without that setting fact receive
+no new modifier. Attack targeting and blood-agent entry still need their own
+integration.
+
+`expanded-persistent-dressing.t` and `test_persistent_dressing` specify source
+scores before/after care, unchanged injury, day boundaries, failed/repeated care,
+preview, replay, rollback, undo and cross-process continuation. They are authored
+and unrun.
+
+
+### Timed coughing or sneezing
+
+`RpgExpandedCoughing` implements full-2008 B428's irritating condition. Supply
+an `id`, expanded `profile`, `durationSeconds`, `approved` and `evidence` tying
+the condition to its resolved cause. The cause supplies the duration; the
+condition does not invent one. `assess()` is pure. `apply()` records an owned
+receipt in `coughingHistory` without spending time or randomness.
+
+While active, the shared check path applies −3 to DX and DX-based skills and −1
+to IQ, Perception, Will and their governed skills. Stealth is unavailable. Under
+B421's temporary-attribute exception, secondary characteristics and defensive
+reactions remain unchanged. Ordinary defense/resistance/fear check kinds are
+exempt; mark custom defensive checks with `defensiveReaction = true`.
+
+The condition is active from `startedAt` up to, but not including, `expiresAt`.
+Clock queries derive expiry without a second time ledger or a recovery roll.
+Replaying an expired receipt does not restart it. A new episode can start after
+expiry; overlapping episodes are rejected until their duration interaction is
+specified. The receipt binds its duration and cause.
+
+`expanded-coughing.t` is a minimal health fixture without the hazards library.
+Its authored scenarios cover attribute and skill modifiers, the Stealth block,
+defensive exceptions, unchanged speed, exact expiry, overlap rejection, preview,
+replay, rollback, undo and cross-process continuation. They remain unrun. Linking
+this condition to continuing poison exposure and other environmental causes is
+still required for those catalogue entries.
+
+
+### Temporary loss of sight
+
+`RpgExpandedTemporaryBlindness` owns finite sudden sight loss (full-2008 B124).
+Supply `id`, expanded `profile`, an authored `durationSeconds`, `approved` and
+cause `evidence`. Assessment is pure; application records a receipt in
+`temporaryBlindnessHistory` without adding time or randomness. This uses the same
+finite-condition lifecycle as coughing, but keeps separate history and effects.
+It does not purchase the permanent disadvantage or change character points.
+
+While `temporarilyBlind()` is true, `vision` checks and contexts declaring
+`requiresVision = true` are unavailable. Hearing and other nonvisual checks remain
+available. Authors must mark tasks whose evidence requires sight; a generic IQ
+or Perception check does not imply visual access. The condition expires exactly
+at its stored deadline. Replaying an expired receipt does not restart it.
+
+Combat additionally requires the unseen-target procedures of B394, including
+location discovery, random targeting and defense restrictions. That adapter is
+not implemented yet. The default-zero-cost `validateCombatVision()` profile hook
+therefore rejects a strike involving a temporarily blind attacker or defender
+before rolls or ammunition spending. It does not silently use sighted combat or
+apply only a damage penalty. Permanent blindness, alternate-sense combat and navigation assistance remain
+incomplete. The hazards library supplies a separate environmental blindness
+lifecycle for its visual irritant route.
+
+`expanded-temporary-blindness.t` specifies visual gating, preserved nonvisual
+checks, isolated condition histories, early combat rejection, exact expiry,
+preview, replay, rollback, undo and saved continuation. Fixtures remain unrun.
+
+
+### Conscious paralysis
+
+`RpgExpandedParalysis` owns a finite paralysis episode (full-2008 B428–B429).
+Supply the usual condition `id`, `profile`, authored `durationSeconds`, `approved`
+and `evidence`, plus `positionAssessed = true` and the factual `balanced` value.
+An unbalanced patient falls to a lying posture at onset. A balanced patient stays
+in position. Neither case sets unconsciousness, and expiry does not automatically
+stand the patient up.
+
+While paralyzed, ordinary movement and speech are unavailable. Physical combat
+maneuvers require Do Nothing; physical active defenses are unavailable, and the
+condition exposes the effective-stun defense penalty for other authored handling.
+Movement/speech-dependent checks must set `requiresMovement` or `requiresSpeech`.
+Ordinary voluntary DX/ST checks are also blocked, while nonphysical checks and
+explicit defensive reactions remain available as appropriate.
+
+An owned effort/action gate may set `mentalAbility = true` only for an actual
+ability or spell requiring neither speech nor movement. Both requirement fields
+must remain false. This exception preserves normal exhaustion and consciousness
+checks; it does not grant a new power. The permission receipt binds these fields,
+so replay cannot turn an ordinary action into a mental exception. The legacy
+`rpgLiteCanAct` path rejects ordinary action while allowing Do Nothing; use the
+owned action gate for the specific mental-ability exception. Alternate-defense
+and combat-maneuver adapters for individual powers remain unfinished.
+
+`expanded-paralysis.t` specifies conscious onset, balanced/unbalanced posture,
+blocked physical action and speech, a permitted mental ability, rejection when
+speech is required, exact expiry, preview, replay, rollback, undo and saved
+continuation. Fixtures remain unrun. Poison-caused paralysis, cause-specific
+recovery and falling from height still need their own integrations.
+
+
+Physical medical care checks the practitioner's `voluntaryMovementUnavailable()`
+hook before starting: bandaging, first aid, bleeding control, surgical assessment,
+resuscitation, clotting care, trauma maintenance and persistent-wound dressing.
+The hazards library also checks poison treatment and identified-antidote
+administration. The Lite hook defaults to false. A paralyzed practitioner cannot
+spend the care interval to wait out paralysis and then receive credit for care.
+The paralysis fixture specifies blocked bandaging at onset and just before
+expiry, followed by normal care after expiry; these assertions remain unrun.
+Cognitive observation and knowledge checks retain their separate permissions.
+
+
+### Seizures
+
+`RpgExpandedSeizure` models a finite episode under full-2008 B429. Supply `id`,
+`profile`, `durationSeconds`, `approved`, and `evidence` from the resolved cause.
+Supply `dropDestination` when fatigue collapse could require dropping equipment.
+`assess()` is pure; `apply()` owns onset and changes standing posture to lying.
+Other postures remain as they were. The episode does not set unconsciousness.
+Physical actions, speech, voluntary skill checks and mental abilities are blocked.
+Automatic health survival checks remain available.
+
+Advance the shared clock to `expiresAt`, then call `assessEnd()` or `finish()`.
+The clock rejects advancement beyond an unresolved end. The episode remains
+incapacitating at that boundary until `finish()` rolls one die and commits the
+fatigue loss once. End assessment preflights the maximum six-point result before
+randomness. The owned fatigue operation handles overflow injury and collapse
+through the existing health ledger. Replaying completion never rolls or charges
+again; it validates the stored recovery receipt. Expiry does not stand the actor
+up. Death stops the pending episode from constraining the clock.
+
+`expanded-seizure.t` specifies onset, posture, physical/mental restrictions,
+early-end rejection, time boundaries, preview purity, replay, exception rollback,
+undo and cross-process save continuation. These assertions are unrun. Poison and
+other cause integrations, falls from height and cross-module verification remain
+incomplete; including the library does not generate seizures automatically.
+
+
+### Agony and pain thresholds
+
+`RpgExpandedAgony` owns a finite episode under full-2008 B428. Supply `id`,
+`profile`, `durationSeconds`, `approved`, `evidence` and, if collapse could drop
+items, `dropDestination`. Its pure `assess()` preflights onset fatigue. `apply()`
+charges the first begun minute and makes a standing or sitting patient lie down.
+Ordinary patients cannot act voluntarily and have the effective-stun defense
+penalty. High pain threshold allows action with temporary −3 DX/IQ (including
+IQ-derived perception and will checks under B421); defensive reactions and
+secondary characteristics retain their existing treatment.
+
+The first minute costs one fatigue, or two with low pain threshold. If the episode
+continues beyond a minute boundary, advance to `nextPaymentAt` and call
+`assessPayment(id)` or `pay(id)` with a unique payment ID. The clock will not skip
+an unpaid boundary. Each payment owns its fatigue, overflow injury and collapse
+consequences. Repeating the same ID returns the stored receipt without charging
+again. A duration of exactly sixty seconds costs one payment; sixty-one seconds
+costs two. Expiry leaves posture unchanged. Pain-threshold changes during a live
+receipt are rejected rather than silently altering its costs.
+
+After expiry, `recurrenceBonus(skillId, credible, evidence)` returns three for
+interrogation or intimidation when the author supplies a credible threat of
+renewed pain, or six with low pain threshold. Other skills and noncredible threats
+receive zero. For a raw authored operation, pass this modifier once. Alternatively use
+`RpgExpandedAgonyThreatContext`, which adds it through the shared skill-score
+interface without changing `modifier`. Do not also add it manually. The condition
+does not infer credibility or modify unrelated conversations.
+
+`expanded-agony.t` specifies minute boundaries, trait differences, onset and
+payment replay, preview purity, rollback, undo, saved continuation and recurrence
+bonuses. Assertions remain unrun. The neurological-agent adapter can apply agony on the first failed toxic cycle;
+its fatigue schedule remains independent of toxic injury. Other cause adapters and a full owned interrogation procedure remain incomplete. Involuntary pain-cry checks remain
+available during agony and seizures; these are not permissions to act voluntarily.
+
+
+`RpgExpandedAgonyThreatContext` takes the recovered `episode`, its `target`, the
+interrogation or intimidation `skill`, `credible`, and `threatEvidence`, alongside
+ordinary skill-context fields. `assessThreat(actor)` reports the pure contribution.
+The target must be the episode's patient and must differ from the acting character.
+A credible threat requires evidence. Before recovery, or with a noncredible threat,
+the contribution is zero. Invalid participants or skills make scoring unavailable.
+
+Use this context directly with `rpgLiteScore` or `rpgLiteCheck`; for intimidation,
+pass it to `rpgLiteInfluence`. That operation validates the actual target before
+rolling. The base context's new `validateInfluenceTarget(target)` hook is a no-op,
+preserving existing behavior. Repeated previews never accumulate the bonus or
+consume fatigue, time or randomness. The context supplies a modifier only; it does
+not invent answers, knowledge or a full interrogation procedure. Existing general
+influence limitations still apply. `expanded-agony-social.t` specifies ordinary
+and low-threshold bonuses, both supported skills, repeated previews, missing
+credibility evidence and wrong-target rejection. Assertions remain unrun.
+
+
+### Moderate, severe and terrible pain
+
+`RpgExpandedPain` supplies full-2008 B428 irritating pain separately from agony
+and wound shock. Provide the usual finite-condition `id`, `profile`,
+`durationSeconds`, `approved` and `evidence`; `severity` is `moderate` (default),
+`severe` or `terrible`. Their base penalties are −2, −4 and −6. High pain threshold
+halves these values; low pain threshold doubles them. Conflicting thresholds reject.
+
+The penalty applies once to DX/IQ checks, their IQ-derived Per/Will checks, all
+skill checks including HT-based skills, and self-control checks. The existing
+B421 defensive-reaction exceptions remain; secondary characteristics are not
+reduced. `painPenalty()` reports the current effective penalty without rolling.
+The profile's default-zero `healthSelfControlModifier(trait)` hook connects this
+condition to `rpgLiteSelfControl`. If pain reduces self-control below an attemptable
+score, the operation returns blocked before randomness. Voluntarily yielding
+still spends no randomness. Unaffected Lite calls retain their previous behavior.
+
+`assess()` is pure; `apply()` owns onset without injury, fatigue or time costs.
+Replays do not restart the episode. Exact expiry removes the penalty, and purchased
+attributes remain unchanged. Overlapping pain episodes currently reject until
+composition rules are resolved. Causes must create the condition explicitly.
+`expanded-pain.t` specifies all three severities across normal/high/low thresholds,
+HT-based skills, self-control, defensive reactions, exact expiry, preview, replay,
+rollback, undo and saved continuation. Assertions are authored and unrun.
+
+Fear contexts now derive physical-danger avoidance penalties from an installed
+`RpgExpandedDangerAvoidance` purchase. `physicalRisk` controls applicability;
+matching explicit values are not charged twice and conflicting overrides reject.
+See the [trait contract](traits.md#physical-danger-avoidance). The legacy authored
+classification path remains available when no concrete purchase exists. New
+expected-value and integration assertions remain unrun. Source: full-2008, B129.
+
+Shared carrying now receives unconsciousness, knockdown and committed disabling
+limb-wound notifications through profile hooks. An unresolved support-loss event
+blocks subsequent positive game-time advancement until its load is adjudicated.
+See [pending support-loss events](equipment.md#pending-support-loss-events). These
+hooks do not invent drop or impact consequences; notification/persistence fixtures
+are authored and unrun, and dedicated limb-wound coverage remains pending.
+
+The `expanded-shared-limb.t` fixture now exercises actual committed limb wounds
+while a helper supports a shared item. It specifies that a disabling bound hand
+or its parent arm creates a support-loss event, while an injury to an unbound hand
+does not. A critical knockdown failure records knockdown, unconsciousness and the
+disabling support injury without duplicating the wound or rolling again on replay.
+The fixture also specifies wound/event rollback, undo, saved pending injury and
+emergency release. Expected injury limits use full-2008 B421; knockdown uses B420.
+These assertions are authored and unrun, not evidence of passing integration.
+
+Unarmed parry capacity excludes arms reserved for shared carrying while retaining
+functional-limb and authored free-hand limits. Mapped free arms remain available;
+unmapped shared support does not imply a spare defense limb. Defense-query
+assertions are included in `test_shared_hands` and remain unrun.
+
+### Fall-specific crippling assessment
+
+`rpgExpandedAssessFallCrippling(capacity, injury, kind, count, limbRoll)` reuses the
+ordinary anatomical thresholds but preserves the full `healthLoss` for a fall.
+`kind` is `limb` or `extremity`; `count` is the anatomical count of that kind.
+`injury` is already adjusted for protection and applicable location modifiers.
+Ordinary wound capping remains unchanged for other injuries.
+
+For a crippled limb, `additionalLimbRollRequired` is true. Pass `nil` to assess
+without supplying that die, or a resolved 1–6 value to obtain `allLimbsCrippled`:
+results 5–6 cripple all limbs of that type without increasing HP loss. Passing a
+die when no extra limb roll applies is rejected. The printed extra-roll instruction
+is for limbs; extremities retain uncapped injury but do not request this die.
+The helper itself never rolls, disables anatomy or commits a wound.
+
+Owned fall-location selection, full injury commitment to limbs/extremities and
+additional-limb disability/drop handling remain pending. The existing torso impact
+operation therefore still rejects other locations. Do not route this assessment
+through an ordinary capped limb wound and label that a completed fall procedure.
+Fixtures specify threshold boundaries, multi-limb anatomy, uncapped severe injury
+and all six extra-die outcomes. Assertions remain unrun pending recorded validation.
+Source: `full-2008`, B421 and B431.
+
+### Owned fall hand wounds
+
+`RpgExpandedFallExtremityWound` specializes the standard owned wound's
+`assessPartInjury(count)` calculation. For supported hand anatomy it preserves
+full fall HP loss while reusing the usual disability, knockdown, drop planning,
+shock, death checks and support-loss notification. Other wounds keep their existing
+capping behavior. This specialization rejects severing requests and other part
+kinds; arms still require the extra-limb procedure before they can be committed.
+
+The hazards module selects this wound for an explicitly identified hand impact.
+The new fixture specifies ten HP lost from a ten-point hand injury (rather than
+the ordinary four-point cap), hand disability without disabling its parent arm,
+a sub-threshold injury, replay, rollback, undo and saved continuation. Assertions
+remain unrun. Random location selection and additional-limb commits remain pending.
+
+### Owned fall arm wounds
+
+`RpgExpandedFallLimbWound` retains full HP loss for the primary arm wound, then
+rolls the B431 extra die once when that arm is crippled. On 5–6 it applies a
+`RpgExpandedFallSecondaryWound` to every other functioning arm. Each secondary
+receipt has zero HP loss, links to the primary wound, and uses the existing
+anatomy disability, equipment-drop and support-loss procedures. Already disabled
+arms stay disabled without another wound. No extra injury or second knockdown
+roll is added by a zero-injury disability receipt.
+
+The primary assessment preflights possible secondary disabilities and their drop
+requirements before the extra die is consumed. All effects belong to the original
+action transaction; replay does not roll again. Secondary receipts have their own
+bound body parts so the ordinary anatomy history remains valid. The hazards
+operation selects this procedure for an evidenced `arm` location. Legs, feet,
+automatic random location selection and combined multi-arm equipment cases still
+require implementation or validation; this does not complete falling support.
+Fixtures specify both extra-die branches, no die below the crippling threshold,
+uncapped HP loss, zero extra HP loss, rollback, undo and saved continuation. All
+assertions remain unrun pending recorded validation.
+
+The combined arm/equipment fixture now specifies a one-handed tool and a weapon
+held in both hands. On a successful retention check, the shared weapon transfers
+to the functioning hand; if the extra fall die disables that arm too, the secondary
+disability drops it. An existing knockdown drop takes precedence, avoiding another
+drop or grip roll for the same item. Inventory ownership is retained while storage
+location and active grip bindings change. Assertions cover both extra-die branches,
+knockdown precedence, missing drop destination before RNG, replay, rollback, undo
+and separate-process continuation. These are authored expectations, not passing
+validation; validation is in progress.
+
+### Lower-limb consequence assessment
+
+`rpgExpandedAssessLowerLimb(kind, basicSpeedHundredths)` supplies the B421/B141
+consequences for one crippled `foot` or `leg` on a biped. It reports falling down,
+the need for support, the leg-dependent skill penalty, the movement limit, named
+aid options and unaided combat postures. Foot injury gives a -3 leg-skill penalty
+and a movement limit of half Basic Speed rounded down. Leg injury gives -6 and a
+limit of 2. These are injury consequences, not purchased attribute edits or point
+refunds. The skill penalty does not apply to ranged combat skills.
+
+Foot support options are a crutch or something to lean on; bracing can permit
+fighting. Leg support options are crutches or a peg. The reported options do not
+assert that equipment is present, fits, is usable, or permits a particular route.
+Authors still need an aid/terrain assessment before allowing supported movement.
+`moveLimit` is a limit, not permission to move while unsupported or a replacement
+for slower existing movement. No fields, points, posture or time are changed by
+this helper. Multi-legged physiology and loss of all legs need separate handling.
+
+Owned leg/foot anatomy and movement enforcement remain pending, so the wound
+operation still rejects those locations. The new fixtures specify both kinds,
+posture/aid distinctions and half-speed rounding boundaries. Assertions remain
+unrun pending recorded validation. Source: `full-2008`, B141 and B421.
+
+### Owned lower-limb anatomy
+
+Body parts now accept legs and feet. Each foot names its parent leg, with at most
+one foot per leg. Ordinary wounds retain their injury caps; fall wounds preserve
+full injury. Crippling forces lying even when the major-wound check succeeds.
+The extra fall die affects other limbs of the same kind, never arms from a leg hit.
+
+Supported movement remains incomplete. `move()` rejects impaired lower limbs with
+`lower-limb-movement-adapter-required`. The posture-change hook rejects unsupported
+standing, crouching or crawling and rejects kneeling with a disabled leg. Sitting
+and lying remain possible. The default hook preserves existing profiles. Equipment
+grip bindings still accept only upper limbs. Aid use, crawling, leg-dependent skill
+modifiers and broader locomotion integration remain pending.
+
+Fixtures specify leg/foot falls, forced lying despite a successful health check,
+same-kind secondary disability, movement rejection, sub-threshold injury, replay,
+rollback, undo and saved continuation. Assertions remain unrun pending recorded validation.
+
+### Leg-dependent skills
+
+Expanded profiles now return the biped lower-limb skill penalty through
+`legUsePenalty()`: -3 for foot impairment and -6 for leg impairment. Impairments
+do not add together, and an impaired parent leg takes precedence over its foot.
+Non-biped impaired anatomy rejects pending a separate adapter.
+
+A context's `legUse` is `auto` (default), `required` or `none`. Automatic mode reads
+`RpgLiteSkill.usesLegs`; authors must mark skills or specific tasks that require
+legs. The new modifier is separate from technology, familiarity and temporary
+attribute penalties, so it is applied once. Melee attack contexts and weapon/
+unarmed parry ratings use it; ranged attacks explicitly select `none`. It does not
+change purchased skill levels or directly penalize dodge. Shield-skill classification
+and complete catalogue annotations remain pending.
+
+The score fixture compares intact anatomy, a foot wound and leg wounds, including
+explicit exemption, skill metadata and actual unarmed parry scores. It uses defense
+contexts to separate the persistent skill penalty from temporary shock. Assertions
+remain unrun pending recorded validation. Source: `full-2008`, B141 and B421.
+
+### Fitted peg support
+
+`RpgExpandedPegSupport` permits the B141 supported-walking case for a biped with
+exactly one impaired leg and an unimpaired foot on the other leg. Set `profile`,
+`leg`, the owned `item`, `fitted`, `terrainSuitable`, `approved` and `evidence`.
+The item must already be worn and usable. The author establishes fitting and route
+suitability; this operation does not perform fitting or infer medical suitability.
+
+`activate()` binds the fitting facts and selects the profile's `mobilitySupport`.
+Repeated activation reuses it; `deactivate()` removes the selection. Neither adds
+time or changes purchased attributes. The terrain flag is a live authored fact;
+item possession, worn state, usability and anatomy are rechecked on movement and
+standing assessments. Update terrain suitability when the route changes.
+
+The `groundMoveBase()` hook limits movement to at most 2 before normal encumbrance,
+injury, fatigue and posture calculations. Default profiles retain `basicMove()` as
+their ground base. Active valid support permits standing through the posture hook;
+ordinary posture-action timing still applies. Removing the aid, making it unusable,
+or marking terrain unsuitable blocks supported movement. It does not automatically
+resolve a new fall or change posture when support is lost; that event path remains
+unfinished. Existing leg-use skill penalties still apply.
+
+Fixtures specify activation replay, rollback, undo, save continuation, removal,
+terrain changes, encumbrance and fatigue reductions. Assertions remain unrun.
+Crutches, leaning supports, hand reservations, crawling, loss-of-support falls and
+broader locomotion integration remain pending.
+
+### Crutch support and hand reservations
+
+`RpgExpandedCrutchSupport` uses `part` (the impaired leg or foot), an owned readied
+`item`, and an authored list of one or two supporting `hands`. The item's hand
+bindings must match. As with peg support, the author supplies fitting, terrain and
+adequacy evidence; hand count is an authored arrangement, not an inferred universal
+crutch requirement. Only the biped, single impaired leg or foot case is supported.
+The other foot must remain functional.
+
+Activation checks hand function, existing reservations and conflicting readied
+gear. While active, its hands and arms are reserved through the same hook used by
+attacks, parries and lifting. The free hand remains available. Readiness, possession,
+hand function and terrain are rechecked for mobility. Deactivate the support before
+reusing its hands, even if the aid has become unavailable; automatic support-loss
+fall handling remains pending.
+
+Leg injury uses the movement limit of 2. Foot injury uses half current Basic Speed,
+rounded down, before ordinary movement adjustments. The adapter supports standing
+and walking; leaning/bracing, crawling, multiple impaired lower limbs and complete
+crutch equipment catalogue entries remain unfinished. Fixtures cover the distinct
+limits, reservations, aid loss, hand disability, rollback, undo and save continuation.
+Assertions remain unrun pending recorded validation.
+
+### Settling after mobility support loss
+
+`RpgExpandedMobilitySettlement` resolves an active support's unavailability or
+intentional withdrawal. Set `support`, `cause` (`unavailable` or `withdrawn`),
+`evidence`, `impactResolved` and `impactEvidence`. The author must first resolve
+any injury, catches or safe lowering for this occurrence in the same transaction.
+This operation does not invent fall damage or treat a generic callback as a result.
+An unavailable cause is rejected while the support still assesses as usable.
+
+`apply()` releases the active support, sets lying posture, records a bound receipt
+in `mobilitySettlements`, and dispatches the existing knockdown notification. It
+adds no injury, randomness or time; repeated application does not settle again.
+The ordinary `deactivate()` method now rejects removal while an impaired character
+is standing or crouching. It remains available after a supported change to a stable
+posture. Positive time advance also rejects an unavailable active support while
+the character is standing/crouching, until its physical consequences are resolved.
+
+Fixtures cover premature settlement, guarded removal, blocked time, missing impact
+facts, withdrawal, rollback, undo and cross-process continuation, followed by time
+advancing after settlement. Assertions remain unrun. Automatic loss notification,
+retention/catching mechanics and integration with every equipment action remain
+incomplete; this is an explicit authored settlement path.
+
+### Persistent mobility-support loss events
+
+Owned forced drops now call `onEquipmentDropped(item)`, whose default is a no-op.
+An active mobility aid records that event. An owned injury to a crutch's supporting
+hand or its parent arm records a support-hand loss through `onBodySupportLost`.
+Each support stores `[cause, ledgerSeconds]` rows in `lossEvents`; repeated reports
+of the same unresolved cause do not duplicate it.
+
+`pendingLoss()` remains true even if the item is readied again or the hand recovers.
+Support assessment then blocks with `mobility-support-unsettled`, and deactivation
+or positive elapsed time cannot bypass the unresolved event by changing posture.
+Settlement advances `settledLossCount`, preserving historical rows while clearing
+the pending state and releasing the aid. All notifications are in the original
+transaction and participate in rollback, undo and save continuation.
+
+Fixtures cover a committed forced drop, duplicate notification, restored readiness,
+blocked time, saved pending history, settlement, and a real hand wound that both
+drops the aid and disables its support. Assertions remain unrun. Transfers, terrain
+changes and other loss causes still need their own event integration; direct field
+edits are not a substitute for the public notification hooks.
+
+Owned equipment storage and trade operations notify `onEquipmentUnavailable(item, cause)` after changing inventory state. An active mobility aid records the occurrence as `storage-change` or `transferred`, even if its readiness is subsequently restored. Pending support loss still requires an authored mobility settlement before positive time advances. Reused operations do not repeat notifications. Direct field edits remain the author's responsibility.
+
+## Marching-hour fatigue
+
+`rpgExpandedMarchFatigueCost(encumbrance, hot, heavyClothing, cooling)` implements
+`full-2008` B426. Costs are one through five points across the five encumbrance
+levels. A hot day adds one point, or two with heavy clothing such as plate armour
+or an overcoat. Effective cooling removes this heat addition. The author supplies
+those environmental and equipment facts; the function is pure.
+
+`RpgExpandedMarchHourCost` commits that cost to an expanded character's existing
+fatigue ledger. Supply `id`, `profile`, a distinct owned `interval` object,
+`approved = true`, and `evidence` establishing the hour and heat/clothing facts.
+Use `basis = 'completed-hour'` for completed road travel, or
+`'combat-assumed-hour'` for the source's default hour when combat interrupts a
+march. If actual events contradict the assumed hour, this interface must not
+manufacture one: the travel controller needs an explicit interval settlement.
+
+The same interval must identify both pathways. Applying either one records the
+cost in `profile.marchHours`; another ID for that interval is rejected. Replaying
+the original request returns its recorded result without spending again. Its
+`fatigueCost` and owned `fatigueLoss` remain available for inspection. The latter
+uses `RpgExpandedMarchFatigueLoss`, the common owned fatigue and overflow-injury
+procedure with an exertion cause and separate `marchFatigueLosses` history.
+Supply `dropDestination` where exhaustion or injury can force equipment drops.
+
+The cost includes heat once; it does not add the legacy `heatExtra` a second
+time. No time is charged, since the journey owns the elapsed interval. Neither
+this receipt nor the daily hiking bonus is a complete journey. Automatic travel
+interval ownership, effort permissions, rest scheduling, interruption exceptions
+and full-day time occupation remain incomplete. Do not also charge the same
+interval through the legacy journey fatigue path.
+
+`tests/fixtures/expanded-march-fatigue.t` provides authored, unrun assertions for
+the cost table, preview purity, cooling, overflow injury, rollback, undo,
+duplicate charges and saved replay.
+
+## Continuous marching hours
+
+`RpgExpandedMarchHour` extends the marching-hour cost definition with owned time
+and action permission. Supply the same profile, interval, approved conditions,
+evidence and drop destination described above. Keep `basis = 'completed-hour'`.
+This operation requires the health module and does not depend on exploration's
+daily mileage calculation.
+
+`assess()` preflights the fatigue cost, the character's action gate and the
+3600-second ledger advance before spending time or drawing dice. `apply()` first
+resolves its owned action gate. A denied exhausted effort is retained in
+`profile.marchExecutions`, with no hour or fatigue cost; replay cannot reroll it.
+On permission, it resets the rest clock, advances one hour, revalidates fixed
+conditions and commits the owned fatigue cost. The result exposes `gate`, `cost`,
+`allowed` and `seconds`, with start and completion times on the operation.
+Replaying a completed hour spends neither time nor fatigue again. Another cost
+for its interval, including a combat interruption charge, is rejected.
+
+This is a continuous-hour operation under explicitly unchanged authored
+conditions. Changes to its definition, HP, FP, movement, fatigue cost or active
+incapacity during the advance reject the interval; the enclosing engine
+transaction restores it. Starting at zero or fewer HP requires a future adapter
+for recurring consciousness checks and is rejected before RNG. The operation
+does not claim to handle transient events, mid-hour interruptions, rest periods,
+world movement or full-day travel occupation. Do not derive hourly distance by
+dividing the daily mileage: the daily procedure includes preparation and rest.
+
+`tests/fixtures/expanded-march-hour.t` covers ordinary completion, rejected time
+changes, exhaustion success/failure, duplicate cost prevention, rollback, undo
+and saved continuation. These assertions are authored but have not been run.
+
+Held throwing assessments use `RpgLiteItem.throwingHandsReason(profile, required)`
+to validate bound functional hands, support reservations and competing grips.
+The thrown item itself does not count as a competing object. This integration
+is observational: injury, inventory and active mobility support are unchanged.
+See [held throwing](exploration.md#assessing-a-held-throw-from-character-state).
+
+Throw-roll stages obtain an owned `RpgExpandedActionGate` through
+`profile.prepareThrowGate(id, evidence)`. Permission denial is retained by the
+throw attempt without generating a throw roll. This is an action permission
+integration, not a physical release, defense or injury operation.
+
+## Applying ordinary thrown torso injury
+
+`rpgExpandedAssessThrownProtection(damage, damageType, outerDR, flexibleDR)`
+implements the supported B379 protection order for `cr`, `cut`, `pi` and `imp`:
+subtract outer non-flexible protection, then flexible DR. If flexible DR stops
+all remaining damage, full groups of five crushing or ten other supported
+points cause blunt injury. Any penetration suppresses that blunt branch;
+penetration instead receives the ordinary damage-type multiplier. Blunt injury
+has no wound multiplier. This function is pure.
+
+`RpgExpandedThrownInjury` applies one side of an owned
+`RpgExpandedThrownDamageReceipt` to the receipt's actual character profile.
+Supply `id`, `receipt`, `side = 'target'` or `'object'`, the two DR values,
+`approved`, protection `evidence` and any required `dropDestination`.
+`location` must match the location bound to the throw. Torso is the default;
+selected living limbs are supported as described below. Other anatomy and layer
+orders need their own procedure and must not be represented by these fields.
+
+The exploration damage record supplies target identity from its bound throw
+request. For the independent thrown-character side, set its `objectProfile`
+before resolving damage and declare `objectKind = 'character'`. This binding
+identifies the represented character; it does not implement carrying a creature.
+Ordinary material objects require the technology object-damage procedure and
+cannot be passed through this character-health adapter.
+
+`assess()` preflights an owned `RpgExpandedWound`. `apply()` commits it once to
+the existing health ledger, retaining protection and wound results and adding
+one entry to `profile.thrownInjuries`. Another ID cannot apply the same receipt
+side again. Each side can have its own DR and major-wound consequences. Replays
+preserve those results without repeating health checks or injury.
+
+The fixture `tests/fixtures/expanded-thrown-injury.t` covers outer/flexible
+protection, penetration, blunt injury, zero injury, both character targets,
+major-wound rolls, duplicate applications, rollback, undo and saved continuation.
+Assertions remain unrun. Full timed action composition, critical effects,
+non-torso locations, other anatomy and material-object impact remain incomplete.
+
+## Selected thrown limb injuries
+
+Ordinary thrown attacks can now bind a living target's `arm`, `hand`, `leg` or
+`foot` before the attack roll (B399). The health `throwLocationReason` hook
+validates the actual owned part, its kind and its functional state. Already
+disabled parts and unliving targets require a separate adapter.
+
+`RpgExpandedThrownInjury.location` must match that recorded selection; the body
+part comes from the damage receipt and cannot be chosen after seeing damage.
+For these locations, impaling penetration has a unit injury multiplier against
+the supported living target. Cutting keeps its ordinary multiplier. Blunt injury
+remains separate from penetration and receives no multiplier.
+
+The resulting owned wound applies the existing B421 limb/extremity caps,
+crippling threshold, destruction and cutting severance. Existing procedures
+handle held-item drops, lost support and lower-limb knockdown. The receipt's
+protection assessment reports injury before the limb cap; its owned wound
+reports the committed health loss. A replay does not re-disable a part, repeat
+its health check or drop recovered equipment again.
+
+This extension covers the attacked target's selected limb. The represented
+thrown-character side still uses its declared ordinary torso impact. Other
+locations and anatomy, critical hits and complete timed attack composition
+remain incomplete. `tests/fixtures/expanded-thrown-limbs.t` contains unrun
+assertions for all four locations, shield accuracy penalties, cutting severance,
+impaling damage, drops, knockdown, rollback, undo and saved continuation.
+
+## Jump preparation maneuvers
+
+`RpgExpandedJumpPrepareManeuver` extends the health-aware maneuver adapter with
+a concrete preparation receipt. Give every use a fresh action gate and pass the
+maneuver to the existing battle scheduler. Failed health permission records no
+preparation; successful turns record concentration without an additional time
+charge. See [recording combat jump preparation](exploration.md#recording-combat-jump-preparation).
+
+`RpgExpandedJumpLaunchManeuver` similarly obtains health permission before
+capturing preparation for a jump. It then lets the normal Move maneuver clear
+concentration and commits the recorded launch assessment. It does not charge an
+extra second. See [recording the jump launch](exploration.md#recording-the-jump-launch)
+for the outcome interface and remaining landing limitations.
+
+## Tactical Move paths
+
+`RpgExpandedPathMoveManeuver` obtains ordinary health permission before committing
+an uninterrupted tactical path. Supply a fresh movement-aware health gate and
+an owned `RpgExpandedPathMove` operation. The battle remains responsible for
+elapsed time; neither path costs nor automatic small jumps spend time separately.
+See [committing a Move path](tactical.md#committing-an-uninterrupted-move-path).
+
+## Physical maneuver permission contract
+
+`RpgExpandedPhysicalManeuver` specializes the health-aware maneuver base for
+jump preparation, jump launch and tactical Move paths. Each requires a fresh
+`RpgExpandedActionGate` with `requiresMovement = true` and `mentalAbility = nil`.
+Profile, purpose, evidence and the existing gate-history checks still apply.
+A missing movement requirement or a mental-only permission is rejected before
+permission rolls or maneuver effects. General health-aware mental maneuvers keep
+their existing interface.
+
+Failed exhausted-effort permission advances the battle turn according to the
+existing scheduler but commits no path, launch or preparation. The gate owns any
+Will check and collapse outcome. The movement operation does not repeat that
+check. `test_physical_maneuver_gates` exercises malformed permission flags,
+preview purity, exhausted denial, exception rollback, undo and saved continuation.
+Assertions remain unrun pending recorded validation.
+
+`RpgExpandedClamberManeuver` uses the same physical permission contract for each
+of the two clamber turns. Automatic clamber success does not bypass exhausted
+effort or other health restrictions. Each turn requires its own gate.
+
+## Foraged-plant poisoning
+
+`rpgExpandedAssessForagePoison(healthScore, healthRoll, injuryDie)` implements the
+B427 injury assessment after a plant-foraging poisoning result. A successful
+health check gives one point of direct injury; failure uses the supplied one-die
+injury result. This is injury, so armor must not be subtracted from it. The
+assessment consumes no randomness and does not modify health. Scores below
+three remain explicitly unsupported by this helper.
+
+A party-wide natural-18 outcome requires separate checks and injury for each
+exposed party member; callers must not reuse one assessment for everyone.
+Owned exposure, wound commitment and shared-food handling remain pending.
+
+### Committing foraged-plant poisoning
+
+`RpgExpandedForagePoisoning` owns injury from an already recorded plant-foraging
+17 or 18. Supply `id`, a distinct consumed-food `occurrence`, `forager`, `party`,
+`foragingCheck`, `approved`, `ordinarySusceptibility`, and concrete `evidence`.
+The check must be a resolved `RpgResult` with natural roll 17 or 18. The author
+must establish that it was the plant-foraging result and identify everyone who
+consumed the shared food; this operation does not infer consumers from proximity.
+The party must contain the forager exactly once and cannot repeat recipients.
+
+On 17 only the forager is affected. On 18 each listed recipient gets a separate
+contextual health check and, on failure, a separate injury die. The operation
+creates ordinary owned wounds in the existing injury ledger. No armor is
+subtracted. It preflights every possible injury amount for every recipient before
+rolling; provide `dropDestination` if possible major-wound consequences need it.
+The check uses existing poison-resistance modifiers. Special immunity or other
+susceptibility handling is not implemented here: `ordinarySusceptibility` confirms
+that no such separate adapter is needed.
+
+`assess()` spends nothing; `apply()` commits once. A different ID cannot expose
+an affected character again for the same occurrence. Replay validates each child
+wound and spends no additional dice or health. All recipients share the engine's
+transaction, so exceptions and undo restore the entire operation. Fixtures cover
+self/party scope, independent checks, duplicate prevention, unsupported
+susceptibility, rollback, undo and cross-process save continuation. Assertions
+remain unrun. Owned forage rolls, food inventory and daily quotas are still pending.
+
+## Consuming food inventory
+
+`RpgExpandedFoodMeal` extends `RpgExpandedMealCredit` with a concrete
+`RpgExpandedFoodStock`. Supply the existing profile and needs ledger, a unique
+meal ID, meal count, approval, consumption evidence and stock. The stock must be
+owned exclusively by that profile, usable, sufficient in quantity and marked
+`readyToEat` with concrete `preparationEvidence`. Raw or otherwise unprepared
+food is rejected before any inventory or needs change.
+
+`apply()` credits the existing needs ledger and decrements the inventory quantity
+in the same transaction. Replay spends nothing. A later failed meal cannot reuse
+already consumed portions. The empty item can remain in inventory with zero
+weight contribution. Existing meal-credit revocation, including retching,
+removes nutritional credit without restoring food that was already eaten.
+
+This operation represents an authored completed meal; it does not invent a
+universal eating duration or cook raw food. It supports ordinary meal units;
+nonhuman nutrition, spoilage, poison ingestion and preparation scheduling remain
+separate integrations. The combined forage-food fixture covers stock collection,
+preparation rejection, consumption, rollback, undo and saved continuation;
+assertions are authored, unrun pending recorded validation.
+
+Owned marching-hour execution now checks
+[dedicated foraging day reservations](exploration.md#dedicated-foraging-days)
+before health permission, time or fatigue is spent. Completed marching intervals
+also participate in reservation conflict detection. Ordinary movement within a
+foraging area is not treated as expedition travel by this day-choice interface.
+
+## Daily wilderness survival
+
+`RpgExpandedWildernessDay` resolves B223 daily survival for one guide and up to
+ten dependents. Supply the guide, an expanded Survival skill, a
+`RpgExpandedWildernessTools` condition record, distinct dependent profiles,
+approval and evidence of actual care in terrain compatible with their bodies.
+Set `compatibleBodies` only when those facts have been established. The condition
+record requires the same planet and terrain as the selected skill, applies an
+authored weather penalty from 0 to -5, and uses the existing equipment assessment.
+
+The guide makes one contextual Survival roll after physical health permission.
+Success records no injury. Failure rolls two dice independently for each person,
+subtracts four and floors the result at zero. These are direct injuries applied
+through owned `RpgExpandedWound` objects; armor is not subtracted. The operation
+preflights every possible injury for every recipient before rolling, including
+any required equipment-drop handling through `dropDestination`.
+
+Each recipient records the daily resolution, preventing a second guide or a new
+request ID from repeating it that day. Replay retains the original checks and
+wounds. Denied health permission records no survival roll and does not consume
+the daily resolution. This is separate from forage attempts and meal inventory;
+it neither grants meals nor substitutes for actual food consumption.
+
+The author establishes the day's care and environmental facts; this resolution
+adds no second day of elapsed time. Different terrain procedures, special body
+needs, guidance beyond ten dependents and other world facts require their own
+explicit integration. `tests/fixtures/expanded-wilderness-day.t` covers success,
+independent injuries, zero-injury floors, daily ownership, conditions, rollback,
+undo and saved continuation. Assertions are authored, unrun.
+
+### Recurrent waking pain (full-2008, B126)
+
+`RpgExpandedRecurrentPainDay` binds a profile, recurrent-pain trait, approved
+onset time and evidence. `resolve()` rolls appearance once for that trait and
+calendar day. Onset must be within the current day and no earlier than the
+assessment clock. No time is charged by the check; the episode becomes active
+when the shared clock reaches onset. Replaying it does not roll again.
+
+While active, its printed penalty affects contextual DX/IQ checks and the shared
+self-control modifier. It does not reduce HT or conflate the trait's strongest
+tier with incapacitating agony. Removing or mitigating the trait suppresses its
+effect. Derived defenses and other procedures that bypass contextual scoring
+still need separate integration.
+
+Create a distinct `RpgExpandedRecurrentPainRecovery` for each interval, binding
+`expectedDue` to the episode's due time. It permits a contextual HT check at or
+after that time. Success ends the episode; failure schedules another full
+interval from the actual check time. A repeated receipt never rerolls or charges
+time. The episode and recovery records persist through undo and saves.
+
+A new daily check while a prior day's episode remains open rejects with an
+explicit unresolved reason. That interaction rule remains pending.
+The fixtures cover onset, early recovery rejection, failed and successful
+intervals, replay, rollback, undo and save continuation; validation is in progress.
+
+
+For episodes authored with `duringSleep`, use `RpgExpandedPainSleeplessRest`.
+Bind the episode and its character's existing `RpgLiteNeeds` object, mark that
+needs object inactive (quiet rest), and supply the interval and scene evidence.
+The operation advances waking needs and ordinary nonsleeping rest once. It
+permits eligible quiet-rest recovery but grants no sleep recovery, and applies
+sleep-deprivation effects through the existing fatigue ledger. Such episodes do
+not also impose the waking DX/IQ/self-control penalty.
+
+Split intervals at the episode's recovery deadline. The operation rejects
+changed episode conditions or a second advancement of the needs object by a time
+hook; let errors reach the engine transaction boundary for rollback. Direct
+`rpgLiteRest` calls requesting sleep during a scheduled sleep-pain episode reject
+before time advances. Once the episode ends, ordinary sleep recovery is available.
+The fixture crosses the sixteen-hour waking boundary, checks replay and verifies
+undo/save expectations; it remains unrun. Overlapping-day episodes and forced
+unconsciousness during a sleepless interval still require further integration.
+
+Sleep recovery validates its actual elapsed interval again after time hooks and
+before crediting sleep. A changed recurrent-pain receipt rejects the operation;
+propagate the error so the transaction rolls back both time and the hook change.
+The default interval hook is inert without an expansion, preserving ordinary
+rest behavior. The authored interruption fixture remains unrun.
+
+## Adjudicated instant death
+
+`RpgExpandedInstantDeath` implements full-2008 B423's obviously lethal attack on
+a helpless or unconscious victim. Set a unique `id`, the victim `profile`,
+`approved`, `evidence`, and `obviouslyLethal`. Set `helpless` only when the author
+has established actual helplessness; being unaware or surprised is insufficient.
+The profile's existing unconscious state also satisfies the victim requirement.
+The author must account for anatomy, protection and any special survival ability
+when deciding whether the described attack is obviously lethal.
+
+`assess()` returns a structured eligibility result and prospective injury without
+changing state. `apply()` uses the shared injury ledger to bring health to negative
+five times capacity, marks death and invokes the existing unconsciousness hook.
+It never reduces already greater injury. No damage, attack or survival roll is
+made, and no time is charged here; the enclosing authored action owns its time.
+A dead victim is rejected rather than receiving another resolution.
+
+The profile owns the bound result in `instantDeathHistory`. Repeating the same
+resolution returns its original result without further injury. Changed adjudication
+fields reject on replay. Call inside an engine action transaction: exceptions,
+including state changes from unconsciousness hooks, roll back the operation.
+This procedure does not infer body destruction or grant a dying action. Preview,
+eligibility, replay, rollback, undo and save-continuation fixtures are authored but
+unrun pending recorded validation.
+
+## Injury after death
+
+Enable `rules.retainPostmortemInjury` to retain final injury after death
+(full-2008, B423). Calls through the shared `rpgLiteWound` interface then append an
+owned record to `profile.postmortemHistory` and increase the existing injury
+ledger. Lite profiles and campaigns without the option retain their existing
+early return. Each new call represents a new injury; callers needing replay
+protection should retain a `RpgExpandedPostmortemInjury` object instead.
+
+For an explicit record, supply a unique `id`, `profile`, final injury `amount`,
+`approved` and source `evidence`. `assess()` is pure; `apply()` commits once and
+returns the stored result on replay. Living targets and disabled campaigns are
+blocked. Amounts are final injury, so protection and damage multipliers must have
+already been resolved. No shock, first-aid reset, survival roll or clock charge
+occurs. The enclosing action owns time and transaction rollback.
+
+This tracks injury relevant to remains and revival, but does not declare a body
+destroyed merely because health reaches negative ten times capacity. Source-based
+body-destruction adjudication is described below; revival remains unfinished.
+Higher-level attack procedures which reject dead targets still need their own
+adapters. Preview, Lite compatibility, disabled-option, replay, rollback, undo and
+saved-continuation fixtures are authored but unrun.
+
+## Body integrity decisions
+
+At or below negative ten times health capacity, use `RpgExpandedBodyAssessment`
+to record whether the damage source leaves recognizable remains or destroys the
+body (full-2008, B419; B423). Supply `id`, `profile`, `approved`, source-based
+`evidence`, and `disposition` of `recognizable` or `destroyed`. `assess()` is pure;
+`apply()` binds the decision to the current injury and capacity, without changing
+injury, time or randomness. Dead victims below the threshold are required.
+
+`profile.bodyIntegrity()` returns `not-dead`, `below-threshold`, `unassessed`,
+`recognizable` or `destroyed`. A recognizable judgment applies only to its recorded
+injury/capacity; further injury requires a new assessment. A destroyed judgment
+persists through later injury. Existing judgments cannot be overwritten by a new
+contradictory judgment without new injury, and edited receipt fields reject.
+Neither recognition nor a below-threshold result grants eligibility for revival:
+medical or supernatural restoration needs its own rules and authored facts.
+
+Apply inside an action transaction. Preview, threshold, conflicting-decision,
+staleness, replay, rollback, undo and saved-continuation fixtures are authored but
+unrun pending recorded validation.
+
+## Temporary attribute reductions
+
+`RpgExpandedAttributeReduction` records a finite reduction from an already-resolved
+cause (full-2008, B421). Supply `id`, `profile`, `attribute` (`rpgST`, `rpgDX`, `rpgIQ` or
+`rpgHT`), positive `penalty`, `durationSeconds`, `approved` and cause `evidence`.
+Its assessment and activation do not spend time or roll. The owned receipt uses
+the shared clock and expires exactly at `expiresAt`; replay does not restart it.
+Overlapping episodes are explicitly unsupported pending cause-specific stacking.
+
+The shared contextual check path applies the reduction to the controlling
+attribute and its skills. Intelligence reduction also applies to Will and
+Perception checks and their skills. Defense, resistance and fear check kinds are
+exempt, as are authored contexts with `defensiveReaction = true`. Purchased skill
+ratings, base attributes, health/fatigue capacities, speed and move remain intact.
+This is distinct from permanent score loss, which requires recalculation.
+
+Strength reductions use `muscleDamageStrength()` for shared strike, retaliation
+and throwing damage; crossbows retain weapon-rated strength. Basic Lift is not
+recalculated. Strength below one rejects before combat rolls because the damage
+table does not define that case. Shared combat handling, minimum-strength penalties, readiness, crossbow reload
+assessment and throwing ranges use `handlingStrength()`. Expanded bows and
+crossbows use their weapon ratings through `weaponStrength(weapon)` (B270).
+Explicit-strength expanded exploration assessments still require the author to
+supply the reduced strength; they do not infer a profile.
+Direct consumers bypassing contextual checks require their own adapters. This
+receipt does not invent the originating affliction's resistance, cost or duration.
+Propagation, defense exemption, capacity preservation, expiry, rollback, undo and
+saved-continuation fixtures are authored but unrun.
+
+
+## Acute injury from fear
+
+`RpgExpandedFearAcuteInjury` executes row thirty-two of `full-2008`, B361:
+collapse and two dice of injury. Supply a unique `id`, an approved
+`RpgExpandedFearContext` in `context`, `approved = true` and original `evidence`
+recording selection of that row. It is an explicit selected-outcome executor;
+it does not choose a table result. `RpgExpandedFearEvent` selects and dispatches
+it as the owned consequence.
+
+`assess()` previews each possible injury amount from two through twelve using
+`RpgExpandedWound` and prepares the held-item drop before randomness. Existing
+wound eligibility, injury limits and survival/knockdown requirements apply.
+When equipment is held, supply `dropDestination` and include the expanded
+equipment module. Missing destination or unsupported wound configuration blocks
+the request before a roll. Immune, dead or unconscious observers cannot start it.
+
+`apply()` rolls two ordinary dice and commits a single torso wound with the total
+as direct injury. No armour subtraction or additional damage multiplier is
+applied. The shared wound handles shock, major-wound checks and survival. The
+character ends lying down even if the major-wound check succeeds. Equipment drops
+and the knockdown notification occur once: an existing wound-triggered drop is
+reused instead of being committed a second time. This outcome does not invent a
+separate fainting duration; unconsciousness arises only from the shared injury
+procedure. Starting it charges no elapsed time or fatigue.
+
+The result contains `amount`, `dice` and the owned `wound`. Repeating the event
+validates its bound result and returns `reused` without another injury, drop or
+roll. History lives in `profile.fearAcuteInjuries`; wounds remain in the normal
+injury ledger. Execute through an engine action transaction for rollback and undo.
+
+[`expanded-fear-acute.t`](../../tests/fixtures/expanded-fear-acute.t) and
+`test_fear_acute` specify minimum/maximum dice, successful and failed major-wound
+checks, collapse/drop uniqueness, missing-destination preflight, preview, replay,
+rollback, undo and cross-process save continuation. This focused native acceptance
+passed. Initial fear checks and row dispatch are owned by
+`RpgExpandedFearEvent`; see the [completion audit](fear-completion.md) for
+remaining integration and validation work.
+
+
+## Timed fear panic
+
+`RpgExpandedFearPanic` supplies the timing of row twenty-one (`full-2008`,
+B361). Set a unique `id`, ready `RpgExpandedFearContext`, `approved = true`,
+`evidence` recording that selected table outcome, `behaviorKind` and original
+`behavior` text. Kinds are `cry`, `agitated-motion` or `other-pointless`; the
+author describes the actual pointless behavior. The record does not invent a
+route, move the character, choose targets or charge an action. Stationary crying and authored non-tactical movement have concrete activities
+below. Stationary noncommunicative expression uses the specific author contract
+described below; tactical movement uses an owned Move-turn adapter.
+
+`assess()` is pure. `apply()` rolls one die and records an initial deadline that
+many minutes after the shared clock, without immediately advancing time. The
+profile owns the current episode in `fearPanic` and retains history in
+`fearPanicEpisodes`. Repeated application does not roll again.
+
+At the exact deadline, a distinct `RpgExpandedFearPanicRecovery` with an `id` and
+`episode` resolves the first recovery check through `apply()`. It uses unmodified
+Will, with neither the initial fear cap nor the original scene modifier. Success
+clears the current panic pointer; failure schedules another check sixty seconds
+later. The caller's shared clock has already charged the elapsed interval, so
+recovery adds no second time charge. Replaying a receipt does not reroll.
+
+The clock rejects advances past an unresolved recovery deadline. Dead actors do
+not hold up the clock. Independent unconsciousness does not cancel the scheduled
+panic recovery: the check resolves only this episode, and a success leaves
+unconsciousness and physical stun intact. This is condition recovery, not
+permission to act. Failed checks retain the next minute boundary.
+Starting while dead, unconscious or already in a panic episode is rejected.
+
+[`expanded-fear-panic.t`](../../tests/fixtures/expanded-fear-panic.t) and
+`test_fear_panic` specify preview, one-die timing, early and due recovery, failed
+and successful minute checks, uncapped Will, clock boundaries, replay, rollback,
+undo and cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md). The
+presence of a behavior description does not count as implemented action routing.
+
+
+### Stationary crying during panic
+
+`RpgExpandedFearPanicCrying` executes a stationary interval for an active
+`RpgExpandedFearPanic` whose `behaviorKind` is `cry`. Supply a unique `id`,
+`episode`, whole `seconds` from one through 360, and a fresh
+`RpgExpandedActionGate` in `healthGate`. The gate must belong to the same profile
+and use `purpose = 'do-nothing'`, with its normal evidence. The activity does not
+change position, posture or inventory and does not grant purposeful progress.
+The episode's original behavior text supplies presentation.
+
+Assessment verifies the episode, health permission and every clock guard before
+committing. The requested interval cannot cross the next panic recovery deadline.
+`apply()` spends that shared time once, verifies no unsupported interruption
+occurred, commits its health permission and records the receipt in
+`episode.activities`. It adds no recovery roll, fatigue charge or second time
+charge. A repeated receipt returns `reused`. The caller must use the surrounding
+engine action transaction so interruption rejection also restores elapsed time.
+
+While panic is active, the common health effort gate blocks purposeful action
+and speech with `fear-panic-purposeful-action`; rest and do-nothing remain
+available. The combat health gate allows only the do-nothing maneuver and returns
+`fear-panic-purposeful-maneuver` for other maneuvers. These restrictions cease
+when recovery clears the episode. Existing defense rules are unchanged. Authors
+must route voluntary actions through these common gates; direct low-level
+checks do not themselves authorize an action.
+
+[`expanded-panic-crying.t`](../../tests/fixtures/expanded-panic-crying.t) and
+`test_panic_crying` specify gate behavior before/during/after panic, pure preview,
+recovery boundaries, single time/permission recording, replay, exception rollback,
+undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Stationary expression and tactical movement have
+separate adapters below.
+Independent unconsciousness prevents the crying activity; it does not remove
+the episode's scheduled recovery checks.
+
+
+### Panic timeline consistency
+
+Panic episode assessment reconstructs its expected deadline from the recorded
+initial duration and ordered recovery receipts. Every failure advances the
+deadline by sixty seconds; the first success establishes completion, with no
+later receipts permitted. Recovery receipts bind their time, score, roll, margin,
+critical result and success flag. Changing a deadline, completion or check result
+cannot turn a pending recovery into a completed episode.
+
+Clock advancement validates these histories before spending time, including
+completed episodes. Common action-permission queries validate owned panic
+histories even when the current-episode pointer is nil. A missing pointer therefore
+cannot silently remove an unresolved episode's action restrictions. These are
+consistency checks for authored state, not a security boundary against code that
+rewrites all stored evidence. The exact-compiled-game save policy is unchanged.
+
+[`expanded-panic-history.t`](../../tests/fixtures/expanded-panic-history.t) and
+`test_panic_history` specify changed deadlines/completion, modified check results,
+removed receipts, changed timestamps and lost ownership through episode queries,
+clock advancement, replay and action gates. These and the existing rollback,
+undo and cross-process save fixtures passed native acceptance; see the
+[completion checklist](fear-completion.md).
+
+
+## Seizure from fear
+
+`RpgExpandedFearSeizure` executes row thirty-one (`full-2008`, B361), using
+the shared seizure condition from B429. Supply a unique `id`, a ready approved
+`RpgExpandedFearContext`, `approved = true`, original `evidence` of the selected
+table outcome, and `dropDestination` when holding equipment. This remains an
+explicit selected-outcome interface; it does not roll the initial fear check.
+
+`assess()` previews the longest possible seizure duration, every possible immediate
+injury amount and the equipment drop before consuming randomness. `apply()` rolls
+one die for minutes, makes the immediate HT check, starts the owned
+`RpgExpandedSeizure` and, on a failed HT check, rolls one die of direct injury
+through `RpgExpandedWound`. A critical failure additionally reduces HT by one and
+increments the existing development revision without awarding spendable points.
+That permanent change is recorded after the immediate injury. HT at one is
+explicitly unsupported rather than silently reduced outside the current model.
+
+The character collapses to a lying posture. Wound knockdown and the mandatory
+collapse share one held-item drop and knockdown notification. Generic seizure
+restrictions then apply. The result exposes `seizure`, `check`, optional `wound`,
+`healthBefore`, `healthAfter` and `healthLost`; the profile retains it in
+`fearSeizureOutcomes`. Replaying the outcome validates the linked receipts and
+adds no roll, injury or permanent attribute loss.
+
+Advance the shared clock to `result.seizure.expiresAt`, then call that seizure's
+`finish()`. B429 supplies the end timing for the single one-die fatigue payment;
+the fear outcome does not charge it again at onset. The generic finisher owns
+fatigue overflow, injury and recovery restrictions. It does not heal the immediate
+wound or reverse permanent HT loss. Death suppresses further active-seizure
+processing under the existing condition contract.
+
+[`expanded-fear-seizure.t`](../../tests/fixtures/expanded-fear-seizure.t) and
+`test_fear_seizure` specify successful/failed/critical HT checks, permanent loss
+without repeated charges, episode timing, the single fatigue payment, missing
+drop-destination preflight, preview, replay, rollback, undo and cross-process save
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Owned fear events now dispatch this
+consequence. At the minimum-HT boundary, the event requires an explicit recorded
+`RpgExpandedFearAdjudication` replacement before executing a consequence; it
+does not create an undefined zero-HT character.
+
+
+## Fear coma and its aftereffect
+
+`RpgExpandedFearComa` executes selected rows twenty-eight and twenty-nine
+(`full-2008`, B361). Supply a unique `id`, a ready `RpgExpandedFearContext`,
+`tableTotal = 28` or `29`, `approved = true` and original `evidence` of the table
+outcome. Held equipment needs `dropDestination` and the equipment module.
+`assess()` is pure; `apply()` records unconsciousness, lying posture and the held
+item drop without charging time. Row twenty-eight schedules its first HT check
+in 1,800 seconds; row twenty-nine rolls one die and schedules it that many hours
+later. The profile owns the current `fearComa` and keeps `fearComaHistory`.
+
+At the exact deadline, use a fresh `RpgExpandedFearComaRecovery` with an `id`
+and `episode`. `apply()` makes the shared HT check. Failure schedules another
+half hour for row twenty-eight or rolls a new one-die-hour delay for row
+twenty-nine. Success clears owned unconsciousness and starts the aftereffect.
+The clock rejects advances beyond a pending check. Recovery charges no extra
+time: the shared clock already paid for the interval. Replaying a receipt does
+not roll or schedule again. The episode validates deadlines and completion
+against its bound recovery history.
+
+For exactly 21,600 seconds after successful recovery, the shared attribute/skill
+scoring path applies -2. At the endpoint the modifier ceases. No attribute is
+permanently reduced and no extra fatigue is charged. An active coma remains exclusive. Overlapping aftereffects require the explicit
+profile policy described below. Higher coma rows
+with additional trait acquisition are not accepted by this executor.
+
+The public `unconsciousRecoveryOwned()` query retains its boolean contract.
+Its default now delegates to `unconsciousRecoveryApartFrom(owner)`, which lets
+an owner check for other causes without temporarily changing state. Built-in
+fainting, suspended mortal recovery, decompression illness, acceleration blackout
+and coma owners implement this query. Custom unconsciousness owners participating
+in coma integrations must implement it too and chain to `inherited(owner)`.
+
+Starting with another incapacity remains blocked. If a separate incapacity arises
+before the due recovery check, the check can resolve the fear coma. Success starts
+its aftereffect at that boundary but preserves unrelated unconsciousness, mortal
+injury, exhausted fatigue and other owned recovery requirements. Death prevents
+a recovery check. Owned fear events select and dispatch these outcomes.
+
+[`expanded-fear-coma.t`](../../tests/fixtures/expanded-fear-coma.t) and
+`test_fear_coma` specify both schedules, failures and successful recovery, ownership,
+aftereffect expiry, pure preview, single draws, replay, rollback, undo and
+cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Catatonia, care and neglect
+
+`RpgExpandedCatatonia` executes selected row thirty (`full-2008`, B361). Supply
+a unique `id`, ready `RpgExpandedFearContext`, `approved = true`, original
+`evidence` of the selected outcome, and `careMode = 'continuous'` or `'none'`.
+The care mode selects a supported regime; it does not assert that future care has
+already happened. Set `dropDestination` when future neglect injury could cause
+a held-item drop.
+
+`assess()` is pure. `apply()` rolls one die of days before the first HT recovery
+check and registers the current episode in `profile.catatonia`. The character
+stares without pursuing purposeful actions: common effort and maneuver gates
+permit rest/do-nothing and reject other activity. The episode does not invent
+movement, posture changes or an additional unconsciousness condition.
+
+Each completed 86,400-second interval requires a distinct
+`RpgExpandedCatatoniaDay` with a unique `id`, `episode`, `careProvided`,
+`approved = true` and `evidence` describing the actual care received or its absence.
+Care status must match the selected regime. Continuous care avoids neglect injury;
+absent care applies one direct injury on day one, two on day two, and so on, using
+one `RpgExpandedWound` per day. Care receipts do not heal injuries or charge
+medical supplies/time a second time. The author must establish that qualifying
+medical care actually occurred. Use globally distinct day IDs for wound identity.
+
+The clock stops at both day boundaries and recovery deadlines. Settle the
+completed day's care before a `RpgExpandedCatatoniaRecovery` at that same boundary.
+A successful shared HT check clears the current episode. Failure rolls another
+one-die-day interval. Neither receipt adds elapsed time; the shared clock already
+charged it. Fatal neglect ends active processing. Independent unconsciousness does not block
+a due recovery check and is not cleared by ending catatonia.
+
+After recovery, shared skill/attribute scoring receives -2 for exactly the
+elapsed duration of catatonia. Recovery does not heal neglect injury. Concurrent active
+episodes are rejected; aftereffect overlap uses an explicit campaign policy. The episode checks daily receipt ordering,
+recovery history, deadlines and completion before using stored results.
+
+For intermittent care, choose `careMode = 'daily'` and provide `neglectPolicy`
+(`elapsed-days` or `uncared-days`) with `neglectEvidence`. Each owned day records
+whether care was provided. The first policy bases uncared injury on the elapsed
+day number; the second counts only uncared days. These are explicit author rulings
+for a source ambiguity, not a newly inferred printed procedure. Set the policy
+before starting the episode; replay rejects later changes. Continuous and no-care
+regimes retain their original behavior. Owned fear events dispatch this row.
+
+[`expanded-catatonia.t`](../../tests/fixtures/expanded-catatonia.t) and
+`test_catatonia` specify daily injury versus continuous care, care-before-recovery
+ordering, repeated delays, equal-duration aftermath expiry, boundaries, replay,
+rollback, undo and cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+Wilderness-day tool preflight now supplies the actual acting profile through
+`assessForProfile`. An owned assessment for a dependent cannot stand in for the
+leader's tool access. `expanded-owned-wilderness.t` / `test_owned_wilderness`
+specify rejection before randomness or elapsed time; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Purchased rations and meals
+
+`RpgExpandedRationUnpacking` connects a purchased `rations-week` lifestyle item
+to the existing `RpgExpandedFoodMeal` operation (full-2008, B265 and B426). Set
+`id`, `profile`, `package`, an empty unowned `RpgExpandedRationStock`,
+`ordinaryHumanDiet`, `approved` and `evidence`. Explicit approval establishes
+that the package is ready to eat and suitable for an ordinary human diet.
+Nonstandard diets require a separate supported adapter; they are not silently
+treated as ordinary humans.
+
+Unpacking replaces the uniquely owned accessible package with 21 meal portions
+and sets the package quantity to zero. It charges no further money, time or
+randomness. Full stock weighs exactly 1400 hundredths of a pound; remaining
+stack weight rounds upward once to the engine's hundredth-pound precision.
+The nominal individual portion weight is 67, while `weightHundredths()` computes
+the remaining stack directly. Use ordinary food meals to consume portions and
+credit daily needs. Replay cannot recreate consumed portions or duplicate meals.
+
+`expanded-purchased-rations.t` / `test_purchased_rations` specify purchase, pure
+preview, unpacking, consumption, weight, diet rejection, rollback, undo and saved
+replay. Fixtures remain unrun. Special dietary conversion, package waste and
+preparation requiring cooking remain outstanding.
+
+
+Food consumption calls `RpgExpandedFoodStock.validateMealStock()` before any new
+meal credit. Ordinary stocks validate their quantity; unpacked ration stocks
+also require their recorded unpacking receipt and a quantity no greater than
+twenty-one. Food must be accessible, not in flight or under shared carry, and
+appear exactly once across all inventories, including within one owner's list.
+These checks preserve completed meal replay: moving leftover stock does not
+invalidate or repeat a previously consumed meal.
+
+`expanded-food-access.t` / `test_food_access` cover stored, in-flight and shared
+food, duplicate inventory entries, missing ration receipts, atomic consumption
+rollback, undo and replay after storage/save. Fixtures are authored but unrun.
+
+
+## Surgery across species
+
+A `RpgExpandedSurgicalOperation` can select `physiology` as `same`, `similar`,
+`different`, `alien` or `machine` (full-2008 B181). Its conditions must use the
+corresponding `physiologyModifier`: 0, -2 through -4, -5, or -6 and worse.
+Machines reject. The default `authored` mode preserves the existing explicit
+modifier interface when no physiology check is supplied.
+
+To apply relevant knowledge, bind a `RpgExpandedPhysiologyCheck` through
+`physiologyCheck`, with `subjectSpecies` matching its species. The check must
+belong to the surgeon, target the patient and name this exact operation.
+Resolve it before surgery starts. Success removes only the species penalty;
+failure retains it. `assessForPhysiology()` prepares a score without rewriting
+the original conditions object. The operation history binds the selected
+category, species and receipt, including for derived stabilization procedures.
+
+`test_surgical_physiology` specifies unresolved-check rejection, success/failure,
+score arithmetic, unchanged authored conditions, machine exclusion and patient
+species binding. Fixtures are unrun. Diagnosis and first aid use the adapters below; other
+medical procedures still require integration with this shared receipt contract.
+
+
+## Diagnosis and bounded findings
+
+`RpgExpandedDiagnosis` binds an examiner, patient, unique `id` and authored
+`caseId`. Supply `approved`, evidence that the finding is supportable at the
+examiner's technology level, `finding`, and `findingKind` (`hint` or `diagnosis`).
+A successful check reveals that finding. A failed check reveals none. Obvious
+injuries (`obvious = true`) require neither a roll nor a skill; diagnosis can
+also examine a dead patient (full-2008 B187).
+
+For non-obvious cases, use `RpgExpandedDiagnosisSkill`: IQ/Hard at an explicit
+technology level, default IQ-6, or paid same-technology first aid-8, physician-4
+or veterinary-5. Assessment applies the authored `equipmentModifier`, -5 for
+`internalInjury`, and `rarityModifier` (zero or -5 and worse). Physiology follows
+the typed surgery categories and can use a successful `physiologyCheck` bound
+to this exact case, examiner, patient and `subjectSpecies`. Machines reject.
+
+`assess()` does not reveal the finding or roll. `apply()` records a result once;
+another request for the same patient and case rejects. No healing, treatment or
+fixed duration is implied. Authors must establish examination access, equipment
+and the technology-limited finding; live equipment and same-examiner diagnosis-to-surgery handoffs are available
+through the adapters below. `test_diagnosis` specifies obvious and rolled findings,
+failed checks, postmortem use, modifier arithmetic, replay, rollback and undo.
+Fixtures remain unrun.
+
+
+### Diagnostic equipment access
+
+Set a case's `equipmentAssessment` to an
+`RpgExpandedOwnedEquipmentAssessment`, an accessible assessment with explicit
+shared-use grants, or a purchased `RpgExpandedToolkitAssessment`. The equipment
+module checks the examiner, skill, actual items and current access, then supplies
+the B345 modifier. Keep `equipmentModifier = 0` in this mode; combining both
+sources rejects. Obvious no-roll findings reject a selected equipment assessment.
+
+The case snapshots the equipment definition for its historical result. Later
+loss of access does not invalidate an already completed diagnosis or reroll it.
+Fresh examinations still require live access. Without the equipment module, a
+selected assessment rejects explicitly through the foundation adapter.
+`test_diagnosis_equipment` covers fine-kit scoring, missing/stored tools,
+duplicate modifiers, replay after tool loss, rollback, undo and saved continuation.
+Fixtures remain unrun. Examinations still need authored access and findings.
+
+
+### Carrying a diagnosis into surgery
+
+Set a surgical operation's `diagnosis` to a completed `RpgExpandedDiagnosis`
+and its `diagnosisCaseId` to the same authored clinical case. The patient must
+match and the surgeon must be that case's examiner. A completed finding with
+`findingKind = 'diagnosis'` supplies the diagnosed state; a hint or failed check
+retains the -5 undiagnosed penalty (full-2008 B223). Unresolved cases block.
+
+This derives the prepared score without rewriting `conditions.diagnosed`.
+Operation histories bind the selected case and validate its finding and kind.
+Another examiner's finding requires the consultation receipt described below;
+a successful hint is never silently promoted to a complete diagnosis.
+`test_diagnosis_surgery` specifies successful, incomplete and failed findings,
+case mismatch and altered-result rejection. Fixtures remain unrun.
+
+
+### Consulting another examiner
+
+`RpgExpandedDiagnosticConsultation` records communication of a specific completed
+`diagnosis` to a `recipient`. Supply a unique `id`, `received`, `understood` and
+evidence establishing communication and comprehension. This is an authored
+integration contract, not an additional medical roll. `assess()` is pure;
+`deliver()` records the finding and its kind once, without charging time or
+changing its certainty. A failed diagnosis has no finding to deliver.
+
+Bind that receipt to surgery through `diagnosisConsultation`. The recipient must
+be the surgeon and the diagnosis must be the operation's selected case. Until
+the receipt is delivered, the operation remains blocked. A delivered hint still
+incurs the undiagnosed penalty. Subsequent surgery validation checks the original
+case and consultation history. Language, access and the duration of any actual
+conversation remain the author's responsibility.
+
+`test_diagnostic_consultation` covers complete findings, hints, comprehension
+failure, absent findings, replay, rollback, undo and separate-process continuation.
+Fixtures remain unrun.
+
+
+Diagnostic equipment assessments also carry their technology level into the
+expanded skill context (full-2008 B168). Quality and technology modifiers each
+apply once. A fine kit does not waive a technology mismatch; equipment four or
+more levels above the applicable IQ-based skill is unavailable. Selected tools
+other than `quality = 'none'` require an explicit technology level. Manual
+`equipmentModifier` mode remains an authored modifier without an inferred tool
+technology. `test_diagnostic_technology` specifies the complete -1 through +4
+technology-difference sequence around the examiner's skill level, with no
+assessment randomness. Fixtures remain unrun.
+
+
+## First aid across species
+
+`RpgExpandedFirstAid` accepts the B181 physiology categories through `physiology`
+and `speciesModifier`: `same` requires 0, `similar` -2 through -4, `different`
+-5, and `alien` -6 or worse. `machine` blocks treatment. The default `authored`
+mode preserves existing requests with no species modifier or knowledge receipt.
+
+An optional `physiologyCheck` must be a resolved `RpgExpandedPhysiologyCheck`
+bound to this treatment, its healer, its patient and `subjectSpecies`. Success
+removes the species penalty; failure retains it. An unresolved receipt blocks
+before treatment consumes time or randomness. Preview computes the modified
+skill target without executing the check. Replay binds the selected category,
+modifier, species and receipt and reuses the original treatment result.
+
+Ordinary bandaging still has no skill roll (full-2008 B424). This adapter changes
+the subsequent treatment check, retaining its existing bandaging credit, scaled
+healing, duration and shared injury ledger. It does not add a second charge or
+implement interruption during treatment. Authors remain responsible for access
+and the patient's warmth, comfort, calm and stillness.
+
+`test_first_aid_physiology` specifies penalty arithmetic, knowledge success and
+failure, pure previews, unresolved and machine rejection, transaction rollback,
+undo and duplicate execution. These fixtures remain unrun pending recorded validation.
+
+
+## Physician healing across species
+
+The periodic `RpgExpandedPhysicianCheck` accepts `physiology`, `speciesModifier`,
+`subjectSpecies` and optional `physiologyCheck` (full-2008 B181, B424–B425).
+Use `same` with 0, `similar` with -2 through -4, `different` with -5, or `alien`
+with -6 or worse. `machine` blocks the roll. Default `authored` requests preserve
+existing behavior without an additional modifier or knowledge receipt.
+
+A selected knowledge receipt must target this exact physician check and patient,
+with the practice's physician as its owner and the same species identifier.
+Resolve the knowledge check first. Success removes the species penalty; failure
+retains it. An unresolved receipt blocks the healing roll. The existing practice
+roster, required care interval, one-check-per-patient schedule, protected injury
+restrictions and scaled healing continue to apply. Committing the periodic roll
+does not spend the elapsed care interval again. Replay binds the physiology
+selection and validates the original knowledge receipt.
+
+This adapter covers the additional healing roll. Patient-specific admission and
+qualification for the natural-recovery supervision bonus still need integration;
+this feature does not establish cross-species supervision eligibility by itself.
+
+`test_physician_physiology` specifies pure target previews, success/failure of
+knowledge, blocked machine and unresolved cases, shared healing accounting,
+rollback, undo, replay, changed-species rejection and cross-process save
+continuation. The fixture is authored and unrun pending recorded validation.
+
+
+## Diagnosis before unusual first aid
+
+For an unusual problem (full-2008 B195), set `RpgExpandedFirstAid.unusualProblem`
+and provide `problemEvidence` explaining the classification. Bind `diagnosis`
+and `diagnosisCaseId` to the relevant patient and case. Treatment requires a
+completed finding of kind `diagnosis`; a hint, failed roll or unresolved case
+blocks before treatment time or randomness is spent. Ordinary requests preserve
+the existing behavior with `unusualProblem` unset.
+
+When the examiner differs from the healer, supply a completed
+`diagnosisConsultation` naming that diagnosis and the healer as recipient. Its
+receipt records authored delivery and comprehension, without automatically
+assuming language ability or access. A finding does not supply an additional
+skill bonus. The treatment binds the classification, evidence, case, diagnosis
+and consultation, and validates them on replay. Existing bandaging credit and
+healing limits still apply.
+
+The author must connect a clinically relevant case to the injury and classify
+whether it is unusual; the engine cannot infer this from wound magnitude.
+This gate currently applies to the owned post-bandaging first-aid treatment.
+Other first-aid operations, including bleeding and resuscitation, still need
+case-specific integration. `test_first_aid_diagnosis` covers missing, unresolved,
+failed and partial findings, consultation, rollback, undo and replay. Fixtures
+remain unrun pending recorded validation.
+
+
+## First-aid equipment assessment
+
+Set `RpgExpandedFirstAid.equipmentAssessment` to an owned or shared toolkit
+assessment bound to the healer and first-aid skill (full-2008 B195, B345).
+Include equipment and skills, and use `RpgExpandedFirstAidSkill`. The assessment
+checks access, ownership or a shared-use grant, task suitability and quality
+before treatment consumes time or randomness. Its technology must be explicit
+unless no tools are used. The expanded context applies technology compatibility
+and adds the assessed quality modifier once. Keep other situational adjustments
+in `modifier`; do not repeat the equipment bonus there.
+
+Requests without an equipment assessment retain their existing scoring path.
+The treatment binds the selected assessment and its definition. Replay validates
+that definition but does not demand continued access to tools after treatment
+has finished. This does not consume medical supplies or implement interruptions
+during the care interval; those still require integration.
+
+`test_first_aid_equipment` specifies fine-tool scoring, advanced technology,
+inaccessible tools, preview purity, rollback, undo and replay after tools are
+removed. Definition changes reject. Fixtures are authored and unrun.
+
+
+## A shared marching hour
+
+`RpgExpandedMarchGroup` coordinates a nonempty `hours` list of
+`RpgExpandedMarchHour` objects under one group `id` (full-2008 B426). Each member
+must be a different profile, with its own approved conditions and the same interval
+identity. `assess()` previews every member before any roll or elapsed time.
+
+`apply()` resolves each existing action gate. If any member cannot proceed, the
+group commits those gate outcomes but spends no marching time and charges no hourly
+fatigue. If all may proceed, it advances the shared ledger by 3600 seconds once,
+checks that every member's conditions stayed stable, then applies each existing
+march-hour cost. The resulting individual executions remain reusable on their own;
+neither group replay nor later individual calls charge a second hour or cost.
+
+Use the normal engine action transaction so changed conditions or a failed commit
+roll back the whole group. Different encumbrance, heat and clothing costs remain
+per member. Existing overload one-second restrictions reject this continuous-hour
+operation. Interrupted or overloaded travel still requires a finer-grained adapter.
+Daily mileage is separate: the reference's daily distance includes preparation and
+rest and does not establish an hourly conversion.
+
+`test_march_group` specifies individual fatigue amounts with one shared hour,
+preview purity, denied effort, mid-hour changes, rollback, undo, individual/group
+replay, duplicate combat-fatigue rejection and cross-process continuation. Fixtures
+remain unrun pending recorded validation.
+
+
+Grouped marching receipts are also registered in each participant's `marchGroups`.
+Profile validation checks membership in every participant's history, the shared
+start/end timestamps, the committed duration and permission outcome, and the exact
+member-result list. A group id cannot be reused for another group involving the
+same participant. These bindings cover denied marches as well as completed hours.
+The group fixture includes unrun cases for altered outcomes, duration, result
+membership, missing history and duplicate group identifiers.
+
+
+### Native grouped-march actions
+
+`RpgExpandedMarchGroupAction` binds one authored `group`. Commands use
+`exec(context)` and dialogue choices use `perform(context.asker)`. The acting
+character must have an `rpgProfile` participating in the group; other actors are
+blocked before any action gate, random roll or time advance. Membership does not
+replace the approved conditions required for every member's marching hour.
+
+The `rpg.expanded.march-group` event reports status, reason and whether the group
+was allowed to proceed. Replay returns the original group outcome. The minimal
+`expanded-march-group-actions.t` fixture demonstrates all three native routes.
+`test_march_group_actions` specifies route parity for successful marches, denied
+effort, wrong actors, rollback, undo and repeat execution. Fixtures remain unrun.
+
+
+### Combat interrupts a shared march
+
+`RpgExpandedMarchInterruption` takes an `id` and a nonempty `costs` list, one
+`RpgExpandedMarchHourCost` per participant, all naming the same interval. New
+costs must use `basis = 'combat-assumed-hour'` with approval and evidence that the
+full-2008 B426 assumed-hour rule applies. If events establish a different elapsed
+interval, the author must resolve that exception rather than assert this basis.
+
+For participants already charged for the interval, supply their existing cost
+receipt (for an executed hour, `hour.result.cost`). Do not create another cost for
+that participant and interval. The interruption previews every cost first, applies
+only uncommitted ones and advances no time. It records itself in each profile's
+`marchInterruptions`; replay preserves the existing costs and timestamp. Supplying
+an execution object instead of its cost receipt rejects to prevent accidental time
+advancement during fatigue settlement.
+
+The normal action transaction makes settlement atomic. `test_march_interruption`
+specifies wholly uncharged, partially charged and already charged parties, blocked
+author facts, preview, rollback, undo and cross-process reuse. Fixtures remain unrun.
+This operation settles marching fatigue only; encounter setup and interrupted
+movement distances still require author integration.
+
+Bleeding aid binds the initial timestamp and its one-minute deadline separately
+from mutable world facts. Completed and cancelled receipts bind the completion
+time, outcome, healing credit and individual check fields. Rewriting these fields
+is rejected before replay or another care decision. The linked bandage adapter
+validates the provisional successful receipt before crediting healing, then the
+care operation binds the final credit in the same transaction.
+`test_bleeding_receipts` specifies deadline and outcome mutation rollback and
+saved continuation for successful, cancelled and bandage-linked care. Fixtures
+remain unrun. This closes receipt integrity gaps; automatic wound enrollment,
+multiple-wound aggregation and loss-basis reconciliation remain incomplete.
+
+### Player actions for bleeding care
+
+`RpgExpandedBleedingAidAction` takes one `care` receipt and an `operation`:
+`preview`, `start`, `completion-preview`, `complete` or `cancel`. Bind command
+verbs to these actions, or call `perform(context.asker)` from a dialogue choice.
+The command path uses `context.actor`. Both require the acting person's
+`rpgProfile` to be the receipt's `healer`; being the patient alone does not grant
+authority over another person's treatment. Self-care works when patient and
+healer are the same profile, subject to the existing care assessment.
+
+Starting records the interval. Advance the shared clock through the game's
+ordinary authored activity; completing never charges that minute again. The
+player action does not assert `uninterrupted`, available supplies or permission:
+authored care evidence and the actual interval still determine those facts.
+Cancellation records interruption without a benefit or roll. Repeated operations
+retain the receipt's existing replay behavior. The event
+`rpg.expanded.bleeding-aid` contains operation, status and reason.
+
+`test_bleeding_actions` and `expanded-bleeding-actions.t` specify command, structured
+and dialogue parity, healer authority, pure previews, premature completion,
+shared time, one bandage credit, cancellation, rollback, undo and replay. They
+remain unrun pending recorded validation. Neither this action adapter nor the care
+receipt supplies automatic movement, equipment consumption or wound aggregation.
+
+Bleeding episodes now bind onset, next deadline, termination, clear-minute streak
+and the ordered minute receipt list. Each resolved minute also binds its result,
+check fields, injury, wound identity and resolution time. Shared clock validation
+checks retained episodes before considering whether they have stopped; changing
+`stoppedAt` cannot bypass a pending check. Ordinary minute execution and successful
+care update this bound timeline within their transaction. Death still releases
+the clock boundary, and completed episodes do not impose new time restrictions.
+`test_bleeding_timeline` specifies state mutation rollback, minute history,
+three-clear-minute termination and save continuation. These fixtures remain
+unrun; the loss-basis and wound-aggregation gaps above remain open.
+
+
+## Incremental continuous marching
+
+`RpgExpandedMarchProgress` owns one `RpgExpandedMarchHourCost` as `cost`.
+`RpgExpandedMarchStep` supplies a unique `id`, that `progress`, and `seconds`
+from one to 3,600. Steps must be contiguous in world time, and cannot cross the
+remaining boundary of that hour. Each step checks movement and health permission
+and advances the shared clock once. It does not infer travel distance.
+
+Partial elapsed time and step receipts persist. Completing exactly 3,600 active
+seconds applies the existing hourly fatigue cost once; replay does not repeat
+time or fatigue. Encumbrance and authored cost conditions are bound across the
+hour. Changing them or inserting idle time blocks continuation rather than
+silently repricing mixed conditions. A competing cost for the same interval, or
+premature direct application of the owned cost, is rejected.
+
+This is the travel substrate for shorter tracking deadlines. Tracking encounters
+must still cap requested steps at their next required check and resolve it before
+continuing. The fixed-terrain tracking encounter in the exploration guide supplies that
+connection. Rest/resumption, mixed conditions,
+party step orchestration and combat interruption of a partial hour also remain
+pending; the existing whole-hour pathways are retained.
+
+`test_march_steps` specifies preview purity, partial progress, boundary rejection,
+premature cost rejection, elapsed-state tampering, rollback, undo, cross-process
+continuation and exactly one hourly fatigue charge. Fixtures remain unrun.
+
+
+A profile may have only one unsettled positive partial marching hour. Starting a
+fresh interval through an incremental step, a whole-hour march or a separate cost
+request returns `march-unsettled-partial-hour` until that hour is completed.
+Switching interval objects must not discard accrued walking time. Historical
+completed receipts still replay while a later partial hour is active. A denied
+step with zero accrued time does not reserve an hour of exertion. Explicit
+settlement for interrupted/rested partial hours remains pending.
+`test_march_partial_exclusion` specifies those competing paths, persisted
+exclusion, release at hour completion and historical replay; it remains unrun.
+
+
+## Combat interrupts a partial marching hour
+
+`RpgExpandedPartialMarchInterruption` applies the full-2008 B426 assumed-hour
+rule to an owned `RpgExpandedMarchProgress`. Supply `id`, `progress`,
+`combat = true`, `assumeFullHour = true`, `approved` and concrete `evidence`.
+Author approval must establish that the full-hour assumption applies; the source
+allows actual events to dictate otherwise. Other interpretations and ordinary
+rest are rejected rather than silently charged as a full hour.
+
+There must be positive progress below 3,600 seconds, and the interruption must
+occur at the last step's completion time. `assess()` is pure. `apply()` uses the
+same hourly cost receipt, adds no time, retains the interruption, and prevents
+further steps in that hour. Repeated application cannot add fatigue again.
+The settled partial hour no longer excludes a fresh marching interval. Original
+step receipts remain replayable, including after later travel.
+
+The underlying cost retains its original definition; the interruption receipt
+records why the hour was charged early. Bound receipt links reject deleting the
+interruption or changing its time. Party interruption, ordinary rest settlement,
+and explicit event-based exceptions to the full-hour assumption remain pending.
+`test_partial_march_interruption` specifies approval gates, no-time settlement,
+no double charging, blocked old-hour continuation, later interval eligibility,
+rollback, undo, tamper rejection and saved replay. Fixtures remain unrun.
+
+
+## Concurrent incremental marching
+
+`RpgExpandedMarchStepGroup` names an `id` and `steps`, each an unused
+`RpgExpandedMarchStep` for a different profile. Every member must request the
+same positive duration and fit its remaining hourly boundary. `assess()` checks
+all members before execution. `apply()` obtains their health permissions and
+advances the shared clock once if everyone is permitted.
+
+Each member retains its own step receipt, partial-hour progress and hourly cost.
+A group that completes an hour charges each relevant profile once. Replaying the
+group or an individual member does not repeat time or fatigue. If any member is
+denied, all members record zero movement time; health-permission outcomes remain
+owned. Invalid duration or duplicate-profile configurations fail before spending
+resources. Individual fatigue and injury remain in their existing ledgers.
+
+This supplies concurrent movement for timed interactions. It does not implement
+shadowing contests, decide route compatibility, or combine participants' travel
+distances. Authors must provide compatible simultaneous movement; the shadowing
+encounter integration remains pending. `test_march_step_group` specifies shared
+time, individual fatigue, member replay, denial, invalid grouping, tamper
+rejection, rollback, undo and cross-process continuation. Fixtures remain unrun.
+
+
+## Owned fear-event flow
+
+`RpgExpandedFearEvent` connects the initial check to a retained consequence
+selection (full-2008 B360–B361). Supply a unique `id`, an authored `occurrence`
+identity, and an approved `RpgExpandedFearContext`. The evidence must explain
+why the event is extraordinary for this character. Including the library alone
+does not replace `rpgLiteFright` or enable this procedure automatically.
+
+`assess()` is pure. `resolve()` returns a retained `RpgExpandedFearEventResult`:
+immunity consumes no dice, success consumes one three-die roll, and failure
+consumes a second independent three-die roll. The failed check's margin is added
+to that second roll, retaining `tableRoll`, `tableTotal` and capped table `row`.
+The initial check, original modifier and context facts are bound to the receipt.
+An occurrence cannot be resolved twice for the same character, even through a
+new request object. Replay does not reroll or spend time.
+
+On failure, author a matching consequence and call `assessConsequence(request)`
+then `applyConsequence(request)` within the engine's transaction boundary. Health
+handlers must share the exact context and event ID. Rows 4–22 and 28–32 have
+owned health handlers; row 20 requires the explicit recovery choice below.
+Rows 23/25/27/35/39/40 have phobia-specific handlers, rows 26/38 have belief
+compounds, and row 33 supports the concrete reaction kinds below.
+Row 13 uses the traits library's `RpgExpandedFearQuirkAcquisition`; rows 22 and 34
+use `RpgExpandedFixedBeliefAcquisition`. Those acquisitions must name this event
+through `eventId`, match the profile and satisfy their specific relation and
+accounting contracts. Row 16 retains the stun handler's compound quirk contract.
+Catatonia still requires the explicit care regime; panic still requires authored
+behavior. These choices are not invented by the dispatcher.
+
+Until a consequence is committed, another fear event, normal effort, maneuvers
+and elapsed-time advancement are blocked. This keeps a retained table result
+from being ignored or delayed while play continues. A wrong row, wrong owner,
+used consequence or unsupported handler cannot consume additional resources.
+After commitment, the existing episode governs recovery and action restrictions.
+Reapplying the same consequence returns reused status. Rolling the event and
+committing its consequence may also be enclosed in one transaction by an author.
+
+Rows 24 and 36–37 support the specific physical acquisition bundles documented
+in the traits guide, including hazards-owned forced aging. Other physical
+transformations require their own executable adapters.
+Row 25 supports phobias and the implemented controlled mental traits; row 33
+rejects reaction kinds outside its concrete adapters. Rows 23/35 and their
+compound forms accept phobias, fixed beliefs and supported typed mental purchases.
+Unimplemented catalogue choices remain unavailable.
+Unavailable catalogue selections require an explicit supported replacement; they
+are never converted to an abridged result or rerolled automatically. Owned events
+connect mandatory phantom-voice follow-ups and source-specific fear-aura histories.
+Explicit inappropriate-result adjudication is described below. The traits guide
+documents owned phobia checks, concurrent exposures and their repeat schedule.
+Authors supply perception and world facts through those contracts. Postbattle stress uses the
+owned self-control event described in the traits guide.
+
+`expanded-fear-event.t` / `test_fear_event` specify initial success, immunity,
+independent table selection, exact dice counts, duplicate prevention, pending
+consequence time guards, outcome binding, consequence replay, automatic short-stun
+recovery, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+`expanded-fear-event-traits.t` / `test_fear_event_traits` additionally specify
+rolled quirk and fixed-belief selection, acquisition rollback/undo, replay and
+unchanged earned/unspent points. Validation status is recorded in the [completion checklist](fear-completion.md). Scores below three now use the recorded author-decision contract below; they
+are not an unresolved initial-check policy. The [completion checklist](fear-completion.md) records the frozen milestone
+and its validation evidence.
+
+
+## Compound faint/coma and lasting beliefs
+
+`RpgExpandedFearBeliefCompound` joins the existing handlers for B361 rows 26 and
+38. Supply the event `id`, exact fear `context`, `tableTotal`, a fresh
+`RpgExpandedFixedBeliefAcquisition` as `acquisition`, and an unstarted `episode`.
+For row 26, the acquisition uses row 22 and the episode is a
+`RpgExpandedFearFaint` with row 18. For row 38, use acquisition row 34 and
+`RpgExpandedFearComa` row 29. All owners and event IDs must match.
+
+`assess()` preflights both components before spending anything. The physical
+consequence commits against the original event context before the lasting trait
+is acquired. A new fear modifier therefore affects later events without changing
+the recorded score or preventing the current compound outcome. `apply()` records
+the lasting belief, then starts the faint/coma, in one engine transaction. The
+lasting trait remains even if collapse injury proves fatal. The component
+receipts own their original costs, health checks and recovery schedules; the
+compound does not add another fatigue/injury payment or alter those schedules.
+It reuses the same character accounting and grants no earned or spendable points.
+Use `event.applyConsequence(compound)` to bind it to a rolled selection.
+
+`test_fear_compound` specifies both combinations, duplicate prevention, atomic
+rollback, undo and saved replay after rolled row 26. Validation status is recorded in the [completion checklist](fear-completion.md).
+The generalized trait compound below also supports the specific phobia outcomes;
+other disadvantage types are not silently mapped to beliefs.
+
+
+### Phobia compounds and permanent IQ loss
+
+`RpgExpandedFearTraitCompound` generalizes the compound interface; the existing
+`RpgExpandedFearBeliefCompound` identifier remains available. Rows 26/38 retain
+the belief combinations above. Row 27 accepts a `RpgExpandedFearPhobiaAcquisition`
+using acquisition row 23 and faint row 18. Rows 39/40 accept acquisition row 35
+and coma row 29. Both components must have the same owner and event ID.
+
+Row 40 additionally reduces the shared IQ characteristic by one after the two
+components commit, retaining `iqBefore` and `iqAfter`. This increments the existing
+development revision without awarding points. Derived scores use the shared IQ;
+no parallel skill ledger is changed. The creation disadvantage allowance covers
+recorded involuntary loss below IQ 10, capped by the character's current deficit.
+Replaying the compound cannot remove another IQ point. IQ already at one remains
+explicitly unsupported rather than producing an invalid characteristic.
+
+`test_fear_phobia_acquisition` specifies direct acquisition, compound rows 27/39/40,
+accounting, rollback, undo and saved replay of IQ loss. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Long faint with fatigue
+
+`RpgExpandedFearFaint` now accepts `tableTotal = 20`. Its onset rolls four
+separate duration dice in minutes and one fatigue die, debiting the existing
+fatigue ledger. It does not add the injury prescribed by rows 18/19. Fatigue
+exhaustion can still cause injury through the shared health rules.
+
+The supplied full-2008 B361 paragraph does not specify what follows its four-die
+duration. Authors must set `recoveryPolicy` to `automatic` or `health-minute`
+and explain their decision in `evidence`. Neither is silently asserted as the
+printed rule. At the deadline, use `RpgExpandedFearFaintRecovery`: the automatic
+choice consumes no roll; the other choice uses HT and schedules another minute
+on failure. Independent incapacitation still prevents waking. Other rows reject
+a recovery-policy override. `test_fear_shock_faint` covers costs, boundaries,
+replay, rollback, undo and saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Extreme panic reactions
+
+`RpgExpandedExtremePanic` owns row 33 (full-2008 B361). Supply the event's exact
+`id` and `context`, approval and evidence. Applying it retains a three-die
+`pendingSeverity`; it does not invent an action from that number.
+
+An author supplies `RpgExpandedExtremePanicReaction` with a unique `id`, the
+`episode`, exact retained `severity`, approval, a concrete `description`, and
+actual `seconds`. Supported `kind` values are `freeze`, `cry`, `collapse`,
+`flight` (the bounded room-route adapter described below), and `world-operation`
+with a concrete owned operation such as the fall adapter.
+All spend the shared clock once. Collapse commits the equipment drop and lying
+posture; it may additionally own a fresh `RpgExpandedWound` for that profile,
+with a matching drop destination. Injury uses the existing injury ledger.
+Severity informs the author's choice; there is no invented severity-to-injury
+conversion. Authored duration is not a fixed source-table duration.
+
+After the reaction, a surviving character makes an uncapped, unmodified Will
+check. Success ends this panic without clearing unrelated incapacitation. Failure
+retains a new three-die severity for another authored reaction. Death from the
+reaction ends the episode without another Will or severity roll. Ordinary effort,
+maneuvers and unaccounted clock advances cannot bypass the pending reaction.
+Each reaction is replayable without repeating its time, injury or random draws.
+
+Tactical and interrupted paths, recorded attacks and object destruction use the
+concrete adapters below. Other world changes require a supported owned operation;
+a callback alone cannot commit a panic reaction. `test_extreme_panic` specifies two successive reactions, rollback,
+undo, invalid selection and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Replacing an inappropriate reaction
+
+For the explicit author choice in full-2008 B360, create
+`RpgExpandedFearAdjudication` with the pending `entry`, unique `id`, approval,
+and evidence explaining the inappropriate reaction. `reason` is `inappropriate`,
+`awe` or `confusion`. `mode = 'replace'` requires `row` from 4 through 40;
+`mode = 'reroll'` requires no row and rolls the table again with the original
+failed-check margin. Neither repeats the initial fear check or its stress trigger.
+
+`apply()` retains a decision receipt. `entry.result.row` remains the original
+rolled row; `entry.selectedRow()` is the current selection used by consequence
+dispatch. Further explicit decisions are allowed before commitment. Once a
+consequence is committed, another decision cannot replace or undo its effects.
+Replaying any decision never rolls again. `test_fear_adjudication` specifies
+original-result retention, both modes, consequence dispatch, rollback, undo and
+saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Player routes for fear events
+
+`RpgExpandedFearAction` binds an authored `entry`, optional `consequence`, and
+`operation`: `preview`, `resolve`, `preview-consequence` or `consequence`.
+Bind its `exec(context)` to a parser grammar and structured verb. A dialogue
+choice calls `perform(context.asker)` on that same action. Only an actor whose
+`rpgProfile` is the event's profile may perform the operation. Returned
+`rpg.expanded.fear` events contain operation, status and reason; private dice and
+author evidence are not automatically disclosed.
+
+`test_fear_actions` specifies ownership, preview purity, route parity, undo,
+repeated operations and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md). The
+original [Echo Vault example](../../examples/echo-vault/README.md) demonstrates
+a complete small encounter using the shared resolver and explicit confusion
+adjudication, short-stun recovery, and a health-gated follow-up action.
+
+## Author rulings when an initial roll is prohibited
+
+The supplied printing prohibits attempting an initial check below effective
+score 3 (`full-2008`, B345), but supplies no fear-table failure margin for that
+case. This library requires a recorded author-selected outcome. This is an
+explicit campaign ruling, not a new source rule.
+
+Attach `RpgExpandedLowScoreFearDecision` to an event's `lowScoreDecision`.
+Set `entry` to that event, `row` to 4–40, `approved = true` and `evidence` to the
+reason for that particular outcome. The same interface supports ordinary fear,
+phobia self-control and postbattle self-control. Missing decisions block before
+randomness, time or resource changes. Supplying one for a permitted roll also
+blocks, preventing this exception from bypassing ordinary checks.
+
+The result records `reason = 'author-selected-low-score'`, the actual effective
+score and the selected row. `check`, `tableRoll` and `tableTotal` remain `nil`:
+there is no fabricated roll, failure margin or table total. Apply the matching
+typed consequence normally; its own duration, injury, fatigue and recovery
+procedures still apply. The decision and evidence are bound into the retained
+event. Replaying or restoring cannot select another outcome or charge it again.
+An inappropriate result may be replaced through the existing adjudication
+interface, but cannot be rerolled without an original rolled failure margin.
+
+With an active phantom-voice trait, the author must also set `voiceStress` to
+`'check'` or `'none'`. The source's failed-roll trigger cannot decide this case
+because no roll occurred. `'check'` executes and retains the normal independent
+voice-occurrence check; `'none'` records the author's choice not to trigger it.
+This exception applies to initial selection only; it does not invent recovery
+rules for unsupported attribute boundaries.
+
+`expanded-fear-low-score.t`, `expanded-phobia-low-score.t` and
+`expanded-postbattle-low-score.t` provide fixtures for missing decisions,
+inapplicable decisions, pure previews, receipt binding, voice choices, typed
+consequence dispatch, rollback, undo and save continuation. Their Validation status is recorded in the [completion checklist](fear-completion.md).
+
+### Extreme-panic flight through the authored world
+
+`RpgExpandedExtremePanicReaction.kind = 'flight'` now commits actual movement
+between rooms. Set `actor`, `origin`, `destination`, positive `distanceYards` and
+`routeEvidence` establishing an unobstructed route without unresolved hazards
+or reactions. The actor must own the episode's profile. The declared distance
+must fit the character's current Move over the reaction's `seconds`.
+
+This adapter supports standing/crouching, conscious characters with available
+fatigue capacity and no shared voluntary-movement incapacity, outside active
+combat and tactical placement. Conscious, balanced paralysis still blocks flight
+before time or dice are spent. Those restrictions
+are explicit: it cannot silently leave a tactical figure behind, teleport through
+a barrier, or resolve a fall as harmless movement. Routes needing tactical
+execution, interrupted travel, attacks or falling consequences still require
+separate concrete adapters.
+
+Commit charges the reaction's shared time once, rechecks mobility and origin,
+uses the engine's actor relocation operation, then performs the existing survivor
+Will check and repeat procedure. The receipt binds the route and resulting loop
+state. Replay does not move the actor back if subsequent play changes location.
+`expanded-panic-flight.t` and `test_panic_flight` specify preview, distance/evidence
+rejection, movement, one time charge, replay, rollback, undo and continuation.
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Recovery boundaries and recorded rulings
+
+The due coma, catatonia and panic checks resolve their own condition even when
+another incapacity is present. They do not clear that other condition. Stun and
+retching retain their respective consciousness requirements. At the minimum
+attribute boundary, a row-31 HT loss or row-40 IQ loss cannot silently turn a
+human profile into an unsupported zero-attribute state. `consequenceBoundaryReason()`
+reports the required author adjudication before any consequence is charged.
+A prohibited row-31 health check also reports
+`fear-seizure-health-author-adjudication`; no seizure duration or injury dice are
+spent before the author replaces the result.
+Use an owned `RpgExpandedFearAdjudication` to replace an inappropriate result;
+the original result and the reason for replacement remain in history.
+
+For a recovery score below 3, attach `RpgExpandedFearRecoveryDecision` to the
+recovery's `recoveryDecision`. Set `owner` to that exact request, `recover` to
+true or nil, and supply approval and evidence. The owned result records
+`author-selected-recovery`, the effective score and the decision. Its roll,
+margin and critical classification are nil. A score that permits rolling rejects
+this ruling; normal recovery retains its existing roll and random consumption.
+This applies to stun, retching, fainting, panic, coma, catatonia and extreme-panic
+survivor checks. Automatic recovery rejects an unused decision. The fixture
+`expanded-fear-recovery-ruling.t` specifies preview, no-dice execution, rollback,
+undo, replay, changed-evidence rejection and saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+Configure `fearAftermathOverlapPolicy` (`sum` or `worst`) and
+`fearAftermathOverlapEvidence` before the first relevant episode if subsequent
+coma/catatonia aftereffects may overlap. `sum` applies each active -2 separately;
+`worst` applies -2 once while any is active. With no policy, the first isolated
+episode works as before and overlapping aftereffects require an author choice.
+Episode receipts bind the policy; changing it after an episode starts is rejected.
+The coma fixture specifies both aggregation policies and each expiry boundary;
+the catatonia fixture specifies both daily-care policies and preservation of
+independent unconsciousness. The adjudication fixture specifies the minimum-HT,
+unrollable-HT and minimum-IQ boundaries. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Panic falls through the real injury pipeline
+
+`RpgExpandedPanicFallOperation` is a concrete `world-operation` for an extreme
+panic reaction. Include hazards and supply the same `profile`, owning `actor`,
+current `origin`, landing `destination`, an unused `RpgExpandedFallImpact`, approval
+and trajectory evidence. The impact owns a `RpgExpandedFallInjury` for that profile
+and fall occurrence. Define actual velocity and protection through the existing
+fall interfaces; severity is not converted into invented damage.
+
+Assessment validates the origin, profile, impact and supported world placement
+without moving, rolling or spending time. Execution relocates the actor, resolves
+the actual impact into the existing injury ledger, and retains the impact receipt.
+The reaction charges its interval once and then resolves survivor Will. Replay
+validates the retained operation and never repeats movement, damage or time.
+Tactical placement requires a dedicated adapter and is rejected by this room
+adapter. `expanded-panic-fall.t` specifies preview, impact arithmetic, exception
+rollback, undo, duplicate execution and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+## Panic maneuvers and permission dispatch
+
+For an owned tactical escape turn, pair `RpgExpandedPanicPathOperation` with an
+existing `RpgExpandedPathMove`, `RpgExpandedPanicPathManeuver` and
+`RpgExpandedPanicActionGate`. Both maneuver and gate name the exact `panicReaction`;
+the operation names that same `reaction`, profile, move and maneuver. The reaction
+uses `kind = 'world-operation'` and `seconds = 1` (one maneuver).
+
+The actual path and physical health gate still run. Authorization bypasses only
+the pending extreme-panic restriction; fatigue, injury, unconsciousness, equipment
+and other condition policies continue to apply. An ordinary Move cannot use this
+permission. A failed physical permission consumes the actual battle turn without
+committing the path. The survivor check and subsequent severity use the same
+reaction lifecycle as other extreme panic outcomes.
+
+The battle owns elapsed time. A reaction taken before the final combatant has
+zero immediate shared-clock delta; completing the round adds one second. The
+retained turn permits that round's scheduler advance even when the next panic
+reaction is still pending. It does not permit arbitrary time advancement or a
+second unscheduled reaction turn. The scoped scheduler marker is restored after
+both successful execution and rules exceptions.
+
+The existing four-argument `healthEffortReason` and one-argument
+`healthManeuverReason` remain public and retain ordinary default behavior. Their
+supplied policies now dispatch through `healthEffortReasonFor(...,authorization)`
+and `healthManeuverReasonFor(kind,request)`. New panic gates use these request-aware
+hooks; custom condition policies intended to cover authorized panic actions must
+extend these hooks and chain `inherited` with the authorization/request argument.
+`healthManeuverRequestReason(request)` is the battle entry point. This keeps pure
+assessment free of temporary mutations to the profile's panic state.
+
+`expanded-panic-path.t` / `test_panic_path` specify actual hex movement, ordinary
+permission rejection, clock ownership, failed Will follow-up, replay, mutation
+rejection, rollback, undo and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Interrupted paths still require an explicit supported interruption adapter;
+this operation accepts the existing path mover's verified uninterrupted route.
+
+The technology library now supplies `RpgExpandedPanicObjectOperation` for an
+[adjudicated destructive consequence](technology.md#destructive-panic-consequences).
+It commits real object injury and destruction receipts while the reaction owns
+time. It requires explicit target/protection/material adjudication and does not
+stand in for the unfinished attack-resolution adapter.
+
+## Recorded panic attacks
+
+`RpgExpandedPanicAttackOperation` connects an explicitly recorded attack
+adjudication to an extreme-panic reaction and the actual battle scheduler. Supply
+its `profile`, `reaction`, `battle` and `maneuver`. The maneuver is a
+`RpgExpandedPanicAttackManeuver` with `kind = 'attack'`, no movement, matching
+`target`, a fresh physical `RpgExpandedPanicActionGate`, and a
+`RpgExpandedAdjudicatedStrike`. The reaction owns one logical second; the battle
+advances the shared clock only at the round boundary. A later fighter may finish
+that round while the next panic reaction is pending.
+
+The strike is an **author-adjudication contract**, not automatic attack resolution.
+Record the exact attacker, defender, weapon, mode, effective `attackScore` and
+externally rolled `attackRoll`. For an attempted defense, record `defenseKind`
+(`dodge`, `parry` or `block`), effective `defenseScore` and externally rolled
+`defenseRoll`; otherwise an ordinary successful attack needs
+`defenseWaivedEvidence`. Critical hits instead prohibit all defense fields.
+Supply approval, `legalityEvidence` covering reach, visibility, hands, target
+permissions and chosen options, and `resolutionEvidence` identifying the external
+resolution, protection and injury calculation. These are retained rulings; the
+engine does not invent or reroll the supplied dice. Numeric attack and defense
+classification is checked against full-2008 B347-B348, B374 and B381.
+
+For a hit, supply `basicDamage` and one owned `RpgExpandedWound` against the exact
+defender, with the already adjudicated final injury and body location. A miss or
+successful defense requires zero basic damage and no wound. Set `unready` when
+that attack leaves the weapon unready. The executor spends one loaded round for
+a ranged attack, records attack participation and defense usage, clears aim,
+applies actual injury and distraction, and invokes the existing weapon validation
+and post-strike hooks. It preserves the wound ledger and does not grant points or
+charge a second action. Its direct `apply(request)` requires the currently settling
+panic reaction, a declared Wait response, or a permitted recorded reactive turn.
+Each route retains its own execution authorization and physical permission gate.
+
+This contract admits a single ordinary attack with at most one defense, or a
+supported recorded critical hit with no active defense.
+A critical defense success against a non-thrown ranged attack is supported: the
+attack is defended and causes no injury. Against melee attacks, critical defense
+success still requires an attacker critical-miss adapter and rejects before
+spending. Critical misses, unsupported critical-hit effects, thrown weapons,
+bursts and multiple defenses remain unsupported. A complete automatic expanded attack resolver is outstanding.
+
+For a critical hit, attach a combat-owned `RpgExpandedRecordedCriticalHit` as
+`criticalConsequence`, with matching `owner`, the external `tableRoll`, original
+`location`, `damageType`, `eyePossible`, `rolledBasic`, `maximumBasic`, armor after
+ordinary divisors in `dividedArmor`, and `penetratingDamage`. Approval and evidence
+must identify these supplied facts. The adapter checks the source table's damage
+multiplier or maximum-damage result, armor adjustment and resulting penetration.
+The strike's `basicDamage` must match; its wound must have `criticalHit = true`,
+the resulting location, and the exact required `forceMajorWound` flag. A wholly
+stopped hit records a zero-injury wound. All defense fields must be absent.
+
+Final injury still comes from the author-adjudicated protection/anatomy procedure;
+this adapter does not infer every injury multiplier or special damage effect.
+Rows requiring drops, enhanced shock, temporary disability, forced inactivity,
+hearing or appearance changes reject until those effects have their own executor.
+A forced-major result with positive penetration but zero final injury also rejects
+because the existing wound executor cannot represent that combination. The
+`expanded-panic-critical-hit.t` / `test_panic_critical_hit` fixture specifies the
+fourteen general-table rows currently supported, accounting, preview purity,
+rollback, undo, receipt mutation and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+For a critical Dodge or Block failure, include the combat library and attach an
+`RpgExpandedStrikeDefenseFailure` as `defenseConsequence`. Its `owner` is the
+strike; `failure` is a fresh `RpgExpandedDefenseFailure` with matching defender,
+defense kind, score and roll, a unique ID and evidence. The existing failure
+executor makes a grounded defender prone or leaves the actual shield unready.
+It draws no second defense roll and charges no extra turn. Injury then uses the
+same owned wound. The strike binds both consequence inputs and the retained
+result, rejecting pre-used or mismatched consequences. Direct consequence
+execution outside its owning strike rejects.
+
+A Dodge failure for an actor with tactical placement requires a
+`RpgExpandedDefenseFallPosition` in the consequence's `position` field. Bind its
+`owner` to the consequence and `figure` to the actual defender, with approval and
+evidence. If the defender is not already prone, provide a fresh
+`RpgExpandedFootprintChange` in `footprint`, selecting an adjacent clear upper-body
+hex. The complete footprint is assessed before the attack spends resources;
+posture and geometry then commit together without additional time. An already
+prone defender uses `footprint = nil` and retains its existing occupied hexes.
+Missing, occupied or invalid footprints reject before execution. Airborne falls
+and critical Parry failures still require further adapters. Author legality evidence remains
+necessary: this feature does not make an otherwise illegal Block possible.
+
+`expanded-panic-attack.t` / `test_panic_attack` specify hit, miss, defense,
+ammunition and weapon hooks, preview purity, blocked critical results, incapacity,
+exception rollback, undo, receipt mutation and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md). The additional
+`expanded-panic-defense.t` / `test_panic_defense` specifies critical Dodge/Block
+failure integration, no duplicate dice or ammunition, immutable consequence
+records, rollback, undo and cross-process continuation. The additional
+`expanded-panic-defense-position.t` / `test_panic_defense_position` covers actual
+map occupancy, already-prone behavior, invalid footprints and saved continuation.
+Validation status is recorded in the [completion checklist](fear-completion.md).
+
+## Declared Wait responses
+
+`RpgExpandedWaitDeclaration` records a stationary ordinary Attack response to a
+specific character entering a specific hex (full-2008 B366, B385). Supply `id`,
+`fighter`, `battle`, the already readied `weapon` and `mode`, `targetProfile`,
+`triggerHex`, approval and evidence. Both characters must belong to the encounter.
+Use a `RpgExpandedWaitManeuver` with the declaration and a fresh owned action gate.
+It has `kind = 'wait'` and zero movement. Passing it to `battle.step` spends the
+waiting fighter's turn and records the declaration only if the permission gate
+allows it. A bare abridged maneuver with `kind = 'wait'` rejects because it lacks
+this declaration contract.
+
+`RpgLiteFighter.turnSerial` advances once for each accepted turn, including a
+turn lost to failed physical permission. Invalid preflights do not advance it.
+A declaration is valid only while that serial is unchanged and the fighter still
+has the Wait maneuver. This establishes expiry at the next turn without rounding
+clock timestamps or granting an additional turn. The serial adds persistent state;
+it does not draw randomness or alter ordinary attack resolution.
+
+The tactical library's `RpgExpandedPathWaitInterruption` connects the declaration
+to the matching path stage and a `RpgExpandedAdjudicatedStrike`. It checks the
+waiting fighter's current physical availability, reuses the declaration's owned
+permission, and commits the recorded attack without calling `battle.step` again.
+The declaration becomes used and the fighter's maneuver becomes Attack. It does
+not repeat a start-of-turn consciousness check. The mover then resumes or stops
+through the existing staged path machinery. Actual damage, ammunition and weapon
+hooks use the same recorded-strike contract described above.
+
+This subset does not implement a step as part of the response, other converted
+maneuvers, stop-thrust bonuses, general opportunity fire, nested interrupts or
+automatic attack dice/critical effects. An expired or currently incapacitated
+waiting fighter is rejected during path preflight; the author must remove that
+unavailable interrupt from the chosen route. No conditional fallback is silently
+selected. These limitations keep the broader Wait procedure partial.
+
+`expanded-panic-wait.t` / `test_panic_wait` specify declaration, trigger matching,
+expiry, hit and miss consequences, one clock advance, no duplicate consciousness
+roll, receipt mutation, rollback, undo and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Movement during timed panic
+
+`RpgExpandedFearPanicMovement` executes one non-tactical movement interval for
+row 21 with `behaviorKind = 'agitated-motion'`. Supply `id`, `episode`, `seconds`
+(1–360), `actor`, `origin`, `destination`, positive `distanceYards`, `approved`
+and `routeEvidence` describing an unobstructed route without intervening hazards
+or reactions. Repeated intervals can trace an authored pointless route; neither
+target selection nor pathfinding is invented. The actor must own the episode's
+profile and actually occupy the origin. The distance cannot exceed current Move
+times the interval; posture, independent incapacity, active combat and tactical
+placement can prevent this world-level operation.
+
+Use an owned `RpgExpandedPanicMovementGate` with the same `profile`, its
+`activity` pointing back to this request, and ordinary gate `evidence`. It uses
+`purpose = 'action'` and `requiresMovement = true`. Its narrow permission bypasses
+only the timed-panic prohibition on purposeful action. Ordinary exhaustion,
+consciousness and other health restrictions still apply. Direct gate execution
+outside the owning activity rejects.
+
+Assessment spends nothing and rejects crossing a recovery deadline. Execution
+charges the shared interval once, applies the health gate once, and relocates
+the actor only if permission succeeds. A failed health roll retains its actual
+consequences, time and receipt without movement; replay never retries it.
+`result.allowed` distinguishes a completed movement from a spent failed attempt.
+Changed route facts or interruptions reject within the surrounding action
+transaction. This adapter does not supply tactical movement or hazard resolution.
+
+`test_panic_crying` also specifies movement preview, actual relocation, range and
+evidence rejection, failed consciousness, replay, rollback, undo and separate
+process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Tactical movement during timed panic
+
+With the tactical module installed, `RpgExpandedTimedPanicPath` executes one
+actual Move turn for row 21. Supply a unique `id`, active `episode` whose
+`behaviorKind` is `agitated-motion`, `move` (`RpgExpandedPathMove`), `maneuver`,
+`approved` and original `evidence` explaining the selected pointless route.
+Use `RpgExpandedTimedPanicPathManeuver` with `operation = move` and a fresh
+`RpgExpandedTimedPanicPathGate`; both point back through `timedPanicActivity`.
+The gate belongs to the moving profile and requires ordinary permission evidence.
+The path owns its geometry and interruption facts through the existing tactical
+interfaces. This activity does not select a destination or invent hazards.
+
+Call the activity's `assess()` or `apply()`, rather than stepping the maneuver or
+executing its gate directly. Assessment validates the live episode, path, current
+fighter, independent health restrictions and the next recovery boundary. A due
+panic check must resolve before another Move can begin. Execution spends one
+battle turn and one health permission. The shared clock advances only when the
+battle round ends; the activity adds no second or extra recovery roll. Failed
+exertion records an incapacitated turn without installing a path movement receipt.
+
+The retained activity binds the path definition, permission and outcome to the
+episode. Repeating it validates those receipts and does not move or charge again.
+Use a fresh activity, maneuver, path and gate for the next Move turn. Interrupted
+paths retain their existing concrete interruption contracts. Stationary
+expression has a separate contract below; neither adapter authorizes arbitrary
+purposeful actions during panic.
+
+`test_timed_panic_path` specifies preview, direct-execution rejection, actual hex
+movement, failed exertion, deadline rejection, shared-round timing, rollback, undo
+and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Stationary pointless expression
+
+`RpgExpandedFearPanicExpression` supplies a specific author-adjudication contract
+for row 21's `other-pointless` behavior. The author selects `mode` (`still`,
+`gesture`, `vocalization` or `gesture-and-vocalization`), original `portrayal`,
+`approved` and `evidence` that the behavior is stationary, noncommunicative,
+without object contact or purposeful progress. Supply the ordinary activity
+`id`, active `episode`, `seconds` and owned `healthGate`. The engine does not
+infer these world facts from the portrayal text.
+
+Use `RpgExpandedPanicExpressionGate` pointing back through `activity`. Its profile
+must match the episode. Set `purpose = 'do-nothing'` for `still`, otherwise
+`'action'`; set `requiresMovement` for gesture modes and leave `requiresSpeech`
+unset. Vocal modes use `panicVocalizationReason()` rather than requesting
+articulated speech. Partial speech loss permits noncommunicative sounds; total
+muteness blocks them (full-2008, B125). Mismatched flags reject rather than
+bypassing physical restrictions.
+The gate retains ordinary health checks and cannot execute outside this activity.
+
+A successful interval emits `rpg.expanded.panic-expression` with activity ID,
+mode and portrayal. It records the actual interval and permission in the episode
+history. It does not move the actor, manipulate items, address a social target,
+award learning or perform a check for task progress. Movement, attacks and object
+interactions must use their concrete adapters; author text cannot execute them.
+Failed health permission retains its consequence and spent interval without
+emitting the portrayal event. Replay returns the retained outcome without another
+event or time payment. Preview and recovery deadlines use the shared activity
+contract; run execution inside an action transaction for rollback and undo.
+
+`test_panic_crying` includes this contract's authored cases for portrayal events,
+missing facts, incorrect capability flags, recovery boundaries, direct gate
+rejection, rollback, undo, replay and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+`test_panic_expression_communication` additionally specifies a row-24 acquired
+speech limitation followed by vocal panic, complete muteness rejecting vocal
+expression before spending, and continued eligibility for nonvocal gestures.
+It includes undo and separate-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md); their presence does not establish validated coverage.
+
+
+### Retained panic-activity histories
+
+Timed-panic episodes validate both recovery and activity histories when assessed,
+including through clock advancement and ordinary health permission queries.
+Activities implement `RpgExpandedPanicActivityReceipt.validateReceipt()` without
+recursively assessing their episode. The built-in crying, expression, world
+movement and tactical movement adapters bind their definitions and outcomes and
+validate the owned permission receipt. Tactical activities also validate their
+retained movement or incapacitated-turn result.
+
+The episode checks its recorded activity count, unique IDs, ownership and ordered
+intervals. Removing an activity, changing its portrayal or route, or changing its
+recorded outcome is not a way to undo an action. Use the engine transaction/undo
+mechanisms. Completed episodes retain these histories; replay still validates
+receipts without requiring the character to remain at a former destination.
+
+`test_panic_crying` and `test_timed_panic_path` specify changed definitions,
+removed history, changed outcomes and changed permissions rejecting before a
+new time charge. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Panic execution ownership
+
+`RpgExpandedPanicActionGate.apply()` executes only while its `panicReaction` is
+being committed. Preview remains pure and available beforehand. Invoke the owned
+reaction to perform a tactical panic attack or path move; directly invoking its
+gate, operation or battle maneuver is rejected before an action can escape the
+reaction's retained history. Completed receipts can still be replayed without
+spending again. `test_panic_attack` and `test_panic_path` specify direct-call
+rejection alongside ordinary execution; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Injury-window prerequisite for uncontrolled rage
+
+`RpgExpandedRageInjuryWindow` provides a pure full-2008 B124 trigger assessment.
+Set `profile` and `second` to the current shared ledger second. `assess()` returns
+actual health loss summed from that second's committed expanded wounds, their
+identities, current health capacity and `triggered`. The threshold is strictly
+more than one quarter capacity: three injury triggers at capacity ten, but not
+at capacity twelve. Multiple hits accumulate; earlier seconds do not contribute.
+Repeated assessment consumes no time, resources or randomness.
+
+The assessment validates wound ownership, chronology and injury serial coverage.
+Unrecorded injury returns `rage-window-unrecorded-injury`; it cannot silently
+exclude a direct core injury from the total. Historical assessment returns
+`rage-window-current-capacity-required`, because current capacity does not prove
+capacity at an earlier time. This current-second assessment is not a finalized
+window receipt and does not prohibit later wounds in the same second.
+
+The snapshot is consumed by the owned frenzy entry interfaces documented in
+[traits](traits.md#frenzy-implementation-boundary). Those interfaces own
+self-control, witnessed relationship facts, active effects and exit handling.
+`test_rage_injury_window` specifies exact thresholds, multiple-hit aggregation,
+time separation, purity, replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+`RpgExpandedRageInjuryReceipt` retains a qualifying snapshot for the future entry
+adapter. Supply a unique `id` and `window`; `record()` succeeds only above the
+threshold and permits one receipt per profile/second. It stores health capacity,
+actual injury and the contributing wound identities. Later hits in that second
+do not change the retained total or permit another receipt. Replaying the same
+receipt after the clock advances returns its original snapshot; it does not
+reinterpret the window's current second. Modified snapshot fields reject.
+
+Recording is transactional and consumes no time or randomness. It does not itself
+perform or authorize a self-control roll: the entry adapter must own consumption
+of the receipt together with the resulting episode. This remaining dependency
+is not satisfied by the snapshot alone. The injury-window fixture now specifies
+nonqualifying rejection, duplicate prevention, later hits, mutation rejection,
+rollback, undo and saved continuation for receipts; validation status is recorded in the [completion checklist](fear-completion.md).
+
+
+### Combined injury knockdown dispatch
+
+The shared wound procedure now delegates its combined major-wound check to
+`profile.applyInjuryKnockdown(result, modifier)`. The default retains the existing
+check, stun, prone posture, held-item unreadiness and severe-failure
+unconsciousness behavior. Expanded wound preflight delegates the corresponding
+score check to `profile.injuryKnockdownReason(modifier)`; it still prepares the
+existing drop plan and commits injury through the same wound ledger.
+
+This hook is a prerequisite for explicit injury policies, not a new immunity.
+The frenzy override uses the approved, recorded knockdown/consciousness ruling.
+`RpgExpandedFrenzyKnockdownRuling` binds that decision to the actual wound and
+episode, retains injury and does not invent a combined-check modifier.
+`test_knockdown_dispatch` specifies default success/failure, one dispatch per
+wound, unchanged random consumption, rollback, undo and saved continuation.
+Validation status is recorded in the [completion checklist](fear-completion.md).

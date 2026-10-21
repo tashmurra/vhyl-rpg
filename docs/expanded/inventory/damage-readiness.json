@@ -1,0 +1,762 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B378-B383",
+  "review": "Damage ordering, critical dispatch exceptions, readiness and long-action rows inventoried. Trait modifiers, armor catalogues, detailed health precedence and executable validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "damage-readiness-dice",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Damage dice apply adds and multipliers to obtain basic damage. Negative adds cannot lower crushing below zero or other damage types below one. Preserve distinct later reductions and minimum injury rules.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-half-range",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At or beyond half-damage distance, halve basic damage rounding down. Weapons without that distance do not acquire one implicitly. Follow-up damage is never halved, though its carrier can be.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-resisted-range",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an affliction with half-damage distance, add three to resistance instead of halving any damage. Resolve the applicable attack definition before applying this branch.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-armor-layers",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Protection ordinarily adds across applicable layers, with location and damage-type restrictions. Use torso when location rules are absent; respect explicit exceptions and preserve layer identities for later erosion.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-divisor",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Divide armor by an attack divisor of at least two before subtraction, rounding down with minimum zero. Later critical armor reductions must retain their own rounding.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-fractional-divisor",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Divisors .5/.2/.1 multiply armor by 2/5/10. Treat zero armor as one against fractional divisors; reconcile order with the underlying modifier definition before completing zero-armor cases.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-penetration",
+      "source": "full-2008",
+      "pages": "B378-B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Penetration is max(0,basic damage-effective armor). Separate contact, blood, respiratory, sensory and follow-up penetration eligibility under B416 and trait definitions rather than treating them as numeric divisors.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-blunt-trauma",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "When eligible flexible armor completely stops a hit, each full five crushing damage or ten cutting/impaling/piercing damage causes one injury with no wound multiplier. Any penetration prevents this trauma branch. Outer rigid layers first reduce damage reaching flexible protection.",
+      "tests": [
+        "tests/expanded.py::test_thrown_injury"
+      ],
+      "validation_note": " Ordinary thrown torso impacts now support crushing, cutting, piercing and impaling with an outer non-flexible layer followed by flexible DR. Blunt injury occurs only without penetration and uses damage remaining after the outer layer. Expected-value fixtures are authored, unrun. Other damage types, layer orders, anatomy, locations and general attack integration remain incomplete."
+    },
+    {
+      "id": "damage-readiness-corrosion",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each full five basic corrosion damage destroys one armor point for future attacks, not the current hit. Remove worn armor before natural protection. Living natural armor recovers at the health-recovery rate without granting extra health restoration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-self-injury",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unarmed contact with armor at least three causes one crushing damage per full five basic damage rolled, capped by target armor. Apply to striking body part through attacker\u2019s own armor. Target protection with the specified skin limitation is exempt.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-injury-rounding",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Multiply positive penetration by the applicable wound factor, round down and impose minimum one injury. Blunt trauma bypasses this multiplier. Location and anatomy can replace ordinary factors; fatigue-type effects require the fatigue ledger.",
+      "tests": [
+        "tests/expanded.py::test_thrown_injury"
+      ],
+      "validation_note": " Ordinary thrown torso impacts now support crushing, cutting, piercing and impaling with an outer non-flexible layer followed by flexible DR. Blunt injury occurs only without penetration and uses damage remaining after the outer layer. Expected-value fixtures are authored, unrun. Other damage types, layer orders, anatomy, locations and general attack integration remain incomplete."
+    },
+    {
+      "id": "damage-readiness-fast-hits",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional fast rapid-fire resolution rolls one hit, subtracts armor, then multiplies penetration or blunt trauma by hit count. Keep this explicit campaign choice separate from default independent damage rolls and reconcile per-hit wound caps and rounding before supporting combined cases.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-diffuse-area",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Dispersed targets cap piercing/impaling injury at one and other hits at two, except area, cone and explosion damage, which use normal injury. Preserve per-hit caps when multiple projectiles strike.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-low-health-conflict",
+      "source": "full-2008",
+      "pages": "B380; B419",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "B380 halves basic speed and movement below one-third health, while B419 halves movement and dodge. These yield different defense values; document and independently test precedence instead of asserting equivalence.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-injury-ledger",
+      "source": "full-2008",
+      "pages": "B380-B381",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shock, major wounds, consciousness, death thresholds and recovery dispatch through the health module once per injury event. Combat must not maintain a competing health balance or repeat checks already performed by that module.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-internal-follow-up",
+      "source": "full-2008",
+      "pages": "B381",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When carrier penetrates armor, follow-up resolves internally without armor, knockback or blunt trauma. Retain carrier penetration as evidence rather than deciding from final injury alone.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-external-follow-up",
+      "source": "full-2008",
+      "pages": "B381",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When carrier does not penetrate, follow-up occurs outside only if its delivery permits contact activation. Blood-delivered effects fail delivery; an external explosion can still resolve against protection. Do not suppress every follow-up or bypass armor unconditionally.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-linked",
+      "source": "full-2008",
+      "pages": "B381",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Linked effects share one attack roll but resolve damage and resistance separately and simultaneously. Protection can stop one component without stopping the other. Each consequence must be committed once with common attack identity.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-non-damaging",
+      "source": "full-2008",
+      "pages": "B381",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Affliction and binding hits require their resistance or restraint procedures rather than invented health damage. Validate effect-specific attributes, modifiers and escape contracts.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-critical-defense",
+      "source": "full-2008",
+      "pages": "B381",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Critical melee defense immediately sends the attacker to the appropriate critical-miss table. Critical ranged defense normally has no special effect except catching thrown weapons on an eligible barehanded parry; retain rapid-fire dodge\u2019s explicit all-hit exception.",
+      "tests": [
+        "tests/fixtures/expanded-panic-defense.t",
+        "tests/expanded.py::test_panic_defense",
+        "tests/expanded.py::test_panic_attack"
+      ],
+      "validation_note": "Recorded panic/Wait/reactive attacks accept critical defense success against non-thrown ranged attacks and typed owned critical Dodge/Block failures. Consequences bind the actual defense and commit alongside injury with no second defense roll or turn. Tactical/airborne Dodge falls, critical Parry and melee critical-defense successes remain unsupported. Existing standalone readiness and lifecycle fixtures plus new integration fixtures are authored and unrun; validation is in progress."
+    },
+    {
+      "id": "damage-readiness-critical-failure",
+      "source": "full-2008",
+      "pages": "B382",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Eighteen critically fails; seventeen does unless effective skill is at least sixteen. Failure by ten critically fails melee attacks and defenses, but not ranged attacks. This is an explicit override of generic success-roll failure classification.",
+      "tests": [
+        "tests/expanded.py::test_combat_check_classification"
+      ],
+      "validation_note": "Supplied-dice classification and ranged malfunction precedence authored; fixtures unrun. Concrete critical/malfunction effects and committed combat dispatch remain incomplete."
+    },
+    {
+      "id": "damage-readiness-critical-dodge",
+      "source": "full-2008",
+      "pages": "B382",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Critical dodge failure causes prone posture, with no added effect when already prone. Do not use the weapon-miss table; reconcile non-ground movement cases before declaring support.",
+      "tests": [
+        "tests/expanded.py::test_critical_defense_failures",
+        "tests/expanded.py::test_critical_readiness_persistence",
+        "tests/fixtures/expanded-panic-defense.t",
+        "tests/expanded.py::test_panic_defense",
+        "tests/expanded.py::test_panic_attack",
+        "tests/fixtures/expanded-panic-defense-position.t",
+        "tests/expanded.py::test_panic_defense_position"
+      ],
+      "validation_note": "Recorded panic/Wait/reactive attacks accept critical defense success against non-thrown ranged attacks and typed owned critical Dodge/Block failures. Consequences bind the actual defense and commit alongside injury with no second defense roll or turn. Grounded tactical Dodge falls now preflight and commit owned prone footprints, including an already-prone no-op. Airborne and shared-cell falls, critical Parry and melee critical-defense successes remain unsupported. Existing standalone readiness and lifecycle fixtures plus new integration fixtures are authored and unrun; validation is in progress."
+    },
+    {
+      "id": "damage-readiness-critical-block",
+      "source": "full-2008",
+      "pages": "B382",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Critical block failure loses shield grip and requires one ready turn before blocking again. Track actual shield readiness and its effect on other uses.",
+      "tests": [
+        "tests/expanded.py::test_critical_defense_failures",
+        "tests/expanded.py::test_critical_readiness_persistence",
+        "tests/expanded.py::test_shield_ready",
+        "tests/expanded.py::test_shield_ready_health",
+        "tests/expanded.py::test_shield_ready_routes",
+        "tests/expanded.py::test_shield_ready_persistence",
+        "tests/fixtures/expanded-panic-defense.t",
+        "tests/expanded.py::test_panic_defense",
+        "tests/expanded.py::test_panic_attack"
+      ],
+      "validation_note": "Recorded panic/Wait/reactive attacks accept critical defense success against non-thrown ranged attacks and typed owned critical Dodge/Block failures. Consequences bind the actual defense and commit alongside injury with no second defense roll or turn. Tactical/airborne Dodge falls, critical Parry and melee critical-defense successes remain unsupported. Existing standalone readiness and lifecycle fixtures plus new integration fixtures are authored and unrun; validation is in progress."
+    },
+    {
+      "id": "damage-readiness-malfunction-priority",
+      "source": "full-2008",
+      "pages": "B382",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "If firearm malfunction and critical miss both qualify, apply only malfunction. Check precedence before rolling a critical-outcome table, preserving random consumption.",
+      "tests": [
+        "tests/expanded.py::test_combat_check_classification"
+      ],
+      "validation_note": "Supplied-dice classification and ranged malfunction precedence authored; fixtures unrun. Concrete critical/malfunction effects and committed combat dispatch remain incomplete."
+    },
+    {
+      "id": "damage-readiness-ready-access",
+      "source": "full-2008",
+      "pages": "B382",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A normally accessible belt, pocket, holster, scabbard or slung item takes one ready action. A reachable table/rack item also takes one but requires standing still. Specific rummaging and stowing rules remain separate.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-handoff",
+      "source": "full-2008",
+      "pages": "B382",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combat handoff needs giver ready action offering one item, receiver ready action accepting it, both stationary and within reach. Two-way exchange requires separate actions for each item; retain ownership until the actual transfer.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-ground-pickup",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ground pickup requires kneeling, crawling, sitting or lying unless arm reach is at least two yards. A standing actor without that reach must first change posture.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-reload-progress",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reloading consumes consecutive ready actions according to weapon definition. Completing reload does not also grant an attack in that second. Keep ammunition transfer and partial progress consistent with each loading mechanism.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-shield-ready",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Preparing a shield/cloak from ground or back takes ready actions equal to defense bonus; putting it away takes the same. Dropping it takes one ready action rather than ordinary free item release. Bucklers instead use weapon rules.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-long-action",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Owned physical tasks consume one ready action per second until required duration is met. Author supplies interruptibility: some retain partial progress while others restart. Duration and interruption policy must be known before commitment.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-hurry",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional dramatic shortening requires author-selected saved time, dexterity/intelligence check and concrete failure consequences before the roll. It is not automatic success or free time; reject undefined contracts.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-grip",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Where weapon definition requires it, switching reach takes one extra ready turn. An already unready weapon can be readied at any legal reach in that ready action.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-unwieldy",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Weapons requiring post-use readying remain ready after attack when strength reaches at least 1.5 times required strength. Falling, losing balance or stun can unready this weapon category independently of attack. Resolve relationship to unbalanced parry restrictions explicitly.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-stow",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Holstering a pistol takes one second; returning a weapon to scabbard or belt loop takes two. Do not reuse drawing time for stowing.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-knockback-eligibility",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only crushing and cutting cause ordinary knockback; crushing can penetrate, cutting qualifies only when stopped by armor.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-knockback-distance",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each full multiple of target strength minus two in basic damage causes one yard away; strength at most three instead uses one yard per damage. For absent strength or a nonresisting target use health capacity; resolve its relationship to the low-strength branch explicitly.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-knockback-balance",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After knockback check best dexterity, acrobatics or trained throwing skill, at -1 for each yard beyond the first; perfect balance adds four. Failure causes a fall.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-knockback-collision",
+      "source": "full-2008",
+      "pages": "B378",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An obstruction converts knockback distance to collision speed, applying actual collision consequences to target and obstacle. Knockback-only attacks cause no direct injury but can cause collision injury.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-small-piercing",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face small-piercing uses factor 1/2, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-burning",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face burning uses factor 1, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-corrosion",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face corrosion uses factor 1, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-crushing",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face crushing uses factor 1, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-fatigue",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face fatigue uses factor 1, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-piercing",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face piercing uses factor 1, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-toxic",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face toxic uses factor 1, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-cutting",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face cutting uses factor 3/2, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-large-piercing",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face large-piercing uses factor 3/2, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-impaling",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face impaling uses factor 2, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-huge-piercing",
+      "source": "full-2008",
+      "pages": "B379",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary torso/face huge-piercing uses factor 2, subject to anatomy and location overrides. Fatigue uses its own resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-nonliving-impaling",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving anatomy uses 1 for impaling; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-nonliving-huge-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving anatomy uses 1 for huge-piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-nonliving-large-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving anatomy uses 1/2 for large-piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-nonliving-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving anatomy uses 1/3 for piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-nonliving-small-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "nonliving anatomy uses 1/5 for small-piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-uniform-impaling",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "uniform anatomy uses 1/2 for impaling; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-uniform-huge-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "uniform anatomy uses 1/2 for huge-piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-uniform-large-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "uniform anatomy uses 1/3 for large-piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-uniform-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "uniform anatomy uses 1/5 for piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-factor-uniform-small-piercing",
+      "source": "full-2008",
+      "pages": "B380",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "uniform anatomy uses 1/10 for small-piercing; reconcile location-specific exceptions with B552 before integration.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-lift-one",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "One-handed lift through twice basic lift takes two seconds.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-lift-two",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Two-handed lift through eight times basic lift takes four seconds.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-open",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Opening an unlocked container or door takes one second.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-search-container",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Finding a nonhidden loose item in a container takes 2d seconds; roll once for the owned attempt.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-search-pocket",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Finding an item in own pocket takes 1d seconds; distinguish searching from readying an already located item.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-write",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Writing a short note takes five seconds per sentence.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-read",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reading a short note takes two seconds per sentence.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-swallow",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Swallowing a pill or potion takes two seconds; effect onset belongs to its definition.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-ignite",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Lighting a suitable candle, torch, match or fuse takes two seconds with actual ignition equipment.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-stow-small",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Scabbarding a weapon or placing a small item in a pocket takes two seconds.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-search-person",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A reasonably thorough search of a nonresisting person takes sixty seconds.",
+      "tests": []
+    },
+    {
+      "id": "damage-readiness-duration-armor",
+      "source": "full-2008",
+      "pages": "B383",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Donning armor takes three seconds per piece, or thirty per piece for sealed space/powered suits; track actual pieces rather than treating a suit as one by default.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B378-B382",
+      "reason": "Named examples and dialogue excluded; mechanical sequencing and exact-half injury example inform the retained requirements."
+    }
+  ]
+}

@@ -1,9 +1,131 @@
 {
   "schema": 1,
-  "scope": "Character/social interim milestone; neither full-reference nor complete per-module coverage is claimed.",
   "inventory_complete": false,
-  "validation": "See docs/releases/v1.1.0-alpha.1.md for the release validation record; partial coverage remains explicit.",
+  "scope": "Detailed inventory in progress. Chapter ownership is provisional until every section, table and catalogue entry has been reviewed. No full-conversion claim.",
   "modules": [
+    {
+      "id": "campaign",
+      "title": "Economics, laws, jobs, hirelings and world travel",
+      "pages": "B347; B474; B477; B482-B483; B486-B546",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_legal_access",
+        "tests/expanded.py::test_campaign_minimal"
+      ]
+    },
+    {
+      "id": "characters",
+      "title": "Character accounting and secondary characteristics",
+      "pages": "B10-B31",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_fear_quirks",
+        "tests/character_social.py::test_character_contracts"
+      ]
+    },
+    {
+      "id": "combat",
+      "title": "Maneuvers, attacks, defenses and special combat",
+      "pages": "B357; B362-B383; B393-B417; B547-B558",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_rapid_fire_assessments",
+        "tests/expanded.py::test_combat_check_classification",
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/expanded.py::test_weapon_miss_assessments",
+        "tests/expanded.py::test_unarmed_miss_assessments",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/expanded.py::test_critical_readiness",
+        "tests/expanded.py::test_critical_drop_transactions",
+        "tests/expanded.py::test_critical_drop_persistence",
+        "tests/expanded.py::test_critical_defense_failures",
+        "tests/expanded.py::test_critical_readiness_persistence",
+        "tests/expanded.py::test_shield_ready",
+        "tests/expanded.py::test_shield_ready_health",
+        "tests/expanded.py::test_shield_ready_routes",
+        "tests/expanded.py::test_shield_ready_persistence",
+        "tests/expanded.py::test_weapon_miss_drop",
+        "tests/expanded.py::test_weapon_miss_drop_persistence"
+      ],
+      "validation_note": "Rapid-fire and critical-outcome assessments, explicit critical major-wound integration, owned drops, weapon readiness and ground Dodge/Block consequences authored; fixtures unrun. Complete attack execution, ammunition, other critical/malfunction consequences and multi-hit injury remain incomplete."
+    },
+    {
+      "id": "creatures",
+      "title": "Animals, body forms, mounts and swarms",
+      "pages": "B455-B461",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_animal_training_tables",
+        "tests/expanded.py::test_animal_training_plans",
+        "tests/expanded.py::test_animal_handling",
+        "tests/expanded.py::test_animal_handling_modifiers",
+        "tests/expanded.py::test_animal_performance",
+        "tests/expanded.py::test_animal_sessions",
+        "tests/expanded.py::test_animal_session_persistence",
+        "tests/expanded.py::test_animal_daily",
+        "tests/expanded.py::test_animal_daily_failure",
+        "tests/expanded.py::test_animal_milestones",
+        "tests/expanded.py::test_learned_animal_tasks",
+        "tests/expanded.py::test_animal_values",
+        "tests/expanded.py::test_animal_natural_damage",
+        "tests/expanded.py::test_animal_strength_damage",
+        "tests/expanded.py::test_swarm_protection",
+        "tests/expanded.py::test_swarm_attacks",
+        "tests/expanded.py::test_swarm_counterattacks",
+        "tests/expanded.py::test_swarm_persistence",
+        "tests/expanded.py::test_swarm_exposure_persistence"
+      ]
+    },
+    {
+      "id": "development",
+      "title": "Study, teaching and transformations",
+      "pages": "B290-B296; B497-B499",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_study"
+      ]
+    },
+    {
+      "id": "equipment",
+      "title": "Weapons, armour, equipment and extended numeric tables",
+      "pages": "B16; B264-B289; B345; B550",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "exploration",
+      "title": "Tasks, physical feats, senses and travel",
+      "pages": "B343-B361; B427; B491; B503",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_breath_duration",
+        "tests/expanded.py::test_breath_reserve",
+        "tests/expanded.py::test_breath_transactions",
+        "tests/expanded.py::test_breath_expired_transactions",
+        "tests/expanded.py::test_breath_persistence",
+        "tests/expanded.py::test_swimming_assessments",
+        "tests/expanded.py::test_swimming_encounter",
+        "tests/expanded.py::test_swimming_context",
+        "tests/expanded.py::test_swimming_movement_endurance",
+        "tests/expanded.py::test_swimming_owned_endurance",
+        "tests/expanded.py::test_swimming_transactions",
+        "tests/expanded.py::test_swimming_persistence"
+      ],
+      "validation_note": "Fixed-activity breath reserves and duration arithmetic authored; new fixtures unrun. Preparation actions, skill and trait integration, activity changes and suffocation handoff remain incomplete."
+    },
     {
       "id": "foundation",
       "source": "full-2008",
@@ -14,52 +136,232 @@
       ]
     },
     {
-      "id": "characters",
+      "id": "hazards",
+      "title": "Exposure, poison, disease and aging",
+      "pages": "B428-B444; B540",
       "source": "full-2008",
-      "pages": "B14-B17; B23-B30",
       "status": "partial",
       "tests": [
-        "tests/character_social.py::test_character_contracts"
-      ]
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_acquisition",
+        "tests/expanded.py::test_infection_progression",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence",
+        "tests/expanded.py::test_specific_natural_immunity",
+        "tests/expanded.py::test_immunity_transactions",
+        "tests/expanded.py::test_immunity_persistence",
+        "tests/expanded.py::test_infection_supervision",
+        "tests/expanded.py::test_aging_assessments",
+        "tests/expanded.py::test_aging_sequence",
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence",
+        "tests/expanded.py::test_rejuvenation",
+        "tests/expanded.py::test_rejuvenation_transactions",
+        "tests/expanded.py::test_rejuvenation_persistence",
+        "tests/expanded.py::test_cold_assessments",
+        "tests/expanded.py::test_cold_intervals",
+        "tests/expanded.py::test_cold_overflow",
+        "tests/expanded.py::test_cold_transactions",
+        "tests/expanded.py::test_cold_persistence",
+        "tests/expanded.py::test_heat_assessments",
+        "tests/expanded.py::test_thermal_shock_assessments",
+        "tests/expanded.py::test_immersion_intervals",
+        "tests/expanded.py::test_immersion_overflow",
+        "tests/expanded.py::test_immersion_scheduler_conflict",
+        "tests/expanded.py::test_immersion_transactions",
+        "tests/expanded.py::test_immersion_persistence",
+        "tests/expanded.py::test_airless_seconds",
+        "tests/expanded.py::test_airless_duration",
+        "tests/expanded.py::test_airless_scheduler_conflict",
+        "tests/expanded.py::test_airless_transactions",
+        "tests/expanded.py::test_airless_brain_transactions",
+        "tests/expanded.py::test_airless_breath_conflict",
+        "tests/expanded.py::test_airless_persistence",
+        "tests/expanded.py::test_airless_brain_persistence",
+        "tests/expanded.py::test_radiation_tables",
+        "tests/expanded.py::test_radiation_doses",
+        "tests/expanded.py::test_radiation_shielding",
+        "tests/expanded.py::test_radiation_exposures",
+        "tests/expanded.py::test_fractional_radiation",
+        "tests/expanded.py::test_radiation_traits",
+        "tests/expanded.py::test_radiation_prevention",
+        "tests/expanded.py::test_radiation_treatment",
+        "tests/expanded.py::test_fallout_treatment",
+        "tests/expanded.py::test_radiation_checks",
+        "tests/expanded.py::test_radiation_burns",
+        "tests/expanded.py::test_terminal_condition",
+        "tests/expanded.py::test_radiation_recovery"
+      ],
+      "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
+    },
+    {
+      "id": "health",
+      "title": "Injury, treatment, recovery and fatigue",
+      "pages": "B360-B361; B418-B429; B552-B553",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_scaled_injury_shock",
+        "tests/expanded.py::test_scaled_shock_turn_boundary",
+        "tests/expanded.py::test_knockdown_assessment",
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence",
+        "tests/expanded.py::test_knockdown_equipment_drop",
+        "tests/expanded.py::test_knockdown_equipment_retained",
+        "tests/expanded.py::test_knockdown_drop_persistence",
+        "tests/expanded.py::test_knockdown_anatomy_exceptions",
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_body_supports",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence",
+        "tests/expanded.py::test_unarmed_limb_capacity",
+        "tests/expanded.py::test_limb_grip_retention",
+        "tests/expanded.py::test_limb_grip_persistence",
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months",
+        "tests/expanded.py::test_lasting_recovery",
+        "tests/expanded.py::test_lasting_recovery_persistence",
+        "tests/expanded.py::test_last_wounds_option",
+        "tests/expanded.py::test_last_wound_transactions",
+        "tests/expanded.py::test_last_wound_persistence",
+        "tests/expanded.py::test_later_crippling_care",
+        "tests/expanded.py::test_later_care_calendar",
+        "tests/expanded.py::test_later_care_persistence",
+        "tests/expanded.py::test_expanded_natural_recovery",
+        "tests/expanded.py::test_natural_recovery_transactions",
+        "tests/expanded.py::test_natural_recovery_persistence",
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence",
+        "tests/expanded.py::test_physician_outcomes",
+        "tests/expanded.py::test_physician_check_transactions",
+        "tests/expanded.py::test_physician_check_persistence",
+        "tests/expanded.py::test_expanded_first_aid_values",
+        "tests/expanded.py::test_expanded_bandage",
+        "tests/expanded.py::test_bandage_rejections",
+        "tests/expanded.py::test_bandage_transactions",
+        "tests/expanded.py::test_bandage_persistence",
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence",
+        "tests/expanded.py::test_surgery_assessments",
+        "tests/expanded.py::test_resuscitation_assessment",
+        "tests/expanded.py::test_cardiac_condition",
+        "tests/expanded.py::test_cardiac_resuscitation",
+        "tests/expanded.py::test_cardiac_transactions",
+        "tests/expanded.py::test_cardiac_clock",
+        "tests/expanded.py::test_cardiac_clock_batch",
+        "tests/expanded.py::test_cardiac_clock_batch_persistence",
+        "tests/expanded.py::test_cardiac_clock_immunity",
+        "tests/expanded.py::test_cardiac_clock_revival",
+        "tests/expanded.py::test_cardiac_clock_persistence",
+        "tests/expanded.py::test_cardiac_deadline_transactions",
+        "tests/expanded.py::test_cardiac_persistence",
+        "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_fatigue_strength",
+        "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
+        "tests/expanded.py::test_health_maneuver",
+        "tests/expanded.py::test_maneuver_transactions",
+        "tests/expanded.py::test_maneuver_route_parity",
+        "tests/expanded.py::test_maneuver_persistence",
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_collapse_defense",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence",
+        "tests/expanded.py::test_critical_major_wound",
+        "tests/expanded.py::test_critical_major_transactions",
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_stun",
+        "tests/expanded.py::test_fear_fatigue",
+        "tests/expanded.py::test_fear_fatigue_stun",
+        "tests/expanded.py::test_fear_stun_modifiers",
+        "tests/expanded.py::test_fear_stun_persistence",
+        "tests/expanded.py::test_fear_combat",
+        "tests/expanded.py::test_fear_retching",
+        "tests/expanded.py::test_owned_retching",
+        "tests/expanded.py::test_retching_persistence",
+        "tests/expanded.py::test_retching_fatigue",
+        "tests/expanded.py::test_retching_combat",
+        "tests/expanded.py::test_retching_meals",
+        "tests/expanded.py::test_retching_remedy",
+        "tests/expanded.py::test_remedy_persistence",
+        "tests/expanded.py::test_fear_quirk_stun",
+        "tests/expanded.py::test_fear_faint",
+        "tests/expanded.py::test_fear_faint_injury",
+        "tests/expanded.py::test_bleeding_outcomes",
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_pain_sensitivity",
+        "tests/expanded.py::test_terminal_condition",
+        "tests/expanded.py::test_radiation_recovery",
+        "tests/expanded.py::test_nausea_episodes",
+        "tests/expanded.py::test_nausea_triggers",
+        "tests/expanded.py::test_nausea_motion",
+        "tests/expanded.py::test_impaired_clotting",
+        "tests/expanded.py::test_clotting_loss",
+        "tests/expanded.py::test_clotting_care",
+        "tests/expanded.py::test_clotting_restoration"
+      ],
+      "validation_note": "Partial recovery includes scheduled physician checks and owned bandaging/post-bandaging treatment using shared time and health. Source outcome, rollback, undo and save-continuation fixtures authored but unrun. Interrupted care, bleeding, protected-injury treatment, accumulation, broader anatomy, surgery and permanent-disability accounting remain incomplete."
+    },
+    {
+      "id": "magic",
+      "title": "Spell procedures, catalogue and enchantment",
+      "pages": "B234-B253; B479-B483",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
+    },
+    {
+      "id": "psionics",
+      "title": "Ability-based powers and interference",
+      "pages": "B254-B257",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents",
+        "tests/expanded.py::test_psionic_warning",
+        "tests/expanded.py::test_psionic_resistance",
+        "tests/expanded.py::test_psionic_static",
+        "tests/expanded.py::test_static_ready",
+        "tests/expanded.py::test_static_health_defaults",
+        "tests/expanded.py::test_psionic_advancement",
+        "tests/expanded.py::test_psionic_purchase",
+        "tests/expanded.py::test_psionic_history",
+        "tests/expanded.py::test_history_purchase"
+      ],
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
     },
     {
       "id": "skills",
+      "title": "Skill catalogues, defaults, prerequisites and techniques",
+      "pages": "B167-B233",
       "source": "full-2008",
-      "pages": "B168-B175; B230-B233",
       "status": "partial",
       "tests": [
+        "tests/expanded.py::test_numbers",
         "tests/character_social.py::test_character_contracts",
         "tests/character_social.py::test_learning_requirements"
       ]
     },
     {
-      "id": "traits",
-      "source": "full-2008",
-      "pages": "B101-B121",
-      "status": "partial",
-      "tests": [
-        "tests/character_social.py::test_trait_prices"
-      ]
-    },
-    {
-      "id": "templates",
-      "source": "full-2008",
-      "pages": "B258-B259",
-      "status": "partial",
-      "tests": [
-        "tests/character_social.py::test_character_contracts",
-        "tests/character_social.py::test_template_composition",
-        "tests/character_social.py::test_template_technology",
-        "tests/character_social.py::test_template_choices",
-        "tests/character_social.py::test_template_score_options"
-      ]
-    },
-    {
       "id": "social",
+      "title": "Reactions, influence and social permissions",
+      "pages": "B359; B494-B495; B559-B562",
       "source": "full-2008",
-      "pages": "B27-B30; B494-B495; B518-B519; B560-B562",
       "status": "partial",
       "tests": [
+        "tests/expanded.py::test_social_status",
         "tests/character_social.py::test_social_status",
         "tests/character_social.py::test_combat_reactions",
         "tests/character_social.py::test_aid_reactions",
@@ -70,6 +372,1137 @@
         "tests/character_social.py::test_failed_recognition",
         "tests/character_social.py::test_social_save"
       ]
+    },
+    {
+      "id": "stress",
+      "title": "Original optional accumulating stress",
+      "source": "campaign-stress-v1",
+      "pages": "Original campaign policy",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_stress",
+        "tests/expanded.py::test_stress_fear"
+      ]
+    },
+    {
+      "id": "tactical",
+      "title": "Hex movement, facing and close combat",
+      "pages": "B384-B392",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_tactical_geometry",
+        "tests/expanded.py::test_tactical_movement_values",
+        "tests/expanded.py::test_tactical_positions",
+        "tests/expanded.py::test_tactical_position_persistence",
+        "tests/expanded.py::test_tactical_footprints",
+        "tests/expanded.py::test_tactical_footprint_persistence",
+        "tests/expanded.py::test_tactical_posture_maneuvers",
+        "tests/expanded.py::test_tactical_posture_health",
+        "tests/expanded.py::test_tactical_paths"
+      ],
+      "validation_note": "Ordered path assessments, placement, occupancy and posture maneuvers with expanded action gates authored; fixtures unrun. Movement execution, forced footprint transitions and close combat pending."
+    },
+    {
+      "id": "technology",
+      "title": "Electronics, inventions, artifacts and object damage",
+      "pages": "B471-B479; B483-B485; B529-B533; B546",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_broken_weapons",
+        "tests/expanded.py::test_object_capacity",
+        "tests/expanded.py::test_object_injury_thresholds",
+        "tests/expanded.py::test_breakdown_transactions",
+        "tests/expanded.py::test_breakdown_days",
+        "tests/expanded.py::test_breakdown_persistence",
+        "tests/expanded.py::test_repair_prices",
+        "tests/expanded.py::test_breakdown_repair",
+        "tests/expanded.py::test_breakdown_repair_persistence",
+        "tests/expanded.py::test_major_repair_parts",
+        "tests/expanded.py::test_major_parts_preflight",
+        "tests/expanded.py::test_major_parts_persistence",
+        "tests/expanded.py::test_computer_reservations",
+        "tests/expanded.py::test_terminal_switches",
+        "tests/expanded.py::test_computer_persistence",
+        "tests/expanded.py::test_computer_storage",
+        "tests/expanded.py::test_computer_storage_persistence",
+        "tests/expanded.py::test_computer_links",
+        "tests/expanded.py::test_computer_link_persistence",
+        "tests/expanded.py::test_computer_transfers",
+        "tests/expanded.py::test_computer_transfer_persistence",
+        "tests/expanded.py::test_computer_recording",
+        "tests/expanded.py::test_computer_recording_persistence",
+        "tests/expanded.py::test_remote_terminal",
+        "tests/expanded.py::test_remote_terminal_persistence",
+        "tests/expanded.py::test_software_task_support",
+        "tests/expanded.py::test_software_requirements",
+        "tests/expanded.py::test_software_purchase",
+        "tests/expanded.py::test_software_purchase_persistence",
+        "tests/expanded.py::test_invention_proposals",
+        "tests/expanded.py::test_invention_concept",
+        "tests/expanded.py::test_invention_theories",
+        "tests/expanded.py::test_invention_concept_persistence",
+        "tests/expanded.py::test_prototype_assessments",
+        "tests/expanded.py::test_invention_facilities",
+        "tests/expanded.py::test_invention_facilities_persistence",
+        "tests/expanded.py::test_invention_blueprints",
+        "tests/expanded.py::test_invention_blueprint_persistence",
+        "tests/expanded.py::test_invention_facilities_reuse",
+        "tests/expanded.py::test_prototype_start",
+        "tests/expanded.py::test_prototype_start_calendar",
+        "tests/expanded.py::test_prototype_start_persistence",
+        "tests/expanded.py::test_prototype_work",
+        "tests/expanded.py::test_prototype_work_persistence",
+        "tests/expanded.py::test_prototype_accident",
+        "tests/expanded.py::test_prototype_accident_protection",
+        "tests/expanded.py::test_prototype_accident_persistence",
+        "tests/expanded.py::test_prototype_completion",
+        "tests/expanded.py::test_prototype_completion_outcomes",
+        "tests/expanded.py::test_prototype_completion_persistence",
+        "tests/expanded.py::test_prototype_defects",
+        "tests/expanded.py::test_prototype_defects_persistence",
+        "tests/expanded.py::test_prototype_operation",
+        "tests/expanded.py::test_prototype_operation_boundaries",
+        "tests/expanded.py::test_prototype_operation_persistence",
+        "tests/expanded.py::test_prototype_testing",
+        "tests/expanded.py::test_prototype_testing_outcomes",
+        "tests/expanded.py::test_prototype_testing_persistence",
+        "tests/expanded.py::test_production_assessments",
+        "tests/expanded.py::test_production_line",
+        "tests/expanded.py::test_production_line_persistence",
+        "tests/expanded.py::test_production_order",
+        "tests/expanded.py::test_production_order_line",
+        "tests/expanded.py::test_production_order_persistence",
+        "tests/expanded.py::test_cinematic_invention_assessments",
+        "tests/expanded.py::test_inventor_permission",
+        "tests/expanded.py::test_cinematic_concepts",
+        "tests/expanded.py::test_cinematic_advanced_concept",
+        "tests/expanded.py::test_cinematic_concept_persistence",
+        "tests/expanded.py::test_cinematic_prototypes",
+        "tests/expanded.py::test_cinematic_tools",
+        "tests/expanded.py::test_cinematic_prototype_persistence",
+        "tests/expanded.py::test_rapid_concepts",
+        "tests/expanded.py::test_rapid_concept_retry",
+        "tests/expanded.py::test_rapid_purchases",
+        "tests/expanded.py::test_rapid_search",
+        "tests/expanded.py::test_rapid_search_failure",
+        "tests/expanded.py::test_rapid_salvage",
+        "tests/expanded.py::test_rapid_salvage_failed_search",
+        "tests/expanded.py::test_rapid_starts",
+        "tests/expanded.py::test_rapid_materials",
+        "tests/expanded.py::test_device_analysis"
+      ],
+      "validation_note": "Object assessments, fault repairs, computer processing/storage/link/transfer/recording and task equipment contributions and required-software technology fallback authored; fixtures unrun. Combined tools, interrupted recording, structural injury/repair and maintenance scheduling remain incomplete."
+    },
+    {
+      "id": "templates",
+      "title": "Character and ancestry packages",
+      "pages": "B258-B263; B445-B454",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers",
+        "tests/character_social.py::test_character_contracts",
+        "tests/character_social.py::test_template_composition",
+        "tests/character_social.py::test_template_technology",
+        "tests/character_social.py::test_template_choices",
+        "tests/character_social.py::test_template_score_options"
+      ]
+    },
+    {
+      "id": "traits",
+      "title": "Trait catalogues, modifiers, benefits and restrictions",
+      "pages": "B32-B166",
+      "source": "full-2008",
+      "status": "partial",
+      "tests": [
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_maintenance_prices",
+        "tests/expanded.py::test_fear_quirks",
+        "tests/expanded.py::test_fear_quirk_stun",
+        "tests/character_social.py::test_trait_prices",
+        "tests/expanded.py::test_radiation_traits",
+        "tests/expanded.py::test_pain_sensitivity",
+        "tests/expanded.py::test_terminal_condition",
+        "tests/expanded.py::test_impaired_clotting"
+      ]
+    },
+    {
+      "id": "vehicles",
+      "title": "Vehicle operation and combat",
+      "pages": "B462-B470; B554-B555",
+      "source": "full-2008",
+      "status": "pending",
+      "tests": []
     }
-  ]
+  ],
+  "features": [
+    {
+      "id": "secondary-purchases",
+      "module": "characters",
+      "pages": "B16-B17",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedValidateCharacter",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "skill-costs",
+      "module": "skills",
+      "pages": "B170; B175",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedSkillLevel",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "paid-defaults",
+      "module": "skills",
+      "pages": "B173",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedSkillScore",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "technique-investment",
+      "module": "skills",
+      "pages": "B229-B232",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTechnique",
+      "tests": [
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_technique_bases"
+      ],
+      "validation_note": "Attribute bases, technique chains, ownership and uncapped ratings added; new native checks authored but not run while validation is paused. Catalogue prerequisites and operational effects remain pending."
+    },
+    {
+      "id": "positive-trait-pricing",
+      "module": "traits",
+      "pages": "B101",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedModifiedCost",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "extended-range",
+      "module": "equipment",
+      "pages": "B550",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "rpgExpandedRangeModifier",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "extended-damage-rows",
+      "module": "equipment",
+      "pages": "B15-B16",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedDamageDice",
+      "tests": [
+        "tests/expanded.py::test_numbers",
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "validation_note": "Printed rows and above-100 progression authored. New native cases unrun; gaps and combat integration pending."
+    },
+    {
+      "id": "task-time",
+      "module": "exploration",
+      "pages": "B346",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedTaskTime",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "character-packages",
+      "module": "templates",
+      "pages": "B258-B259",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedTemplate",
+      "tests": [
+        "tests/expanded.py::test_numbers"
+      ]
+    },
+    {
+      "id": "study",
+      "module": "development",
+      "pages": "B292-B293",
+      "source": "full-2008",
+      "status": "implemented",
+      "symbol": "RpgExpandedStudy",
+      "tests": [
+        "tests/expanded.py::test_study"
+      ]
+    },
+    {
+      "id": "signed-trait-pricing",
+      "module": "traits",
+      "pages": "B101; B110",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedSignedModifiedCost",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ]
+    },
+    {
+      "id": "self-control-pricing",
+      "module": "traits",
+      "pages": "B120-B121",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedSelfControlCost",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ]
+    },
+    {
+      "id": "negative-trait-accounting",
+      "module": "traits",
+      "pages": "B110; B120-B121",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedDisadvantage",
+      "tests": [
+        "tests/expanded.py::test_negative_pricing"
+      ]
+    },
+    {
+      "id": "learning-prerequisites",
+      "module": "skills",
+      "pages": "B169",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedPrerequisite",
+      "tests": [
+        "tests/expanded.py::test_learning_requirements"
+      ],
+      "validation_note": "Declarative skill, level and trait requirements gate character validation, purchases and study. New native checks unrun; catalogue wiring and conditional prerequisites remain pending."
+    },
+    {
+      "id": "equipment-familiarity",
+      "module": "skills",
+      "pages": "B169",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFamiliarity",
+      "tests": [
+        "tests/expanded.py::test_familiarity",
+        "tests/expanded.py::test_familiarity_persistence"
+      ],
+      "validation_note": "Owned practice, initial allowance and contextual penalty implemented; new checks unrun. Similarity recognition, technology exceptions and shared study/practice remain pending."
+    },
+    {
+      "id": "skill-technology-modifiers",
+      "module": "skills",
+      "pages": "B168",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedTechnologyModifier",
+      "tests": [
+        "tests/expanded.py::test_technology_modifiers"
+      ],
+      "validation_note": "Use table and contextual combination implemented; native table checks authored but unrun. Learning restrictions and catalogue wiring remain pending."
+    },
+    {
+      "id": "optional-specialty-defaults",
+      "module": "skills",
+      "pages": "B169-B170",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedOptionalSpecialty",
+      "tests": [
+        "tests/expanded.py::test_optional_specialties"
+      ],
+      "validation_note": "Approved narrowed definitions, reduced difficulty and generated defaults implemented; new tests unrun. Catalogue-specific exceptions and wiring remain pending."
+    },
+    {
+      "id": "relative-skill-contexts",
+      "module": "skills",
+      "pages": "B171-B172",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedRelativeSkill",
+      "tests": [
+        "tests/expanded.py::test_relative_skill"
+      ],
+      "validation_note": "Alternate-attribute, fixed-base and positive-only strength interfaces authored; expected-value checks unrun, catalogue operation wiring pending."
+    },
+    {
+      "id": "technology-learning-access",
+      "module": "skills",
+      "pages": "B168",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedProfile",
+      "tests": [
+        "tests/expanded.py::test_technology_learning"
+      ],
+      "validation_note": "Starting access, cognitive restrictions and teacher gates implemented for ordinary learning. New checks unrun; programmed capabilities and catalogue exceptions pending."
+    },
+    {
+      "id": "familiarity-recognition",
+      "module": "skills",
+      "pages": "B169",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFamiliarityRecognition",
+      "tests": [
+        "tests/expanded.py::test_recognition",
+        "tests/expanded.py::test_recognition_failure",
+        "tests/expanded.py::test_recognition_similarity",
+        "tests/expanded.py::test_recognition_persistence"
+      ],
+      "validation_note": "Explicit recognition decisions and saved outcomes implemented. New native checks unrun; catalogue-specific integrations and reopening decisions remain pending."
+    },
+    {
+      "id": "occupational-template-composition",
+      "module": "templates",
+      "pages": "B259",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedCombineTemplates",
+      "tests": [
+        "tests/expanded.py::test_template_composition"
+      ],
+      "validation_note": "Basic factory fields compose with fresh ownership and recalculated score requirements. New checks unrun; ancestry, lenses, choices and extended trait components pending."
+    },
+    {
+      "id": "template-technology-settings",
+      "module": "templates",
+      "pages": "B258-B259",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTemplate",
+      "tests": [
+        "tests/expanded.py::test_template_technology"
+      ],
+      "validation_note": "Campaign defaults, explicit personal levels and composition conflicts authored. Native checks unrun."
+    },
+    {
+      "id": "template-choice-groups",
+      "module": "templates",
+      "pages": "B258-B259",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTemplateChoice",
+      "tests": [
+        "tests/expanded.py::test_template_choices",
+        "tests/expanded.py::test_template_score_options"
+      ],
+      "validation_note": "Concrete skill/Lite-trait options, score changes, counts, signed cost bounds and selection receipts authored. Checks unrun; exchanges and unresolved composition pending."
+    },
+    {
+      "id": "size-speed-measurements",
+      "module": "equipment",
+      "pages": "B550",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedSizeModifier",
+      "tests": [
+        "tests/expanded.py::test_extended_measurements"
+      ],
+      "validation_note": "Exact fractional size rows, shape adjustment and explicit speed/range combination authored; new checks unrun, combat and sense integration pending."
+    },
+    {
+      "id": "task-equipment-quality",
+      "module": "equipment",
+      "pages": "B345",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEquipmentAssessment",
+      "tests": [
+        "tests/expanded.py::test_equipment_quality"
+      ],
+      "validation_note": "Explicit adequacy/quality/condition assessment and contextual use authored. New tests unrun; inventory, quality purchasing and catalogue exceptions pending."
+    },
+    {
+      "id": "equipment-acquisition",
+      "module": "equipment",
+      "pages": "B264-B267",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedAcquisition",
+      "tests": [
+        "tests/expanded.py::test_acquisition",
+        "tests/expanded.py::test_equipment_persistence"
+      ],
+      "validation_note": "Single-ledger purchase/issue with explicit availability, permission and ownership checks authored; checks unrun. Merchant transfers, legality and starting allocations pending."
+    },
+    {
+      "id": "equipment-storage",
+      "module": "equipment",
+      "pages": "B266",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEquipmentStorage",
+      "tests": [
+        "tests/expanded.py::test_equipment_storage",
+        "tests/expanded.py::test_equipment_persistence"
+      ],
+      "validation_note": "One-inventory carried/stored distinction and combat/load exclusions authored. Checks unrun; containers, capacity and tool binding pending."
+    },
+    {
+      "id": "equipment-legal-access",
+      "module": "campaign",
+      "pages": "B507",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLegalAccess",
+      "tests": [
+        "tests/expanded.py::test_legal_access",
+        "tests/expanded.py::test_campaign_minimal"
+      ],
+      "validation_note": "Bound equipment-access policy and acquisition gate authored; new checks unrun, credentials issuance, fees and wider law systems pending."
+    },
+    {
+      "id": "control-rating-questions",
+      "module": "campaign",
+      "pages": "B506-B507",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedControlQuestion",
+      "tests": [
+        "tests/expanded.py::test_control_table",
+        "tests/expanded.py::test_control_question",
+        "tests/expanded.py::test_control_certain"
+      ],
+      "validation_note": "Owned uncertain-question roll, deterministic outcomes and explicit tie-completion contract authored. New checks unrun; reaction/encounter consequence integration pending."
+    },
+    {
+      "id": "starting-wealth-allocation",
+      "module": "campaign",
+      "pages": "B25-B27",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedWealthAllocation",
+      "tests": [
+        "tests/expanded.py::test_starting_wealth"
+      ],
+      "validation_note": "Wealth costs, full technology/factor table and one-time cash/property allocation authored. Checks unrun; associated status, employment and actual settled possessions pending."
+    },
+    {
+      "id": "starting-equipment-price",
+      "module": "equipment",
+      "pages": "B27",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedStartingEquipmentPrice",
+      "tests": [
+        "tests/expanded.py::test_starting_equipment_price"
+      ],
+      "validation_note": "Starting purchase multiplier and creation-only acquisition integration authored. Checks unrun; availability remains an explicit world fact."
+    },
+    {
+      "id": "monthly-income-and-debt",
+      "module": "campaign",
+      "pages": "B26",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedMonthlyFinance",
+      "tests": [
+        "tests/expanded.py::test_monthly_finance",
+        "tests/expanded.py::test_monthly_undo"
+      ],
+      "validation_note": "Whole-unit recurring finance, point contributions and per-month settlement receipts authored; tests unrun. Fractional currency, consequence execution, calendar scheduling and buyoff remain pending."
+    },
+    {
+      "id": "points-for-money",
+      "module": "campaign",
+      "pages": "B26",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedMoneyExchange",
+      "tests": [
+        "tests/expanded.py::test_money_exchange"
+      ],
+      "validation_note": "Creation budget and advancement-point exchange paths with per-profile opportunity receipts authored. Checks unrun."
+    },
+    {
+      "id": "purchased-social-standing",
+      "module": "social",
+      "pages": "B28-B29",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedStatus",
+      "tests": [
+        "tests/expanded.py::test_social_status"
+      ],
+      "validation_note": "Culture-specific purchased standing and pure reaction modifier authored. Tests unrun; wealth/rank integration and complete reactions remain pending."
+    },
+    {
+      "id": "rank-and-wealth-standing",
+      "module": "social",
+      "pages": "B26; B28-B30",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedSocialStructure",
+      "tests": [
+        "tests/expanded.py::test_social_status",
+        "tests/expanded.py::test_social_structure"
+      ],
+      "validation_note": "Rank prices, standing bonuses, wealth linkage and replacement policies authored. Tests unrun; institutional prerequisites, privileges and temporary/courtesy ranks pending."
+    },
+    {
+      "id": "reputation-pricing-and-recognition",
+      "module": "social",
+      "pages": "B26-B28",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedReputation",
+      "tests": [
+        "tests/expanded.py::test_reputation",
+        "tests/expanded.py::test_reputation_failure",
+        "tests/expanded.py::test_reputation_persistence"
+      ],
+      "validation_note": "Multifaceted pricing and persistent recognition authored, including failure and save-continuation cases. Checks unrun; buyoff and evolving reputations pending."
+    },
+    {
+      "id": "private-reaction-encounters",
+      "module": "social",
+      "pages": "B494-B495; B560-B561",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedReactionEncounter",
+      "tests": [
+        "tests/expanded.py::test_reaction_encounter"
+      ],
+      "validation_note": "Owned reaction history, private previews, predetermined/bounded attitudes and authored retries implemented; checks unrun. Context-specific consequences and automatic modifier collection pending."
+    },
+    {
+      "id": "combat-reaction-decisions",
+      "module": "social",
+      "pages": "B560-B561",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedCombatReaction",
+      "tests": [
+        "tests/expanded.py::test_combat_reactions"
+      ],
+      "validation_note": "Immediate contextual decisions and combat reaction modifiers authored; cases unrun. Combat AI execution, surrender, ambush and party-membership consequences pending."
+    },
+    {
+      "id": "aid-reaction-decisions",
+      "module": "social",
+      "pages": "B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedAidReaction",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "validation_note": "Willingness, extent, advice, retry/escalation requirements and context modifiers authored. Checks unrun; provider execution and follow-up orchestration pending."
+    },
+    {
+      "id": "information-reaction-decisions",
+      "module": "social",
+      "pages": "B44-B45; B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedInformationReaction",
+      "tests": [
+        "tests/expanded.py::test_information_reactions"
+      ],
+      "validation_note": "Answer modes, research/follow-up requirements and context modifiers authored. Checks unrun; knowledge delivery, bribery commitment and research execution pending."
+    },
+    {
+      "id": "knowledge-constrained-information-delivery",
+      "module": "social",
+      "pages": "B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedInformationDelivery",
+      "tests": [
+        "tests/expanded.py::test_information_delivery"
+      ],
+      "validation_note": "Owned beliefs/fabrications and receipt-based delivery authored with private previews. Checks unrun; payment integration, uncertain knowledge and research execution pending."
+    },
+    {
+      "id": "paid-information-delivery",
+      "module": "social",
+      "pages": "B560; B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedInformationDelivery",
+      "tests": [
+        "tests/expanded.py::test_paid_information"
+      ],
+      "validation_note": "Band-2 demanded payment and incomplete answer commit atomically against existing balances. Checks unrun; broader bribery and professional trade pending."
+    },
+    {
+      "id": "uncertain-prior-knowledge",
+      "module": "social",
+      "pages": "B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedKnowledgeCheck",
+      "tests": [
+        "tests/expanded.py::test_uncertain_knowledge",
+        "tests/expanded.py::test_unknown_fact"
+      ],
+      "validation_note": "Once-per-statement intelligence/skill checks and belief acquisition authored. Checks unrun; cross-process coverage and research procedures pending."
+    },
+    {
+      "id": "trade-reaction-prices",
+      "module": "social",
+      "pages": "B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTradeReaction",
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "validation_note": "Unambiguous fair-price table and favorable offer limits authored. Checks unrun; altered counteroffer source conflict, fractional currency and committed trades remain unresolved."
+    },
+    {
+      "id": "agreed-inventory-trade",
+      "module": "equipment",
+      "pages": "B264-B267; B560-B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTradeTransfer",
+      "tests": [
+        "tests/expanded.py::test_trade_transfer",
+        "tests/expanded.py::test_trade_persistence"
+      ],
+      "validation_note": "Atomic agreed item/bundle transfer with sole ownership, payment, legality and receipts authored. Checks unrun; partial bundles, containers and transport execution pending."
+    },
+    {
+      "id": "bargaining-offer-modifiers",
+      "module": "social",
+      "pages": "B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedTradeModifiers",
+      "tests": [
+        "tests/expanded.py::test_trade_modifiers"
+      ],
+      "validation_note": "Exact ten-percent offer steps and authored commerce rating bonus implemented. Checks unrun; automatic skill qualification and conflicted counteroffer pricing remain pending."
+    },
+    {
+      "id": "private-loyalty-records",
+      "module": "social",
+      "pages": "B518-B519; B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyalty",
+      "tests": [
+        "tests/expanded.py::test_loyalty",
+        "tests/expanded.py::test_loyalty_automatic",
+        "tests/expanded.py::test_loyalty_failure"
+      ],
+      "validation_note": "Owned private initialization and incident checks authored. Checks unrun; timed changes, anniversaries and behavioral consequences pending."
+    },
+    {
+      "id": "noncombatant-loyalty-exposure",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyaltyDanger",
+      "tests": [
+        "tests/expanded.py::test_loyalty_danger"
+      ],
+      "validation_note": "Once-per-incident failed exposure penalty and shared-clock expiry authored. Checks unrun; overlapping exposure policy and permanent effects unresolved."
+    },
+    {
+      "id": "permanent-loyalty-events",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyaltyChange",
+      "tests": [
+        "tests/expanded.py::test_loyalty_performance",
+        "tests/expanded.py::test_loyalty_botched",
+        "tests/expanded.py::test_loyalty_forgiveness",
+        "tests/expanded.py::test_loyalty_forgiveness_low"
+      ],
+      "validation_note": "Completed-adventure and forgiveness changes with persistent event receipts authored. Checks unrun; rescue, pay and anniversaries pending."
+    },
+    {
+      "id": "loyalty-service-anniversaries",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedServiceAnniversary",
+      "tests": [
+        "tests/expanded.py::test_service_anniversary",
+        "tests/expanded.py::test_service_failure",
+        "tests/expanded.py::test_service_automatic"
+      ],
+      "validation_note": "Chronological authored anniversary dates, annual checks and one-time base bonuses implemented. Checks unrun; calendar scheduling and full loyalty integration pending."
+    },
+    {
+      "id": "rescue-loyalty-changes",
+      "module": "social",
+      "pages": "B519",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedRescueLoyalty",
+      "tests": [
+        "tests/expanded.py::test_rescue_loyalty",
+        "tests/expanded.py::test_rescue_no_decrease",
+        "tests/expanded.py::test_rescue_ungrateful",
+        "tests/expanded.py::test_rescue_sacrifice"
+      ],
+      "validation_note": "Saved rescue reaction and optional authored sacrifice bonus implemented. Checks unrun; comparison under temporary loyalty modifiers remains explicitly blocked."
+    },
+    {
+      "id": "higher-pay-loyalty",
+      "module": "social",
+      "pages": "B519; B562",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLoyaltyPayChange",
+      "tests": [
+        "tests/expanded.py::test_loyalty_pay"
+      ],
+      "validation_note": "Separate higher-pay bonus, event receipts and authored month-end expiry implemented. Checks unrun; overlapping rate changes and salary processing remain pending."
+    },
+    {
+      "id": "job-qualifications-and-pay-table",
+      "module": "campaign",
+      "pages": "B516-B517",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJob",
+      "tests": [
+        "tests/expanded.py::test_job_qualifications"
+      ],
+      "validation_note": "Purchased skill prerequisites, roll selection and typical pay table authored. Checks unrun; non-skill requirements and monthly job execution remain pending."
+    },
+    {
+      "id": "monthly-job-earnings",
+      "module": "campaign",
+      "pages": "B516",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "rpgExpandedJobEarnings",
+      "tests": [
+        "tests/expanded.py::test_job_earnings"
+      ],
+      "validation_note": "Pure fixed/variable earnings and next-pay calculation authored. Checks unrun; monthly commitment, consequences, fractional currency and ambiguous automatic-failure margins pending."
+    },
+    {
+      "id": "monthly-employment-settlement",
+      "module": "campaign",
+      "pages": "B516-B517",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobMonth",
+      "tests": [
+        "tests/expanded.py::test_job_month",
+        "tests/expanded.py::test_job_demotion",
+        "tests/expanded.py::test_job_dismissal",
+        "tests/expanded.py::test_job_variable_month"
+      ],
+      "validation_note": "Owned monthly pay, preflight of all rolls, financial/dismissal consequences and receipts authored. Checks unrun; partial months, injury/arrest and economic integration pending."
+    },
+    {
+      "id": "living-cost-derived-prices",
+      "module": "campaign",
+      "pages": "B265-B266; B516",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLifestyle",
+      "tests": [
+        "tests/expanded.py::test_lifestyle_prices"
+      ],
+      "validation_note": "Monthly table and related lodging/food/clothing prices with status caps authored. Checks unrun; regional overrides and lifestyle consequences pending."
+    },
+    {
+      "id": "household-living-payment",
+      "module": "campaign",
+      "pages": "B265; B516",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedLivingPayment",
+      "tests": [
+        "tests/expanded.py::test_household_payment",
+        "tests/expanded.py::test_living_persistence"
+      ],
+      "validation_note": "Full-period household costs and per-beneficiary receipts authored, including dependent support. Checks unrun; installments, local overrides and lifestyle consequences pending."
+    },
+    {
+      "id": "employment-market-assessments",
+      "module": "campaign",
+      "pages": "B517-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedRecruitingModifiers",
+      "tests": [
+        "tests/expanded.py::test_employment_market"
+      ],
+      "validation_note": "Job wealth pay, population, advertising and recruiting modifiers authored. Checks unrun; persistent search resolution and job-seeker-specific modifiers remain pending."
+    },
+    {
+      "id": "job-seeking-assessment",
+      "module": "campaign",
+      "pages": "B516; B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobSeekingModifiers",
+      "tests": [
+        "tests/expanded.py::test_job_seeking"
+      ],
+      "validation_note": "Qualifications separated from monthly performance; IQ search modifiers and explicit prerequisite/ability choices authored. Checks unrun; full trait effects remain pending."
+    },
+    {
+      "id": "weekly-job-search-batch",
+      "module": "campaign",
+      "pages": "B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobSearch",
+      "tests": [
+        "tests/expanded.py::test_job_search_batch",
+        "tests/expanded.py::test_job_search_persistence"
+      ],
+      "validation_note": "Owned weekly batch receipts, actual batch-size penalty, whole-budget preflight, advertising charge and authored opportunities implemented. Checks unrun; recruiting remains unfinished."
+    },
+    {
+      "id": "employment-offer-acceptance",
+      "module": "campaign",
+      "pages": "B516-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEmploymentAcceptance",
+      "tests": [
+        "tests/expanded.py::test_employment_acceptance",
+        "tests/expanded.py::test_employment_acceptance_persistence"
+      ],
+      "validation_note": "Explicit agreement, successful-search or direct-offer evidence, qualification recheck, owned pay/policy and single-vacancy acceptance authored. Checks unrun; automatic scheduling and nonfinancial failure effects remain pending."
+    },
+    {
+      "id": "party-recruiting-search",
+      "module": "campaign",
+      "pages": "B517-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedRecruitingAttempt",
+      "tests": [
+        "tests/expanded.py::test_recruiting_search",
+        "tests/expanded.py::test_recruiting_legal_consequence"
+      ],
+      "validation_note": "Party-owned vacancy, weekly limits, candidate presentation/decline, advertising and explicit fine consequence authored. Checks unrun; other sanctions and setting-specific labor markets pending."
+    },
+    {
+      "id": "recruited-candidate-employment",
+      "module": "campaign",
+      "pages": "B516-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEmploymentAcceptance",
+      "tests": [
+        "tests/expanded.py::test_hire_candidate",
+        "tests/expanded.py::test_hire_candidate_persistence"
+      ],
+      "validation_note": "Successful interview and current vacancy required; explicit candidate/party agreement, owned employment and vacancy closure committed together. Checks unrun; loyalty integration pending."
+    },
+    {
+      "id": "employer-funded-payroll",
+      "module": "campaign",
+      "pages": "B516-B518",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedJobMonth",
+      "tests": [
+        "tests/expanded.py::test_hire_payroll",
+        "tests/expanded.py::test_hire_payroll_unfunded"
+      ],
+      "validation_note": "Optional payer copied from agreed offer; all wage outcomes preflighted and actual wages transferred once with monthly receipt. Checks unrun; arrears, partial wages and insolvency pending."
+    },
+    {
+      "id": "wealth-advancement",
+      "module": "campaign",
+      "pages": "B291; B25-B27",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedWealthAdvancement",
+      "tests": [
+        "tests/expanded.py::test_wealth_advancement",
+        "tests/expanded.py::test_wealth_advancement_sequence",
+        "tests/expanded.py::test_wealth_advancement_persistence"
+      ],
+      "validation_note": "Cash-qualified purchased increase, settled-obligation evidence receipt, shared point spending, repeat and identity guards authored. Tests include transaction and cross-process continuation cases but remain unrun. Employment-driven obligations pending."
+    },
+    {
+      "id": "employment-wealth-obligations",
+      "module": "campaign",
+      "pages": "B517; B291",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedEmploymentWealthReview",
+      "tests": [
+        "tests/expanded.py::test_employment_wealth_requirements",
+        "tests/expanded.py::test_employment_wealth_priority",
+        "tests/expanded.py::test_employment_wealth_transactions",
+        "tests/expanded.py::test_employment_wealth_persistence",
+        "tests/expanded.py::test_employment_wealth_payroll"
+      ],
+      "validation_note": "Shared next-level obligations, spending priority, explicit-category wage integration and automatic successive review after payment authored. All related cases remain unrun; source completeness and full integration validation remain open."
+    },
+    {
+      "id": "fear-mental-quirk-acquisition",
+      "module": "traits",
+      "pages": "B162-B163; B360-B361",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFearQuirkAcquisition",
+      "tests": [
+        "tests/expanded.py::test_fear_quirks"
+      ],
+      "validation_note": "Owned behavioral quirk acquisition and scene adjudication are authored. Fixtures unrun; numeric-penalty quirks, compound integration and sanctions remain incomplete."
+    },
+    {
+      "id": "fear-stun-quirk-composition",
+      "module": "health",
+      "pages": "B361",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFearStun",
+      "tests": [
+        "tests/expanded.py::test_fear_quirk_stun"
+      ],
+      "validation_note": "Concrete optional trait acquisition and owned stun commit atomically. Fixtures unrun; full-table event selection incomplete."
+    },
+    {
+      "id": "owned-fear-faint",
+      "module": "health",
+      "pages": "B361",
+      "source": "full-2008",
+      "status": "partial",
+      "symbol": "RpgExpandedFearFaint",
+      "tests": [
+        "tests/expanded.py::test_fear_faint",
+        "tests/expanded.py::test_fear_faint_injury"
+      ],
+      "validation_note": "Owned fainting, conditional/unconditional injury and boundary recovery for rows 17-19 authored; fixtures unrun. Broader overlapping-cause timing remains incomplete."
+    }
+  ],
+  "detailed_inventories": [
+    "inventory/creation.json",
+    "inventory/skills-procedures.json",
+    "inventory/skills-catalogue-a.json",
+    "inventory/skills-catalogue-b.json",
+    "inventory/skills-catalogue-c.json",
+    "inventory/skills-catalogue-d.json",
+    "inventory/templates.json",
+    "inventory/psionics.json",
+    "inventory/development.json",
+    "inventory/task-resolution.json",
+    "inventory/physical-activities.json",
+    "inventory/senses-influence-fear.json",
+    "inventory/health.json",
+    "inventory/environmental-hazards.json",
+    "inventory/radiation.json",
+    "inventory/poison-illness-aging.json",
+    "inventory/creatures.json",
+    "inventory/vehicles.json",
+    "inventory/technology.json",
+    "inventory/technology-outcomes.json",
+    "inventory/enchantment.json",
+    "inventory/campaign-procedures.json",
+    "inventory/economy-employment.json",
+    "inventory/worlds-law-technology.json",
+    "inventory/world-transit.json",
+    "inventory/setting-mechanics.json",
+    "inventory/combat-modifiers.json",
+    "inventory/size-speed-range.json",
+    "inventory/anatomy-locations.json",
+    "inventory/vehicle-locations.json",
+    "inventory/maneuvers-postures.json",
+    "inventory/critical-outcomes.json",
+    "inventory/object-durability.json",
+    "inventory/reactions.json",
+    "inventory/combat-turns.json",
+    "inventory/appendix.json",
+    "inventory/attacks-defenses.json",
+    "inventory/damage-readiness.json",
+    "inventory/tactical.json",
+    "inventory/special-mobility.json",
+    "inventory/targeting-elevation.json",
+    "inventory/special-weapons.json",
+    "inventory/ranged-special.json",
+    "inventory/guidance-area-cinematic.json",
+    "inventory/traits-foundation.json",
+    "inventory/traits-catalogue-b.json",
+    "inventory/traits-catalogue-c.json",
+    "inventory/traits-catalogue-d.json",
+    "inventory/traits-catalogue-e.json",
+    "inventory/traits-catalogue-f.json",
+    "inventory/traits-catalogue-g.json",
+    "inventory/traits-catalogue-h.json",
+    "inventory/traits-catalogue-i.json",
+    "inventory/traits-catalogue-j.json",
+    "inventory/traits-catalogue-k.json",
+    "inventory/traits-catalogue-l.json",
+    "inventory/traits-catalogue-m.json",
+    "inventory/traits-modifiers-a.json",
+    "inventory/traits-modifiers-b.json",
+    "inventory/traits-modifiers-c.json",
+    "inventory/disadvantages-a.json",
+    "inventory/disadvantages-b.json",
+    "inventory/disadvantages-c.json",
+    "inventory/disadvantages-d.json",
+    "inventory/disadvantages-e.json",
+    "inventory/disadvantages-f.json",
+    "inventory/disadvantages-g.json",
+    "inventory/disadvantages-h.json",
+    "inventory/disadvantages-i.json",
+    "inventory/magic-procedures-a.json",
+    "inventory/magic-procedures-b.json",
+    "inventory/magic-catalogue-a.json",
+    "inventory/magic-catalogue-b.json",
+    "inventory/magic-catalogue-c.json",
+    "inventory/equipment-procedures.json",
+    "inventory/melee-catalogue-a.json",
+    "inventory/melee-catalogue-b.json",
+    "inventory/muscle-ranged-catalogue.json",
+    "inventory/grenades-and-ammunition.json",
+    "inventory/firearms-catalogue-a.json",
+    "inventory/firearms-catalogue-b.json",
+    "inventory/firearms-catalogue-c.json",
+    "inventory/armor-catalogue-a.json",
+    "inventory/armor-catalogue-b.json",
+    "inventory/armor-catalogue-c.json",
+    "inventory/shields-and-carrying.json",
+    "inventory/general-equipment-a.json",
+    "inventory/general-equipment-b.json",
+    "inventory/reference-overview.json",
+    "inventory/condensed-combat.json",
+    "inventory/example-compositions.json",
+    "inventory/spell-summary.json",
+    "inventory/technique-summary.json",
+    "inventory/skill-summary-a.json",
+    "inventory/skill-summary-b.json",
+    "inventory/skill-summary-c.json",
+    "inventory/skill-summary-d.json",
+    "inventory/modifier-summary.json",
+    "inventory/trait-summary-a.json",
+    "inventory/trait-summary-b.json",
+    "inventory/trait-summary-c.json",
+    "inventory/trait-summary-d.json"
+  ],
+  "validation": "Main character/social prerelease evidence is recorded in docs/releases/v1.1.0-alpha.1.md. The merged expanded suite has not been validated; validation is in progress."
 }

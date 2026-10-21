@@ -1,0 +1,1133 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B559-B562",
+  "review": "Eight reaction bands across six contexts and modifiers transcribed; B562 bargaining inconsistency visually confirmed. Detailed skill, trait and employment reconciliation and executable contracts pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "reaction-detail-selection",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Author selects predetermined attitude or a three-dice reaction procedure. Do not roll for a predetermined vital encounter; keep private attitude separate from player-visible dialogue. A reaction guides permitted authored behavior rather than controlling player decisions.",
+      "tests": [
+        "tests/expanded.py::test_reaction_encounter"
+      ],
+      "implementation_note": "Owned private roll/predetermined machinery authored; execution checks paused."
+    },
+    {
+      "id": "reaction-detail-context",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Dispatch general attitude, possible combat, trade, aid, information and loyalty separately. Professional information sales use trade; interrogation uses its skill procedure. Existing combat does not become friendship from a favorable morale result.",
+      "tests": [
+        "tests/expanded.py::test_combat_reactions"
+      ],
+      "implementation_note": "Potential combat/morale decision assessment authored. Other context dispatch and world consequence execution remain pending; checks unrun."
+    },
+    {
+      "id": "reaction-detail-knowledge",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Information outcomes cannot reveal facts beyond the respondent\u2019s knowledge. Track truth as believed, actual truth, deliberate lies and incomplete answers separately. An uncertain knowledge check uses intelligence or the relevant skill.",
+      "tests": [
+        "tests/expanded.py::test_information_delivery",
+        "tests/expanded.py::test_uncertain_knowledge",
+        "tests/expanded.py::test_unknown_fact"
+      ],
+      "implementation_note": "Owned belief/fabrication delivery and once-per-statement uncertain knowledge checks authored. Research execution and complete validation remain pending; checks unrun."
+    },
+    {
+      "id": "reaction-detail-loyalty",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Persist hidden loyalty separately from competence. Hiring and taking employment can both establish it. Integrate later loyalty changes and authorized insight without leaking hidden state in preview.",
+      "tests": [
+        "tests/expanded.py::test_loyalty"
+      ],
+      "implementation_note": "Private initial rating and persistent incident checks authored. Later changes and behavioral consequences remain pending; checks unrun."
+    },
+    {
+      "id": "reaction-detail-fair-price",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use the local current fair price, not a universal catalogue price. Without bargaining, roll only when willingness to transact remains uncertain.",
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "implementation_note": "Unambiguous pricing authored; altered offers at bands 1\u20135 explicitly blocked by source discrepancy. Trade execution and validation remain pending."
+    },
+    {
+      "id": "reaction-detail-counteroffer",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use a revised offered price as counteroffer basis only when less favorable to the player than the fair-price basis. B562 prints an example equating half of 120% with 50%; visually confirmed inconsistency. Define and test a resolution policy before executable completion.",
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "implementation_note": "Unambiguous pricing authored; altered offers at bands 1\u20135 explicitly blocked by source discrepancy. Trade execution and validation remain pending."
+    },
+    {
+      "id": "reaction-detail-floor",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary bargaining cannot reduce purchase price below half fair value. An ulterior motive requires an explicit authored exception and consequence, not an unrestricted discount.",
+      "tests": [
+        "tests/expanded.py::test_trade_reactions"
+      ],
+      "implementation_note": "Unambiguous pricing authored; altered offers at bands 1\u20135 explicitly blocked by source discrepancy. Trade execution and validation remain pending."
+    },
+    {
+      "id": "reaction-detail-skill-use",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Successful context-appropriate skill can add +2; identify the contributing check and avoid duplicate application.",
+      "tests": [
+        "tests/expanded.py::test_reaction_preparation",
+        "tests/expanded.py::test_carousing_entertainment",
+        "tests/expanded.py::test_social_interruption"
+      ],
+      "validation_note": "Owned Administration and Carousing checks validate concrete reaction context, apply action permission and authored duration, then retain the recorded modifier in the private encounter. Success gives +2; Carousing failure gives persistent -2, Administration failure gives no bonus. Retry/replay cannot replace the check or duplicate time and randomness. Predetermined reactions bypass it. Expected values, changed-approach persistence, rollback, undo and saved continuation assertions authored, unrun. Other appropriate skills, entertainment purchasing, special Carousing dangers and carry-over across separately authored encounters remain pending. Carousing entertainment now has an owned author-priced purchase transferring existing payer/provider balances once and adding +1 to +3 to the skill check, with affordability and availability preflight. Failure retains the charge; replay retains the receipt. Money conservation, modifier effects, rollback, undo and saved continuation assertions authored, unrun. Drink consumption and intoxication remain pending. Preparation now revalidates encounter state and bound definitions after elapsed time before payment/rolling and before storing its result. Injected audience, price, payment-capacity, definition-length and intervening-reaction rollback/retry assertions authored, unrun."
+    },
+    {
+      "id": "reaction-detail-skill-mastery",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Specified social skills at level 20+ supply an automatic +2 where eligible; resolve exact skill definitions.",
+      "tests": [
+        "tests/expanded.py::test_reaction_mastery"
+      ],
+      "validation_note": "One selected Diplomacy or Fast-Talk mastery source now supplies its automatic +2 at skill 20+, with Fast-Talk requiring authored permission to speak. The owned reaction attempt records the contribution once without a skill roll, retains the total on replay, and bypasses mastery for predetermined reactions. Threshold, speaking, replay, rollback, undo and saved continuation assertions authored, unrun. Combining multiple mastery sources, other eligible catalogue skills and the separate successful-skill-check bonus remain pending."
+    },
+    {
+      "id": "reaction-detail-approach",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Author judges appropriate approach at +1 or more and inappropriate approach at -1 or -2; record rationale and scope.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-appearance",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Use actual speaker appearance, behavior and applicable social traits; apparent standing and prejudice depend on context, perception and trait definitions.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-combat-strength",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apparent superiority contributes +1 to +5; inferiority -1 to -5. Author supplies perceived comparison before the roll.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-combat-language",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No shared language contributes -2 to combat reaction.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-combat-territory",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Intruding on the other group\u2019s territory contributes -2 to combat reaction.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-trade-offer",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Each 10% price deviation favoring the player contributes -1; favoring the other party contributes +1. Define fractional-step rounding before completion.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-trade-skill",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Trade skill supplies +1, or +2 at level 20 or above; do not add both bands.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-aid-simple",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Very simple assistance contributes +1.",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
+    },
+    {
+      "id": "reaction-detail-aid-complex",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Complex or unreasonable assistance contributes -1 to -3 or worse through a recorded author decision.",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
+    },
+    {
+      "id": "reaction-detail-aid-cost",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Inconvenience or monetary cost contributes -1.",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
+    },
+    {
+      "id": "reaction-detail-aid-standing",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Risk to employment or standing contributes -2 or worse.",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
+    },
+    {
+      "id": "reaction-detail-aid-danger",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Physical danger contributes -1 or worse according to risk and courage.",
+      "tests": [
+        "tests/expanded.py::test_aid_reactions"
+      ],
+      "implementation_note": "Pure decision and modifier assessment authored; world assistance and follow-up orchestration pending. Checks unrun."
+    },
+    {
+      "id": "reaction-detail-information-complexity",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Complex questions contribute -1, very complex questions -2.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-information-intrusion",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Perceived improper curiosity contributes -3.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-information-danger",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Danger caused by answering contributes -3 or worse.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-information-bribe",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Suitable discreet inducement contributes +1 to +4 under B44 price rules; invalid or insulting inducements do not automatically buy a bonus.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-information-profession",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Appropriate knowledge-sharing professions contribute +2 to +4 through authored context.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-loyalty-pay",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Each 10% above prevailing pay adds +1; each 10% below subtracts 1; share the actual employment offer with campaign accounting.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-loyalty-cause",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Commitment to the cause or leader contributes +2 or more.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-loyalty-reputation",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Apply relevant local reputation with its recognition and audience conditions.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-hostile-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Actively oppose the party within authored opportunities. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "hostile",
+        "minimum": null,
+        "maximum": 0,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-hostile-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack without quarter. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "hostile",
+        "minimum": null,
+        "maximum": 0,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-hostile-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Refuse trade; make a combat reaction at -2. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "hostile",
+        "minimum": null,
+        "maximum": 0,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-hostile-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Refuse; make a combat reaction at -4. If hostile action cannot be immediate, authored opposition can occur later. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "hostile",
+        "minimum": null,
+        "maximum": 0,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-hostile-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Respond angrily; make a combat reaction at -2. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "hostile",
+        "minimum": null,
+        "maximum": 0,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-hostile-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Seek the first opportunity to betray, with motive selected by the author. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "hostile",
+        "minimum": null,
+        "maximum": 0,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-very-negative-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Oppose when convenient. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-negative",
+        "minimum": 1,
+        "maximum": 3,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-very-negative-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack and withdraw only when success appears impossible; ongoing combat continues. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-negative",
+        "minimum": 1,
+        "maximum": 3,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-very-negative-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ask three times fair price or offer one third. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-negative",
+        "minimum": 1,
+        "maximum": 3,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-very-negative-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Refuse; make a combat reaction capped at indifferent. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-negative",
+        "minimum": 1,
+        "maximum": 3,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-very-negative-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Supply deliberate falsehoods. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-negative",
+        "minimum": 1,
+        "maximum": 3,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-very-negative-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Leave service, steal or betray at an early opportunity under authored circumstances. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-negative",
+        "minimum": 1,
+        "maximum": 3,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-negative-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Oppose when profitable. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "negative",
+        "minimum": 4,
+        "maximum": 6,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-negative-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Attack unless outnumbered; otherwise retreat with a possible later ambush. Ongoing combat continues. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "negative",
+        "minimum": 4,
+        "maximum": 6,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-negative-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ask twice fair price or offer half. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "negative",
+        "minimum": 4,
+        "maximum": 6,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-negative-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Refuse and disengage. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "negative",
+        "minimum": 4,
+        "maximum": 6,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-negative-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Lie or demand payment; payment yields truthful but incomplete information. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "negative",
+        "minimum": 4,
+        "maximum": 6,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-negative-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Work poorly and leave or betray under moderate temptation. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "negative",
+        "minimum": 4,
+        "maximum": 6,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-unfavorable-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Little interest; hostility depends on profit and danger. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "unfavorable",
+        "minimum": 7,
+        "maximum": 9,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-unfavorable-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Demand departure with threats; continued presence leads to attack unless outnumbered, then retreat. Ongoing combat continues. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "unfavorable",
+        "minimum": 7,
+        "maximum": 9,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-unfavorable-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ask 120% of fair price or offer 75%. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "unfavorable",
+        "minimum": 7,
+        "maximum": 9,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-unfavorable-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Refuse; a changed approach using inducement, pleading or threats permits another roll at -2. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "unfavorable",
+        "minimum": 7,
+        "maximum": 9,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-unfavorable-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Give incomplete information or claim ignorance; a bribe permits a new roll. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "unfavorable",
+        "minimum": 7,
+        "maximum": 9,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-unfavorable-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Consider a better job or sufficiently rewarded betrayal. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "unfavorable",
+        "minimum": 7,
+        "maximum": 9,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-indifferent-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Prefer no involvement. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "indifferent",
+        "minimum": 10,
+        "maximum": 12,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-indifferent-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Separate peacefully; try to disengage from an existing fight. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "indifferent",
+        "minimum": 10,
+        "maximum": 12,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-indifferent-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Use fair price. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "indifferent",
+        "minimum": 10,
+        "maximum": 12,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-indifferent-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Grant simple requests; complex requests fail but permit another attempt at -2. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "indifferent",
+        "minimum": 10,
+        "maximum": 12,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-indifferent-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Answer simple questions; complex answers remain incomplete. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "indifferent",
+        "minimum": 10,
+        "maximum": 12,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-indifferent-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Perform adequately; change jobs only for a clearly better offer and betray only under strong temptation. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "indifferent",
+        "minimum": 10,
+        "maximum": 12,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-favorable-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Offer reasonable everyday help. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "favorable",
+        "minimum": 13,
+        "maximum": 15,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-favorable-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Avoid attacking; follow-up aid/information roll receives +1. Flee an existing fight. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "favorable",
+        "minimum": 13,
+        "maximum": 15,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-favorable-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Use fair price and offer available minor assistance or information. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "favorable",
+        "minimum": 13,
+        "maximum": 15,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-favorable-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Grant reasonable help; unreasonable requests can receive advice instead. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "favorable",
+        "minimum": 13,
+        "maximum": 15,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-favorable-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Answer accurately within knowledge. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "favorable",
+        "minimum": 13,
+        "maximum": 15,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-favorable-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Work hard and accept reasonable hazards shared by the employer. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "favorable",
+        "minimum": 13,
+        "maximum": 15,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-very-favorable-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Offer substantial friendship and help. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-favorable",
+        "minimum": 16,
+        "maximum": 18,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-very-favorable-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Avoid conflict even with an enemy for now; follow-up aid/information receives +3. Flee an existing fight, surrender if escape is unavailable. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-favorable",
+        "minimum": 16,
+        "maximum": 18,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-very-favorable-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Accept proposed purchase at or above 80% of fair price and proposed sale at or below 150%; otherwise counteroffer those limits. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-favorable",
+        "minimum": 16,
+        "maximum": 18,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-very-favorable-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Grant all but wholly unreasonable help and volunteer useful information. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-favorable",
+        "minimum": 16,
+        "maximum": 18,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-very-favorable-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Provide detailed answers and related knowledge. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-favorable",
+        "minimum": 16,
+        "maximum": 18,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-very-favorable-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Work very hard, risk life when needed and usually prioritize the employer. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "very-favorable",
+        "minimum": 16,
+        "maximum": 18,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-exceptional-general",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Prioritize the party within actual capabilities. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "exceptional",
+        "minimum": 19,
+        "maximum": null,
+        "context": "general"
+      }
+    },
+    {
+      "id": "reaction-detail-exceptional-combat",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "May join temporarily; follow-up aid/information receives +5. Surrender in an existing fight. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "exceptional",
+        "minimum": 19,
+        "maximum": null,
+        "context": "combat"
+      }
+    },
+    {
+      "id": "reaction-detail-exceptional-trade",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Accept proposed purchase at or above 50% of fair price and proposed sale at or below 200%; otherwise counteroffer those limits. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "exceptional",
+        "minimum": 19,
+        "maximum": null,
+        "context": "trade"
+      }
+    },
+    {
+      "id": "reaction-detail-exceptional-aid",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Provide available help and additional assistance. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "exceptional",
+        "minimum": 19,
+        "maximum": null,
+        "context": "aid"
+      }
+    },
+    {
+      "id": "reaction-detail-exceptional-information",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Provide complete known information and try to obtain missing facts. A follow-up aid roll receives +2 and cannot fall below unfavorable. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "exceptional",
+        "minimum": 19,
+        "maximum": null,
+        "context": "information"
+      }
+    },
+    {
+      "id": "reaction-detail-exceptional-loyalty",
+      "source": "full-2008",
+      "pages": "B560-B561",
+      "module": "social",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Prioritize the cause or employer even at extreme personal risk. Authored facts and choices must be explicit; numeric constraints and follow-up rolls must be executable.",
+      "tests": [],
+      "reaction_data": {
+        "band": "exceptional",
+        "minimum": 19,
+        "maximum": null,
+        "context": "loyalty"
+      }
+    },
+    {
+      "id": "reaction-detail-author-contract",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Define constrained author inputs for perceived power, danger, reasonable requests, information held, available escape, temptation and motives. Persist decisions and follow-up eligibility. A generic callback returning arbitrary consequences does not implement these rows.",
+      "tests": []
+    },
+    {
+      "id": "reaction-detail-execution",
+      "source": "full-2008",
+      "pages": "B559-B562",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Preview cannot reroll attitude, reveal loyalty, pay bribes or finalize trade. Commit each offer or permitted retry once; preserve context, modifiers, knowledge choices and consequences through rollback, undo and saves.",
+      "tests": []
+    }
+  ]
+}

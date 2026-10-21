@@ -1,0 +1,1639 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B282-B284 low-technology table; B286 wearing procedures",
+  "review": "All 53 early-technology armor profiles visually reviewed. Coverage, included padding, layering, reactions and equip timing recorded. Advanced armor and mount armor are indexed in separate ledgers; runtime and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "armor-fur-loincloth",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fur-loincloth",
+        "technology": 0,
+        "locations": [
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 10,
+        "weight_pounds": "negligible",
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-fur-tunic",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fur-tunic",
+        "technology": 0,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 25,
+        "weight_pounds": 2.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-bronze-breastplate",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bronze-breastplate",
+        "technology": 1,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": true,
+        "cost": 400,
+        "weight_pounds": 20.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-bronze-corselet",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bronze-corselet",
+        "technology": 1,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1300,
+        "weight_pounds": 40.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-cloth-armor",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cloth-armor",
+        "technology": 1,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 30,
+        "weight_pounds": 6.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-leather-armor",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-armor",
+        "technology": 1,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 100,
+        "weight_pounds": 10.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-leather-jacket",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-jacket",
+        "technology": 1,
+        "locations": [
+          "arms",
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 50,
+        "weight_pounds": 4.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-light-scale-armor",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-scale-armor",
+        "technology": 2,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 3
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 150,
+        "weight_pounds": 15.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-segmented-metal-vest",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "segmented-metal-vest",
+        "technology": 2,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 680,
+        "weight_pounds": 26.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mail-hauberk",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mail-hauberk",
+        "technology": 2,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 230,
+        "weight_pounds": 25.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-mail-shirt",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mail-shirt",
+        "technology": 2,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 150,
+        "weight_pounds": 16.0,
+        "legality_class": 4,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1,
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-scale-armor",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "scale-armor",
+        "technology": 2,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 420,
+        "weight_pounds": 35.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-double-mail-hauberk",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "double-mail-hauberk",
+        "technology": 3,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 5,
+          "crushing": 3
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 520,
+        "weight_pounds": 44.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-heavy-steel-corselet",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-steel-corselet",
+        "technology": 3,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 7
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 2300,
+        "weight_pounds": 45.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-steel-breastplate",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "steel-breastplate",
+        "technology": 3,
+        "locations": [
+          "torso"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": true,
+        "cost": 500,
+        "weight_pounds": 18.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-steel-corselet",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "steel-corselet",
+        "technology": 3,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 6
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1300,
+        "weight_pounds": 35.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-steel-laminate-plate",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "steel-laminate-plate",
+        "technology": 3,
+        "locations": [
+          "torso",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 900,
+        "weight_pounds": 30.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-heavy-leather-coat",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-leather-coat",
+        "technology": 4,
+        "locations": [
+          "body",
+          "limbs"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 210,
+        "weight_pounds": 16.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-bronze-armbands",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bronze-armbands",
+        "technology": 1,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 3
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 180,
+        "weight_pounds": 9.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-bronze-greaves",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bronze-greaves",
+        "technology": 1,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 3
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 270,
+        "weight_pounds": 17.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-cloth-sleeves",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cloth-sleeves",
+        "technology": 1,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 20,
+        "weight_pounds": 2.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-heavy-leather-leggings",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-leather-leggings",
+        "technology": 1,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 60,
+        "weight_pounds": 4.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-heavy-leather-sleeves",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-leather-sleeves",
+        "technology": 1,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 50,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-leather-leggings",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-leggings",
+        "technology": 1,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 40,
+        "weight_pounds": 2.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-leather-pants",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-pants",
+        "technology": 1,
+        "locations": [
+          "legs",
+          "groin"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 40,
+        "weight_pounds": 3.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-studded-leather-skirt",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "studded-leather-skirt",
+        "technology": 1,
+        "locations": [
+          "groin",
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 3,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 60,
+        "weight_pounds": 4.0,
+        "legality_class": null,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-mail-leggings",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mail-leggings",
+        "technology": 2,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 110,
+        "weight_pounds": 15.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-mail-sleeves",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mail-sleeves",
+        "technology": 2,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 70,
+        "weight_pounds": 9.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-scale-leggings",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "scale-leggings",
+        "technology": 2,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 250,
+        "weight_pounds": 21.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-scale-sleeves",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "scale-sleeves",
+        "technology": 2,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 210,
+        "weight_pounds": 14.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-heavy-plate-arms",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-plate-arms",
+        "technology": 3,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 7
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1500,
+        "weight_pounds": 20.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-heavy-plate-legs",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-plate-legs",
+        "technology": 3,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 7
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1600,
+        "weight_pounds": 25.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-plate-arms",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "plate-arms",
+        "technology": 3,
+        "locations": [
+          "arms"
+        ],
+        "resistance": {
+          "ordinary": 6
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1000,
+        "weight_pounds": 15.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-plate-legs",
+      "source": "full-2008",
+      "pages": "B283; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "plate-legs",
+        "technology": 3,
+        "locations": [
+          "legs"
+        ],
+        "resistance": {
+          "ordinary": 6
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 1100,
+        "weight_pounds": 20.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-bronze-helmet",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bronze-helmet",
+        "technology": 1,
+        "locations": [
+          "skull",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 3
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 160,
+        "weight_pounds": 7.5,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-bronze-pot-helm",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bronze-pot-helm",
+        "technology": 1,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 3
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 60,
+        "weight_pounds": 5.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-cloth-cap",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cloth-cap",
+        "technology": 1,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 5,
+        "weight_pounds": "negligible",
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-leather-cap",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-cap",
+        "technology": 1,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 32,
+        "weight_pounds": "negligible",
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-leather-helm",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-helm",
+        "technology": 1,
+        "locations": [
+          "skull",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 20,
+        "weight_pounds": 0.5,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-reinforced-open-helmet",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "reinforced-open-helmet",
+        "technology": 2,
+        "locations": [
+          "skull",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 150,
+        "weight_pounds": 6.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-mail-coif",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mail-coif",
+        "technology": 2,
+        "locations": [
+          "skull",
+          "neck"
+        ],
+        "resistance": {
+          "ordinary": 4,
+          "crushing": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 55,
+        "weight_pounds": 4.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "armor-enclosing-short-helmet",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "enclosing-short-helmet",
+        "technology": 3,
+        "locations": [
+          "skull",
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 6
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 240,
+        "weight_pounds": 10.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": true,
+        "notes": [
+          4
+        ]
+      }
+    },
+    {
+      "id": "armor-face-mask",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "face-mask",
+        "technology": 3,
+        "locations": [
+          "face"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 100,
+        "weight_pounds": 2.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-enclosing-helmet",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "enclosing-helmet",
+        "technology": 3,
+        "locations": [
+          "skull",
+          "face",
+          "neck"
+        ],
+        "resistance": {
+          "ordinary": 7
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 340,
+        "weight_pounds": 10.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": true,
+        "notes": [
+          4
+        ]
+      }
+    },
+    {
+      "id": "armor-pot-helm",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pot-helm",
+        "technology": 3,
+        "locations": [
+          "skull"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 100,
+        "weight_pounds": 5.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-cloth-gloves",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cloth-gloves",
+        "technology": 1,
+        "locations": [
+          "hands"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 15,
+        "weight_pounds": "negligible",
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-leather-gloves",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "leather-gloves",
+        "technology": 1,
+        "locations": [
+          "hands"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 30,
+        "weight_pounds": "negligible",
+        "legality_class": null,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-gauntlets",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "gauntlets",
+        "technology": 2,
+        "locations": [
+          "hands"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 100,
+        "weight_pounds": 2.0,
+        "legality_class": 4,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-heavy-gauntlets",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-gauntlets",
+        "technology": 3,
+        "locations": [
+          "hands"
+        ],
+        "resistance": {
+          "ordinary": 5
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 250,
+        "weight_pounds": 2.5,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-sandals",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sandals",
+        "technology": 0,
+        "locations": [
+          "feet"
+        ],
+        "resistance": {
+          "ordinary": 0,
+          "foot-underside": 1
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 25,
+        "weight_pounds": 0.5,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "id": "armor-shoes",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "shoes",
+        "technology": 1,
+        "locations": [
+          "feet"
+        ],
+        "resistance": {
+          "ordinary": 1
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 40,
+        "weight_pounds": 2.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-boots",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "boots",
+        "technology": 2,
+        "locations": [
+          "feet"
+        ],
+        "resistance": {
+          "ordinary": 2
+        },
+        "flexible": true,
+        "front_only": false,
+        "cost": 80,
+        "weight_pounds": 3.0,
+        "legality_class": null,
+        "concealable": true,
+        "restricts_peripheral_vision": false,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "armor-plate-footwear",
+      "source": "full-2008",
+      "pages": "B284; B284 notes",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with typed location and damage coverage. Included padding/clothing must not add a second price, mass or resistance layer. Apply concealability, flexibility, facing and worn vision effects independently. Runtime and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "plate-footwear",
+        "technology": 3,
+        "locations": [
+          "feet"
+        ],
+        "resistance": {
+          "ordinary": 4
+        },
+        "flexible": false,
+        "front_only": false,
+        "cost": 150,
+        "weight_pounds": 7.0,
+        "legality_class": 3,
+        "concealable": false,
+        "restricts_peripheral_vision": false,
+        "notes": []
+      }
+    },
+    {
+      "id": "armor-coverage-vocabulary",
+      "source": "full-2008",
+      "pages": "B282",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Resolve humanoid coverage explicitly: face excludes eyes; limbs means arms and legs but not hands or feet; head means skull, face and eyes; body means neck, torso and groin; full suit covers everything except head. Torso covers chest and abdomen. Author nonhumanoid body mappings explicitly, with invalid combinations rejected rather than silently protecting every location.",
+      "tests": []
+    },
+    {
+      "id": "armor-included-underlayers",
+      "source": "full-2008",
+      "pages": "B282",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Listed armor already includes ordinary light underclothing or customary padding with its cost, resistance and mass. Do not add that padding as another purchased layer or charge it twice. An explicitly additional compatible layer follows the separate layering procedure.",
+      "tests": []
+    },
+    {
+      "id": "armor-no-general-armor-skill",
+      "source": "full-2008",
+      "pages": "B282",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary armor needs no wearing skill. Its mass participates in encumbrance and therefore dodge and applicable fencing or martial-arts parries. Advanced environmental armor uses its specific suit skill requirements; do not impose a universal armor proficiency or waive suit requirements.",
+      "tests": []
+    },
+    {
+      "id": "armor-low-armor-note-bindings",
+      "source": "full-2008",
+      "pages": "B283-B284",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Note 1 permits concealment as or beneath clothing. Note 2 means sandals have resistance one only below the foot while breastplates protect only the front. Note 3 selects lower resistance against crushing. Note 4 grants the restricted-peripheral-vision drawback only while the helmet is worn. Flexible protection also participates in blunt-trauma rules; flexibility alone does not imply concealability.",
+      "tests": []
+    },
+    {
+      "id": "armor-noncombat-reactions",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "In noncombat reactions, armor covering face or whole head gives minus two. Nonconcealable resistance-two-or-higher armor elsewhere, excluding hands and feet, gives minus one, increased to minus two for rigid torso coverage. Add head and other penalties, so rigid torso armor plus a full helmet gives minus four. Do not multiply the body penalty per piece. Apply no penalty when the observer recognizes the wearer's situational need or right to armor; require an explicit observer/context decision, not a universal armor exemption.",
+      "tests": []
+    },
+    {
+      "id": "armor-don-remove-timing",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Donning or removing most armor takes three seconds per piece. Vacuum suits and powered combat suits require thirty seconds per piece except their helmets. Technology-eight-plus flexible armor with inserts and all technology-nine-plus rigid armor have a one-second quick release to drop the insert or step out. Quick removal is not quick donning. Persist progress and interruption state on the actual piece and actor; spend shared action time once.",
+      "tests": []
+    },
+    {
+      "id": "armor-layering",
+      "source": "full-2008",
+      "pages": "B286",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disjoint coverage can be combined freely. Overlapping layers are legal only when the inner layer is both flexible and concealable; add their resistance after selecting each layer's damage-type and facing coverage. An extra layer anywhere except the head causes minus one dexterity and dexterity-based skills. Keep coverage-specific legality separate from the wearer-wide penalty and do not charge the penalty per limb. The treatment of more than two layers must be resolved explicitly before supporting it, rather than inferred from a two-layer example.",
+      "tests": []
+    }
+  ]
+}

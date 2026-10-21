@@ -1,0 +1,629 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B60-B63",
+  "review": "Perception, injury forms, damaging and alternate attacks, phasing, intuition and invisibility enumerated from text. Cross-domain interactions, source decisions and independent executable verification remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-g-broad-spectrum-vision",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Integrated infrared/visible/ultraviolet vision costs 25. Any available light removes vision/combat darkness penalties; total darkness uses thermal-vision behavior. Add three to vision, hidden-clue/object checks using forensics, observation or search, and tracking. It replaces rather than stacks with separately purchased thermal or ultraviolet vision.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-spectrum-extensions",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A +30% low-band extension perceives microwave, radar and radio sources without decoding transmissions. A separate +30% high-band extension perceives X-ray and gamma sources. Both are exceptional campaign permissions, not automatic properties of ordinary sensors.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-hidden-order-awareness",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Hidden-order awareness costs 15 with author permission. Recognize other possessors without error on sight. For author-called checks about coincidence versus conspiracy, use the better of intelligence and the applicable current-affairs, hidden-lore or analysis skill. Do not grant universal knowledge about every mystery.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-hidden-order-spirits",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author defines supernatural entities linked to the hidden order. The awareness trait allows perception/communication and reaction+3 from those entities without controlling them. Other possessors and eligible spirits can perceive the trait in return when in sight; hiding its nature by an ordinary toggle is unavailable.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-gravity-tolerance-0_3",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Gravity tolerance at 0.3 G penalty increments costs 5, replacing the ordinary 0.2 G increment. Apply to differing-gravity penalties without changing native gravity. Ordinary human construction permits at most the ten-point tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-gravity-tolerance-0_5",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Gravity tolerance at 0.5 G penalty increments costs 10, replacing the ordinary 0.2 G increment. Apply to differing-gravity penalties without changing native gravity. Ordinary human construction permits at most the ten-point tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-gravity-tolerance-1",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Gravity tolerance at 1 G penalty increments costs 15, replacing the ordinary 0.2 G increment. Apply to differing-gravity penalties without changing native gravity. Ordinary human construction permits at most the ten-point tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-gravity-tolerance-5",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Gravity tolerance at 5 G penalty increments costs 20, replacing the ordinary 0.2 G increment. Apply to differing-gravity penalties without changing native gravity. Ordinary human construction permits at most the ten-point tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-gravity-tolerance-10",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Gravity tolerance at 10 G penalty increments costs 25, replacing the ordinary 0.2 G increment. Apply to differing-gravity penalties without changing native gravity. Ordinary human construction permits at most the ten-point tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-influence-barrier",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Influence resistance costs 15 and causes ordinary influence-skill attempts to fail automatically unless the actor has the empathic ability appropriate to the subject domain: human-like, animal, plant or spirit. Validate domain and qualifying purchase. Possessing the required ability only enables the normal attempt, not automatic success.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-thermal-vision",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Thermal-only vision is a zero-point feature; freely switching normal/thermal vision costs ten. Heat-emitting targets can be fought without darkness penalties and receive +2 to vision detection. Heat trails at most one hour old grant +3 tracking. Track target emission and actual trail age rather than treating all objects as heat sources.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-thermal-limits",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Thermal vision shows general shape/size but no color. Similar-shape/size discrimination takes -4; author may allow reading reflected heat at vision-4. Heat flashes can blind this sense. Integrated spectrum vision replaces these specific trait effects; define its total-darkness behavior without stacking duplicate bonuses.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-injury-forms",
+      "source": "full-2008",
+      "pages": "B60-B61",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Dispersed, uniform and nonliving injury forms are mutually exclusive. Included component protections must not be purchased or applied twice. Use the corresponding B380 wound procedures and eligible hit locations rather than a global damage-resistance bonus.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-dispersed-body",
+      "source": "full-2008",
+      "pages": "B60",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Dispersed body costs 100, is immune to crippling and uses its special physical-injury limits. It includes no vital fluid, no central brain and no vital organs. Author classifies foes able to slam or grapple the body; ordinary foes cannot. Do not turn this into immunity to all area or energy effects.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-uniform-body",
+      "source": "full-2008",
+      "pages": "B60-B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Uniform body costs 40 and uses reduced piercing/impaling wounds with no central brain or vital organs included. It does not automatically include no vital fluid. Dispatch injury using the verified body-form table.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-no-fluid",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No vital fluid costs five: no bleeding, no blood-borne toxin effects and no attacks dependent on stopping vital-fluid flow. Other toxin delivery and injury remain applicable.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-distributed-brain",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No centralized brain costs five. Skull and eye attacks use face treatment instead of brain damage benefits; eyes can still be crippled. Preserve actual location armor and other applicable face procedures through explicit dispatch.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-no-eyes",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No vulnerable eyes costs five, removes eye targeting and grants immunity to blinding attacks. It does not remove vision unless blindness is separately selected. Author specifies the alternate visual mechanism where needed.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-no-head",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Headless construction costs seven and includes no centralized brain. Skull and face locations and head armor are unnecessary; perception, speech and other senses remain unless separately removed. Author specifies their mechanisms. No neck and no eyes are separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-no-neck",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Neckless construction costs five: no neck target, decapitation, choking or strangulation. It does not itself remove the head or ordinary respiration needs.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-no-vitals",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No targetable vital organs costs five and maps vital/groin hits to torso treatment. Do not grant general immunity to torso injury or poisons.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-nonliving-body",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Nonliving body costs 20 and uses the specified reduced piercing/impaling wound modifiers. It does not automatically include other anatomical protections or immunity to every attack capable of harming machinery.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-natural-attack-base",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A purchased damaging power defaults to a ranged attack with half-damage distance 10, maximum 100, accuracy 3, firing rate one, no finite shot count and recoil one. One level supplies one damage die. Modifiers can change these statistics, and only the melee-attack limitation changes its classification to melee.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-burning",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Burning attack costs 5 per die. Burning damage may ignite eligible material through the fire procedure. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-corrosive",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Corrosive attack costs 10 per die. For each five basic damage reduce target protection by one in addition to ordinary injury; living natural protection recovers at the health-point healing rate. Resolve layer attribution and nonmultiples through the detailed damage procedure. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-crushing",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Crushing attack costs 5 per die. Crushing damage uses knockback and the crushing blunt-trauma procedure. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-cutting",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cutting attack costs 7 per die. Multiply ordinary penetrating flesh damage by 1.5; use eligible knockback and blunt trauma. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-fatigue",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fatigue attack costs 10 per die. Apply damage to fatigue instead of health and exclude machines. Preserve the health system consequences of exhausted fatigue rather than inferring absolute safety from the descriptive nonlethal label. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-impaling",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Impaling attack costs 8 per die. Double ordinary penetrating flesh damage; allow eligible eye/vital targeting, blunt trauma and penetration through specified advanced flexible armor. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-small-piercing",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Small-piercing attack costs 3 per die. Halve ordinary penetrating flesh damage. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-piercing",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Piercing attack costs 5 per die. Ordinary piercing uses its base flesh wound multiplier. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-large-piercing",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Large-piercing attack costs 6 per die. Multiply ordinary penetrating flesh damage by 1.5. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-huge-piercing",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Huge-piercing attack costs 8 per die. Double ordinary penetrating flesh damage. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-toxic",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Toxic attack costs 4 per die. Cellular injury normally excludes machines. Delayed, recurring or resisted effects require their separate modifiers rather than automatic poison behavior. Apply anatomical and location exceptions from the owning combat/health procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-piercing-shared",
+      "source": "full-2008",
+      "pages": "B61-B62",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All piercing subtypes may inflict blunt trauma and target eyes/vitals where anatomy permits. Preserve subtype in the attack and wound records; changing the basic cost must not erase the different multipliers.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-partial-dice",
+      "source": "full-2008",
+      "pages": "B62",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each plus/minus one damage counts as plus/minus 0.3 dice for pricing. A fixed one-point attack counts as 0.25 dice. Round final point cost upward. Keep exact rational pricing separate from rolled damage notation and reject nonsensical negative levels.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-delivery",
+      "source": "full-2008",
+      "pages": "B62",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Poison/disease simulations require delivery modifiers: a noxious follow-up to a natural weapon or projectile; respiratory/contact delivery for gas or spray, often with area/cone/jet; and blood/contact delivery with aura or melee for touch. Do not infer immunity bypass or incubation solely from attack flavor.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-attack-description",
+      "source": "full-2008",
+      "pages": "B62",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author names and describes each attack after its mechanics are selected and may approve specific noncombat uses. Expose those uses as explicit authored actions with consequences and costs. A description cannot silently add unlimited utility or change the verified damage profile.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-alternate-attack-cost",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A mutually exclusive alternate-attack family pays full price for its most expensive attack and one fifth rounded up for each other attack. Allowed members include damaging powers, condition attacks and restraint powers; natural striking limbs require author permission. Determine the highest price after applicable modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-alternate-attack-use",
+      "source": "full-2008",
+      "pages": "B61",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Alternate attacks cannot be used simultaneously even by an actor with additional attacks and cannot be joined by the linked-use enhancement. Disabling critical failure or malfunction of one disables all; suppression or draining of the most expensive disables cheaper members. Track shared availability without deleting purchases or refreshing ammunition/resources.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing",
+      "source": "full-2008",
+      "pages": "B62-B63",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Phasing costs 80 and permits passing through solids, silent full-movement travel in any direction without gravity, ordinary perception and speech. Physical/energy attacks cannot cross between phased and material states by default, and ordinary objects cannot be manipulated. Nonmaterial magic and psionics can still affect the phased actor.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-breath",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Phasing does not remove respiration. Passing through solid material uses underwater suffocation timing. Materialization inside a solid object is invalid. Validate the complete occupied body volume and current breathing history before changing state.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-identity",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author defines the phasing origin, visible appearance, matching forms and exceptional impenetrable barriers. Matching phased beings can affect one another with their physical/energy attacks. Phasing alone grants no invisibility; natural physical versus phased form is descriptive unless constrained by a modifier.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-affect-material",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Material-world interaction enhancement is +100% and required when any ability can affect material targets while phased, including magic, psionics or individually enhanced powers. Magic/psionic skill checks take -3 unless the always-phased exception applies. This price does not by itself convert every physical attack into a cross-state attack.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-carry-none",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Phased carrying up to none encumbrance costs +10%. Included clothing, armor and objects become physical when dropped; materializing them inside objects or characters is invalid. Retain inventory ownership and occupied-space validation.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-carry-light",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Phased carrying up to light encumbrance costs +20%. Included clothing, armor and objects become physical when dropped; materializing them inside objects or characters is invalid. Retain inventory ownership and occupied-space validation.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-carry-medium",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Phased carrying up to medium encumbrance costs +50%. Included clothing, armor and objects become physical when dropped; materializing them inside objects or characters is invalid. Retain inventory ownership and occupied-space validation.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-carry-heavy",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Phased carrying up to heavy encumbrance costs +100%. Included clothing, armor and objects become physical when dropped; materializing them inside objects or characters is invalid. Retain inventory ownership and occupied-space validation.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-partial",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Partial-body phasing costs +20%, permitting material and phased body regions at once. With carrying permission a material hand can acquire material objects. The +100% version additionally permits carried objects to become material without dropping them, requiring a material hand. Track body regions and exposed attack/interaction eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-phasing-permanent",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Always-phased limitation is -50% and forbids materialization while removing the -3 magic/psionic cross-state penalty. Usually-phased is -40% and permits materialization at one fatigue per second. Define the latter inherited penalty interpretation explicitly; enforce resource/time boundaries without repeated activation resetting cost.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-intuition",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Intuitive choice costs 15. For choices without a logical discriminator, author secretly checks intelligence plus the number of good options minus bad options. Success suggests a good option, critical success the best, failure no information and critical failure a bad option. Only one roll per question.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-intuition-contract",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author defines the question identity, alternatives, classifications, bounded clue output and any contextual modifier. Rephrasing the same question must not reset its attempt. The result supplies direction rather than solving an entire investigation or exposing arbitrary hidden facts.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-base",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Invisibility costs 40 and is always active unless modified. It affects one authored sensing type: electromagnetic including ordinary/thermal/ultraviolet/radar, sonar, magnetic or another defined type. Noise, footprints, smell and carried items remain detectable. With nothing carried, gain +9 stealth where visual detection matters.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-observers",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Paranormal remote viewers cannot see a subject invisible to their ordinary sight; devices using such viewing can still detect it without the machine enhancement. Nonvisual paranormal detection remains eligible. Electromagnetic invisibility removes shadow and mirror image by default.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-machines",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Machine-affecting invisibility costs +50% and covers cameras/detectors in the selected sensing domain. Pressure detection remains valid, and electronic targeting gains no hit bonuses against the invisible target. Do not make the target unobservable to every physical sensor.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-carry-none",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Invisible carrying up to none encumbrance costs +10%. Carried items including clothes/armor regain visibility when put down. Bind visibility to actual carried status and selected sensing domain, without granting extra carrying capacity.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-carry-light",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Invisible carrying up to light encumbrance costs +20%. Carried items including clothes/armor regain visibility when put down. Bind visibility to actual carried status and selected sensing domain, without granting extra carrying capacity.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-carry-medium",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Invisible carrying up to medium encumbrance costs +50%. Carried items including clothes/armor regain visibility when put down. Bind visibility to actual carried status and selected sensing domain, without granting extra carrying capacity.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-carry-heavy",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Invisible carrying up to heavy encumbrance costs +100%. Carried items including clothes/armor regain visibility when put down. Bind visibility to actual carried status and selected sensing domain, without granting extra carrying capacity.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-extended",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Additional sensing types cost +20% each. Store explicit selected domains and validate duplicates rather than interpreting the modifier as universal concealment.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-toggle",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Switchable invisibility costs +10%, normally visible with voluntary activation. Usually-on invisibility costs +5%, normally invisible and visible at one fatigue per second. Keep resource duration and normal-state behavior separate; this positive usually-on modifier differs from the phasing limitation.",
+      "tests": []
+    },
+    {
+      "id": "traits-g-invisibility-limits",
+      "source": "full-2008",
+      "pages": "B63",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Machine-only invisibility costs -50% and leaves living observers unaffected. Material-world-only costs -10% and permits phased beings to see normally. Visible mirror image and visible shadow each cost -10%. Record the individual evidence channels and applicable observer domains rather than overriding a single universal visibility flag.",
+      "tests": []
+    }
+  ]
+}

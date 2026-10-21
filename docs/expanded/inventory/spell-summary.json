@@ -1,0 +1,2049 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B304-B306",
+  "review": "All 100 spell-summary rows visually located and mapped to neutral detailed entries, including seven enchantment spells. Individual field reconciliation remains pending; passive recovery and target-specific counter eligibility have explicit detailed-text policies.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "spell-summary-enchant-weapon-accuracy",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "key": "enchant-weapon-accuracy",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-weapon-accuracy",
+          "pages": "B480"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-magic-analyze",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "key": "magic-analyze",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-magic-analyze",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-object-levitate",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "key": "object-levitate",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-object-levitate",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-armor-ward",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "key": "armor-ward",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-armor-ward",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-aura-read",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "key": "aura-read",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-aura-read",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-awaken-alert",
+      "source": "full-2008",
+      "pages": "B304",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "key": "awaken-alert",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-awaken-alert",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-visitor-banish",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "key": "visitor-banish",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-visitor-banish",
+          "pages": "B252"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-visual-blur",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "key": "visual-blur",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-visual-blur",
+          "pages": "B250"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-water-breathing",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "key": "water-breathing",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-water-breathing",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-dexterity-drain",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "key": "dexterity-drain",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-dexterity-drain",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-object-cooling",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "key": "object-cooling",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-object-cooling",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-immediate-command",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "key": "immediate-command",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-immediate-command",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-lasting-light",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "key": "lasting-light",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-lasting-light",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-spell-counter",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "key": "spell-counter",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-spell-counter",
+          "pages": "B250"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-air-create",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "key": "air-create",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-air-create",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-earth-create",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "key": "earth-create",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-earth-create",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-flame-create",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "key": "flame-create",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-flame-create",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-water-create",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "key": "water-create",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-water-create",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-darkness-field",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "key": "darkness-field",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-darkness-field",
+          "pages": "B250"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-awareness-daze",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "key": "awareness-daze",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-awareness-daze",
+          "pages": "B250-B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-mortality-vision",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "key": "mortality-vision",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-mortality-vision",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-vital-contact",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "key": "vital-contact",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-vital-contact",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-energy-deflect",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "key": "energy-deflect",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-energy-deflect",
+          "pages": "B246-B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-projectile-deflect",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "key": "projectile-deflect",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-projectile-deflect",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-enchant-defense",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "key": "enchant-defense",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-defense",
+          "pages": "B480"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-water-destroy",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "key": "water-destroy",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-water-destroy",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-magic-detect",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "key": "magic-detect",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-magic-detect",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-magic-dispel",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "key": "magic-dispel",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-magic-dispel",
+          "pages": "B250"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-stone-to-air",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "key": "stone-to-air",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-stone-to-air",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-earth-solidify",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "key": "earth-solidify",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-earth-solidify",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-enchant-foundation",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "key": "enchant-foundation",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-base-spell",
+          "pages": "B480"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-earth-entomb",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "key": "earth-entomb",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-earth-entomb",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-flame-explosion",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "key": "flame-explosion",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-flame-explosion",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-flame-extinguish",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "key": "flame-extinguish",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-flame-extinguish",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-flame-projectile",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "key": "flame-projectile",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-flame-projectile",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-living-petrification",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "key": "living-petrification",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-living-petrification",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-fog-field",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "key": "fog-field",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-fog-field",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-intelligence-drain",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "key": "intelligence-drain",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-intelligence-drain",
+          "pages": "B250"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-memory-suppress",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "key": "memory-suppress",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-memory-suppress",
+          "pages": "B250"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-enchant-armor",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "key": "enchant-armor",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-armor",
+          "pages": "B480"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-personal-time-boost",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "key": "personal-time-boost",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-personal-time-boost",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-complete-healing",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "key": "complete-healing",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-complete-healing",
+          "pages": "B248-B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-movement-haste",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "key": "movement-haste",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-movement-haste",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-object-heating",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "key": "object-heating",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-object-heating",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-thought-guard",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 39,
+        "key": "thought-guard",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-thought-guard",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-movement-drain",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 40,
+        "key": "movement-drain",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-movement-drain",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-freezing-weapon",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 41,
+        "key": "freezing-weapon",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-freezing-weapon",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-recent-magic-identify",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 42,
+        "key": "recent-magic-identify",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-recent-magic-identify",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-ignition",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 43,
+        "key": "ignition",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-ignition",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-localized-itch",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 44,
+        "key": "localized-itch",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-localized-itch",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-fatigue-transfer",
+      "source": "full-2008",
+      "pages": "B305",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 45,
+        "key": "fatigue-transfer",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-fatigue-transfer",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-temporary-vitality",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "key": "temporary-vitality",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-temporary-vitality",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-light-mote",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "key": "light-mote",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-light-mote",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-electric-bolt",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "key": "electric-bolt",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-electric-bolt",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-lock-open",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "key": "lock-open",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-lock-open",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-magic-seal",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "key": "magic-seal",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-magic-seal",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-greater-healing",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "key": "greater-healing",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-greater-healing",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-group-daze",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "key": "group-daze",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-group-daze",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-group-sleep",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "key": "group-sleep",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-group-sleep",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-surface-thoughts",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "key": "surface-thoughts",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-surface-thoughts",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-lesser-healing",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "key": "lesser-healing",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-lesser-healing",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-odor-mask",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "key": "odor-mask",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-odor-mask",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-pain-pulse",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "key": "pain-pulse",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-pain-pulse",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-limb-paralysis",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "key": "limb-paralysis",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-limb-paralysis",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-planar-summon",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "key": "planar-summon",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-planar-summon",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-planar-transit",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "key": "planar-transit",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-planar-transit",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-enchant-energy-supply",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "key": "enchant-energy-supply",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-energy-supply",
+          "pages": "B480"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-weather-forecast",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "key": "weather-forecast",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-weather-forecast",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-enchant-weapon-damage",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "key": "enchant-weapon-damage",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-weapon-damage",
+          "pages": "B481"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-air-cleanse",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "key": "air-cleanse",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-air-cleanse",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-water-cleanse",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "key": "water-cleanse",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-water-cleanse",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-rest-energy-recovery",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "key": "rest-energy-recovery",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-rest-energy-recovery",
+          "pages": "B248"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-cold-ward",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "key": "cold-ward",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-cold-ward",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-heat-ward",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "key": "heat-ward",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-heat-ward",
+          "pages": "B247"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-feet-bind",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "key": "feet-bind",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-feet-bind",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-earth-seek",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "key": "earth-seek",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-earth-seek",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-water-seek",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "key": "water-seek",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-water-seek",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-individual-seek",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "key": "individual-seek",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-individual-seek",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-emotion-sense",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "key": "emotion-sense",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-emotion-sense",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-hostility-sense",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "key": "hostility-sense",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-hostility-sense",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-spirit-sense",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "key": "spirit-sense",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-spirit-sense",
+          "pages": "B252"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-air-stream",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "key": "air-stream",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-air-stream",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-earth-shape",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "key": "earth-shape",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-earth-shape",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-flame-shape",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "key": "flame-shape",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-flame-shape",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-water-shape",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "key": "water-shape",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-water-shape",
+          "pages": "B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-frontal-guard",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "key": "frontal-guard",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-frontal-guard",
+          "pages": "B252-B253"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-sleep-induce",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "key": "sleep-induce",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-sleep-induce",
+          "pages": "B251"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-muscle-spasm",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "key": "muscle-spasm",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-muscle-spasm",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-enchant-conduit",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "key": "enchant-conduit",
+        "target": {
+          "file": "enchantment.json",
+          "entry": "enchantment-conduit",
+          "pages": "B481"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-noxious-cloud",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 39,
+        "key": "noxious-cloud",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-noxious-cloud",
+          "pages": "B244"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-stone-soften",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 40,
+        "key": "stone-soften",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-stone-soften",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-petrification-reversal",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 41,
+        "key": "petrification-reversal",
+        "target": {
+          "file": "magic-catalogue-b.json",
+          "entry": "magic-catalogue-b-petrification-reversal",
+          "pages": "B246"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-hostile-planar-summon",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 42,
+        "key": "hostile-planar-summon",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-hostile-planar-summon",
+          "pages": "B252"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-departed-contact",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 43,
+        "key": "departed-contact",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-departed-contact",
+          "pages": "B252"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-location-trace",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 44,
+        "key": "location-trace",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-location-trace",
+          "pages": "B249"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-falsehood-sense",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 45,
+        "key": "falsehood-sense",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-falsehood-sense",
+          "pages": "B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-animated-repel",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 46,
+        "key": "animated-repel",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-animated-repel",
+          "pages": "B252"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-air-walking",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 47,
+        "key": "air-walking",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-air-walking",
+          "pages": "B243"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-limb-withering",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 48,
+        "key": "limb-withering",
+        "target": {
+          "file": "magic-catalogue-a.json",
+          "entry": "magic-catalogue-a-limb-withering",
+          "pages": "B244-B245"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-corpse-animate",
+      "source": "full-2008",
+      "pages": "B306",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The visually located summary row maps to this detailed neutral spell definition. Reconcile difficulty, class/resistance, group, casting time, duration, initial energy, maintenance and prerequisites individually before claiming equivalence. A mapped row is not executable coverage or a completed field audit.",
+      "tests": [],
+      "summary_data": {
+        "row": 49,
+        "key": "corpse-animate",
+        "target": {
+          "file": "magic-catalogue-c.json",
+          "entry": "magic-catalogue-c-corpse-animate",
+          "pages": "B252"
+        },
+        "reconciliation": "mapped; field audit pending"
+      }
+    },
+    {
+      "id": "spell-summary-notation",
+      "source": "full-2008",
+      "pages": "B304-B306",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Summary difficulty distinguishes hard and very hard. Brackets after class name identify resistance; an area base cost is not the total cast cost. Maintenance may mean same as initial, half initial, a numeric amount or unavailable. Permanent effect is distinct from continuing maintenance. Asterisks and special fields require the detailed entry, not numeric defaults.",
+      "tests": []
+    },
+    {
+      "id": "spell-summary-passive-recovery",
+      "source": "full-2008",
+      "pages": "B248; B306",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The summary prints one-second casting and permanent duration for rest-energy recovery; B248 explicitly requires quiet rest with no ritual or die roll and no energy cost. Select the detailed passive rest procedure for this definition, preserving skill thresholds and magic-field restrictions. Do not add a recurring cast action or a one-time permanent recovery upgrade. Add independent time-boundary and zero-randomness fixtures before completion.",
+      "tests": []
+    },
+    {
+      "id": "spell-summary-counter-known-target",
+      "source": "full-2008",
+      "pages": "B250; B305",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The summary lists the target spell alongside aptitude in the prerequisite column, while the detailed definition lists aptitude as learning prerequisite and requires knowing each target spell to use the counter. Keep one learnable counter spell and a target-specific use precondition; use the lower of the counter and target-spell skills. Do not create a separate counter spell purchase for every target or forbid learning it without a chosen future target.",
+      "tests": []
+    },
+    {
+      "id": "spell-summary-other-groups",
+      "source": "full-2008",
+      "pages": "B247; B305-B306; B480",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Foundational enchantment requires spells in ten other groups in both B480 and B305, excluding its own group. General planar summoning differs: B247 says ten different groups, while B306 says ten other groups. Preserve the detailed metadata and record the unresolved own-group eligibility difference; do not silently tighten the prerequisite from the summary. Banishment and hostile summoning require individual reconciliation as well. Add fixtures for exactly ten groups including and excluding the spell's own group after choosing and documenting precedence.",
+      "tests": []
+    }
+  ]
+}

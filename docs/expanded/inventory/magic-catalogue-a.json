@@ -1,0 +1,917 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B243-B245",
+  "review": "First twenty-seven spell definitions enumerated with neutral keys, classes, groups, costs, durations and prerequisites. Effects, ambiguous boundaries and catalogue cross-references require executable integration and independent validation.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "magic-catalogue-a-air-cleanse",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Remove airborne impurities and refresh stale air. One radius-one volume supports one resting person for forty-five minutes without renewal; author scales for exertion and occupants. Partial clearing of lethal vapor can allow remaining vapor to spread, so preserve actual cloud distribution. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "air-cleanse",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 1
+        },
+        "maintenance": null,
+        "duration": "instantaneous permanent purification",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-a-air-create",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create breathable air in empty space, producing a brief outward breeze where air already exists and bubbles underwater. Fill cavities within solids without bursting them; forbid casting inside living beings. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "air-create",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 1
+        },
+        "maintenance": null,
+        "duration": "created air permanent; transient motion five seconds",
+        "prerequisites": {
+          "spells_all": [
+            "air-cleanse"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-air-stream",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Choose stream origin for range penalty. Stream is one yard wide and extends five yards per effect energy. Each second roll one die per full two energy for knockback only, with no injury. Preserve origin, direction, targets and movement; low-energy flows may have no knockback dice. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "air-stream",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "maintenance": "same as casting energy before skill discount",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "air-create"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-odor-mask",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Suppress subject and possessions odor, preventing smell detection without changing other properties or immunity to environmental effects. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "odor-mask",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": 2,
+        "duration": "one hour",
+        "prerequisites": {
+          "spells_all": [
+            "air-cleanse"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-weather-forecast",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Forecast ordinary weather at the chosen place/time, excluding future magical interference. Other planets/planes are ineligible. Treat remote continental multipliers as the specified alternative geographic categories, with author-defined boundaries. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "weather-forecast",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "information"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "five per forecast day",
+        "energy": {
+          "formula": "two per forecast day; double for outside general area; quadruple for another continent"
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "group_count": {
+            "group": "air",
+            "minimum": 4
+          }
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-water-breathing",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Allow breathing water while retaining ordinary air breathing. Integrate actual immersion, suffocation and expiry without granting underwater movement or pressure immunity. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "water-breathing",
+        "groups": [
+          "air",
+          "water"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 4
+        },
+        "maintenance": 2,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "air-create",
+            "water-destroy"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-air-walking",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Grant the air-walking trait effects. Falling breaks the spell; immediate recasting permits one second of fall, about five yards, then an air landing causing one die injury unless a surface is hit first. Resolve the actual turn/height sequence. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "air-walking",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 2,
+        "duration": "sixty seconds or until falling",
+        "prerequisites": {
+          "spells_all": [
+            "air-stream"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-stone-to-air",
+      "source": "full-2008",
+      "pages": "B243",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Convert earth/stone to air in regular shapes with longest dimension no more than four times shortest. One cubic foot yields one resting-person minute of breathing air. Define fractional volume and transition between listed cost scales explicitly rather than double-charging volume. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "stone-to-air",
+        "groups": [
+          "air",
+          "earth"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 2,
+        "energy": {
+          "small_volume": "one per cubic foot",
+          "large_volume": "five per cubic yard"
+        },
+        "maintenance": null,
+        "duration": "permanent",
+        "prerequisites": {
+          "spells_all": [
+            "air-create",
+            "earth-shape"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-noxious-cloud",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Create a dense harmful cloud that flows downhill and disperses by authored wind/terrain. Breathing exposure prompts health once per minute, failure one die injury, and also invokes suffocation. Own cloud movement, dispersal and per-subject exposure clocks. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "noxious-cloud",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 1
+        },
+        "maintenance": null,
+        "duration": "up to five minutes, reduced by dispersal",
+        "prerequisites": {
+          "spells_all": [
+            "air-cleanse"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-electric-bolt",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Use half-damage range fifty yards, maximum one hundred, accuracy three; damage one die minus one burning per invested energy. Metal armor contributes protection one. Injury prompts health at -1 per two injury against stun, with health recovery each turn. Electronics use surge rules; metal obstructions intercept the bolt. Authored conductor effects may interrupt concentration and cause at most one injury, not arbitrary area electrocution. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "electric-bolt",
+        "groups": [
+          "air"
+        ],
+        "classes": [
+          "projectile"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": "one through three seconds of creation/growth",
+        "energy": {
+          "per_build_second": "one through aptitude level",
+          "maximum_build_seconds": 3
+        },
+        "maintenance": null,
+        "duration": "held projectile until discharge",
+        "prerequisites": {
+          "aptitude": 1,
+          "group_count": {
+            "group": "air",
+            "minimum": 6,
+            "exclude_self": true
+          }
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-localized-itch",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cause -2 dexterity until the subject spends a full turn scratching the chosen spot, longer if armor obstructs access. Only one instance affects the subject. Define scratching action legality and actual access instead of automatic one-turn expiry. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "localized-itch",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "until qualifying scratch action",
+        "prerequisites": {},
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-muscle-spasm",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Affect a selected voluntary muscle; hand targeting drops held contents. During gesture-dependent unfinished casting, the victim must pass dexterity or restart. Other uses need a concrete authored muscle/action consequence. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "muscle-spasm",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous",
+        "prerequisites": {
+          "spells_all": [
+            "localized-itch"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-pain-pulse",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Require will against crying out and dexterity against an authored precarious-position accident; impose -3 dexterity and related skills on next turn. Gesture-dependent casting requires will or restarts. Pain resistance gives +3 to these checks and pain sensitivity gives -4. Do not apply both attribute reduction and an extra duplicate skill penalty. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "pain-pulse",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "one second; next-turn dexterity penalty",
+        "prerequisites": {
+          "spells_all": [
+            "muscle-spasm"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-dexterity-drain",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduce dexterity and derived skills by one per effect energy; no repeated application to derived targets. Maintenance rounds half original effect cost upward before the skill discount. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "dexterity-drain",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 5
+        },
+        "maintenance": "ceil(casting effect energy / 2)",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "muscle-spasm"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-movement-drain",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reduce movement and dodge each by one per effect energy. Preserve ordinary minimum/legality conventions rather than converting a negative movement value into movement credit. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "movement-drain",
+        "groups": [
+          "body",
+          "movement"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 4
+        },
+        "maintenance": "same as casting effect energy",
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_any": [
+            "dexterity-drain",
+            "movement-haste"
+          ]
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-feet-bind",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Immobilize feet. Each subject turn permits strength resistance at -5 against the original casting margin. While bound, nonranged weapon skills take -2 and dodge is halved, rounded down. Escape ends the effect without a new caster roll. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "feet-bind",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": null,
+        "duration": "sixty seconds or until escape",
+        "prerequisites": {
+          "spells_all": [
+            "movement-drain"
+          ]
+        },
+        "resistance": "strength"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-limb-paralysis",
+      "source": "full-2008",
+      "pages": "B244",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Must deliver to a limb; another location does not trigger the intended effect. Ignore armor and resolve resistance on contact. Successful effect temporarily cripples the identified limb. Explicitly settle whether wrong-location contact consumes the held charge from the class wording. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "limb-paralysis",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "contact",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": null,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "aptitude": 1,
+          "spells_all": [
+            "pain-pulse"
+          ],
+          "group_count": {
+            "group": "body",
+            "minimum": 5,
+            "includes": [
+              "pain-pulse"
+            ]
+          }
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-limb-withering",
+      "source": "full-2008",
+      "pages": "B244-B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deliver to a limb, ignore armor and resolve resistance on contact. Success cripples the actual limb and causes one die injury; only magical healing restores the withering. Source-tag the impairment separately from its injury. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "limb-withering",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "contact",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 5
+        },
+        "maintenance": null,
+        "duration": "permanent until magical healing",
+        "prerequisites": {
+          "spells_all": [
+            "limb-paralysis"
+          ],
+          "aptitude": 2
+        },
+        "resistance": "health"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-vital-contact",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A successful touch strike causes one die injury per effect energy, ignoring armor and hit-location distinctions. Unlike the group living-target default, undead are valid targets. Do not add an unsupported resistance roll. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "vital-contact",
+        "groups": [
+          "body"
+        ],
+        "classes": [
+          "contact"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "minimum": 1,
+          "maximum": 3
+        },
+        "maintenance": null,
+        "duration": "instantaneous injury",
+        "prerequisites": {
+          "spells_all": [
+            "limb-withering"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-hostility-sense",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "On one person report hostile intent and degree; over an area report only that someone is hostile, without identifying who. Preserve the different information scope and choose target mode before casting. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "hostility-sense",
+        "groups": [
+          "communication"
+        ],
+        "classes": [
+          "information",
+          "area"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "base": 1,
+          "minimum": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-a-emotion-sense",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Reveal current emotions and loyalty toward the caster for a living target, with useful detail dependent on sapience. Use actual authored emotional/loyalty state, not a forced attitude change. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "emotion-sense",
+        "groups": [
+          "communication"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "spells_all": [
+            "hostility-sense"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-falsehood-sense",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Choose whether to inspect the last statement or any lies in the previous five minutes; may indicate severity. Without touch, use ordinary spell distance penalty rather than long-distance information range. Preserve statement history and belief-versus-truth semantics explicitly. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "falsehood-sense",
+        "groups": [
+          "communication"
+        ],
+        "classes": [
+          "information",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 2
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {
+          "spells_all": [
+            "emotion-sense"
+          ]
+        },
+        "resistance": "will"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-surface-thoughts",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Read only present surface thoughts of a living subject. Apply -2 for unknown native language and -2 for different ancestry, or -4 or worse for an alien mind. Target is unaware except on critical failure, overriding generic resisted-spell notice. Authored thought output must not expose unrelated hidden state. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "surface-thoughts",
+        "groups": [
+          "communication"
+        ],
+        "classes": [
+          "regular",
+          "resisted"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 10,
+        "energy": {
+          "fixed": 4
+        },
+        "maintenance": 2,
+        "duration": "sixty seconds",
+        "prerequisites": {
+          "spells_all": [
+            "falsehood-sense"
+          ]
+        },
+        "resistance": "will"
+      }
+    },
+    {
+      "id": "magic-catalogue-a-thought-guard",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Incoming thought-reading or control must first win a quick contest against this spell, then face the subject normal resistance separately. Already-established control is unaffected. Persist original effective spell skill for later contest use. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "thought-guard",
+        "groups": [
+          "communication"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": 1,
+        "duration": "ten minutes",
+        "prerequisites": {
+          "spells_all": [
+            "falsehood-sense"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-earth-seek",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Locate direction and approximate distance of nearest significant amount of one selected earth/stone/metal type using long-distance penalties. Known sources may be excluded only when declared before casting, applying the information-class exclusion cost. Author defines significant amount. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "earth-seek",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "information"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 10,
+        "energy": {
+          "fixed": 3
+        },
+        "maintenance": null,
+        "duration": "instantaneous information",
+        "prerequisites": {}
+      }
+    },
+    {
+      "id": "magic-catalogue-a-earth-shape",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Move earth at movement two and reshape it; stable forms persist, unsupported forms collapse when the spell ends. No direct damage except burial of an immobile victim. A threatened subject gets its next normal turn to escape burial or a created hole; trapped subjects get strength -4 each turn to dig free, potentially worse beyond two cubic yards. Apply breath/suffocation clocks. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "earth-shape",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "per_cubic_yard": 1,
+          "minimum": 2
+        },
+        "maintenance": "ceil(casting effect energy / 2)",
+        "duration": "sixty seconds; stable shape remains",
+        "prerequisites": {
+          "spells_all": [
+            "earth-seek"
+          ]
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-earth-solidify",
+      "source": "full-2008",
+      "pages": "B245",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Convert earth/clay to ordinary hard stone, never precious gemstones. Resolve host volume/material and resulting structural properties, not a generic item-label replacement. Apply the recorded class rules, learning prerequisites and owned cost/duration lifecycle; definition metadata alone is not executable coverage.",
+      "tests": [],
+      "spell_data": {
+        "key": "earth-solidify",
+        "groups": [
+          "earth"
+        ],
+        "classes": [
+          "regular"
+        ],
+        "attribute": "intelligence",
+        "difficulty": "hard",
+        "casting_seconds": 1,
+        "energy": {
+          "per_cubic_yard": 3,
+          "minimum": 3
+        },
+        "maintenance": null,
+        "duration": "permanent",
+        "prerequisites": {
+          "spells_all": [
+            "earth-shape"
+          ],
+          "aptitude": 1
+        }
+      }
+    },
+    {
+      "id": "magic-catalogue-a-group-defaults",
+      "source": "full-2008",
+      "pages": "B244-B245",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Body spells ordinarily affect living subjects only, with explicit exceptions such as vital-contact. Earth spells ordinarily do not affect stone or metal unless individually stated; earth-seek and stone-to-air explicitly do. Group membership alone must not override per-spell target rules.",
+      "tests": []
+    }
+  ]
+}

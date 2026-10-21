@@ -1,0 +1,555 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B88 striking strength-B93",
+  "review": "Striking strength continuation, skill aptitudes, movement/durability, communication, remote manipulation, environmental control and martial permissions enumerated. Catalogue linkage, timing, geometry, numerical verification and integrated tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-l-striking-strength",
+      "source": "full-2008",
+      "pages": "B88-B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Striking strength costs five per point and adds only for thrust/swing damage. It does not increase health or basic lift. Apply size and no-fine-manipulation discounts when those apply to the purchased underlying strength.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-low-frequency-hearing",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Low-frequency hearing alone is a zero-point feature; combined with ordinary hearing costs five. It detects below forty hertz and adds one to tracking ground-moving quarry. Low-frequency speech already includes it, so do not charge or apply it twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-low-frequency-speech",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exclusive low-frequency speech is zero points; voluntary ordinary/low-frequency switching costs ten. It includes low-frequency hearing, carries twice normal speech distance, takes twice the speaking time and gives -2 to fast talking or similar versatile-speaking tasks even if frequency-shifted.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-fast-climbing",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Enhanced climbing costs three per level and adds one movement per level while climbing or using surface adhesion. It does not automatically improve climbing success or ordinary ground speed.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-enhanced-jump",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Enhanced jumping costs ten per level, doubling ordinary height and distance per level. Jump movement is the greater of ground movement and one fifth maximum long-jump distance. A jump-slam uses maximum jump movement and no separate accuracy check. Falls up to maximum high-jump distance cause no injury, increased by five yards after successful acrobatics.",
+      "tests": [
+        "tests/expanded.py::test_jump_profile",
+        "tests/expanded.py::test_jump_fall",
+        "tests/expanded.py::test_jump_travel"
+      ],
+      "validation_note": "Fixed ten-point level accounting, distance scaling and owned fall protection implemented. Maximum prepared running height compares the movement/optional-strength basis with paid Jumping skills. One existing Acrobatics landing can extend protection by five yards without another roll. The receipt integrates with owned collision and injury, including zero damage dice for protected falls. Boundary, disabled trait, rollback, undo and saved replay assertions authored, unrun. Enhanced ground movement, jump travel speed and jump attacks remain pending. Pure jump travel assessment now preserves rational speed, uses the greater of current ground Move and maximum broad-jump distance divided by five, rounds elapsed duration upward to whole engine seconds and checks actual launch range. Printed example, fractional-speed, overflow and launch-boundary assertions authored, unrun. Committed travel, interruption and position changes remain pending."
+    },
+    {
+      "id": "traits-l-selected-roll",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Chosen-result fortune costs one hundred, maximum one purchase, and allows one possible die result per hour of play for an actor roll or roll made on their behalf. Effective skill below three cannot succeed. It can coexist with ordinary reroll fortune. Reserve an eligible roll event before randomness and keep the real-play cooldown separate from game time.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-unnatural-durability",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Unnatural durability costs 150 and includes pain resistance. Injury and knockback still occur, but shock, physical stun and knockout do not. At nonnegative current health it prevents crippling and retains full movement; below zero, movement halves and crippling becomes possible. It does not heal missing health.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-durability-death",
+      "source": "full-2008",
+      "pages": "B89",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One attack inflicting at least ten times health capacity kills despite durability. Otherwise specify a lethal category of at least occasional rarity; once wounded to negative health capacity or worse, wounds from that category trigger normal survival thresholds, automatic death at negative five times capacity, and any wound kills if already below that. Every separately purchased vulnerability also counts as lethal. Track injury cause at each threshold.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-bonus",
+      "source": "full-2008",
+      "pages": "B89-B91",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A skill talent adds one per level to its fixed related skills including defaults. Maximum four levels per talent; overlapping talents may exceed four for skill bonuses only. Reaction bonus needs demonstrated aptitude and an observer able to appreciate it. Study time falls ten percent per level regardless of learning mode, without reducing skill point cost. Define overlap policy for study/reaction without assuming additive beyond-cap benefits.",
+      "tests": [
+        "tests/expanded.py::test_talent_study",
+        "tests/expanded.py::test_talent_communication_study",
+        "tests/expanded.py::test_talent_reaction",
+        "tests/expanded.py::test_talent_check",
+        "tests/expanded.py::test_talent_scores",
+        "tests/expanded.py::test_talent_prerequisite",
+        "tests/expanded.py::test_talent_specialty_validation",
+        "tests/expanded.py::test_talent_catalogue",
+        "tests/expanded.py::test_talent_templates",
+        "tests/expanded.py::test_custom_talent"
+      ],
+      "validation_note": "Three existing catalogue talents now use full printed skill lists for exact study-time reductions across ordinary and communication credit. Skill point cost and actual clock limits remain unchanged; partial-progress rate conversion rejects. Custom groups, full reaction integration and overlap handling remain pending. Assertions authored, unrun. Observer-specific reaction context now validates owned catalogue talent, demonstrated skill, eligible and appreciative audience, and the social manipulation exception. It integrates with persistent reaction attempts. Custom talents and overlapping reaction benefits remain unfinished; assertions authored, unrun. Contextual skill checks now share the complete three catalogue membership lists, preserving Lite membership through a dispatch hook. Raw skill scores, technique bases and custom groups remain pending. Assertions authored, unrun. Available raw scores and technique bases now include catalogue talents, with contextual suppression to avoid a second bonus. Paid investment stays separate. Source-skill default transfer and prerequisite thresholds still require verification; assertions unrun. Minimum skill prerequisites now include persistent aptitude on purchased training while rejecting untrained defaults. Boundary fixtures authored, unrun. Profile-wide duplicate and level validation prevents unrelated-skill bypass; optional-specialty skill/study inheritance fixtures authored, unrun. Seven remaining standard groups now have approved fixed-price purchases and skill/study/reaction membership. Conducting-only restriction implemented; overlapping skill bonuses sum while study uses highest level. Template reconstruction, custom groups, combined reaction claims and source-default transfer remain pending. Fixtures authored, unrun. Additional catalogue talents now support ordinary template rows, fresh reconstruction and additive ancestry levels capped at four. Isolation, cap, undo and saved-continuation assertions authored, unrun. Owned approved custom groups now bind skill IDs and ownership, use standard size prices and reuse skill/study/reaction paths. Custom template cloning, exceptional prices, group amendments and source-default transfers remain unsupported. Boundary and lifecycle fixtures authored, unrun."
+    },
+    {
+      "id": "traits-l-talent-price",
+      "source": "full-2008",
+      "pages": "B90",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Talent costs five per level for at most six skills, ten for seven through twelve and fifteen for thirteen or more. Specialties count as one skill for pricing. Purchased membership is fixed; author may explicitly extend it for newly authored relevant skills.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-animal",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The animal aptitude costs 5 per level and covers animal handling, falconry, packing, riding, teamster, veterinary. Eligible reaction audience: animals. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-craft",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The craft aptitude costs 10 per level and covers armoury, carpentry, electrician, electronics repair, engineer, machinist, masonry, mechanic, smith. Eligible reaction audience: clients receiving the work. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-business",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The business aptitude costs 10 per level and covers accounting, administration, economics, finance, gambling, market analysis, merchant, propaganda. Eligible reaction audience: business counterparts. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-art",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The art aptitude costs 5 per level and covers artist, jeweler, leatherworking, photography, sewing. Eligible reaction audience: buyers and critics of the work. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-plants",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The plants aptitude costs 5 per level and covers biology, farming, gardening, herb lore, naturalist. Eligible reaction audience: gardeners and sentient plants. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-medicine",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The medicine aptitude costs 10 per level and covers diagnosis, esoteric medicine, first aid, pharmacy, physician, physiology, psychology, surgery, veterinary. Eligible reaction audience: current and former patients. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-mathematics",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The mathematics aptitude costs 10 per level and covers accounting, astronomy, cryptography, engineer, finance, market analysis, mathematics, physics. Eligible reaction audience: engineers and scientists. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-music",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The music aptitude costs 5 per level and covers group performance conducting specialty, musical composition, musical influence, musical instrument, singing. Eligible reaction audience: listeners and critics. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-wilderness",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The wilderness aptitude costs 10 per level and covers camouflage, fishing, mimicry, naturalist, navigation, survival, tracking. Eligible reaction audience: explorers and nature enthusiasts. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-social",
+      "source": "full-2008",
+      "pages": "B90-B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The social aptitude costs 15 per level and covers acting, carousing, detect lies, diplomacy, fast-talk, intimidation, leadership, panhandling, politics, public speaking, savoir-faire, sex appeal, streetwise. Eligible reaction audience: social professionals only when the actor is not manipulating them. Resolve each to the neutral skill catalogue identifier, preserving the stated specialty restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-talent-custom",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Custom talents require author approval of related skills, innate plausibility and price. The printed guidance excludes generic combat-role or weapon talents. Do not accept an arbitrary client-supplied skill list as automatically valid.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-bite-blunt",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Blunt bite costs 0 and deals thrust minus one crushing. Require usable mouth anatomy and the normal bite action/defense procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-bite-sharp",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sharp bite costs 1 and deals thrust minus one cutting. Require usable mouth anatomy and the normal bite action/defense procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-bite-beak",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Beak bite costs 1 and deals thrust minus one large piercing. Require usable mouth anatomy and the normal bite action/defense procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-bite-fangs",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fangs bite costs 2 and deals thrust minus one impaling. Require usable mouth anatomy and the normal bite action/defense procedures.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-base",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Remote communication establishes contact with one second concentration and intelligence. Maintenance needs no concentration; each additional maintained contact imposes cumulative -1 on the contact check. Words travel at ordinary speech speed, simple pictures at drawing speed. Jamming/interception/location uses the appropriate communication-operation skill and compatible equipment.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-infrared",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Infrared communication costs ten, range five hundred yards with direct line of sight, and requires a compatible ability/device at the other end. Narrow line-of-sight transmission makes ordinary interception/jamming difficult rather than categorically impossible.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-laser",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Laser communication costs fifteen, range fifty miles with direct line of sight and compatible recipient. Define beam geometry and eligible interception rather than broadcasting to every listener in radius.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-radio",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Radio communication costs ten, range ten miles, omnidirectional with frequency selection. Interception requires communication-operation success. Ordinary broadcasts can be received with one second and intelligence. Radio noise can interfere and underwater operation is unavailable.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-thought",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Thought sending costs thirty and specifies its supernatural origin. Recipient needs no corresponding purchase. Range is theoretically unlimited with spell long-distance penalties; unseen/unsensed recipient adds -1 for close relations, -3 acquaintances or -5 briefly met individuals. Define known-recipient identity and reject unsupported unknown-target contact.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-broadcast",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Thought broadcast is +50% and checks intelligence at radius long-distance penalty plus -4, delivering to everyone in the selected area. It does not silently select only friendly minds.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-shortwave",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Planetary reflected-radio communication is +50%, radio-only, requires an ionosphere and can reach any planetary point. Weather, solar activity and authored propagation conditions can disrupt it.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-universal-video",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Automatic translation costs +50% subject to author technology/origin permission. Real-time video costs +40% and transmits what the actor can see, instead of default slow images. Neither reveals unseen scene information.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-communication-limits",
+      "source": "full-2008",
+      "pages": "B91",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Own/similar-ancestry communication is -20%; receive-only and send-only are each -50% and unavailable for thought sending; telepathic origin is -10%; restricted simple-code or conceptual/emotional content is -50%. Validate direction, channel and recipient constraints independently.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-manipulation",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Remote manipulation costs five per level, behaves as a disembodied pair of hands with strength equal to level, and has maximum range ten yards regardless of level. Lifted-object movement equals level modified by encumbrance. Ordinary lift/move needs no roll; complex actions use appropriate dexterity/skill and strength tests use ability level.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-action",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Constant concentration permits one standard remote maneuver per actor turn: ready to acquire, move to carry, attack to strike/grab/throw, or another eligible maneuver. Preserve remote position, grip, aim and wait state. It is not a free second actor turn alongside unrelated physical activity.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-fine-work",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Remote assistance to delicate work gives +4 after intelligence success when the task would benefit from fine motor control. Author may assign a failure penalty. Keep the assistance check, task eligibility and bonus separate from remote-strength attacks.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-grapple",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Remote direct strikes/grapples use dexterity or unarmed skill, defended as against an invisible opponent unless the force is visible. Subject cannot grapple the force but may escape normally; their own remote manipulation can substitute for strength while concentrating. On the following turn a held subject can be lifted if weight is within capacity, removing ground-dependent actions but retaining other grappled actions.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-levitation",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Self-levitation requires capacity to lift body weight and continuous concentration with remote movement maneuvers. It does not grant independent flight or free hands/actions beyond the remote-manipulation rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-throw",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Remote throwing uses an attack maneuver, level as throwing strength and the relevant throwing skill. Damage/range limits use object-to-target distance, while accuracy distance adds actor-to-object and object-to-target. Throwing releases the grip; acquiring the object again requires ready.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-remote-limits",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Magnetic-only manipulation is -50% and covers the specified magnetic metal class. Psychokinetic origin is -10% and makes the trait mental. Visible force is -20% and removes invisible-attacker defense treatment. Keep material, origin and visibility predicates explicit.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-telescopic-sight",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Telescopic sight costs five per level, canceling one point of vision range penalty per level normally or two while aiming to inspect a specific target. It can provide one ranged accuracy per level after that many seconds of aim. Choose either this or a technological optic; bonuses do not stack.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-telescopic-no-aim",
+      "source": "full-2008",
+      "pages": "B92",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Non-targeting telescopic sight is -60% and grants no combat accuracy bonus while retaining vision-range benefits.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-temperature-control",
+      "source": "full-2008",
+      "pages": "B92-B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Ambient temperature control costs five per level, changing temperature up to twenty degrees per level at two degrees per level per second concentration. It affects two-yard radius within ten yards, with separately purchased area/range changes. Use source Fahrenheit temperature units, shared environment state and elapsed time; it never deals direct attack damage.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-temperature-control-limits",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cooling-only and heating-only each cost -50%; psychokinetic origin is -10%. Ambient exposure consequences use hazard procedures rather than direct injury per control level.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-temperature-tolerance",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Temperature tolerance costs one per level, adding health-score degrees to an authored comfort range. Ordinary human range is 35 through 90 Fahrenheit, width 55; nonhuman placement of an equally wide range costs zero. Allocate extension between hot/cold ends. It does not resist direct fire/ice attacks or manipulation of body temperature. Realistic human one/two-level restriction is optional.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-temporal-persistence",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Timeline persistence costs fifteen and preserves the actor and memories when history changes or a paradox erases their previous world. Author places them in the new history; under stress, distinguishing full competing memories may require intelligence. A similar counterpart exists in every encountered parallel/split timeline. Use only with an authored history-change model.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-tenured-job",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Protected employment costs five and guarantees continued job/salary except extraordinary misconduct defined by the setting. Losing employment under that condition removes the trait; do not treat it as unconditional immunity from every job consequence.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-terrain-adaptation",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "One unstable terrain adaptation costs five when both ordinary ground and that terrain have normal dexterity/movement. Exclusive adaptation is zero points and transfers the usual instability penalties to solid ground. Buy separately per terrain type and apply only its movement/dexterity penalties.",
+      "tests": []
+    },
+    {
+      "id": "traits-l-fear-aura",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Fear-inducing presence costs thirty plus ten per additional -1 fear-check penalty. Choose sight or hearing at purchase; activation prompts immediate fear checks for eligible perceivers using normal fear modifiers. Each later check within 24 hours gains +1; success grants immunity to that source for one hour. Maintain per-subject/source history.",
+      "tests": [
+        "tests/expanded.py::test_fear_aura"
+      ],
+      "validation_note": " Typed sight/hearing aura purchase and source/victim event history implement extra penalties, one-hour success immunity and 24-hour repeated-check bonuses. Perception and activation are explicit author facts. Fixtures authored but unrun pending recorded validation; full-suite completion not claimed."
+    },
+    {
+      "id": "traits-l-fear-aura-modifiers",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "partial",
+      "acceptance": "Touch-only fear uses the melee limitation. Always-active fear is -20% and cannot be disabled for social situations. It does not automatically confer an appearance trait.",
+      "tests": [
+        "tests/expanded.py::test_fear_aura"
+      ],
+      "validation_note": " Always-on and close-contact-only choices implement -20% and B112 reach-C -30% pricing and exposure eligibility. Other melee reaches and modifier combinations remain unsupported. Fixtures authored but unrun pending recorded validation; full-suite completion not claimed."
+    },
+    {
+      "id": "traits-l-advanced-martial-training",
+      "source": "full-2008",
+      "pages": "B93",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Advanced martial training costs thirty, halves rapid-strike and repeated-parry penalties for all unarmed/melee weapon skills, and permits skills listing it as prerequisite. It grants no such skill automatically. Author approves cinematic availability and any additional training prerequisites.",
+      "tests": [
+        "tests/expanded.py::test_catch_repeat_parry"
+      ],
+      "validation_note": "Fixed thirty-point approved training definition and active repeated-catch-parry benefit implemented. Author records cinematic permission and additional prerequisites. Ordinary/melee rapid strikes, other melee parries and cinematic skill prerequisite integration remain pending. Assertions authored, unrun pending recorded validation."
+    }
+  ]
+}

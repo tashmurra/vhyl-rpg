@@ -1,0 +1,529 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B48-B51",
+  "review": "Detection, survival requirements, infection control, duplication, recall and defense purchases enumerated from text. Resource ownership, hidden-information contracts, cross-references and independent validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-d-destined-outcome",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Destined outcomes cost 5, 10 or 15 points. Author privately defines the event after the player selects its magnitude; definition may evolve through campaign events. Five guarantees one significant favorable victory; fifteen establishes lifetime renown without guaranteeing survival. Ten grants a lesser major outcome or a specific death condition. Implement a typed authored event, fulfillment decision and observable consequences, not an automatic success on every roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-destined-death",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A ten-point specified death condition prevents death outside that condition but does not prevent severe injury or mutilation. Author supplies a condition predicate and event adjudication; record prevented death separately from healing and handle later eligible fatal events without a universal invulnerability approximation.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-destiny-fulfilled",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Surviving fulfillment ends the guarantee. Author normally permits transfer of its purchased value to positive reputation. Record the fulfillment and approved transfer once, without refunding spendable points as well as reputation.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-detect-cost",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Detection definitions specify a substance or condition and rarity tier. Base costs are 5 rare, 10 occasional, 20 common and 30 very common. Author selects the campaign-relative category and target predicate; broad categories must not silently include unrelated targets.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-detect-action",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Detecting requires one second of concentration and a secret sense check with the size/speed/range distance modifiers. Applicable acute-sense purchase improves that check. Successful output identifies direction to the nearest significant source and approximate amount; failure reports no detection. Define significance, geometry, obstruction independence and private evidence without preview disclosure.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-detect-analysis",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Analysis of a detected target uses intelligence. Successful quality controls identity and detail, with critical success permitting finer composition or form. Author supplies bounded detail levels and truthful evidence; an unsuccessful scan must not expose target existence through the analysis interface.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-detect-distance",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Exact distance is a +100% enhancement to a successful detection. Preserve ordinary direction and quantity outputs; distance must come from the same detected source.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-detect-signal",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Transmission detection is a zero-percent variant: remove range penalties but require position within twice transmitter range and, for directional signals, within its path. Define the active signal and spatial eligibility before rolling. This variant detects transmission rather than passive presence.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-detect-vague",
+      "source": "full-2008",
+      "pages": "B48",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Presence-only detection is -50%. Only a critical success reveals direction and quantity; analysis is unavailable. Reject combination with the exact-distance enhancement.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-software-mind",
+      "source": "full-2008",
+      "pages": "B48-B49",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A software mind costs 5 points and normally requires a host computer with complexity at least half intelligence. Telepathic powers and spells specifically targeting living minds do not affect it. Computer-targeting effects, viruses, offline storage and authorized data access remain possible. Resolve half-intelligence rounding and host eligibility explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-software-separate-purchases",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Software embodiment alone grants no accelerated thought, modular programs, concurrent compartments, remote copies, backup lives, uploading or alternate bodies. Require the separate applicable purchases. Machine construction and reprogrammable behavior are independent choices; do not infer them from a software mind.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-sound-recognition",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Fine sound recognition costs 15. Recognize individual voices and machine sound signatures. Memorizing a new sound requires at least one minute and intelligence success; failure prohibits retry for one full day. Retain attempt identity and deadline across save/undo and repeated action objects.",
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition",
+        "tests/expanded.py::test_sensory_memory",
+        "tests/expanded.py::test_sensory_memory_actions",
+        "tests/expanded.py::test_signature_recognition"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Owned minimum-minute IQ memorization now retains successful signatures and enforces a full-day failed-check retry deadline across requests. Health denial has no retry penalty. Shared owner-authorized native memory actions now delegate to the same attempt and retry history. Automated exposure interruption and recognition matching remain pending. New fixtures unrun. Owned recognition now binds successful hearing/smell observations to authored signature identity and either retained memory or explicit prior-familiarity evidence without an extra roll. Unknown outcomes remain unknown on replay. Automated exposure, contested identity and player disclosure remain incomplete. Fixtures unrun."
+    },
+    {
+      "id": "traits-d-sound-bonuses",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Fine sound recognition adds 4 to hearing-based tasks on top of acute hearing, and 4 to shadowing a noisy target. Apply once per check, including when the skill task also uses hearing. An underwater-only accessibility limitation is -30%.",
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition",
+        "tests/expanded.py::test_shadowing_context"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Typed Shadowing context now selects foot-only purchased Stealth default, applies vehicle/known-target/appearance/crowd modifiers, and uses one fine-hearing bonus for an authored noisy target. Timed contests, awareness/loss transitions, vehicle encounters and conditional paid-default improvements remain pending. Fixtures unrun."
+    },
+    {
+      "id": "traits-d-scent-recognition",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Fine scent recognition costs 15 and permits individual recognition by odor. Memorizing a new scent takes at least one minute and intelligence success, with a full-day retry restriction after failure. Add 4 to smell tasks and tracking, cumulative with acute taste/smell but not duplicated for a single task.",
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition",
+        "tests/expanded.py::test_sensory_memory",
+        "tests/expanded.py::test_sensory_memory_actions",
+        "tests/expanded.py::test_signature_recognition",
+        "tests/expanded.py::test_tracking_context"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun. Owned minimum-minute IQ memorization now retains successful signatures and enforces a full-day failed-check retry deadline across requests. Health denial has no retry penalty. Shared owner-authorized native memory actions now delegate to the same attempt and retry history. Automated exposure interruption and recognition matching remain pending. New fixtures unrun. Owned recognition now binds successful hearing/smell observations to authored signature identity and either retained memory or explicit prior-familiarity evidence without an extra roll. Unknown outcomes remain unknown on replay. Automated exposure, contested identity and player disclosure remain incomplete. Fixtures unrun. Dedicated tracking context now adds the relevant fine-smell bonus once with explicit applicability; complete tracking encounters remain pending."
+    },
+    {
+      "id": "traits-d-scent-revulsion",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An odor-triggered illness may use a temporary-disadvantage limitation, commonly revulsion. Bind the authored substance predicate to the separately defined disadvantage and its activation/expiry rules; the scent-recognition purchase does not itself specify illness.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-scent-emotions",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Emotion sensing by odor adds +50% to fine scent recognition and uses empathic perception within two yards. Reuse that effect domain and hidden-impression contract while enforcing the distance limit.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-taste-recognition",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Fine taste recognition costs 10. Require ingestion of a small sample, including bodily fluid for a living subject. Intelligence identifies taste or edibility; detailed composition uses a suitable authored analysis skill. Add 4 to taste tasks with acute taste/smell cumulative. It cannot track targets. Preserve applicable scent-like recognition and memory procedures where relevant.",
+      "tests": [
+        "tests/expanded.py::test_sensory_recognition"
+      ],
+      "validation_note": "Typed unmodified purchases, fixed costs, template copies and one shared +4 sensory-channel bonus stack with acute senses and respect activation/mitigation. Memorization, recognition/analysis, sampling, tracking/noisy-target following and special modifiers remain incomplete. Fixtures authored, unrun."
+    },
+    {
+      "id": "traits-d-breath-independent",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Respiration independence costs 20: no oxygen requirement, immunity to inhaled toxins, and no harm or silencing from choking or strangulation. Contact toxins, pressure and vacuum retain their separate effects; the trait does not confer sealing or pressure/vacuum protection.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-aquatic-respiration",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Aquatic respiration is -50% when both air and oxygenated water support survival. Water lacking dissolved oxygen still causes suffocation. Immunity to strangulation and decompression sickness applies. Water-only respiration, with air suffocation on ordinary drowning timing, is a zero-point feature instead.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-surface-respiration",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Surface oxygen uptake is -25%: oxygen from air, liquid or another medium suffices and poisonous gases are not absorbed. Oxygen absence still causes suffocation; ordinary lungs permit breathing apparatus. Reject combination with a sealed body. Preserve aquatic-respiration inherited exceptions.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-combustion-respiration",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Combustion-dependent oxygen uptake is -50% and follows surface uptake except that underwater or other fire-ineligible environments cannot support it. Author provides environmental eligibility; this is a game condition, not an inferred chemical simulation.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-oxygen-reserve-25",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Oxygen reserve lasting 25 times ordinary breath duration gives a -50% limitation to respiration independence. It still requires breathing; immunity to decompression sickness lasts only while the stored supply remains. Use a persistent reserve and the verified ordinary-duration rule rather than refreshing the allowance per action.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-oxygen-reserve-50",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Oxygen reserve lasting 50 times ordinary breath duration gives a -40% limitation to respiration independence. It still requires breathing; immunity to decompression sickness lasts only while the stored supply remains. Use a persistent reserve and the verified ordinary-duration rule rather than refreshing the allowance per action.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-oxygen-reserve-100",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Oxygen reserve lasting 100 times ordinary breath duration gives a -30% limitation to respiration independence. It still requires breathing; immunity to decompression sickness lasts only while the stored supply remains. Use a persistent reserve and the verified ordinary-duration rule rather than refreshing the allowance per action.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-oxygen-reserve-200",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Oxygen reserve lasting 200 times ordinary breath duration gives a -20% limitation to respiration independence. It still requires breathing; immunity to decompression sickness lasts only while the stored supply remains. Use a persistent reserve and the verified ordinary-duration rule rather than refreshing the allowance per action.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-oxygen-reserve-300",
+      "source": "full-2008",
+      "pages": "B49",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Oxygen reserve lasting 300 times ordinary breath duration gives a -10% limitation to respiration independence. It still requires breathing; immunity to decompression sickness lasts only while the stored supply remains. Use a persistent reserve and the verified ordinary-duration rule rather than refreshing the allowance per action.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-nutrition-independent",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Nutrition independence costs 10 and removes food, water and fuel needs. An authored alternate energy source can independently impose dependency when sufficiently rare. Do not grant fatigue recovery or healing beyond their own rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-sleep-independent",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sleep independence costs 20 and removes required sleep and consequences of missed nights. It does not remove ordinary exertion fatigue or unrelated recovery restrictions.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-infectious-command-definition",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Infectious command costs 20. Author defines a supernatural condition, susceptible ancestry predicate, one purchased natural delivery attack, optional additional infection conditions and available supernatural interventions. Eligibility is not an automatic property of all natural attacks.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-infectious-command-roll",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Damage from the specified attack permits at most one infection roll per victim per day. Roll 3d and infect only when strictly below injury received. Record actual injury rather than basic damage or penetration. Source does not specify aggregation of multiple injuries before the daily check; require an explicit documented policy instead of silently summing.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-infectious-command-transition",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Infection transitions after 2d days unless an explicit authored timing decision or eligible intervention applies. On completion apply the originator supernatural ancestry package and the subordinate-mind condition subject to purchased control. Persist infection origin, due time, intervention and transition identity; do not reapply the package twice.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-infectious-command-accounting",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Controlling a transformed victim requires enough unspent points for a companion with obedient-servant and exceptional-abilities enhancements. Appearance frequency is selectable and later improvable. Insufficient points still permits infection but not enslavement. Descendant infections serve the original controller; preserve that lineage rather than transferring command to the immediate infector.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-infectious-command-release",
+      "source": "full-2008",
+      "pages": "B50",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "True controller death, inability or refusal to fund companion growth, or authored curse removal ends control and removes the subordinate-mind condition. Previously invested companion value may fund new victims. Preserve unrelated character traits and ancestry, and prevent spending the same released investment repeatedly.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-create",
+      "source": "full-2008",
+      "pages": "B50-B51",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Duplication costs 35 per additional body. Separation or merging requires one second and concentration. Copies have the same knowledge and abilities but normally no copied equipment. Assign distinct owned body and inventory records under one character origin; determine permitted merge participants and proximity explicitly where source lacks detail.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-merge",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary merging averages participating copies current injury-resource and fatigue-resource values, and combines experienced memories. Define rounding and treatment of absent copies explicitly. No automatic telepathic coordination is granted; communication and mental-link purchases remain separate. Preserve resource maxima and ongoing effects without refreshing spent actions.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-loss",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A copy death immediately inflicts 2d damage on every other copy and stuns them. Mental duplication uses mental stun/intelligence recovery; physical duplication uses physical stun/health recovery, each at -6. Lose the purchase value of the dead copy. Define damage-roll sharing and secondary copy-death propagation explicitly without silently suppressing consequences or creating an unbounded loop.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-replacement",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author may permit repurchase of a dead copy using unspent points. A separately purchased extra life instead restores one dead copy and consumes its own point value. Record identity and payment to prevent both restoration paths from claiming the same copy.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-gear",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Copied equipment enhancement is +100% and applies only to carried or worn specially purchased signature equipment. Copies disappear on merging even when separated from their owner. Merge equipment durability, ammunition and energy using the corresponding body-resource rule. Track origin identity so dropped or transferred copies cannot remain as permanent inventory.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-no-shock",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Removing sympathetic injury costs +20% and suppresses damage and stun to surviving copies when one dies. It does not remove lost purchase value or grant a replacement.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-software",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Software-copy limitation is -60%, requires software mind and digital possession, and produces mind copies that use other computers or spare bodies instead of generating physical bodies. Validate hosts and body ownership before commitment.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-duplicate-shared-reserves",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shared reserves limitation is -40%. Allocate current health and fatigue independently among bodies at separation, conserving each total. Merge by addition instead of averaging. Validate allocations and preserve the same conservation rule for copied equipment resources; source boundaries for nonpositive health and minimum allocations require an explicit policy.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-memory-general",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Five-point enhanced recall automatically remembers the general meaning of attended experiences and uses intelligence for specific details. Ten-point exact recall automatically preserves details too. Record what was actually perceived; neither tier reveals information the character never experienced.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-memory-learning",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Enhanced recall adds 5, or exact recall 10, only to intelligence checks required for learning. It does not directly improve skills or comprehension. Ordinary characters retain intelligence checks for general recollection with quality tied to success.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-mutable-face",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Mutable facial appearance costs 20. Changing skin and features to another eligible ancestry appearance takes ten seconds; imitating a specific individual also requires disguise. Returning to the original form takes three seconds. Add 4 to disguise; clothing and makeup do not change. Author defines similar-ancestry eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-empathic-impressions",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Empathic impressions use a secret intelligence check at first meeting or reunion after absence, and can assess truthfulness without revealing the truth itself. Failure produces a false impression. Author provides bounded truthful and misleading outputs, eligibility and reunion triggers; previews expose neither the hidden result nor the target facts.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-empathic-tiers",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Lesser empathic perception costs 5, checks intelligence-3, and adds 1 to lie detection, fortune telling and conversational-subject psychology. Full perception costs 15, checks intelligence, and adds 3 to those skills. Restrict to natural sapient beings with intelligence at least six; animal, plant and spirit perception require separate abilities.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-defense-block",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cinematic block improvement costs 5 for +1 to one selected shield or cloak blocking skill. Do not grant the bonus to the other specialization. Require explicit cinematic campaign permission.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-defense-dodge",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cinematic dodge improvement costs 15 for +1 dodge and requires explicit campaign permission. Apply once in the defense calculation alongside other eligible contributions.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-defense-parry",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cinematic parry improvement costs 5 for +1 bare-handed or one melee skill parry, or 10 for +1 all parries. Require explicit campaign permission and reject overlapping purchases that unintentionally duplicate the same tier.",
+      "tests": []
+    },
+    {
+      "id": "traits-d-defense-permissions",
+      "source": "full-2008",
+      "pages": "B51",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author may require an advanced combat-training trait, permit advancement purchases and permit multiple levels of improved defenses at the per-level price. These are independent campaign choices, not automatically enabled by including the module. The warning about bonuses above three is guidance rather than a printed hard cap.",
+      "tests": []
+    }
+  ]
+}

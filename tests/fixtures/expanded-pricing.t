@@ -25,10 +25,10 @@ act(verb,args)
         try { trait.creationCost(); } catch (RpgExpandedError error) { eventValue(error.reason); }
         trait.approved = true; eventValue(trait.creationCost());
         local drawback = new RpgExpandedDisadvantage(); drawback.id = 'authored-drawback'; drawback.points = -5;
-        drawback.approved = true; drawback.selfControlRating = 9; eventValue(drawback.creationCost());
+        drawback.approved = true; drawback.controlled = true; drawback.selfControlRating = 9; eventValue(drawback.creationCost());
         drawback.percentages = [-20];
         try { drawback.creationCost(); } catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
-    return vhylAct(verb,args);
+    return rpgDispatchAction(verb,args);
 }

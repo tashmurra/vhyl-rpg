@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B523-B529; B535-B543",
+  "review": "Remaining setting-chapter pages inspected for mechanically applicable content. Neutral transferable requirements retained; named setting content and underspecified fictional capability descriptions are not executable catalogue definitions. Cross-reference and completeness audit still pending.",
+  "enumeration_complete": false,
+  "excluded_material": [
+    {
+      "pages": "B523-B525",
+      "reason": "Setting introduction, fictional chronology, glossary names, treaty and organization origin stories; optional framework selection retained separately."
+    },
+    {
+      "pages": "B526-B529",
+      "reason": "Named alternate worlds, world counts, fictional histories, political programs and hazard stories; reusable stability and local-physics constraints retained without names or prose."
+    },
+    {
+      "pages": "B535-B539",
+      "reason": "Named organizations, personnel counts, missions, proprietary legal institutions, recruitment plots and commercial histories; access categories and scoped author permissions retained."
+    },
+    {
+      "pages": "B540",
+      "reason": "Named prison world and coercive-security plot material excluded; fictional agent mechanics and assisted-only transit restriction retained under neutral identifiers."
+    },
+    {
+      "pages": "B541-B543",
+      "reason": "Named colonies, adversaries, alternate histories and adventure plots excluded; the underspecified group-transit capability is explicitly pending an authored construction, not claimed as a general mechanical procedure."
+    }
+  ],
+  "entries": [
+    {
+      "id": "setting-mechanic-transit-opt-in",
+      "source": "full-2008",
+      "pages": "B523",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The supplied multi-world framework is optional. A campaign can disable extradimensional travel without disabling unrelated full-profile rules; including all libraries must not create world routes automatically.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-stable-world",
+      "source": "full-2008",
+      "pages": "B526",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A world may be explicitly stable against intervention-driven band shifts. Such a world must not run the ordinary shift-trigger procedure merely because historical events change.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-projector-origin",
+      "source": "full-2008",
+      "pages": "B528; B538; B542",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A world context can forbid projector operation while allowing other equipment or travel. Check origin-world compatibility independently from projector range, charge, calibration and operator skill.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-artificial-power",
+      "source": "full-2008",
+      "pages": "B528",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored world can disable artificial electrical discharge while retaining natural electrical phenomena. Devices requiring that mechanism become inoperative there; entry does not guarantee powered departure. Define the affected mechanisms explicitly rather than disabling all high-technology skills by number alone.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-local-physics",
+      "source": "full-2008",
+      "pages": "B527-B529",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An ability or device may depend on local physical or magical laws and cease working after transit. Reevaluate actual declared dependencies at the destination; visual resemblance or equal technology level does not prove compatibility.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-mixed-realm",
+      "source": "full-2008",
+      "pages": "B529",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An attached realm may have different technological compatibility from its parent world. Resolve the traveler's actual realm context instead of inheriting the parent's transit permissions unconditionally.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-access-open",
+      "source": "full-2008",
+      "pages": "B535",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The reusable open world-access category: Permits the authored categories of visitation and settlement. Keep legal permission distinct from physical transit capability; source organizations and destination lists are not imported.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-access-protected",
+      "source": "full-2008",
+      "pages": "B535",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The reusable protected world-access category: Allows only specified trade and contact under the protecting authority's terms. Keep legal permission distinct from physical transit capability; source organizations and destination lists are not imported.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-access-research",
+      "source": "full-2008",
+      "pages": "B535",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The reusable research world-access category: Reserves access for approved study and can restrict intervention or collection. Keep legal permission distinct from physical transit capability; source organizations and destination lists are not imported.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-access-closed",
+      "source": "full-2008",
+      "pages": "B535",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The reusable closed world-access category: Denies ordinary access while permitting specifically authorized personnel or purposes. Keep legal permission distinct from physical transit capability; source organizations and destination lists are not imported.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-institutional-access",
+      "source": "full-2008",
+      "pages": "B535-B539",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Authored organizations can hold equipment licenses, development leases, inspection rights and recruitment authority with a defined jurisdiction. Their authority changes by world; membership is not universal legal immunity. Existing social and campaign permission contracts must represent the concrete scope.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-agent-memory",
+      "source": "full-2008",
+      "pages": "B540",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The fictional memory-suppression agent requires health-3 resistance. Failure causes unconsciousness; on awakening, the preceding five dice plus forty-five minutes of short-term memories are absent. Retain actual prior events while changing the affected character's accessible memories. The reference does not specify onset delay, unconscious duration or the exact time anchoring the lost-memory interval; these remain unresolved until a documented author contract supplies them.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-agent-delivery",
+      "source": "full-2008",
+      "pages": "B540",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The fictional memory-suppression agent has oral, injection and gas forms. Use the delivery-specific exposure rules and actual inventory rather than a universal remote effect. No real chemical composition or real-world dose is part of this game definition.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-agent-tolerance",
+      "source": "full-2008",
+      "pages": "B540",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The fictional agent is described as lacking additional adverse effects even in excess amounts; do not invent extra toxic damage. Repeated exposures still need a source-consistent resistance, unconsciousness and memory-window policy before they are supported.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-agent-market",
+      "source": "full-2008",
+      "pages": "B540",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The fictional agent is legality class two, unavailable through ordinary retail, with an example illicit price of five hundred per game dose. Authorized issue requires tracking receipt and expenditure of each dose; local permissions and actual market availability remain authored.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-assisted-only-world",
+      "source": "full-2008",
+      "pages": "B540",
+      "module": "campaign",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored world can forbid both entry and exit through unassisted capsules and innate world shifting while permitting projector-assisted travel. This differs from a world that admits entry but traps departures; expose separate method/direction permissions.",
+      "tests": []
+    },
+    {
+      "id": "setting-mechanic-unsupported-group-power",
+      "source": "full-2008",
+      "pages": "B543",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The setting describes group-assisted innate transit carrying four to five times traveler weight but supplies no general linkage, cost, resistance or activation procedure. Do not present that narrative capability as a fully specified rule; require an explicit authored ability construction and validate its component traits before use.",
+      "tests": []
+    }
+  ]
+}

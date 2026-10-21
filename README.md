@@ -28,6 +28,49 @@ The optional [reporting extension](docs/reporting.md) adds exact success odds,
 ability/modifier explanations and recorded individual dice. Author disclosure
 settings and player preferences control which details a CRPG host receives.
 
+## Choose libraries
+
+The [complete library catalogue](docs/libraries.md) groups core/essential and
+optional libraries, with dependencies and availability for each. The
+[abridged/full comparison](docs/rules-comparison.md) explains why expanded rules
+need separate opt-in behavior.
+
+An [experimental expanded layer](docs/expanded/index.md) adds purchased secondary
+characteristics, authored skill defaults and techniques, trait pricing, extended
+numeric tables, task timing, character packages and study. This is an **incomplete
+conversion**: most planned systems and the full catalogues remain unimplemented.
+The [coverage ledger](docs/expanded/coverage.json) records these gaps explicitly.
+The partial [campaign module](docs/expanded/campaign.md) adds authored equipment
+legal-access policies; its new validation cases remain unrun.
+Partial [health](docs/expanded/health.md) and [hazards](docs/expanded/hazards.md)
+modules add owned injury/recovery, treatment, infection and aging procedures.
+The original [Echo Vault example](examples/echo-vault/README.md) demonstrates
+owned fear, explicit author adjudication, recovery and shared player routes.
+Its connected fear/stress sequence passes parser, structured-action and dialogue
+acceptance, including cross-process saved continuation.
+These share character balances and retain explicit unsupported cases; their
+recent transaction and save-continuation fixtures are authored but unrun while
+validation is in progress.
+The partial [technology module](docs/expanded/technology.md) assesses disabled and
+destroyed weapon outcomes, including surviving forms and their combat overrides.
+It also includes environmental-fault repair and owned computer processing, storage,
+links, transfers, uninterrupted recordings and task software. Its owned invention
+workflow includes funding, work, secret completion, supported defect effects,
+whole-week testing and bug-free one-copy production. These are partial interfaces
+with explicit limits and unrun fixtures. Structural object damage, transformed
+inventory pieces and broader technology procedures remain incomplete.
+
+The partial [creature module](docs/expanded/creatures.md) adds the animal
+training-time table, training-plan eligibility and handling modifier assessments.
+It does not yet execute training courses, mounts or swarms; fixtures are unrun.
+
+The partial [combat module](docs/expanded/combat.md) adds pure ordinary rapid-fire
+assessments; ammunition and per-hit injury integration remain incomplete.
+Try the [signal workshop](examples/expanded/main.t) with the corresponding
+[host](examples/expanded/host.py); it accepts `study`, `decode`, `rest day`,
+`status`, `undo` and `:plan` choices. Build it like the other examples, selecting
+`examples/expanded/main.t` and a new output directory.
+
 ## Dependencies
 
 Use the vhyl sources and compiler revision recorded in
@@ -155,13 +198,19 @@ matches. Source and HTML archives remain byte-for-byte identical; publication
 adds a small provenance file tying the validated build to the release commit.
 A changed tree or unavailable build evidence requires fresh validation.
 
+The partial [psionics library](docs/expanded/psionics.md) adds explicit power
+membership, owned talent pricing and latent purchase eligibility. Ability effects,
+activation and interference remain incomplete; the new fixtures are unrun.
 
-## Character and social interim milestone
+The optional `vhyl-rpg-expanded-character-social.t` umbrella packages the
+[character/social subset](docs/expanded/character-social.md). The
+[Town Registry example](examples/bellwether/README.md) demonstrates its shared
+parser, structured-action and dialogue interfaces. See the original
+[prerelease record](docs/releases/v1.1.0-alpha.1.md); the merged expanded suite
+remains incomplete and its validation is in progress.
 
-The optional `vhyl-rpg-expanded-character-social.t` umbrella adds authored expanded
-characters, skills, trait pricing, occupational templates, reputation and social
-procedures. See the [integration guide](docs/expanded/index.md),
-[library catalogue](docs/libraries.md) and
-[Town Registry example](examples/bellwether/README.md). This branch does not contain
-the full expansion suite or full trait/skill catalogues. See the
-[prerelease notes](docs/releases/v1.1.0-alpha.1.md) for validation and adoption details.
+The [optional accumulating stress library](docs/expanded/stress.md) implements original campaign
+rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.
+It is inactive until configured and separate from reference-derived fear.
+The focused fear milestone and its validation status are tracked in the
+[completion checklist](docs/expanded/fear-completion.md); the wider rules conversion remains incomplete.

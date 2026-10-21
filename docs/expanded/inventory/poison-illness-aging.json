@@ -1,0 +1,1646 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B437-B444",
+  "review": "Poison delivery, abstract-dose catalogue, intoxication, dependency, disease, contagion, infection and aging text reviewed. Entries remain pending or partial as recorded; independent runtime validation is paused. Catalogue values are fictional game statistics, not real-world chemical or medical instructions; cross-references and precision boundaries remain open.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "poison-definition",
+      "source": "full-2008",
+      "pages": "B437-B438",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A poison definition specifies delivery routes, delay, resistance, effects, interval/cycle count, duration, abstract dose, price and supported treatment; multiple routes may have different effects.",
+      "tests": []
+    },
+    {
+      "id": "poison-blood-contact",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A blood agent requires a mucous membrane or open wound; a directed spray must hit the relevant exposed location.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-blood-area-protection",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Area blood agents are defeated by sealing, or by both appropriate respiratory protection and appropriate eye protection; one protected route alone is insufficient.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-skin-contact",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A contact agent requires inhalation or skin contact; a coated melee weapon must reach an unarmored, unclothed location and an area agent affects unsealed targets.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-digestive",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A digestive agent requires actual swallowing; an authored detectable flavor permits taste or perception-based poison knowledge at base -2, with detection modifiers.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-forced-swallow",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Forcing ingestion requires a head/neck grapple held for ten seconds; a successful attack alone does not prove the substance was swallowed.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-follow-up",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An eligible piercing/impaling injection attack delivers its follow-up only after penetrating armor and causing damage; payload availability and consumed dose belong to the weapon record.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-respiratory",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A respiratory agent requires inhalation; no-breathing or filtering can protect, while timely sense detection can allow breath holding. Stunned or unconscious actors inhale automatically.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-improvised-mask",
+      "source": "full-2008",
+      "pages": "B437",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An improvised respiratory barrier grants +1 resistance rather than full immunity; verify the route and actual barrier.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-sense-based",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A sense-based agent requires the targeted sense and is prevented by the corresponding protection; lack of sight or protected eyes does not protect an unrelated breathing route.",
+      "tests": [
+        "tests/expanded.py::test_poison_entry"
+      ],
+      "validation_note": "Source delivery assessment and concrete authored contact/protection facts implemented, including persistent-wound and owned follow-up entry. Fixture unrun. Payload consumption, actual exposure lifecycle, detection, resistance and effects remain incomplete."
+    },
+    {
+      "id": "poison-size-delay",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Double the delay for each positive size-modifier step and halve it for each negative step; a one-hour base delay at size -2 becomes fifteen minutes.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
+    },
+    {
+      "id": "poison-delayed-resistance",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Make resistance only after the applicable delay, applying the defined modifier; armor does not alter this resistance roll.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
+    },
+    {
+      "id": "poison-environment-retries",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After successful initial resistance in a persistent poisonous environment, retry each second or each delay period if the agent has a delay, until affected or no longer exposed.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned continuing area exposures retry after the scaled delay or one second following successful initial resistance, until first failure or departure. First failure starts normal damaging cycles; leaving thereafter does not clear acquired effects. Exact deadlines and receipt replay integrated; fixtures authored, unrun. Changed protection, re-entry and cloud/residue lifecycle integration remain unfinished."
+    },
+    {
+      "id": "poison-species-policy",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "A specific authored susceptibility policy identifies immune or differently resistant physiologies; a character label alone must not imply a universal resistance.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Concrete approved susceptibility decisions bind an exact profile, hazard, physiology rationale and immunity or resistance modifier. Immunity resolves admission without effects or environmental retries; modifiers affect later resistance. Invalid targets/combinations and later mutation are rejected. Fixtures authored, unrun. Physiology transformations during an acquired exposure remain unsupported."
+    },
+    {
+      "id": "poison-damage",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Toxic or fatigue effects bypass armor after valid delivery, route through the shared health ledger and retain their exposure identity.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic and fatigue exposures now apply shared HP/FP losses, with pointwise expanded overflow wounds and cyclic recovery locks. Rest protects cyclic FP while recovering unrelated loss; termination releases locks without refunding loss. Fixtures cover fixed effects, overflow, replay, rollback, undo and saved continuation but remain unrun. Other symptom/condition effects and persistent environmental repetition remain incomplete."
+    },
+    {
+      "id": "poison-cyclic-healing",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Cyclic poison damage cannot heal while its sequence remains active; release its recovery restriction on the appropriate final cycle or successful termination without erasing other restrictions.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic and fatigue exposures now apply shared HP/FP losses, with pointwise expanded overflow wounds and cyclic recovery locks. Rest protects cyclic FP while recovering unrelated loss; termination releases locks without refunding loss. Fixtures cover fixed effects, overflow, replay, rollback, undo and saved continuation but remain unrun. Other symptom/condition effects and persistent environmental repetition remain incomplete."
+    },
+    {
+      "id": "poison-cycle-resistance",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A resistible cyclic agent gives a new health check each cycle; success ends that exposure, while failure applies that cycle's damage, up to its specified total count.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned toxic HP exposures support exact onset and cycle deadlines, repeated resistance, early termination, shared wounds and protected injury until termination. Fixtures cover replay, rollback, undo and saved continuation but remain unrun. Fatigue effects, symptoms, treatments and continuing environmental exposure remain incomplete."
+    },
+    {
+      "id": "poison-symptom-threshold",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Track poison-attributed injury against its specified fraction of full capacity and activate the corresponding symptom; resolve symptom expiry when recovery passes the relevant threshold.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Injected-venom catalogue definition now executes delayed cyclic injury and exact one-third/one-half/two-thirds temporary DX symptoms through shared check modifiers. B421 defense/secondary exceptions and healing threshold clearance are integrated. Fixtures authored, unrun. Other symptom forms, overlapping symptomatic exposures and automatic follow-up delivery remain incomplete."
+    },
+    {
+      "id": "poison-nondamage-duration",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attribute penalties, conditions and suppressed traits need an explicit duration; absent a specific exception, duration is failure-margin minutes, extended by continued time in the environment.",
+      "tests": []
+    },
+    {
+      "id": "poison-market",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Campaign availability and price are explicit author inputs; catalogue price does not grant permission or access to purchase a restricted agent.",
+      "tests": []
+    },
+    {
+      "id": "poison-contact-dose",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One abstract contact dose covers one hit location; inventory consumption must reflect the treated area rather than grant unlimited coatings.",
+      "tests": []
+    },
+    {
+      "id": "poison-area-dose",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One abstract gas/spray dose affects one location on one victim, the face for respiratory effects; the listed ten-dose area example covers a two-yard-radius room.",
+      "tests": []
+    },
+    {
+      "id": "poison-cumulative-exposure",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A cumulative agent declares the exposure amount or time that constitutes one abstract dose; accumulate partial exposures without applying a full dose every action.",
+      "tests": []
+    },
+    {
+      "id": "poison-persistent-cloud",
+      "source": "full-2008",
+      "pages": "B438",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A gas cloud normally persists ten seconds or more according to wind; persistent contact residue remains until the specified removal event.",
+      "tests": []
+    },
+    {
+      "id": "poison-weapon-coating",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A follow-up dose coats a point or fills an injector; cutting-edge coating uses three abstract doses per yard of reach.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned ordinary melee point/edge coatings consume inventory doses and receive actual Lite strike outcomes through default no-op weapon hooks. Misses/dodges preserve coating; a hit or three blocks/parries deplete it. Fixtures unrun. Automatic penetration-to-exposure admission, injectors, unusual coatings and ranged payloads remain unfinished."
+    },
+    {
+      "id": "poison-coating-consumption",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary blade coating lasts one successful strike or three blocks/parries against it; misses and dodged attacks do not consume a coating strike.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned ordinary melee point/edge coatings consume inventory doses and receive actual Lite strike outcomes through default no-op weapon hooks. Misses/dodges preserve coating; a hit or three blocks/parries deplete it. Fixtures unrun. Automatic penetration-to-exposure admission, injectors, unusual coatings and ranged payloads remain unfinished."
+    },
+    {
+      "id": "poison-dose-scaling",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "For scalable digestive or injected agents, each abstract dosage doubling doubles cost and damage, halves delay and interval, adds -2 resistance and +2 detection; apply the same dose history consistently.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Exact whole-second increased-dose arithmetic is bound to admitted digestive/hypodermic exposures and used for resistance, damage and deadlines. Cost and detection modifiers are returned for author integration; automatic inventory, purchasing and detection execution remain unfinished. Fixtures authored, unrun."
+    },
+    {
+      "id": "poison-fractional-dose",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Sub-dose effects require an explicit supported policy, reversing modifiers or being ineffective as authored; do not assume arbitrary fractional potency.",
+      "tests": []
+    },
+    {
+      "id": "poison-pre-symptom-identification",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Before symptoms, identifying the agent requires an available clue and appropriate poison, naturalist or social procedure; a hidden exposure does not automatically notify the victim.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom examination, authored duration and dose modifiers. Successful same-examiner receipts authorize timed treatment and antidotes; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing and retries remain incomplete."
+    },
+    {
+      "id": "poison-post-symptom-identification",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After damage begins, diagnosis or poison knowledge can identify the agent; successful identification selects valid treatments rather than curing it automatically.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned clue/symptom identification checks appropriate skills, actual damage before symptom examination, authored duration and dose modifiers. Successful same-examiner receipts authorize timed treatment and antidotes; failure does not. Fixtures authored, unrun. Pre-admission recognition, social interrogation, knowledge sharing and retries remain incomplete."
+    },
+    {
+      "id": "poison-wound-treatment",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The listed one-minute first-aid/physician wound treatment is at -2 and, when appropriate and successful, grants +2 to later resistance; bind it to the actual exposure.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned timed treatment checks explicit identification/suitability, spends one shared duration, rolls the appropriate skill and applies a future resistance bonus. Wound and digestive durations/modifiers are fixed; physician duration/bonus are authored with the source technology cap. Fixtures unrun. Harmful exceptions, automatic identification, repeats and combined treatments remain incomplete."
+    },
+    {
+      "id": "poison-digestive-treatment",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The listed ten-second digestive treatment uses first aid or physician and grants +2 only when appropriate; its suitability and harmful exceptions must be part of the identified agent definition.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned timed treatment checks explicit identification/suitability, spends one shared duration, rolls the appropriate skill and applies a future resistance bonus. Wound and digestive durations/modifiers are fixed; physician duration/bonus are authored with the source technology cap. Fixtures unrun. Harmful exceptions, automatic identification, repeats and combined treatments remain incomplete."
+    },
+    {
+      "id": "poison-antidote",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An antidote must match its target agent and explicitly define a resistance bonus or termination effect; it is not a generic cure for every poison.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned agent-specific antidote administration consumes one inventory unit and applies an authored resistance bonus or terminates an exposure without healing. Identification can use an owned successful same-administrator/exposure receipt or explicit prior-knowledge evidence. Invalid knowledge is rejected before consumption. Fixtures authored, unrun. Administration action duration, combined remedies and knowledge sharing remain incomplete."
+    },
+    {
+      "id": "poison-medical-treatment",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Suitable physician treatment can grant a resistance bonus no larger than ceil(medical technology/2), minimum one; a successful skill roll cannot create an undefined treatment effect.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned timed treatment checks explicit identification/suitability, spends one shared duration, rolls the appropriate skill and applies a future resistance bonus. Wound and digestive durations/modifiers are fixed; physician duration/bonus are authored with the source technology cap. Fixtures unrun. Harmful exceptions, automatic identification, repeats and combined treatments remain incomplete."
+    },
+    {
+      "id": "poison-cyclic-treatment",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Treatment after cyclic damage begins changes future resistance or terminates the remaining sequence as defined; it does not refund already suffered injury.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Owned agent-specific antidote administration consumes one inventory unit and applies an authored resistance bonus or terminates an exposure without healing injury. Identification and administration require explicit evidence; action durations, identification rolls, combined remedies and general medical treatment remain unfinished. Fixtures authored, unrun."
+    },
+    {
+      "id": "poison-catalogue-delayed-ingested-agent",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Technology one, digestive delivery, one-hour delay, health-2 resistance, one die toxic damage at hourly intervals for eight cycles, price one per abstract dose and legality class one.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Neutral fixed catalogue definitions now execute through owned toxic exposure: source timing, resistance, damage and cycles, with route validation and immutable source statistics. Stock factory carries total lot price, technology and legality. Literal source-value and full delayed-agent cycle fixtures authored, unrun. Automatic payload delivery and complete market/identification integrations remain unfinished."
+    },
+    {
+      "id": "poison-catalogue-injected-venom",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Technology zero, follow-up delivery, one-minute delay, health-3, two dice toxic damage at hourly intervals for six cycles, price ten and legality one; injury at one-third, one-half and two-thirds capacity gives dexterity -2, -4 and -6 respectively.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Injected-venom catalogue definition now executes delayed cyclic injury and exact one-third/one-half/two-thirds temporary DX symptoms through shared check modifiers. B421 defense/secondary exceptions and healing threshold clearance are integrated. Fixtures authored, unrun. Other symptom forms, overlapping symptomatic exposures and automatic follow-up delivery remain incomplete."
+    },
+    {
+      "id": "poison-catalogue-rapid-systemic-agent",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Technology four, unresisted four-dice toxic damage; follow-up or respiratory delivery has no delay, contact or digestive delivery has fifteen-minute delay. Price two and legality one.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Neutral fixed catalogue definitions now execute through owned toxic exposure: source timing, resistance, damage and cycles, with route validation and immutable source statistics. Stock factory carries total lot price, technology and legality. Literal source-value and full delayed-agent cycle fixtures authored, unrun. Automatic payload delivery and complete market/identification integrations remain unfinished."
+    },
+    {
+      "id": "poison-catalogue-dual-route-agent",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Technology six, price ten and legality zero; contact mode has no delay, health-4, one toxic damage every eight hours for twenty-four cycles; respiratory mode delays two hours, uses health-1 and one die each hour for six cycles.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure"
+      ],
+      "validation_note": "Fixed catalogue area-contact and area-respiratory definitions now execute their distinct timing, resistance, damage and cycle counts for explicitly prepared patients. Fixed contact injury consumes no damage randomness. Full cycle fixtures authored, unrun. Unprepared fear admission and persistent environmental repetition remain unfinished and explicit."
+    },
+    {
+      "id": "poison-catalogue-neurological-agent",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Technology six area contact delivery, no delay, health-6, two dice toxic damage each minute for six cycles, price twenty and legality zero; an authored associated incapacitating condition is required.",
+      "tests": ["tests/expanded.py::test_neurological_agent"],
+      "validation_note": "Fixed catalogue mechanics and explicit authored first-failed-cycle paralysis/seizure/agony contracts implemented with bound duration and evidence. Six-cycle, coincident agony-fatigue/toxic deadlines, rollback, undo and save-continuation assertions authored, unrun. Retching, alternative onset policies and unprepared fear admission remain incomplete; duration is an authored decision, not supplied by this catalogue entry."
+    },
+    {
+      "id": "poison-catalogue-combustion-smoke",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Area respiratory delivery, ten-second delay and health resistance; failure causes coughing for exposure duration plus failure-margin minutes. Legality four, with denser damaging smoke explicitly defined separately.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure",
+        "tests/expanded.py::test_coughing"
+      ],
+      "validation_note": "Neutral ordinary-smoke catalogue now executes ten-second respiratory onset/retries and owned coughing without damage, persisting until departure plus failure-margin minutes. Exact expiry and save/undo fixtures authored, unrun. Dense-smoke injury, cloud lifecycle, overlapping cough causes and nonpositive automatic-failure margins remain unfinished or explicitly blocked."
+    },
+    {
+      "id": "poison-catalogue-dual-irritant",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Technology six area respiratory and vision routes each have no delay and health-2; respiratory failure causes coughing, visual failure blindness, for exposure duration plus failure-margin minutes. Price ten, legality two; opacity penalizes vision -1 through -3 per affected yard.",
+      "tests": [
+        "tests/expanded.py::test_poison_exposure",
+        "tests/expanded.py::test_temporary_blindness"
+      ],
+      "validation_note": "Prepared respiratory and explicit vision-based area routes now execute immediate HT-2 resistance, coughing/blindness and departure-plus-margin expiry. Vision opacity applies authored one-to-three penalties per whole yard. Fixtures authored, unrun. Unprepared fear, overlapping conditions, fractional/cloud geometry and unseen-target combat remain incomplete."
+    },
+    {
+      "id": "poison-unprepared-fear",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unexpected exposure to the specified severe gases may require an authored fear check; resolve it through the selected profile rather than automatically stunning every exposed actor.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-hourly-accounting",
+      "source": "full-2008",
+      "pages": "B439",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Track abstract drinks per hour; exceeding strength/4 triggers a check against the higher of health or carousing at the hour's end, with continuing drinking checked hourly.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-quantity-penalty",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply -1 per drink above strength/4 in that hour, -2 for an empty stomach or +1 for recent food, and the appropriate tolerance/intolerance modifier.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-failure-level",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each ordinary failure advances one stage through sober, tipsy, drunk, unconscious stupor and coma.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-critical-level",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical failure advances two stages, or three if effective resistance is two or less; this procedure explicitly permits low-target resistance checks and must not be rejected by a generic ordinary-task minimum.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-hallucinations",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On becoming drunk, make the additional health+4 check and apply hallucination on failure without replacing the intoxication state.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-purge",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If continued drinking would make a drunk actor unconscious or comatose, check unmodified health; success substitutes retching, while critical failure adds choking after unconsciousness.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-sober-delay",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After drinking stops, wait half the total abstract drink count in hours before the first health recovery check; repeat at that interval, moving one stage toward sober on success.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-coma",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Intoxication coma needs medical help and cannot be cleared by the ordinary sobriety countdown.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-hangover-check",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When a tipsy-or-worse actor stops drinking, check health with -2 if drunk or -4 if unconscious, plus any specific prevention modifier.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-hangover-onset",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed hangover checking creates a delayed episode one die of hours later, or on awakening if asleep/unconscious beforehand, lasting failure-margin hours.",
+      "tests": []
+    },
+    {
+      "id": "intoxication-hangover-effects",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "During hangover apply moderate pain and low pain threshold, or suppress existing high pain threshold, retaining original traits for restoration at expiry.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-stimulant-benefit",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The stimulant category restores one die of actual missing fatigue and temporarily grants no-sleep and overconfidence with self-control twelve for max(one, twelve minus health) hours.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-stimulant-crash",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At expiry remove twice the fatigue actually restored, not twice the uncapped roll, and apply bad temper twelve and depression nine for an equal duration.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-stimulant-repeat",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For second and later doses within twenty-four hours, check health at cumulative -1 per dose after the first; critical failure causes cardiac arrest.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-stimulant-addiction",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stimulant dependency is the listed minor negative-one-point trait when legal, or negative five points when illegal.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-hallucinogen-effect",
+      "source": "full-2008",
+      "pages": "B440-B441",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The hallucinogen category normally has twenty-minute oral onset and health-2 resistance; failure creates hallucinations for failure-margin hours, followed by hourly health-2 checks to end the effect.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-hallucinogen-dependency",
+      "source": "full-2008",
+      "pages": "B440-B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "This category can cause psychological but not physiological dependency; addiction values are negative ten if legal or negative fifteen otherwise.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-sedative-effect",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The sedative category has twenty-minute oral onset and health-2 resistance; failure causes drowsiness for failure-margin hours. Any tolerance-related larger dose remains recorded for overdose assessment.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-sedative-dependency",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sedative addiction is negative five if obtained legally or negative ten otherwise.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-analgesic-effect",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The potent analgesic category has twenty-minute oral onset or immediate injected onset and health-4 resistance; failure grants high pain threshold and unflappability, adds laziness and euphoria for failure-margin hours.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-analgesic-dependency",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Potent analgesic addiction is negative fifteen if legal or negative twenty otherwise.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-incapacitating-opioid",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The listed incapacitating depressant has immediate injected onset, health-4 resistance and ecstasy-like incapacity for failure-margin hours; contamination is a separately authored hazard. Its stated addiction value is negative forty.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-overdose-mixture",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Two or more abstract depressant doses, including different agents, create overdose risk; any concurrent alcohol counts as an additional dose under this fictional procedure.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-overdose-trigger",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical failure on resistance against the multiple-dose exposure causes overdose; retain dosage penalties and critical-failure margin behavior even below effective target three.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-overdose-duration",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Overdose causes unconsciousness for failure-margin hours and a separate cyclic toxic effect: one injury every fifteen minutes for twenty-four cycles, resisted at the most difficult participating agent's ordinary resistance.",
+      "tests": []
+    },
+    {
+      "id": "drug-use-overdose-coma",
+      "source": "full-2008",
+      "pages": "B441",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At negative full health capacity during overdose, transition to coma without clearing the remaining poison or ordinary injury consequences.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-schedule",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Withdrawal uses one owned daily sequence, ordinarily requiring fourteen successful checks; campaign variation must be explicit and cannot reset a partial day through a new object.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-buyoff",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Successful withdrawal requires immediate addiction buyoff through character accounting; preserve an explicit policy for an unaffordable buyoff instead of silently erasing the trait or inventing spendable points.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-physical-check",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Physiological withdrawal checks health capped at thirteen; success advances the successful-day count.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-physical-relapse",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed physiological withdrawal with the drug available causes a dose and resets progress if another attempt begins; consume actual inventory or resolve how the dose is obtained.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-physical-unavailable",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If the drug is unavailable, a failed physiological check causes one injury and no progress, without resetting previous successes. That injury cannot heal naturally until withdrawal succeeds or is abandoned.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-psychological-check",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Psychological withdrawal checks will capped at thirteen; success counts toward the same ordinary fourteen-success requirement.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-psychological-unavailable",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A failed psychological check without available drug adds one negative point of authored drug-related mental traits rather than injury; continued failures may develop increasingly severe traits.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-psychological-relapse",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Taking a dose removes withdrawal-generated quirks but resets withdrawal progress; retain independently existing mental traits.",
+      "tests": []
+    },
+    {
+      "id": "withdrawal-psychological-final",
+      "source": "full-2008",
+      "pages": "B440",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After fourteen psychological successes, make the final will check; failure retains the acquired withdrawal traits, while successful resolution removes only those temporary withdrawal consequences.",
+      "tests": []
+    },
+    {
+      "id": "illness-hidden-exposure",
+      "source": "full-2008",
+      "pages": "B442",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disease acquisition checks are hidden; exposure alone must not tell the player that infection succeeded before symptoms or discovery.",
+      "tests": []
+    },
+    {
+      "id": "illness-regional-awareness",
+      "source": "full-2008",
+      "pages": "B442",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Current-affairs success may reveal regional disease reports; perception-based diagnosis or physician can spot symptomatic people, while veterinary examination is required for infected animal specimens.",
+      "tests": []
+    },
+    {
+      "id": "illness-definition",
+      "source": "full-2008",
+      "pages": "B442-B443",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Define each illness's vectors, resistance, incubation, cyclic damage, symptom thresholds, contagious period, treatment and immunity rules; no generic callback substitutes for these fields.",
+      "tests": []
+    },
+    {
+      "id": "illness-vector",
+      "source": "full-2008",
+      "pages": "B442",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disease blood/contact/digestive/respiratory vectors use the corresponding delivery and protection semantics without importing poison-specific market or coating rules.",
+      "tests": []
+    },
+    {
+      "id": "illness-resistance",
+      "source": "full-2008",
+      "pages": "B442-B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Successful initial health resistance prevents contraction; failure starts the incubation record and future cycle resistance, with defined virulence and exposure modifiers.",
+      "tests": []
+    },
+    {
+      "id": "illness-incubation",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The generic incubation is twenty-four hours unless the illness states otherwise; symptoms and infectiousness can begin at different declared times.",
+      "tests": []
+    },
+    {
+      "id": "illness-damage",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disease damage bypasses armor, normally one toxic injury but possibly more; bind injury and its healing restriction to that illness episode.",
+      "tests": []
+    },
+    {
+      "id": "illness-cycles",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The ordinary disease cycle interval is one day unless specified; each successful health recovery check ends the illness, otherwise apply damage until its maximum cycles or other ending condition.",
+      "tests": []
+    },
+    {
+      "id": "illness-healing-lock",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Disease injury cannot heal naturally before the applicable recovery condition; expiry of one disease must not unlock injury from an unresolved second illness.",
+      "tests": []
+    },
+    {
+      "id": "illness-symptoms",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Symptoms can begin after injury and change at specified disease-attributed loss fractions, including one-third, one-half, two-thirds or full health capacity.",
+      "tests": []
+    },
+    {
+      "id": "illness-diagnosis",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Once symptoms appear, diagnosis or epidemiology identifies known illness, or veterinary skill for animal disease. A wholly new illness cannot be named by ordinary recognition, though an authored strong result can guide treatment.",
+      "tests": []
+    },
+    {
+      "id": "illness-remedies",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only remedies appropriate to the illness grant their stated bonus to cycle resistance; medical care supplies its defined recovery benefits without duplicate physician rolls.",
+      "tests": []
+    },
+    {
+      "id": "illness-antibiotic",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At technology six or higher, the listed antibacterial treatment grants +3 against susceptible bacterial illness; an explicitly resistant or nonbacterial illness does not receive it.",
+      "tests": []
+    },
+    {
+      "id": "illness-resistant-illness",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Drug-resistant illnesses ignore ordinary treatment bonuses; technology-seven-or-higher mitigation may reduce damage or extend intervals without curing, according to a specific treatment definition.",
+      "tests": []
+    },
+    {
+      "id": "illness-susceptibility",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Authored fictional physiology may change susceptibility or immunity to a particular illness, discoverable with diagnosis or physician. Do not infer real-world disease traits from broad demographic labels.",
+      "tests": []
+    },
+    {
+      "id": "illness-natural-immunity",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A natural three or four on the first resistance attempt grants hidden specific immunity; record it persistently and do not automatically disclose it.",
+      "tests": [
+        "tests/expanded.py::test_specific_natural_immunity",
+        "tests/expanded.py::test_immunity_transactions",
+        "tests/expanded.py::test_immunity_persistence"
+      ],
+      "validation_note": "Specific first-attempt immunity is owned by the character and neutral disease identity and integrated with infection acquisition. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Other disease types and broad/acquired immunity remain incomplete."
+    },
+    {
+      "id": "illness-acquired-immunity",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Recovery may grant immunity only if the specific illness permits it; neither universal recurrence nor universal permanent immunity is assumed.",
+      "tests": []
+    },
+    {
+      "id": "illness-vaccination",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Vaccination prevents susceptible future illness rather than curing active disease; record its disease scope, timing and availability.",
+      "tests": []
+    },
+    {
+      "id": "illness-vaccine-invention",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Developing a new vaccine uses the invention procedure with bioengineering; successful treatment or diagnosis alone does not create a vaccine.",
+      "tests": []
+    },
+    {
+      "id": "illness-advanced-resistance",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technology-ten-or-higher interventions can grant the applicable disease-resistance trait under a specific authorized treatment, with scope and point accounting recorded.",
+      "tests": []
+    },
+    {
+      "id": "illness-example-brief",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The fast mild example uses twenty-four-hour incubation, health-2 resistance, one toxic injury, twelve-hour cycles and six cycles; execute those defined timings independently of its fictional name.",
+      "tests": []
+    },
+    {
+      "id": "illness-example-protracted",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "The slow severe example uses seventy-two-hour incubation, health-5 resistance, one toxic injury, daily cycles and thirty cycles.",
+      "tests": []
+    },
+    {
+      "id": "contagion-day",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At day end, exposure in an affected area or to a carrier triggers health against virulence plus the least favorable applicable contact modifier, not the sum of all contact categories.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-avoided",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Avoiding all contact with possible victims gives +4.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-dwelling",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Entering a victim's dwelling or shop gives +3.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-conversation",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Close conversation gives +2.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-brief-touch",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Brief touch gives +1.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-belongings",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Using affected clothes or bedding gives zero.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-cooked",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Consuming affected cooked animal material gives zero.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-raw",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Consuming affected raw animal material gives -1.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-prolonged",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Prolonged contact with a living carrier gives -2.",
+      "tests": []
+    },
+    {
+      "id": "contagion-contact-intimate",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Intimate contact gives -3.",
+      "tests": []
+    },
+    {
+      "id": "contagion-precautions",
+      "source": "full-2008",
+      "pages": "B443",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Appropriate understood masks, antisepsis or similar precautions provide their authored bonus; the campaign may require the relevant knowledge rather than assuming every actor applies modern precautions.",
+      "tests": []
+    },
+    {
+      "id": "infection-antibiotic-prevention",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An open wound treated with the specified technology-six-or-higher antibacterial care avoids infection except on critical failure of first aid or physician treatment.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_acquisition",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
+      ],
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
+    },
+    {
+      "id": "infection-initial-check",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An untreated wound exposed to authored unclean circumstances checks health+3 with cumulative contamination modifiers; these replace ordinary contagion contact categories.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_acquisition",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
+      ],
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
+    },
+    {
+      "id": "infection-progression",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A typical infection checks health daily with the stated contamination modifiers; failure loses one health and success ends it, ordinarily continuing until recovery or death.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_progression",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence"
+      ],
+      "validation_note": "Owned acquisition and exact-boundary progression use shared disease-injury restrictions. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Scheduling/catch-up, physician care, complete immunity, discovery and other disease procedures remain incomplete."
+    },
+    {
+      "id": "infection-treatment",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The specified antibacterial treatment grants +3 to infection recovery checks while applicable; do not also award unrelated immediate healing.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments",
+        "tests/expanded.py::test_infection_progression",
+        "tests/expanded.py::test_infection_transactions",
+        "tests/expanded.py::test_infection_persistence",
+        "tests/expanded.py::test_infection_supervision"
+      ],
+      "validation_note": "Owned infection progression integrates the qualified roster bonus with antibiotic modifiers and shared recovery restrictions. Fixtures authored but unrun. Automatic care scheduling, interruption, catch-up, broader disease treatment and verified cross-module behavior remain incomplete."
+    },
+    {
+      "id": "infection-surgical-eligibility",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Surgical removal is available only before infection injury exceeds half health capacity for head/torso, or the relevant crippling amount for a limb/extremity.",
+      "tests": []
+    },
+    {
+      "id": "infection-surgical-effect",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Removing infected tissue causes two dice of injury to head/torso or amputates the affected limb/extremity; a successful surgery check also cures infection, while failure leaves infection despite the physical cost.",
+      "tests": []
+    },
+    {
+      "id": "infection-contamination-ordinary",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Ordinary dirt adds zero to the initial health+3 baseline.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+    },
+    {
+      "id": "infection-contamination-infected-matter",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Infected matter adds -2.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+    },
+    {
+      "id": "infection-contamination-special-locale",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "A locale carrying a special infection adds -3, cumulative with other applicable contamination.",
+      "tests": [
+        "tests/expanded.py::test_infection_assessments"
+      ],
+      "validation_note": "Pure assessment of contamination, prevention and typical daily progression authored. Fixtures unrun. Hidden acquisition, owned episodes, critical-treatment adjudication and committed injury/recovery remain incomplete."
+    },
+    {
+      "id": "aging-eligibility",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An ageless actor is exempt; otherwise use the ancestry's aging schedule and recorded age, not the character's creation date alone.",
+      "tests": []
+    },
+    {
+      "id": "aging-birthday",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "The ordinary annual sequence starts at fifty and uses the birthday, or first day of the game year when no exact birthday is recorded.",
+      "tests": [
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
+      ],
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
+    },
+    {
+      "id": "aging-frequency-seventy",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At seventy, the ordinary sequence occurs each six months.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-frequency-ninety",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At ninety, the ordinary sequence occurs each three months.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-extended-lifespan",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each extended-lifespan level doubles starting age, frequency-change ages and all check intervals.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-short-lifespan",
+      "source": "full-2008",
+      "pages": "B154; B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use the supplied shortened-lifespan table with its rounded onset ages and explicit calendar intervals for levels one through four; do not substitute fractional halving where the table differs.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-ordered-checks",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each aging event makes four health rolls in order for strength, dexterity, intelligence and health; luck cannot alter these rolls.",
+      "tests": [
+        "tests/expanded.py::test_aging_sequence",
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
+      ],
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
+    },
+    {
+      "id": "aging-technology-modifier",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply the world's medical technology minus three to each aging check; use the actual configured world standard, not an unrelated carried device.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-fitness-modifier",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply +2 very fit, +1 fit, -1 unfit or -2 very unfit according to the actual mutually exclusive fitness trait.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-ordinary-loss",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary failure reduces the relevant attribute by one; critical failure or natural seventeen/eighteen reduces it by two.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-longevity",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "With longevity, rolls sixteen or below succeed and seventeen/eighteen cause only one loss; at modified health seventeen or higher only eighteen fails.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure schedule and attribute-loss assessments authored using the exact B154 shortened-lifespan table and B444 roll exceptions. Fixtures unrun. Owned aging events, point/derived-state changes and calendar integration remain incomplete."
+    },
+    {
+      "id": "aging-derived-loss",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Aging loss reduces character value and all dependent secondary characteristics and skills; it grants no spendable point refund.",
+      "tests": [
+        "tests/expanded.py::test_aging_sequence",
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
+      ],
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
+    },
+    {
+      "id": "aging-death",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An attribute reduced to zero by aging causes natural death.",
+      "tests": [
+        "tests/expanded.py::test_aging_sequence",
+        "tests/expanded.py::test_aging_events",
+        "tests/expanded.py::test_aging_transactions",
+        "tests/expanded.py::test_aging_death_transactions",
+        "tests/expanded.py::test_aging_persistence"
+      ],
+      "validation_note": "Owned aging events record ordered losses, point-value changes and natural death without spending advancement points. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Automatic calendar timing, substitutions, rejuvenation and trait interactions remain incomplete."
+    },
+    {
+      "id": "aging-alternative-loss",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored aging result may replace an attribute loss with equal-value lost advantages or gained disadvantages; validate equivalence and retain the age at which each change occurred.",
+      "tests": []
+    },
+    {
+      "id": "aging-rejuvenation",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Becoming younger restores attribute levels lost between the new and old ages without spending points; preserve dated loss records so unrelated injury or later investment is not accidentally reversed.",
+      "tests": [
+        "tests/expanded.py::test_rejuvenation",
+        "tests/expanded.py::test_rejuvenation_transactions",
+        "tests/expanded.py::test_rejuvenation_persistence"
+      ],
+      "validation_note": "Owned whole-year restoration preserves real advancement purchases and restores each recorded loss once across aging eras. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Partial-year cutoffs, trait substitutions and automatic age tracking remain incomplete."
+    },
+    {
+      "id": "aging-paid-improvement",
+      "source": "full-2008",
+      "pages": "B444",
+      "module": "hazards",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Earned points may improve attributes despite age; this is a normal purchase and must coexist with subsequent aging and possible rejuvenation records.",
+      "tests": [
+        "tests/expanded.py::test_rejuvenation",
+        "tests/expanded.py::test_rejuvenation_transactions",
+        "tests/expanded.py::test_rejuvenation_persistence"
+      ],
+      "validation_note": "Owned whole-year restoration preserves real advancement purchases and restores each recorded loss once across aging eras. Outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Partial-year cutoffs, trait substitutions and automatic age tracking remain incomplete."
+    },
+    {
+      "id": "aging-short-lifespan-row-0",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Preserve maturity, the three aging onset ages and each interval unit/count in shortened-lifespan table row 0.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure exact table values authored; fixtures unrun. Calendar scheduling and committed aging effects remain incomplete."
+    },
+    {
+      "id": "aging-short-lifespan-row-1",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Preserve maturity, the three aging onset ages and each interval unit/count in shortened-lifespan table row 1.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure exact table values authored; fixtures unrun. Calendar scheduling and committed aging effects remain incomplete."
+    },
+    {
+      "id": "aging-short-lifespan-row-2",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Preserve maturity, the three aging onset ages and each interval unit/count in shortened-lifespan table row 2.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure exact table values authored; fixtures unrun. Calendar scheduling and committed aging effects remain incomplete."
+    },
+    {
+      "id": "aging-short-lifespan-row-3",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Preserve maturity, the three aging onset ages and each interval unit/count in shortened-lifespan table row 3.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure exact table values authored; fixtures unrun. Calendar scheduling and committed aging effects remain incomplete."
+    },
+    {
+      "id": "aging-short-lifespan-row-4",
+      "source": "full-2008",
+      "pages": "B154",
+      "module": "hazards",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Preserve maturity, the three aging onset ages and each interval unit/count in shortened-lifespan table row 4.",
+      "tests": [
+        "tests/expanded.py::test_aging_assessments"
+      ],
+      "validation_note": "Pure exact table values authored; fixtures unrun. Calendar scheduling and committed aging effects remain incomplete."
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B437-B444",
+      "reason": "Exclude source prose, quotations, real-world dose measurements, named chemical examples and fictional narrative. Preserve each mechanical catalogue entry under a neutral identifier using abstract game-dose units."
+    },
+    {
+      "pages": "B443-B444",
+      "reason": "Do not reproduce incidental real-world epidemiological claims as medical facts; immunity and susceptibility are explicit properties of authored game illnesses."
+    }
+  ]
+}

@@ -17,27 +17,46 @@ markdown_extensions:
       permalink: true
 nav:
   - Overview: index.md
+  - Library selection: docs/libraries.md
+  - Rules comparison: docs/rules-comparison.md
+  - Expanded integration: docs/expanded/index.md
+  - Current completion scope: docs/expanded/current-scope.md
+  - Fear completion audit: docs/expanded/fear-completion.md
+  - Expanded source inventory: docs/expanded/inventory/index.md
   - Authoring challenges: docs/authoring.md
   - Assessments and dice reports: docs/reporting.md
   - Playable resilience: docs/resilience.md
   - Progression: docs/progression.md
   - Lite rules: docs/lite.md
-  - Library selection: docs/libraries.md
-  - Rules comparison: docs/rules-comparison.md
-  - Character/social integration: docs/expanded/index.md
+  - Expanded campaign: docs/expanded/campaign.md
+  - Character/social integration: docs/expanded/character-social.md
   - Expanded characters: docs/expanded/characters.md
+  - Expanded combat: docs/expanded/combat.md
+  - Expanded creatures: docs/expanded/creatures.md
+  - Expanded development: docs/expanded/development.md
+  - Expanded equipment: docs/expanded/equipment.md
+  - Expanded exploration: docs/expanded/exploration.md
+  - Expanded hazards: docs/expanded/hazards.md
+  - Expanded health: docs/expanded/health.md
+  - Expanded magic: docs/expanded/magic.md
+  - Expanded psionics: docs/expanded/psionics.md
   - Expanded skills: docs/expanded/skills.md
-  - Trait pricing: docs/expanded/traits.md
-  - Occupational templates: docs/expanded/templates.md
-  - Reputation and social play: docs/expanded/social.md
-  - Interim release notes: docs/releases/character-social-preview.md
+  - Expanded social: docs/expanded/social.md
+  - Optional stress: docs/expanded/stress.md
+  - Expanded tactical: docs/expanded/tactical.md
+  - Expanded technology: docs/expanded/technology.md
+  - Expanded templates: docs/expanded/templates.md
+  - Expanded traits: docs/expanded/traits.md
+  - Expanded vehicles: docs/expanded/vehicles.md
   - Library reference: reference/index.md
   - Classes and objects: reference/types.md
   - Functions: reference/functions.md
   - Alphabetical symbols: reference/symbols.md
   - Alphabetical members: reference/members.md
   - Development and releases: docs/development.md
-  - Current prerelease: docs/releases/v1.1.0-alpha.1.md
+  - Unreleased expanded preview: docs/releases/expanded-preview.md
+  - Character/social prerelease: docs/releases/v1.1.0-alpha.1.md
+  - Interim release notes: docs/releases/character-social-preview.md
   - Lite release: docs/releases/v1.0.0.md
   - Resilience prototype: docs/releases/v0.2.0-alpha.1.md
   - First prototype: docs/releases/v0.1.0-alpha.1.md

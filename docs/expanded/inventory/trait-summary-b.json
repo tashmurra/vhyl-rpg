@@ -1,0 +1,4364 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B298 trait table",
+  "review": "All second-page positive-trait summary rows visually located and mapped to neutral detailed definitions. Costs, classifications, variants, modifiers and executable effects still need reconciliation.",
+  "enumeration_complete": false,
+  "exclusions": [
+    "No source labels, character fiction or descriptive prose reproduced. Rows are references to detailed traits and do not create additional purchasable definitions."
+  ],
+  "entries": [
+    {
+      "id": "trait-summary-b-injury-tolerance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "neutral_key": "injury-tolerance",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-dispersed-body"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-uniform-body"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-no-fluid"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-distributed-brain"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-no-eyes"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-no-head"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-no-neck"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-no-vitals"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-nonliving-body"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-natural-ranged-attack",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "neutral_key": "natural-ranged-attack",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-natural-attack-base"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-burning"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-corrosive"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-crushing"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-cutting"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-fatigue"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-impaling"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-small-piercing"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-piercing"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-large-piercing"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-huge-piercing"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-toxic"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-partial-dice"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-delivery"
+          },
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-attack-description"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-phasing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "neutral_key": "phasing",
+        "category": "mental-or-physical",
+        "origin": "exotic",
+        "printed_point_cost": "80",
+        "targets": [
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-phasing"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-intuition",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "neutral_key": "intuition",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-intuition"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-advanced-calculation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "neutral_key": "advanced-calculation",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-calculation"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "calculation",
+          "total_point_cost": 5,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-invisibility",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "neutral_key": "invisibility",
+        "category": "mental-or-physical",
+        "origin": "exotic",
+        "printed_point_cost": "40",
+        "targets": [
+          {
+            "file": "traits-catalogue-g.json",
+            "entry": "traits-g-invisibility-base"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-cross-world-travel",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "neutral_key": "cross-world-travel",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "100",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-cross-world-travel"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-language-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "neutral_key": "language-aptitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-language-aptitude"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-enforcement-authority",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "neutral_key": "enforcement-authority",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5,10,15",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-enforcement-authority"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-legal-exemption",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "neutral_key": "legal-exemption",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5..20",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-legal-exemption"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-performer-exemption"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-diplomatic-exemption"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-reduced-sleep",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "neutral_key": "reduced-sleep",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "2/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reduced-sleep"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-lifting-strength",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "neutral_key": "lifting-strength",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "3/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-lifting-strength"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-mental-calculation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "neutral_key": "mental-calculation",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "2",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-calculation"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "calculation",
+          "total_point_cost": 2,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-aging-resilience",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "neutral_key": "aging-resilience",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "2",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-aging-resilience"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-reroll-luck",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "neutral_key": "reroll-luck",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-60"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-30"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-10"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-window"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-scope"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-active"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-aspect"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-reroll-defensive"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-magical-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "neutral_key": "magical-aptitude",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "5+10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-magical-aptitude-base"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "point_formula": {
+          "base_cost": 5,
+          "cost_per_additional_unit": 10,
+          "units_included_in_base": 0,
+          "unit": "enhanced-aptitude-level"
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-magic-resistance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "neutral_key": "magic-resistance",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "2/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-magic-resistance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-energy-suppression",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "neutral_key": "energy-suppression",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-energy-suppression"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-energy-enhancement",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "neutral_key": "energy-enhancement",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "50/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-energy-enhancement"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-mathematics-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "neutral_key": "mathematics-aptitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-mathematics"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-price"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-spirit-dialogue",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "neutral_key": "spirit-dialogue",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-spirit-dialogue"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-commercial-rank",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "neutral_key": "commercial-rank",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5,10/level",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "rank-commercial"
+          },
+          {
+            "file": "creation.json",
+            "entry": "institutional-rank"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-metabolic-control",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "neutral_key": "metabolic-control",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-metabolic-control"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-microscopic-sight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "neutral_key": "microscopic-sight",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-microscopic-sight"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-military-rank",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "neutral_key": "military-rank",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5,10/level",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "rank-military"
+          },
+          {
+            "file": "creation.json",
+            "entry": "institutional-rank"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-sound-imitation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "neutral_key": "sound-imitation",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-sound-imitation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-mental-command",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "neutral_key": "mental-command",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "50",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-command"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-mental-probe",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "neutral_key": "mental-probe",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "20",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-probe"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-thought-reading",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "neutral_key": "thought-reading",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "30",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-thought-reading"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-mental-shield",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "neutral_key": "mental-shield",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "4/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-shield"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-mental-link",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "neutral_key": "mental-link",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-link"
+          },
+          {
+            "file": "traits-catalogue-h.json",
+            "entry": "traits-h-mental-link-price"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-modular-abilities",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "neutral_key": "modular-abilities",
+        "category": "mental-or-physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-modular-pool"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-modular-programs"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-modular-chips"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-modular-study"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-modular-unrestricted"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-modular-modifiers"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-adaptive-form",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "neutral_key": "adaptive-form",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-adaptive-form"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-music-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "neutral_key": "music-aptitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-music"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-price"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-psi-suppression",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "neutral_key": "psi-suppression",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "50",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-psi-suppression"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-eye-membrane",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "neutral_key": "eye-membrane",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "1/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-eye-membrane"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-low-light-sight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "neutral_key": "low-light-sight",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "1/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-low-light"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-no-aftereffects",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "neutral_key": "no-aftereffects",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "1",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-perk-aftereffects"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-sense-obscuring",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 39,
+        "neutral_key": "sense-obscuring",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "2/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-sense-obscuring"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-omens",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 40,
+        "neutral_key": "omens",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-omens"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-wilderness-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 41,
+        "neutral_key": "wilderness-aptitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-wilderness"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-price"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-focused-hearing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 42,
+        "neutral_key": "focused-hearing",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "4/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-focused-hearing"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-patrons",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 43,
+        "neutral_key": "patrons",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-powerful"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-greater"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-exceptional"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-vast"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-supreme"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-availability"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-party"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-contract"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-equipment"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-access"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-special"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-minimal"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-secret"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-patron-coerced"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-internal-payload",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 44,
+        "neutral_key": "internal-payload",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "1/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-internal-payload"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-penetrating-sight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 45,
+        "neutral_key": "penetrating-sight",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-penetrating-sight"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-voice-projection",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 46,
+        "neutral_key": "voice-projection",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "1",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-perk-projection"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-balance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 47,
+        "neutral_key": "balance",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-balance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-wide-vision",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 48,
+        "neutral_key": "wide-vision",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-wide-vision"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-material-passage",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 49,
+        "neutral_key": "material-passage",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-material-passage-ubiquitous"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-material-passage-common"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-material-passage-occasional"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-material-passage-rare"
+          },
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-material-passage-state"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-exact-memory",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 50,
+        "neutral_key": "exact-memory",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-d.json",
+            "entry": "traits-d-memory-general"
+          },
+          {
+            "file": "traits-catalogue-d.json",
+            "entry": "traits-d-memory-learning"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "recall",
+          "total_point_cost": 10,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-sympathetic-appearance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 51,
+        "neutral_key": "sympathetic-appearance",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "physical-sympathy"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-plant-insight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 52,
+        "neutral_key": "plant-insight",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-plant-empathy"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-police-rank",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 53,
+        "neutral_key": "police-rank",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5,10/level",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "rank-police"
+          },
+          {
+            "file": "creation.json",
+            "entry": "institutional-rank"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-body-transfer",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 54,
+        "neutral_key": "body-transfer",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "100",
+        "targets": [
+          {
+            "file": "traits-catalogue-i.json",
+            "entry": "traits-i-body-transfer"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-granted-spell-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 55,
+        "neutral_key": "granted-spell-aptitude",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-granted-spell-aptitude"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-future-glimpses",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 56,
+        "neutral_key": "future-glimpses",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "25",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-future-glimpses"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-pressure-support",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 57,
+        "neutral_key": "pressure-support",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5..15",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-pressure-1"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-pressure-2"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-pressure-3"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-pressure-scope"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-sense-protection",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 58,
+        "neutral_key": "sense-protection",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/sense",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sense-protection"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-psi-exclusion",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 59,
+        "neutral_key": "psi-exclusion",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "30",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-psi-null"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-object-history",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 60,
+        "neutral_key": "object-history",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "20",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-object-history"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-compliant-host",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 61,
+        "neutral_key": "compliant-host",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "5,10",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-compliant-host"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-ancestral-memory",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 62,
+        "neutral_key": "ancestral-memory",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "15,40",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-ancestral-passive"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-ancestral-active"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-radiation-tolerance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 63,
+        "neutral_key": "radiation-tolerance",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-2"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-5"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-10"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-20"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-50"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-100"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-200"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-500"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-radiation-1000"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-institutional-rank",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 64,
+        "neutral_key": "institutional-rank",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5,10/level",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "institutional-rank"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-rapid-healing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 65,
+        "neutral_key": "rapid-healing",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-rapid-healing"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "natural-recovery",
+          "total_point_cost": 5,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-verbal-stun",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 66,
+        "neutral_key": "verbal-stun",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-verbal-stun"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-past-life-learning",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 67,
+        "neutral_key": "past-life-learning",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-past-life-learning"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-waking-recovery",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 68,
+        "neutral_key": "waking-recovery",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-waking-recovery"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-reduced-consumption",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 69,
+        "neutral_key": "reduced-consumption",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "2/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-consumption-1"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-consumption-2"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-consumption-3"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-consumption-4"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-consumption-quality"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-consumption-one-resource"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-regeneration",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 70,
+        "neutral_key": "regeneration",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-compatibility"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-slow"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-regular"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-fast"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-very-fast"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-extreme"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regeneration-radiation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-regrowth",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 71,
+        "neutral_key": "regrowth",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "40",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-regrowth"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-religious-rank",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 72,
+        "neutral_key": "religious-rank",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5,10/level",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "rank-religious"
+          },
+          {
+            "file": "creation.json",
+            "entry": "institutional-rank"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-reputation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 73,
+        "neutral_key": "reputation",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "reputation-base"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-audience-everyone"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-audience-large-exception"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-audience-large-group"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-audience-small-group"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-audience-negligible-group"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-recognition"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-mixed"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-always"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-ten"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-seven"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-stacking"
+          },
+          {
+            "file": "creation.json",
+            "entry": "reputation-region-change"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-resistance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 74,
+        "neutral_key": "resistance",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-delivery"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-very-common"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-common"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-occasional"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-rare"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-construction"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-resistance-mental"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-clean-metabolism",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 75,
+        "neutral_key": "clean-metabolism",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "1",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-perk-clean"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-scanning-sense",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 76,
+        "neutral_key": "scanning-sense",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-radio"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-imaging"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-laser"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-exotic"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-sonic"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-arc"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-low-intercept"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-modes"
+          },
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sensor-targeting"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-sealed-body",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 77,
+        "neutral_key": "sealed-body",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-sealed-body"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-clearance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 78,
+        "neutral_key": "clearance",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-clearance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-invisible-sight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 79,
+        "neutral_key": "invisible-sight",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-invisible-sight"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-lesser-empathy",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 80,
+        "neutral_key": "lesser-empathy",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-d.json",
+            "entry": "traits-d-empathic-impressions"
+          },
+          {
+            "file": "traits-catalogue-d.json",
+            "entry": "traits-d-empathic-tiers"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "empathy",
+          "total_point_cost": 5,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-fine-touch",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 81,
+        "neutral_key": "fine-touch",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-fine-touch"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-coincidence",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 82,
+        "neutral_key": "coincidence",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "15/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-coincidence"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-shadow-body",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 83,
+        "neutral_key": "shadow-body",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "50",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-shadow-body"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "alternative_purchase_family": "shadow-body"
+      }
+    },
+    {
+      "id": "trait-summary-b-shape-change",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 84,
+        "neutral_key": "shape-change",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-fixed-form-template"
+          },
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-adaptive-form"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-shrinking",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 85,
+        "neutral_key": "shrinking",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-shrinking"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-personal-flair",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 86,
+        "neutral_key": "personal-flair",
+        "category": "mental-or-physical",
+        "origin": "ordinary",
+        "printed_point_cost": "1",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-perk-flair"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-signature-equipment",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 87,
+        "neutral_key": "signature-equipment",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-signature-equipment"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-silence",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 88,
+        "neutral_key": "silence",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-silence"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-single-focus",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 89,
+        "neutral_key": "single-focus",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-single-focus"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-slippery",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 90,
+        "neutral_key": "slippery",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "2/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-slippery"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-social-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 91,
+        "neutral_key": "social-aptitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "15/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-social"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-price"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-remote-acquisition",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 92,
+        "neutral_key": "remote-acquisition",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "80",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-remote-acquisition"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-social-adaptation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 93,
+        "neutral_key": "social-adaptation",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-social-adaptation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-social-regard",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 94,
+        "neutral_key": "social-regard",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-social-regard"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-underwater-speech",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 95,
+        "neutral_key": "underwater-speech",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-underwater-speech"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-animal-dialogue",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 96,
+        "neutral_key": "animal-dialogue",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "25",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-animal-dialogue"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-plant-dialogue",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 97,
+        "neutral_key": "plant-dialogue",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-plant-dialogue"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-paired-rapport",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 98,
+        "neutral_key": "paired-rapport",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-paired-rapport"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-defensive-spines",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 99,
+        "neutral_key": "defensive-spines",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "1,3",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-defensive-spines"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-spirit-insight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 100,
+        "neutral_key": "spirit-insight",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-spirit-empathy"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-status",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 101,
+        "neutral_key": "status",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "status-purchase"
+          },
+          {
+            "file": "creation.json",
+            "entry": "status-merit-option"
+          },
+          {
+            "file": "creation.json",
+            "entry": "status-reaction"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-stretching",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 102,
+        "neutral_key": "stretching",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "6/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-stretching"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-striking-appendage",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 103,
+        "neutral_key": "striking-appendage",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5..8",
+        "targets": [
+          {
+            "file": "traits-catalogue-k.json",
+            "entry": "traits-k-striking-appendage"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-striking-strength",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 104,
+        "neutral_key": "striking-strength",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-striking-strength"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-low-frequency-hearing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 105,
+        "neutral_key": "low-frequency-hearing",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0,5",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-low-frequency-hearing"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "variants": [
+          {
+            "key": "exclusive",
+            "point_cost": 0,
+            "retains_ordinary_sense": false,
+            "special_sense": "low-frequency-hearing"
+          },
+          {
+            "key": "additional",
+            "point_cost": 5,
+            "retains_ordinary_sense": true,
+            "ordinary_sense": "ordinary-hearing",
+            "special_sense": "low-frequency-hearing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trait-summary-b-low-frequency-speech",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 106,
+        "neutral_key": "low-frequency-speech",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0,10",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-low-frequency-speech"
+          }
+        ],
+        "reconciliation": "exclusive and switchable prices and included hearing compared with detail; hearing-mode composition and executable fixtures pending",
+        "variants": [
+          {
+            "key": "exclusive",
+            "point_cost": 0,
+            "ordinary_speech": false
+          },
+          {
+            "key": "switchable",
+            "point_cost": 10,
+            "ordinary_speech": true
+          }
+        ],
+        "included_trait": "low-frequency-hearing",
+        "bundle_constraint": "Included hearing must not create a second purchase charge or duplicate bonuses. Preserve the source-specific hearing mode when resolving ordinary versus exclusive senses."
+      }
+    },
+    {
+      "id": "trait-summary-b-fast-climbing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 107,
+        "neutral_key": "fast-climbing",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "3/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-fast-climbing"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-enhanced-jump",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 108,
+        "neutral_key": "enhanced-jump",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-enhanced-jump"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-selected-roll",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 109,
+        "neutral_key": "selected-roll",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "100",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-selected-roll"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-unnatural-durability",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 110,
+        "neutral_key": "unnatural-durability",
+        "category": "physical",
+        "origin": "supernatural",
+        "printed_point_cost": "150",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-unnatural-durability"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-skill-aptitude",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 111,
+        "neutral_key": "skill-aptitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-bonus"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-price"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-animal"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-craft"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-business"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-art"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-plants"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-medicine"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-mathematics"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-music"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-wilderness"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-social"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-talent-custom"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-bite",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 112,
+        "neutral_key": "bite",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0,1,2",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-bite-blunt"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-bite-sharp"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-bite-beak"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-bite-fangs"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-remote-communication",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 113,
+        "neutral_key": "remote-communication",
+        "category": "mental-or-physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-base"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-infrared"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-laser"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-radio"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-thought"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-broadcast"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-shortwave"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-universal-video"
+          },
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-communication-limits"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-remote-manipulation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 114,
+        "neutral_key": "remote-manipulation",
+        "category": "mental-or-physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-remote-manipulation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-telescopic-sight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 115,
+        "neutral_key": "telescopic-sight",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-telescopic-sight"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-temperature-control",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 116,
+        "neutral_key": "temperature-control",
+        "category": "mental-or-physical",
+        "origin": "exotic",
+        "printed_point_cost": "5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-temperature-control"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-temperature-tolerance",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 117,
+        "neutral_key": "temperature-tolerance",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "1/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-temperature-tolerance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-temporal-persistence",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 118,
+        "neutral_key": "temporal-persistence",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-temporal-persistence"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-tenured-job",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 119,
+        "neutral_key": "tenured-job",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-tenured-job"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-terrain-adaptation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 120,
+        "neutral_key": "terrain-adaptation",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0,5",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-terrain-adaptation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-fear-aura",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 121,
+        "neutral_key": "fear-aura",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "30+10/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-fear-aura"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "point_formula": {
+          "base_cost": 30,
+          "cost_per_additional_unit": 10,
+          "units_included_in_base": 0,
+          "unit": "fear-penalty-point"
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-advanced-martial-training",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 122,
+        "neutral_key": "advanced-martial-training",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "30",
+        "targets": [
+          {
+            "file": "traits-catalogue-l.json",
+            "entry": "traits-l-advanced-martial-training"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-faith-ward",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 123,
+        "neutral_key": "faith-ward",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-faith-ward"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-tunneling",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 124,
+        "neutral_key": "tunneling",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "30+5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-tunneling"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "point_formula": {
+          "base_cost": 30,
+          "cost_per_additional_unit": 5,
+          "units_included_in_base": 0,
+          "unit": "movement-point"
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-ultrasonic-hearing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 125,
+        "neutral_key": "ultrasonic-hearing",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0,5",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-ultrasonic-hearing"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "variants": [
+          {
+            "key": "exclusive",
+            "point_cost": 0,
+            "retains_ordinary_sense": false,
+            "special_sense": "ultrasonic-hearing"
+          },
+          {
+            "key": "additional",
+            "point_cost": 5,
+            "retains_ordinary_sense": true,
+            "ordinary_sense": "ordinary-hearing",
+            "special_sense": "ultrasonic-hearing"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trait-summary-b-ultrasonic-speech",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 126,
+        "neutral_key": "ultrasonic-speech",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0..10",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-ultrasonic-speech"
+          }
+        ],
+        "reconciliation": "exclusive and switchable prices and included hearing compared with detail; hearing-mode composition and executable fixtures pending",
+        "variants": [
+          {
+            "key": "exclusive",
+            "point_cost": 0,
+            "ordinary_speech": false
+          },
+          {
+            "key": "switchable",
+            "point_cost": 10,
+            "ordinary_speech": true
+          }
+        ],
+        "included_trait": "ultrasonic-hearing",
+        "bundle_constraint": "Included hearing must not create a second purchase charge or duplicate bonuses. Preserve the source-specific hearing mode when resolving ordinary versus exclusive senses.",
+        "summary_range_interpretation": "The summary prints a range; detailed text specifies zero or ten, not freely selected intermediate prices."
+      }
+    },
+    {
+      "id": "trait-summary-b-ultraviolet-sight",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 127,
+        "neutral_key": "ultraviolet-sight",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "0,10",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-ultraviolet-vision"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-ultraviolet-dark-water"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "variants": [
+          {
+            "key": "exclusive",
+            "point_cost": 0,
+            "retains_ordinary_sense": false,
+            "special_sense": "ultraviolet-vision"
+          },
+          {
+            "key": "additional",
+            "point_cost": 10,
+            "retains_ordinary_sense": true,
+            "ordinary_sense": "ordinary-vision",
+            "special_sense": "ultraviolet-vision"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trait-summary-b-ageless",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 128,
+        "neutral_key": "ageless",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-ageless"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-unflappable",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 129,
+        "neutral_key": "unflappable",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-unflappable"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-universal-digestion",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 130,
+        "neutral_key": "universal-digestion",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-universal-digestion"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-deathless",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 131,
+        "neutral_key": "deathless",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "50..150",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-first"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-second"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-third"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-conversion"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-lethal-source"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-hindrance"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-rebirth"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-deathless-trigger"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-exceptional-background",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 132,
+        "neutral_key": "exceptional-background",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-special-background"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-vacuum-support",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 133,
+        "neutral_key": "vacuum-support",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-vacuum-support"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-life-draining-bite",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 134,
+        "neutral_key": "life-draining-bite",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "30+5/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-life-draining-bite"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "point_formula": {
+          "base_cost": 30,
+          "cost_per_additional_unit": 5,
+          "units_included_in_base": 1,
+          "unit": "health-drained-per-second"
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-creative-versatility",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 135,
+        "neutral_key": "creative-versatility",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "5",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-creative-versatility"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-advanced-fitness",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 136,
+        "neutral_key": "advanced-fitness",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-e.json",
+            "entry": "traits-e-fitness-advanced"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "fitness",
+          "total_point_cost": 15,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-faster-healing",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 137,
+        "neutral_key": "faster-healing",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-j.json",
+            "entry": "traits-j-faster-healing"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "natural-recovery",
+          "total_point_cost": 15,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        },
+        "source_disagreement": "B79 names lost health attribute before describing health-point restoration. Keep the recorded detail-level discrepancy unresolved until reconciled with the recovery procedure; summary price does not settle the effect."
+      }
+    },
+    {
+      "id": "trait-summary-b-vibration-sense",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 138,
+        "neutral_key": "vibration-sense",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-vibration-sense"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-visualized-task",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 139,
+        "neutral_key": "visualized-task",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-visualized-task"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-resonant-voice",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 140,
+        "neutral_key": "resonant-voice",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-resonant-voice"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-air-walking",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 141,
+        "neutral_key": "air-walking",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "20",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-air-walking"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-liquid-walking",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 142,
+        "neutral_key": "liquid-walking",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "15",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-liquid-walking"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-teleportation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 143,
+        "neutral_key": "teleportation",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "100",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-teleport-base"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-wealth",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 144,
+        "neutral_key": "wealth",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "wealth-no-assets"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-poor"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-limited"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-average"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-comfortable"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-wealthy"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-very-wealthy"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-extremely-wealthy"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-wealth-multiples"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-status"
+          },
+          {
+            "file": "creation.json",
+            "entry": "wealth-improvement"
+          },
+          {
+            "file": "creation.json",
+            "entry": "initial-assets"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-weapon-mastery",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 145,
+        "neutral_key": "weapon-mastery",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-weapon-mastery-all"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-weapon-mastery-large"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-weapon-mastery-medium"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-weapon-mastery-small"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-weapon-mastery-pair"
+          },
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-weapon-mastery-single"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-spontaneous-skill",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 146,
+        "neutral_key": "spontaneous-skill",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "20/level",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-spontaneous-skill"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-b-broad-cultural-adaptation",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 147,
+        "neutral_key": "broad-cultural-adaptation",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "20",
+        "targets": [
+          {
+            "file": "traits-catalogue-c.json",
+            "entry": "traits-c-culture-broad"
+          }
+        ],
+        "reconciliation": "tier total price and replacement relationship compared with detailed entry; full classification, effects and executable fixtures pending",
+        "tier_data": {
+          "family": "cultural-adaptation",
+          "total_point_cost": 20,
+          "replaces_lower_tier": true,
+          "additive_bonus_stacking": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-b-unrecorded-identity",
+      "source": "full-2008",
+      "pages": "B298 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 148,
+        "neutral_key": "unrecorded-identity",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "10",
+        "targets": [
+          {
+            "file": "traits-catalogue-m.json",
+            "entry": "traits-m-unrecorded-identity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    }
+  ]
+}

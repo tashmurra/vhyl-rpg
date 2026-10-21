@@ -1,0 +1,1448 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B557-B559",
+  "review": "Object, structure and cover rows visually checked against B558-B559. Rounding, underlying traits, cover penetration and localized erosion cross-references remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "object-durability-weight-selection",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use empty weight and the lower listed weight when between table thresholds. Distinguish complex machinery from objects without complex internal structure. Values outside the printed table need an explicit formula option or authored definition.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-formula",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional calculated capacity is ceil(4*cuberoot(empty pounds)) for machinery and ceil(8*cuberoot(empty pounds)) for uniform/dispersed objects. This is a selected alternative to lookup, not a silent extrapolation or replacement.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-authored-capacity",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An author may define exceptional toughness or frailty. Record the approved capacity and reason on the object definition before play; reject absent/invalid definitions without spending resources.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-weight-1-64",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 1/64 pounds the table assigns capacity 1 to machinery and 2 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "1/64",
+        "machine_hp": 1,
+        "uniform_hp": 2
+      }
+    },
+    {
+      "id": "object-durability-weight-1-8",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 1/8 pounds the table assigns capacity 2 to machinery and 4 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "1/8",
+        "machine_hp": 2,
+        "uniform_hp": 4
+      }
+    },
+    {
+      "id": "object-durability-weight-1-2",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 1/2 pounds the table assigns capacity 3 to machinery and 6 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "1/2",
+        "machine_hp": 3,
+        "uniform_hp": 6
+      }
+    },
+    {
+      "id": "object-durability-weight-1",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 1 pounds the table assigns capacity 4 to machinery and 8 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "1",
+        "machine_hp": 4,
+        "uniform_hp": 8
+      }
+    },
+    {
+      "id": "object-durability-weight-2",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 2 pounds the table assigns capacity 5 to machinery and 10 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "2",
+        "machine_hp": 5,
+        "uniform_hp": 10
+      }
+    },
+    {
+      "id": "object-durability-weight-3",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 3 pounds the table assigns capacity 6 to machinery and 12 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "3",
+        "machine_hp": 6,
+        "uniform_hp": 12
+      }
+    },
+    {
+      "id": "object-durability-weight-5",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 5 pounds the table assigns capacity 7 to machinery and 14 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "5",
+        "machine_hp": 7,
+        "uniform_hp": 14
+      }
+    },
+    {
+      "id": "object-durability-weight-8",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 8 pounds the table assigns capacity 8 to machinery and 16 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "8",
+        "machine_hp": 8,
+        "uniform_hp": 16
+      }
+    },
+    {
+      "id": "object-durability-weight-11",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 11 pounds the table assigns capacity 9 to machinery and 18 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "11",
+        "machine_hp": 9,
+        "uniform_hp": 18
+      }
+    },
+    {
+      "id": "object-durability-weight-16",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 16 pounds the table assigns capacity 10 to machinery and 20 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "16",
+        "machine_hp": 10,
+        "uniform_hp": 20
+      }
+    },
+    {
+      "id": "object-durability-weight-27",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 27 pounds the table assigns capacity 12 to machinery and 24 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "27",
+        "machine_hp": 12,
+        "uniform_hp": 24
+      }
+    },
+    {
+      "id": "object-durability-weight-43",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 43 pounds the table assigns capacity 14 to machinery and 28 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "43",
+        "machine_hp": 14,
+        "uniform_hp": 28
+      }
+    },
+    {
+      "id": "object-durability-weight-64",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 64 pounds the table assigns capacity 16 to machinery and 32 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "64",
+        "machine_hp": 16,
+        "uniform_hp": 32
+      }
+    },
+    {
+      "id": "object-durability-weight-91",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 91 pounds the table assigns capacity 18 to machinery and 36 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "91",
+        "machine_hp": 18,
+        "uniform_hp": 36
+      }
+    },
+    {
+      "id": "object-durability-weight-125",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 125 pounds the table assigns capacity 20 to machinery and 40 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "125",
+        "machine_hp": 20,
+        "uniform_hp": 40
+      }
+    },
+    {
+      "id": "object-durability-weight-216",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 216 pounds the table assigns capacity 24 to machinery and 48 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "216",
+        "machine_hp": 24,
+        "uniform_hp": 48
+      }
+    },
+    {
+      "id": "object-durability-weight-343",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 343 pounds the table assigns capacity 28 to machinery and 56 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "343",
+        "machine_hp": 28,
+        "uniform_hp": 56
+      }
+    },
+    {
+      "id": "object-durability-weight-512",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 512 pounds the table assigns capacity 32 to machinery and 64 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "512",
+        "machine_hp": 32,
+        "uniform_hp": 64
+      }
+    },
+    {
+      "id": "object-durability-weight-729",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 729 pounds the table assigns capacity 36 to machinery and 72 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "729",
+        "machine_hp": 36,
+        "uniform_hp": 72
+      }
+    },
+    {
+      "id": "object-durability-weight-1000",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At 1000 pounds the table assigns capacity 40 to machinery and 80 to uniform/dispersed objects.",
+      "tests": [],
+      "durability_data": {
+        "weight_lb": "1000",
+        "machine_hp": 40,
+        "uniform_hp": 80
+      }
+    },
+    {
+      "id": "object-durability-structure-defaults",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Listed structures use uniform injury treatment and reliability 12 when in good repair. Capacity and armor are separate from material flags and failure procedures.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-building-formula",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional building capacity is 100*cuberoot(empty tons). The paragraph gives no explicit rounding rule; resolve this before implementation. Typical mass per 1000 square feet is 50 tons for wood-frame/mud-brick, 100 for steel-frame/brick, and 150 for stone.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-panel-area",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Door and wall values apply to a one-hex or ten-square-foot section, not an entire building. Keep distinct section identities for damage, breach and cover.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-no-crushing",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The resilient cable/rope flag prevents destruction by crushing. It does not grant universal damage immunity or erase other accumulated damage.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-material-flags",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Combustible and brittle entries require their underlying fragility procedures; flags alone do not implement ignition, burning or breakage.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-localized-erosion",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For starred material entries, repeated attacks against the same spot of size zero or smaller erode local armor: impaling, ordinary piercing and large piercing use semi-ablative behavior; burning, corrosion, crushing, cutting and huge piercing use ablative behavior. Small piercing is not listed; keep its handling unresolved until cross-reference review. Use B46 definitions and preserve spot identity.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-erosion-floor",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Localized erosion retains at least DR 1 for wood and DR 3 for brick, concrete and stone. The wallboard entry is starred without an explicit floor; require a documented resolution rather than assuming wood.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-cover-separation",
+      "source": "full-2008",
+      "pages": "B557-B559",
+      "module": "technology",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cover DR per inch differs from the object\u2019s own armor. Use actual thickness and a selected value within the material range; integrate B407 penetration before marking complete.",
+      "tests": []
+    },
+    {
+      "id": "object-durability-structure-rope-light",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "rope-light, 3/8-inch diameter: armor 1, capacity 2; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "3/8-inch diameter",
+        "dr": 1,
+        "hp": 2,
+        "flags": [
+          "combustible",
+          "no-crushing"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-rope-heavy",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "rope-heavy, 3/4-inch diameter: armor 2, capacity 3; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "3/4-inch diameter",
+        "dr": 2,
+        "hp": 3,
+        "flags": [
+          "combustible",
+          "no-crushing"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-cable-small",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "cable-small, 1/4-inch diameter: armor 14, capacity 22; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/4-inch diameter",
+        "dr": 14,
+        "hp": 22,
+        "flags": [
+          "no-crushing"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-cable-medium",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "cable-medium, 1/2-inch diameter: armor 28, capacity 28; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/2-inch diameter",
+        "dr": 28,
+        "hp": 28,
+        "flags": [
+          "no-crushing"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-cable-large",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "cable-large, 1-inch diameter: armor 56, capacity 36; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch diameter",
+        "dr": 56,
+        "hp": 36,
+        "flags": [
+          "no-crushing"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-bar-bronze-iron-small",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bar-bronze-iron-small, 1/2-inch diameter: armor 6, capacity 12; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/2-inch diameter",
+        "dr": 6,
+        "hp": 12,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-bar-bronze-iron-medium",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bar-bronze-iron-medium, 1-inch diameter: armor 12, capacity 23; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch diameter",
+        "dr": 12,
+        "hp": 23,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-bar-bronze-iron-large",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bar-bronze-iron-large, 2-inch diameter: armor 24, capacity 46; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2-inch diameter",
+        "dr": 24,
+        "hp": 46,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-bar-steel-small",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bar-steel-small, 1/2-inch diameter: armor 11, capacity 22; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/2-inch diameter",
+        "dr": 11,
+        "hp": 22,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-bar-steel-medium",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bar-steel-medium, 1-inch diameter: armor 22, capacity 44; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch diameter",
+        "dr": 22,
+        "hp": 44,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-bar-steel-large",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "bar-steel-large, 2-inch diameter: armor 44, capacity 88; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2-inch diameter",
+        "dr": 44,
+        "hp": 88,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-pole-1",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-pole-1, 1-inch thick: armor 1, capacity 14; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch thick",
+        "dr": 1,
+        "hp": 14,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-pole-2",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-pole-2, 2-inch thick: armor 2, capacity 18; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2-inch thick",
+        "dr": 2,
+        "hp": 18,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-pole-4",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-pole-4, 4-inch thick: armor 4, capacity 23; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "4-inch thick",
+        "dr": 4,
+        "hp": 23,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-pole-8",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-pole-8, 8-inch thick: armor 8, capacity 30; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "8-inch thick",
+        "dr": 8,
+        "hp": 30,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-pole-16",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-pole-16, 16-inch thick: armor 16, capacity 37; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "16-inch thick",
+        "dr": 16,
+        "hp": 37,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-brick-panel-3",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "brick-panel-3, 3-inch thick: armor 8, capacity 54; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "3-inch thick",
+        "dr": 8,
+        "hp": 54,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-brick-panel-6",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "brick-panel-6, 6-inch thick: armor 16, capacity 67; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "6-inch thick",
+        "dr": 16,
+        "hp": 67,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-brick-panel-9",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "brick-panel-9, 9-inch thick: armor 24, capacity 77; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "9-inch thick",
+        "dr": 24,
+        "hp": 77,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-brick-panel-18",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "brick-panel-18, 18-inch thick: armor 48, capacity 97; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "18-inch thick",
+        "dr": 48,
+        "hp": 97,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-reinforced-panel-8",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "reinforced-panel-8, 8-inch thick: armor 96, capacity 80; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "8-inch thick",
+        "dr": 96,
+        "hp": 80,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-reinforced-panel-24",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "reinforced-panel-24, 2-foot thick: armor 288, capacity 115; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2-foot thick",
+        "dr": 288,
+        "hp": 115,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-reinforced-panel-60",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "reinforced-panel-60, 5-foot thick: armor 720, capacity 156; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "5-foot thick",
+        "dr": 720,
+        "hp": 156,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-glass-panel",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "glass-panel, 1/5-inch thick: armor 1, capacity 3; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/5-inch thick",
+        "dr": 1,
+        "hp": 3,
+        "flags": [
+          "brittle"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-iron-bronze-panel",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "iron-bronze-panel, 1/4-inch thick: armor 12, capacity 36; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/4-inch thick",
+        "dr": 12,
+        "hp": 36,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-iron-panel-half",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "iron-panel-half, 1/2-inch thick: armor 25, capacity 46; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/2-inch thick",
+        "dr": 25,
+        "hp": 46,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-iron-panel-one",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "iron-panel-one, 1-inch thick: armor 50, capacity 58; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch thick",
+        "dr": 50,
+        "hp": 58,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-steel-panel-eighth",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "steel-panel-eighth, 1/8-inch thick: armor 7, capacity 30; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/8-inch thick",
+        "dr": 7,
+        "hp": 30,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-steel-panel-quarter",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "steel-panel-quarter, 1/4-inch thick: armor 14, capacity 38; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/4-inch thick",
+        "dr": 14,
+        "hp": 38,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-steel-panel-half",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "steel-panel-half, 1/2-inch thick: armor 28, capacity 47; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/2-inch thick",
+        "dr": 28,
+        "hp": 47,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-steel-panel-one",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "steel-panel-one, 1-inch thick: armor 56, capacity 60; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch thick",
+        "dr": 56,
+        "hp": 60,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-steel-panel-two",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "steel-panel-two, 2-inch thick: armor 112, capacity 75; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2-inch thick",
+        "dr": 112,
+        "hp": 75,
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-structure-stone-panel-one",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "stone-panel-one, 1-foot thick: armor 156, capacity 94; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-foot thick",
+        "dr": 156,
+        "hp": 94,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-stone-panel-three",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "stone-panel-three, 3-foot thick: armor 468, capacity 135; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "3-foot thick",
+        "dr": 468,
+        "hp": 135,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-stone-panel-eight",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "stone-panel-eight, 8-foot thick: armor 1250, capacity 188; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "8-foot thick",
+        "dr": 1250,
+        "hp": 188,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wallboard-panel",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wallboard-panel, 1/2-inch thick: armor 1, capacity 18; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1/2-inch thick",
+        "dr": 1,
+        "hp": 18,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-panel-one",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-panel-one, 1-inch thick: armor 1, capacity 23; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1-inch thick",
+        "dr": 1,
+        "hp": 23,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-panel-two",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-panel-two, 2-inch thick: armor 2, capacity 29; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2-inch thick",
+        "dr": 2,
+        "hp": 29,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-panel-three",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-panel-three, 3-inch thick: armor 3, capacity 33; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "3-inch thick",
+        "dr": 3,
+        "hp": 33,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-panel-six",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-panel-six, 6-inch thick: armor 6, capacity 42; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "6-inch thick",
+        "dr": 6,
+        "hp": 42,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-wood-panel-twelve",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood-panel-twelve, 12-inch thick: armor 12, capacity 54; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "12-inch thick",
+        "dr": 12,
+        "hp": 54,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-rural-house",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "rural-house, 1000 square feet: armor 2, capacity 370; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "1000 square feet",
+        "dr": 2,
+        "hp": 370,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-large-residence",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "large-residence, 10000 square feet: armor 6, capacity 1000; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "10000 square feet",
+        "dr": 6,
+        "hp": 1000,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-modern-residence",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "modern-residence, 2000 square feet: armor 6, capacity 580; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "2000 square feet",
+        "dr": 6,
+        "hp": 580,
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-concrete-fortification",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "concrete-fortification, 10-foot walls: armor 1440, capacity 460; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "10-foot walls",
+        "dr": 1440,
+        "hp": 460,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-tall-building",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "tall-building, 50 stories; 500000 square feet: armor 10, capacity 3700; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "50 stories; 500000 square feet",
+        "dr": 10,
+        "hp": 3700,
+        "flags": [
+          "combustible"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-structure-stone-fortification",
+      "source": "full-2008",
+      "pages": "B558",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "stone-fortification, 5-foot walls: armor 780, capacity 1200; apply all listed material and local-damage flags.",
+      "tests": [],
+      "durability_data": {
+        "dimensions": "5-foot walls",
+        "dr": 780,
+        "hp": 1200,
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-aluminum",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "aluminum cover supplies 20\u201330 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "20",
+        "dr_per_inch_max": "30",
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-cover-brick",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "brick cover supplies 5\u20138 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "5",
+        "dr_per_inch_max": "8",
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-concrete",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "concrete cover supplies 6\u20139 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "6",
+        "dr_per_inch_max": "9",
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-reinforced-concrete",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "reinforced-concrete cover supplies 10\u201312 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "10",
+        "dr_per_inch_max": "12",
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-window-glass",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "window-glass cover supplies 5\u20138 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "5",
+        "dr_per_inch_max": "8",
+        "flags": [
+          "brittle"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-resistant-glass",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "resistant-glass cover supplies 10\u201320 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "10",
+        "dr_per_inch_max": "20",
+        "flags": [
+          "brittle"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-iron",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "iron cover supplies 40\u201360 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "40",
+        "dr_per_inch_max": "60",
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-cover-sandbags",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "sandbags cover supplies 3\u20133 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "3",
+        "dr_per_inch_max": "3",
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-cover-mild-steel",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "mild-steel cover supplies 50\u201360 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "50",
+        "dr_per_inch_max": "60",
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-cover-hard-steel",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "hard-steel cover supplies 60\u201370 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "60",
+        "dr_per_inch_max": "70",
+        "flags": []
+      }
+    },
+    {
+      "id": "object-durability-cover-stone",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "stone cover supplies 8\u201313 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "8",
+        "dr_per_inch_max": "13",
+        "flags": [
+          "localized-erosion"
+        ]
+      }
+    },
+    {
+      "id": "object-durability-cover-wood",
+      "source": "full-2008",
+      "pages": "B559",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "wood cover supplies 0.5\u20131 DR per inch; author selects the material value within that range before resolution.",
+      "tests": [],
+      "durability_data": {
+        "dr_per_inch_min": "0.5",
+        "dr_per_inch_max": "1",
+        "flags": [
+          "combustible",
+          "localized-erosion"
+        ]
+      }
+    }
+  ]
+}

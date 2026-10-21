@@ -1,0 +1,845 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B279; B270 notation",
+  "review": "All 20 musket, rifle and shotgun rows visually compared with the printed table. Support, pellet, chamber and single-shot mass distinctions recorded. Executable integration and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "firearms-hand-cannon-90",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hand-cannon-90",
+        "technology": 3,
+        "skill": "guns-musket",
+        "damage": "2d pi++",
+        "accuracy": 0,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 100,
+          "maximum": 600
+        },
+        "weight_pounds": {
+          "unloaded": 15.0,
+          "reload": 0.1
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "1(60)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -6,
+        "recoil": 4,
+        "cost": 300,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-match-musket-80",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "match-musket-80",
+        "technology": 4,
+        "skill": "guns-musket",
+        "damage": "4d pi++",
+        "accuracy": 2,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 100,
+          "maximum": 600
+        },
+        "weight_pounds": {
+          "unloaded": 20.0,
+          "reload": 0.05
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "1(60)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": "rest",
+        "bulk": -6,
+        "recoil": 3,
+        "cost": 150,
+        "legality_class": 4,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-flint-musket-75",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "flint-musket-75",
+        "technology": 4,
+        "skill": "guns-musket",
+        "damage": "4d pi++",
+        "accuracy": 2,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 100,
+          "maximum": 1500
+        },
+        "weight_pounds": {
+          "unloaded": 13.0,
+          "reload": 0.05
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "1(15)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -6,
+        "recoil": 4,
+        "cost": 200,
+        "legality_class": 4,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-rifled-musket-577",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "rifled-musket-577",
+        "technology": 5,
+        "skill": "guns-rifle",
+        "damage": "4d pi+",
+        "accuracy": 4,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 700,
+          "maximum": 2100
+        },
+        "weight_pounds": {
+          "unloaded": 8.5,
+          "reload": 0.05
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "1(15)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -6,
+        "recoil": 3,
+        "cost": 150,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-cartridge-rifle-45",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cartridge-rifle-45",
+        "technology": 5,
+        "skill": "guns-rifle",
+        "damage": "5d pi+",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 600,
+          "maximum": 2000
+        },
+        "weight_pounds": {
+          "unloaded": 6.0,
+          "reload": 0.1
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "1(4)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -6,
+        "recoil": 3,
+        "cost": 200,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-lever-carbine-30",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "lever-carbine-30",
+        "technology": 5,
+        "skill": "guns-rifle",
+        "damage": "5d pi",
+        "accuracy": 4,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 450,
+          "maximum": 3000
+        },
+        "weight_pounds": {
+          "loaded": 7.0,
+          "reload": 0.3
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "6+1(3i)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -4,
+        "recoil": 2,
+        "cost": 300,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-bolt-rifle-762mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "bolt-rifle-762mm",
+        "technology": 6,
+        "skill": "guns-rifle",
+        "damage": "7d pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 1000,
+          "maximum": 4200
+        },
+        "weight_pounds": {
+          "loaded": 8.9,
+          "reload": 0.3
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "5+1(3)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 4,
+        "cost": 350,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-self-loading-rifle-762mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "self-loading-rifle-762mm",
+        "technology": 6,
+        "skill": "guns-rifle",
+        "damage": "7d pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 1000,
+          "maximum": 4200
+        },
+        "weight_pounds": {
+          "loaded": 10.0,
+          "reload": 0.5
+        },
+        "rate_of_fire": 3,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "8(3)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 3,
+        "cost": 600,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-automatic-rifle-556mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "automatic-rifle-556mm",
+        "technology": 7,
+        "skill": "guns-rifle",
+        "damage": "5d pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 500,
+          "maximum": 3500
+        },
+        "weight_pounds": {
+          "loaded": 9.0,
+          "reload": 1.0
+        },
+        "rate_of_fire": 12,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "30+1(3)",
+        "minimum_strength": 9,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -4,
+        "recoil": 2,
+        "cost": 800,
+        "legality_class": 2,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "firearms-automatic-rifle-762mm-short",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "automatic-rifle-762mm-short",
+        "technology": 7,
+        "skill": "guns-rifle",
+        "damage": "5d+1 pi",
+        "accuracy": 4,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 400,
+          "maximum": 3000
+        },
+        "weight_pounds": {
+          "loaded": 10.5,
+          "reload": 1.8
+        },
+        "rate_of_fire": 10,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "30+1(3)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -4,
+        "recoil": 2,
+        "cost": 300,
+        "legality_class": 2,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "firearms-automatic-rifle-762mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "automatic-rifle-762mm",
+        "technology": 7,
+        "skill": "guns-rifle",
+        "damage": "7d pi",
+        "accuracy": 5,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 1000,
+          "maximum": 4200
+        },
+        "weight_pounds": {
+          "loaded": 11.0,
+          "reload": 1.7
+        },
+        "rate_of_fire": 11,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "20+1(3)",
+        "minimum_strength": 11,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 3,
+        "cost": 900,
+        "legality_class": 2,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "firearms-automatic-carbine-556mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "automatic-carbine-556mm",
+        "technology": 8,
+        "skill": "guns-rifle",
+        "damage": "4d+2 pi",
+        "accuracy": 4,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 400,
+          "maximum": 3000
+        },
+        "weight_pounds": {
+          "loaded": 7.3,
+          "reload": 1.0
+        },
+        "rate_of_fire": 15,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "30+1(3)",
+        "minimum_strength": 9,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -3,
+        "recoil": 2,
+        "cost": 900,
+        "legality_class": 2,
+        "notes": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "firearms-dart-rifle-11mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "dart-rifle-11mm",
+        "technology": 8,
+        "skill": "guns-rifle",
+        "damage": "1d(0.2) pi-",
+        "accuracy": 5,
+        "sight_bonus": 1,
+        "range": {
+          "basis": "yards",
+          "half_damage": 45,
+          "maximum": 145
+        },
+        "weight_pounds": {
+          "unloaded": 6.6,
+          "reload": 0.02
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "1(3)",
+        "minimum_strength": 9,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 2,
+        "cost": 1200,
+        "legality_class": 4,
+        "notes": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "firearms-precision-rifle-338",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "precision-rifle-338",
+        "technology": 8,
+        "skill": "guns-rifle",
+        "damage": "9d+1 pi",
+        "accuracy": 6,
+        "sight_bonus": 3,
+        "range": {
+          "basis": "yards",
+          "half_damage": 1500,
+          "maximum": 5500
+        },
+        "weight_pounds": {
+          "loaded": 17.5,
+          "reload": 0.8
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "4+1(3)",
+        "minimum_strength": 11,
+        "hand_rule": "two-handed",
+        "support": "bipod",
+        "bulk": -6,
+        "recoil": 4,
+        "cost": 5600,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-combined-rifle-68mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "combined-rifle-68mm",
+        "technology": 9,
+        "skill": "guns-rifle",
+        "damage": "6d pi",
+        "accuracy": 4,
+        "sight_bonus": 2,
+        "range": {
+          "basis": "yards",
+          "half_damage": 700,
+          "maximum": 4000
+        },
+        "weight_pounds": {
+          "loaded": 12.0,
+          "reload": 1.5
+        },
+        "rate_of_fire": 15,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "25+1(3)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 2,
+        "cost": 7000,
+        "legality_class": 1,
+        "notes": [
+          3,
+          4
+        ],
+        "integrated_mode_reference": "B281 25mm launcher"
+      }
+    },
+    {
+      "id": "firearms-electromagnetic-rifle-4mm",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "electromagnetic-rifle-4mm",
+        "technology": 10,
+        "skill": "guns-rifle",
+        "damage": "6d+2(3) pi-",
+        "accuracy": 7,
+        "sight_bonus": 2,
+        "range": {
+          "basis": "yards",
+          "half_damage": 1200,
+          "maximum": 4800
+        },
+        "weight_pounds": {
+          "loaded": 8.5,
+          "reload": 1.4
+        },
+        "rate_of_fire": 12,
+        "projectiles_per_shot": 1,
+        "automatic_only": false,
+        "shots_notation": "60(3)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -4,
+        "recoil": 2,
+        "cost": 7100,
+        "legality_class": 2,
+        "notes": [
+          3
+        ]
+      }
+    },
+    {
+      "id": "firearms-scatter-musket-8g",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "scatter-musket-8g",
+        "technology": 4,
+        "skill": "guns-shotgun",
+        "damage": "1d pi",
+        "accuracy": 1,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 15,
+          "maximum": 100
+        },
+        "weight_pounds": {
+          "unloaded": 12.0,
+          "reload": 0.13
+        },
+        "rate_of_fire": 1,
+        "projectiles_per_shot": 9,
+        "automatic_only": false,
+        "shots_notation": "1(15)",
+        "minimum_strength": 11,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 1,
+        "cost": 150,
+        "legality_class": 4,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-double-shotgun-10g",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "double-shotgun-10g",
+        "technology": 5,
+        "skill": "guns-shotgun",
+        "damage": "1d+2 pi",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 50,
+          "maximum": 125
+        },
+        "weight_pounds": {
+          "loaded": 10.0,
+          "reload": 0.1
+        },
+        "rate_of_fire": 2,
+        "projectiles_per_shot": 9,
+        "automatic_only": false,
+        "shots_notation": "2(3i)",
+        "minimum_strength": 11,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 1,
+        "cost": 450,
+        "legality_class": 4,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-pump-shotgun-12g",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pump-shotgun-12g",
+        "technology": 6,
+        "skill": "guns-shotgun",
+        "damage": "1d+1 pi",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 50,
+          "maximum": 125
+        },
+        "weight_pounds": {
+          "loaded": 8.0,
+          "reload": 0.7
+        },
+        "rate_of_fire": 2,
+        "projectiles_per_shot": 9,
+        "automatic_only": false,
+        "shots_notation": "5(3i)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed-moving-part",
+        "support": null,
+        "bulk": -5,
+        "recoil": 1,
+        "cost": 240,
+        "legality_class": 4,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-self-loading-shotgun-12g",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement this visually reviewed profile with B270 notation semantics and B279 note bindings. Keep ammunition use, pellet count, mass basis, chamber capacity, support posture and sight bonuses distinct. Verify action preview purity and shared inventory accounting; executable behavior and independent fixtures pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "self-loading-shotgun-12g",
+        "technology": 7,
+        "skill": "guns-shotgun",
+        "damage": "1d+1 pi",
+        "accuracy": 3,
+        "sight_bonus": 0,
+        "range": {
+          "basis": "yards",
+          "half_damage": 50,
+          "maximum": 125
+        },
+        "weight_pounds": {
+          "loaded": 8.4,
+          "reload": 0.85
+        },
+        "rate_of_fire": 3,
+        "projectiles_per_shot": 9,
+        "automatic_only": false,
+        "shots_notation": "6+1(3i)",
+        "minimum_strength": 10,
+        "hand_rule": "two-handed",
+        "support": null,
+        "bulk": -5,
+        "recoil": 1,
+        "cost": 950,
+        "legality_class": 3,
+        "notes": []
+      }
+    },
+    {
+      "id": "firearms-long-gun-defaults",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "skills",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Musket, rifle and shotgun specialties each default to dexterity minus four or most other gun specialties minus two. Resolve eligible source skills through the catalogue, retaining technology and familiarity constraints.",
+      "tests": []
+    },
+    {
+      "id": "firearms-long-gun-notes",
+      "source": "full-2008",
+      "pages": "B279",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Note 1 permits the civilian rate-three variant with 0.75 price and legality class plus one. Note 2 triggers the selected drug only after penetration, with the specified tranquilizer resistance and unconscious duration. Note 3 includes the electronic package. Note 4 binds the integrated 25mm launcher to the same host item without adding host cost or mass again; ammunition remains mode-specific.",
+      "tests": []
+    },
+    {
+      "id": "firearms-long-gun-support",
+      "source": "full-2008",
+      "pages": "B270; B279",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A rest is included in listed mass, requires one Ready to balance the weapon, and automatically braces an aimed shot only while stationary and standing. A deployed bipod while prone grants bracing and reduces minimum strength to ceiling(two thirds of listed strength). Removing posture or support must remove these benefits. Apply ordinary two-hand strength exceptions except where another hand must operate a moving part; pump-shotgun operation always needs two hands.",
+      "tests": []
+    },
+    {
+      "id": "firearms-pellet-and-load-accounting",
+      "source": "full-2008",
+      "pages": "B270; B279; B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shotgun rate records shells fired and pellets per shell separately: one, two, two or three shells respectively, each with nine pellets. Charge shells once; apply pellet hit and close-range procedures after this selection. A single-shot weapon lists unloaded mass; repeating weapons list loaded mass. Changing chamber or reload state must not duplicate the ammunition mass already included.",
+      "tests": []
+    }
+  ]
+}

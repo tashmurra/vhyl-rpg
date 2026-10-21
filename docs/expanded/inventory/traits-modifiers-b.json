@@ -1,0 +1,499 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B105 guidance-B109",
+  "review": "Guidance, linked execution, persistent areas, rate/range tables, sensory delivery and effect lifecycles enumerated. Visual table checks, interpretation boundaries and runtime validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-mod-b-guided",
+      "source": "full-2008",
+      "pages": "B105-B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Guided attack costs +50%, uses owner skill without range penalties and requires concentration on each later flight turn. Losing sight en route causes a miss. Own projectile position, target, launch and concentration dependency; no immediate hit at launch beyond flight speed.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-homing",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Homing costs +50% plus one percentage point per unmodified point cost of its selected sense. Ordinary vision adds no sense cost. Aim and an unmodified skill check acquire a lock; attack resolution uses skill ten plus accuracy only on successful lock, with no range penalty. Sense-specific visibility, interference and target eligibility still apply.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-guidance-speed",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Guided/homing half-damage statistic becomes yards/second speed. Targets within that distance can be reached on launch turn; farther targets require flight turns. Roll attack on arrival, never halve damage merely for crossing that statistic. Reuse the detailed guidance procedure for moving targets and maximum range.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-2",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Range multiplier 2 costs +10%, continuing the 2-5-10 progression. It applies to both half-damage and maximum distance for ordinary ranged attacks; changing only one costs half, and half-damage cannot exceed maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-5",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Range multiplier 5 costs +20%, continuing the 2-5-10 progression. It applies to both half-damage and maximum distance for ordinary ranged attacks; changing only one costs half, and half-damage cannot exceed maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-10",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Range multiplier 10 costs +30%, continuing the 2-5-10 progression. It applies to both half-damage and maximum distance for ordinary ranged attacks; changing only one costs half, and half-damage cannot exceed maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-20",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Range multiplier 20 costs +40%, continuing the 2-5-10 progression. It applies to both half-damage and maximum distance for ordinary ranged attacks; changing only one costs half, and half-damage cannot exceed maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-50",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Range multiplier 50 costs +50%, continuing the 2-5-10 progression. It applies to both half-damage and maximum distance for ordinary ranged attacks; changing only one costs half, and half-damage cannot exceed maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-100",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Range multiplier 100 costs +60%, continuing the 2-5-10 progression. It applies to both half-damage and maximum distance for ordinary ranged attacks; changing only one costs half, and half-damage cannot exceed maximum.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-range-only-max",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Attacks without half-damage distance can increase maximum for +5% per progression level. Trait-specific exceptions such as jet override the ordinary multiplier sequence.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-jet",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Jet costs +0%, acts as long-reach melee without target range/speed penalties, has no accuracy, half-damage five and maximum ten yards. Each increased-range level adds one hundred percent rather than the normal progression. Reject area, aura, cone, follow-up, melee limitation and rapid-fire combinations; define multi-level range arithmetic explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-link",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Linked use costs +10% when all linked abilities must always operate together or +20% when separate use is also possible. Apply the modifier to every linked member. Shared action must still validate and account for all component costs and effects without charging the base action time repeatedly.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-linked-attack",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Linked attacks may use one attack roll and separate damage rolls only when malfunction, half-damage, maximum, accuracy, firing rate, shots and recoil are identical. This does not make one damage component a carrier that bypasses armor for another. Reject or separately resolve incompatible linked attack statistics.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-signature",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Reduced signature costs +10% for a modest detectable report, or +20% for near-unnoticeability or ordinary-sense invisibility with magical/psionic trace. Author defines emitted evidence and detecting senses; unspecified ordinary attack signature is conspicuous. It does not conceal resulting wounds or world effects.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-remote-resistance",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Remote resisted attack replaces conventional ranged statistics with concentration and clear perception of a target. Roll owner will, or will versus target will if resistance is chosen. Condition attacks instead use owner will versus their specified modified resistance attribute, replacing their ordinary resistance roll. Armor does not apply.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-remote-resistance-yard",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Remote resisted attack costs +100% with minus one per yard. It is a penetration modifier and forbids other penetration modifiers except explicit exceptions, plus modifiers changing its absent conventional ranged statistics.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-remote-resistance-range-table",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Remote resisted attack costs +150% with size/speed/range distance penalties. It is a penetration modifier and forbids other penetration modifiers except explicit exceptions, plus modifiers changing its absent conventional ranged statistics.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-remote-resistance-long-distance",
+      "source": "full-2008",
+      "pages": "B106",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Remote resisted attack costs +200% with spell long-distance penalties. It is a penetration modifier and forbids other penetration modifiers except explicit exceptions, plus modifiers changing its absent conventional ranged statistics.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-mobile",
+      "source": "full-2008",
+      "pages": "B107",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Mobile area costs +40% per movement point, requires area and persistence, and moves through concentration with movement not exceeding the attack maximum range. It is incompatible with drifting. Retain controlled area identity and movement legality.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-mobile-autonomous",
+      "source": "full-2008",
+      "pages": "B107",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adding homing makes a mobile area seek the nearest eligible target; selective area can exclude unwanted targets. Enhancements intended for both launch and autonomous behavior must be purchased for each facet. Track autonomous decisions independently of launch rolls.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-overhead",
+      "source": "full-2008",
+      "pages": "B107",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Overhead attack costs +30%, changes approach direction to bypass cover lacking corresponding protection and removes crouching/kneeling/sitting/prone target penalties. If attacker is already above/below, use the appropriate geometry. It does not ignore all cover or armor.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-persistent",
+      "source": "full-2008",
+      "pages": "B107",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Persistent area costs +40%, requires area enhancement and lasts ten seconds unless extended. It continues affecting entrants/passers, or makes bombardment attacks when that limitation applies. Track exposure events and tick policy from area combat rules so one boundary crossing is not repeatedly charged.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-ranged",
+      "source": "full-2008",
+      "pages": "B107",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Ranged conversion costs +40% on eligible touch/local abilities, giving half-damage ten, maximum one hundred, accuracy three, firing rate one, unlimited listed shots and recoil one. Duration defaults to ten seconds except explicit native duration or instantaneous effects. Reuse is barred until every existing effect ends.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-ranged-eligibility",
+      "source": "full-2008",
+      "pages": "B107",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Normal ranged-conversion candidates are restorative touch, magical-energy suppression/enhancement, psionic suppression, consciousness transfer and psionic exclusion. Other traits need approval; already-ranged abilities and natural body weapons are ineligible. Do not bypass the reuse restriction with a fresh action object.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-2",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 2 through 2 costs +40%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-3",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 3 through 3 costs +50%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-4",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 4 through 7 costs +70%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-8",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 8 through 15 costs +100%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-16",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 16 through 30 costs +150%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-31",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 31 through 70 costs +200%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-71",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 71 through 150 costs +250%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-151",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Rapid-fire rate 151 through 300 costs +300%. Rates above the printed table require explicit support rather than inferred unlimited extrapolation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-rapid-projectiles",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Splitting shots prices rapid fire from shots times projectiles per shot. Selectable rate one through three is an additional +10% only when base rate is at least five. Track actual shots consumed separately from projectile count and use the selected rate before attacking.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-fatigue-reduction",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue reduction costs +20% per point, applies only to an ability with fatigue cost, and cannot combine with its usually-active modifier. Reduce activation and periodic maintenance equally without producing a negative cost or resource gain. Respect specific exclusions such as teleportation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-time-reduction",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Activation-time reduction costs +20% per level and halves required time with upward rounding; once one second is reached the next level makes activation instantaneous. Reject attack powers, traits with any special activation-time modifier and magical aptitude for casting reduction. Specific trait rules take precedence.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-respiratory",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Inhaled delivery costs +50%, only for condition attacks or toxic/fatigue powers with area, cone or jet. It ignores armor but requires inhalation. Respiration independence or filtered lungs protect; timely successful sense detection permits breath holding. It is a penetration modifier and excludes other penetration modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-selective-area",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Selective area costs +20%, requires area or cone and allows choosing affected targets within it. Define selection against actual targets and perception/world facts without granting free hidden-target discovery.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-selectivity",
+      "source": "full-2008",
+      "pages": "B108",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Enhancement selectivity costs +10%. Declare which other enhancements to omit before activation; default uses all. Validate the resulting selected combination and required dependencies rather than permitting an orphaned dependent enhancement.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-sense-delivery",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Sensory delivery costs +150% for one sense and +50% per additional sense, bypasses armor and requires the target actually using an exposed selected sense. Sensory protection/equipment may negate it or improve resistance. It is a penetration modifier, except for the explicit remote-resistance combination.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-sense-limitation",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "On remote-resisted or already-armor-ignoring abilities, sensory delivery instead restricts access: -20% one sense, -15% two, -10% three; more gives no meaningful discount. Resolve multiple senses as eligible channels without demanding every selected sense simultaneously.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-side-effect",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Penetrating side effect applies only to damaging powers and permits no other penetration modifier except armor divisor. Any penetration prompts health at -1 per two penetrating damage, selecting stun, attribute penalty, disadvantage or incapacitation from condition effects. Price is +50% plus selected condition modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-side-effect-grouping",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "One shared resistance for several side effects pays one base plus their sum; separately resisted effects each pay their own base. Stun recovers normally; other effects last max(1,20-health) minutes. With incapacitation, other effects persist that interval after incapacitation ends. Store phases and preserve independent effect contributions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-symptoms",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cumulative symptoms activate without resistance when damage from the enhanced attack exceeds the chosen fraction of basic health/fatigue. Eligible condition effects are advantage, attribute penalty, disadvantage, irritant and negated advantage. Cost multiplier is one for two-thirds threshold, two for half, three for one-third. Track attack-origin loss and strict threshold crossing.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-symptom-recovery",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Symptoms end only when the causing damage is healed past its threshold. Different effects can use different thresholds. Other injury or generic current-health loss must not activate or maintain symptoms unrelated to that attack. Define proportional healing allocation through the shared injury/fatigue ledger.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-underwater",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Underwater attack is +20%, permitting use in liquid at one tenth range. Default air/vacuum operation does not imply underwater eligibility; explicit sensor/weapon exceptions remain authoritative.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-variable",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Variable attack is +5% and permits reduced attack level declared before its roll. Preserve selected level through linked costs and consequences; do not choose damage after seeing the result.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-wall",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Wall costs +30% for a wall-shaped area or +60% for freely shaped wall geometry. Require area and persistence. Each area-radius yard supplies three yards length by one yard width. Define height using the general area dimensions when not overridden and record occupied geometry.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-wall-permeable",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permeable walls obscure vision and affect crossing actors but do not physically stop an actor who survives/remains capable. Authored substance countermeasures can disperse them. Crossing and dispersal need explicit events, not only visual markers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-b-wall-rigid",
+      "source": "full-2008",
+      "pages": "B109",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rigid walls require crushing/cutting/impaling/piercing damage. Each yard has protection three per damage die and health one half per die rounded up. They deal no ordinary contact damage; damage type applies to collision injury. Keep destructible segment health and cover state independent of the creating actor.",
+      "tests": []
+    }
+  ]
+}

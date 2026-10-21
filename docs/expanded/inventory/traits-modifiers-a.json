@@ -1,0 +1,679 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B100 perks-B105, before guidance",
+  "review": "Perks, general modifier arithmetic/permissions and initial enhancements enumerated. Later delivery definitions, source tables, compatibility graph and executable lifecycle validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-mod-a-perk-rules",
+      "source": "full-2008",
+      "pages": "B100",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Perks cost one point, cannot take enhancements/limitations and may be added during play. Authored perks grant only minor effects, normally no wealth, standing or combat bonuses; rare noncombat bonuses normally cap at +2, with explicit permission for unusually rare larger bonuses. Distinguish printed exceptions from unrestricted custom definitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-accessory",
+      "source": "full-2008",
+      "pages": "B100",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Integrated minor accessory supplies an authored noncombat tool function not already covered by a priced advantage. Define actual operations and required circumstances; it is not an unrestricted inventory item generator.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-alcohol",
+      "source": "full-2008",
+      "pages": "B100",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Alcohol tolerance gives +2 to drinking-related health checks and permits steady drinking without the ordinary major detriments. Binge consequences remain; author must define steady versus binge intake in the existing intoxication model.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-trance",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Voluntary trance requires one minute full concentration and will, at -1 per extra attempt within an hour. While in trance add two to eligible spirit-contact checks. Leaving needs will; failed exit retries only every five minutes. Persist entry/exit history and state.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-sleep",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Deep sleeping removes sleep-quality ill effects and permits sleep through most disturbances. Intelligence notices disturbances and wakes normally; the reflex trait makes that success automatic. It does not reduce required sleep duration.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-fur",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fur prevents sunburn; armor, thermal tolerance and spines remain separate purchases. Do not infer them from visual thickness or texture.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-trust",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Trustworthy appearance affects unfamiliar observers and avoids suspicion-based spot checks absent another reason, but not truly random checks. It grants +1 to trained acting only for appearing innocent. Author supplies observer familiarity and suspicion evidence without changing actual reputation or morality.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-aftereffects",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No hangover prevents alcohol aftereffects but leaves intoxication and its immediate consequences unchanged.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-projection",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Projected voice grants listeners +3 to hear over noise. Author may allow +1 intimidation when a sudden shout surprises someone; this explicit printed exception does not authorize arbitrary combat bonuses on custom perks.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-clean",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Sanitized metabolism gives -1 to scent tracking of the actor and +1 reactions in confined spaces, with minimal clean waste. It does not eliminate respiration, nutrition or all detectable scent.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-perk-flair",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Personal flair is an authored minor characteristic or move with no combat/reaction bonus or income benefit. Specify narrow concrete utility and exceptions; do not count a generic description callback as completed behavior.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-pricing",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sum percentage modifiers, floor the net at -80%, apply once to base price and round final cost upward. The source example of ten base with +10,+40,-30,-45 percent yields eight points. The existing positive-price helper covers only arithmetic, not compatibility or all signed-trait cases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-permissions",
+      "source": "full-2008",
+      "pages": "B101-B102",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author may restrict permitted traits/modifiers or forbid modifiers. Trait-specific modifiers apply only to their stated traits unless an explicit similar-trait extension is approved. Attribute/secondary enhancement and especially skill enhancement need authored permission; numeric price alone never establishes applicability.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-default-dimensions",
+      "source": "full-2008",
+      "pages": "B101",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only when modifier application needs an otherwise unspecified dimension, default range to one hundred yards, area to two-yard radius/twelve-foot height, and duration to ten seconds. Explicit trait exceptions override these values. Do not assign these defaults as free unmodified capabilities.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-attack-domain",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attack modifiers generally apply to condition attacks, restraints, damaging powers and traits with the ranged enhancement, with narrower restrictions on individual modifiers. Store eligibility and exclusions in definitions rather than permitting every modifier on every trait.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-enhancement-state",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All purchased enhancements apply whenever the trait is used unless an explicit individual or base-trait exception permits disabling them. Selectivity is required for general enhancement switching. An irrelevant benefit is still enabled; do not expose arbitrary toggles for free.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-accurate",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Attack accuracy enhancement is +5% per accuracy point. It changes the attack accuracy statistic, not its base skill or every attack roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-affect-phased",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Affect phased targets is +20%, retaining normal material targeting. Affect material targets while phased is +40%, retaining phased targeting; do not apply it to magic/psi that already cross at -3. Cross-check the separate phasing ability surcharge and source domains.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-area",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Area enhancement is +50% per level: first radius two yards, then double each level. For already-area traits each level doubles native radius unless a specific exception says otherwise. Misses scatter; ordinary active defenses do not negate area exposure, but permitted movement defenses can escape. It is prerequisite for mobile, persistent, selective-area, bombardment and emanation modifiers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-divisor-2",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 2 is +50%, only for damaging powers and condition attacks. It is a penetration modifier and incompatible with other such modifiers on the same attack. Carrier attacks and their follow-ups remain distinct definitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-divisor-3",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 3 is +100%, only for damaging powers and condition attacks. It is a penetration modifier and incompatible with other such modifiers on the same attack. Carrier attacks and their follow-ups remain distinct definitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-divisor-5",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 5 is +150%, only for damaging powers and condition attacks. It is a penetration modifier and incompatible with other such modifiers on the same attack. Carrier attacks and their follow-ups remain distinct definitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-divisor-10",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Armor divisor 10 is +200%, only for damaging powers and condition attacks. It is a penetration modifier and incompatible with other such modifiers on the same attack. Carrier attacks and their follow-ups remain distinct definitions.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-aura",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Contact aura is +80%, requires close-only melee limitation at -30%, and cannot claim the extra no-parry discount. It affects touched/touching actors or a weapon striking the owner. Toggle only at start of turn unless always active. Use contact identities to avoid repeated injury from the same event.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-different-resistance",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Changing resistance attribute is +20%, only where resistance already exists, choosing strength, dexterity, intelligence, health, perception or will. It changes the defender score rather than granting a new resistance roll to every ability.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-blood-area",
+      "source": "full-2008",
+      "pages": "B102",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Blood-agent delivery on an area or cone is +100%. Its actual contact/exposure behavior and restrictions must be resolved with B110 before implementation; price alone is not coverage.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cone",
+      "source": "full-2008",
+      "pages": "B103",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cone costs +50% plus +10% per yard of maximum width at maximum range. Reject combinations with area, aura, jet, melee, rapid fire or emanation. Use the verified cone geometry and scatter procedures rather than a circular-area approximation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-contact-area",
+      "source": "full-2008",
+      "pages": "B103",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Contact-agent delivery on area or cone costs +150%. Its exposure and protection rules depend on B111; do not infer blanket armor bypass without that definition.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-higher-order",
+      "source": "full-2008",
+      "pages": "B103",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Higher-order nonattack/nondefense ability costs +50% to waive an explicitly selected built-in restriction. Higher-order defense costs +50% and restores ordinary defense against higher-order attacks. Author defines the exact rule interaction; it does not mean every limitation disappears.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-higher-lingering",
+      "source": "full-2008",
+      "pages": "B103",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Higher-order lingering effect costs +100% and requires another higher-order countermeasure to end it. It does not bypass initial armor or resistance. Preserve ordinary exposure resolution separately from later termination eligibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-higher-penetration",
+      "source": "full-2008",
+      "pages": "B103",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Higher-order penetration is +300%, ignores the specified target protection but retains eligible active defenses. It is incompatible with other penetration modifiers on that attack. Define which protection is bypassed, not universal automatic success.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cyclic-domain",
+      "source": "full-2008",
+      "pages": "B103-B104",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repeating damage applies only to burning, corrosion, fatigue or toxic powers. After initial exposure, repeat damage at defined intervals with the same penetration behavior. Health/fatigue lost to the episode cannot recover until it stops. Own episode origin, affected resource/cause, tick count and recovery restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-1",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Repeating damage interval 1 seconds has base enhancement +100% per cycle after the first. Multiply by extra-cycle count, then halve this component if resistible. Burning/corrosion should not exceed ten-second intervals without an explicit source-supported decision.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-10",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Repeating damage interval 10 seconds has base enhancement +50% per cycle after the first. Multiply by extra-cycle count, then halve this component if resistible. Burning/corrosion should not exceed ten-second intervals without an explicit source-supported decision.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-60",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Repeating damage interval 60 seconds has base enhancement +40% per cycle after the first. Multiply by extra-cycle count, then halve this component if resistible. Burning/corrosion should not exceed ten-second intervals without an explicit source-supported decision.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-3600",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Repeating damage interval 3600 seconds has base enhancement +20% per cycle after the first. Multiply by extra-cycle count, then halve this component if resistible. Burning/corrosion should not exceed ten-second intervals without an explicit source-supported decision.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-86400",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Repeating damage interval 86400 seconds has base enhancement +10% per cycle after the first. Multiply by extra-cycle count, then halve this component if resistible. Burning/corrosion should not exceed ten-second intervals without an explicit source-supported decision.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-termination",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Every repeating attack needs reasonably common authored termination circumstances, such as a timed removal action and appropriate skill. Resistible cycles allow another resistance each tick; success ends further damage. One-second episodes may prompt an authored fear check. Termination must clear only this episode recovery restriction.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-cycle-contagion",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Contagious repeating damage adds twenty percentage points for mild contagion or fifty for high contagion after calculating interval/count/resistance. Use illness transmission while active. The printed resistible thirty-one daily cycles with high contagion totals +200%, not +225%.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-double-blunt",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Enhanced blunt trauma is +20% for burning/corrosive/cutting/impaling/piercing powers. Burning/corrosive inflict one injury per ten basic damage stopped by flexible armor; cutting/impaling/piercing one per five. Do not apply to crushing or count both ordinary and enhanced trauma.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-double-knockback",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Double knockback is +20% for crushing/cutting powers and doubles ordinary knockback only, not damage or wound multipliers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-explosion",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Explosion costs +50%, +100% or +150%, maximum three levels. Direct target takes ordinary damage; collateral basic damage divides by three, two or one times distance in yards respectively. Armor divisors on the direct attack do not apply to collateral blast. Misses scatter; unusual damage types need author approval.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fragmentation",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fragments cost +15% per fragmentation die, maximum twelve dice or the main attack basic damage, whichever is less. Each target within five yards per fragment die is attacked at skill fifteen with range penalties from impact. Fragments cut, inherit incendiary behavior from burning/incendiary main attacks, and do not require explosion. Resolve dice-versus-added-damage cap explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fragment-followup",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On penetrating follow-up, fragmentation automatically hits only that victim. Do not also generate a surrounding fragment burst from the same internal event. Nonpenetrating behavior follows the carrier/follow-up rules.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-hot-fragments",
+      "source": "full-2008",
+      "pages": "B104",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Hot fragments retain the same price but burn with six ten-second cycles and armor divisor 0.2 instead of cutting. Preserve this specified combination and its total cycle count; do not use six additional cycles.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fatigue-dehydration",
+      "source": "full-2008",
+      "pages": "B104-B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue damage treated as dehydration has enhancement +20%. Apply that hazard cause for recovery and protection/immunity. Preserve cause within the one fatigue ledger rather than restoring it with generic rest.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fatigue-drowning",
+      "source": "full-2008",
+      "pages": "B104-B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue damage treated as drowning has enhancement +0%. Apply that hazard cause for recovery and protection/immunity. Preserve cause within the one fatigue ledger rather than restoring it with generic rest.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fatigue-freezing",
+      "source": "full-2008",
+      "pages": "B104-B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue damage treated as freezing has enhancement +20%. Apply that hazard cause for recovery and protection/immunity. Preserve cause within the one fatigue ledger rather than restoring it with generic rest.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fatigue-missed-sleep",
+      "source": "full-2008",
+      "pages": "B104-B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue damage treated as missed-sleep has enhancement +50%. Apply that hazard cause for recovery and protection/immunity. Preserve cause within the one fatigue ledger rather than restoring it with generic rest.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fatigue-starvation",
+      "source": "full-2008",
+      "pages": "B104-B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue damage treated as starvation has enhancement +40%. Apply that hazard cause for recovery and protection/immunity. Preserve cause within the one fatigue ledger rather than restoring it with generic rest.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-fatigue-suffocation",
+      "source": "full-2008",
+      "pages": "B104-B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fatigue damage treated as suffocation has enhancement +0%. Apply that hazard cause for recovery and protection/immunity. Preserve cause within the one fatigue ledger rather than restoring it with generic rest.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-incendiary",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Incendiary secondary effect is +10% on nonburning powers and can ignite eligible volatile material. It does not convert every wound to burning damage.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-radiation",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Radiation costs +25% for toxic attacks, replacing ordinary injury with one radiation unit per basic damage point, or +100% for burning attacks, adding the dose to ordinary damage. Dose applies whether armor is penetrated; other damage types are ineligible. Apply radiation shielding/tolerance in the hazard ledger, not ordinary wound multipliers.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-surge",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Electrical surge is +20% and can disable electronics or electrically vulnerable construction. Resolve consequences through the electrical disadvantage/object procedures instead of adding arbitrary health damage.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-delay",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Fixed attack delay is +0%; variable delay up to ten seconds +10%, longer selectable delay +20%; choose before the attack roll. Triggered delay is +50% with a defined simple action trigger selected at purchase. Every delayed effect needs an authored neutralization method and persistent pending-event record.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-drifting",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Drifting is +20%, requiring delayed or persistent attack. Initial roll places the effect; thereafter it follows applicable wind/current flow. Track environmental movement and expiry independently of the source actor.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-3",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Duration multiplier 3 costs +20% and applies to one specified original duration facet. Separate lingering-area and victim-effect durations need separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-10",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Duration multiplier 10 costs +40% and applies to one specified original duration facet. Separate lingering-area and victim-effect durations need separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-30",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Duration multiplier 30 costs +60% and applies to one specified original duration facet. Separate lingering-area and victim-effect durations need separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-100",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Duration multiplier 100 costs +80% and applies to one specified original duration facet. Separate lingering-area and victim-effect durations need separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-300",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Duration multiplier 300 costs +100% and applies to one specified original duration facet. Separate lingering-area and victim-effect durations need separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-1000",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Duration multiplier 1000 costs +120% and applies to one specified original duration facet. Separate lingering-area and victim-effect durations need separate purchases.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-duration-permanent",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Permanent duration costs +150% with reasonable authored dispelling/cure conditions or +300% without an ending method. Author may forbid permanent advantage-granting effects. Attack use requires aura, persistent, wall or explicit permission; ranged-enhanced traits also qualify.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-followup-hit",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Follow-up uses a separate natural weapon or damaging-power carrier. It needs only its damage/type, hits only when the carrier hits, and ignores target armor for damage/resistance if the carrier penetrates. Carrier penetration and follow-up execution must share a structured hit result, not repeat the attack roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-followup-cost",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Natural-weapon follow-up costs +0%, except passive carriers such as spines use -50%. For power carriers, follow-up price equals the sum of their selected inherited modifiers. Store carrier identity and recompute when its definition changes; do not copy the entire carrier modifier total.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-followup-inherited",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Inherited carrier modifiers are always-active, aura, cone, drifting, emanation, emergency-only, extra recoil, guided/homing, increased range, jet, limited use, remote resistance, melee, preparation, rapid fire, reduced range, extra time, recharge, unconscious-only, uncontrollable and unreliable. The follow-up cannot independently take those modifiers. Translate these to exact neutral definitions before implementation.",
+      "tests": []
+    },
+    {
+      "id": "traits-mod-a-followup-compatibility",
+      "source": "full-2008",
+      "pages": "B105",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Follow-up is a penetration modifier and cannot share its own attack with another penetration modifier, although its carrier may have one. Reject carrier cycles and unsupported carrier types before pricing or execution.",
+      "tests": []
+    }
+  ]
+}

@@ -1,0 +1,829 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B140-B145",
+  "review": "Behavior, sleep, mobility, maintenance staffing/frequency tables, mood clocks and natural body forms enumerated. Runtime, author contracts, cross-references and independent validation remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-e-incuriosity",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Low curiosity is base -5 with self-control when confronted by something strange; failure ignores it. Reactions to new things are -1. Author identifies the unfamiliar stimulus without making hidden details public or suppressing explicitly committed observations.",
+      "tests": [
+        "tests/expanded.py::test_incuriosity",
+        "tests/expanded.py::test_control_choice_mitigation",
+        "tests/expanded.py::test_incuriosity_social"
+      ],
+      "implementation_note": "Typed rated purchase and fear selection, owned ignore/investigate choices with completion receipts and observer-side -1 novelty reactions. Lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation, test_incuriosity, test_incuriosity_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-indecision",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Indecision is base -10. A choice prompts self-control with a penalty equal to perceived alternatives, such as -2 for two and -3 for three. Failure prevents action; retry each minute, or each second under combat-like stress. Success persists until a new decision; do not reroll the same decision on each parser query.",
+      "tests": [
+        "tests/expanded.py::test_indecision",
+        "tests/expanded.py::test_indecision_confusion",
+        "tests/expanded.py::test_indecision_turns"
+      ],
+      "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_indecision, test_indecision_confusion, test_indecision_turns. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-indecision-confusion",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "With both indecision and stimulus confusion, resolve indecision first; only after success check confusion for immediate action. Preserve the successful decision and apply each distinct condition once. Invalid actions or previews must not consume either check.",
+      "tests": [
+        "tests/expanded.py::test_indecision",
+        "tests/expanded.py::test_indecision_confusion"
+      ],
+      "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_indecision, test_indecision_confusion. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-infectious-transformation",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Uncontrolled infectious transformation costs -5 and follows the B50 transmission procedure, without control over infected actors or adding them as allies through this trait. Author may require newly infected player characters to pay template cost or offset it with approved supernatural drawbacks. Resolve transmission, template application and accounting separately.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-innumeracy-skills",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "skills",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Severe innumeracy costs -5 and prohibits learning or defaulting computer programming, economics and all skills in the B89 mathematics-talent scope. It gives -4 to notice dishonest financial dealing. Do not allow a default chain to bypass these exclusions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-innumeracy-culture",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "characters",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Where innumeracy is culturally widespread, its points may be excluded from the campaign disadvantage limit. A technological/mercantile culture can separately impose -5 social-stigma cost with -1 reactions. Author defines cultural applicability; neither adjustment is universal.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-insomnia",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Episodic insomnia has a nightly health-minus-one check during an episode. Success permits sleep and ends the episode; ordinary failure loses two hours sleep and continues it, critical failure loses the entire night. Apply sleep loss once through the time/fatigue ledger.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-insomnia-frequency",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Mild insomnia costs -10 with a secret three-die number of days between episodes; severe costs -15 with two dice minus one days. Prolonged authored stress can also prompt health, failure starting an immediate episode. Keep private next-onset date and avoid multiplying overlapping episodes.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-intolerance",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Broad intolerance costs -10 and gives the actor -3 reactions toward outsiders in one authored social category. Good results permit cold civility, neutral results toleration with expressed disapproval, and worse results refusal or hostility. A single targeted category costs -5 when common down to a -1 quirk when rare; targets react -1 to -5 by author judgment. Keep this behavior attached to the individual character.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-unsupported-body",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "An unsupported soft body costs -20. Use full basic lift to push, but one quarter for lifting, carrying or pulling. Author specifies which small openings the body can pass through; this benefit is not a universal ability to ignore barriers. Apply encumbrance to the reduced carrying capacity.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-jealousy",
+      "source": "full-2008",
+      "pages": "B140",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Jealousy costs -10, requires resistance to a perceived rival plan and displeasure at losing attention. Nonplayer reactions toward perceived rivals are -2 to -4 by author judgment. Identify the rival and triggering comparison rather than globally penalizing all interactions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-loss-of-pleasure",
+      "source": "full-2008",
+      "pages": "B140-B141",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Loss of pleasure costs -15, with -3 to social revelry, connoisseurship, intimate performance and gambling. Observers react -1 to -3 when the lack of appreciation is evident; adverse reactions mean ridicule/rejection rather than automatic violence.",
+      "tests": [
+        "tests/expanded.py::test_pleasure_loss"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_pleasure_loss. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-theft-compulsion",
+      "source": "full-2008",
+      "pages": "B141",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Theft compulsion is base -15 with self-control on an opportunity to steal, up to -3 for a particularly interesting item. Failure requires an attempt using ordinary skills and ownership rules. Stolen goods may be kept or sold but not returned/discarded under this obligation; stealing is not automatically successful.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-awkwardness",
+      "source": "full-2008",
+      "pages": "B141",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Accident-prone movement costs -5 and requires a daily dexterity check against an authored minor mishap; dexterity cannot exceed thirteen. Severe form costs -15 and additionally converts every failed dexterity or dexterity-based skill check into a critical failure. Preserve success and original margin for downstream procedures, and avoid applying conversion twice.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-damaged-legs",
+      "source": "full-2008",
+      "pages": "B141",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Damaged legs cost -10 and give -3 to skills requiring legs, including melee/unarmed but not ranged combat. Basic movement must be reduced to floor(basic speed divided by two), earning its separate full point reduction. Distinguish purchased movement accounting from the leg trait cost.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-partly-missing-legs",
+      "source": "full-2008",
+      "pages": "B141",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Partly missing legs cost -20 and give -6 to leg-dependent skills. Basic movement must be reduced to two for separate full credit. Crutches or a prosthetic support permit standing/walking; without support standing, walking and kicking are unavailable. A supported kick includes ordinary -2 plus this -6.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-all-missing-legs",
+      "source": "full-2008",
+      "pages": "B141",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Complete acquired leg loss costs -30 with -6 to leg-dependent skills and no standing, walking or kicks. Reduce basic movement to zero with separate full credit. Paralysis has the same price/mobility restrictions but retains targetable legs; missing legs do not. Do not confuse acquired loss with naturally legless body forms.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-mobility-assistance",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A muscle-powered mobility platform gives ground movement floor(strength divided by four), subject to authored clearance, stairs, curbs and vehicle-entry limitations. Prosthetics that temporarily cancel leg restrictions apply the mitigation modifier to both the leg trait and reduced movement. Permanent restoration requires repaying both credited reductions.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-work-avoidance",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "campaign",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Work avoidance costs -10, halves promotion/pay-rise chances, and halves monthly pay for self-employment. Author records work-avoidance obligations and identifies employment type. Resolve probability halving with the employment procedure instead of arbitrarily subtracting a fixed roll modifier.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-romantic-compulsion",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Romantic compulsion is base -15 and prompts self-control after more than brief contact with a personally appealing individual, at -5/-10 for the two high appearance categories. Except for the highest category, check at most once per individual per day. Failure prompts an authored approach, never a guaranteed response; rejection can modify later control at author discretion.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-life-draining-aura",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A life-draining aura costs -10. Footstep vegetation dies permanently, nearby larger plants wilt, and tiny creatures within one yard die. Exclude larger animals, very large plants except localized/long-term effects, supernaturally controlled ordinary organisms and supernatural entities. Author supplies size/applicability and persistent environmental consequences.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-life-draining-signs",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Observable life-draining aura gives -2 reactions; relevant observers get +2 to infer its concealed supernatural origin, and locating the actor in most outdoor environments gets +2 even with stealth/invisibility. Require observable environmental evidence instead of revealing the actor everywhere.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-light-sleep-onset",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Light sleep costs -5. Uncomfortable conditions or more than minimal noise require health to fall asleep; failure permits retry after one hour and loses that hour of sleep. Keep a single sleep attempt clock so repeated commands cannot shorten the wait.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-light-sleep-waking",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Activity while lightly sleeping prompts a sense check: remaining asleep requires failure. Waking causes stun unless combat reflexes apply; returning to sleep uses the same health/retry procedure. Record actual rest rather than charging a full missed night for every interruption.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-solitude",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Solitude compulsion is base -5 with self-control on unwanted lingering proximity/observation; failure produces a volatile-temper response toward that person. Nonplayer general reactions are -4/-3/-2/-1 at self-control six/nine/twelve/fifteen. Keep this reaction direction distinct from other people reacting to the actor.",
+      "tests": [
+        "tests/expanded.py::test_solitude",
+        "tests/expanded.py::test_solitude_social",
+        "tests/expanded.py::test_control_choice_mitigation"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation, test_solitude, test_solitude_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-emotional-understanding",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Low emotional understanding costs -20 and gives -3 to emotion-dependent skills, including acting, revelry, criminology, lie detection, diplomacy, audience influence, fast-talk, interrogation, leadership, merchant, politics, psychology, etiquette, attraction, sociology and street contacts. These remain learnable. Incompatible with empathy, callousness and social obliviousness.",
+      "tests": [
+        "tests/expanded.py::test_emotional_understanding"
+      ],
+      "validation_note": "Neutral EmotionalUnderstandingDeficit class implements fixed -20 cost, contextual -3 on printed emotion-dependent skills and explicitly tagged additional skills, active/mitigated effects, duplicate checks and incompatible empathy/callousness/emotional-obliviousness identities. Learning remains permitted. Shared scoring composes with social inhibition and counts applicability once. Cost, stacking, mitigation, compatibility, custom applicability and owned Carousing integration assertions authored, unrun. Modified variants, complete catalogue mapping and setting-specific authored reasoning contracts remain pending."
+    },
+    {
+      "id": "disadvantages-e-pain-sensitivity",
+      "source": "full-2008",
+      "pages": "B142",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Pain sensitivity costs -10, doubles injury shock and gives -4 to resist knockdown, stun and physical torture. Injury greater than one health point requires will to avoid crying out, potentially revealing position and causing -1 reactions from relevant observers. Reconcile doubled shock with the general cap using the full shock procedure before implementation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-low-confidence",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Low confidence costs -10 and gives -3 to skills when the actor believes odds are unfavorable or others expect failure. Author supplies belief/expectation context; stack with ordinary situational modifiers without inferring the condition merely from a low numeric target.",
+      "tests": [
+        "tests/expanded.py::test_low_confidence"
+      ],
+      "implementation_note": "Typed ten-point fear selection with explicit ordinary/adverse author judgment, shared -3 skill modifier, missing-context no-dice rejection and mitigation. Raw attributes unchanged. Lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_low_confidence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-lunar-moods",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Lunar mood dependence costs -10. Full moon gives -2 will and self-control, new-moon nights temporarily apply work avoidance, with authored waxing/waning behavior. Use campaign moon phases/calendar, specify duration boundaries and avoid duplicate permanent work-avoidance credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-spell-susceptibility",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "magic",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Spell susceptibility costs -3 per level, maximum five. Add level to direct spell casting against the actor and subtract it from resistance; area spells use the ordinary level, not doubled. Exclude missile spells, magical weapon attacks, indirect information spells and nonmagical powers. Compatible with magical aptitude, incompatible with spell resistance.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-spell-susceptibility-disclosure",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A qualified aura observer or someone casting a spell on the actor can recognize spell susceptibility and its exact level. Expose this only through the qualifying perception/casting event, preserving private character data elsewhere.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-maintenance-requirement",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Skilled maintenance requires authored skills or qualifying traits and appropriate facilities; multiple skills can share a requirement. Each installment takes one hour and consumes no resources intrinsically. Substance consumption is a separate life-sustaining requirement. Capture caregiver eligibility, facilities and completed time.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-10",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring one people has base price -10. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-20",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring two people has base price -20. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-30",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring three to five people has base price -30. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-40",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring six to ten people has base price -40. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-50",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring eleven to twenty people has base price -50. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-60",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring twenty-one to fifty people has base price -60. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-70",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance requiring fifty-one to one hundred people has base price -70. Do not replace simultaneous staffing with additional hours unless the author explicitly permits that substitution.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-staff-growth",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Above one hundred maintenance staff, each full doubling adds -10. The source ten-thousand-person example has base -130. Implement the full-doubling convention and boundary fixtures, with author-approved extra person-hours recorded as an alternative scheduling policy.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-monthly",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval monthly multiplies staffing base price by 1/5. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-fortnightly",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval fortnightly multiplies staffing base price by 1/3. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-weekly",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval weekly multiplies staffing base price by 1/2. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-alternate-days",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval alternate-days multiplies staffing base price by 3/4. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-daily",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval daily multiplies staffing base price by 1. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-twice-daily",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval twice-daily multiplies staffing base price by 2. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-three-to-five-daily",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval three-to-five-daily multiplies staffing base price by 3. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-frequency-constant",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Maintenance interval constant multiplies staffing base price by 5. Apply general final point rounding once, and require concrete due-time/coverage policy, especially for the three-to-five and continuous categories.",
+      "tests": [
+        "tests/expanded.py::test_maintenance_prices"
+      ],
+      "validation_note": "Pure staffing/frequency pricing authored; fixtures unrun. Owned service schedules, staffing substitution, missed-care consequences and recovery remain incomplete."
+    },
+    {
+      "id": "disadvantages-e-maintenance-missed",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each missed maintenance period lowers the health attribute by one and then requires a health check; failure adds authored incapacity, critical failure a potentially fatal consequence. Persist due period and reduced attribute separately from injury; catch-up must not repeat an already applied missed period.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-maintenance-restoration",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Restoring maintenance-related attribute loss and incapacity requires suitable intervention and skill checks such as repair or surgery. Routine subsequent maintenance is not automatically full restoration. Author contract must specify intervention, required checks and recoverable consequences, with owned treatment progress.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-cycling-mood",
+      "source": "full-2008",
+      "pages": "B143-B144",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cycling mood costs -20. At session start roll one die: one through three elevated, four through six low. Every five game hours roll three dice; ten or less begins a one-hour transition to the opposite phase, which lasts at least five hours before another check. Emergencies can cause an immediate switch on ten or less. Persist phase/transition/check clocks across saves.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-cycling-mood-effects",
+      "source": "full-2008",
+      "pages": "B143",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Elevated mood temporarily applies overconfidence and compulsive work; low mood applies the low-motivation procedure. Effective self-control equals will. Define transition effects explicitly and do not buy permanent copies of the temporary traits or award repeated negative credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-grandiosity",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "social",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Grandiosity costs -10 and requires an authored overriding grand goal. Young/naive observers and cause-seeking fanatics react +2, others -2. Followers are possible authored outcomes, not automatically purchased allies.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-stinginess",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stinginess is base -10 with self-control whenever spending is required, at -5 or worse for large expenditure by author judgment. Failure refuses spending, or imposes bargaining/complaint when unavoidable. Compatible with greed; monetary actions still use the inventory ledger and ordinary affordability.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-missing-digit",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "A missing finger costs -2 with -1 dexterity for that hand only; missing thumb costs -5 with -5 for that hand only. Keep side and task-hand selection explicit so the other hand and unrelated movement are unaffected.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-motion-sickness",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "vehicles",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Motion sickness costs -10 and prohibits learning vehicle-operation skills. On boarding a moving vehicle check health: failure causes vomiting and -5 dexterity/intelligence/skills for the journey; success still causes -2. Repeat daily on long trips, replacing the current state rather than stacking daily penalties.",
+      "tests": [
+        "tests/expanded.py::test_motion_trait",
+        "tests/expanded.py::test_seasickness",
+        "tests/expanded.py::test_motion_journey",
+        "tests/expanded.py::test_motion_scores",
+        "tests/expanded.py::test_motion_catalogue"
+      ],
+      "validation_note": "Validated -10 purchase and template copying; explicit vehicle-operation skill classification gates learning and existing paid training. Unclassified skills reject for susceptible characters. Pure journey outcome assessment exists. Catalogue-wide classification, persistent journey conditions, vomiting and applied action penalties remain pending. Fixtures authored, unrun. Owned continuous journeys now retain daily outcomes, prevent skipped day boundaries, replace current penalty and execute ordinary retching on failure after oral-benefit preflight. Action-score integration, live vehicle event wiring and full catalogue classification remain pending. New fixtures unrun. Shared score integration now applies journey penalties to DX/IQ/all skills, avoids doubling the same retching episode, validates current penalty against the daily receipt and clears journey effects on ending. Live boarding/disembarking, interruption and full skill classification remain pending. Score fixtures unrun. Existing Lite operation catalogue identities are now classified automatically; optional specialties inherit parent classification and reject bypass overrides. Other existing catalogue skills default to non-operation. Full expanded crew/command/custom catalogue classification remains pending. Fixtures unrun."
+    },
+    {
+      "id": "disadvantages-e-ordinary-background",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "characters",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Uninitiated ordinary background costs -10 only in a setting with supernatural/unusual elements. Initial skills/equipment must be ordinary; exclude spells, cinematic skills and occult/hidden lore. Innate supernatural traits may exist privately but cannot be actively used or supported by learned skills until buyoff.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-motor-disorder-mild",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Involuntary motor disorder mild costs -15: fine-manipulation tasks take 2 times normal time and have -2; relevant social skills take -2 when the condition is apparent. This severity has no additional attribute cap. Record ancestry baseline and resolve fractional caps explicitly. Other vocal/mobility/appearance effects require separate accounting.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-motor-disorder-severe",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Involuntary motor disorder severe costs -35: fine-manipulation tasks take 4 times normal time and have -4; relevant social skills take -4 when the condition is apparent. This severity has dexterity and basic movement cannot exceed ancestry averages. Record ancestry baseline and resolve fractional caps explicitly. Other vocal/mobility/appearance effects require separate accounting.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-motor-disorder-incapacitating",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Involuntary motor disorder incapacitating costs -55: fine-manipulation tasks take 6 times normal time and have -6; relevant social skills take -6 when the condition is apparent. This severity has dexterity and basic movement cannot exceed eighty percent of ancestry averages. Record ancestry baseline and resolve fractional caps explicitly. Other vocal/mobility/appearance effects require separate accounting.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-night-vision-loss",
+      "source": "full-2008",
+      "pages": "B144",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Night vision loss costs -10. Ordinary darkness penalties -1 through -4 become the more adverse of double that penalty or -3; ordinary -5 or worse becomes complete blindness. Acute vision applies only without darkness penalties. Incompatible with enhanced night vision and darkness sight.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-nightmares",
+      "source": "full-2008",
+      "pages": "B144-B145",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Nightmares are base -5 with a self-control check on morning waking. Failure costs one fatigue recoverable only through sleep. A raw seventeen or eighteen additionally gives -1 to all skills and perception for the day. Keep sleep-only fatigue source and day expiry distinct from generic fatigue recovery.",
+      "tests": [
+        "tests/expanded.py::test_nightmares"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_nightmares. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-e-nightmare-scenario",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "campaign",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored dream can create temporary waking obligations or psychosomatic consequences for its dreamer, but other participating characters are unaffected by dream events. Author may award their players one or two participation points. Isolate dream state from ordinary world/inventory state and require explicit transfer decisions for dreamer consequences.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-depth-perception",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Absent depth perception costs -15 with the B147 single-eye mechanical effects despite having two targetable eyes. It cannot combine with single-eye disadvantage; resolve that cross-reference before counting this as executable.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-no-fine-manipulation",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No fine manipulators costs -30 and forbids tasks needing versatile grasp such as repairs, locks, knots or weapon handling. Any body part with hand-equivalent versatility disqualifies it, regardless of limb name. Eligible extraordinary/nonhuman bodies can apply the -40% limitation to strength and dexterity.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-no-manipulation",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "No manipulators costs -50 and permits only pushing objects with body/head, while locomotion still uses basic movement unless separately reduced. It also qualifies for the -40% strength/dexterity limitation. Do not assume no movement simply because there are no limbs.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-natural-leglessness",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Naturally legless forms cannot kick, have no leg targets and need no leg armor, except the explicit track/wheel target mapping. Treat these as ancestry body forms, not acquired leg loss; select exactly the applicable movement form.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-legless-aerial",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Aerial leglessness costs zero, requires flight, sets ground movement zero and basic air movement twice basic speed. Preserve flight-mode limitations and do not award separate ground-movement reduction points without an applicable source rule.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-legless-aquatic",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Aquatic leglessness uses basic movement as water movement, zero ground movement and no underwater skill penalties. Base zero points; unarmorable propulsion parts or inability to dive each add -5, both -10. Record propulsion part targets and diving permission separately.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-legless-ground",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Rolling/bouncing/slithering leglessness costs zero and uses basic movement as ground movement. Semi-aquatic leglessness costs zero with basic movement as water speed and one fifth as ground speed, retaining ordinary underwater skill penalties. Do not give the fully aquatic penalty exemption to the semi-aquatic form.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-sessile",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Anchored sessile form costs -50, sets basic movement zero without extra reduction credit and bars self-movement or ordinary mobile platforms. External relocation requires authored substantial effort. Manipulators remain possible and weapon use has no acquired-leg-loss dexterity penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-wheels-tracks",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Wheeled/tracked form costs -20; count is one through four or any higher even number. Target each wheel/track as a leg. It cannot jump or negotiate obstacles requiring arms and legs together. Ground movement is unchanged and up to three levels enhanced ground movement are allowed.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-e-wheels-tracks-traces",
+      "source": "full-2008",
+      "pages": "B145",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Wheels leave a visible trail granting tracking +1; tracks grant +2 tracking and +2 hearing to detect, with improved rough-terrain handling. Author defines terrain treatment and visible/audible evidence rather than universal position disclosure.",
+      "tests": []
+    }
+  ]
+}

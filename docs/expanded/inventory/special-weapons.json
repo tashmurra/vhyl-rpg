@@ -1,0 +1,535 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B403-B407",
+  "review": "Advanced unarmed techniques, unusual melee equipment and firearm failure procedures inventoried. Numeric rows transcribed; weapon/trait catalogues, source table visual audit and follow-on cover rules remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "special-weapons-joint-lock-entry",
+      "source": "full-2008",
+      "pages": "B403",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Two free hands and a qualifying unarmed parry permit next-turn arm capture within one yard: enter close range and attack with the applicable grappling skill, allowing normal defense. Offensive entry instead follows a successful grapple that survived the target\u2019s escape opportunity.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-joint-lock-escape",
+      "source": "full-2008",
+      "pages": "B403",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Holder gains +4 in escape contest; each failed escape gives victim a cumulative -1 on later escape attempts. Store penalty on this lock episode, not permanently on the character.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-joint-lock-damage",
+      "source": "full-2008",
+      "pages": "B403",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "On turns after capture, compare best eligible grappling skill/strength with victim\u2019s higher strength/health. Victory margin gives crushing damage through rigid and eligible natural armor, ignoring flexible armor and the skin-limited natural layer. This passive contest does not consume an attack.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-joint-lock-cripple",
+      "source": "full-2008",
+      "pages": "B403",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Crippling the held arm drops its item and ends further limb damage from the lock. Later successful contests still cause corresponding shock/stun. Holder can also make close attacks with victim defense -4 plus other actual penalties; do not invent extra usable hands.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-choke-entry",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rear two-handed hold uses throwing-grapple skill at -2 or wrestling at -3, with normal rear defense rules for an aware victim. Capture head/neck, not arms/legs; escape contest gives holder +5.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-choke-timing",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Starting on holder\u2019s next turn, victim loses one fatigue each holder turn until escape. Optional simultaneous crushing uses the ordinary strangling contest at holder strength +3; prevent duplicate fatigue from the same restraint.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-elbow",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rear close-range elbow uses brawling or trained striking skill at -2 with no facing penalty; selected location adds another -1. Damage is ordinary punch. Forward elbow uses normal punch rules.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-knee",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Close-only knee uses brawling or trained striking skill at -1 and ordinary kick damage. Held victim defends at -2; a front grapple permits groin targeting without its ordinary location penalty.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-piercing-strike",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Trained hand/foot strike can take an additional -2 attack and -1 damage to convert crushing to piercing. It can then target eyes/vitals, but self-injury applies against armor at least one rather than three.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-twist",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Two-handed neck/limb grapple must survive an escape opportunity before strength-4 versus higher victim strength/health contest. Victory causes swing crushing to held location through rigid and eligible natural armor, bypassing flexible/skin-limited layers. Later turns allow repeated attempts with ordinary victim actions.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-trample",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Trample requires size advantage at least two, or one against prone victim when attacker is not prone. Attack best dexterity/brawling, dodge only; damage thrust crushing with hoof bonus one per die. Size advantage at least three uses large-area injury.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-overrun-trample",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After knocking victim down by collision and continuing movement, automatically trample without attack/defense rolls using half attacker strength rounded down. Distinguish this subsequent damage from the collision itself.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-cloak",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cloak distraction uses feint; cloak grapple uses cloak skill at close/one-yard reach and ordinary restraint rules. Track cloak occupancy and loss of defensive availability.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-improvised",
+      "source": "full-2008",
+      "pages": "B404",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author maps an object to a suitable weapon profile with actual dimensions/material. Clumsy objects can take -1 through -3 attack/parry or higher strength requirement; undersized/light/dull objects can reduce damage. Record chosen changes before action rather than accepting arbitrary damage afterward.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-fencing",
+      "source": "full-2008",
+      "pages": "B404-B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fencing parry gains retreat +3 and half ordinary repeated-parry penalty, but subtracts encumbrance level and cannot parry flails. Apply once with shared defense logic.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-flail",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flail attacks penalize parry -4 and block -2; fencing weapons cannot parry them. Do not convert prohibition into a large numeric penalty.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-cord-entry",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Rear cord restraint requires unaware or helpless target, skill attack at neck -5. Specific defense permits hand/ready close weapon parry at -3, with mental-stun penalties if applicable; reconcile this exception with ordinary unawareness defense denial.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-cord-defense",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Successful interposed hand takes no damage from rope but wire can injure it. Resolve actual material and captured body part instead of applying neck injury despite successful defense.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-cord-effect",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "From attack turn onward, holder may strangle with strength +3; rope uses crushing with neck factor 1.5, wire cutting with neck factor two, and suffocation begins. Victim escape compares best strength-5 or eligible grappling skill-3 against holder\u2019s cord skill.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-cord-equipment",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Improvised cord gives -2 skill. Unhandled wire inflicts own thrust cutting to each user hand; protect actual hands and avoid one shared-location injury entry.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-embedded-entry",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Swing-impaling weapon causing penetrating injury becomes embedded. On following turn holder may release freely or spend ready plus strength check to extract; failure leaves it unusable and prevents moving while holding it. Critical failure prevents ordinary in-combat extraction.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-embedded-extract",
+      "source": "full-2008",
+      "pages": "B405-B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Successful extraction adds half the original wound as new injury; failed attempts cause none. Resolve half rounding explicitly and preserve original wound identity. A weapon needing post-use readying still requires another turn afterward.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-embedded-movement",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Victim departure while weapon is held compares strength: victim win pulls weapon from holder, holder win prevents movement, tie extracts with extra injury. Keep item attachment and holder grip separate.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-shield-attack",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield bash can target front or shield side using actual attack profile. Shield collision is unavailable with a buckler even though ordinary shield bash may be allowed.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-whip-entangle",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Whip disarm gets +2 contest. Target entanglement instead takes extra -4, no immediate damage, and uses lariat restraint procedures. Both require a valid declared attack mode.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-whip-ready",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Whips take -2 parry and cannot attack/parry same turn; long whips become unready after either. Two-yard whip readies in one turn, length at least three in two turns. Preserve active length and weapon definition.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-whip-crack",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary whip crack takes -4 skill for +2 damage. Arm/hand wound requires victim will adjusted by shock magnitude or release of held items.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-chain-reach",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Weighted-chain reach can be set one through four yards with ready. It uses whip disarm/entangle/ready rules and flail defense penalties. Headroom and nearby obstacles determine legality before rolling.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-chain-catch",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When a weapon parries the chain, immediate chain skill success entangles it; failure has no effect, critical failure drops chain. Defender can clear using a free hand and dexterity; otherwise next-turn disarm skips hit roll but still consumes an attack.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-chain-critical",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Weighted-chain critical-miss table outcomes 3,4,17,18 become self-hit to face. Override table result after selecting weapon-specific behavior, without also breaking weapon.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-filament",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Advanced cutting-filament whip length one through seven changes reach/ready time through ready action. A taut snare inflicts thrust+1d cutting with divisor ten each turn until escape; specify actual pull state and turn ownership.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-filament-critical",
+      "source": "full-2008",
+      "pages": "B406",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A drop-weapon critical outcome for cutting-filament whip becomes self/friendly hit. Require concrete target selection and damage contract rather than an unrestricted event callback.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-trick-contract",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Authored improvised trick specifies eligibility, novelty/history, intelligence check by actor/victim or contest, and consequences. Track prior exposure so repeated trick use does not automatically retain surprise; generic permission callback is insufficient.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-liquid-attack",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Harmless liquid toss has accuracy one, maximum three yards and face penalty -5. It cannot be parried. Critical hit blinds for secretly rolled 1d seconds; ordinary hit allows legal defense then will to avoid flinch.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-liquid-flinch",
+      "source": "full-2008",
+      "pages": "B405",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed will after liquid contact gives -2 further defenses that turn and -2 dexterity/sense checks next turn. Successful will avoids flinch; relevant temperament traits and hazardous liquid effects resolve separately.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-choice",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional malfunction applies to firearms, grenades and incendiaries only. Compare unmodified attack dice with actual malfunction threshold regardless of skill; selected weapon behavior can override generic failure-to-fire.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-quality",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fine/very-fine firearm adds one threshold, cheap subtracts one. Specific definitions and authored mistreatment/maintenance/damage can change threshold. Apply quality once and record degradation cause.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-diagnosis",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mechanical/electrical failure prevents firing; one ready plus maintenance skill or intelligence-based weapon skill diagnoses. Each repair attempt takes one hour and maintenance check; critical failure destroys weapon. Grenade equivalent delays detonation by 1d seconds.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-misfire",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Misfire diagnosis uses maintenance+2 or intelligence-based weapon skill and ready. Revolver\u2019s next shot works; other correction attempts require three ready actions, two free hands and the same check. Critical failure escalates to mechanical fault. Grenade equivalent is a permanent dud.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-stoppage",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Stoppage fires exactly one normal shot before fault. Clearing requires three ready actions, two hands, maintenance or intelligence-based weapon skill-4; ordinary failure allows retry, critical escalates. Beam weapons become mechanical fault; single-use devices become duds. Charge only actual ammunition fired.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-explosion",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "High malfunction outcome can explode technology-three firearms or specified technology-four grenade/breechloading/repeating types for 1d+2 crushing explosion plus 2d fragments, or actual explosive warhead damage. Technology-five-plus instead mechanical fault; resolve unlisted combinations explicitly.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-elevation-beam",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Up/down effective range adjustment applies to projectiles, not beams. Downward subtract half elevation difference with floor half ground distance; upward add elevation difference. Preserve geometric ground distance and reconcile division rounding.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-cover-exposure",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Seeing over cover ordinarily exposes head/neck. One-handed firing exposes weapon arm/hand; two-handed firing also exposes both arms/hands and half torso/vitals unless a firing slit permits otherwise. Actual cover height and posture determine additional exposure; complete with B408 continuation.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-threshold-3",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 3 base malfunction threshold is 12; apply actual weapon overrides and quality.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-threshold-4",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 4 base malfunction threshold is 14; apply actual weapon overrides and quality.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-threshold-5",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 5 base malfunction threshold is 16; apply actual weapon overrides and quality.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-threshold-6",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Technology 6 and higher base malfunction threshold is 17; apply actual weapon overrides and quality.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-row-3",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice malfunction result 3\u20134 selects mechanical/electrical; dispatch by actual device category.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-row-5",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice malfunction result 5\u20138 selects misfire; dispatch by actual device category.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-row-9",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice malfunction result 9\u201311 selects stoppage; dispatch by actual device category.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-row-12",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice malfunction result 12\u201314 selects misfire; dispatch by actual device category.",
+      "tests": []
+    },
+    {
+      "id": "special-weapons-malfunction-row-15",
+      "source": "full-2008",
+      "pages": "B407",
+      "module": "combat",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Three-dice malfunction result 15\u201318 selects mechanical/electrical with qualifying explosion; dispatch by actual device category.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B403",
+      "reason": "Elevation continuation is retained in targeting-elevation inventory; this pass begins with advanced techniques."
+    }
+  ]
+}

@@ -38,7 +38,7 @@ rpgLiteThrowDistance(profile, weight)
     if (weight > lift * 8) return 0;
     local table = [[5,350],[10,250],[15,200],[20,150],[40,100],[50,80],[100,60],[150,40],
         [200,30],[250,25],[300,20],[400,15],[600,10],[1000,6],[1200,5]];
-    foreach (local row in table) if (weight * 100 <= lift * row[1]) return profile.st * row[2];
+    foreach (local row in table) if (weight * 100 <= lift * row[1]) return profile.handlingStrength() * row[2];
     return 0;
 }
 
@@ -47,7 +47,7 @@ rpgLiteThrowDamage(profile, weight, maximum)
 {
     local lift = profile.basicLiftHundredths();
     if (weight < 1 || weight > lift * 8) throw new RpgError();
-    local damage = rpgLiteDamageDice(profile.st, nil); local dice = damage[1]; local adds = damage[2];
+    local damage = rpgLiteDamageDice(profile.muscleDamageStrength(), nil); local dice = damage[1]; local adds = damage[2];
     if (weight * 8 <= lift) adds -= 2 * dice;
     else if (weight * 4 <= lift) adds -= dice;
     else if (weight * 2 <= lift) adds += 0;
@@ -159,7 +159,7 @@ class RpgLiteJourney: object
                 else self.check(0, result);
             }
             if (self.struggling && self.profile.fp() <= 0
-                && !rpgLiteAttributeCheck(self.profile, rpgWill, 'drowning', 0).achieved) self.profile.unconscious = true;
+                && !rpgLiteAttributeCheck(self.profile, rpgWill, 'drowning', 0).achieved) self.profile.becomeUnconscious();
         }
         rpgSpendTime(result.seconds); return result;
     }

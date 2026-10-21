@@ -1,0 +1,1621 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B271-B272 tables; B274 notes and quality",
+  "review": "First two melee tables visually reviewed and represented as physical item definitions with separate attack modes. Shared notes and quality procedures enumerated. Remaining melee rows, cross-skill item identity and executable integration pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "melee-a-axe",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "axe",
+        "technology": 0,
+        "cost": 50,
+        "weight_pounds": 4,
+        "skill": "axe-mace",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-hatchet",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hatchet",
+        "technology": 0,
+        "cost": 40,
+        "weight_pounds": 2,
+        "skill": "axe-mace",
+        "modes": [
+          {
+            "damage": "sw cut",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 8,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-throwing-axe",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "throwing-axe",
+        "technology": 0,
+        "cost": 60,
+        "weight_pounds": 4,
+        "skill": "axe-mace",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-mace",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mace",
+        "technology": 2,
+        "cost": 50,
+        "weight_pounds": 5,
+        "skill": "axe-mace",
+        "modes": [
+          {
+            "damage": "sw+3 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-small-mace",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-mace",
+        "technology": 2,
+        "cost": 35,
+        "weight_pounds": 3,
+        "skill": "axe-mace",
+        "modes": [
+          {
+            "damage": "sw+2 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 10,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-piercing-pick",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "piercing-pick",
+        "technology": 3,
+        "cost": 70,
+        "weight_pounds": 3,
+        "skill": "axe-mace",
+        "modes": [
+          {
+            "damage": "sw+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 10,
+            "notes": [
+              2
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-punch",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "punch",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "boxing",
+          "brawling",
+          "karate",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr-1 cr",
+            "reach": [
+              "close"
+            ],
+            "parry": "0",
+            "minimum_strength": null,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-knuckle-reinforcement",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "knuckle-reinforcement",
+        "technology": 1,
+        "cost": 10,
+        "weight_pounds": 0.25,
+        "skill": [
+          "boxing",
+          "brawling",
+          "karate",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr cr",
+            "reach": [
+              "close"
+            ],
+            "parry": "0",
+            "minimum_strength": null,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-kick",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "kick",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling-2",
+          "karate-2",
+          "dexterity-2"
+        ],
+        "modes": [
+          {
+            "damage": "thr cr",
+            "reach": [
+              "close",
+              1
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              3,
+              4
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-boot-kick",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "boot-kick",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling-2",
+          "karate-2",
+          "dexterity-2"
+        ],
+        "modes": [
+          {
+            "damage": "thr+1 cr",
+            "reach": [
+              "close",
+              1
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              3,
+              4
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-blunt-bite",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "blunt-bite",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr-1 cr",
+            "reach": [
+              "close"
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-fang-bite",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "fang-bite",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr-1 imp",
+            "reach": [
+              "close"
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-sharp-beak",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sharp-beak",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr-1 pi+",
+            "reach": [
+              "close"
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-sharp-bite",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "sharp-bite",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr-1 cut",
+            "reach": [
+              "close"
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-body-striker",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "body-striker",
+        "technology": null,
+        "cost": null,
+        "weight_pounds": null,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "variable",
+            "reach": "variable",
+            "parry": "variable",
+            "minimum_strength": null,
+            "notes": [
+              "B88"
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-weighted-sap",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "weighted-sap",
+        "technology": 1,
+        "cost": 20,
+        "weight_pounds": 1,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "thr cr",
+            "reach": [
+              "close"
+            ],
+            "parry": "0",
+            "minimum_strength": 7,
+            "notes": [
+              3
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-contact-stunner",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "contact-stunner",
+        "technology": 8,
+        "cost": 100,
+        "weight_pounds": 1,
+        "skill": [
+          "brawling",
+          "dexterity"
+        ],
+        "modes": [
+          {
+            "damage": "HT-3(0.5) aff",
+            "reach": [
+              "close",
+              1
+            ],
+            "parry": "none",
+            "minimum_strength": 2,
+            "notes": [
+              5
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-light-club",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-club",
+        "technology": 0,
+        "cost": 5,
+        "weight_pounds": 3,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+1 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-broad-blade",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "broad-blade",
+        "technology": 2,
+        "cost": 500,
+        "weight_pounds": 3,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+1 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-pointed-broad-blade",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pointed-broad-blade",
+        "technology": 2,
+        "cost": 600,
+        "weight_pounds": 3,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+2 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-hand-and-half-blade",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hand-and-half-blade",
+        "technology": 3,
+        "cost": 650,
+        "weight_pounds": 5,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+1 cr",
+            "reach": [
+              2
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-curved-long-blade",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "curved-long-blade",
+        "technology": 3,
+        "cost": 650,
+        "weight_pounds": 5,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-pointed-hand-and-half-blade",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pointed-hand-and-half-blade",
+        "technology": 3,
+        "cost": 750,
+        "weight_pounds": 5,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cut",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+2 imp",
+            "reach": [
+              2
+            ],
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-cavalry-blade",
+      "source": "full-2008",
+      "pages": "B271",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "cavalry-blade",
+        "technology": 4,
+        "cost": 500,
+        "weight_pounds": 3,
+        "skill": "broad-blade",
+        "modes": [
+          {
+            "damage": "sw+1 cut",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr+1 imp",
+            "reach": [
+              1
+            ],
+            "parry": "0",
+            "minimum_strength": 10,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-chain-mace",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "chain-mace",
+        "technology": 3,
+        "cost": 80,
+        "weight_pounds": 6,
+        "skill": "flail",
+        "modes": [
+          {
+            "damage": "sw+3 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [
+              6
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-linked-short-clubs",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "linked-short-clubs",
+        "technology": 3,
+        "cost": 20,
+        "weight_pounds": 2,
+        "skill": "flail",
+        "modes": [
+          {
+            "damage": "sw+1 cr",
+            "reach": [
+              1
+            ],
+            "parry": "0U",
+            "minimum_strength": 7,
+            "notes": [
+              6
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-energy-blade",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "energy-blade",
+        "technology": "speculative",
+        "cost": 10000,
+        "weight_pounds": 2,
+        "skill": "energy-blade",
+        "modes": [
+          {
+            "damage": "8d(5) burn",
+            "reach": [
+              1,
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 3,
+            "notes": [
+              7
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-strangling-cord",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "strangling-cord",
+        "technology": 0,
+        "cost": 2,
+        "weight_pounds": "negligible",
+        "skill": "garrote",
+        "modes": [
+          {
+            "damage": "special",
+            "reach": [
+              "close"
+            ],
+            "parry": "none",
+            "minimum_strength": null,
+            "notes": [
+              8
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-large-knife",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "large-knife",
+        "technology": 0,
+        "cost": 40,
+        "weight_pounds": 1,
+        "skill": "knife",
+        "modes": [
+          {
+            "damage": "sw-2 cut",
+            "reach": [
+              "close",
+              1
+            ],
+            "parry": "-1",
+            "minimum_strength": 6,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr imp",
+            "reach": [
+              "close"
+            ],
+            "parry": "-1",
+            "minimum_strength": 6,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-small-knife",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "small-knife",
+        "technology": 0,
+        "cost": 30,
+        "weight_pounds": 0.5,
+        "skill": "knife",
+        "modes": [
+          {
+            "damage": "sw-3 cut",
+            "reach": [
+              "close",
+              1
+            ],
+            "parry": "-1",
+            "minimum_strength": 5,
+            "notes": [],
+            "hand_rule": null
+          },
+          {
+            "damage": "thr-1 imp",
+            "reach": [
+              "close"
+            ],
+            "parry": "-1",
+            "minimum_strength": 5,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-wooden-stake",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "wooden-stake",
+        "technology": 0,
+        "cost": 4,
+        "weight_pounds": 0.5,
+        "skill": "knife",
+        "modes": [
+          {
+            "damage": "thr(0.5) imp",
+            "reach": [
+              "close"
+            ],
+            "parry": "-1",
+            "minimum_strength": 5,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-dagger",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "dagger",
+        "technology": 1,
+        "cost": 20,
+        "weight_pounds": 0.25,
+        "skill": "knife",
+        "modes": [
+          {
+            "damage": "thr-1 imp",
+            "reach": [
+              "close"
+            ],
+            "parry": "-1",
+            "minimum_strength": 5,
+            "notes": [
+              1
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-weighted-chain",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "weighted-chain",
+        "technology": 3,
+        "cost": 70,
+        "weight_pounds": 5,
+        "skill": "weighted-chain",
+        "modes": [
+          {
+            "damage": "sw+2 cr",
+            "reach": {
+              "distances": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "ready_change": true
+            },
+            "parry": "-2U",
+            "minimum_strength": 11,
+            "notes": [
+              6
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-mounted-lance",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "mounted-lance",
+        "technology": 2,
+        "cost": 60,
+        "weight_pounds": 6,
+        "skill": "lance",
+        "modes": [
+          {
+            "damage": "thr+3 imp",
+            "reach": [
+              4
+            ],
+            "parry": "none",
+            "minimum_strength": 12,
+            "notes": [
+              9
+            ],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-filament-whip",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "filament-whip",
+        "technology": "speculative",
+        "cost": 900,
+        "weight_pounds": 0.5,
+        "skill": "filament-whip",
+        "modes": [
+          {
+            "damage": "sw+1d-2(10) cut",
+            "reach": {
+              "distances": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "ready_change": true
+            },
+            "parry": "-2U",
+            "minimum_strength": 5,
+            "notes": [],
+            "hand_rule": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-heavy-pole-blade",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "heavy-pole-blade",
+        "technology": 1,
+        "cost": 100,
+        "weight_pounds": 8,
+        "skill": "polearm",
+        "modes": [
+          {
+            "damage": "sw+3 cut",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": {
+              "distances": [
+                1,
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 11,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-light-pole-blade",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "light-pole-blade",
+        "technology": 2,
+        "cost": 100,
+        "weight_pounds": 6,
+        "skill": "polearm",
+        "modes": [
+          {
+            "damage": "sw+2 cut",
+            "reach": {
+              "distances": [
+                1,
+                2
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": [
+              2
+            ],
+            "parry": "0",
+            "minimum_strength": 9,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-hooked-polearm",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "hooked-polearm",
+        "technology": 3,
+        "cost": 150,
+        "weight_pounds": 12,
+        "skill": "polearm",
+        "modes": [
+          {
+            "damage": "sw+5 cut",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 13,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          },
+          {
+            "damage": "sw+4 imp",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 13,
+            "notes": [
+              2
+            ],
+            "hand_rule": "heavy-two-hand"
+          },
+          {
+            "damage": "thr+3 imp",
+            "reach": {
+              "distances": [
+                1,
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-pole-axe",
+      "source": "full-2008",
+      "pages": "B272",
+      "module": "equipment",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Implement every recorded attack mode with its skill, damage, reach, parry, strength and printed-note requirements. One physical item owns price and mass across modes. Null/inapplicable and variable fields are not zero. Source rows visually compared; execution and independent fixtures remain pending.",
+      "tests": [],
+      "equipment_data": {
+        "key": "pole-axe",
+        "technology": 3,
+        "cost": 120,
+        "weight_pounds": 10,
+        "skill": "polearm",
+        "modes": [
+          {
+            "damage": "sw+4 cut",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          },
+          {
+            "damage": "sw+4 cr",
+            "reach": {
+              "distances": [
+                2,
+                3
+              ],
+              "ready_change": true
+            },
+            "parry": "0U",
+            "minimum_strength": 12,
+            "notes": [],
+            "hand_rule": "heavy-two-hand"
+          }
+        ]
+      }
+    },
+    {
+      "id": "melee-a-skill-defaults",
+      "source": "full-2008",
+      "pages": "B271-B272",
+      "module": "equipment",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Resolve each table skill group through the full skill catalogue: axe/mace dexterity-5, flail-4 or two-handed axe/mace-3; flail dexterity-6, axe/mace-4 or two-handed flail-3; energy blade dexterity-5 or sword skill-3; cord dexterity-4; knife dexterity-4, energy blade-3, parrying dagger-3 or short blade-3; weighted chain dexterity-6, filament whip-3, two-handed flail-4 or whip-3; lance dexterity-5 or spear-3; filament whip dexterity-6, weighted chain-3 or whip-3; polearm dexterity-5, spear-4, staff-4 or two-handed axe/mace-4. Broad-blade defaults are dexterity-5, energy blade-4, rapier-4, fencing saber-4, short blade-2 or two-handed sword-4. Do not bypass default-chain restrictions.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-1",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Throwable attack modes use the ranged table rather than reusing melee damage/range blindly.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-2",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Piercing pick-like attacks may lodge in the target; use B405 stuck-weapon procedure and ownership state.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-3",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Brawling improves the listed unarmed attacks; boxing improves punches; karate and claws improve punches/kicks, but claw benefits do not apply through knuckle reinforcement or boots. Apply source-specific skill thresholds and bonuses once.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-4",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Missed kicks require dexterity to avoid falling. Resolve miss first, then the separate balance consequence.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-5",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failed health resistance causes stun while electrical contact persists plus twenty minus health seconds, then health-minus-three recovery checks. This overrides the abbreviated example duration; own contact and release timestamps and resolve nonpositive extra time explicitly.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-6",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Flail defenses take parry -4 and block -2; fencing weapons cannot parry. Linked short clubs halve numeric penalties, preserving the explicit fencing restriction unless another rule overrides it.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-7",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Energy blade requires a ready action to activate/deactivate, cannot break and damages weapons/body parts it parries or that parry/block it. Replacement cell costs one hundred, weighs half a pound and powers three hundred seconds; own active-time consumption.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-8",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Strangling cord uses the B405 grappling/strangulation procedure, not ordinary thrust damage.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-9",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mounted lance damage changes during a charge under B397, tied to actual mount speed and attack state.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-10",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Guarded short blade hilt can act as knuckle reinforcement in close combat without buying a second weapon.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-11",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Powered cutting tool is noisy and operates two hours on half a gallon fuel; track runtime and actual fuel.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-note-12",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary whip maximum reach is selected at purchase up to seven yards. Cost/weight are per yard and minimum strength is five plus length in yards. B406 special rules still apply.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-quality-baseline",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Listed muscle-powered melee/thrown prices buy ordinary quality through technology six, fine quality at seven or higher. Record item quality separately from price and technology; powered/natural attacks do not automatically gain blade quality bonuses.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-quality-cheap",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Cheap quality gives +2 breakage checks and throwable accuracy -1. Price is forty percent of list through technology six or twenty percent at seven-plus.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-quality-ordinary",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Ordinary quality has no breakage modifier; at technology seven-plus it costs forty percent of listed price.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-quality-fine",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Fine quality gives breakage -1 and +1 cutting/impaling blade damage. Through technology six, sword/fencing items cost four times list; other crushing/impaling-only weapons three times, cutting-capable weapons ten times. At seven-plus fine is listed price. Apply quality by mode damage type without duplicating physical-item cost.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-quality-exceptional",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Exceptional quality is limited to sword/fencing items, with breakage -2 and +2 cutting/impaling damage. Price is twenty times list through technology six or four times at seven-plus.",
+      "tests": []
+    },
+    {
+      "id": "melee-a-decoration",
+      "source": "full-2008",
+      "pages": "B274",
+      "module": "equipment",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Presentation decoration adds an authored five-to-twenty-times cost/resale multiplier without implied combat improvement. Define exact price and interaction with quality explicitly.",
+      "tests": []
+    }
+  ]
+}

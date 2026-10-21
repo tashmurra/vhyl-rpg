@@ -1,0 +1,539 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B476; B478-B479",
+  "review": "Every printed defect, investigation and side-effect result has an independent requirement. Several outcomes require concrete authored targets, phenomena, damage types, recovery or destination contracts. Those contracts and executable effects are not implemented.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "technology-defect-3",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use or hour of continuous use rolls three dice; six or less attracts an authored unwanted visitor or attention. Record the trigger and actual encounter consequence.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-4",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Increase the device to an authored oversized category: portable becomes vehicle-carried, vehicle-carried requires a much larger vehicle or building. Validate transport and installation capacity.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-5",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use or continuous-use hour consumes resources worth two hundred fifty; reject activation without the required resources.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-6",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Generate one die plus one persistent side effects using the separate side-effect procedure.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-7",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Awkward carried equipment imposes -2 dexterity; a vehicle or vehicle installation instead imposes -2 control checks. Apply only while the burden or installation is relevant.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-8",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Generate max(1,one die minus two) persistent side effects.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-9",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A powered device needs an explicitly larger supply category; an already vehicle-scale demand becomes grid-scale with authored outages. An unpowered device uses result ten instead.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-10",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A nonweapon doubles size, weight and power requirements; a weapon instead halves damage, range and accuracy. Resolve fractional statistics through their applicable arithmetic rules.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-11",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "After use, require ten minutes cooling. Reuse while hot burns out the device and deals one die burning damage to the user.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-12",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use or continuous-use hour consumes resources worth twenty-five.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-13",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Operation rolls totaling fourteen or more fail regardless of effective skill.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-14",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use leaves the device requiring minor repairs before it functions again.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-15",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use requires the user to pass dexterity or be knocked down, even when the device is not a weapon.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-16",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Operation rolls totaling ten or more fail regardless of effective skill.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-17",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A weapon needs five seconds of preparation; other devices need two hours of careful preparation before each use. Track completion and consumption of preparation.",
+      "tests": []
+    },
+    {
+      "id": "technology-defect-18",
+      "source": "full-2008",
+      "pages": "B476",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "An operation critical failure permanently destroys the device, preventing repair and salvage. The user avoids two dice injury only with dexterity at -2.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-0",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For a result at most zero, deal three dice damage to the experimenter and destroy the device. If it is indestructible, the printed alternative destroys everything within ten yards; require an explicitly authored scene consequence and scope before execution.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-1",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply the device's primary effect to the experimenter if possible; otherwise deal three dice damage to that person.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-2",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply the primary effect to an authored nearby target if possible; otherwise deal three dice damage to a nearby person.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-3",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Deal two dice damage to the experimenter, with the damage type and defenses defined by the device contract.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-4",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Deal two dice damage to an authored nearby person, using the device's defined damage treatment.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-5",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Deal one die damage to the experimenter under the device contract.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-6",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Deal one die damage to an authored nearby person under the device contract.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-7",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Record a superficial cosmetic consequence on the experimenter, without inventing ordinary hit-point loss.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-8",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Record a superficial cosmetic consequence on an authored nearby person.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-9",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Apply an authored embarrassing entanglement or minor side effect to the experimenter, with any duration and release operation explicitly represented.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-10",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Give the experimenter a specific false theory about the device; retain the true function privately and expose only the authored mistaken belief.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-11",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "No effect or functional information is gained; still record the spent minute and attempt history.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-12",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reveal one previously obscure control without disclosing its function.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-13",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reveal the activation/deactivation control, or a weapon safety.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-14",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Provide an authored truthful clue about purpose without granting full operating knowledge.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-15",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Demonstrate the primary function with its actual scene consequences, and grant that experimenter operation of it at -4.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-16",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Grant reliable operation of one specified secondary function without a skill penalty.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-17",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reveal all secondary controls and their general purposes, allowing those functions at -4.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-18",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Grant primary-function operation without a skill penalty.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-19",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reveal all functions and grant operation without a skill penalty.",
+      "tests": []
+    },
+    {
+      "id": "technology-investigation-20",
+      "source": "full-2008",
+      "pages": "B478-B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For a result at least twenty, grant all functions as in nineteen plus a specific authored useful unintended application; do not manufacture unrestricted new powers.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-3",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use checks health+4 for bodily change or intelligence+4 for mental change. Failure adds one negative character point toward an authored disadvantage; preserve accumulated partial points and apply completed traits through character accounting.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-4",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use deals one die injury directly to the operator, ignoring armor.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-5",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use deals one injury directly to the operator, ignoring armor.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-6",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Transform an authored target within ten yards into an authored valid form for ten seconds; integrate temporary templates and reversible expiry.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-7",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Noise causes ten-minute penalties of -2 dexterity, intelligence and self-control within twenty yards; the operator instead suffers -4 for twenty minutes. Deafness prevents it, earplugs do not. Avoid applying both severities to the operator.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-8",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For technological devices, use disrupts radio/television within one mile; other electronics within one hundred yards fail on three dice at most seven, and even simple electrical equipment is affected within ten yards. Magical items instead impose -3 spell checks within ten yards for ten seconds. Define technological failure recovery explicitly.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-9",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A four-yard fume area checks each exposed subject's health+3 every second; failure causes nausea for five minutes. Persist the area and individual condition expiry.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-10",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Operational noise gives +3 to hearing checks to notice the device.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-11",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Visible harmless effects make the source obvious to observers and grant +5 vision to notice activity, without creating damage or blinding effects.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-12",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Operation creates a four-yard steam/smoke area using the reference obscuring-fog spell effects; resolve its actual visibility rules through magic rather than treating it as descriptive text.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-13",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use attracts an authored vermin swarm that disperses ten minutes after shutdown; connect swarm movement, damage and lifetime to the creature module.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-14",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Using the device renders its operator unconscious for one die minutes.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-15",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Use triggers a specific authored supernatural encounter or dimensional arrival, with explicit locations and participants.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-16",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use deals one injury ignoring armor to everyone within ten yards, including the operator; enumerate affected targets once.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-17",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Each use opens an authored random-destination gate for one second; the user must pass dexterity to avoid falling through. Destination generation and transit are campaign-owned contracts.",
+      "tests": []
+    },
+    {
+      "id": "technology-side-effect-18",
+      "source": "full-2008",
+      "pages": "B479",
+      "module": "technology",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Generate a fresh side effect on each use; another eighteen requires two results and repeated recursion increases the required effects. Preserve random consumption and define an explicit bounded-execution policy without silently dropping outcomes.",
+      "tests": []
+    }
+  ]
+}

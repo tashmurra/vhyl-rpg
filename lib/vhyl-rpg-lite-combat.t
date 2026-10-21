@@ -8,6 +8,7 @@ class RpgLiteFighter: object
     shield = nil
     shieldSkill = nil
     unarmedSkill = nil
+    turnSerial = 0
     maneuver = 'nothing'
     defenseOption = 'dodge'
     blocks = 0
@@ -21,6 +22,8 @@ class RpgLiteFighter: object
     concentration = 0
     initiativeTie = 0
     freeHands = 2
+    unarmedParryCapacity() { return self.freeHands; }
+    unarmedParryRequirement(otherHand) { return otherHand && self.weapon == nil ? 2 : 1; }
     mode() { return self.weapon.modes[self.modeIndex]; }
 ;
 
@@ -56,7 +59,26 @@ class RpgLiteManeuver: object
     someLight = true
     defense = 'dodge'
     secondDefense = 'parry'
-    available(fighter) { return nil; }
+    available(fighter) { return self.kind == 'wait' ? 'wait-adapter-required' : nil; }
+    /* Optional health adapters assess before any permission roll. */
+    expandedHealthPermission = nil
+    healthAvailable(fighter) { return nil; }
+    canAct(fighter) { return rpgLiteCanAct(fighter.profile, self.kind == 'nothing'); }
+    /* Optional Ready adapters preserve the default weapon/reload behavior. */
+    readyAvailable(fighter)
+    {
+        if (fighter.weapon == nil) return 'no-weapon';
+        if (self.option == 'reload'
+            && rpgLiteReloadSeconds(fighter.profile, fighter.weapon, fighter.mode()) == nil)
+            return 'cannot-reload';
+        return nil;
+    }
+    performReady(fighter)
+    {
+        if (self.option == 'reload') return rpgLiteReload(fighter.profile, fighter.weapon, fighter.mode());
+        fighter.weapon.ready = true; return nil;
+    }
+    resolveStrike(attacker, defender) { return rpgLiteDefaultStrike(attacker,defender,self); }
     apply(fighter, result) { return nil; }
     reroll(profile, kind, roll) { return nil; }
 ;
@@ -67,6 +89,8 @@ class RpgLiteCombatResult: object
     reason = nil
     attack = nil
     defenses = []
+    successfulDefense = nil
+    attackMode = nil
     damage = 0
     injury = 0
     strikes = []
@@ -74,7 +98,7 @@ class RpgLiteCombatResult: object
     counterInjury = 0
 ;
 
-/** Look up the printed Lite range table through 100 yards; no missing Basic Set rows are inferred. */
+/** Look up the printed Lite range table through 100 yards; no missing full rules reference rows are inferred. */
 rpgLiteRangeModifier(yards)
 {
     rpgInteger(yards, 0, 100);
@@ -130,7 +154,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
 {
     local profile = fighter.profile; local incoming = attacker.mode();
     if (!request.aware || request.fromBehind || request.immobilized || profile.dead || profile.unconscious
-        || fighter.maneuver == 'all-out-attack') return nil;
+        || fighter.maneuver == 'all-out-attack' || profile.healthBlocksDefense()) return nil;
     local score = 0;
     if (kind == 'dodge')
     {
@@ -142,7 +166,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     }
     else if (kind == 'block')
     {
-        if (fighter.blocks > 0 || fighter.shield == nil || !fighter.shield.ready
+        if (fighter.blocks > 0 || fighter.shield == nil || !fighter.shield.ready || !fighter.shield.blockUsableBy(profile)
             || incoming.ranged && incoming.base == 'fixed') return nil;
         local skill = fighter.shieldSkill == nil ? rpgLiteTraining(profile, 'shield', nil, nil) : fighter.shieldSkill;
         local rating = profile.skillScore(skill);
@@ -160,8 +184,8 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
         local unarmed = parryWeapon == nil || parryWeapon.id == 'punch' || parryWeapon.id == 'kick';
         if (unarmed)
         {
-            if (fighter.freeHands < (otherHand && fighter.weapon == nil ? 2 : 1)) return nil;
-            score = 3 + rpgLiteUnarmedScore(fighter) / 2;
+            if (fighter.unarmedParryCapacity() < fighter.unarmedParryRequirement(otherHand)) return nil;
+            score = 3 + (rpgLiteUnarmedScore(fighter) + profile.legUsePenalty()) / 2;
             local karate = profile.skillScore(rpgLiteTraining(profile, 'karate', nil, nil));
             if (attacker.weapon.id != 'punch' && attacker.weapon.id != 'kick'
                 && incoming.base != 'thrust' && karate == nil) score -= 3;
@@ -169,11 +193,12 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
         }
         else
         {
-            if (!parryWeapon.ready || parryMode.ranged
+            if (!parryWeapon.ready || !parryWeapon.parryUsableBy(profile) || parryMode.ranged
                 || parryMode.skillId == 'axe-mace' && fighter.attacked) return nil;
             local rating = profile.skillScore(rpgLiteTraining(profile, parryMode.skillId, nil, parryMode.specialty));
             if (rating == nil) return nil;
             if (otherHand && profile.level('ambidexterity') == 0) rating -= 4;
+            rating += profile.legUsePenalty();
             score = 3 + rating / 2;
             if (parryWeapon.id == 'quarterstaff') score += 2;
             if (parryMode.skillId == 'knife') score -= 1;
@@ -186,9 +211,11 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     }
     else throw new RpgError();
     score += profile.level('combat-reflexes') + request.defenseModifier;
-    if (fighter.shield != nil && fighter.shield.ready && request.shieldSide) score += fighter.shield.db;
+    if (fighter.shield != nil && fighter.shield.ready && request.shieldSide) score += fighter.shield.passiveDefenseBonus(profile);
     score += rpgLitePostureModifier(profile.posture, true);
-    if (profile.stunned || profile.mentalStun) score -= 4;
+    local conditionPenalty = profile.healthDefensePenalty();
+    if (profile.combatStunned() && conditionPenalty < 4) conditionPenalty = 4;
+    score -= conditionPenalty;
     if (fighter.maneuver == 'all-out-defense' && (fighter.defenseOption == kind
         || kind == 'parry-other' && fighter.defenseOption == 'parry')) score += 2;
     if (!request.visible) score -= 4;
@@ -207,24 +234,44 @@ rpgLiteDistract(fighter)
 /** Resolve one legal strike; normally invoked by the battle turn scheduler. */
 rpgLiteStrike(attacker, defender, request)
 {
+    local reason = attacker.profile.directStrikeReason(request);
+    if (reason != nil) { local value = new RpgLiteCombatResult(); value.reason = reason; return value; }
+    return request.resolveStrike(attacker,defender);
+}
+/** Resolve the default strike and deliver committed weapon and injury callbacks. */
+rpgLiteDefaultStrike(attacker, defender, request)
+{
+    local weapon = attacker.weapon;
+    local result = rpgLiteResolveStrike(attacker,defender,request);
+    if (weapon != nil && result.status == 'resolved') weapon.afterStrike(attacker,result.attackMode,result);
+    if (result.status == 'resolved') defender.profile.recordDirectPhysicalAttack(attacker,defender,result);
+    return result;
+}
+/** Assess and execute a strike using the selected weapon and defense rules. */
+rpgLiteResolveStrike(attacker, defender, request)
+{
     local result = new RpgLiteCombatResult();
     local profile = attacker.profile; local weapon = attacker.weapon;
-    if (weapon == nil || !weapon.ready) { result.reason = 'weapon-not-ready'; return result; }
-    local mode = attacker.mode();
-    if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
+    if (weapon == nil || !weapon.ready || !weapon.attackUsableBy(profile)) { result.reason = 'weapon-not-ready'; return result; }
+    profile.validateCombatVision(); defender.profile.validateCombatVision();
+    local mode = attacker.mode(); result.attackMode = mode; weapon.validateStrike(attacker,mode);
+    local hands = weapon.attackHandCount(profile,request.hands);
+    if (profile.combatStunned() || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }
     if (!mode.ranged && !request.inReach) { result.reason = 'out-of-reach'; return result; }
     if (request.deadly && !request.targetThreatens && profile.level('cannot-harm-innocents') > 0)
     { result.reason = 'cannot-harm-innocents'; return result; }
-    if (mode.hands == 2 && request.hands < 2 && (mode.requiresTwoHands || profile.st * 2 < mode.minimumST * 3)
-        || request.hands == 2 && attacker.shield != nil && attacker.shield.ready)
+    local handlingStrength = profile.handlingStrength();
+    if (mode.hands == 2 && hands < 2 && (mode.requiresTwoHands || handlingStrength * 2 < mode.minimumST * 3)
+        || hands == 2 && attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile))
     { result.reason = 'hands-unavailable'; return result; }
-    local strength = weapon.id == 'crossbow' ? weapon.weaponST : profile.st;
+    local strength = profile.weaponStrength(weapon);
     local maximum = mode.rangeScale == 10 ? mode.maximumRange * strength / 10 : mode.maximumRange;
     local half = mode.rangeScale == 10 ? mode.halfRange * strength / 10 : mode.halfRange;
     if (mode.ranged && request.distance > maximum) { result.reason = 'out-of-range'; return result; }
     if (mode.ranged && !mode.thrown && weapon.ammunition < 1) { result.reason = 'empty'; return result; }
     local context = new RpgLiteContext(); context.kind = 'attack';
+    context.legUse = mode.ranged ? 'none' : 'required';
     context.skill = rpgLiteCombatSkill(attacker, mode); context.offHand = request.offHand;
     context.darkness = request.darkness; context.someLight = request.someLight;
     context.modifier = request.attackModifier;
@@ -236,7 +283,7 @@ rpgLiteStrike(attacker, defender, request)
         context.modifier += rating == nil || rating < profile.dx ? 0 : rating - profile.dx;
     }
     if (weapon.id == 'kick') context.modifier -= 2;
-    local effectiveST = profile.fp() * 3 < profile.maxEnergy ? (profile.st + 1) / 2 : profile.st;
+    local effectiveST = profile.fp() * 3 < profile.maxEnergy ? (handlingStrength + 1) / 2 : handlingStrength;
     local minimumST = weapon.bipod && profile.posture == 'lying' ? (mode.minimumST * 2 + 2) / 3 : mode.minimumST;
     if (effectiveST < minimumST) context.modifier -= minimumST - effectiveST;
     if (mode.ranged)
@@ -249,14 +296,14 @@ rpgLiteStrike(attacker, defender, request)
         {
             context.modifier += mode.acc + (attacker.aimSeconds >= 3 ? 2 : attacker.aimSeconds == 2 ? 1 : 0);
             context.modifier += attacker.aimSeconds < weapon.scopeBonus ? attacker.aimSeconds : weapon.scopeBonus;
-            if ((request.braced || weapon.bipod && profile.posture == 'lying' || mode.hands == 1 && request.hands == 2)
+            if ((request.braced || weapon.bipod && profile.posture == 'lying' || mode.hands == 1 && hands == 2)
                 && (mode.base == 'fixed' || weapon.id == 'crossbow')) context.modifier += 1;
         }
     }
     else
     {
         context.modifier += rpgLitePostureModifier(profile.posture, nil);
-        if (attacker.shield != nil && attacker.shield.ready && attacker.shield.db == 3) context.modifier -= 2;
+        if (attacker.shield != nil && attacker.shield.ready && attacker.shield.usableBy(profile) && attacker.shield.db == 3) context.modifier -= 2;
     }
     if (request.kind == 'all-out-attack' && (request.option == 'determined' || mode.ranged)) context.modifier += mode.ranged ? 1 : 4;
     if (request.kind == 'move-attack') context.modifier -= 4;
@@ -274,8 +321,8 @@ rpgLiteStrike(attacker, defender, request)
         result.attack = rpgCheck(score, rpgLiteReroll(defender.profile, result.attack.roll, 3, true));
     attacker.attacked = true; attacker.participated = true;
     if (mode.ranged && !mode.thrown) weapon.ammunition -= 1;
-    if (mode.thrown || mode.unready && profile.st * 2 < mode.minimumST * 3
-        || mode.hands == 2 && request.hands == 1 && profile.st < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
+    if (mode.thrown || mode.unready && handlingStrength * 2 < mode.minimumST * 3
+        || mode.hands == 2 && hands == 1 && handlingStrength < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
     attacker.aimSeconds = 0;
     if (!result.attack.achieved)
     {
@@ -310,17 +357,18 @@ rpgLiteStrike(attacker, defender, request)
             result.defenses = result.defenses + [check];
             if (check.achieved)
             {
-                result.outcome = 'defended';
+                result.outcome = 'defended'; result.successfulDefense = kind;
                 if (kind == 'parry' && unarmed && defender.weapon != nil
                     && !holds(['punch','kick','brass-knuckles'], defender.weapon.id))
                 {
                     local counter = new RpgLiteContext(); counter.kind = 'attack';
+                    counter.legUse = 'required';
                     counter.skill = rpgLiteCombatSkill(defender, defender.mode());
                     if (profile.skillScore(rpgLiteTraining(profile, 'karate', nil, nil)) != nil) counter.modifier = -4;
                     if (rpgLiteCheck(defender.profile, counter).achieved)
                     {
                         local retaliation = defender.mode();
-                        local damage = rpgLiteDamageDice(defender.profile.st, retaliation.base == 'swing');
+                        local damage = rpgLiteDamageDice(defender.profile.muscleDamageStrength(), retaliation.base == 'swing');
                         local rolled = rpgLiteRollDamage(damage[1], damage[2] + retaliation.adds, retaliation.damageType, nil);
                         result.counterInjury = rpgLiteWound(profile, rpgLitePenetration(rolled, rpgLiteArmor(profile), 1, retaliation.damageType, nil)).injury;
                     }
@@ -332,6 +380,7 @@ rpgLiteStrike(attacker, defender, request)
     local dice = mode.dice; local adds = mode.adds;
     if (mode.base != 'fixed')
     {
+        strength = profile.weaponStrength(weapon);
         if (mode.minimumST > 0 && !mode.ranged && strength > mode.minimumST * 3) strength = mode.minimumST * 3;
         local damage = rpgLiteDamageDice(strength, mode.base == 'swing'); dice = damage[1]; adds += damage[2];
         if (unarmed)
@@ -390,20 +439,27 @@ class RpgLiteBattle: object
         local result = new RpgLiteCombatResult();
         if (fighter != self.current()) { result.reason = 'not-your-turn'; return result; }
         if (!holds(['nothing','move','posture','aim','attack','all-out-attack','move-attack',
-            'all-out-defense','concentrate','ready'], request.kind)) throw new RpgError();
+            'all-out-defense','concentrate','ready','wait'], request.kind)) throw new RpgError();
         local limit = holds(['move','move-attack','all-out-defense'], request.kind) ? fighter.profile.move()
             : request.kind == 'all-out-attack' ? fighter.profile.move() / 2 : 1;
         if (request.movement < 0 || request.movement > limit
             || request.kind == 'all-out-defense' && request.option != 'dodge' && request.movement > 1)
         { result.reason = 'movement-limit'; return result; }
         result.reason = request.available(fighter); if (result.reason != nil) return result;
+        result.reason = fighter.profile.healthManeuverRequestReason(request);
+        if (result.reason != nil) return result;
         if (request.target != nil && !holds(self.fighters, request.target)) throw new RpgError();
-        if ((fighter.profile.stunned || fighter.profile.mentalStun) && request.kind != 'nothing')
+        if (fighter.profile.combatStunned() && request.kind != 'nothing')
         { result.reason = 'stunned'; return result; }
         if (request.kind == 'posture' && (request.posture == nil
             || fighter.profile.posture == 'lying' && request.posture == 'standing'))
         { result.reason = 'invalid-posture-change'; return result; }
-        if (request.kind == 'posture') rpgLitePostureModifier(request.posture, nil);
+        if (request.kind == 'posture')
+        {
+            rpgLitePostureModifier(request.posture, nil);
+            result.reason = fighter.profile.postureChangeReason(request.posture);
+            if (result.reason != nil) return result;
+        }
         if (holds(['attack','all-out-attack','move-attack','aim'], request.kind) && request.target == nil)
             throw new RpgError();
         if (request.kind == 'all-out-attack' && !holds(['determined','double','strong'], request.option)
@@ -411,17 +467,20 @@ class RpgLiteBattle: object
             throw new RpgError();
         if (request.kind == 'aim' && (fighter.weapon == nil || !fighter.weapon.ready || !fighter.mode().ranged || !request.visible))
         { result.reason = 'cannot-aim'; return result; }
-        if (request.kind == 'ready' && fighter.weapon == nil)
-        { result.reason = 'no-weapon'; return result; }
-        if (request.kind == 'ready' && request.option == 'reload'
-            && rpgLiteReloadSeconds(fighter.profile, fighter.weapon, fighter.mode()) == nil)
-        { result.reason = 'cannot-reload'; return result; }
+        if (request.kind == 'ready')
+        {
+            result.reason = request.readyAvailable(fighter);
+            if (result.reason != nil) return result;
+        }
         if (holds(['attack','all-out-attack','move-attack'], request.kind))
         {
             request.preflight = true; result = rpgLiteStrike(fighter, request.target, request); request.preflight = nil;
             if (result.status != 'ready') return result;
         }
-        if (!rpgLiteCanAct(fighter.profile, request.kind == 'nothing'))
+        result.reason = request.healthAvailable(fighter);
+        if (result.reason != nil) { result.status = 'blocked'; return result; }
+        rpgInteger(fighter.turnSerial,0,2147483646); fighter.turnSerial += 1;
+        if (!request.canAct(fighter))
         { result.status = 'resolved'; result.outcome = 'incapacitated'; self.advance(); return result; }
         fighter.blocks = 0; fighter.parries = 0; fighter.offParries = 0; fighter.attacked = nil;
         if (request.kind != 'concentrate') fighter.concentration = 0;
@@ -432,7 +491,7 @@ class RpgLiteBattle: object
             if (result.status != 'resolved') return result;
             if (request.kind == 'all-out-attack' && request.option == 'double' && !fighter.mode().ranged
                 && (fighter.weapon.ready || fighter.offWeapon != nil && fighter.offWeapon.ready)
-                && !fighter.profile.stunned && !fighter.profile.unconscious && !request.target.profile.dead)
+                && !fighter.profile.physicalStunned() && !fighter.profile.unconscious && !request.target.profile.dead)
             {
                 local primary = fighter.weapon; local modeIndex = fighter.modeIndex; local offHand = request.offHand;
                 if (fighter.offWeapon != nil && fighter.offWeapon.ready)
@@ -452,16 +511,11 @@ class RpgLiteBattle: object
             else fighter.aimSeconds = 0;
             if (request.kind == 'posture') fighter.profile.posture = request.posture;
             if (request.kind == 'concentrate') fighter.concentration += 1;
-            if (request.kind == 'ready')
-            {
-                if (request.option == 'reload') rpgLiteReload(fighter.profile, fighter.weapon, fighter.mode());
-                else fighter.weapon.ready = true;
-            }
+            if (request.kind == 'ready') request.performReady(fighter);
             if (request.kind == 'nothing' && fighter.profile.fearSeconds == 0 && (fighter.profile.stunned || fighter.profile.mentalStun))
                 rpgLiteRecoverStun(fighter.profile);
         }
-        fighter.profile.shock = fighter.profile.level('high-pain-threshold') > 0 ? 0
-            : result.counterInjury > 4 ? 4 : result.counterInjury;
+        fighter.profile.shock = fighter.profile.shockAfterTurn(result.counterInjury);
         request.apply(fighter, result); self.advance(); return result;
     }
     advance()
@@ -469,11 +523,12 @@ class RpgLiteBattle: object
         self.index += 1;
         if (self.index > self.order.length())
         {
-            self.index = 1; self.seconds += 1; rpgSpendTime(1);
+            self.index = 1; self.seconds += 1; self.advanceClock();
             foreach (local fighter in self.order) rpgLiteHealthTime(fighter.profile, 1);
         }
         return nil;
     }
+    advanceClock() { return rpgSpendTime(1); }
     finish()
     {
         if (!self.active) return nil;
@@ -483,7 +538,7 @@ class RpgLiteBattle: object
                 if (fighter.participated)
                 {
                     local cost = 1 + fighter.profile.encumbrance();
-                    if (fighter.weapon != nil && fighter.mode().minimumST > fighter.profile.st) cost += 1;
+                    if (fighter.weapon != nil && fighter.mode().minimumST > fighter.profile.handlingStrength()) cost += 1;
                     rpgLiteFatigue(fighter.profile, cost, 'battle');
                 }
         return true;

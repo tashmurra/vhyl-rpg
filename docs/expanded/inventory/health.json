@@ -1,0 +1,2537 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B418-B427",
+  "review": "Injury, anatomy, recovery, treatment, drug-design, fatigue and foraging text reviewed. Existing Lite injury, fatigue, consciousness and first-aid helpers inspected to identify integration boundaries. Detailed entries remain pending or partial as recorded below; authored fixtures remain unrun; underlying trait, surgery, infection and mortal-condition references still require resolution.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "health-injury-versus-damage",
+      "source": "full-2008",
+      "pages": "B418",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Distinguish penetrating attack damage from direct injury caused by illness, exertion or other effects; armor is not subtracted twice or applied to injury that bypasses damage.",
+      "tests": []
+    },
+    {
+      "id": "health-injury-shared-state",
+      "source": "full-2008",
+      "pages": "B418-B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Commit injury to the existing character injury ledger; expanded wounds and Lite interactions must not maintain independent health totals.",
+      "tests": []
+    },
+    {
+      "id": "health-low-health-movement",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Below one-third full health capacity, halve movement and dodge, rounding up; test the strict threshold and combination with low fatigue.",
+      "tests": [
+        "tests/expanded.py::test_fatigue_strength"
+      ],
+      "validation_note": "Opt-in contextual strength reduction and existing Move/Dodge paths have authored unrun fixtures. Purchased ST, HP and basic lift are preserved. Untrained strength defaults, broader strength procedures and cross-module validation remain incomplete."
+    },
+    {
+      "id": "health-zero-health-check",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At zero or lower health, check health at the next turn start and on subsequent active turns, at -1 per full multiple of health capacity below zero.",
+      "tests": [
+        "tests/expanded.py::test_action_gate"
+      ],
+      "validation_note": "Owned action gate combines effort and injury-consciousness checks with recorded replay. Fixture authored but unrun. Turn-start and defense dispatch integration, nonliving physiology and recovery-state validation remain incomplete."
+    },
+    {
+      "id": "health-zero-health-rest",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Doing nothing without an active defense avoids the consciousness roll; a defense or other maneuver triggers it even if no attack is attempted.",
+      "tests": [
+        "tests/expanded.py::test_action_gate"
+      ],
+      "validation_note": "Owned action gate combines effort and injury-consciousness checks with recorded replay. Fixture authored but unrun. Turn-start and defense dispatch integration, nonliving physiology and recovery-state validation remain incomplete."
+    },
+    {
+      "id": "health-zero-health-failure",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Failed consciousness checking incapacitates the actor, or stops a nonliving actor from functioning, and starts the appropriate recovery state.",
+      "tests": [
+        "tests/expanded.py::test_action_gate"
+      ],
+      "validation_note": "Owned action gate combines effort and injury-consciousness checks with recorded replay. Fixture authored but unrun. Turn-start and defense dispatch integration, nonliving physiology and recovery-state validation remain incomplete."
+    },
+    {
+      "id": "health-death-thresholds",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Crossing each new negative multiple of full health capacity from -1 through -4 requires a death check, including multiple crossings from one injury; do not repeat a previously processed threshold on a no-injury action.",
+      "tests": []
+    },
+    {
+      "id": "health-automatic-death",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At negative five times health capacity death is immediate, without granting another survival check.",
+      "tests": []
+    },
+    {
+      "id": "health-body-destruction",
+      "source": "full-2008",
+      "pages": "B419; B423",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "At negative ten times capacity, author whether the injury source actually destroys the body; ordinary punctures and incineration need not leave equivalent remains.",
+      "tests": [
+        "tests/expanded.py::test_body_assessment"
+      ],
+      "validation_note": "Owned source-based remains adjudication at negative ten times capacity records recognizable or destroyed body state without automatic inference from injury. Further injury invalidates recognizable assessments; destroyed state persists. Revival is separate and unfinished. Boundary, lifecycle and binding fixtures authored, unrun."
+    },
+    {
+      "id": "health-shock",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shock reduces dexterity and intelligence on the next turn only, by injury-derived magnitude up to four; preserve multiple injuries within the same relevant turn and expire the penalty once.",
+      "tests": []
+    },
+    {
+      "id": "health-shock-high-capacity",
+      "source": "full-2008",
+      "pages": "B419",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At full health capacity twenty or more, use one shock penalty per floor(capacity/10) injury, rounding down the resulting penalty and capping it at four.",
+      "tests": [
+        "tests/expanded.py::test_scaled_injury_shock",
+        "tests/expanded.py::test_scaled_shock_turn_boundary"
+      ],
+      "validation_note": "High-capacity shock and wound/turn-cleanup hooks authored. Pain sensitivity doubles the ordinary calculated shock. Boundary, resistance, pain and rejection cases are authored and unrun."
+    },
+    {
+      "id": "health-shock-defensive-exemption",
+      "source": "full-2008",
+      "pages": "B419; B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shock affects appropriate attribute-based skills but not active defenses or other no-maneuver defensive reactions.",
+      "tests": []
+    },
+    {
+      "id": "health-major-wound",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A single injury strictly greater than half health capacity is a major wound; a crippling injury is also major even when its recorded health loss is smaller.",
+      "tests": [
+        "tests/expanded.py::test_knockdown_assessment",
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence"
+      ],
+      "validation_note": "Owned standard-location wound execution and receipt ownership validation authored. Pure preview, transaction and cross-process continuation cases unrun. Unsupported held-item drops, anatomy, crippling and low-target checks remain explicit."
+    },
+    {
+      "id": "health-knockdown-trigger",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A major wound or a shock-producing injury to skull, face, eye or vitals triggers an immediate knockdown/stun health check unless an applicable anatomy trait changes the trigger.",
+      "tests": [
+        "tests/expanded.py::test_knockdown_assessment",
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence"
+      ],
+      "validation_note": "Owned standard-location wound execution and receipt ownership validation authored. Pure preview, transaction and cross-process continuation cases unrun. Unsupported held-item drops, anatomy, crippling and low-target checks remain explicit."
+    },
+    {
+      "id": "health-knockdown-failure",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary knockdown failure stuns, puts the actor prone and drops held items; distinguish this from displacement by knockback.",
+      "tests": [
+        "tests/expanded.py::test_expanded_wound_commit",
+        "tests/expanded.py::test_owned_wound_transactions",
+        "tests/expanded.py::test_owned_wound_persistence",
+        "tests/expanded.py::test_knockdown_equipment_drop",
+        "tests/expanded.py::test_knockdown_equipment_retained",
+        "tests/expanded.py::test_knockdown_drop_persistence"
+      ],
+      "validation_note": "Owned wounds and optional-equipment forced drops authored. Cases cover rejection, successful retention, transactions, save continuation and pickup/reuse but remain unrun. Broader anatomy, crippling and low-target checks unresolved."
+    },
+    {
+      "id": "health-knockdown-unconscious",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Failure by at least five or any critical knockdown failure causes unconsciousness and the appropriate recovery procedure.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-no-brain",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Without a brain, skull, face and eye hits cause knockdown/stun only when major and have no special location penalty.",
+      "tests": [
+        "tests/expanded.py::test_knockdown_anatomy_exceptions"
+      ],
+      "validation_note": "Active absent-brain/vitals knockdown exceptions and retained assessment authored. Cases unrun; full injury-tolerance catalogue, body forms and crippling remain incomplete."
+    },
+    {
+      "id": "health-knockdown-no-vitals",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Without vitals, vitals and groin hits cause knockdown/stun only when major and have no special location penalty; homogeneous and diffuse anatomy include both this and the brain exception.",
+      "tests": [
+        "tests/expanded.py::test_knockdown_anatomy_exceptions"
+      ],
+      "validation_note": "Active absent-brain/vitals knockdown exceptions and retained assessment authored. Cases unrun; full injury-tolerance catalogue, body forms and crippling remain incomplete."
+    },
+    {
+      "id": "health-stun-actions",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A stunned actor must do nothing on the next turn, may defend at -4 and cannot retreat.",
+      "tests": []
+    },
+    {
+      "id": "health-stun-recovery",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At each stunned turn end, roll health for physical stun; success permits normal actions only on subsequent turns.",
+      "tests": []
+    },
+    {
+      "id": "health-mental-stun",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental stun uses the corresponding intelligence recovery check rather than health, with its own surprise-related modifiers and cause retained.",
+      "tests": []
+    },
+    {
+      "id": "health-bleeding-option",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Bleeding is disabled unless selected by campaign configuration; qualifying injuries create persistent bleeding state tied to their actual wounds.",
+      "tests": [
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts",
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
+      ],
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
+    },
+    {
+      "id": "health-bleeding-timing",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At each minute after injury, roll health with -1 per five health lost; record the source-backed wound-loss basis and avoid reprocessing elapsed boundaries.",
+      "tests": [
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_receipts",
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
+      ],
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
+    },
+    {
+      "id": "health-bleeding-outcomes",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary bleeding failure loses one health, critical failure loses three, critical success ends bleeding, and ordinary success prevents that minute's loss.",
+      "tests": [
+        "tests/expanded.py::test_bleeding_outcomes",
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts",
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
+      ],
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
+    },
+    {
+      "id": "health-bleeding-streak",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Three consecutive minutes without bleeding end the episode; a bleeding minute resets the streak and successful first aid can stop further losses.",
+      "tests": [
+        "tests/expanded.py::test_bleeding_outcomes",
+        "tests/expanded.py::test_bleeding_minutes",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts",
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
+      ],
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
+    },
+    {
+      "id": "health-bleeding-wound-policy",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Author which wounds bleed, normally cutting/impaling/piercing; minor burn/corrosion does not bleed significantly but a major such wound does. Preserve exceptions explicitly.",
+      "tests": [
+        "tests/expanded.py::test_bleeding_onset",
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries",
+        "tests/expanded.py::test_bleeding_receipts",
+        "tests/expanded.py::test_bleeding_actions",
+        "tests/expanded.py::test_bleeding_timeline"
+      ],
+      "validation_note": "Owned classified onset and minute execution use shared injury and time. First-aid care terminates bleeding and optionally credits bandage healing in the same interval. Treatment timestamps, completed outcomes and check fields are bound against replay mutation. Multi-wound aggregation, automatic enrollment, loss-basis reconciliation and special injury policies remain incomplete. Fixtures authored, unrun. Shared player actions expose healer-authorized preview, start, completion and cancellation across command and dialogue routes; parity fixtures are unrun. Episode timeline and ordered minute history are bound and checked at clock entry, including stopped episodes; minute outcomes retain exact check fields. Mutation and continuation fixtures remain unrun."
+    },
+    {
+      "id": "health-accumulation-option",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The accumulated-wound option tracks injury separately by location and cripples when the location total crosses its threshold; it must be explicitly enabled.",
+      "tests": []
+    },
+    {
+      "id": "health-accumulation-cap",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a limb or extremity reaches its crippling loss cap, further hits do not drain global health through that location, though raw injury still matters for destruction.",
+      "tests": [],
+      "validation_note": "B420 places the further-injury cap within the optional accumulated-wounds procedure. Still pending a location-injury ledger and healing allocation; do not silently apply this optional procedure to ordinary repeated wounds."
+    },
+    {
+      "id": "health-last-wounds-option",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "With the last-wounds option enabled and health below one-third capacity, ignore a limb/extremity wound unless critical, crippling, or at least one-third capacity in that single injury.",
+      "tests": [
+        "tests/expanded.py::test_last_wounds_option",
+        "tests/expanded.py::test_last_wound_transactions",
+        "tests/expanded.py::test_last_wound_persistence"
+      ],
+      "validation_note": "Explicit off-by-default option integrates strict low-health boundary, critical/crippling/one-third exceptions, zero-loss receipts and replay for owned arm/hand wounds. Fixtures authored but unrun. Other anatomy and accumulated-wound combinations remain unsupported."
+    },
+    {
+      "id": "health-crippling-threshold",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use a strict greater-than threshold for ordinary crippling, while supporting a critical outcome that cripples with less or no injury.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
+    },
+    {
+      "id": "health-limb-injury-cap",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Limit health loss from a limb or extremity hit to the smallest integer injury that cripples it; no corresponding cap applies to eyes.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
+    },
+    {
+      "id": "health-dismemberment",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Before capping global injury, compare raw injury with twice the minimum crippling amount; qualifying damage destroys the part, with cutting/explosion severing and other types using their appropriate destruction.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
+    },
+    {
+      "id": "health-extra-limb-threshold",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "With more than two limbs of a kind, crippling requires injury greater than capacity divided by that kind's count; four arms use capacity/4.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
+    },
+    {
+      "id": "health-extra-extremity-threshold",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "With more than two extremities of a kind, use capacity divided by 1.5 times their count; four feet use capacity/6.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
+    },
+    {
+      "id": "health-crippling-major-check",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Every crippling injury invokes major-wound knockdown/stun handling without duplicating a check already required for the same wound.",
+      "tests": [
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds commit capped health loss, one major-wound check, disability and single-grip or severed-shield drops. Transaction and continuation fixtures authored but unrun. Multiple-grip retention, repeated location injury, unarmed effects, duration and recovery remain incomplete."
+    },
+    {
+      "id": "health-crippling-duration-check",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Determine crippling duration with a health check, at combat end for battlefield injuries: success temporary, ordinary failure lasting and critical failure permanent. Destruction is automatically permanent and consumes no duration roll.",
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
+    },
+    {
+      "id": "health-temporary-crippling",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Temporary crippling persists until full health is restored, then removes only the associated temporary functional penalties.",
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
+    },
+    {
+      "id": "health-lasting-crippling",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Lasting crippling lasts one die of months, reduced by qualifying medical treatment but never below one month; use the campaign calendar rather than an unexplained fixed seconds-per-month constant.",
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months",
+        "tests/expanded.py::test_lasting_recovery",
+        "tests/expanded.py::test_lasting_recovery_persistence",
+        "tests/expanded.py::test_later_crippling_care",
+        "tests/expanded.py::test_later_care_calendar",
+        "tests/expanded.py::test_later_care_persistence"
+      ],
+      "validation_note": "Owned classification, authored calendar anniversaries and non-stacking later completed-care adjustments authored. Fixtures unrun. Care facts are explicit author input; full treatment execution, surgery and permanent repair remain incomplete."
+    },
+    {
+      "id": "health-permanent-crippling",
+      "source": "full-2008",
+      "pages": "B422-B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Permanent loss grants the appropriate negative trait and lowers character value without crediting spendable points; later restoration uses the applicable repair or treatment procedure.",
+      "tests": [
+        "tests/expanded.py::test_crippling_duration",
+        "tests/expanded.py::test_crippling_duration_persistence",
+        "tests/expanded.py::test_crippling_months"
+      ],
+      "validation_note": "Owned duration classification, active-combat gate, destroyed-part roll suppression, healing-trait bonus, explicit completed-care adjustment and temporary full-health recovery authored. Fixtures unrun. Calendar expiry, later care, permanent repair and character-value accounting remain incomplete."
+    },
+    {
+      "id": "health-temporary-strength",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Temporary strength penalties alter muscle-powered damage but ordinarily do not reduce health capacity or other derived characteristics.",
+      "tests": [
+        "tests/expanded.py::test_strength_reduction",
+        "tests/expanded.py::test_strength_handling"
+      ],
+      "validation_note": "Timed ST reduction now modifies shared strike, retaliation and throwing damage through a profile hook, preserves weapon-rated crossbow damage and leaves capacities/Basic Lift unchanged. Below-table strength rejects before combat rolls. Other strength-dependent handling and range adapters remain pending. Assertions authored, unrun. Shared minimum-strength, one-handed handling, readiness, reload and range paths now use reduced handling strength; expanded bows/crossbows use weapon ratings. Boundary assertions authored, unrun. Explicit-strength assessments still require authored input."
+    },
+    {
+      "id": "health-temporary-intelligence",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Temporary intelligence penalties also lower will and perception for affected nondefensive checks and their skills.",
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
+    },
+    {
+      "id": "health-temporary-secondary-exemption",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Temporary strength, dexterity and health reductions do not ordinarily recalculate health, speed, movement or fatigue capacity; explicit exceptions such as gravity must remain separately stated.",
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
+    },
+    {
+      "id": "health-temporary-skill-propagation",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Propagate temporary penalties to skills governed by the affected attribute, including will/perception skills affected through intelligence.",
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
+    },
+    {
+      "id": "health-temporary-defense-exemption",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "No-maneuver defensive reactions, including defenses, resistance and fear checks, ignore temporary attribute reductions unless a specific rule overrides this.",
+      "tests": [
+        "tests/expanded.py::test_attribute_reduction"
+      ],
+      "validation_note": "Owned finite DX/IQ/HT reduction applies through contextual checks, propagates IQ to Will/Perception and exempts defensive reactions without mutating secondary capacities. Strength damage and direct consumers remain unsupported; cause-specific overlap rejects. Propagation and lifecycle assertions authored, unrun."
+    },
+    {
+      "id": "health-permanent-score-loss",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permanent attribute loss recalculates all dependent secondary scores and skills; do not reuse the temporary-penalty exemption.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-entry",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A death-check failure by one or two creates a mortal wound and immediate incapacitation rather than death; the author may choose whether the patient remains conscious.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-new-death-check",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "While already mortally wounded, any failed subsequent death check from further injury kills the patient rather than renewing mortal status.",
+      "tests": []
+    },
+    {
+      "id": "health-mortal-clock",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Check health every half-hour while mortally wounded: failure kills, ordinary success delays death and critical success stabilizes the mortal condition while leaving incapacitation.",
+      "tests": [
+        "tests/expanded.py::test_trauma_maintenance",
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete."
+    },
+    {
+      "id": "health-mortal-trauma-maintenance",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At medical technology six or higher, trauma maintenance replaces half-hour checks with hourly checks against the higher of patient health or caregiver physician skill.",
+      "tests": [
+        "tests/expanded.py::test_trauma_maintenance",
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete."
+    },
+    {
+      "id": "health-mortal-life-support",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Suitable mechanical life support extends the maintenance check interval to one day; magical or advanced suspended animation suppresses these checks entirely while active.",
+      "tests": [
+        "tests/expanded.py::test_trauma_maintenance",
+        "tests/expanded.py::test_mortal_stabilization",
+        "tests/expanded.py::test_mortal_suspension"
+      ],
+      "validation_note": "Owned trauma maintenance supplies hourly/daily checks against the higher current patient/caregiver score; shared ledger dispatch also advances owned mortal care and prevents duplicate rest clocks. Fixtures authored and unrun. Mid-interval transitions and suspended animation remain incomplete. Concrete receipt for an established suspension effect now suppresses mortal checks while retaining the partial interval and unconsciousness. Fixture authored and unrun. Effect acquisition and wider physiological interactions remain incomplete."
+    },
+    {
+      "id": "health-mortal-recovery-cost",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After recovery from a mortal wound, make one health check; failure permanently loses one health and critical failure may also produce an explicitly authored lasting consequence.",
+      "tests": [
+        "tests/expanded.py::test_mortal_recovery",
+        "tests/expanded.py::test_mortal_stabilization",
+        "tests/expanded.py::test_recovery_wound"
+      ],
+      "validation_note": "All three recovery sources now dispatch one recorded permanent-health check, HT loss and development revision. A critical receipt permits an explicit no-additional-consequence decision. Fixtures unrun. Additional authored consequences and minimum-HT source interactions remain incomplete. A concrete persistent-wound consequence can now be acquired once with location/evidence and shared accounting. Its downstream effects remain partial."
+    },
+    {
+      "id": "health-postmortem-injury",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Retain postmortem damage and body integrity where revival depends on them; a dead-state early return must not erase damage relevant to body destruction.",
+      "tests": [
+        "tests/expanded.py::test_postmortem"
+      ],
+      "validation_note": "Explicit campaign option routes shared wound calls on dead profiles through owned final-injury receipts. Shared injury is retained without shock or survival checks; explicit receipts support replay. Lite/default behavior unchanged. Body destruction, revival and higher-level dead-target attack adapters remain pending. Lifecycle fixtures authored, unrun."
+    },
+    {
+      "id": "health-instant-death",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "An authored obviously lethal attack on a helpless or unconscious victim can set health to negative five times capacity without damage rolls; merely unaware targets do not qualify.",
+      "tests": [
+        "tests/expanded.py::test_instant_death"
+      ],
+      "validation_note": "Owned approved lethal-attack receipt checks actual helplessness or current unconsciousness, rejects mere awareness loss, sets shared injury to at least six times capacity and marks death without rolls. Bound replay, preview, rollback, undo and cross-process save fixtures authored but unrun. Author must adjudicate anatomy and special survival exceptions; no claim of execution validation."
+    },
+    {
+      "id": "health-dying-action",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A permitted final action for a significant dying character has an explicit scope and duration, normally at most one combat turn for an attack; it must not reopen unlimited normal action.",
+      "tests": []
+    },
+    {
+      "id": "health-unconscious-positive",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "With at least one health remaining, ordinary injury unconsciousness ends automatically after fifteen minutes, subject to a more specific ongoing cause.",
+      "tests": []
+    },
+    {
+      "id": "health-unconscious-zero-band",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or below but above negative full capacity, check health hourly to wake; after success do not demand turn-by-turn consciousness checks until new injury.",
+      "tests": []
+    },
+    {
+      "id": "health-unconscious-negative-band",
+      "source": "full-2008",
+      "pages": "B423",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At or below negative full capacity, allow one wake check after twelve hours; failure requires medical stabilization and subsequent twelve-hour checks are survival checks, not additional wake attempts.",
+      "tests": []
+    },
+    {
+      "id": "health-natural-recovery",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After a full day of rest and adequate food, a successful health check restores one health before capacity scaling; ineligible injury types do not heal naturally.",
+      "tests": [
+        "tests/expanded.py::test_expanded_natural_recovery",
+        "tests/expanded.py::test_natural_recovery_transactions",
+        "tests/expanded.py::test_natural_recovery_persistence"
+      ],
+      "validation_note": "Off-by-default expanded natural recovery integrates B79/B155 healing traits, B424 scaling, protected-injury caps and the shared rest clock. Fixtures unrun. Scaling of other healing sources, physician supervision, rest interruption and mortal/unhealing exceptions remain incomplete."
+    },
+    {
+      "id": "health-bandage",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "One minute applying pressure or a tourniquet restores one health before scaling; bind treatment to eligible injury so repeated new sessions cannot farm the same bandage benefit.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values",
+        "tests/expanded.py::test_expanded_bandage",
+        "tests/expanded.py::test_bandage_rejections",
+        "tests/expanded.py::test_bandage_transactions",
+        "tests/expanded.py::test_bandage_persistence"
+      ],
+      "validation_note": "Owned latest-wound bandaging uses authored eligible injury, the shared bandage marker, scaled healing and one minute of shared time. Rejection, rollback, undo and cross-process continuation fixtures authored but unrun. Earlier-wound allocation, interruption, bleeding and subsequent treatment remain incomplete."
+    },
+    {
+      "id": "health-first-aid-bleeding",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A successful first-aid check within a minute of injury prevents bleeding loss; a later success stops future loss but does not undo previously committed bleeding injury.",
+      "tests": [
+        "tests/expanded.py::test_bleeding_aid",
+        "tests/expanded.py::test_bleeding_bandage",
+        "tests/expanded.py::test_bleeding_care_boundaries"
+      ],
+      "validation_note": "Owned one-minute care, termination and atomic same-interval bandage credit authored. Earlier-wound healing allocation, multi-wound care and broader treatment composition pending. Fixtures unrun."
+    },
+    {
+      "id": "health-first-aid-shock",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "After bandaging, the patient must remain warm, comfortable, calm and still for the listed treatment duration before the first-aid roll.",
+      "tests": [
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence"
+      ],
+      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source outcomes, capped eligible healing and critical-failure injury. Source outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Interrupted care, earlier wounds, bleeding and full context modifiers remain incomplete."
+    },
+    {
+      "id": "health-first-aid-healing",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Successful treatment rolls the technology-dependent recovery amount, minimum one; this total includes prior bandage recovery rather than adding it again.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values",
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence"
+      ],
+      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source outcomes, capped eligible healing and critical-failure injury. Source outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Interrupted care, earlier wounds, bleeding and full context modifiers remain incomplete."
+    },
+    {
+      "id": "health-first-aid-critical",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Critical first-aid success restores the maximum listed amount; critical failure loses two health instead of recovering health. Preserve the treatment's prior bandaging in the total accounting.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values",
+        "tests/expanded.py::test_first_aid_treatment",
+        "tests/expanded.py::test_aid_transactions",
+        "tests/expanded.py::test_aid_persistence"
+      ],
+      "validation_note": "Owned post-bandaging treatment implements an atomic authored care interval, source outcomes, capped eligible healing and critical-failure injury. Source outcome, rollback, undo and cross-process continuation fixtures authored but unrun. Interrupted care, earlier wounds, bleeding and full context modifiers remain incomplete."
+    },
+    {
+      "id": "health-surgery-context",
+      "source": "full-2008",
+      "pages": "B223; B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Use the surgery skill's general modifiers and failure effects in addition to operation-specific rules; an equipment bonus alone is not a complete surgical procedure.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments",
+        "tests/expanded.py::test_surgical_training_assessment",
+        "tests/expanded.py::test_surgical_operation"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete. Owned surgeon investments now determine prerequisite eligibility and the no-Physician penalty in a pure current-score assessment; the skills library supplies published default paths, and the assessment composes B168 equipment mismatch with B424 medical modifiers once. Additional fixture authored and unrun. Common owned operation now records authored duration, exact completion, interruption, shared skill roll and 3d failure wound. Fixtures authored and unrun. Procedure-specific therapeutic effects, infection, amputation and bleeding/clotting combinations remain incomplete."
+    },
+    {
+      "id": "health-surgery-anesthetic",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Technology-five-or-higher equipment modifiers assume anesthetic; without it impose -2 instead of the ordinary -1 missing-item penalty.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-infection",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Check post-surgical infection before technology five and during technology five when the campaign selects that poor-antisepsis condition.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments",
+        "tests/expanded.py::test_surgical_infection"
+      ],
+      "validation_note": "Owned surgical exposure now preflights and commits B444 acquisition after mandatory low-technology surgery, including success with no HP wound. Shared natural immunity, daily disease injury and recovery are integrated. Fixtures authored and unrun; antibiotic acquisition exceptions and bleeding/clotting combinations remain incomplete."
+    },
+    {
+      "id": "health-stabilization-duration",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each mortal-wound stabilization attempt takes one hour; coordinate survival checks and care over that same interval without spending the time twice.",
+      "tests": [
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned one-hour operation with shared-clock survival checks and current severity band authored. Fixtures unrun; supported surgical combinations remain limited as documented."
+    },
+    {
+      "id": "health-stabilization-penalty",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Stabilization suffers -2 at negative three times capacity or worse and -4 at negative four times capacity or worse; use the applicable band, not both cumulatively.",
+      "tests": [
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned one-hour operation with shared-clock survival checks and current severity band authored. Fixtures unrun; supported surgical combinations remain limited as documented."
+    },
+    {
+      "id": "health-stabilization-retries",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Repeated failed stabilization attempts are allowed at an additional cumulative -2 each attempt; retain history on the patient and procedure, not just a newly created session.",
+      "tests": [
+        "tests/expanded.py::test_mortal_stabilization"
+      ],
+      "validation_note": "Owned one-hour stabilization with shared failure injury, persistent per-condition retries, severity modifiers and permanent-health recovery check authored. Fixtures unrun. Trauma-maintenance support, discretionary additional complications and bleeding/clotting combinations remain incomplete."
+    },
+    {
+      "id": "health-lasting-repair",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Surgery for lasting crippling takes two hours; success changes remaining recovery from months to weeks, while critical failure makes the injury permanent.",
+      "tests": [
+        "tests/expanded.py::test_lasting_repair"
+      ],
+      "validation_note": "Owned two-hour surgical repair, shared failure injury, success conversion of authored remaining month fraction to campaign weeks, critical-failure permanence and exact recovery boundary authored. Fixtures unrun. Infection/bleeding combinations, sub-second conversion and later-care interactions remain incomplete."
+    },
+    {
+      "id": "health-permanent-repair",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "At technology seven or higher, a specific authorized repair may restore a permanent injury with required prosthetic/transplant resources, at -3 or worse to skill and possibly only partial function.",
+      "tests": []
+    },
+    {
+      "id": "health-permanent-repair-failure",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A failed permanent-injury repair imposes one die of months of recovery before another attempt; creating another treatment object cannot bypass that delay.",
+      "tests": []
+    },
+    {
+      "id": "health-physician-rest-bonus",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Care from a physician with skill at least twelve grants +1 to natural recovery checks; multiple physicians do not stack this benefit.",
+      "tests": [
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence"
+      ],
+      "validation_note": "Qualified practice rosters, equipment fallback and supervision bonus are authored; owned additional physician checks now observe shared-time intervals. Fixtures unrun. Continuous-care scheduling and exceptional treatment regimens remain incomplete."
+    },
+    {
+      "id": "health-physician-heal-check",
+      "source": "full-2008",
+      "pages": "B424-B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Only one physician may make the scheduled additional healing check for a patient; success restores one health, critical success two, and critical failure causes one injury.",
+      "tests": [
+        "tests/expanded.py::test_physician_outcomes",
+        "tests/expanded.py::test_physician_check_transactions",
+        "tests/expanded.py::test_physician_check_persistence"
+      ],
+      "validation_note": "Owned additional physician checks observe the shared time ledger, slow-healing interval and patient-level history; source success/failure outcomes use shared healing/wounds. Fixtures unrun. Continuous care is an explicit authored interval fact; protected injury, unhealing and mortal-wound regimens remain unsupported."
+    },
+    {
+      "id": "health-physician-capacity",
+      "source": "full-2008",
+      "pages": "B424-B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Enforce doctor patient limits and healing-check frequency by the physician's medical technology, sharing schedules across all patient treatment objects.",
+      "tests": [
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence",
+        "tests/expanded.py::test_physician_outcomes",
+        "tests/expanded.py::test_physician_check_transactions",
+        "tests/expanded.py::test_physician_check_persistence"
+      ],
+      "validation_note": "Owned additional physician checks observe the shared time ledger, slow-healing interval and patient-level history; source success/failure outcomes use shared healing/wounds. Fixtures unrun. Continuous care is an explicit authored interval fact; protected injury, unhealing and mortal-wound regimens remain unsupported."
+    },
+    {
+      "id": "health-physician-low-equipment",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A technology-six-or-higher physician lacking familiar gadgets operates as technology six when surroundings are clean; retain actual skill and equipment conditions.",
+      "tests": [
+        "tests/expanded.py::test_medical_schedule",
+        "tests/expanded.py::test_medical_supervision_transactions",
+        "tests/expanded.py::test_medical_supervision_persistence"
+      ],
+      "validation_note": "Qualified practice rosters, equipment fallback and supervision bonus are authored; owned additional physician checks now observe shared-time intervals. Fixtures unrun. Continuous-care scheduling and exceptional treatment regimens remain incomplete."
+    },
+    {
+      "id": "health-high-capacity-healing",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Scale healing by one below capacity twenty, two at twenty through twenty-nine, three at thirty through thirty-nine and so on, across natural, first-aid, magical and regeneration healing without double scaling.",
+      "tests": [
+        "tests/expanded.py::test_expanded_natural_recovery",
+        "tests/expanded.py::test_natural_recovery_transactions",
+        "tests/expanded.py::test_natural_recovery_persistence",
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Scaling is authored for natural recovery, physician outcomes and pure first-aid allowances. Fixtures unrun. Committed expanded first aid, magical healing and regeneration integration remain incomplete."
+    },
+    {
+      "id": "health-resuscitation-check",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Each resuscitation attempt takes one minute and uses physician at technology seven or higher, or first aid at that technology with -4; preserve the cause-specific revival deadline.",
+      "tests": [
+        "tests/expanded.py::test_resuscitation_assessment",
+        "tests/expanded.py::test_cardiac_resuscitation",
+        "tests/expanded.py::test_cardiac_transactions",
+        "tests/expanded.py::test_cardiac_clock",
+        "tests/expanded.py::test_cardiac_clock_batch",
+        "tests/expanded.py::test_cardiac_clock_batch_persistence",
+        "tests/expanded.py::test_cardiac_clock_revival",
+        "tests/expanded.py::test_cardiac_clock_persistence",
+        "tests/expanded.py::test_cardiac_persistence"
+      ],
+      "validation_note": "Pure procedure assessment and owned uninterrupted cardiac attempts authored. Expected-value, transaction, undo and save-continuation fixtures remain unrun. Drowning/asphyxiation revival, interrupted care and broad deadline scheduling remain incomplete."
+    },
+    {
+      "id": "health-resuscitation-trained-aid",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Trained first aid for drowning or asphyxiation uses -2 instead of -4 with the specified modern rescue technique; default rolls do not receive that improvement.",
+      "tests": [
+        "tests/expanded.py::test_resuscitation_assessment"
+      ],
+      "validation_note": "Pure duration and modifier assessment authored; fixtures unrun. Owned attempts, skill execution, cause-specific deadlines and revival effects remain incomplete."
+    },
+    {
+      "id": "health-knockdown-modifier-face-vitals",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Major wounds to face or vitals impose -5.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-groin",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Major groin wounds on a humanoid male impose -5.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-skull-eye",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Major skull or eye wounds impose -10.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-pain-resistant",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "High pain threshold grants +3.",
+      "tests": []
+    },
+    {
+      "id": "health-knockdown-modifier-pain-sensitive",
+      "source": "full-2008",
+      "pages": "B420",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Low pain threshold imposes -4.",
+      "tests": [
+        "tests/expanded.py::test_pain_sensitivity"
+      ],
+      "validation_note": "Health context applies the -4 penalty; shared injury hooks add doubled shock and the cry-out check. Fixtures authored and unrun; observer consequences remain pending."
+    },
+    {
+      "id": "health-crippling-threshold-limb",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An ordinary arm, leg, wing, striker or prehensile tail is crippled by injury strictly over half full health capacity.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+    },
+    {
+      "id": "health-crippling-threshold-extremity",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An ordinary hand, foot, tail, fin or extraneous head is crippled by injury strictly over one-third full capacity.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+    },
+    {
+      "id": "health-crippling-threshold-eye",
+      "source": "full-2008",
+      "pages": "B420-B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "An eye is crippled by injury strictly over one-tenth full capacity.",
+      "tests": [
+        "tests/expanded.py::test_crippling_thresholds"
+      ],
+      "validation_note": "Pure single-injury threshold, raw destruction and capped health-loss assessment authored against B421. Enumerated boundary cases are unrun. Persistent disability effects, critical-result overrides and committed location injuries remain unavailable."
+    },
+    {
+      "id": "health-crippling-effect-hand",
+      "source": "full-2008",
+      "pages": "B147; B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Drop single-handed held items; a multiply held item allows dexterity to retain it. The hand cannot hold or attack, but a shield on the arm can still block.",
+      "tests": [
+        "tests/expanded.py::test_body_supports",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence",
+        "tests/expanded.py::test_unarmed_limb_capacity",
+        "tests/expanded.py::test_limb_grip_retention",
+        "tests/expanded.py::test_limb_grip_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds, unarmed parry capacity and single/multiple-grip drops with retained check receipts authored. Fixtures unrun. Repeated location injury, broader task effects, duration and recovery remain incomplete. Retention uses the B419/B421 general defensive-reaction exception."
+    },
+    {
+      "id": "health-crippling-effect-arm",
+      "source": "full-2008",
+      "pages": "B147; B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "The arm cannot carry anything. An attached shield stays unless severed but cannot block and its passive defense bonus is reduced by one.",
+      "tests": [
+        "tests/expanded.py::test_body_supports",
+        "tests/expanded.py::test_limb_wound_transactions",
+        "tests/expanded.py::test_limb_wound_persistence",
+        "tests/expanded.py::test_unarmed_limb_capacity",
+        "tests/expanded.py::test_limb_grip_retention",
+        "tests/expanded.py::test_limb_grip_persistence"
+      ],
+      "validation_note": "Owned arm/hand wounds, unarmed parry capacity and single/multiple-grip drops with retained check receipts authored. Fixtures unrun. Repeated location injury, broader task effects, duration and recovery remain incomplete. Retention uses the B419/B421 general defensive-reaction exception."
+    },
+    {
+      "id": "health-crippling-effect-foot",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Fall and require a crutch or support to stand or walk; braced, sitting or kneeling combat remains subject to the appropriate posture restrictions.",
+      "tests": [
+        "tests/expanded.py::test_lower_limb_assessment",
+        "tests/expanded.py::test_fall_lower",
+        "tests/expanded.py::test_lower_skills",
+        "tests/expanded.py::test_crutch_support",
+        "tests/expanded.py::test_mobility_settlement",
+        "tests/expanded.py::test_mobility_loss"
+      ],
+      "validation_note": "Pure biped consequence assessment implements falling, required support, leg-dependent skill penalties, movement limits and unaided posture distinctions. Boundary fixtures authored, unrun. Owned anatomy, aid validation and movement enforcement remain pending. Owned lower-limb anatomy/fall injuries now force lying and reject unsupported movement/posture changes. Transaction/save assertions authored, unrun. Aid, locomotion and skill integration remain pending. Biped leg-use penalties now flow through explicit context/skill metadata and melee attack/parry hooks; ranged attacks opt out. Score fixtures authored, unrun. Complete catalogue classification and supported movement remain pending. Owned crutch support now validates readied aid/hand bindings, reserves support hands and applies the appropriate biped movement limit. Availability and persistence fixtures authored, unrun; support-loss falls and broader aid cases remain pending. Explicit support settlement now requires resolved impact facts, releases support and sets lying posture; unsafe standing deactivation and time advancement are guarded. Transaction/save assertions authored, unrun. Automatic notification and full equipment integration remain pending. Forced aid drops and owned supporting-hand injuries now record persistent unresolved loss events. Restored readiness cannot erase the event; settlement clears pending state while preserving history. Transaction/save fixtures authored, unrun; other loss causes remain pending."
+    },
+    {
+      "id": "health-crippling-effect-leg",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Fall and use sitting or lying posture to fight, with the corresponding missing-leg functional restriction.",
+      "tests": [
+        "tests/expanded.py::test_lower_limb_assessment",
+        "tests/expanded.py::test_fall_lower",
+        "tests/expanded.py::test_lower_skills",
+        "tests/expanded.py::test_peg_support",
+        "tests/expanded.py::test_crutch_support",
+        "tests/expanded.py::test_mobility_settlement",
+        "tests/expanded.py::test_mobility_loss"
+      ],
+      "validation_note": "Pure biped consequence assessment implements falling, required support, leg-dependent skill penalties, movement limits and unaided posture distinctions. Boundary fixtures authored, unrun. Owned anatomy, aid validation and movement enforcement remain pending. Owned lower-limb anatomy/fall injuries now force lying and reject unsupported movement/posture changes. Transaction/save assertions authored, unrun. Aid, locomotion and skill integration remain pending. Biped leg-use penalties now flow through explicit context/skill metadata and melee attack/parry hooks; ranged attacks opt out. Score fixtures authored, unrun. Complete catalogue classification and supported movement remain pending. Owned fitted peg support now permits the biped one-impaired-leg case with a pre-encumbrance movement cap and live aid/terrain validation. Transaction/save and movement-adjustment fixtures authored, unrun. Crutches and support-loss events remain pending. Owned crutch support now validates readied aid/hand bindings, reserves support hands and applies the appropriate biped movement limit. Availability and persistence fixtures authored, unrun; support-loss falls and broader aid cases remain pending. Explicit support settlement now requires resolved impact facts, releases support and sets lying posture; unsafe standing deactivation and time advancement are guarded. Transaction/save assertions authored, unrun. Automatic notification and full equipment integration remain pending. Forced aid drops and owned supporting-hand injuries now record persistent unresolved loss events. Restored readiness cannot erase the event; settlement clears pending state while preserving history. Transaction/save fixtures authored, unrun; other loss causes remain pending."
+    },
+    {
+      "id": "health-crippling-effect-eye",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Lose sight through that eye; losing all eyes causes blindness unless an alternate sensing capability applies.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-extra-arms",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "With three or more arms, reduce usable limb/hand count; apply ordinary one-arm/hand disadvantage only when fewer than two functional equivalents remain.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-extra-head",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A crippled extra head loses the benefits supplied by that specific head.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-extra-legs",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Resolve crippled feet/legs with the extra-leg trait's actual support and mobility rules rather than automatically applying biped collapse.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-striker",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A crippled striker cannot attack; a striker that is also a tail or wing loses those functions too.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-tail",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Disable tail-granted abilities and impose -1 dexterity except close manual work; swimmers and winged flyers instead have -2 and half water/air movement, including enhanced top speed.",
+      "tests": []
+    },
+    {
+      "id": "health-crippling-effect-wing",
+      "source": "full-2008",
+      "pages": "B421-B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Wing-dependent flight becomes impossible and an airborne actor falls; a wing striker cannot attack.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-care-technology-five",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Qualifying physician care at technology five subtracts one month from the duration die, minimum one month.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-care-technology-six",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Qualifying technology-six care subtracts two months, minimum one.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-care-technology-seven-plus",
+      "source": "full-2008",
+      "pages": "B422",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Qualifying technology-seven-or-higher care subtracts three months, minimum one.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-good",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A conscious patient at half or more full health is in the good category.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-fair",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A conscious patient with at least one health but less than half capacity is in the fair category.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-serious",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At zero health or below but above negative full capacity, use the serious category.",
+      "tests": []
+    },
+    {
+      "id": "health-patient-status-critical",
+      "source": "full-2008",
+      "pages": "B421",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At negative full capacity or below, use the critical category; do not confuse this display label with a critical die result.",
+      "tests": []
+    },
+    {
+      "id": "health-first-aid-row-0-1",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 0-1, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -4, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-first-aid-row-2-3",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 2-3, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -3, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-first-aid-row-4",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 4, post-bandaging treatment takes 30 minutes and recovery is one die with modifier -2, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-first-aid-row-5",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 5, post-bandaging treatment takes 20 minutes and recovery is one die with modifier -2, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-first-aid-row-6-7",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 6-7, post-bandaging treatment takes 20 minutes and recovery is one die with modifier -1, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-first-aid-row-8",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 8, post-bandaging treatment takes 10 minutes and recovery is one die with modifier 0, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-first-aid-row-9-plus",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology 9-plus, post-bandaging treatment takes 10 minutes and recovery is one die with modifier 1, minimum one, including bandaging.",
+      "tests": [
+        "tests/expanded.py::test_expanded_first_aid_values"
+      ],
+      "validation_note": "Pure table and supplied-dice outcomes implement capacity scaling, included bandage allowance and critical outcomes. Owned treatment now consumes the table interval. Fixtures unrun; interrupted care, earlier-wound allocation and bleeding remain incomplete."
+    },
+    {
+      "id": "health-surgery-equipment-1",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Basic surgical equipment at technology 1 gives -6 to the operation roll before quality and procedure modifiers.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-equipment-2-3",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Basic surgical equipment at technology 2-3 gives -5 to the operation roll before quality and procedure modifiers.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-equipment-4",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Basic surgical equipment at technology 4 gives -4 to the operation roll before quality and procedure modifiers.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-equipment-5",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Basic surgical equipment at technology 5 gives -2 to the operation roll before quality and procedure modifiers.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-equipment-six-plus",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "At technology six and higher, basic surgical equipment gives technology minus six to the operation roll before quality and other modifiers.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure surgical assessment covers equipment and general skill modifiers, anesthetic replacement, infection trigger and general failure damage. Fixtures unrun. Committed operations, infection resolution and operation-specific consequences remain incomplete."
+    },
+    {
+      "id": "health-medical-capacity-0",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 0, additional physician recovery checks are unavailable, with a limit of 0 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-1-3",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 1-3, additional physician recovery checks are weekly, with a limit of 10 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-4",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 4, additional physician recovery checks are every three days, with a limit of 10 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-5",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 5, additional physician recovery checks are every two days, with a limit of 15 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-6",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 6, additional physician recovery checks are daily, with a limit of 20 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-7",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 7, additional physician recovery checks are daily, with a limit of 25 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-8",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 8, additional physician recovery checks are daily, with a limit of 50 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-9",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 9, additional physician recovery checks are twice daily, with a limit of 50 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-10",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 10, additional physician recovery checks are three times daily, with a limit of 50 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-11",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 11, additional physician recovery checks are four times daily, with a limit of 100 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-medical-capacity-12-plus",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "At medical technology 12-plus, additional physician recovery checks are five times daily, with a limit of 200 patients per doctor.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-design",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored technology-nine-or-higher drug defines effects, adverse effects, duration, potency, delivery form, onset, dose and legal class; incomplete definitions cannot silently become unrestricted healing.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-effects",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Drug effects may change attributes, grant traits, suppress disadvantages or restore health/fatigue; retain the underlying trait identities and restore only the suppressed effects on expiry.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-repeat-dose",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Repeated doses normally extend duration rather than stack effect strength; retain dose timing and source-specific exceptions.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-resistance",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Negative drug effects allow a health resistance check modified by potency; each dosage doubling imposes an additional -1.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-trait-cost-basis",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sum absolute values of all traits added or removed for the drug price basis, so benefits and adverse effects do not cancel their cost.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-healing-price-basis",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Healing uses the point price of health or fatigue as appropriate, and permanent healing uses the long-duration price category.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-potency-price",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each -1 to resistance doubles price; combine with duration and delivery multipliers exactly once.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-legal-class",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The campaign specifies drug legality; medical use commonly has class three while harmful or restricted use may have class two or one. Legality is not inferred solely from price.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-worked-price",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A short-duration injection imposing will -4 on a failed health-3 check has basis twenty, duration factor two and potency multiplier eight, for a price of 320 per dose.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-short",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Short effects last twenty-five minus health minutes and use price multiplier two.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-medium",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Medium effects last (twenty-five minus health)/4 hours and use price multiplier ten.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-long",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long effects last one day and use price multiplier fifty.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-very-long",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Very-long effects last an authored interval up to one week and use price multiplier 250.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-pill",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Pills normally require at least thirty minutes to act and may be dissolved in drinks; no extra form multiplier applies.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-injection",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Injection onset is nearly immediate and has no extra form multiplier.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-aerosol",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Aerosol onset is nearly immediate and doubles final price.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-contact",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Contact agents require at least five minutes to act and double final price.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-delivery-aerosol-contact",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Aerosol contact delivery multiplies final price by ten; resolve contact and exposure requirements explicitly.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-ledger",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "All activity, spell and trait costs use one fatigue ledger with cause-specific recovery restrictions; do not create separate physical and supernatural balances.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-low",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Below one-third fatigue capacity, halve movement, dodge and strength rounding up; this strength reduction does not change strength-based quantities such as health or damage.",
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_fatigue_strength"
+      ],
+      "validation_note": "Opt-in contextual strength reduction and existing Move/Dodge paths have authored unrun fixtures. Purchased ST, HP and basic lift are preserved. Untrained strength defaults, broader strength procedures and cross-module validation remain incomplete."
+    },
+    {
+      "id": "health-fatigue-overflow",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At zero or less fatigue, each additional fatigue lost also causes one injury; at negative full fatigue capacity, further costs affect health alone without lowering fatigue further.",
+      "tests": []
+    },
+    {
+      "id": "health-fatigue-action-check",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At zero or lower fatigue, anything except talk or rest requires a will check; in combat check before maneuvers other than doing nothing.",
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
+        "tests/expanded.py::test_health_maneuver",
+        "tests/expanded.py::test_maneuver_transactions",
+        "tests/expanded.py::test_maneuver_route_parity",
+        "tests/expanded.py::test_maneuver_persistence",
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_collapse_defense",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence"
+      ],
+      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Transaction, undo and cross-process continuation fixtures are authored but unrun. Broad action dispatch and cross-module validation remain incomplete; default Lite behavior is retained."
+    },
+    {
+      "id": "health-fatigue-action-failure",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An ordinary failed effort check incapacitates until fatigue becomes positive; critical failure requires an immediate health check and failure causes a heart attack.",
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
+        "tests/expanded.py::test_health_maneuver",
+        "tests/expanded.py::test_maneuver_transactions",
+        "tests/expanded.py::test_maneuver_route_parity",
+        "tests/expanded.py::test_maneuver_persistence",
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_collapse_defense",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence"
+      ],
+      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Transaction, undo and cross-process continuation fixtures are authored but unrun. Broad action dispatch and cross-module validation remain incomplete; default Lite behavior is retained."
+    },
+    {
+      "id": "health-fatigue-unconscious",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "At negative full fatigue capacity, the actor becomes unconscious, rests at the normal recovery rate and awakens at positive fatigue, subject to other unresolved causes.",
+      "tests": [
+        "tests/expanded.py::test_exhaustion_assessments",
+        "tests/expanded.py::test_owned_effort",
+        "tests/expanded.py::test_action_gate",
+        "tests/expanded.py::test_health_maneuver",
+        "tests/expanded.py::test_maneuver_transactions",
+        "tests/expanded.py::test_maneuver_route_parity",
+        "tests/expanded.py::test_maneuver_persistence",
+        "tests/expanded.py::test_effort_recovery",
+        "tests/expanded.py::test_collapse_defense",
+        "tests/expanded.py::test_effort_transactions",
+        "tests/expanded.py::test_effort_persistence"
+      ],
+      "validation_note": "Pure outcomes and owned effort permissions with collapse recovery and cardiac commitment authored; fixtures unrun. Transaction, undo and cross-process continuation fixtures are authored but unrun. Broad action dispatch and cross-module validation remain incomplete; default Lite behavior is retained."
+    },
+    {
+      "id": "health-battle-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After a battle longer than ten seconds, assess the encumbrance-based cost once for actors who made attack or defense rolls; spell costs and other activity costs remain separate.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-hot",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hot conditions add one fatigue, or two for insulating clothing or plate; suitable cooling, including climate-controlled full armor at technology nine or higher, negates the heat addition.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-extended",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A campaign may assess extra cost for unusually long battles, generally lasting two or three minutes or more; do not charge the normal battle cost every ten seconds.",
+      "tests": []
+    },
+    {
+      "id": "health-march-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply battle-equivalent encumbrance and heat costs per road-marching hour; entering combat normally assumes one hour since the last stop unless actual events specify otherwise.",
+      "tests": [
+        "tests/expanded.py::test_march_fatigue",
+        "tests/expanded.py::test_march_hour",
+        "tests/expanded.py::test_march_steps",
+        "tests/expanded.py::test_tracking_marching_boundaries",
+        "tests/expanded.py::test_march_partial_exclusion",
+        "tests/expanded.py::test_partial_march_interruption",
+        "tests/expanded.py::test_march_step_group"
+      ],
+      "validation_note": "B426 hourly and assumed-hour combat-interruption costs now use an owned interval receipt with encumbrance, hot weather, heavy clothing and effective cooling. The shared fatigue ledger receives one cost, with owned overflow wounds and no duplicate heat adjustment. Alternate-ID charges for the same interval are rejected. Table, preview, rollback, undo, save replay, cooling and exhaustion assertions authored, unrun. An owned continuous-hour operation now preflights action permission, advances time once, applies this cost and preserves denied attempts. Its exhaustion, rollback, time-change and saved-continuation fixtures are unrun. Mid-hour interruptions, recurring low-HP consciousness checks, actual-event exceptions and full-day scheduling remain incomplete. Owned incremental continuous marching now preserves partial-hour progress and applies the existing fatigue cost once at 3600 seconds. Steps reject boundary overflow, gaps, changed encumbrance and competing interval costs. Tracking deadlines, mixed conditions, partial-hour combat interruption and step parties remain pending. Fixtures unrun. Integration fixtures now specify all terrain intervals, marching receipt reuse rejection, health denial and coincident hourly fatigue/continuation checks with rollback, undo and cross-process replay. Fixtures remain unrun. Fresh interval identities can no longer bypass an unsettled positive partial hour through incremental, whole-hour or cost-only paths. Completed receipt replay remains available during later partial hours. Fixtures unrun. Explicit combat/full-hour approval now settles an owned positive partial hour through its existing cost without time, closes that hour and permits a later interval. Receipt replay, binding and missing-approval fixtures authored, unrun. Party partial interruption, rest and event-based exceptions remain pending. Concurrent incremental groups now preflight distinct equal-duration members, advance shared time once and retain per-profile step/hourly fatigue receipts. Denied groups move no time; fixtures cover save continuation and member replay. Timed shadowing integration remains pending. Fixtures unrun."
+    },
+    {
+      "id": "health-overload-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Overloaded carrying or very heavy pushing/pulling costs one fatigue per second, with effort costs handled separately when applicable.",
+      "tests": []
+    },
+    {
+      "id": "health-exercise-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Use the detailed running/swimming interval checks and their allowed skill substitutions; the summary health check must not duplicate the exploration module's cost.",
+      "tests": []
+    },
+    {
+      "id": "health-ability-fatigue",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Pay specified spell, cinematic skill, advantage or fatigue-limitation costs through the same assessment/commit path as ordinary effort.",
+      "tests": []
+    },
+    {
+      "id": "health-food-tracking-option",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Food and water tracking can be disabled by campaign choice; enabling it requires actual consumption histories and must not invent missed meals retrospectively.",
+      "tests": []
+    },
+    {
+      "id": "health-starvation",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The ordinary human baseline is three meals daily, with one fatigue per missed meal; nonhuman requirements come from their actual traits.",
+      "tests": []
+    },
+    {
+      "id": "health-starvation-recovery",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only a day of rest without fighting or travel and with three full meals recovers starvation fatigue, compensating for three missed meals.",
+      "tests": []
+    },
+    {
+      "id": "health-dehydration-shortfall",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Insufficient daily water causes one fatigue every eight hours; track the applicable climate requirement and intake rather than repeatedly charging a full daily deficit.",
+      "tests": []
+    },
+    {
+      "id": "health-dehydration-severe",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Less than one quart daily adds one fatigue and one injury per day to the ordinary shortfall effects.",
+      "tests": []
+    },
+    {
+      "id": "health-dehydration-recovery",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A day resting with ample water restores all dehydration fatigue; related injury heals by its ordinary eligible route.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-baseline",
+      "source": "full-2008",
+      "pages": "B426-B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary humans have a sixteen-hour waking day and eight-hour sleep period; sleep traits change these requirements and no-sleep actors are exempt.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-quality",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Interruptions, noise and relevant traits alter credited sleep time, possibly to zero; track actual and effective rest separately.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-late",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At the end of the normal waking day without sleep, lose one fatigue, then one each further quarter of the normal waking day.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-half-loss",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After losing at least half fatigue capacity to missed sleep, check will every two inactive hours; failure starts sleep and success imposes -2 dexterity, intelligence and self-control, with another -1 for slow rising.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-critical-loss",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Below one-third remaining fatigue due to sleep deprivation, check every thirty inactive minutes or two active hours rather than retaining the ordinary inactive interval.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-early-wake",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shorten the next waking day by twice the missed sleep hours; sleeping six instead of eight hours gives twelve waking hours instead of sixteen.",
+      "tests": []
+    },
+    {
+      "id": "health-rest-recovery",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Quiet rest restores one ordinary fatigue per ten minutes; reading, talking and thinking qualify but walking or strenuous activity does not.",
+      "tests": []
+    },
+    {
+      "id": "health-rest-meal",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An authored adequate meal during rest may restore one additional ordinary fatigue once; do not let repeated assessments reuse the same meal.",
+      "tests": []
+    },
+    {
+      "id": "health-sleep-recovery",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Sleep fatigue recovers one point only after a full sleep period, then one per additional uninterrupted hour; ordinary quiet rest cannot erase it.",
+      "tests": []
+    },
+    {
+      "id": "health-recovery-cause-restrictions",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "health",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Food, water and sleep restrictions persist even when ordinary rest or other recovery is applied; each recovery operation identifies which causes it can restore.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-none",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 1 for none encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-light",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 2 for light encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-medium",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 3 for medium encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-heavy",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 4 for heavy encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-battle-fatigue-row-extra-heavy",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The base fatigue cost is 5 for extra-heavy encumbrance, before applicable heat or unusually long battle adjustments.",
+      "tests": []
+    },
+    {
+      "id": "health-water-requirement-temperate",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The ordinary daily water requirement is two quarts in temperate conditions.",
+      "tests": []
+    },
+    {
+      "id": "health-water-requirement-hot",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The ordinary daily water requirement is three quarts in a hot climate.",
+      "tests": []
+    },
+    {
+      "id": "health-water-requirement-desert",
+      "source": "full-2008",
+      "pages": "B426",
+      "module": "health",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "The ordinary daily water requirement is five quarts in desert heat.",
+      "tests": []
+    },
+    {
+      "id": "health-foraging-availability",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Foraging requires suitable plant, animal or aquatic resources; an authored terrain model specifies availability and any cumulative local depletion.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
+    },
+    {
+      "id": "health-foraging-plants",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A successful survival or naturalist roll gathers one meal of edible plants; choosing a second applicable skill does not grant another attempt.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_plant_forage",
+        "tests/expanded.py::test_forage_food"
+      ],
+      "validation_note": "Owned travel-day plant attempts share one per-character ledger-day allowance across Naturalist, Survival, sites and request IDs. Paid full-profile skill definitions and physical health permission are required before the forage roll; replay returns its stored result. Fixtures cover preview, alternate skill/site rejection, next-day eligibility, invalid skill definitions, poison handoff, rollback, undo and cross-process continuation; authored, unrun. Alternate defaults, food inventory, dedicated-day scheduling and animal-food attempt ownership remain pending. Positive yields now have a single owned harvest into actual meal-unit inventory; prepared-food consumption debits stock and credits the existing needs ledger. Duplicate claims, readiness, empty stock, rollback, undo and saved continuation assertions are authored, unrun. Prior food-inventory gap is partially addressed; preservation, spoilage, poisoned-food consumption and nonhuman nutrition remain pending."
+    },
+    {
+      "id": "health-foraging-plant-seventeen",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A natural seventeen on plant foraging poisons the forager; a health success limits injury to one and failure causes one die of injury.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_forage_poisoning"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending. Owned recorded-check poisoning now scopes 17 to the forager and 18 to independently checked party recipients, preflights all possible injury and commits ordinary child wounds. Duplicate occurrence, preview, independent outcomes, rollback, undo and saved replay assertions authored, unrun. Special susceptibility, owned forage-roll and consumed-food integration remain pending."
+    },
+    {
+      "id": "health-foraging-plant-eighteen",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A natural eighteen poisons the whole party through the shared food; each affected character makes an independent health check and damage resolution.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_forage_poisoning"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending. Owned recorded-check poisoning now scopes 17 to the forager and 18 to independently checked party recipients, preflights all possible injury and commits ordinary child wounds. Duplicate occurrence, preview, independent outcomes, rollback, undo and saved replay assertions authored, unrun. Special susceptibility, owned forage-roll and consumed-food integration remain pending."
+    },
+    {
+      "id": "health-foraging-hunting",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "In appropriate terrain, a missile-weapon skill success at -4 supplies two meals of small-game meat.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_hunting_forage",
+        "tests/expanded.py::test_forage_food"
+      ],
+      "validation_note": "Plant rolls and animal-food rolls have separate owned travel-day allowances; ordinary loaded-weapon hunting shares its allowance with fishing in both orders. Hunting applies -4, supports matching weapon skills and ordinary minimum-strength shortfall, and debits an explicitly authored ammunition expenditure once through the existing weapon state on success or failure. Expected values, preview, category limits, unsupported cases, rollback, undo and saved replay assertions are authored, unrun. Thrown weapons, special projectile effects, food inventory, preservation and dedicated-day scheduling remain pending. B427 does not specify an abstract hunt shot count; expenditure is explicitly authored rather than invented as a fixed rule. Positive yields now have a single owned harvest into actual meal-unit inventory; prepared-food consumption debits stock and credits the existing needs ledger. Duplicate claims, readiness, empty stock, rollback, undo and saved continuation assertions are authored, unrun. Prior food-inventory gap is partially addressed; preservation, spoilage, poisoned-food consumption and nonhuman nutrition remain pending."
+    },
+    {
+      "id": "health-foraging-fishing",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Near suitable water, a successful fishing roll supplies two meals instead of using the missile-hunting attempt.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment",
+        "tests/expanded.py::test_fishing_forage",
+        "tests/expanded.py::test_forage_food"
+      ],
+      "validation_note": "Owned plant and fishing rolls use separate per-character ledger-day allowances. Fishing supports Perception/Easy, its Perception-4 default, explicit suitable water and concrete equipment assessments through the shared context. Success records two meals. Fixtures cover category independence, exact day boundaries, default/equipment scores, unavailable resources, replay, rollback, undo and cross-process continuation; authored, unrun. Hunting ammunition/roll ownership, actual food inventory and dedicated-day scheduling remain pending. Positive yields now have a single owned harvest into actual meal-unit inventory; prepared-food consumption debits stock and credits the existing needs ledger. Duplicate claims, readiness, empty stock, rollback, undo and saved continuation assertions are authored, unrun. Prior food-inventory gap is partially addressed; preservation, spoilage, poisoned-food consumption and nonhuman nutrition remain pending."
+    },
+    {
+      "id": "health-foraging-travel-limits",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "During a travel day, each actor gets one plant attempt and one hunting-or-fishing attempt; creating new forage objects cannot reset the allowance.",
+      "tests": [
+        "tests/expanded.py::test_plant_forage",
+        "tests/expanded.py::test_fishing_forage",
+        "tests/expanded.py::test_hunting_forage"
+      ],
+      "validation_note": "Plant rolls and animal-food rolls have separate owned travel-day allowances; ordinary loaded-weapon hunting shares its allowance with fishing in both orders. Hunting applies -4, supports matching weapon skills and ordinary minimum-strength shortfall, and debits an explicitly authored ammunition expenditure once through the existing weapon state on success or failure. Expected values, preview, category limits, unsupported cases, rollback, undo and saved replay assertions are authored, unrun. Thrown weapons, special projectile effects, food inventory, preservation and dedicated-day scheduling remain pending. B427 does not specify an abstract hunt shot count; expenditure is explicitly authored rather than invented as a fixed rule."
+    },
+    {
+      "id": "health-foraging-dedicated-day",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A day devoted to foraging instead of travel permits five plant and five hunting-or-fishing attempts per actor, consuming the shared day schedule.",
+      "tests": [
+        "tests/expanded.py::test_foraging_day"
+      ],
+      "validation_note": "Owned day-boundary reservations before activity grant five plant and five shared hunting/fishing rolls per profile using existing histories. Reservations exclude owned hiking and marching intervals, persist without cancellation, and expire for allowance purposes at the next ledger day. Sixth-roll, travel exclusion, boundary, prior activity, next-day, rollback, undo and saved continuation assertions authored, unrun. No extra time is charged by the reservation; the shared world schedule advances normally. Partial-day scheduling and external/vehicle/flight travel integration remain pending; custom travel must consult the concrete schedule restriction and author evidence must establish the whole-party day choice."
+    },
+    {
+      "id": "health-foraging-preservation",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Meat and fish may be preserved over a fire and added to rations; require the actual food and fire and conserve inventory quantity.",
+      "tests": [
+        "tests/expanded.py::test_food_smoking"
+      ],
+      "validation_note": "Owned whole-stack smoking binds actual meat/fish inventory, a concrete fire interval and an explicitly authored duration/capacity/preparation contract. The batch locks the item, completes only after the shared clock reaches its deadline and uninterrupted fire coverage, and marks the unchanged stock preserved/edible. Cancellation and fire interruption do not duplicate stock or grant preservation. Boundary, conservation, rollback, undo and saved continuation assertions authored, unrun. B427 supplies no universal smoking time, mass conversion or shelf life; these are not invented. Fuel inventory, lighting procedures and spoilage remain pending."
+    },
+    {
+      "id": "health-foraging-terrain-penalties",
+      "source": "full-2008",
+      "pages": "B427",
+      "module": "exploration",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply authored scarcity penalties, including the examples -3 for snow and -6 for desert, plus any recorded repeated-use penalty for the area.",
+      "tests": [
+        "tests/expanded.py::test_foraging_assessment"
+      ],
+      "validation_note": "Pure site/outcome assessment implements resource eligibility, authored scarcity/depletion penalties, one/two meal yields, hunting -4 and plant natural-17/18 poison scope. A health helper assesses direct injury from an independent HT check and supplied injury die. Expected values and preview purity assertions authored, unrun. Skill/weapon eligibility, daily ownership, committed food inventory, ammunition, party exposures and injury remain pending."
+    },
+    {
+      "id": "health-healing-condition-contract",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A rest assessment identifies food, environment, eligible injury causes and any authored poor/good-condition modifier; a generic permission flag cannot validate all natural healing conditions.",
+      "tests": []
+    },
+    {
+      "id": "health-drug-duration-boundaries",
+      "source": "full-2008",
+      "pages": "B425",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Resolve nonpositive health-derived drug durations from the supplied rules and a documented specific campaign contract before implementing those parameter combinations; do not invent a minimum duration silently.",
+      "tests": []
+    },
+    {
+      "id": "health-lasting-injury-restoration",
+      "source": "full-2008",
+      "pages": "B424",
+      "module": "health",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "A permanent-injury restoration definition names the part, resources, achievable function, technology and operation penalty; successful partial restoration updates functional restrictions and point accounting consistently.",
+      "tests": []
+    },
+    {
+      "id": "health-surgery-cleanliness",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An unsterilizable area or equipment imposes -3.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-site",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Head or chest surgery imposes -3, applied once.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-diagnosis",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "An undiagnosed problem imposes -5.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-training",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Without physician training, non-field-expedient surgery suffers -5; field-expedient surgery avoids this penalty.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-surgery-failure-damage",
+      "source": "full-2008",
+      "pages": "B223",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A failed operation causes two dice of damage for simple amputation, three dice for other procedures; integrate separate operation-specific consequences.",
+      "tests": [
+        "tests/expanded.py::test_surgery_assessments"
+      ],
+      "validation_note": "Pure assessment authored; fixtures unrun. Surgeon qualification, world-fact validation and committed operation consequences remain incomplete."
+    },
+    {
+      "id": "health-pain-sensitivity-injury",
+      "source": "full-2008",
+      "pages": "B142; B419-B420",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Double ordinary injury shock, apply -4 to physical knockdown/stun and torture resistance, and require Will to avoid crying out after a wound above one HP. Retain the result for world observation and optional social consequences.",
+      "tests": [
+        "tests/expanded.py::test_pain_sensitivity"
+      ],
+      "validation_note": "Shared injury and trait purchase implementations authored; observer and optional reaction consequences pending. Fixtures unrun."
+    },
+    {
+      "id": "temporary-blindness-visual-access",
+      "source": "full-2008",
+      "pages": "B124, B394",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Sudden sight loss blocks visual tasks without denying nonvisual senses, retains owned duration and expiry, and routes combat through explicit unseen-target procedures.",
+      "tests": [
+        "tests/expanded.py::test_temporary_blindness"
+      ],
+      "validation_note": "Owned finite sight loss and visual-check gating implemented; default combat rejects before rolls until the unseen-target adapter exists. Fixtures authored, unrun. Combat, navigation and environmental cause integration remain incomplete."
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B418-B427",
+      "reason": "Exclude named fictional characters, quotations, artwork and source prose. Retain mechanical examples and tables as neutral requirements."
+    },
+    {
+      "pages": "B421",
+      "reason": "Patient condition labels are inventoried as reporting categories, not real-world medical diagnosis or an additional injury mechanic."
+    }
+  ]
+}

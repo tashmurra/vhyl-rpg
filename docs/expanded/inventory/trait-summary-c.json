@@ -1,0 +1,4676 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B299 trait table",
+  "review": "All first-page negative-trait summary rows visually located and mapped to neutral detailed definitions. Costs, classifications, variants, modifiers and executable effects still need reconciliation.",
+  "enumeration_complete": false,
+  "exclusions": [
+    "No source labels, character fiction or descriptive prose reproduced. Rows are references to detailed traits and do not create additional purchasable definitions."
+  ],
+  "entries": [
+    {
+      "id": "trait-summary-c-distracted-focus",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "neutral_key": "distracted-focus",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-distracted-focus"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-distracted-memory"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-acceleration-sensitivity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "neutral_key": "acceleration-sensitivity",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-acceleration"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-substance-dependency",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "neutral_key": "substance-dependency",
+        "category": "mental-or-physical",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-cost-cheap"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-cost-expensive"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-cost-very-expensive"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-modifiers"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-activity"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-withdrawal"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-dependency-effects"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-minor-dependency"
+          },
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-minor-psychological-addiction"
+          },
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-minor-physiological-addiction"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-alcohol-sensitivity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "neutral_key": "alcohol-sensitivity",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-alcohol-sensitivity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-alcohol-dependency",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "neutral_key": "alcohol-dependency",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-15,-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-alcohol-dependency"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-alcohol-remission"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-alcohol-long-term"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-amnesia",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "neutral_key": "amnesia",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10,-25",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-partial-amnesia"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-total-amnesia"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-amnesia-recovery"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-negative-appearance",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "neutral_key": "negative-appearance",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "appearance-extreme-negative"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-severe-negative"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-strong-negative"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-moderate-negative"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-mild-negative"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-ordinary"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-mild-positive"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-strong-positive"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-exceptional-positive"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-idealized-positive"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-broad-appeal"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-presence"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-universal-audience"
+          },
+          {
+            "file": "creation.json",
+            "entry": "appearance-standardized-looks"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-attentive-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "neutral_key": "attentive-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-task-focus"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-back-impairment",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "neutral_key": "back-impairment",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-15,-25",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-back-trigger"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-back-mild"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-back-severe"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-weak-grip",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "neutral_key": "weak-grip",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-5/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-weak-grip"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-impaired-sight",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "neutral_key": "impaired-sight",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-25",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-short-sight"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-long-sight"
+          },
+          {
+            "file": "disadvantages-a.json",
+            "entry": "disadvantages-a-sight-mitigator"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-unpleasant-odor",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "neutral_key": "unpleasant-odor",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-odor"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-temper",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "neutral_key": "temper",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-temper"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-battle-rage",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "neutral_key": "battle-rage",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-rage-trigger"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-rage-melee"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-rage-ranged"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-rage-injury"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-rage-exit"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-battle-rage"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-animalistic-behavior",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "neutral_key": "animalistic-behavior",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "-10,-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-animalistic"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-blindness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "neutral_key": "blindness",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-50",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-blindness"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-blindness-compatibility"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-lethal-hostility",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "neutral_key": "lethal-hostility",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-lethal-hostility"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-bowed-legs",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "neutral_key": "bowed-legs",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-bowed-legs"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-broad-minded-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "neutral_key": "broad-minded-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-broad-minded"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-bullying",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "neutral_key": "bullying",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-bullying"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-callousness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "neutral_key": "callousness",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-callousness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-no-floating",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "neutral_key": "no-floating",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-no-floating"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-learning-bar",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "neutral_key": "learning-bar",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-30",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-learning-bar"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-limited-speech",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "neutral_key": "limited-speech",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-speech-limited"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-speech-authored"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "alternative_purchase_family": "speech-capacity",
+        "stacking_policy": "Choose one complete variant; do not sum point credits or duplicate included penalties."
+      }
+    },
+    {
+      "id": "trait-summary-c-careful-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "neutral_key": "careful-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-careful"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-compelled-aid",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "neutral_key": "compelled-aid",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compelled-aid"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -30,
+          "9": -22,
+          "12": -15,
+          "15": -7
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-category-conscious-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "neutral_key": "category-conscious-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-category-conscious"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-low-motivation",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "neutral_key": "low-motivation",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-low-motivation"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-motivation-transition"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -30,
+          "9": -22,
+          "12": -15,
+          "15": -7
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-recurring-pain",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "neutral_key": "recurring-pain",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-mild"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-severe"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-agonizing"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-interval-1"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-interval-2"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-interval-4"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-interval-8"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-frequency-6"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-frequency-9"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-frequency-12"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-pain-frequency-15"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-company-preference",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "neutral_key": "company-preference",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-company"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "variant_data": {
+          "family": "companionship-dependence",
+          "total_point_cost": -5,
+          "owner_reaction_modifier": 2,
+          "iq_skill_modifier_when_alone": -1,
+          "replaces_other_variant": true,
+          "reaction_direction": "owner toward others"
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-social-cluelessness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "neutral_key": "social-cluelessness",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-social-obliviousness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-honor-code",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "neutral_key": "honor-code",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1,-5..-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-honor-pricing"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-honor-peer-solidarity"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-honor-professional"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-honor-formal-peer"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-honor-service"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-honor-protective"
+          },
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-minor-honor"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-cold-blooded",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "neutral_key": "cold-blooded",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "-5,-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-cold-blooded"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-cold-blooded-recovery"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-colorblindness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "neutral_key": "colorblindness",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-colorblindness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-combat-freeze",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "neutral_key": "combat-freeze",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-combat-freeze"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-compulsive-behavior",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "neutral_key": "compulsive-behavior",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5..-15",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-base"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-social"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-gambling"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-generosity"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-lying"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-spending"
+          },
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-compulsion-vows"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-confusion",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "neutral_key": "confusion",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-confusion"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-group-preference-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "neutral_key": "group-preference-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-group-preference"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-cowardice",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 39,
+        "neutral_key": "cowardice",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-cowardice"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-curiosity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 40,
+        "neutral_key": "curiosity",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-curiosity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -10,
+          "9": -7,
+          "12": -5,
+          "15": -2
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-curse",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 41,
+        "neutral_key": "curse",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "-75",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-curse"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-deafness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 42,
+        "neutral_key": "deafness",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-deafness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-debt",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 43,
+        "neutral_key": "debt",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "-1/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "debt"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-slow-time",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 44,
+        "neutral_key": "slow-time",
+        "category": "mental",
+        "origin": "exotic",
+        "printed_point_cost": "-100",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-slow-time"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-slow-time-split"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-false-beliefs",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 45,
+        "neutral_key": "false-beliefs",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1,-5..-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-belief-severity"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-belief-cap"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-belief-revelation"
+          },
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-trivial-belief"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-required-sustenance",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 46,
+        "neutral_key": "required-sustenance",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-rarity"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-constant"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-hourly"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-daily"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-weekly"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-monthly"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-seasonal"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-yearly"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-contact"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-clock-boundary"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-sustenance-aging"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-dependents",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 47,
+        "neutral_key": "dependents",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-competence"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-importance"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-aid"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-ally"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-count"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-progression"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-dependent-loss"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-adverse-fate",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 48,
+        "neutral_key": "adverse-fate",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-adverse-fate"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-fate-fulfillment"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-faith-discipline",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 49,
+        "neutral_key": "faith-discipline",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5..-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-discipline-denial"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-discipline-seclusion"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-discipline-contemplation"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-discipline-ritual"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-dislike-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 50,
+        "neutral_key": "dislike-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-dislike"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-distinctive-feature-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 51,
+        "neutral_key": "distinctive-feature-quirk",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-distinctive-feature"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-distractible-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 52,
+        "neutral_key": "distractible-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-distractible"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-unpleasant-voice",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 53,
+        "neutral_key": "unpleasant-voice",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-unpleasant-voice"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-removable-curse",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 54,
+        "neutral_key": "removable-curse",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-removable-curse"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-daily-depletion",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 55,
+        "neutral_key": "daily-depletion",
+        "category": "physical",
+        "origin": "supernatural",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-daily-depletion"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-daily-depletion-price"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-repulsion",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 56,
+        "neutral_key": "repulsion",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-repulsion-radius"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-repulsion-movement"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-repulsion-forced-entry"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-dreamer-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 57,
+        "neutral_key": "dreamer-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-dreamer"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-conventional-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 58,
+        "neutral_key": "conventional-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-conventional"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-imposed-duty",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 59,
+        "neutral_key": "imposed-duty",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-eligibility"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-15"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-12"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-9"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-6"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-modifiers"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-obligation-examples"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-short-proportions",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 60,
+        "neutral_key": "short-proportions",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "short-proportions"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-reading-disability",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 61,
+        "neutral_key": "reading-disability",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-reading-disability"
+          },
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-reading-magic"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-fragile-survival",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 62,
+        "neutral_key": "fragile-survival",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-2/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-fragile-survival"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-readable-intentions",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 63,
+        "neutral_key": "readable-intentions",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-readable-intentions"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-electronic-vulnerability",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 64,
+        "neutral_key": "electronic-vulnerability",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-c.json",
+            "entry": "disadvantages-c-electronic-vulnerability"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-opponents",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 65,
+        "neutral_key": "opponents",
+        "category": "social",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-power"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-double"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-unknown"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-intent"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-appearance"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-cap"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-opponent-removal"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-seizures",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 66,
+        "neutral_key": "seizures",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-30",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-seizure-trigger"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-seizure-voluntary"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-seizure-reaction"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-extra-sleep",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 67,
+        "neutral_key": "extra-sleep",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-2/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-extra-sleep"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-fanatical-commitment",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 68,
+        "neutral_key": "fanatical-commitment",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-fanatical-commitment"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-heavy-build",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 69,
+        "neutral_key": "heavy-build",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-3",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "build-obese"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-fear-sensitivity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 70,
+        "neutral_key": "fear-sensitivity",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-2/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-fear-sensitivity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-flashbacks",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 71,
+        "neutral_key": "flashbacks",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-flashback-triggers"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-flashback-mild"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-flashback-severe"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-flashback-incapacitating"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-fragile-body",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 72,
+        "neutral_key": "fragile-body",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-brittle-body"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-combustible-body"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-explosive-body"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-flammable-body"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-unnatural-body"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-animal-aversion",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 73,
+        "neutral_key": "animal-aversion",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-animal-aversion"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-gravity-sensitivity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 74,
+        "neutral_key": "gravity-sensitivity",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10,-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-gravity-sensitivity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-tall-proportions",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 75,
+        "neutral_key": "tall-proportions",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "0",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "tall-proportions"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-excessive-appetite",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 76,
+        "neutral_key": "excessive-appetite",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-appetite"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -10,
+          "9": -7,
+          "12": -5,
+          "15": -2
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-greed",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 77,
+        "neutral_key": "greed",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-greed"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -30,
+          "9": -22,
+          "12": -15,
+          "15": -7
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-strong-company-preference",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 78,
+        "neutral_key": "strong-company-preference",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-b.json",
+            "entry": "disadvantages-b-company"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "variant_data": {
+          "family": "companionship-dependence",
+          "total_point_cost": -10,
+          "owner_reaction_modifier": 4,
+          "iq_skill_modifier_when_alone": -2,
+          "replaces_other_variant": true,
+          "reaction_direction": "owner toward others",
+          "iq_skill_modifier_in_small_group": -1,
+          "source_ambiguity": "Group size four or fewer; whether the owner counts remains unresolved."
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-guilt",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 79,
+        "neutral_key": "guilt",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-guilt"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-credulity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 80,
+        "neutral_key": "credulity",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-credulity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-habit-expression-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 81,
+        "neutral_key": "habit-expression-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-habit-expression"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-poor-fine-motor",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 82,
+        "neutral_key": "poor-fine-motor",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-5,-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-poor-fine-motor"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-hearing-loss",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 83,
+        "neutral_key": "hearing-loss",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-hearing-loss"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-bleeding-disorder",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 84,
+        "neutral_key": "bleeding-disorder",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-30",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-bleeding-disorder"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-internal-bleeding"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-uncreative",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 85,
+        "neutral_key": "uncreative",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-uncreative"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-legalistic-honesty",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 86,
+        "neutral_key": "legalistic-honesty",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-legalistic-honesty"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-honesty-obligations"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-honesty-reputation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-horizontal-posture",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 87,
+        "neutral_key": "horizontal-posture",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-horizontal-posture"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-horizontal-kick"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-severe-hangover-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 88,
+        "neutral_key": "severe-hangover-quirk",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-severe-hangover"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-humble-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 89,
+        "neutral_key": "humble-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-humble"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-spinal-shape",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 90,
+        "neutral_key": "spinal-shape",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-spinal-shape"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-idea-sharing-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 91,
+        "neutral_key": "idea-sharing-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-idea-sharing"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-impulsiveness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 92,
+        "neutral_key": "impulsiveness",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-impulsiveness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-incompetence-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 93,
+        "neutral_key": "incompetence-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-incompetence"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false,
+          "specific_effect": {
+            "learning_prohibited": true,
+            "default_modifier": -4,
+            "all_specialties_of_selected_skill": true,
+            "must_be_relevant_in_campaign": true
+          }
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-increased-consumption",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 94,
+        "neutral_key": "increased-consumption",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-increased-consumption"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-extra-life-support",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 95,
+        "neutral_key": "extra-life-support",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-life-support-logistics"
+          },
+          {
+            "file": "disadvantages-d.json",
+            "entry": "disadvantages-d-life-support-health"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-incuriosity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 96,
+        "neutral_key": "incuriosity",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-incuriosity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -10,
+          "9": -7,
+          "12": -5,
+          "15": -2
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-indecision",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 97,
+        "neutral_key": "indecision",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-indecision"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-indecision-confusion"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-infectious-transformation",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 98,
+        "neutral_key": "infectious-transformation",
+        "category": "physical",
+        "origin": "supernatural",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-infectious-transformation"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-innumeracy",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 99,
+        "neutral_key": "innumeracy",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-innumeracy-skills"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-innumeracy-culture"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-insomnia",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 100,
+        "neutral_key": "insomnia",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10,-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-insomnia"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-insomnia-frequency"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-intolerance",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 101,
+        "neutral_key": "intolerance",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-intolerance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-unsupported-body",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 102,
+        "neutral_key": "unsupported-body",
+        "category": "physical",
+        "origin": "exotic",
+        "printed_point_cost": "-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-unsupported-body"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-jealousy",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 103,
+        "neutral_key": "jealousy",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-jealousy"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-loss-of-pleasure",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 104,
+        "neutral_key": "loss-of-pleasure",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-loss-of-pleasure"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-theft-compulsion",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 105,
+        "neutral_key": "theft-compulsion",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-theft-compulsion"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -30,
+          "9": -22,
+          "12": -15,
+          "15": -7
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-awkwardness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 106,
+        "neutral_key": "awkwardness",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-awkwardness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "alternative_purchase_family": "awkwardness",
+        "stacking_policy": "Choose one complete variant; do not sum point credits or duplicate included penalties."
+      }
+    },
+    {
+      "id": "trait-summary-c-impaired-legs",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 107,
+        "neutral_key": "impaired-legs",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10..-30",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-damaged-legs"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-partly-missing-legs"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-all-missing-legs"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-mobility-assistance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-work-avoidance",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 108,
+        "neutral_key": "work-avoidance",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-work-avoidance"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-romantic-compulsion",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 109,
+        "neutral_key": "romantic-compulsion",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-15",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-romantic-compulsion"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -30,
+          "9": -22,
+          "12": -15,
+          "15": -7
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-life-draining-aura",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 110,
+        "neutral_key": "life-draining-aura",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-life-draining-aura"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-life-draining-signs"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-light-sleep",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 111,
+        "neutral_key": "light-sleep",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-light-sleep-onset"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-light-sleep-waking"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-preference-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 112,
+        "neutral_key": "preference-quirk",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-preference"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-solitude",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 113,
+        "neutral_key": "solitude",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-solitude"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -10,
+          "9": -7,
+          "12": -5,
+          "15": -2
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-limited-emotional-understanding",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 114,
+        "neutral_key": "limited-emotional-understanding",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-emotional-understanding"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-pain-sensitivity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 115,
+        "neutral_key": "pain-sensitivity",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-pain-sensitivity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-low-confidence",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 116,
+        "neutral_key": "low-confidence",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-low-confidence"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-lower-technology",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 117,
+        "neutral_key": "lower-technology",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-5/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "personal-technology"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-lunar-moods",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 118,
+        "neutral_key": "lunar-moods",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-lunar-moods"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-spell-susceptibility",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 119,
+        "neutral_key": "spell-susceptibility",
+        "category": "mental",
+        "origin": "supernatural",
+        "printed_point_cost": "-3/level",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-spell-susceptibility"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-spell-susceptibility-disclosure"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-maintenance",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 120,
+        "neutral_key": "maintenance",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "variable",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-requirement"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-10"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-20"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-30"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-40"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-50"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-60"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-70"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-staff-growth"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-monthly"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-fortnightly"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-weekly"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-alternate-days"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-daily"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-twice-daily"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-three-to-five-daily"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-frequency-constant"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-missed"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-maintenance-restoration"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-cycling-mood",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 121,
+        "neutral_key": "cycling-mood",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-20",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-cycling-mood"
+          },
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-cycling-mood-effects"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-grandiosity",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 122,
+        "neutral_key": "grandiosity",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-grandiosity"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-minor-impairment-quirk",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 123,
+        "neutral_key": "minor-impairment-quirk",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-1",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-i.json",
+            "entry": "disadvantages-i-quirk-minor-impairment"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "minor_variant": {
+          "point_cost": -1,
+          "shared_credit_limit": 5,
+          "requires_specific_behavior_contract": true,
+          "automatic_full_trait_effects": false
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-stinginess",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 124,
+        "neutral_key": "stinginess",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": true,
+        "summary_self_control_number": 12,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-stinginess"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending",
+        "self_control_pricing": {
+          "source_pages": "B120-B121; B299",
+          "default_rating": 12,
+          "multipliers": {
+            "6": [
+              2,
+              1
+            ],
+            "9": [
+              3,
+              2
+            ],
+            "12": [
+              1,
+              1
+            ],
+            "15": [
+              1,
+              2
+            ]
+          },
+          "rounding": "toward zero",
+          "governed_by_will": false
+        },
+        "expected_points_by_self_control": {
+          "6": -20,
+          "9": -15,
+          "12": -10,
+          "15": -5
+        }
+      }
+    },
+    {
+      "id": "trait-summary-c-missing-digit",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 125,
+        "neutral_key": "missing-digit",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-2,-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-missing-digit"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-lookalike",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 126,
+        "neutral_key": "lookalike",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-5",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "creation.json",
+            "entry": "physical-lookalike"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-motion-sickness",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 127,
+        "neutral_key": "motion-sickness",
+        "category": "physical",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-motion-sickness"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    },
+    {
+      "id": "trait-summary-c-ordinary-background",
+      "source": "full-2008",
+      "pages": "B299 trait table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile the summary cost and classification with the mapped detailed definitions, variants and eligibility. Group rows and tier names are not independently stackable purchases. Apply full rules for modifiers and costs, and require executable effects or specific tested author contracts before marking complete.",
+      "tests": [],
+      "summary_data": {
+        "row": 128,
+        "neutral_key": "ordinary-background",
+        "category": "mental",
+        "origin": "ordinary",
+        "printed_point_cost": "-10",
+        "self_control_required": false,
+        "summary_self_control_number": null,
+        "targets": [
+          {
+            "file": "disadvantages-e.json",
+            "entry": "disadvantages-e-ordinary-background"
+          }
+        ],
+        "reconciliation": "mapped; full price, classification and effect comparison pending"
+      }
+    }
+  ]
+}

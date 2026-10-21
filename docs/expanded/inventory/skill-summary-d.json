@@ -1,0 +1,744 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B304 skill table",
+  "review": "All skill-summary rows on this page visually located and mapped to neutral detailed entries. Full field comparison and executable fixtures remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "skill-summary-d-teaching",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "neutral_key": "teaching",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-teaching"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-animal-team-driving",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "neutral_key": "animal-team-driving",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "animal-handling-same:-4",
+          "riding-same:-2"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-animal-team-driving"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-magical-theory",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "neutral_key": "magical-theory",
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-7-in-magical-settings"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-magical-theory"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-theology",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "neutral_key": "theology",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "iq:-6",
+          "religious-ritual-same:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-theology"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-throwing",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "neutral_key": "throwing",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-3",
+          "aerial-dropping:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-throwing"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-universal-throwing",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "neutral_key": "universal-throwing",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-universal-throwing"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-thrown-weapon",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "neutral_key": "thrown-weapon",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": true,
+        "printed_defaults_neutral": [
+          "dx:-4",
+          "special"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-axe-mace"
+          },
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-dart"
+          },
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-harpoon"
+          },
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-knife"
+          },
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-hiltless-blade"
+          },
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-spear"
+          },
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-thrown-stick"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-side-handle-baton",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "neutral_key": "side-handle-baton",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "shortsword:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-side-handle-baton"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-tracking",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "neutral_key": "tracking",
+        "attribute": "perception",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "perception:-5",
+          "natural-history:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-tracking"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-traps",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "neutral_key": "traps",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5",
+          "lockwork:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-traps"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-two-hand-axe-mace",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "neutral_key": "two-hand-axe-mace",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "axe-mace:-3",
+          "polearm:-4",
+          "two-hand-flail:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-two-hand-axe-mace"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-two-hand-flail",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "neutral_key": "two-hand-flail",
+        "attribute": "dx",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "flail:-3",
+          "weighted-chain:-4",
+          "two-hand-axe-mace:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-two-hand-flail"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-two-hand-sword",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "neutral_key": "two-hand-sword",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "broadsword:-4",
+          "energy-sword:-4"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-two-hand-sword"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-typing",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "neutral_key": "typing",
+        "attribute": "dx",
+        "difficulty": "easy",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-4",
+          "typing-dependent-skill:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-typing"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-urban-survival",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "neutral_key": "urban-survival",
+        "attribute": "perception",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "perception:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-urban-survival"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-vacuum-suit",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "neutral_key": "vacuum-suit",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "dx:-5",
+          "powered-suit:-2",
+          "diving-suit:-4",
+          "protective-suit:-2"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-b.json",
+            "entry": "catalogue-skill-vacuum-suit"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-ventriloquism",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "neutral_key": "ventriloquism",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-ventriloquism"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-veterinary",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "neutral_key": "veterinary",
+        "attribute": "iq",
+        "difficulty": "hard",
+        "technology_qualified": true,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "animal-handling-any:-6",
+          "physician:-5",
+          "surgery:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-veterinary"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-weather-sense",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "neutral_key": "weather-sense",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-meteorology"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending",
+        "alias_only": true,
+        "alias_conditions": {
+          "maximum_technology_level": 4,
+          "requires_planet_type_specialty": false,
+          "home_area_bonus": 2
+        },
+        "heading_exceptions": [
+          {
+            "entry": "catalogue-skill-meteorology",
+            "field": "technology_qualified",
+            "summary_value": false,
+            "detail_value": true,
+            "pages": "B209",
+            "resolution": "This is the low-technology alias of the same skill. Require planet-type specialization from technology level five; do not charge a separate skill purchase for the alias."
+          }
+        ]
+      }
+    },
+    {
+      "id": "skill-summary-d-unorthodox-science",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "neutral_key": "unorthodox-science",
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-unorthodox-science"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-whip",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "neutral_key": "whip",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "energy-whip:-3",
+          "weighted-chain:-3",
+          "monofilament-whip:-3"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-c.json",
+            "entry": "catalogue-skill-whip"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-wrestling",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "neutral_key": "wrestling",
+        "attribute": "dx",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-wrestling"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-writing",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "neutral_key": "writing",
+        "attribute": "iq",
+        "difficulty": "average",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "iq:-5"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-writing"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    },
+    {
+      "id": "skill-summary-d-focused-archery",
+      "source": "full-2008",
+      "pages": "B304 skill table",
+      "module": "skills",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this visually located summary row with its detailed catalogue definitions. Preserve additional defaults and conditional use restrictions from the detailed text; summary omissions are not prohibitions. Complete field comparison and independent executable fixtures before claiming implementation.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "neutral_key": "focused-archery",
+        "attribute": "iq",
+        "difficulty": "very-hard",
+        "technology_qualified": false,
+        "requires_specialty": false,
+        "printed_defaults_neutral": [
+          "none"
+        ],
+        "targets": [
+          {
+            "file": "skills-catalogue-d.json",
+            "entry": "catalogue-skill-focused-archery"
+          }
+        ],
+        "reconciliation": "attribute, difficulty and technology headings compared; detailed defaults, prerequisites, specialty conditions and executable fixtures pending"
+      }
+    }
+  ],
+  "exclusions": [
+    "No source names or descriptive prose reproduced. Summary rows are cross-references, not additional purchasable skill definitions."
+  ]
+}

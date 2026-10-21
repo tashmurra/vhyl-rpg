@@ -1,0 +1,405 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B408-B411",
+  "review": "Cover, overpenetration, rapid-fire exceptions and special ranged weapon procedures inventoried. B409 spray boundary/gap inconsistencies visually confirmed; those policies and restraint timing require resolution. Catalogue and executable integration pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "ranged-special-cover-selected",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Selected exposed location uses its normal attack penalty plus -2 when only half exposed. Covered locations cannot be treated as exposed merely because attack skill is high.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-cover-random",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Random targeting uses no location penalty; covered result hits cover. Half-exposed result checks one die, with four through six hitting cover. Roll only at the applicable stage and preserve chosen location.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-cover-through",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Deliberately firing through cover adds -2 unless complete concealment instead invokes blind-fire penalty. Apply cover protection plus target protection; do not also apply random exposure selection.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-cover-melee",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Obstacles can restrict melee locations and require sufficient reach even though ordinary cover concerns ranged attacks. Use actual obstacle dimensions and exposed parts.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-penetration-types",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Only ranged piercing, impaling and tight-beam burning invoke this overpenetration procedure. Author identifies plausible downstream targets from actual line and geometry.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-cover-resistance",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Cover resistance adds object armor and capacity contribution: full health for flesh, half for machinery/nonliving, quarter for uniform objects; a person\u2019s worn armor counts entry and exit sides. Thin slabs instead use armor alone. Apply divisor afterward and reconcile fractional capacity rounding.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-cover-conflict",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "General cover text describes structural protection as armor plus quarter capacity, while overpenetration specifies armor alone for thin walls/doors. Define classification and precedence explicitly; a structure tag alone cannot choose the correct branch.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-penetration-target",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Basic damage must strictly exceed cover resistance. Immediately adjacent protected target is hit automatically; otherwise use actual stray/occupant targeting. Downstream defense and cumulative protection need integration without double-applying divisors.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-auto-minimum",
+      "source": "full-2008",
+      "pages": "B408",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Full-auto-only minimum burst is min(ceil(full firing rate/4),remaining rounds). Reject smaller requests before resource payment or random draws.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-stationary-burst",
+      "source": "full-2008",
+      "pages": "B408-B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If fully immobile target size cancels the range penalty, successful burst hits ceil(shots/2); success margin at least recoil makes every shot hit. Distinguish total immobility from merely not moving this turn.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-projectile-count",
+      "source": "full-2008",
+      "pages": "B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Multiple-projectile weapon consumes actual shells/shots, while effective rapid-fire count multiplies by projectiles per shot. Store ammunition units separately from potential hit count.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-projectile-close",
+      "source": "full-2008",
+      "pages": "B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At distance strictly below ten percent of half-damage range, use actual shot count and multiply damage expression and target armor by floor(projectiles/2). The example\u2019s informal boundary wording needs exact-threshold validation against the strict rule. Preserve adds as well as dice.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-spray-order",
+      "source": "full-2008",
+      "pages": "B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spray requires fired rate at least five and targets within thirty degrees, engaged in declared left-to-right or right-to-left order. Allocate shots and traversal expenditure before any roll.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-spray-gaps",
+      "source": "full-2008",
+      "pages": "B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Traversal between targets more than one yard apart wastes shots that can strike others. Wording says one per yard but example charges gap minus one; firing-rate bands also overlap at sixteen (at most sixteen versus sixteen-plus). Preserve both ambiguities for explicit source-consistent policy and tests.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-spray-recoil",
+      "source": "full-2008",
+      "pages": "B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each target gets its own attack with allocated effective shot count; recoil increases by one for second target, two for third and so on. All attacks draw from one declared ammunition expenditure, including wasted rounds.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-suppression-zone",
+      "source": "full-2008",
+      "pages": "B409",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Suppression requires a full-turn committed attack with firing rate at least five, selecting a two-yard-wide zone within range. Rate at least ten permits adjacent zones with at least five shots assigned to each; use per-zone rate for bonuses.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-suppression-trigger",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Until next turn, attack every entrant into zone or corridor one yard either side of line to its center, friend or foe. Keep persistent zone identity, eligible path crossings and spent hit capacity; do not spend a new burst for each entrant.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-suppression-score",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply normal modifiers except visibility penalties, including eligible prior aim and per-zone rapid-fire bonus. Cap final skill at six plus burst bonus, or eight plus bonus for vehicle/tripod mounts. Use random hit location and actual cover.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-suppression-limit",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "No more successful projectile hits than shots committed that turn. Track remaining capacity across entrants and zones, and expire the field at shooter\u2019s next turn. Resolve repeated crossings explicitly before completion.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-weighted-cords-defense",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Thrown weighted cords allow dodge/block; parry instead entangles parrying arm unless a successful cutting-weapon parry severs the cords and destroys the item.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-weighted-cords-effect",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hit inflicts listed damage then wraps selected part. Weapon/holding-hand hit compares attacker skill to target strength to force item drop, excluding strapped shield. Leg hit wraps both legs and requires running victim dexterity or fall with 1d-2 damage. Neck hit starts suffocation.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-weighted-cords-escape",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Escape requires a free hand and three successful dexterity checks, each a ready action with no other actions. Paws apply -3, hooves -6. Preserve progress and actual limb availability; determine anatomy exception to the hand prerequisite explicitly.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-crossbow-cock",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fixed weapon strength at/below user takes two seconds to cock; one/two above takes six; three/four above needs lever device and twenty. Higher requires specified mechanical apparatus but can still be fired. Add bolt ready/load times separately; qualified fast draw can replace bolt ready only.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-flaming-projectile",
+      "source": "full-2008",
+      "pages": "B410",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Prepared flaming arrow takes ten seconds and must be used within three seconds. Attack -2, normal arrow damage plus one linked burning; ignition depends on target material. Own preparation/expiry and actual item state.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-grenade-preparation",
+      "source": "full-2008",
+      "pages": "B410-B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Readying grenade and arming require separate ready actions before throw. Persist actual fuse/impact mechanism and countdown, including any aiming delay, transfer or rethrow. Do not reset fuse when ownership changes.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-harpoon",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Barbed tethered projectile uses embedded-weapon extraction at distance. Victim can move within tether length, then strength contest can pull tether from holder; anchored tether requires authored actual holding strength, potentially fifty or more.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-lariat-defense",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Looped rope uses thrown targeting by body part. Target may dodge/parry; cutting parry damages rope, failed parry captures parrying arm automatically. Do not accidentally apply both original and transferred restraint.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-lariat-control",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Arm/torso loop needs ready each subsequent holder turn and strength contest: victory immobilizes, defeat loses rope grip. Neck gives victim -5 and successful control causes suffocation. Ties require explicit resolution from relevant contest rules.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-lariat-foot",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Foot capture initially checks target dexterity, -4 if running; fall damage 1d-4 or 1d-2 when running. Later turns use ordinary rope control procedure.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-lariat-taut",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Immobilization/suffocation requires maintained tension and ready each turn. Trained mount may provide strength. Taut rope escape can cut armor-one capacity-two rope; slack rope uses weighted-cord escape. Miss recovery costs one ready turn per five yards, with fractional rule resolved.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-incendiary-handling",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Game-defined incendiary flask requires ready ignition and attack throw. Fixed malfunction threshold twelve applies regardless of technology. Do not include real-world preparation instructions or material recipes.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-incendiary-impact",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Hard target armor at least three breaks flask on contact; soft person impact or dodge sends it to ground, block transfers effect to shield. Parry unavailable. Use actual hit surface rather than applying direct-contact damage to every near miss.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-incendiary-damage",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Direct burst deals 3d burning then 1d per second; ordinary armor at one-fifth, sealed protection complete. Ground fire covers one-yard radius for 1d-1 per second. Duration 10d seconds belongs to one owned fire episode; resolve fractional protection and timing before implementation.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-incendiary-shield",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A hit shield receives fire damage and remains usable until destroyed, using optional shield-damage procedure or explicit post-encounter discard policy. Do not transfer its exterior fire to wielder automatically.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-incendiary-fragility",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each carried flask breaks on one-die result one through four after a fall; deliberate belt-flask attack is -5 and breaks on hit. Spilled fuel marks target for ignition from subsequent burning damage, without immediately inventing a flame source.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-net-defense",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Thrown net permits dodge/parry; successful cutting parry damages it as armor-one dispersed object with weight-based capacity. Failed defense restrains movement/attacks, subject to specific escape exceptions.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-net-escape",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Escape needs free hand and three successful dexterity-4 ready checks. Animals or one-handed humans take extra -2; small net +3. Three consecutive failures require cutting free. Track success total separately from consecutive failure streak.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-net-cut",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Victim\u2019s close-reach attacks automatically hit net, despite ordinary restrained attack prohibition, using actual dispersed-object damage. Nearby rescuers need their own valid attacks. Destroyed restraint must release all affected state once.",
+      "tests": []
+    },
+    {
+      "id": "ranged-special-small-net",
+      "source": "full-2008",
+      "pages": "B411",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Small net can make melee attacks at reach one/two using lariat targeting and weighted-cord escape rather than full thrown-net rules; retain selected mode.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B408-B411",
+      "reason": "Named combat examples and real-world incendiary composition are excluded. Numerical example implications and game-only item mechanics are retained as original requirements."
+    }
+  ]
+}

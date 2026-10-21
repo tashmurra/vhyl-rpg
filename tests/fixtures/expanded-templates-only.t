@@ -11,5 +11,5 @@ expandedRoom: Room 'Workshop';
 expandedRules: RpgExpandedRules;
 expandedHero: RpgExpandedProfile actor = player rules = expandedRules;
 startup() { return vhylStart(); }
-act(verb, args) { return vhylAct(verb, args); }
+act(verb, args) { return rpgDispatchAction(verb, args); }
 modify gameMain initialRoom = expandedRoom;

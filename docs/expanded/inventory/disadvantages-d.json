@@ -1,0 +1,494 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B135-B139",
+  "review": "Opponent accounting, stress episodes, catastrophic anatomy, behavioral restrictions and life-support logistics enumerated. Runtime effects, author contracts and independent fixtures remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "disadvantages-d-opponent-power",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "social",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Personal opponent prices are -5 for one actor about half starting character points; -10 for an equal actor or three to five weaker actors; -20 for an actor at least one-and-a-half starting points or six to twenty weaker actors; -30 for twenty-one to one thousand weaker actors or a medium group including formidable actors; -40 for an overwhelmingly powerful institution. Author adjudicates category: organization size means actual pursuers, and approximate character ratios are not exact automatic thresholds.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-opponent-double",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "A hostile lookalike normally uses equal-actor base -10. Superior skills or extra abilities add -5, both add -10, before intent/frequency multipliers. Misattribution may cause -3 reactions from observers who believe the actor has conflicting identities. Keep the lookalike character and attributed actions distinct.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-opponent-unknown",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "social",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "An unidentified personal opponent adds -5 before intent/frequency multipliers. Author privately constructs the opponent at the agreed power; public trait inspection must not reveal identity, capabilities or plans.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-opponent-intent",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "social",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Personal opponent intent multiplies base price by one quarter for surveillance, one half for rivalry without lasting harm, or one for lasting harm/capture/ruin/death. Multiply again by B36 appearance frequency and apply the general price rounding rule. Enforce the agreed intent scope in authored encounters.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-opponent-appearance",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Roll opponent appearance once at adventure start or each session of a continuing adventure. Store the selected cadence and event identity so preview/replay cannot reroll. Author determines concrete involvement; multiple successful appearances may combine into one encounter without discarding any obligation.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-opponent-cap",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "No more than two personal-opponent traits may earn credit, with total negative credit capped at sixty points. Character validation must include combined modifier/frequency costs and cannot evade the limit by splitting a single organization into duplicate records.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-opponent-removal",
+      "source": "full-2008",
+      "pages": "B135",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Permanently defeating an opponent or changing its hostility requires settlement: spend the original point credit, substitute an approved equal-value opponent/disadvantage, or partly buy off and partly replace. Preserve the original credited amount and settle once; ordinary temporary absence is not permanent removal.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-seizure-trigger",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Severe stress-triggered seizures cost -30. Roll health on an authored stressful situation; exposure to a phobia triggers once per ten minutes. Failure produces a one-die-minute seizure, prevents action and costs one die fatigue. Keep duration and fatigue rolls separate and own the exposure clock.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-seizure-voluntary",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Voluntary induction requires one minute concentrating and successful will or self-hypnosis. Preserve the same episode consequences. A supernatural-site vision needs an authored content and usefulness decision; success does not guarantee accurate information.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-seizure-reaction",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Observers unfamiliar with seizures in an appropriate low-technology culture may roll reaction at +1. Very favorable results cause religious awe; poor or worse causes flight rather than attack unless another provocation exists. Make this observer context explicit instead of applying it to every culture.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-extra-sleep",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Extra sleep costs -2 per level, at most four levels, adding one hour daily sleep per level to the normal eight-hour requirement. Reduce available study/work time through the shared day ledger and use deprivation rules when sleep is missed.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-fanatical-commitment",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Absolute ideological commitment is -15 and makes the authored cause, code and leadership obligations overriding priorities. Its extreme form keeps the same price and adds +3 will against conditioning, interrogation or supernatural control only when failure would betray the cause, alongside willingness to undertake fatal assignments.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-fear-sensitivity",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Fear sensitivity costs -2 per level: subtract level from will for fear checks, intimidation resistance and fear powers, and add level to intimidation attempts against the actor. Minimum unmodified will target is three; will eleven permits eight levels. Incompatible with fear resistance. Qualifying contests must account for both specified sides without duplicating either modifier.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-flashback-triggers",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Stress flashbacks trigger on a three-die result of six or less. Authored stress may prompt checks; failed or exactly successful fear checks and failed stress-related self-control checks specifically prompt them. Apply flashback in addition to the originating result and preserve event identity against duplicate dispatch.",
+      "tests": [
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control",
+        "tests/expanded.py::test_replay_fear",
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap",
+        "tests/expanded.py::test_acquired_replay_event"
+      ],
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_intrusive_replay, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-d-flashback-mild",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Stress flashback severity mild costs -5, lasts two dice seconds, and causes -2 to all skill rolls, with awareness that the experience is unreal. Author supplies episode content; persist expiry and restrict information/action channels accordingly.",
+      "tests": [
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control",
+        "tests/expanded.py::test_replay_fear",
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap",
+        "tests/expanded.py::test_acquired_replay_event"
+      ],
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_intrusive_replay, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-d-flashback-severe",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Stress flashback severity severe costs -10, lasts one die minutes, and causes -5 to all skill rolls, with the experience perceived as real. Author supplies episode content; persist expiry and restrict information/action channels accordingly.",
+      "tests": [
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control",
+        "tests/expanded.py::test_replay_fear",
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap",
+        "tests/expanded.py::test_acquired_replay_event"
+      ],
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_intrusive_replay, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-d-flashback-incapacitating",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Stress flashback severity incapacitating costs -20, lasts three dice minutes, and causes no skill use or real-world sensory input. Author supplies episode content; persist expiry and restrict information/action channels accordingly.",
+      "tests": [
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control",
+        "tests/expanded.py::test_replay_fear",
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap",
+        "tests/expanded.py::test_acquired_replay_event"
+      ],
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_intrusive_replay, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-d-brittle-body",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Brittle anatomy costs -15. A crippling limb/extremity injury detaches that part; successful health preserves it whole, failure destroys it irrecoverably. A failed survival check immediately destroys the actor and sets health to minus ten times capacity. Keep severed-part identity and recoverability for treatment/regrowth.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-combustible-body",
+      "source": "full-2008",
+      "pages": "B136",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Combustible anatomy costs -5. A burning/explosive major wound prompts health against ignition; ten or more health points from such an attack ignites automatically. Once burning, take one die minus one injury each second until extinguished, including three-second rolling or immersion. Share the ongoing fire state rather than creating duplicate fires per hit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-explosive-body",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Explosive anatomy costs -15. A critical failure on a major-wound health check or failure by at least three on a death check triggers a crushing explosion of six dice times health capacity divided by ten and sets actor health to minus ten times capacity. Resolve fractional scaling using the applicable damage convention; explosion propagation must not recursively detonate the same body twice.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-flammable-body",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Highly flammable anatomy costs -10. Any major wound prompts health against ignition, at -3 for burning/explosive damage and another -3 for a vital hit. While burning, critical failure on a death check triggers the explosive-body outcome. Combined with combustible anatomy, a burning/explosive major wound or ten-plus injury ignites automatically.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-unnatural-body",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Externally animated anatomy costs -50 and automatically fails survival at negative health capacity or below. Resolve this at the death-check boundary, not on every negative health value. Combinations of fragile anatomy forms with injury-tolerance forms require explicit author approval.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-animal-aversion",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Animal aversion costs -10: animal reactions -4, with fearful/aggressive authored behavior; observers of that behavior and animal-empathy users react -1. Handlers relying on guard animals use the animal reaction. When connected to a concealed supernatural condition, relevant observers get +1 to deduce that secret.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-gravity-sensitivity",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "exploration",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Narrow gravity tolerance costs -10 for 0.1G penalty increments or -20 for 0.05G instead of ordinary 0.2G increments. It is available only in campaigns with regular space travel. Integrate with B350 gravity procedures rather than inventing a flat penalty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-appetite",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Excessive appetite is base -5 with self-control when tempting food/drink should be resisted. Author presents provisioning and meal choices; failure consumes available items with their ordinary effects. Extra carried supplies still have weight and cost, and increased consumption is a separate purchase.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-greed",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Wealth compulsion is base -15 with self-control on offered gains. Author modifies by relative prize size; a poor actor facing a rich prize can take -5 or worse. Legalistic honesty adds +5 against a dubious deal or +10 against outright crime. Failure commits the actor toward the reward without granting money or success automatically.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-guilt",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Persistent guilt costs -5. A qualifying close associate harmed without actor fault causes the low-motivation effects for max(one, fifteen minus will) days with will as self-control; actor fault causes max(two, twenty minus will) days with will minus three as self-control. Author judges relationship/fault and assistance through persuasion or psychology; own temporary episode and expiry.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-credulity",
+      "source": "full-2008",
+      "pages": "B137",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Credulity is base -10 with self-control for lies or unlikely truths. A convincing unfamiliar story gives -6, familiar subject gives -3, and wildly implausible story uses no modifier. Failure accepts the claim. Apply -3 to merchant and other tasks exploiting credulity; prohibit learning lie detection. Believed claims must not overwrite world truth.",
+      "tests": [
+        "tests/expanded.py::test_credulity",
+        "tests/expanded.py::test_credulity_learning"
+      ],
+      "implementation_note": "Owned story acceptance, source plausibility modifiers, Merchant/exploitation scoring and shared learning restrictions. Exact-cost fear acquisition rejects prior lie-detection training with an explicit replacement requirement. Actual advancement/direct-learning/study and lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_credulity, test_credulity_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-d-poor-fine-motor",
+      "source": "full-2008",
+      "pages": "B138",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Poor fine motor control costs -5/-10 for -3/-6 on dexterity-based fine work in the B59 enhanced-dexterity skill scope and quick drawing. Do not penalize intelligence tasks, broad movement or other combat rolls. Optional presentation-sensitive influence/reaction penalty is -1 per level. Incompatible with enhanced fine motor control.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-hearing-loss",
+      "source": "full-2008",
+      "pages": "B138",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Hearing impairment costs -10 and gives -4 to hearing and tasks requiring understanding another speaker. It does not penalize the actor merely for speaking. Scope to acoustic input, preserving writing and other accessible channels.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-bleeding-disorder",
+      "source": "full-2008",
+      "pages": "B138",
+      "module": "health",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Severe persistent bleeding costs -30 and caps health attribute at ten. Each untreated wound loses its original injury every minute until stanched; appropriate bandaging is required for wound healing. Record each original injury separately so cumulative loss does not itself inflate the next tick.",
+      "tests": [
+        "tests/expanded.py::test_impaired_clotting",
+        "tests/expanded.py::test_clotting_loss",
+        "tests/expanded.py::test_clotting_care"
+      ],
+      "implementation": "Owned per-wound minute loss, one-minute bandaging and transition to daily internal loss are authored. Bandaging uses the shared healing credit once; ordinary healing is limited to injury outside protected components. Internal losses remain protected after first aid. Definitive treatment/restoration, larger-injury policy and automatic enrollment remain pending. Fixtures authored and unrun."
+    },
+    {
+      "id": "disadvantages-d-internal-bleeding",
+      "source": "full-2008",
+      "pages": "B138",
+      "module": "health",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A torso impalement in an actor with severe persistent bleeding causes minute-by-minute loss until first aid, then retains daily loss equal to original injury. Surgery or supernatural healing is required to stop that internal bleeding or restore its lost health. Track external and internal stages per wound; ordinary first aid cannot erase the daily stage.",
+      "tests": [
+        "tests/expanded.py::test_impaired_clotting",
+        "tests/expanded.py::test_clotting_loss",
+        "tests/expanded.py::test_clotting_care",
+        "tests/expanded.py::test_clotting_restoration"
+      ],
+      "implementation": "Owned minute/daily internal losses, first-aid transition and protected healing are authored. RpgExpandedClottingRestoration is a concrete authored supernatural-effect contract that independently stops the source and restores an explicit amount of protected internal HP once per event. Surgical execution, larger-injury policy and automatic enrollment remain pending. Fixtures authored and unrun."
+    },
+    {
+      "id": "disadvantages-d-uncreative",
+      "source": "full-2008",
+      "pages": "B138",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Rigid thinking costs -5 and imposes -2 on creative/inventive tasks, including most art, engineering new inventions and rapid-invention ability uses. Author task classification must distinguish new design from routine operation/repair.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-legalistic-honesty",
+      "source": "full-2008",
+      "pages": "B138-B139",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Legalistic honesty is base -10 with self-control before breaking unreasonable law; success permitting a breach is followed by another self-control check, whose failure requires surrender to authorities. Where local law is absent, use home law. Intelligence recognizes possible dishonesty without proof. This trait permits lawful deception and is distinct from truthfulness.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-honesty-obligations",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "social",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Legalistic honesty requires keeping promises, forbids murder, permits necessary last-resort theft with restitution and precludes escape from fair detention with promised trial. Author supplies applicable law, necessity, fairness and commitments. Lawful fighting/self-defense remains permitted.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-honesty-reputation",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "social",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "When sustained local behavior makes honesty known, grant +1 noncombat reactions or +3 where trust/honor matters. Track observer knowledge and author recognition; do not award universal immediate reputation or charge twice for the included benefit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-horizontal-posture",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "creatures",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Horizontal posture costs -10: one hand usable while supported on other limbs or two while seated, either at zero ground movement; carrying without using an object in one hand permits half movement. Human-sized actors occupy two hexes. Exclude fully aerial/aquatic legless bodies whose posture is irrelevant.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-horizontal-kick",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Horizontal anatomy reduces thrust kick damage by one per die. Adapted claw attacks remove that reduction, but hoof attacks do not. Integrate the distinction with actual attack/body configuration and occupied hexes.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-spinal-shape",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Hunched spinal anatomy costs -10 and reduces height six inches without changing weight/build. Ordinary ill-fitting clothing/armor imposes -1 dexterity; fitted gear costs ten percent extra. Reactions -1 stack with appearance, appearance cannot exceed average, disguise/shadowing -3 and identification/following attempts +3. Painful back is recommended for realistic cases but not mandatory or included.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-impulsiveness",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Impulsiveness is base -10 with self-control when waiting and deliberation are appropriate. Failure requires an authored immediate action. Still validate target, physical possibility and ordinary action costs; failure cannot bypass turn ownership.",
+      "tests": [
+        "tests/expanded.py::test_impulsive_action"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_impulsive_action. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+    },
+    {
+      "id": "disadvantages-d-increased-consumption",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Increased consumption costs -10 per level: levels one/two/three require six/twelve/twenty-four meals daily, or machine endurance four/two/one hours. Each additional level doubles consumption and halves endurance. Use ration/fuel and time ledgers; body size/appetite can justify purchase but do not automatically grant its negative credit.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-life-support-logistics",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "traits",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Expanded life-support logistics have -10 components for required temperature above 200F or below 0F, more than one ton additional support mass with suit at least one ton, a separate pressurized compartment, or radioactive body/environment. Authors may approve other requirements, ordinarily at most -10 each; total credit is capped at forty.",
+      "tests": []
+    },
+    {
+      "id": "disadvantages-d-life-support-health",
+      "source": "full-2008",
+      "pages": "B139",
+      "module": "vehicles",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Life-support logistics can coexist with health consequences from sustenance, maintenance or restricted diet only if the same requirement truly imposes both costs. A portable small dose does not justify credit for a large dedicated cabin. Validate actual mass, volume/environment and health mechanisms separately.",
+      "tests": []
+    }
+  ]
+}

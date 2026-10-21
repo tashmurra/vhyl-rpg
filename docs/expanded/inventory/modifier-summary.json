@@ -1,0 +1,3002 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B300-B301 modifier tables",
+  "review": "All general modifier summary rows visually located and mapped to neutral detailed inventory entries. Detailed effects, restrictions, conditional pricing, trait-specific modifiers and executable fixtures remain pending.",
+  "enumeration_complete": false,
+  "exclusions": [
+    "Source labels and descriptive prose are not reproduced. Trait-specific modifiers remain with their owning trait entries; this summary only indexes general modifiers."
+  ],
+  "entries": [
+    {
+      "id": "modifier-summary-enhancement-accuracy",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "section": "enhancement",
+        "neutral_key": "accuracy",
+        "domain": "attack",
+        "price_percent": "5/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-accurate"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 5,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-affect-phased",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "section": "enhancement",
+        "neutral_key": "affect-phased",
+        "domain": "general",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-affect-phased"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-affect-material",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "section": "enhancement",
+        "neutral_key": "affect-material",
+        "domain": "general",
+        "price_percent": "40",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-affect-phased"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            40
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-area",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "section": "enhancement",
+        "neutral_key": "area",
+        "domain": "attack",
+        "price_percent": "50/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-area"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 50,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-armor-penetration",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "section": "enhancement",
+        "neutral_key": "armor-penetration",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-divisor-2"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-divisor-3"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-divisor-5"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-divisor-10"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-contact-aura",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "section": "enhancement",
+        "neutral_key": "contact-aura",
+        "domain": "attack",
+        "price_percent": "80",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-aura"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            80
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-different-resistance",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "section": "enhancement",
+        "neutral_key": "different-resistance",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-different-resistance"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-blood-area",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "section": "enhancement",
+        "neutral_key": "blood-area",
+        "domain": "attack",
+        "price_percent": "100",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-blood-area"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-blood-delivery"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            100
+          ]
+        },
+        "mutually_exclusive_price_family": "blood-exposure",
+        "detail_constraints": {
+          "ordinary_percent": -40,
+          "area_or_cone_percent": 100,
+          "replace_price_do_not_stack": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-cone",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "section": "enhancement",
+        "neutral_key": "cone",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cone"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-contact-area",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "section": "enhancement",
+        "neutral_key": "contact-area",
+        "domain": "attack",
+        "price_percent": "150",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-contact-area"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-contact-delivery"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            150
+          ]
+        },
+        "mutually_exclusive_price_family": "skin-exposure",
+        "detail_constraints": {
+          "ordinary_percent": -30,
+          "area_or_cone_percent": 150,
+          "replace_price_do_not_stack": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-higher-order",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "section": "enhancement",
+        "neutral_key": "higher-order",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-higher-order"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-higher-lingering"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-higher-penetration"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-repeating-damage",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "section": "enhancement",
+        "neutral_key": "repeating-damage",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cyclic-domain"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-1"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-10"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-60"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-3600"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-86400"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-termination"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-cycle-contagion"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-damage-modification",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "section": "enhancement",
+        "neutral_key": "damage-modification",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-double-blunt"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-double-knockback"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-explosion"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fragmentation"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fragment-followup"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-hot-fragments"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-dehydration"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-drowning"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-freezing"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-missed-sleep"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-starvation"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-suffocation"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-incendiary"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-radiation"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-surge"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending",
+        "group_only": true,
+        "acceptance_note": "Choose actual detailed modifiers; do not buy the summary group as an additional modifier."
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-delayed-effect",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "section": "enhancement",
+        "neutral_key": "delayed-effect",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-delay"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-double-blunt-trauma",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "section": "enhancement",
+        "neutral_key": "double-blunt-trauma",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-double-blunt"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-double-knockback",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "section": "enhancement",
+        "neutral_key": "double-knockback",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-double-knockback"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-drifting",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "section": "enhancement",
+        "neutral_key": "drifting",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-drifting"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-explosion",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "section": "enhancement",
+        "neutral_key": "explosion",
+        "domain": "attack",
+        "price_percent": "50/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-explosion"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 50,
+          "unit": "level"
+        },
+        "detail_constraints": {
+          "maximum_levels": 3,
+          "percent_by_level": {
+            "1": 50,
+            "2": 100,
+            "3": 150
+          },
+          "collateral_distance_divisor_by_level": {
+            "1": 3,
+            "2": 2,
+            "3": 1
+          },
+          "direct_attack_armor_divisor_applies_to_collateral": false
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-extended-duration",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "section": "enhancement",
+        "neutral_key": "extended-duration",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-3"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-10"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-30"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-100"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-300"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-1000"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-duration-permanent"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-follow-up",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "section": "enhancement",
+        "neutral_key": "follow-up",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-followup-hit"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-followup-cost"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-followup-inherited"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-followup-compatibility"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-fragmentation",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "section": "enhancement",
+        "neutral_key": "fragmentation",
+        "domain": "attack",
+        "price_percent": "15/die",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fragmentation"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fragment-followup"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-hot-fragments"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 15,
+          "unit": "die"
+        },
+        "detail_constraints": {
+          "maximum_dice": 12,
+          "also_capped_by": "main attack basic damage",
+          "dice_versus_adds_boundary": "unresolved; do not infer rounding"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-guided",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "section": "enhancement",
+        "neutral_key": "guided",
+        "domain": "attack",
+        "price_percent": "50",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-guided"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-guidance-speed"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            50
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-fatigue-hazard",
+      "source": "full-2008",
+      "pages": "B300 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "section": "enhancement",
+        "neutral_key": "fatigue-hazard",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-dehydration"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-drowning"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-freezing"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-missed-sleep"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-starvation"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-fatigue-suffocation"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-homing",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "section": "enhancement",
+        "neutral_key": "homing",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-homing"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-guidance-speed"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-incendiary",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "section": "enhancement",
+        "neutral_key": "incendiary",
+        "domain": "attack",
+        "price_percent": "10",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-incendiary"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            10
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-increased-range",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "section": "enhancement",
+        "neutral_key": "increased-range",
+        "domain": "general",
+        "price_percent": "10/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-2"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-5"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-10"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-20"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-50"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-100"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-range-only-max"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 10,
+          "unit": "level"
+        },
+        "detail_constraints": {
+          "maximum_only_percent_per_level": 5,
+          "maximum_only_condition": "attack has no half-damage range",
+          "jet_exception": "add one hundred percent of base range per level rather than ordinary multiplier progression"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-jet",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "section": "enhancement",
+        "neutral_key": "jet",
+        "domain": "attack",
+        "price_percent": "0",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-jet"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-linked-use",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "section": "enhancement",
+        "neutral_key": "linked-use",
+        "domain": "general",
+        "price_percent": "10,20",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-link"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-linked-attack"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "alternatives",
+          "percent_values": [
+            10,
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-reduced-signature",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "section": "enhancement",
+        "neutral_key": "reduced-signature",
+        "domain": "attack",
+        "price_percent": "10",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-signature"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            10
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-remote-resistance",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "section": "enhancement",
+        "neutral_key": "remote-resistance",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-remote-resistance"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-remote-resistance-yard"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-remote-resistance-range-table"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-remote-resistance-long-distance"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-mobile-area",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "section": "enhancement",
+        "neutral_key": "mobile-area",
+        "domain": "attack",
+        "price_percent": "40/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-mobile"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-mobile-autonomous"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 40,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-minimal-signature",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "section": "enhancement",
+        "neutral_key": "minimal-signature",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-signature"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-overhead",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "section": "enhancement",
+        "neutral_key": "overhead",
+        "domain": "attack",
+        "price_percent": "30",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-overhead"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            30
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-persistent-area",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "section": "enhancement",
+        "neutral_key": "persistent-area",
+        "domain": "attack",
+        "price_percent": "40",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-persistent"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            40
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-radiation",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "section": "enhancement",
+        "neutral_key": "radiation",
+        "domain": "attack",
+        "price_percent": "25,100",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-radiation"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "alternatives",
+          "percent_values": [
+            25,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-ranged-conversion",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "section": "enhancement",
+        "neutral_key": "ranged-conversion",
+        "domain": "general",
+        "price_percent": "40",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-ranged"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-ranged-eligibility"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            40
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-rapid-fire",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "section": "enhancement",
+        "neutral_key": "rapid-fire",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-2"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-3"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-4"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-8"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-16"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-31"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-71"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-151"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-rapid-projectiles"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-fatigue-reduction",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "section": "enhancement",
+        "neutral_key": "fatigue-reduction",
+        "domain": "general",
+        "price_percent": "20/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-fatigue-reduction"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 20,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-time-reduction",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 39,
+        "section": "enhancement",
+        "neutral_key": "time-reduction",
+        "domain": "general",
+        "price_percent": "20/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-time-reduction"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": 20,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-inhaled-delivery",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 40,
+        "section": "enhancement",
+        "neutral_key": "inhaled-delivery",
+        "domain": "attack",
+        "price_percent": "50",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-respiratory"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            50
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-selective-area",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 41,
+        "section": "enhancement",
+        "neutral_key": "selective-area",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-selective-area"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-enhancement-selection",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 42,
+        "section": "enhancement",
+        "neutral_key": "enhancement-selection",
+        "domain": "general",
+        "price_percent": "10",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-selectivity"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            10
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-sensory-delivery",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 43,
+        "section": "enhancement",
+        "neutral_key": "sensory-delivery",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-sense-delivery"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-sense-limitation"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending",
+        "mutually_exclusive_price_family": "sensory-access",
+        "detail_constraints": {
+          "ordinary_first_sense_percent": 150,
+          "ordinary_additional_sense_percent": 50,
+          "already_ignores_armor_or_remote_resisted_percent_by_sense_count": {
+            "1": -20,
+            "2": -15,
+            "3": -10
+          },
+          "replace_price_do_not_stack": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-side-effect",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 44,
+        "section": "enhancement",
+        "neutral_key": "side-effect",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-side-effect"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-side-effect-grouping"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-electrical-surge",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 45,
+        "section": "enhancement",
+        "neutral_key": "electrical-surge",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-surge"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-cumulative-symptoms",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 46,
+        "section": "enhancement",
+        "neutral_key": "cumulative-symptoms",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-symptoms"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-symptom-recovery"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-underwater",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 47,
+        "section": "enhancement",
+        "neutral_key": "underwater",
+        "domain": "attack",
+        "price_percent": "20",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-underwater"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-variable-strength",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 48,
+        "section": "enhancement",
+        "neutral_key": "variable-strength",
+        "domain": "attack",
+        "price_percent": "5",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-variable"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            5
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-enhancement-wall",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 49,
+        "section": "enhancement",
+        "neutral_key": "wall",
+        "domain": "attack",
+        "price_percent": "30,60",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-wall"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-wall-permeable"
+          },
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-wall-rigid"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "alternatives",
+          "percent_values": [
+            30,
+            60
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-accessibility",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 1,
+        "section": "limitation",
+        "neutral_key": "accessibility",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-accessibility"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-accessibility-actions"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-always-active",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 2,
+        "section": "limitation",
+        "neutral_key": "always-active",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-always-active"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-weak-penetration",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 3,
+        "section": "limitation",
+        "neutral_key": "weak-penetration",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-weak-penetration-0.5"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-weak-penetration-0.2"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-weak-penetration-0.1"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-blood-delivery",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 4,
+        "section": "limitation",
+        "neutral_key": "blood-delivery",
+        "domain": "attack",
+        "price_percent": "-40",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-blood-delivery"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-blood-area"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -40
+          ]
+        },
+        "mutually_exclusive_price_family": "blood-exposure",
+        "detail_constraints": {
+          "ordinary_percent": -40,
+          "area_or_cone_percent": 100,
+          "replace_price_do_not_stack": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-bombardment",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 5,
+        "section": "limitation",
+        "neutral_key": "bombardment",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-bombardment-14"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-bombardment-12"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-bombardment-10"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-bombardment-8"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-breakable-item",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 6,
+        "section": "limitation",
+        "neutral_key": "breakable-item",
+        "domain": "gadget",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-dr-0"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-dr-3"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-dr-6"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-dr-16"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-dr-26"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-repair"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-size-tiny"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-size-small"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-size-compact"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-size-medium"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-size-large"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-size-huge"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-stealable-item",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 7,
+        "section": "limitation",
+        "neutral_key": "stealable-item",
+        "domain": "gadget",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-theft-snatch"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-theft-contest"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-theft-stealth"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-theft-removal"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-contact-delivery",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 8,
+        "section": "limitation",
+        "neutral_key": "contact-delivery",
+        "domain": "attack",
+        "price_percent": "-30",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-contact-delivery"
+          },
+          {
+            "file": "traits-modifiers-a.json",
+            "entry": "traits-mod-a-contact-area"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -30
+          ]
+        },
+        "mutually_exclusive_price_family": "skin-exposure",
+        "detail_constraints": {
+          "ordinary_percent": -30,
+          "area_or_cone_percent": 150,
+          "replace_price_do_not_stack": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-fatigue-cost",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 9,
+        "section": "limitation",
+        "neutral_key": "fatigue-cost",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-fatigue-cost"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-damage-restriction",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 10,
+        "section": "limitation",
+        "neutral_key": "damage-restriction",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-no-blunt"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-no-knockback"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-no-wounding"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending",
+        "group_only": true,
+        "acceptance_note": "Choose actual detailed modifiers; do not buy the summary group as an additional modifier."
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-dissipation",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 11,
+        "section": "limitation",
+        "neutral_key": "dissipation",
+        "domain": "attack",
+        "price_percent": "-50",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-dissipation"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -50
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-emanation",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 12,
+        "section": "limitation",
+        "neutral_key": "emanation",
+        "domain": "attack",
+        "price_percent": "-20",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-emanation"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-emergency-only",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 13,
+        "section": "limitation",
+        "neutral_key": "emergency-only",
+        "domain": "general",
+        "price_percent": "-30",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-emergency"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -30
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-extra-recoil",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 14,
+        "section": "limitation",
+        "neutral_key": "extra-recoil",
+        "domain": "attack",
+        "price_percent": "-10/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-recoil-2"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-recoil-3"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-recoil-4"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-recoil-5"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": -10,
+          "unit": "level"
+        },
+        "detail_constraints": {
+          "requires": "rapid-fire",
+          "percent_by_recoil": {
+            "2": -10,
+            "3": -20,
+            "4": -30,
+            "5-or-more": -40
+          },
+          "maximum_discount_magnitude": 40
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-emergency-full-power",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 15,
+        "section": "limitation",
+        "neutral_key": "emergency-full-power",
+        "domain": "general",
+        "price_percent": "-20",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-emergency"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-reduced-accuracy",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 16,
+        "section": "limitation",
+        "neutral_key": "reduced-accuracy",
+        "domain": "attack",
+        "price_percent": "-5/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-inaccurate"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": -5,
+          "unit": "level"
+        },
+        "detail_constraints": {
+          "minimum_resulting_accuracy": 0,
+          "requires_accuracy_statistic": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-limited-use",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 17,
+        "section": "limitation",
+        "neutral_key": "limited-use",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-limited-use-1"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-limited-use-2"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-limited-use-3"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-limited-use-5"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-fast-reload"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-slow-reload"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-melee-only",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 18,
+        "section": "limitation",
+        "neutral_key": "melee-only",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-melee-close"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-melee-one"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-melee-mixed"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-melee-whip"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-mitigator",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 19,
+        "section": "limitation",
+        "neutral_key": "mitigator",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-mitigator"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-no-blunt-trauma",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 20,
+        "section": "limitation",
+        "neutral_key": "no-blunt-trauma",
+        "domain": "attack",
+        "price_percent": "-20",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-no-blunt"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-no-knockback",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 21,
+        "section": "limitation",
+        "neutral_key": "no-knockback",
+        "domain": "attack",
+        "price_percent": "-10",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-no-knockback"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -10
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-no-wounding",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 22,
+        "section": "limitation",
+        "neutral_key": "no-wounding",
+        "domain": "attack",
+        "price_percent": "-50",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-no-wounding"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -50
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-nuisance",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 23,
+        "section": "limitation",
+        "neutral_key": "nuisance",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-nuisance"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-delayed-onset",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 24,
+        "section": "limitation",
+        "neutral_key": "delayed-onset",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-onset-60"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-onset-3600"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-onset-86400"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-onset-604800"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-exposure-time"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-pact",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 25,
+        "section": "limitation",
+        "neutral_key": "pact",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-pact"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-preparation",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 26,
+        "section": "limitation",
+        "neutral_key": "preparation",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-preparation-60"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-preparation-600"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-preparation-3600"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-preparation-28800"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-preparation-shared"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-reduced-range",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 27,
+        "section": "limitation",
+        "neutral_key": "reduced-range",
+        "domain": "general",
+        "price_percent": "-10/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-reduced-range-2"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-reduced-range-5"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-reduced-range-10"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": -10,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-resistible",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 28,
+        "section": "limitation",
+        "neutral_key": "resistible",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-resistible"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-sensory-restriction",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 29,
+        "section": "limitation",
+        "neutral_key": "sensory-restriction",
+        "domain": "attack",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-b.json",
+            "entry": "traits-mod-b-sense-limitation"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending",
+        "mutually_exclusive_price_family": "sensory-access",
+        "detail_constraints": {
+          "ordinary_first_sense_percent": 150,
+          "ordinary_additional_sense_percent": 50,
+          "already_ignores_armor_or_remote_resisted_percent_by_sense_count": {
+            "1": -20,
+            "2": -15,
+            "3": -10
+          },
+          "replace_price_do_not_stack": true
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-extra-time",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 30,
+        "section": "limitation",
+        "neutral_key": "extra-time",
+        "domain": "general",
+        "price_percent": "-10/level",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-extra-time"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "per-unit",
+          "percent": -10,
+          "unit": "level"
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-recharge",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 31,
+        "section": "limitation",
+        "neutral_key": "recharge",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-recharge"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-temporary-drawback",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 32,
+        "section": "limitation",
+        "neutral_key": "temporary-drawback",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-temporary-disadvantage"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-temporary-effects"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-external-trigger",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 33,
+        "section": "limitation",
+        "neutral_key": "external-trigger",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-trigger-very-common"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-trigger-common"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-trigger-occasional"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-trigger-rare"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-unconscious-only",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 34,
+        "section": "limitation",
+        "neutral_key": "unconscious-only",
+        "domain": "general",
+        "price_percent": "-20",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-unconscious-only"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -20
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-uncontrollable",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 35,
+        "section": "limitation",
+        "neutral_key": "uncontrollable",
+        "domain": "general",
+        "price_percent": "-10,-30",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-uncontrollable"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "alternatives",
+          "percent_values": [
+            -10,
+            -30
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-unique-item",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 36,
+        "section": "limitation",
+        "neutral_key": "unique-item",
+        "domain": "gadget",
+        "price_percent": "-25",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-gadget-unique"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -25
+          ]
+        }
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-unreliable",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 37,
+        "section": "limitation",
+        "neutral_key": "unreliable",
+        "domain": "general",
+        "price_percent": "variable",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-unreliable-5"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-unreliable-8"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-unreliable-11"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-unreliable-14"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-unreliable-retry"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-malfunction-12"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-malfunction-13"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-malfunction-14"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-malfunction-15"
+          },
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-malfunction-16"
+          }
+        ],
+        "reconciliation": "mapped; detailed pricing, eligibility and effect comparison pending"
+      }
+    },
+    {
+      "id": "modifier-summary-limitation-untrainable",
+      "source": "full-2008",
+      "pages": "B301 modifier table",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reconcile this neutral summary row with all mapped detailed definitions. Use detailed eligibility, exclusions, level limits, conditional prices and effects; a percentage and category alone do not authorize application. Group rows and alternative versions do not create extra stackable purchases. Independent executable fixtures remain required.",
+      "tests": [],
+      "summary_data": {
+        "row": 38,
+        "section": "limitation",
+        "neutral_key": "untrainable",
+        "domain": "general",
+        "price_percent": "-40",
+        "targets": [
+          {
+            "file": "traits-modifiers-c.json",
+            "entry": "traits-mod-c-untrainable"
+          }
+        ],
+        "reconciliation": "printed price compared with detailed entry; full eligibility, effect and executable reconciliation pending",
+        "pricing_shape": {
+          "kind": "fixed",
+          "percent_values": [
+            -40
+          ]
+        }
+      }
+    }
+  ]
+}

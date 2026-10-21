@@ -1,0 +1,539 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B83 shapeshifting-B88, before striking strength",
+  "review": "Form replacement, adaptive templates, shrinking, equipment protection, parallel item acquisition, social/dialogue traits and natural appendages enumerated. Fractional accounting, persistent-state contracts and cross-reference validation remain pending; striking-strength continuation is not included.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "traits-k-transformation-state",
+      "source": "full-2008",
+      "pages": "B83",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Changing form requires ten seconds concentration unless separately modified. Injury, fatigue, crippling and conditions persist; missing health/fatigue scale proportionally to form capacities. Knockout or death reverts to native form still unconscious/dead. Author defines one reasonably common external forcing influence appropriate to the ability origin. Preserve loss provenance and specify rounding so repeated shifts cannot heal.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-fixed-form-template",
+      "source": "full-2008",
+      "pages": "B83-B84",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A fixed alternate form is an approved ancestry template replacing native ancestry contributions. Personal attributes, traits and skills remain, with skill scores recalculated from changed governing attributes. Conflicting form traits override personal benefits temporarily without deleting their purchases or memories.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-fixed-form-cost",
+      "source": "full-2008",
+      "pages": "B84",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A fixed alternate form costs fifteen plus ninety percent of any positive difference between its template and native template. Less valuable forms still cost fifteen. For multiple forms, price the most expensive fully and each other form at fifteen. Determine exact fractional-cost rounding through general character accounting rather than rounding each contribution inconsistently.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-fixed-form-ancestry",
+      "source": "full-2008",
+      "pages": "B84",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For an ancestry with innate alternate form, calculate ancestry value excluding that ability first, compare the alternate template against that value, then add the resulting ability cost. Prevent circular cost calculation or counting the transformation ability as its own capacity.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-fixed-form-conditions",
+      "source": "full-2008",
+      "pages": "B84",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Traits shared by all forms are personal purchases; form-specific behavior belongs to its template. Emergency-only, unconscious-only and uncontrollable modifiers can govern changes. Full-moon-only transformation has the printed -40% trigger variant, requiring authored lunar state rather than a generic time-of-day test.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-fixed-form-cosmetic",
+      "source": "full-2008",
+      "pages": "B84",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cosmetic fixed form is -50% and provides a distinct appearance with no ancestry or ability change. It does not grant mechanical traits of the imitated creature.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-adaptive-form",
+      "source": "full-2008",
+      "pages": "B84-B85",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Adaptive transformation costs one hundred for existing living/formerly living ancestry templates no more valuable than native ancestry, plus the positive extra template capacity point for point. Improved capacity can be purchased later. Templates must already exist in the authored world; arbitrary new construction is unavailable.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-adaptive-form-memory",
+      "source": "full-2008",
+      "pages": "B84",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An eligible form can be copied from a seen/touched being. After assuming it, one minute concentration memorizes it for later reuse. Memory capacity equals intelligence; when full, player selects a stored form to replace. Particular individual appearances also occupy a slot. Persist template/appearance identity and do not refresh slots by leaving a form.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-adaptive-form-adjustment",
+      "source": "full-2008",
+      "pages": "B84",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adaptive forms may omit ancestry mental disadvantages and omit ancestry intelligence adjustment in favor of personal intelligence, but cannot add arbitrary traits. Reprice the adjusted template against capacity. Other personal/template replacement rules still apply.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-adaptive-cosmetics",
+      "source": "full-2008",
+      "pages": "B84-B85",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Adaptive transformation includes cosmetic impersonation of eligible forms; later impersonation of an absent individual requires a stored appearance. Appearance improvements consume appropriate template capacity and still take normal transformation time. An ancestry with this ability excludes its entire ability cost when determining native template value.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-adaptive-unlimited",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Nonliving-form extension is +50% and permits authored machine/vehicle/other templates. Author may allow typical ordinary objects without a specific template; define actual attributes and interaction contract before use rather than treating an absent template as executable zero-cost data.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-adaptive-limits",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Cosmetic-only adaptive form is -50%, changes appearance without abilities/ancestry, and includes mass conservation but not retained shape. Mass conservation alone is -20% and requires native weight within target ancestry normal range. Retained shape is -20% and requires matching limb count, layout and posture.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Shrinking costs five per level, changing size modifier by one per second in either direction. Height follows the size table, each six reductions giving one tenth height. Scale movement, reach, unarmed/natural/shrunken-weapon damage, health capacity and protection by height ratio. Equipment cannot accompany shrinking by default.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-weight",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Every full two size reductions divides weight by ten, with an additional factor three for an odd reduction. Preserve exact rational size-dependent values and define health-loss scaling independently of transformation rules; changing size must not reset injury or create weight through repeated rounding.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-company",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shrinking companions costs +50% per simultaneously affected person. Define the group membership, eligibility and restoration timing with shared transitions, rather than giving unrelated characters permanent independent shrinking.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-carry-none",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shrinking carrying up to none encumbrance costs +10%. Only equipment actually carried or worn at shrinking time accompanies the change. Put-down items return to normal size; author adjudicates displacement or elevated footing caused by growth. Retain equipment identity and physical space checks.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-carry-light",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shrinking carrying up to light encumbrance costs +20%. Only equipment actually carried or worn at shrinking time accompanies the change. Put-down items return to normal size; author adjudicates displacement or elevated footing caused by growth. Retain equipment identity and physical space checks.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-carry-medium",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shrinking carrying up to medium encumbrance costs +50%. Only equipment actually carried or worn at shrinking time accompanies the change. Put-down items return to normal size; author adjudicates displacement or elevated footing caused by growth. Retain equipment identity and physical space checks.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-carry-heavy",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Shrinking carrying up to heavy encumbrance costs +100%. Only equipment actually carried or worn at shrinking time accompanies the change. Put-down items return to normal size; author adjudicates displacement or elevated footing caused by growth. Retain equipment identity and physical space checks.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-shrinking-full-values",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Retaining full damage when small costs +100%; full protection, health or movement each costs +30%. Each exception changes only its selected quantity; full damage does not restore reach, and full movement does not restore size or weight.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-signature-equipment",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Signature equipment buys goods worth up to half average campaign starting wealth per point, never cash. Author approves origin and whether an item is equipment or a separately purchased companion. Track the protected item identity and original investment rather than assigning protection to every item later acquired.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-signature-loss",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Involuntary loss/sale, theft or confiscation requires an authored recovery opportunity. Permanent blameless loss yields either returned points or equal-value replacement, never both. Voluntary sale/gift removes the item and invested points without refund. Define fault, recovery event and final disposition explicitly.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-silence",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Silent movement costs five per level and gives stealth +2 per level while completely motionless, or +1 while moving. Apply only where darkness or hearing-dependent observers make sound decisive; equipment/armor does not cancel the listed moving benefit. It does not grant invisibility.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-single-focus",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Exclusive focus costs five and gives +3 to lengthy mental tasks where author judges sustained undivided attention beneficial. Ignoring other activity requires will to resist and noticing interruptions takes -5. Tasks requiring divided attention receive no bonus. Track the focus episode and qualifying task rather than boosting every mental roll.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-slippery",
+      "source": "full-2008",
+      "pages": "B85",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Slipperiness costs two per level, maximum five, adding level to strength, dexterity and escape checks for restraints, close-combat escape or narrow openings. It does not raise those attributes generally or guarantee that an anatomically impossible opening is traversable.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-remote-acquisition",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Parallel-world item acquisition costs eighty. Concentrate ten seconds and visualize an item fitting one hand and at most five pounds. A free hand is expected; tied hands impose -3. Intelligence resolves the attempt, with fourteen or higher always failing. Success places the item in hand or within reach; ordinary failure produces none. Each attempt costs two fatigue.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-critical",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Critical failure produces a wrong item, ordinarily not immediately dangerous unless the request was dangerous. Author supplies the item and placement. It comes from an unspecified other world and cannot intentionally remove a particular person possession in the current world.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-difficulty",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Author applies at least -1 for substantial departure from known-world objects, at least -3 for near-unique objects, and at least -4 for poor visualization. Incompatible natural laws or unvisualizable technology normally yield powerless, broken or toy substitutes rather than working advanced capability. Exceptional critical-success permission must be explicit.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-information",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Information is limited to ordinary books/reports or equivalent items, not requested omniscient answers. Author rolls secretly; failure by five or more yields misleading information from a different world. Store actual document content and provenance privately without disclosing success through preview.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-retry",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After failure, same/similar requests take cumulative -1 per repeat and cost four fatigue each. One hour between attempts clears the penalties. Ignore critical successes during rapid repeats. Persist request-family identity so cosmetic rewording cannot reset the penalty or cost.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-duration",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Acquired objects remain until voluntarily returned or the ability is used again. Permanent acquisition costs +300% and prevents disappearance on subsequent use. Define disappearance timing for failed new attempts and consumed/transferred objects explicitly; inventory references must not duplicate or retain expired items.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-weight-three",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced acquired-item weight limit three pounds costs -5%. Enforce alongside the independent one-hand size limit.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-weight-two",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced acquired-item weight limit two pounds costs -10%. Enforce alongside the independent one-hand size limit.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-weight-one",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced acquired-item weight limit one pound costs -15%. Enforce alongside the independent one-hand size limit.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-weight-quarter",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced acquired-item weight limit four ounces costs -25%. Enforce alongside the independent one-hand size limit.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-weight-ounce",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Reduced acquired-item weight limit one ounce costs -30%. Enforce alongside the independent one-hand size limit.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-specialization",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Specialized acquisition uses authored accessibility categories. Printed examples are metal only -5%, money or weapons only -10%, information only or no metal -20%, and one color only -25%. Bind exact predicates before the request; these examples do not define every category price.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-acquisition-stun",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Successful-acquisition stun is -10% and applies mental stun after success. Unpredictable acquisition is -25%, producing a wrong item on ordinary failure with greater mismatch at worse margins, and dangerous items on every critical failure regardless of request.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-social-adaptation",
+      "source": "full-2008",
+      "pages": "B86",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Cinematic social adaptation costs five, removes reaction penalties due to rank/status differences, and gives +1 reactions from respect-demanding people where no such penalty would apply. It does not change actual rank, authority or access.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-social-regard",
+      "source": "full-2008",
+      "pages": "B86-B87",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Obvious high-regard group membership costs five per reaction point, maximum four. It is distinct from individual reputation and cannot coexist with stigma from the same group membership. Author defines applicable society, visible membership and reaction scope.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-regard-results",
+      "source": "full-2008",
+      "pages": "B87",
+      "module": "traits",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Feared regard yields intimidation-like deference or avoidance; respected regard yields status-like formality; venerated regard yields care and protection that can obstruct risky actions. Author maps good reactions to these distinct responses rather than giving universal friendly cooperation.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-underwater-speech",
+      "source": "full-2008",
+      "pages": "B87",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Underwater speech costs five and allows ordinary talking and understanding submerged speakers. Crossing the water/air interface for two-way speech costs +50%. It does not grant respiration or unlimited sound range.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-animal-dialogue",
+      "source": "full-2008",
+      "pages": "B87",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Animal speech costs twenty-five. Each question/answer takes one minute, subject to creature knowledge, intelligence and willingness. Author may call reaction with +2 for offered food and may exclude alien/unnatural/mythical creatures. Define refusal and limited information rather than making every animal an omniscient witness.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-animal-dialogue-limits",
+      "source": "full-2008",
+      "pages": "B87",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Animal-dialogue specialization costs -40% for all land or aquatic animals, -50% for a class, -60% for a family or -80% for a species. Author defines actual membership, including the printed inclusion of birds/insects among land animals and amphibians among aquatic animals.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-plant-dialogue",
+      "source": "full-2008",
+      "pages": "B87",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Plant speech costs fifteen and conveys plant-relevant impressions despite ordinary plants intelligence zero. Normal plants cooperate within knowledge limits; unusual plants may require reaction. Author supplies wellbeing-related evidence, excluding human-style overheard conversations the plant cannot understand.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-paired-rapport",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Paired emotional rapport costs five for each partner and requires author approval. Both always know the other distress, pain, lying or need for help without intelligence roll or distance restriction. It does not grant general thought reading or location knowledge. Powerful patron-like partners may require additional background permission.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-defensive-spines",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Defensive spines cost one for close-reach 1d-2 impaling or three for close-reach 1d impaling. They cannot be used as ordinary active attacks. Each close opponent permits one free dexterity-4 contact attempt per turn, +2 against those attacking from behind.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-spine-contact",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Grappling or slamming a spined body causes an automatic hit; a slamming attacker takes maximum spine damage. Define overlap with that turn free contact attempt to avoid duplicate consequences for the same contact event while preserving separate eligible contacts.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-spirit-empathy",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Spirit empathy costs ten and uses empathic impressions for spirits, intelligence for general intent and ordinary influence skills on eligible spirits. It does not prevent hostile spirits harming the actor. Specialization to one authored spirit class costs -50%.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-stretching",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Stretching costs six per level and increases effective size of selected body parts by up to that many increments without changing total body size. Adjustment is one increment per second in either direction. It extends reach or obstacle access but gives no swinging-damage increase because mass/muscle is unchanged.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-striking-appendage",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "A natural striking appendage cannot manipulate or serve as a walking limb. Close-reach damage is thrust plus one per die. Crushing or piercing costs five, large piercing six, cutting seven and impaling eight. Attack with dexterity or brawling; parry as a weapon using better of half dexterity plus three or brawling parry.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-appendage-long",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "Long striking appendage costs +100% per effective size increment when all reaches from close to maximum are available, or +75% when only maximum reach is permitted and close combat excluded. Use the reach table without adding the long-arm swinging bonus.",
+      "tests": []
+    },
+    {
+      "id": "traits-k-appendage-limits",
+      "source": "full-2008",
+      "pages": "B88",
+      "module": "traits",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "No parry is -40%; inaccuracy is -20% per -1 attack; fixed directional arc is -40% and must be specified; weak appendage is -50% and removes the per-die bonus, retaining ordinary thrust. Validate orientation and permitted reach before spending an attack.",
+      "tests": []
+    }
+  ]
+}

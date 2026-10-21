@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B307-B323 mechanical constructions only",
+  "review": "Example biographies and sheets inspected. Reusable attack/template constructions and integration requirements retained under neutral identifiers; named characters, fiction, artwork and form layouts excluded. Component links, runtime and independent fixtures pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "composition-alternative-weapon-bundle",
+      "source": "full-2008",
+      "pages": "B308",
+      "module": "traits",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Validate the worked alternative-attack construction independently: a modified large-piercing attack costs 261, the alternative burning attack costs 177 before discount and 36 after upward rounding of one fifth, totaling 297 per bundle. Two bundles permit independent selected modes; distinct-target simultaneous use also requires the tracking and extra-attack capabilities. Do not treat a second bundle as a free duplicate mode or let one discounted bundle fire both modes.",
+      "tests": [],
+      "composition_data": {
+        "primary": {
+          "dice": 15,
+          "type": "large-piercing",
+          "accuracy_modifier_percent": 30,
+          "armor_divisor_modifier_percent": 50,
+          "recoil_modifier_percent": -30,
+          "range_modifier_percent": 40,
+          "rapid_fire_modifier_percent": 100,
+          "accuracy_bonus": 6,
+          "armor_divisor": 2,
+          "extra_recoil": 3,
+          "range_multiplier": 20,
+          "rate_of_fire": 15,
+          "printed_cost": 261
+        },
+        "alternative": {
+          "dice": 6,
+          "type": "burning",
+          "cone_modifier_percent": 90,
+          "cyclic_modifier_percent": 400,
+          "cone_width_yards": 4,
+          "cycle_seconds": 1,
+          "cycles": 5,
+          "printed_full_cost": 177,
+          "printed_discounted_cost": 36
+        },
+        "printed_bundle_cost": 297
+      }
+    },
+    {
+      "id": "composition-four-leg-form",
+      "source": "full-2008",
+      "pages": "B308",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Support the example body-form package as an independently priced composition: strength plus eighteen with size discount ten percent costs 162, dexterity plus three costs sixty, ground-speed enhancement one costs twenty and four-leg anatomy costs five, totaling 247. Size modifier plus one is recorded separately. Resolve enhanced movement from the actual actor base speed; the worked speed sixteen is not a universal constant.",
+      "tests": [],
+      "composition_data": {
+        "strength_delta": 18,
+        "strength_cost_modifier_percent": -10,
+        "dexterity_delta": 3,
+        "size_modifier": 1,
+        "movement_levels": 1,
+        "legs": 4,
+        "printed_total": 247
+      }
+    },
+    {
+      "id": "composition-six-leg-form",
+      "source": "full-2008",
+      "pages": "B308",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Support replacement by a six-leg form: strength plus eighteen and dexterity plus three each use the forty-percent manipulation limitation, costing 108 and 36; camouflage three with sensor extension costs eighteen; ground movement one-and-a-half costs thirty; six legs cost ten; horizontal posture minus ten and absent fine manipulation minus thirty. Total 162. Replacing forms must exchange form-owned components without deleting independent purchases or recharging shared abilities.",
+      "tests": [],
+      "composition_data": {
+        "strength_delta": 18,
+        "dexterity_delta": 3,
+        "attribute_modifier_percent": -40,
+        "camouflage_levels": 3,
+        "camouflage_modifier_percent": 20,
+        "movement_levels": 1.5,
+        "legs": 6,
+        "printed_total": 162
+      }
+    },
+    {
+      "id": "composition-long-lived-ancestry",
+      "source": "full-2008",
+      "pages": "B316",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Support the seventy-point ancestry package through reusable component ownership: strength minus one (-10), health plus one (10), perception plus one (5), attractive appearance (4), language aptitude (10), magic aptitude zero (5), balance (15), telescopic vision one (5), agelessness (15), vocal quality (10), and one point in an average intelligence-based appreciation specialty. Validate total and inherited skill/trait effects without duplicating the named example character.",
+      "tests": [],
+      "composition_data": {
+        "component_costs": [
+          -10,
+          10,
+          5,
+          4,
+          10,
+          5,
+          15,
+          5,
+          15,
+          10,
+          1
+        ],
+        "printed_total": 70
+      }
+    },
+    {
+      "id": "composition-blood-dependent-ancestry",
+      "source": "full-2008",
+      "pages": "B320",
+      "module": "templates",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Record the 150-point composite ancestry as a composition obligation. It combines strength plus six, health capacity plus four, perception plus three; two alternate forms; breathing independence; domination; metabolic immunity; unliving injury form; phasing costing two fatigue; low-light vision five; limited animal speech; agelessness; conditional survival; and draining bite. Its drawbacks include daily location/material dependency, invitation restriction, illegal blood requirement, three avoidance triggers, feeding-dependent appearance, appetite control, restricted healing and sunlight weakness. Each component needs its own operational contract and source cost; the package cannot be implemented by a generic callback or by copying a named character.",
+      "tests": [],
+      "composition_data": {
+        "benefit_component_costs": [
+          60,
+          8,
+          15,
+          30,
+          20,
+          20,
+          30,
+          20,
+          72,
+          5,
+          10,
+          15,
+          50,
+          30
+        ],
+        "drawback_component_costs": [
+          -60,
+          -10,
+          -10,
+          -10,
+          -14,
+          -20,
+          -16,
+          -15,
+          -20,
+          -60
+        ],
+        "printed_total": 150,
+        "zero_cost_feature": "sterility",
+        "component_resolution": "pending-neutral-catalogue-links"
+      }
+    },
+    {
+      "id": "composition-sample-sheet-integration",
+      "source": "full-2008",
+      "pages": "B309; B311; B313; B315; B317; B319; B321; B323",
+      "module": "characters",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The completed sheets illustrate integration of templates with separately purchased traits, modified attacks, noninteger movement levels, paid defaults, zero-investment derived skills, techniques, conditional reaction modifiers, separate spoken/written language grades, ritual paths and optional wildcard skills. Validate these interactions with original unnamed fixtures. Do not ship the named characters or use the printed totals alone as proof that underlying mechanics are correct.",
+      "tests": []
+    },
+    {
+      "id": "composition-authored-quirk-effects",
+      "source": "full-2008",
+      "pages": "B313; B315; B321; B323",
+      "module": "traits",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Example quirks have narrow authored consequences such as specific social or skill penalties and observer-dependent reactions. Provide a typed modifier scope and condition contract for authored quirks, with fixed accounting and tested application/removal. Narrative flavor alone must not imply a numeric modifier, and a generic callback without a documented supported contract is not implementation.",
+      "tests": []
+    }
+  ]
+}

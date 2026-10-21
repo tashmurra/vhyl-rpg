@@ -1,0 +1,1124 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B254-B257",
+  "review": "Chapter text reviewed. Each sample family and eligible ability membership is enumerated separately. Underlying trait procedures and countermeasure definitions remain cross-reference obligations; no runtime power is claimed implemented.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "psionic-availability",
+      "source": "full-2008",
+      "pages": "B254",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Campaign configuration declares whether mental powers exist, eligible origins and any required background cost; reject disallowed purchases before spending points.",
+      "tests": []
+    },
+    {
+      "id": "psionic-power-definition",
+      "source": "full-2008",
+      "pages": "B254; B257",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "A power definition has an explicit ability membership list, source modifier and talent policy; missing required fields or conflicting definitions cannot silently use defaults from another power.",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+    },
+    {
+      "id": "psionic-new-power-permission",
+      "source": "full-2008",
+      "pages": "B254-B255",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Acquiring the first ability or talent in an unrelated power after creation requires a specific campaign permission or authored transformation event; existing power membership grants no blanket access.",
+      "tests": [
+        "tests/expanded.py::test_psionic_advancement",
+        "tests/expanded.py::test_psionic_purchase"
+      ],
+      "validation_note": "Owned executable warning purchase and shared point/revision accounting authored, with latent/new-family gates and save-continuation fixture; unrun. Other ability purchases and broad membership integration remain pending."
+    },
+    {
+      "id": "psionic-mandatory-limitations",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "The campaign identifies limitations intrinsic to its powers; ability customization and later advancement must preserve these restrictions.",
+      "tests": []
+    },
+    {
+      "id": "psionic-removable-limitations",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "An authored permission names which nonfundamental limitations practice may remove; apply the resulting point difference and effect changes once.",
+      "tests": []
+    },
+    {
+      "id": "psionic-custom-power-membership",
+      "source": "full-2008",
+      "pages": "B255; B257",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Permit an authored replacement or extension of a sample power's ability membership, with explicit countermeasure and talent rules and a reason when an ability is rejected.",
+      "tests": []
+    },
+    {
+      "id": "psionic-broad-power-talent",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "Require an explicit authored talent price for unusually broad powers rather than silently applying the ordinary five-point rate.",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+    },
+    {
+      "id": "psionic-telepathic-target-policy",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "pending",
+      "acceptance": "Define the campaign's living/sentient eligibility policy for thought-based powers; attempts against recordings or inert replicas fail under the normal policy without affecting those objects.",
+      "tests": []
+    },
+    {
+      "id": "psionic-perception-information-contract",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "author-decision",
+      "status": "partial",
+      "acceptance": "An authored information resolver receives outcome quality and relevant world facts, returns constrained useful information on success, no information on ordinary failure, and misleading information on specified severe failures; keep hidden rolls out of player-visible diagnostics.",
+      "tests": [
+        "tests/expanded.py::test_psionic_history"
+      ],
+      "validation_note": "Owned one-second secret object-history reading, supported age bands, authored true/vision/misleading outputs and failed-reading retry deadline authored; fixtures unrun. Fright, spontaneous impressions, older ages and broader integration remain pending."
+    },
+    {
+      "id": "psionic-possession",
+      "source": "full-2008",
+      "pages": "B254",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Possessing at least one ability establishes membership in its associated power; talent alone represents latent access, not an active ability.",
+      "tests": [
+        "tests/expanded.py::test_psionic_purchase",
+        "tests/expanded.py::test_history_purchase"
+      ],
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
+    },
+    {
+      "id": "psionic-latent-advancement",
+      "source": "full-2008",
+      "pages": "B254-B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A character with a power's talent but no abilities can buy an eligible first ability within that power using earned points.",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents",
+        "tests/expanded.py::test_psionic_advancement",
+        "tests/expanded.py::test_psionic_purchase",
+        "tests/expanded.py::test_history_purchase"
+      ],
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
+    },
+    {
+      "id": "psionic-existing-power-advancement",
+      "source": "full-2008",
+      "pages": "B254-B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A character with an existing power can buy new eligible abilities, higher ability levels, enhancements and its talent using one advancement ledger.",
+      "tests": []
+    },
+    {
+      "id": "psionic-potential-ability",
+      "source": "full-2008",
+      "pages": "B254",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A partially purchased potential ability remains subject to both unconscious-only and uncontrollable behavior until fully paid; it does not provide ordinary voluntary activation.",
+      "tests": []
+    },
+    {
+      "id": "psionic-base-ability-procedure",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Preserve the underlying trait's activation, duration, resistance, resource costs and effects; adding a power modifier must not replace these with a universal activation roll or generic duration.",
+      "tests": []
+    },
+    {
+      "id": "psionic-source-modifier",
+      "source": "full-2008",
+      "pages": "B254-B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The power modifier makes an ability vulnerable to its applicable power-wide and all-power interference in addition to ordinary specific countermeasures.",
+      "tests": []
+    },
+    {
+      "id": "psionic-talent-rolls",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Add the associated talent level to rolls to activate or use that power, including applicable intelligence, will and perception rolls; do not add the bonus twice when an ability delegates to another module.",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+    },
+    {
+      "id": "psionic-talent-optional",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Allow ability possession without talent and talent without ability; talent does not supply missing abilities or additional effect magnitude by itself.",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents"
+      ],
+      "validation_note": "Power definition, owned talent pricing, pure bonus and latent eligibility authored; fixtures unrun. Actual ability effects, roll dispatch, purchases and interference remain pending."
+    },
+    {
+      "id": "psionic-talent-cost-cap",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Ordinary talents cost five points per level and normally stop at four; exceeding four requires a specific campaign permission.",
+      "tests": [
+        "tests/expanded.py::test_psionic_talents",
+        "tests/expanded.py::test_psionic_advancement"
+      ],
+      "validation_note": "Owned talent advancement shares the point ledger, spending gates and revision, with explicit first-family permission; fixtures unrun. Ability purchases and other power membership integrations remain pending."
+    },
+    {
+      "id": "psionic-layered-ability-levels",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Support levels of one ability with different extra limitations while retaining the power modifier on every level; activation can use only levels whose individual conditions are satisfied.",
+      "tests": []
+    },
+    {
+      "id": "psionic-permanent-source-modifier",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Reject removal of the power modifier or a campaign-fundamental limitation through ordinary advancement, even when the character can afford the unmodified ability.",
+      "tests": []
+    },
+    {
+      "id": "psionic-resistance-bonus",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Apply mental-power resistance to permitted resistance rolls for direct and area targets; it does not create a resistance roll for an unresisted effect.",
+      "tests": [
+        "tests/expanded.py::test_psionic_resistance"
+      ],
+      "validation_note": "Owned resistance pricing and IQ/Will check contexts authored, including immunity/no-resistance suppression of rolls; fixtures unrun. Full ability contest and countermeasure integration remain pending."
+    },
+    {
+      "id": "psionic-neutralization",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Delegate neutralization to its trait procedure and ongoing state while selecting only powers affected by that countermeasure; successful suppression cannot delete paid ability investments.",
+      "tests": []
+    },
+    {
+      "id": "psionic-static-interference",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Resolve static interference using its trait rules and scope, including passive suppression, without adding an unrelated activation cost.",
+      "tests": []
+    },
+    {
+      "id": "psionic-technology-countermeasures",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Technological or other specifically authored countermeasures affect their named powers only; an ordinary mind shield cannot automatically suppress every power family.",
+      "tests": []
+    },
+    {
+      "id": "psionic-counterpower-exception",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The counterpower family has neither its own talent nor a source discount, and its abilities cannot themselves be blocked by mental-power interference.",
+      "tests": []
+    },
+    {
+      "id": "psionic-perception-hidden-roll",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Keep extrasensory information rolls secret; success quality controls information usefulness and ordinary failure yields no information.",
+      "tests": []
+    },
+    {
+      "id": "psionic-perception-severe-failure",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For object-history and future-sensing abilities, failure by more than five produces false information; failure by exactly five and failures of other abilities do not inherit this rule.",
+      "tests": []
+    },
+    {
+      "id": "psionic-matter-dexterity-talent",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Matter-control talent also modifies applicable dexterity rolls, including attack accuracy and flight maneuvers, without increasing damage dice or speed.",
+      "tests": []
+    },
+    {
+      "id": "psionic-thought-conditional-attack",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A thought-family affliction or innate attack requires the resisted-curse enhancement and effects limited to fatigue, stun, incapacitation, temporary mental disadvantages or dexterity/intelligence/will penalties.",
+      "tests": []
+    },
+    {
+      "id": "psionic-magic-source-separation",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Magic detection and anti-mental-power suppression distinguish origins; shared physical outcomes can interact without reclassifying their source.",
+      "tests": []
+    },
+    {
+      "id": "psionic-magic-physical-interaction",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A physically produced flame can be extinguished by an appropriate spell, and a mental shield can resist a mind-reading spell when its underlying rules apply.",
+      "tests": []
+    },
+    {
+      "id": "psionic-no-magic-procedure-inheritance",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Mental abilities do not automatically inherit spell rituals, mana requirements, time or energy costs; only their own traits and limitations impose those restrictions.",
+      "tests": []
+    },
+    {
+      "id": "psionic-custom-modifier-common-broad-counters",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For an authored power, use a -10% source modifier when the declared countermeasure model meets this case: Common countermeasures include both neutralization and static interference variants.",
+      "tests": []
+    },
+    {
+      "id": "psionic-custom-modifier-common-specific-counters",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For an authored power, use a -5% source modifier when the declared countermeasure model meets this case: Common countermeasures exist but lack those broad blocking variants.",
+      "tests": []
+    },
+    {
+      "id": "psionic-custom-modifier-rare-counters",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "For an authored power, use a 0% source modifier when the declared countermeasure model meets this case: Countermeasures are rare; do not grant a limitation discount.",
+      "tests": []
+    },
+    {
+      "id": "psionic-custom-no-counters",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "modifier",
+      "status": "pending",
+      "acceptance": "If no countermeasures exist, use the applicable cosmic enhancement rather than a limitation discount; verify its actual trait pricing and permitted effects.",
+      "tests": []
+    },
+    {
+      "id": "psionic-family-counterpower",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Define the counterpower family with its declared ability membership, no talent and no source modifier.",
+      "tests": []
+    },
+    {
+      "id": "psionic-membership-counterpower-neutralize",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit neutralize as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B71, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B71"
+    },
+    {
+      "id": "psionic-membership-counterpower-obscure-psychic-radar",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit obscure-psychic-radar as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B72, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B72"
+    },
+    {
+      "id": "psionic-membership-counterpower-obscure-psychic-detection",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit obscure-psychic-detection as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B72, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B72"
+    },
+    {
+      "id": "psionic-membership-counterpower-mental-static",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Permit mental-static as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B78, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [
+        "tests/expanded.py::test_psionic_static"
+      ],
+      "trait_pages": "B78",
+      "validation_note": "Absolute personal/area static assessment, pricing and danger-warning suppression authored; fixtures unrun. Resistible static, switching actions and other ability integrations remain pending."
+    },
+    {
+      "id": "psionic-membership-counterpower-mental-resistance",
+      "source": "full-2008",
+      "pages": "B255",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Permit mental-resistance as an ability of the counterpower family under its stated restrictions. Execute the underlying trait procedure from B80, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [
+        "tests/expanded.py::test_psionic_resistance"
+      ],
+      "trait_pages": "B80",
+      "validation_note": "Owned resistance pricing and IQ/Will check contexts authored, including immunity/no-resistance suppression of rolls; fixtures unrun. Full ability contest and countermeasure integration remain pending."
+    },
+    {
+      "id": "psionic-family-extrasensory",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Define the extrasensory family with its declared ability membership, a 5-point-per-level talent and -10% source modifier; apply both only within this family.",
+      "tests": []
+    },
+    {
+      "id": "psionic-membership-extrasensory-spirit-channel",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit spirit-channel as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B41, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B41"
+    },
+    {
+      "id": "psionic-membership-extrasensory-remote-senses",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit remote-senses as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B42, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B42"
+    },
+    {
+      "id": "psionic-membership-extrasensory-danger-warning",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Permit danger-warning as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B47, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [
+        "tests/expanded.py::test_psionic_warning"
+      ],
+      "trait_pages": "B47",
+      "validation_note": "Owned source-priced danger warning, secret perception/talent check, authored warning information and once-per-situation receipt authored; fixtures unrun. Countermeasure execution and broader ability integration remain pending."
+    },
+    {
+      "id": "psionic-membership-extrasensory-psychic-detection",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit psychic-detection as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B48, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B48"
+    },
+    {
+      "id": "psionic-membership-extrasensory-spirit-communication",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit spirit-communication as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B68, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B68"
+    },
+    {
+      "id": "psionic-membership-extrasensory-omens",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit omens as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B72, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B72"
+    },
+    {
+      "id": "psionic-membership-extrasensory-psychic-radar",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit psychic-radar as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B81, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B81"
+    },
+    {
+      "id": "psionic-membership-extrasensory-penetrating-vision",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit penetrating-vision as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B74, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B74"
+    },
+    {
+      "id": "psionic-membership-extrasensory-future-sensing",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit future-sensing as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B77, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B77"
+    },
+    {
+      "id": "psionic-membership-extrasensory-object-history",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "partial",
+      "acceptance": "Permit object-history as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B78, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [
+        "tests/expanded.py::test_psionic_history",
+        "tests/expanded.py::test_history_purchase"
+      ],
+      "trait_pages": "B78",
+      "validation_note": "Two executable sensory abilities now establish power membership and share owned purchases, point/revision accounting and talent access; fixtures unrun. Other abilities and broader interference remain incomplete."
+    },
+    {
+      "id": "psionic-membership-extrasensory-ancestral-memory",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit ancestral-memory as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B78, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B78"
+    },
+    {
+      "id": "psionic-membership-extrasensory-invisible-sight",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit invisible-sight as an ability of the extrasensory family under its stated restrictions. Execute the underlying trait procedure from B83, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B83"
+    },
+    {
+      "id": "psionic-family-healing",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Define the healing family with its declared ability membership, a 5-point-per-level talent and -10% source modifier; apply both only within this family.",
+      "tests": []
+    },
+    {
+      "id": "psionic-membership-healing-disease-poison-detection",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit disease-poison-detection as an ability of the healing family under its stated restrictions. Execute the underlying trait procedure from B48, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B48"
+    },
+    {
+      "id": "psionic-membership-healing-healing",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit healing as an ability of the healing family under its stated restrictions. Execute the underlying trait procedure from B59, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B59"
+    },
+    {
+      "id": "psionic-membership-healing-metabolism-control",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit metabolism-control as an ability of the healing family under its stated restrictions. Execute the underlying trait procedure from B68, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B68"
+    },
+    {
+      "id": "psionic-membership-healing-regeneration",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit regeneration as an ability of the healing family under its stated restrictions. Execute the underlying trait procedure from B80, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B80"
+    },
+    {
+      "id": "psionic-membership-healing-regrowth",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit regrowth as an ability of the healing family under its stated restrictions. Execute the underlying trait procedure from B80, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B80"
+    },
+    {
+      "id": "psionic-membership-healing-physical-hazard-resistance",
+      "source": "full-2008",
+      "pages": "B256",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit physical-hazard-resistance as an ability of the healing family under its stated restrictions. Execute the underlying trait procedure from B80, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B80"
+    },
+    {
+      "id": "psionic-family-matter",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Define the matter family with its declared ability membership, a 5-point-per-level talent and -10% source modifier; apply both only within this family.",
+      "tests": []
+    },
+    {
+      "id": "psionic-membership-matter-binding",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit binding as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B40, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B40"
+    },
+    {
+      "id": "psionic-membership-matter-force-field-armor",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit force-field-armor as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B46, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B46"
+    },
+    {
+      "id": "psionic-membership-matter-enhanced-air-movement",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit enhanced-air-movement as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B52, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B52"
+    },
+    {
+      "id": "psionic-membership-matter-enhanced-water-movement",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit enhanced-water-movement as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B52, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B52"
+    },
+    {
+      "id": "psionic-membership-matter-flight",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit flight as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B56, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B56"
+    },
+    {
+      "id": "psionic-membership-matter-innate-attack",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit innate-attack as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B60, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B60"
+    },
+    {
+      "id": "psionic-membership-matter-enhanced-jump",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit enhanced-jump as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B89, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B89"
+    },
+    {
+      "id": "psionic-membership-matter-remote-manipulation",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit remote-manipulation as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B92, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B92"
+    },
+    {
+      "id": "psionic-membership-matter-temperature-control",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit temperature-control as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B92, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B92"
+    },
+    {
+      "id": "psionic-membership-matter-vibration-sense",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit vibration-sense as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B96, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B96"
+    },
+    {
+      "id": "psionic-membership-matter-air-walking",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit air-walking as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B97, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B97"
+    },
+    {
+      "id": "psionic-membership-matter-liquid-walking",
+      "source": "full-2008",
+      "pages": "B256-B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit liquid-walking as an ability of the matter family under its stated restrictions. Execute the underlying trait procedure from B97, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B97"
+    },
+    {
+      "id": "psionic-family-thought",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Define the thought family with its declared ability membership, a 5-point-per-level talent and -10% source modifier; apply both only within this family.",
+      "tests": []
+    },
+    {
+      "id": "psionic-membership-thought-animal-empathy",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit animal-empathy as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B40, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B40"
+    },
+    {
+      "id": "psionic-membership-thought-empathy",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit empathy as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B51, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B51"
+    },
+    {
+      "id": "psionic-membership-thought-invisibility",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit invisibility as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B63, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B63"
+    },
+    {
+      "id": "psionic-membership-thought-mind-control",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit mind-control as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B68, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B68"
+    },
+    {
+      "id": "psionic-membership-thought-mind-probe",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit mind-probe as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B69, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B69"
+    },
+    {
+      "id": "psionic-membership-thought-mind-reading",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit mind-reading as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B69, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B69"
+    },
+    {
+      "id": "psionic-membership-thought-mind-shield",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit mind-shield as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B70, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B70"
+    },
+    {
+      "id": "psionic-membership-thought-mind-link",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit mind-link as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B70, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B70"
+    },
+    {
+      "id": "psionic-membership-thought-possession",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit possession as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B75, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B75"
+    },
+    {
+      "id": "psionic-membership-thought-animal-speech",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit animal-speech as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B87, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B87"
+    },
+    {
+      "id": "psionic-membership-thought-special-rapport",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit special-rapport as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B88, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B88"
+    },
+    {
+      "id": "psionic-membership-thought-mental-sending",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit mental-sending as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B91, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B91"
+    },
+    {
+      "id": "psionic-membership-thought-terror",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit terror as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B93, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B93"
+    },
+    {
+      "id": "psionic-membership-thought-conditional-affliction",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit conditional-affliction as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B35; B106, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B35; B106"
+    },
+    {
+      "id": "psionic-membership-thought-conditional-innate-attack",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit conditional-innate-attack as an ability of the thought family under its stated restrictions. Execute the underlying trait procedure from B61; B106, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B61; B106"
+    },
+    {
+      "id": "psionic-family-displacement",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Define the displacement family with its declared ability membership, a 5-point-per-level talent and -10% source modifier; apply both only within this family.",
+      "tests": []
+    },
+    {
+      "id": "psionic-membership-displacement-world-time-jump",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit world-time-jump as an ability of the displacement family under its stated restrictions. Execute the underlying trait procedure from B64, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B64"
+    },
+    {
+      "id": "psionic-membership-displacement-object-retrieval",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit object-retrieval as an ability of the displacement family under its stated restrictions. Execute the underlying trait procedure from B86, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B86"
+    },
+    {
+      "id": "psionic-membership-displacement-instant-relocation",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "catalogue-entry",
+      "status": "pending",
+      "acceptance": "Permit instant-relocation as an ability of the displacement family under its stated restrictions. Execute the underlying trait procedure from B97, apply this family's talent and countermeasure policy, and preserve ability-specific resistance, costs and duration.",
+      "tests": [],
+      "trait_pages": "B97"
+    },
+    {
+      "id": "psionic-worked-cost-four-die-burning",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "A four-die burning ability with the -10% matter source modifier costs 18; talent two grants +2 to the applicable attack roll and does not change its four damage dice.",
+      "tests": []
+    },
+    {
+      "id": "psionic-worked-cost-flight",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Flight with the -10% matter source modifier costs 36; talent two costs 10 and grants +2 to relevant flight maneuver rolls.",
+      "tests": []
+    },
+    {
+      "id": "psionic-worked-cost-danger-warning",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "partial",
+      "acceptance": "Danger warning with the -10% extrasensory source modifier costs 14 after the required rounding, even without talent.",
+      "tests": [
+        "tests/expanded.py::test_psionic_warning"
+      ],
+      "validation_note": "Owned source-priced danger warning, secret perception/talent check, authored warning information and once-per-situation receipt authored; fixtures unrun. Countermeasure execution and broader ability integration remain pending."
+    },
+    {
+      "id": "psionic-worked-cost-short-relocation",
+      "source": "full-2008",
+      "pages": "B257",
+      "module": "psionics",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Instant relocation with the -10% source modifier and ten-yard range limitation of -50% costs 40; its range restriction must operate during assessment and execution.",
+      "tests": []
+    },
+    {
+      "id": "psionic-static-switching",
+      "source": "full-2008",
+      "pages": "B34; B78",
+      "module": "psionics",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Purchased switchable static changes immediately with a one-second Ready maneuver. Reuse the combat clock; default to on during unconsciousness.",
+      "tests": [
+        "tests/expanded.py::test_static_ready",
+        "tests/expanded.py::test_static_health_defaults"
+      ],
+      "validation_note": "Ready switching and shared unconscious/sleep default-on hooks authored; fixtures unrun. Direct external state writes and separate resilience bodies require explicit integration."
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B254-B257",
+      "reason": "Exclude terminology prose, fictional explanations, named characters and illustrative dialogue. Retain the numerical examples, family memberships and information-adjudication requirements using neutral identifiers."
+    }
+  ]
+}

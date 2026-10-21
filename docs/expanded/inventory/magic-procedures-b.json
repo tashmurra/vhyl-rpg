@@ -1,0 +1,459 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B239-B242",
+  "review": "Spell classes, targeting, held charges, information range, resistance, catalogue schema and optional granted/path magic enumerated. Numeric visual verification, ambiguous rule interactions, full spell definitions and executable tests remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "magic-procedures-b-classification",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Spells may belong to multiple thematic groups and compatible procedural classes. Multiple group membership matters to prerequisites, not duplicate spell purchases. Validate class-specific exceptions rather than assuming all spells use ordinary single-target resolution.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-regular-size",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary single-target spells multiply listed energy by one plus positive size modifier; zero/negative size gets no discount. Spell-specific size costs override this default. Apply high-skill reduction after scaling.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-regular-range",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Touch removes range penalty; otherwise subtract distance in yards measured at resolution, even when the target moved during casting. Magical sight qualifies as sight. Lack of both touch and sight adds -5. Preserve fractional-distance rounding as an explicit source-policy question.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-regular-hidden-target",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An unseen target may be designated by location or identifiable subject description. Author resolves actual subject and distance privately; empty location or absent subject wastes the attempt under normal failure rules. Do not leak hidden presence through a public preview or silently retarget a successful spell.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-regular-barriers",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Physical barriers do not block ordinary single-target spells. Except for backfire, they never hit an unintended target. Distinguish this targeting from projectiles and from spell-specific material/visibility requirements.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-area-geometry",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Default area spells apply to a surface and extend four yards above it. Radius at least one yard sets cost as base cost times radius, independent of difficulty. Partial-area selections cost the full enclosing radius; living-target spells affect every qualifying being in the selected area.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-area-minimum",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Fractional area base costs require at least one energy before high-skill discounts; stated minimum costs override the raw radius product when larger. Reconcile any spell-specific minimum with discount ordering rather than enforcing a second unexplained post-discount minimum.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-area-range",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Touching any selected affected area removes range penalty; otherwise subtract distance in yards to the nearest affected edge. Apply remaining ordinary spell rules and per-spell geometry exceptions.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-area-hexes",
+      "source": "full-2008",
+      "pages": "B239",
+      "module": "magic",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "On the tactical map, radius one covers one hex, radius two covers center plus six adjacent hexes, radius three adds the next ring. General radius r includes hex distance at most r minus one. Do not use a Euclidean radius that disagrees with these source rings.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-melee-charge",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A contact attack spell first uses an ordinary spell roll on the caster with no range penalty and pays casting cost. Success charges a hand or enchanted staff. From the next turn it may be held or used in an ordinary melee attack. Holding costs no energy or roll but prevents casting another ordinary spell.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-melee-hold",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Other maneuvers remain possible while a contact spell is held. Parrying with the charged limb/staff does not discharge it. Losing staff contact even momentarily dissipates the charge. If another actor grips the staff on the caster turn, wrenching it free counts as an attack and applies the spell immediately to that opponent.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-melee-delivery",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A charged hand attacks with dexterity/unarmed skill, a staff with its appropriate weapon skill. Normal defenses apply. Successful defense normally leaves the charge for another attempt; a hit applies ordinary melee damage and spell effect. Persist charge ownership through failed delivery attempts.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-melee-armor-exception",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For contact spells that ignore armor, an unarmed parry or shield block cannot prevent the spell even if it stops the physical blow; the spell passes through the defensive contact. Spell-specific armor behavior remains authoritative. Do not apply the physical weapon damage when the defense stopped that part.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-melee-resistance",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Resisted contact spells need a second spell-skill roll when they affect the target, followed by resistance. Do not reuse the initial charging margin as the delivery resistance margin or spend casting energy a second time.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-projectile-creation",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A magical projectile requires one concentration second and a spell roll with no range penalty. On success invest one through aptitude-level energy and create the held projectile. High skill does not shorten this creation time. Resolve energy-discount allocation across multiple investment turns explicitly before execution.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-projectile-growth",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The next two turns may each enlarge the projectile with one concentration second and one through aptitude-level additional energy, without another spell roll. At most three seconds build it; after growth stops it can only be held or launched. Retain investment and growth eligibility instead of reopening growth after arbitrary waiting.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-projectile-holding",
+      "source": "full-2008",
+      "pages": "B240-B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Holding a projectile permits full movement, waiting, aiming, attacks with the other hand and ordinary defenses, but prohibits casting another ordinary spell. Injury while holding prompts will; failure makes the projectile affect the caster. One held object owns its effect and energy.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-projectile-launch",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Launch with the relevant innate ranged-attack skill and ordinary size/speed/range modifiers. Projectile travels straight and physical barriers apply. Target can dodge or block but not parry; normal armor protects unless the particular spell overrides it. Use invested energy for the listed effect, not net fatigue after discounts.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-focus-reach",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An enchanted casting staff extends spell touch and, when pointed as declared at concentration start, subtracts its length from range. Maximum length is two yards. It can hold contact spells. Store pointing/possession and actual endpoint rather than granting a global range bonus from merely carrying it.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-focus-equipment",
+      "source": "full-2008",
+      "pages": "B240",
+      "module": "magic",
+      "kind": "table",
+      "status": "pending",
+      "acceptance": "Short wand has close reach, no physical damage and knife/parrying-dagger skills; long wand/short staff has reach one, baton stats and short-blade/small-sword skills; full staff has reach two, quarterstaff stats and staff/two-handed-sword skills. Ordinary host must be once-living material; typical enchantment price is thirty currency units where the setting permits it.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-blocking-cast",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Instant defensive spells allow one attempt per turn and cannot oppose critical hits. Each description determines whether it consumes a block/parry/dodge entitlement. No high-skill energy discount applies. Validate defense window, availability and payment before rolling.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-blocking-interruption",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Attempting a defensive spell automatically spoils unfinished casting. A held contact charge remains; a held projectile remains but cannot grow further. This is an explicit exception to the general prohibition on casting while holding a charge.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-held-dismissal",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A held contact/projectile charge can be dissipated harmlessly as a free action during the caster turn. This specific dismissal does not charge the ordinary one-energy early-cancellation fee. Alternatively a projectile may be dropped as a free action, affecting the supporting surface; explosive effects may harm the caster and burning effects may ignite it.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-information",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Information spells use hidden casting rolls. Success returns authored information quality based on margin, ordinary failure no sensed information, critical failure false information. The class says full energy regardless of result; explicitly resolve this wording against general critical-success zero cost before implementing that case.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-information-limits",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Information spells normally permit one attempt per day per caster or ceremonial group; seeking spells are exceptions. They are instantaneous and unmaintainable unless specified otherwise. Searches take -1 for each known item deliberately excluded. Own query/attempt identity and define group identity to prevent quota bypass.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-0",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to two hundred yards uses modifier 0. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-1",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to one half mile uses modifier -1. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-2",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to one mile uses modifier -2. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-3",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to three miles uses modifier -3. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-4",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to ten miles uses modifier -4. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-5",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to thirty miles uses modifier -5. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-6",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to one hundred miles uses modifier -6. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-7",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to three hundred miles uses modifier -7. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-8",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "table-row",
+      "status": "pending",
+      "acceptance": "Long-distance magical information range up to one thousand miles uses modifier -8. Distances between listed bounds use the next higher bound. Preserve exact unit conversion and inclusive thresholds.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-long-range-extension",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Beyond one thousand miles add -2 per further factor of ten, using the upper listed-bound rule for intermediate distances. Resolve whether intermediate three-times thresholds continue beyond the printed table explicitly rather than inventing them.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-resistance-choice",
+      "source": "full-2008",
+      "pages": "B241",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any class may also be resisted. Critical casting success works automatically; otherwise first require successful casting. Conscious subjects notice an attempted effect and can waive resistance, except unfamiliarity with magic or suspicion of hostile magic requires resistance. Unconscious subjects still resist.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-resistance-single",
+      "source": "full-2008",
+      "pages": "B241-B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "For a single target subtract spell resistance from caster effective skill even if the target is willing, then add resistance to the target defense roll. Use the designated resisting attribute/trait; apply the rule-of-sixteen cap for living or sapient subjects, not a target spell. A target spell resists with its original effective casting skill.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-resistance-outcome",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Compare margins as a quick contest: caster must win strictly; a tie or target win prevents effect while still costing full casting energy. Conscious resisting targets sense a slight corresponding disturbance, and caster knows resistance succeeded. Ordinary failed casting gives no target notification.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-resistance-area",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A resisted area spell uses one casting success/margin and separate resistance rolls for each subject. Double target spell-resistance benefit, without applying the single-target casting penalty. Only those with resistance margins lower than casting margin are affected. Keep deterministic subject ordering and individual outcomes.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-special-class",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Special spells follow their individually defined procedure. Neither the class label nor a generic callback counts as an implementation; catalogue entries must supply explicit inputs, state effects and costs.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-catalogue-contract",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "This supplied reference lists ninety-three spells. Each definition needs neutral identifier, all groups/classes, hard or very-hard difficulty, effect, duration, cost/maintenance, casting time and prerequisites. Default casting time is one second; required material components are consumed unless explicitly reusable.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-granted-magic",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Granted magic replaces innate aptitude with the granted-power trait and ambient energy with authored sacred influence. Spells have no ordinary prerequisites but require one point per learned spell and membership in the grantor-approved list. Author can alter outcomes or suspend access under concrete pact/source rules.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-ritual-paths",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Optional path magic uses an authored core skill and intelligence/very-hard thematic path skills defaulting to core minus six, requiring core and capped by it. Spell techniques are hard and default to path minus the full prerequisite count, including prerequisites of prerequisites. Define unique-node/shared-branch counting from source decisions before calculating complex graphs.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-ritual-techniques",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Improving a path-magic spell technique requires at least one purchased path point; technique cannot exceed path and ordinary spell prerequisites need not be met. Magical aptitude benefits core, paths and spells but must not be repeatedly added through a derived default chain. Ordinary and ritual aptitude are separate traits when both systems coexist.",
+      "tests": []
+    },
+    {
+      "id": "magic-procedures-b-air-baseline",
+      "source": "full-2008",
+      "pages": "B242",
+      "module": "magic",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Unless a spell says otherwise, magical air means ordinary breathable air at one atmosphere. Actual environmental differences require the individual spell rule; do not infer vacuum tolerance or toxic-gas transformation from the group name alone.",
+      "tests": []
+    }
+  ]
+}

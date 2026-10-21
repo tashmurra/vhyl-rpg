@@ -1,6 +1,7 @@
 /** Structured injury, healing, fatigue and elapsed-time result with any resistance checks. */
 class RpgLiteHealthResult: object
     status = 'resolved'
+    knockedDown = nil
     injury = 0
     healed = 0
     fatigue = 0
@@ -13,24 +14,27 @@ class RpgLiteHealthResult: object
 rpgLiteWound(profile, amount)
 {
     rpgInteger(amount, 0, 100000);
+    return rpgLiteWoundWithKnockdown(profile,amount,amount * 2 > profile.maxHP,0);
+}
+
+/** Shared injury commit with an explicitly assessed knockdown trigger/modifier.
+ * Ordinary callers use rpgLiteWound; expanded requests preflight their context. */
+rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
+{
+    rpgInteger(amount, 0, 100000); rpgInteger(modifier,-1000,1000);
     local result = new RpgLiteHealthResult();
-    if (profile.dead || amount == 0) return result;
+    if (amount == 0) return result;
+    if (profile.dead) return profile.postmortemInjury(amount);
+    if (knockdown && !profile.unconscious) profile.validateInjuryKnockdownCommit(modifier);
+    profile.validateInjury(amount);
+    local shock = profile.shockFromInjury(amount);
     local oldHP = profile.hp(); profile.injury += amount; result.injury = amount;
     profile.woundSerial += 1;
     profile.aidUsed = nil;
     if (profile.level('high-pain-threshold') == 0)
-    { profile.shock += amount; if (profile.shock > 4) profile.shock = 4; }
-    if (amount * 2 > profile.maxHP && !profile.unconscious)
-    {
-        result.check = rpgLiteAttributeCheck(profile, rpgHT, 'major-wound', 0);
-        result.checks = result.checks + [result.check];
-        if (!result.check.achieved)
-        {
-            profile.stunned = true; profile.posture = 'lying';
-            foreach (local item in profile.equipment) if (!item.worn) item.ready = nil;
-            if (result.check.margin <= -5 || result.check.critical == 'failure') profile.unconscious = true;
-        }
-    }
+    { profile.shock += shock; if (profile.shock > profile.shockLimit()) profile.shock = profile.shockLimit(); }
+    profile.afterInjuryShock(amount,result);
+    if (knockdown && !profile.unconscious) profile.applyInjuryKnockdown(result,modifier);
     for (local multiple = 1; multiple <= 4 && !profile.dead; multiple += 1)
         if (oldHP > -multiple * profile.maxHP && profile.hp() <= -multiple * profile.maxHP)
         {
@@ -39,13 +43,13 @@ rpgLiteWound(profile, amount)
             if (!result.check.achieved)
             {
                 if (profile.mortal || result.check.margin < -2) profile.dead = true;
-                else { profile.mortal = true; profile.unconscious = true; }
+                else { profile.mortal = true; profile.becomeUnconscious(); }
             }
-            else if (result.check.roll > profile.ht)
-            { profile.apparentDeath = true; profile.unconscious = true; }
+            else if (result.check.roll > profile.survivalAppearanceThreshold())
+            { profile.apparentDeath = true; profile.becomeUnconscious(); }
         }
     if (profile.hp() <= -5 * profile.maxHP) profile.dead = true;
-    if (profile.dead) profile.unconscious = true;
+    if (profile.dead) profile.becomeUnconscious();
     return result;
 }
 
@@ -60,17 +64,23 @@ rpgLiteFatigue(profile, amount, cause)
     while (remaining > 0)
     {
         if (profile.fp() <= 0) result.injury += rpgLiteWound(profile, 1).injury;
-        if (profile.fp() > -profile.maxEnergy)
-        {
-            profile.fatigue += 1; result.fatigue += 1;
-            if (cause == 'hunger') profile.hunger += 1;
-            if (cause == 'thirst') profile.thirst += 1;
-            if (cause == 'sleep') profile.sleepDebt += 1;
-        }
+        result.fatigue += rpgLiteFatigueIncrement(profile,cause);
         remaining -= 1;
     }
-    if (profile.fp() <= -profile.maxEnergy) { profile.unconscious = true; profile.fatigueCollapse = true; }
+    if (profile.fp() <= -profile.maxEnergy) { profile.becomeUnconscious(); profile.fatigueCollapse = true; }
     return result;
+}
+
+/** Shared single-point fatigue increment. Caller owns injury and final collapse.
+ * Internal arithmetic helper: it does not check, heal, spend time or draw dice. */
+rpgLiteFatigueIncrement(profile, cause)
+{
+    if (profile.fp() <= -profile.maxEnergy) return 0;
+    profile.fatigue += 1;
+    if (cause == 'hunger') profile.hunger += 1;
+    if (cause == 'thirst') profile.thirst += 1;
+    if (cause == 'sleep') profile.sleepDebt += 1;
+    return 1;
 }
 
 /** Check consciousness and effort when necessary; a failed check may incapacitate the character. */
@@ -78,15 +88,17 @@ rpgLiteCanAct(profile, doNothing)
 {
     if (profile.dead || profile.unconscious || profile.mortal) return nil;
     if (doNothing) return true;
+    if (profile.voluntaryMovementUnavailable()) return nil;
+    if (profile.exhaustionBlocksAction()) return nil;
     if (profile.fp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgWill, 'effort', 0);
-        if (!check.achieved) { profile.unconscious = true; profile.fatigueCollapse = true; return nil; }
+        if (!check.achieved) { profile.becomeUnconscious(); profile.fatigueCollapse = true; return nil; }
     }
     if (profile.hp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgHT, 'consciousness', -(-profile.hp() / profile.maxHP));
-        if (!check.achieved) { profile.unconscious = true; return nil; }
+        if (!check.achieved) { profile.becomeUnconscious(); return nil; }
     }
     return true;
 }
@@ -97,6 +109,8 @@ rpgLiteHeal(profile, amount)
     rpgInteger(amount, 0, 10000);
     if (profile.dead) return 0;
     if (amount > profile.injury) amount = profile.injury;
+    profile.validateHealing(amount);
+    if (amount > 0 && profile.mortal) profile.validateMortalRecovery();
     profile.injury -= amount;
     if (amount > 0 && profile.mortal)
     {
@@ -104,12 +118,13 @@ rpgLiteHeal(profile, amount)
         if (check.achieved)
         {
             profile.mortal = nil;
-            if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
+            profile.afterMortalRecovery('healing');
         }
     }
-    if (amount > 0 && profile.unconscious && !profile.mortal && profile.fp() > 0
+    if (amount > 0 && profile.unconscious && !profile.unconsciousRecoveryOwned() && !profile.mortal && profile.fp() > 0
         && rpgLiteAttributeCheck(profile, rpgHT, 'wake', 0).achieved)
     { profile.unconscious = nil; profile.apparentDeath = nil; profile.needsMedicalHelp = nil; }
+    profile.afterHealing();
     return amount;
 }
 
@@ -166,6 +181,7 @@ class RpgLiteTreatment: object
 /** Attempt end-of-turn stun recovery; fixed Fright durations cannot be shortened. */
 rpgLiteRecoverStun(profile)
 {
+    if (profile.stunRecoveryOwned()) return nil;
     if ((!profile.stunned && !profile.mentalStun) || profile.unconscious || profile.dead || profile.fearSeconds > 0) return nil;
     local check = rpgLiteAttributeCheck(profile, profile.mentalStun ? rpgIQ : rpgHT,
         profile.mentalStun ? 'mental-stun' : 'stun', 0);
@@ -179,7 +195,17 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     rpgInteger(seconds, 1, 86400);
     local result = new RpgLiteHealthResult(); result.seconds = seconds;
     if (profile.dead) { result.status = 'blocked'; return result; }
+    if (profile.mortal && !profile.mortalSurvivalSuspended()) profile.validateMortalRecovery();
+    profile.validateNaturalRecovery(seconds,food,healingAllowed);
+    profile.additionalRecoveryLockedFatigue();
+    local healingInterval = profile.naturalRecoveryInterval();
+    local healingModifier = food && healingAllowed && profile.naturalRecoveryNeeded()
+        ? profile.naturalRecoveryModifier() : 0;
+    local healingAmount = profile.naturalRecoveryAmount();
+    local sleepStart = rpgLedger.seconds;
+    if (sleeping) { profile.validateSleepRecovery(seconds); profile.onSleep(); }
     rpgSpendTime(seconds);
+    if (sleeping) profile.validateSleepRecoveryInterval(sleepStart,seconds);
     for (local elapsed = 0; elapsed < seconds && (profile.stunned || profile.mentalStun)
         && !profile.unconscious && profile.fearSeconds == 0; elapsed += 1) rpgLiteRecoverStun(profile);
     profile.shock = 0;
@@ -203,7 +229,8 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     }
     else { profile.sleepClock = 0; profile.sleepRecovered = nil; }
     profile.restClock += seconds;
-    local locked = profile.hunger + profile.thirst + profile.sleepDebt + profile.temperatureFatigue;
+    local locked = profile.hunger + profile.thirst + profile.sleepDebt + profile.temperatureFatigue
+        + profile.additionalRecoveryLockedFatigue();
     while (profile.restClock >= 600)
     {
         profile.restClock -= 600;
@@ -213,12 +240,18 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
     if (food && healingAllowed)
     {
         profile.healingClock += seconds;
-        while (profile.healingClock >= 86400)
+        while (profile.healingClock >= healingInterval)
         {
-            profile.healingClock -= 86400;
-            result.check = rpgLiteAttributeCheck(profile, rpgHT, 'healing', 0);
-            if (result.check.achieved && profile.injury > profile.diseaseInjury + profile.temperatureInjury)
-                result.healed += rpgLiteHeal(profile, 1);
+            profile.healingClock -= healingInterval;
+            if (profile.naturalRecoveryNeeded())
+            {
+                result.check = rpgLiteAttributeCheck(profile, rpgHT, 'healing', healingModifier);
+                if (result.check.achieved && profile.injury > profile.diseaseInjury + profile.temperatureInjury)
+                {
+                    local available = profile.injury - profile.diseaseInjury - profile.temperatureInjury;
+                    result.healed += rpgLiteHeal(profile,healingAmount < available ? healingAmount : available);
+                }
+            }
         }
     }
     rpgLiteHealthTime(profile, seconds);
@@ -229,30 +262,17 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
 rpgLiteHealthTime(profile, seconds)
 {
     if (profile.dead) return nil;
-    if (profile.fatigueCollapse && profile.fp() > 0 && !profile.mortal)
+    profile.afterFatigueRecovery();
+    if (profile.fatigueCollapse && profile.fp() > 0 && !profile.mortal && !profile.unconsciousRecoveryOwned())
     { profile.unconscious = nil; profile.fatigueCollapse = nil; }
     if (profile.fearSeconds > 0)
     {
         profile.fearSeconds -= seconds;
         if (profile.fearSeconds <= 0)
-        { profile.fearSeconds = 0; profile.stunned = nil; if (profile.hp() > 0 && profile.fp() > 0) profile.unconscious = nil; }
+        { profile.fearSeconds = 0; profile.stunned = nil; if (profile.hp() > 0 && profile.fp() > 0 && !profile.unconsciousRecoveryOwned()) profile.unconscious = nil; }
     }
-    if (profile.mortal)
-    {
-        profile.mortalClock += seconds;
-        while (profile.mortalClock >= 1800 && !profile.dead && profile.mortal)
-        {
-            profile.mortalClock -= 1800;
-            local check = rpgLiteAttributeCheck(profile, rpgHT, 'mortal-wound', 0);
-            if (!check.achieved) profile.dead = true;
-            else if (check.critical == 'success')
-            {
-                profile.mortal = nil;
-                if (!rpgLiteAttributeCheck(profile, rpgHT, 'permanent-health', 0).achieved && profile.ht > 1) profile.ht -= 1;
-            }
-        }
-    }
-    if (profile.unconscious && !profile.mortal && !profile.dead && profile.fearSeconds == 0)
+    if (!profile.mortalClockOwned()) rpgLiteMortalTime(profile,seconds);
+    if (profile.unconscious && !profile.unconsciousRecoveryOwned() && !profile.mortal && !profile.dead && profile.fearSeconds == 0)
     {
         profile.unconsciousClock += seconds;
         if (profile.fp() > 0 && profile.hp() > 0 && profile.unconsciousClock >= 900)
@@ -280,11 +300,12 @@ rpgLiteHealthTime(profile, seconds)
 /** Resolve fear and set the Lite stun or fainting duration on failure. */
 rpgLiteFright(profile, modifier)
 {
+    profile.validateDirectFright();
     local result = rpgLiteAttributeCheck(profile, rpgWill, 'fright', modifier);
     if (!result.achieved)
     {
         if (result.critical == 'failure')
-        { profile.fearSeconds = (-result.margin + rpgRandom.die()) * 60; profile.unconscious = true; }
+        { profile.fearSeconds = (-result.margin + rpgRandom.die()) * 60; profile.becomeUnconscious(); }
         else { profile.fearSeconds = -result.margin + rpgRandom.die() + rpgRandom.die(); profile.stunned = true; }
     }
     return result;
@@ -306,6 +327,13 @@ modify RpgLiteProfile
     temperatureInjury = 0
     temperatureFatigue = 0
     heatExtra = 0
+    /* Optional hazard libraries may reject conflicting climate ownership. */
+    validateClimateAdvance() { return nil; }
+    validateSuffocation() { return nil; }
+    validateBreathStart() { return nil; }
+    afterFatigueRecovery() { return nil; }
+    exhaustionBlocksAction() { return nil; }
+    healthBlocksDefense() { return nil; }
 ;
 
 /** Authored poison or disease parameters: resistance, delay, cycle, damage and recovery modifier. */
@@ -384,6 +412,7 @@ class RpgLiteExposure: object
 rpgLiteSuffocate(profile, seconds, cleanAir)
 {
     rpgInteger(seconds, 0, 86400);
+    profile.validateSuffocation();
     if (cleanAir)
     {
         if (profile.airClock > 120 && !rpgLiteAttributeCheck(profile, rpgHT, 'brain-injury', 0).achieved && profile.iq > 1)
@@ -395,8 +424,8 @@ rpgLiteSuffocate(profile, seconds, cleanAir)
         profile.airClock += 1; rpgLiteFatigue(profile, 1, 'air');
         if (profile.fp() <= 0 && !profile.unconscious
             && !rpgLiteAttributeCheck(profile, rpgWill, 'air', 0).achieved)
-        { profile.unconscious = true; profile.fatigueCollapse = true; }
-        if (profile.airClock >= 240) { profile.dead = true; profile.unconscious = true; }
+        { profile.becomeUnconscious(); profile.fatigueCollapse = true; }
+        if (profile.airClock >= 240) { profile.dead = true; profile.becomeUnconscious(); }
     }
     return nil;
 }
@@ -414,6 +443,7 @@ class RpgLiteClimate: object
     advance(seconds)
     {
         rpgInteger(seconds, 0, 86400);
+        self.profile.validateClimateAdvance();
         self.profile.heatExtra = self.fahrenheit >= 121 ? 2 : self.fahrenheit >= 91 ? 1 : 0;
         if (self.sheltered || self.fahrenheit >= 35 && self.fahrenheit <= 80)
         {
@@ -449,6 +479,7 @@ class RpgLiteNeeds: object
     meals = 3
     active = true
     elapsed = 0
+    cycle = 0
     advance(seconds)
     {
         rpgInteger(seconds, 0, 86400); rpgInteger(self.meals, 0, 3);
@@ -460,7 +491,8 @@ class RpgLiteNeeds: object
                 rpgLiteFatigue(self.profile, 1, 'thirst');
             if (self.elapsed >= 86400)
             {
-                self.elapsed = 0; rpgLiteFatigue(self.profile, 3 - self.meals, 'hunger');
+                self.elapsed = 0; self.cycle += 1; rpgLiteFatigue(self.profile, 3 - self.meals, 'hunger');
+                self.profile.afterNeedsCycle(self);
                 if (self.waterQuarts < 1)
                 { rpgLiteFatigue(self.profile, 1, 'thirst'); rpgLiteWound(self.profile, 1); }
             }
@@ -475,7 +507,7 @@ class RpgLiteNeeds: object
                 {
                     self.profile.sleepCheckClock = 0;
                     if (!rpgLiteAttributeCheck(self.profile, rpgWill, 'sleep', 0).achieved)
-                    { self.profile.unconscious = true; return nil; }
+                    { self.profile.becomeUnconscious(); return nil; }
                     self.profile.sleepPenalty = true;
                 }
             }
@@ -517,5 +549,87 @@ class RpgLiteFire: object
         if (rpgLiteAttributeCheck(self.profile, rpgDX, 'extinguish', 0).achieved) self.burning = 0;
         if (self.burning == 0) self.profile.burningPenalty = 0;
         return self.burning == 0;
+    }
+;
+
+/** Default mortal survival dispatch preserves the abridged interval and roll. */
+modify RpgLiteProfile
+    mortalClockOwned() { return nil; }
+    mortalSurvivalSuspended() { return nil; }
+    mortalSurvivalInterval() { return 1800; }
+    mortalSurvivalCheck() { return rpgLiteAttributeCheck(self,rpgHT,'mortal-wound',0); }
+;
+
+/** Mortal-condition clock only; callers own the elapsed-time charge. */
+rpgLiteMortalTime(profile, seconds)
+{
+    if (profile.dead) return nil;
+    if (profile.mortalSurvivalSuspended()) return nil;
+    if (profile.mortal)
+    {
+        profile.validateMortalRecovery();
+        local mortalInterval = profile.mortalSurvivalInterval();
+        profile.mortalClock += seconds;
+        while (profile.mortalClock >= mortalInterval && !profile.dead && profile.mortal)
+        {
+            profile.mortalClock -= mortalInterval;
+            local check = profile.mortalSurvivalCheck();
+            if (!check.achieved) profile.dead = true;
+            else if (check.critical == 'success')
+            {
+                profile.mortal = nil;
+                profile.afterMortalRecovery('survival');
+            }
+        }
+    }
+    return nil;
+}
+
+modify RpgLiteProfile
+    validateMortalRecovery() { return nil; }
+    afterMortalRecovery(cause)
+    {
+        local check = rpgLiteAttributeCheck(self,rpgHT,'permanent-health',0);
+        if (!check.achieved && self.ht > 1) self.ht -= 1;
+        return check;
+    }
+;
+
+modify RpgLiteProfile
+    validateSleepRecovery(seconds) { return self.validateSleepRecoveryInterval(rpgLedger.seconds,seconds); }
+    validateSleepRecoveryInterval(start,seconds) { return nil; }
+;
+
+modify RpgLiteProfile
+    /* Expanded opt-in retains damage after death; Lite keeps its early return. */
+    postmortemInjury(amount) { return new RpgLiteHealthResult(); }
+;
+
+modify RpgLiteProfile
+    validateDirectFright() { return nil; }
+;
+
+
+/** Default combined knockdown procedure; expanded effects may supply an explicit policy. */
+modify RpgLiteProfile
+    injuryKnockdownReason(modifier)
+    {
+        local context = new RpgLiteContext(); context.attribute = rpgHT;
+        context.kind = 'major-wound'; context.modifier = modifier;
+        local score = rpgLiteScore(self,context);
+        return score == nil || score < 3 ? 'expanded-knockdown-score-unavailable' : nil;
+    }
+    applyInjuryKnockdown(result,modifier)
+    {
+        result.check = rpgLiteAttributeCheck(self,rpgHT,'major-wound',modifier);
+        result.checks = result.checks + [result.check];
+        if (!result.check.achieved)
+        {
+            result.knockedDown = true;
+            self.stunned = true; self.posture = 'lying'; self.onKnockdown();
+            foreach (local item in self.equipment) if (!item.worn) item.ready = nil;
+            if (result.check.margin <= -5 || result.check.critical == 'failure') self.becomeUnconscious();
+        }
+        return nil;
     }
 ;

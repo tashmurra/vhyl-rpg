@@ -1,0 +1,591 @@
+{
+  "schema": 1,
+  "source": "full-2008",
+  "pages": "B362-B368",
+  "review": "Turn order, maneuver procedures and basic movement text inventoried. Detailed attacks, defenses, traits, tactical movement and interruption integration remain pending.",
+  "enumeration_complete": false,
+  "entries": [
+    {
+      "id": "combat-turn-entry",
+      "source": "full-2008",
+      "pages": "B362",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author explicitly enters or leaves second-by-second resolution for combat, chases or other action. Preserve ongoing effects and shared elapsed time when changing modes.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-active",
+      "source": "full-2008",
+      "pages": "B362",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Incapacitated or sleeping actors are inactive; choosing inactivity does not remove an actor from initiative. One cycle of active participants advances one second, not one second per actor.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-order",
+      "source": "full-2008",
+      "pages": "B363",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "At encounter start, sort by descending basic speed. Keep order fixed through combat rather than sorting again after temporary changes. Resolve join/leave behavior before marking complete.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-ties",
+      "source": "full-2008",
+      "pages": "B363",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Same-side nonplayer ties permit an authored order. Ties involving players compare dexterity, then use one initial random ordering retained throughout the encounter.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-interval",
+      "source": "full-2008",
+      "pages": "B363",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An actor\u2019s turn interval runs from maneuver selection to the next selection. Defense permissions and maneuver effects persist across intervening actors, rather than expiring at the end of an immediate action.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-initial-defense",
+      "source": "full-2008",
+      "pages": "B363-B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Before an actor first selects a maneuver, use inactivity defense permissions. Do not grant a defensive or offensive maneuver implicitly.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-multiple",
+      "source": "full-2008",
+      "pages": "B363",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary actors choose one maneuver. Explicit speed capabilities may grant more, but a full-turn maneuver monopolizes that actor\u2019s entire second. Extra attacks alone do not grant extra maneuvers.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-speech",
+      "source": "full-2008",
+      "pages": "B363",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Communication is a free action; the author may select a realistic one-sentence-per-second policy. Record the campaign choice and do not silently spend another maneuver.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-maintenance",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "An active actor can maintain ongoing magic or mental powers while using another maneuver, subject to each ability\u2019s actual maintenance rules. Inactivity eligibility is not free resource maintenance.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-drop",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A ready item may be released during any maneuver and at a reachable point along movement. Update inventory and world position atomically.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-stun-recovery",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Conscious stunned or surprised actors choose inactivity. Physical stun checks health; mental stun checks intelligence. Success permits normal action next turn, not a replacement action now. Stun defense -4 lasts until the next turn even after recovery.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-move",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Movement-only maneuver allows full movement and free actions, with any legal active defense. Store actual destination and reveal movement only to eligible observers.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-riding-control",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Active control of a mount or vehicle uses the controller\u2019s movement maneuver; the controlled entity moves on that turn with occupants. Do not also grant a duplicate independent movement allocation.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-sprint",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Forward movement on at least two consecutive turns invokes sprint bonuses from B354 on the second and later turns; interrupted movement must reset eligibility under the detailed rule.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-posture",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Posture change stays in place. Rising from either lying posture requires an intermediate crawl, kneel or sit, then another posture change to stand. Standing to lying takes one maneuver, or none when involuntary.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-kneel-step",
+      "source": "full-2008",
+      "pages": "B364; B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A kneel/stand transition can consume the whole step allowance, replacing displacement even when the actor could step several yards. Other transitions do not inherit this exception.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-aim-target",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Aim is full-turn and identifies a detectable target and specific ranged weapon/device. Its attack bonus requires the same weapon and target on a following ordinary or committed attack.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-aim-bonus",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "First aim adds weapon accuracy plus eligible targeting-system bonuses. Combined targeting-system bonus cannot exceed base weapon accuracy. Two seconds add one; three or more add two, without unbounded growth.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-brace",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Eligible firearms/crossbows gain one for actual bracing. A one-handed firearm held in two hands qualifies; a prone two-handed firearm with bipod qualifies. Braced two-handed use forbids the otherwise permitted step.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-aim-disruption",
+      "source": "full-2008",
+      "pages": "B364",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Any active defense discards accumulated aim. Injury while aiming checks will and discards aim on failure. Apply platform limits and actual interruption ordering without a preview roll.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-evaluate-target",
+      "source": "full-2008",
+      "pages": "B364-B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Evaluation requires a visible opponent reachable with a ready melee attack, unarmed attack, or one move-and-attack maneuver. Track the specific opponent.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-evaluate-bonus",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Each consecutive evaluation adds one up to three for attack, feint, committed attack or move-and-attack against that opponent next turn only. Active defense does not discard evaluation. Step movement remains permitted.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-attack-legality",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ordinary attack requires a ready weapon or eligible unarmed action and a target within melee reach or maximum ranged distance. A step may precede or follow the attack; larger movement requires a different maneuver.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-feint-legality",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Feint requires ready melee reach and an opponent able to observe it. It is not a damaging attack and does not unready the weapon.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-feint-contest",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Feint compares melee/unarmed skill; defender may use equipped shield/cloak skill or dexterity when better. If attacker fails, or defender succeeds by at least the attacker\u2019s margin, no penalty results.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-feint-margin",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "If attacker succeeds and defender fails, use attacker success margin alone. If both succeed and attacker wins, use their margin difference. Do not add the defender\u2019s failure margin.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-feint-scope",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Penalty belongs only to the feinter\u2019s following eligible attack against that target, not allies. It applies to both attacks of the double committed option. Losing track or missing next-turn attack opportunity expires it; the target losing sight after the feint does not alone remove it.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-shield-feint",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Shield feint becomes available after the actor has struck at that opponent with the shield. Persist actor-target eligibility and use shield skill.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-feint-parry",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Parrying with an unbalanced weapon after feinting can prohibit the next attack. Preserve weapon readiness constraints rather than allowing the feint to override them.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-committed-melee-accurate",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose before rolling: a single committed melee attack gains four to hit.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-committed-double",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Two committed attacks must target the same foe and use two ready weapons or one weapon reusable without readying. Off-hand penalties still apply unless exempted.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-committed-feint",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "The combined committed option feints then attacks the same foe; its feint affects this immediate attack instead of waiting until next turn.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-committed-strong",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Strong committed attack adds max(2, one per damage die) to strength-based thrust/swing melee damage only; non-strength damage is ineligible.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-committed-ranged",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Determined ranged committed attack adds one to hit. Suppression is a distinct full-turn option requiring firing rate at least five and B409 integration.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-committed-movement-defense",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Committed attack permits up to half movement forward only and forbids every active defense until the next turn.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-move-attack-ranged",
+      "source": "full-2008",
+      "pages": "B365",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Move-and-attack allows one ranged attack during/after movement with the worse of -2 or weapon bulk; discard all aim bonuses.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-move-attack-melee",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Non-collision melee move-and-attack applies -4 and caps final skill at nine. Collision attacks use their own procedure.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-move-attack-safety",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Movement hazard checks during move-and-attack receive -2. Defense permits dodge/block only, with neither parry nor retreat.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-defense-increased",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Choose one defense type for a +2 bonus until the next turn. Increased dodge permits half movement; increased block/parry permit only a step.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-defense-double",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "After failure of one legal defense, permit a second different legal defense against that attack. Opposite-hand parries count as different. Do not roll the second defense after the first succeeds.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-concentration",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A concentration maneuver is full-turn, permits a step and supports one mental task with minor physical components. Multi-second tasks retain owned progress.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-concentration-disruption",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Before a concentration task finishes, active defense, injury, knockdown or other qualifying distraction requires will-3. Failure loses progress and requires restarting; the task\u2019s own cost rules decide resource consequences.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-ready",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ready covers item preparation, reloading, control recovery, reach adjustment, physical tasks and appropriate ability toggles. Multi-turn work retains progress; abilities requiring attack/concentration cannot be toggled through ready instead.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-wait-declaration",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "Wait stores a precise trigger and response before events occur. Eligible conversions are attack, feint, committed attack or ready, with committed option specified before acting. A reflex outside these cases needs author approval of a single-motion response.",
+      "tests": [
+        "tests/expanded.py::test_panic_wait"
+      ],
+      "implementation_note": "Owned stationary ordinary-attack Wait declarations expire at the next accepted turn. Matching staged routes execute recorded strikes once without advancing the clock again, then resume or stop. Other conversions, response steps, general opportunity fire and automatic attack/critical resolution remain unsupported. Fixtures authored, unrun."
+    },
+    {
+      "id": "combat-turn-wait-expiry",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "partial",
+      "acceptance": "A wait triggers only before the actor\u2019s next turn and interrupts another actor, who resumes afterward. Preserve suspended operation state and prevent a second trigger from spending the same wait.",
+      "tests": [
+        "tests/expanded.py::test_panic_wait"
+      ],
+      "implementation_note": "Owned stationary ordinary-attack Wait declarations expire at the next accepted turn. Matching staged routes execute recorded strikes once without advancing the clock again, then resume or stop. Other conversions, response steps, general opportunity fire and automatic attack/critical resolution remain unsupported. Fixtures authored, unrun."
+    },
+    {
+      "id": "combat-turn-wait-cover",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Ranged covering identifies a zone with a ready weapon; one-yard coverage has no penalty, larger zones require B390 opportunity-fire rules.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-wait-defense",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "No movement occurs before trigger; afterward use the converted maneuver\u2019s allowance. A defense made while waiting prevents committed conversion, requiring ordinary attack instead. Preserve the actual defense history.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-stop-thrust",
+      "source": "full-2008",
+      "pages": "B366",
+      "module": "combat",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A readied thrusting weapon can be braced during wait against a foe moving at least one yard toward the actor to attack or evade. Longer reach strikes first. A hit that defeats defense adds one thrust damage per two full approach yards.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-step",
+      "source": "full-2008",
+      "pages": "B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Step distance is max(1,ceil(movement/10)) yards. A multi-yard step may split before and after the action; facing change may accompany or replace displacement.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-posture-speed",
+      "source": "full-2008",
+      "pages": "B367",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Standing permits full movement; crawling/kneeling allow one third, lying permits one yard, sitting none. Resolve fractional movement and tactical costs with the detailed movement chapter.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-terrain",
+      "source": "full-2008",
+      "pages": "B367",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Author supplies traversability and movement costs for obstacles and poor footing before execution. A path assessment reports costs and legality, not an arbitrary relocated endpoint.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-spacing",
+      "source": "full-2008",
+      "pages": "B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Allow approximately one yard of fighting space for human-sized actors. Tightly packed noncombatants do not acquire normal reaction room; account for actual size and space.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-passage",
+      "source": "full-2008",
+      "pages": "B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Allies permit passage; an opponent who leaves a route can be bypassed. If passage requires crossing the opponent\u2019s occupied space, resolve collision or evasion rather than teleporting through.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-evasion-eligibility",
+      "source": "full-2008",
+      "pages": "B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Evasion requires enough movement to pass completely, no grapple restraint, and a physically possible route. Crossing above reach with a suitable movement ability can bypass the contest.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-evasion-contest",
+      "source": "full-2008",
+      "pages": "B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A willing opponent permits passage with no roll. Otherwise compare dexterity: failure or tie stops the mover; victory permits continued movement.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-evasion-modifiers",
+      "source": "full-2008",
+      "pages": "B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "Apply to mover: standing opponent -5, kneeling opponent -2, prone opponent +5; side approach +2 or rear approach +5. Do not combine mutually exclusive posture or approach categories.",
+      "tests": []
+    },
+    {
+      "id": "combat-turn-crouch",
+      "source": "full-2008",
+      "pages": "B364; B368",
+      "module": "tactical",
+      "kind": "procedure",
+      "status": "pending",
+      "acceptance": "A standing actor can crouch freely at turn start. After acting, crouch is allowed only if displacement did not exceed a step. Rising from crouch is free at any time. Crouching and sprinting cannot combine.",
+      "tests": []
+    }
+  ],
+  "exclusions": [
+    {
+      "pages": "B367",
+      "reason": "Named encounter dialogue excluded; general movement and terrain procedures retained."
+    }
+  ]
+}
