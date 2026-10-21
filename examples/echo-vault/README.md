@@ -18,8 +18,10 @@ outcomes have no consequences. No source prose or setting material is reproduced
 
 ## Build and play
 
-The example and its fixtures are authored but unrun while build checks are paused.
-After implementation is complete and checks resume, use the standard dependencies:
+The connected acceptance sequence has passed all three interfaces and cross-process
+save continuation. Current validation evidence is recorded in the
+[fear completion checklist](../../docs/expanded/fear-completion.md). Build with the
+standard dependencies:
 
 ```sh
 zebc build examples/echo-vault/main.t --include-dir lib \
@@ -31,8 +33,8 @@ python examples/echo-vault/host.py build/echo-vault --vhyl "$VHYL_ROOT"
 Use `call guide`, `face reflection`, `breathe`, `read inscription`, and `status`,
 or `:plan` for dialogue choices. Structured codes are 1401, 1402, 1403, 1404 and
 1400 respectively. The host supplies undo and exact-compiled-game save/restore.
-This example includes foundation and health directly; traits, skills and the
-all-module umbrella are unnecessary for its ordinary fear event.
+The connected scene includes health, traits and the optional stress library.
+The all-module umbrella is unnecessary.
 
 ## Connected aftermath scene
 

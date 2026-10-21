@@ -30785,8 +30785,8 @@ def test_indecision_confusion(Session,bundle,out):
             s.command(f':restore {path}\n@2251'); do(s,1123); assert state(s) == expected
             do(s,1146); do(s,1152); assert state(s) == expected
             if not succeed:
+                do(s,1144); s.command('undo'); assert state(s) == expected
                 do(s,1144); assert state(s) == [2,3,1,0,9,60,None]
-                s.command('undo'); assert state(s) == expected
         finally: s.close()
     s = Session(bundle)
     try:
@@ -30821,9 +30821,9 @@ def test_indecision_turns(Session,bundle,out):
         do(s,1124); assert state(s) == [1,'nothing',1,1,3,1,1]
         do(s,1123); do(s,1123); assert state(s) == [1,'nothing',1,1,6,2,0]
         do(s,1164); assert state(s) == [1,'nothing',1,1,6,2,0]
+        do(s,1161); s.command('undo'); assert state(s) == [1,'nothing',1,1,6,2,0]
         do(s,1161); assert last(s,'test.indecision-turn-result') == ['resolved',None]
         assert state(s) == [2,'move',2,2,6,2,0]
-        s.command('undo'); assert state(s) == [1,'nothing',1,1,6,2,0]
     finally: s.close()
 
 

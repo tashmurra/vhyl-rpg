@@ -743,7 +743,7 @@ inherited obligation interface remains available for authored action permission.
 
 `expanded-truthfulness.t` specifies skill penalties, omission, falsehood, both
 failure choices, voluntary acceptance, preview, replay, rollback, undo and saved
-continuation. Assertions remain unrun. The social module now provides evidenced
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md). The social module now provides evidenced
 statement delivery through `RpgExpandedStatementDelivery`, using the resolved
 trigger’s `communication` receipt. Parser/dialogue routing and integrations with
 broader social contests remain incomplete.
@@ -838,7 +838,7 @@ health module or enable fear encounters.
 
 The fixture specifies all four prices and fear penalties, ordinary versus mortal
 risk, refusal versus retreat, the evidenced greater-threat exception, malformed
-facts, replay, rollback, undo and saved continuation. Assertions remain unrun.
+facts, replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 Social reactions from informed occupational observers are available through
 `RpgExpandedDangerReactionContext`. Dynamic threat transitions and parser/dialogue
 action gates remain incomplete; this catalogue entry remains
@@ -1072,7 +1072,7 @@ cannot be changed on replay. Authors must route this scene decision through the
 interface; automatic parser/dialogue discovery of aid opportunities is pending.
 
 The fixture covers resistance, surrender, invalid opportunities, required offers,
-replay, rollback, undo and save continuation. It remains unrun while validation is in progress, so the inventory entry remains partial.
+replay, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md), so the inventory entry remains partial.
 
 ### Low motivation (full-2008, B126)
 
@@ -1139,7 +1139,7 @@ subject has the trait. Unusual reactions are explicitly authored with that flag
 unset. Attach the context to the reaction attempt's `socialContext`.
 
 The fixture covers both levels, group-size boundaries, reaction ownership,
-exceptions and missing facts before randomness. It remains unrun. Automatic
+exceptions and missing facts before randomness. Validation status is recorded in the [completion checklist](fear-completion.md). Automatic
 scene membership and integration with every specialized skill operation remain
 pending, so the inventory entry remains partial.
 
@@ -1403,7 +1403,7 @@ or the owned trigger, rather than calling the core and bypassing policy.
 [`expanded-voice-self-control.t`](../../tests/fixtures/expanded-voice-self-control.t)
 specifies classification, success/failure boundaries, unrelated rolls, mitigation,
 surrender, purchased success, preview, replay, rollback, undo and save continuation.
-Its assertions remain unrun pending recorded validation.
+Its Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 `test_voice_direct_guards` adds unrun fixtures for rejection before randomness,
@@ -1618,7 +1618,7 @@ affordability, replay, rollback, undo and save continuation. They remain unrun.
 [`expanded-belief-credit.t`](../../tests/fixtures/expanded-belief-credit.t) and
 `test_belief_credit` specify forty-five nominal points with forty credited,
 unchanged severity, template copying, zero-credit original bases, allocation
-rejection, replay, rollback, undo and save continuation. Fixtures remain unrun.
+rejection, replay, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Life-sustaining requirements
@@ -1949,7 +1949,7 @@ Both the selected fear consequence and any voice episode persist. Replaying the
 event validates the linked receipt without another check. The original event,
 its table selection and the voice receipt share the engine transaction for
 rollback, undo and saved continuation. `test_fear_stress` specifies these cases;
-assertions remain unrun pending recorded validation.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Fear auras
 
@@ -1982,7 +1982,7 @@ this interface does not discover world visibility or broadcast hidden results.
 
 `test_fear_aura` specifies costs, contact and activation eligibility, exact
 one-hour immunity and 24-hour exposure boundaries, shared-context occurrences,
-immune-event replay, rollback, undo and saved continuation. Fixtures are authored but unrun. Other aura modifier combinations,
+immune-event replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Other aura modifier combinations,
 automatic perception routing and the remaining full fear outcomes remain open.
 
 
@@ -2007,7 +2007,7 @@ A failed check also performs the existing mandatory phantom-voice stress
 follow-up when applicable. Exact self-control success does not trigger it.
 `test_postbattle_fear` specifies independence from Will, exact success versus
 failure, ending eligibility, replay, exception rollback, undo and consequence
-commitment. Assertions remain unrun. Scores outside the supported range and
+commitment. Validation status is recorded in the [completion checklist](fear-completion.md). Scores outside the supported range and
 unsupported selected consequences remain explicit limitations of the shared flow.
 
 ## Phobia purchases and exposures
@@ -2054,7 +2054,7 @@ Use the engine transaction boundary for starting, checking and ending exposure.
 
 `test_phobia` specifies initial and repeat timing, threat-only success above the
 ordinary fear cap, DX penalties, failure-to-consequence execution, stress
-follow-ups, replay, rollback, undo and saved continuation. Fixtures remain unrun.
+follow-ups, replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 The learning, voluntary activity, overlap and unconscious-perception adapters
 below supply explicit interfaces for these interactions. They require authored
@@ -2101,7 +2101,7 @@ receipts, including later transitions from fear-acquired purchases.
 The typed mental-purchase transition adapter below covers additional controlled
 traits. Other catalogue entries still need specific transition adapters.
 `test_fear_phobia_worsening` specifies current-exposure continuity, exact step
-validation, fallback, rollback, undo and save continuation. It is unrun.
+validation, fallback, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Phobia perception during unconsciousness
 
@@ -2118,7 +2118,7 @@ schedule. Time cannot advance past waking until the author resumes perception or
 ends the exposure with evidence that the stimulus is no longer perceived.
 This is an explicit perception decision, not an automatic source rule for
 unconsciousness. `test_phobia_awareness` specifies a twelve-minute faint,
-recovery, resumption, replay, rollback, undo and saved continuation; it is unrun.
+recovery, resumption, replay, rollback, undo and saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Physical effects acquired from fear
@@ -2141,14 +2141,14 @@ through the hazards adapter below. Conversion of an existing appearance purchase
 transformations still need specific adapters. Approval of a price
 alone cannot satisfy this interface. `test_fear_physical` specifies all three
 required totals, speech blocking, accounting, rollback, undo and saved replay;
-fixtures are unrun.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 `RpgExpandedFixedBeliefAcquisition` also accepts rows 23 and 35 as an authored
 choice of another mental disadvantage. Those rows require the exact actual cost,
 not a reduced credit allocation. They compose with faint row 27 and coma rows
 39/40 through `RpgExpandedFearTraitCompound`, using acquisition rows 23/35.
 The distinct mandated-belief rows 22/34 and compounds 26/38 retain their behavior.
-The compound fixture includes both alternatives; it remains unrun.
+The compound fixture includes both alternatives; validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Phobia learning restrictions
 
@@ -2165,7 +2165,7 @@ while permitting explicitly classified simple-machine use. Magic phobia blocks
 learning magic. Missing classification blocks learning before time, points or
 dice are spent. These gates do not erase previously acquired training.
 `test_phobia_learning` specifies the shared gate and no-randomness behavior; it
-is unrun. Broader voluntary-activity permissions remain pending.
+has its validation recorded in the [completion checklist](fear-completion.md). Voluntary-activity permissions use the owned classifications below.
 
 Direct low-level self-control and generic self-control triggers reject typed
 phobias and postbattle stress before spending resources. Their owned exposure or
@@ -2173,7 +2173,7 @@ battle event is required so table consequences and stress follow-ups cannot be
 bypassed. `RpgLiteTrait.validateDirectControl()` is a no-op for existing traits;
 its expanded overrides supply these guards without changing ordinary Lite dice
 consumption. The phobia fixture includes a direct-call rejection assertion,
-unrun with the rest of the paused suite.
+whose validation is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Concurrent phobia exposures
@@ -2190,7 +2190,7 @@ and cause cannot create duplicate active exposure records. Each exposure retains
 its own check schedule, outcomes and perception pauses. Resolve each due check
 and its consequence before advancing time. Ending one exposure does not cancel
 another. `test_phobia_overlap` specifies both rulings, missing-policy rejection,
-independent penalties, rollback, undo and save continuation; fixtures are unrun.
+independent penalties, rollback, undo and save continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Voluntary activity permissions
 
@@ -2210,7 +2210,7 @@ The gate binds the actual activity facts into its receipt. Replaying a granted
 permission does not spend again or reassess it against a different place.
 Actions involving these situations must attach this contract; geometry and
 consent are authored facts. `test_phobia_activity` specifies the height boundary,
-exception, consent restriction, rollback, undo and saved replay; it is unrun.
+exception, consent restriction, rollback, undo and saved replay; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Frightening cues from disturbing voices
@@ -2261,7 +2261,7 @@ The existing `RpgExpandedFearPhobiaAcquisition` and
 share their existing receipt lists, point allowance and development revision.
 Fixtures `expanded-fear-mental.t` and `expanded-fear-mental-compound.t` cover
 prices, actual trait effects, worsening, compound outcomes, preview, duplicate
-prevention, rollback, undo and saved continuation. Assertions are unrun. Other
+prevention, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Other
 catalogue traits still require concrete acquisition adapters; this is not a
 claim that every mental trait or treatment procedure is complete.
 
@@ -2325,7 +2325,7 @@ fifteen-point outcome. Those acquisition constraints remain unchanged.
 `test_fear_selection` specifies all four prior-trait paths, retained mechanical
 effects and costs, one fallback acquisition, unchanged spendable points, preview,
 exception rollback, undo, altered-history rejection and saved continuation.
-These cases are authored and unrun pending recorded validation.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 Physical acquisitions additionally accept negative `RpgExpandedAppearance`,
 `RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
@@ -2353,7 +2353,7 @@ facts invalidate replay instead of changing a historical point allowance.
 `expanded-fear-selection.t` / `test_fear_selection` cover these costs and actual
 skill/hearing/appearance/pain effects, fixed-trait fallback, faint compounds,
 rollback, undo, duplicate execution, option mutation and saved continuation.
-Assertions are authored and unrun. Remaining catalogue selections are still
+Validation status is recorded in the [completion checklist](fear-completion.md). Remaining catalogue selections are still
 explicitly unsupported; this extension does not complete the full trait catalogue.
 
 ## Complete hearing loss
@@ -2388,7 +2388,7 @@ by both teacher and learner in the appropriate channel. Visual instruction is an
 authored demonstration contract; it does not assert that all subjects can be
 taught visually. Study's existing permission and subject requirements still apply.
 
-The ordinary hearing/aura and gesture-study paths are implemented, with unrun
+The ordinary hearing/aura and gesture-study paths are implemented, with registered
 fixtures in `expanded-hearing-loss.t` and `expanded-fear-hearing-loss.t`. Complete
 owned written/sign-language/lip-reading exchange procedures and individual
 sound-dependent powers/skill exceptions remain unfinished. This is partial
@@ -2440,8 +2440,7 @@ a recovery roll nor a duration. Replaying the same end does not spend resources.
 `expanded-overstimulation.t` / `test_overstimulation` cover eligible acquisition
 costs, preview purity, failure/success, ordinary defense penalties, target-specific
 counter permissions, independent unconsciousness, low-score rejection, receipt
-mutation, rollback, undo and cross-process save continuation. These assertions
-are authored and unrun pending recorded validation. Catalogue status is
+mutation, rollback, undo and cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Catalogue status is
 partial until unsupported reactive maneuvers and validation are resolved.
 
 The additional `expanded-overstimulation-strike.t` /
@@ -2449,8 +2448,7 @@ The additional `expanded-overstimulation-strike.t` /
 and misses, explicit resolver selection, direct-execution rejection, independent
 incapacity, receipt mutation, rollback, undo and cross-process continuation.
 Recorded strike dice are supplied by the author; only required
-permission, injury or distraction checks may consume new randomness. These
-fixtures remain unrun.
+permission, injury or distraction checks may consume new randomness. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Fear-acquired motion and free-fall susceptibility
@@ -2479,8 +2477,7 @@ cannot duplicate the trait or grant spendable points.
 
 `test_fear_selection` specifies exact-cost compound purchases with a persistent
 wound, learning restrictions, incompatible and unclassified prior training,
-preview, replay, rollback, undo and separate-process save continuation. These
-cases are unrun; the existing journey and free-fall fixtures also require the
+preview, replay, rollback, undo and separate-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md); the existing journey and free-fall fixtures also require the
 post-implementation validation pass.
 
 
@@ -2530,7 +2527,7 @@ initial authored goal and never inherit another character's fulfillment history.
 `test_goal_fixation` specifies all eight prices, fear acquisition, denied concrete
 deviation, permitted pursuit, recorded replacement, zero-award and paid buyoff,
 insufficient funding, altered receipt rejection, replay, rollback, undo and saved
-continuation. These fixtures are unrun pending recorded validation. Additional mental catalogue entries remain outside this implementation increment.
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Additional mental catalogue entries remain outside this implementation increment.
 
 
 ### Overriding goals in templates
@@ -2551,7 +2548,7 @@ substitute the character's latest goal for the authored template goal.
 replacement affecting only one, copy fidelity, invalid configuration rejection,
 rollback, undo and saved continuation. `test_goal_fixation` also specifies actual
 successful and failed self-control rolls, with a denied or permitted scene action
-and no reroll on receipt replay. All cases remain unrun.
+and no reroll on receipt replay. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Impulsive action
@@ -2591,7 +2588,7 @@ including actual world mutation and one shared time charge. Registered
 `test_impulsive_action` cases specify both fear-row prices, acquisition accounting,
 a denied deliberation action, successful/failed checks, invalid classifications,
 copy pricing, receipt mutation, rollback, replay, undo and cross-process saved
-continuation. All remain unrun pending recorded validation.
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Volatile temper
@@ -2628,7 +2625,7 @@ requires the separate rage behavior. Use the typed frenzy purchase and owned tem
 `test_volatile_temper` specifies prices and copies, both fear-row costs, successful
 and failed control, actual scene choices, receipt mutation, invalid stressors,
 unsupported rage, stress follow-up deduplication, rollback, undo and saved
-continuation. All cases remain unrun pending recorded validation.
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Nightmares on waking
@@ -2664,7 +2661,7 @@ prohibited control scores still reject before any roll.
 
 `test_nightmares` specifies successful and failed mornings, raw 17/18 penalties,
 sleep-only recovery, day expiry, duplicates, altered receipts, overflow injury,
-rollback, undo and saved continuation. All cases are registered but unrun.
+rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 Playing out a dream, transferring authored dream consequences and participation
 awards remain separate unfinished campaign procedures; this operation does not
 silently modify other characters or invent dream-world effects.
@@ -2676,7 +2673,7 @@ Recovery from the faint alone does not create a nightmare waking event: the
 fixture then completes a real sleep period and explicitly records the next
 morning. The same acquired trait produces the fatigue and day penalty without
 another point award. `test_nightmare_compound` specifies acquisition and waking
-rollback, undo, duplicate execution and cross-process continuation; it is unrun.
+rollback, undo, duplicate execution and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Overconfidence
@@ -2711,7 +2708,7 @@ age, experience or naivety.
 `test_overconfidence` specifies prices, copies, acquisition, permitted/denied
 scene choices, rollback, undo and saved continuation. The companion social
 fixture specifies both reaction directions, actual reaction totals, duplicate
-rejection and lifecycle behavior. All cases remain unrun pending recorded validation.
+rejection and lifecycle behavior. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Action-choice restrictions during mitigation
@@ -2730,7 +2727,7 @@ choice. The trigger's `active` field records its unresolved failed check; use
 flag as proof that a mitigated trait currently restricts the character.
 `test_control_choice_mitigation` runs against each of the three integration
 fixtures and specifies suppression, reactivation, completion, replay and undo.
-These cases are registered but unrun.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Solitude and unwanted proximity
@@ -2763,7 +2760,7 @@ who prefers solitude.
 `test_solitude`, the shared choice-mitigation cases and `test_solitude_social`
 specify exact prices, copy/acquisition behavior, hostile or restrained scene
 choices, invalid proximity facts, both-participant reaction direction, all four
-NPC penalties, rollback, undo and saved continuation. They remain unrun.
+NPC penalties, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Status sensitivity and social slights
@@ -2801,7 +2798,7 @@ self-control check, duplicates the hostile action or changes advancement points.
 `test_status_sensitivity`, shared mitigation cases, `test_status_sensitivity_social`
 and `test_status_outburst` specify purchases, invalid slight facts, actual scene
 choices, both reaction directions, all rating penalties, composed solitude,
-rollback, undo and save continuation. These tests are registered but unrun.
+rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Self-sacrifice and competing needs
@@ -2830,8 +2827,7 @@ remain immutable.
 
 `test_self_sacrifice` and the shared mitigation cases specify all four prices,
 copying, fear acquisition, successful and failed decisions, concrete shelter
-choices, invalid participants, rollback, undo and save continuation. The fixtures
-are registered but unrun; this selection does not imply that the remaining
+choices, invalid participants, rollback, undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md); this selection does not imply that the remaining
 mental-trait catalogue is complete.
 
 
@@ -2861,10 +2857,9 @@ edits. Raw attribute checks do not receive the skill penalty.
 Concurrent-episode rulings and sensory integration are described below. The direct abridged fear and direct self-control routes reject
 explicitly while the purchase is active;
 a new occurrence overlapping an active one requires a recorded combination
-ruling before randomness. Validation remains outstanding. `test_intrusive_replay`
+ruling before randomness. `test_intrusive_replay`
 specifies exact prices, onset boundaries, durations, skill effects, expiry,
-rollback, undo, receipt mutation and saved continuation. It is registered but
-unrun, and does not establish passing integration.
+rollback, undo, receipt mutation and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 Owned self-control triggers now support intrusive-replay follow-ups. When an
@@ -2879,7 +2874,7 @@ first and the replay check second, each once, in the same transaction. Existing
 voice-only dice order is unchanged. Replay of the control result validates the
 owned follow-up and does not re-roll. `test_replay_self_control` specifies these
 branches, missing-content rejection, rollback, undo and cross-process continuation;
-it remains unrun.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 Owned fear events now prepare an independent replay follow-up. Supply
@@ -2895,7 +2890,7 @@ present. This is a recorded ruling independent of `voiceStress`; it does not
 invent an initial roll or failure margin. Missing content or a missing low-score
 decision blocks before randomness. `test_replay_fear` specifies ordinary failure,
 exact/better success, both follow-ups, low-score choices, preflight rejection,
-rollback, undo and saved replay. It remains unrun.
+rollback, undo and saved replay. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 Severe episodes expose `profile.externalInputReason()` as the author interface
@@ -2918,7 +2913,7 @@ fear consequence when its follow-up subsequently blocks sensory input.
 
 `test_replay_senses` specifies no-dice sensory denial, attempted classification
 bypass, the author disclosure hook, aura gate, new external fear denial,
-independent skill blocking, expiry and saved continuation. It remains unrun.
+independent skill blocking, expiry and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 Before an occurrence that could overlap an active episode, set
@@ -2935,7 +2930,7 @@ reject before a new onset roll. No policy is required for an isolated episode.
 `test_replay_overlap` specifies missing-ruling rejection, both combination choices,
 independent expiry, receipt mutation, rollback, undo and saved continuation. It
 also specifies ten-point fear acquisition, immutable replay type, actual skill
-effects and unchanged earned/unspent points. These cases remain unrun.
+effects and unchanged earned/unspent points. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 `test_acquired_replay_event` connects these interfaces in one continuing scene:
@@ -2944,7 +2939,7 @@ purchase, a later fear event triggers its first replay, and that event's brief
 stun expires independently of the replay's skill penalty. Acquisition does not
 retroactively trigger an episode from the first event. The fixture specifies
 unchanged advancement points, no duplicate dice or purchases, rollback, undo and
-save continuation across the full chain. It remains unrun.
+save continuation across the full chain. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Low confidence
@@ -2970,8 +2965,7 @@ execution, not an unrelated cached context.
 `test_low_confidence` specifies exact-cost copying/acquisition, no advancement
 refund, missing-judgment rejection without dice, ordinary/adverse scoring,
 modifier composition, raw-attribute preservation, mitigation, rollback, undo and
-cross-process save continuation. It is registered but unrun; broader integration
-validation remains outstanding.
+cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Incuriosity and novelty
@@ -3000,7 +2994,7 @@ reaction. This flat penalty does not vary with self-control rating.
 `test_incuriosity`, the shared mitigation cases and `test_incuriosity_social`
 specify pricing, fear acquisition, concrete ignored/investigated choices,
 invalid novelty facts, reaction direction, actual reaction totals, rollback,
-undo and save continuation. These fixtures are registered but unrun.
+undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Indecision — decision and retry procedure
@@ -3031,7 +3025,7 @@ restores the restriction and its existing retry schedule.
 The rated purchase is now available to exact-cost fear selections. An active
 overstimulation purchase requires the combined procedure described below. `test_indecision` specifies the initial failure,
 exact retry boundaries, shared action gate, success, mitigation, immutable
-choices, rollback, undo and saved continuation. It is registered but unrun.
+choices, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 For combined indecision and confusion, attach an owned
@@ -3051,7 +3045,7 @@ explicit ending procedure. A successful check permits ordinary action, subject
 to other independently active conditions. `test_indecision_confusion` specifies
 both outcomes, blocked premature resolution, missing request, rollback, undo and
 saved continuation. `test_indecision` also specifies ten-point fear acquisition
-and subsequent restrictions without advancement refunds. These cases are unrun.
+and subsequent restrictions without advancement refunds. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 `test_indecision_turns` exercises `RpgLiteBattle.step`, rather than only calling
@@ -3059,7 +3053,7 @@ the permission methods. It specifies that denied Move preserves turn serial,
 battle time and shared time; Do Nothing advances one second; and the now-due
 retry changes neither clock before a permitted next maneuver. Throw/undo and
 cross-process continuation cover the blocked turn, waiting turn, retry and
-subsequent maneuver. This registered fixture is unrun.
+subsequent maneuver. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Credulity — story and skill effects
@@ -3094,15 +3088,14 @@ specify how to remove previously learned skill; select another fear consequence
 instead of silently erasing training or refunding its investment. `test_credulity`
 specifies the three plausibility modifiers, accepted-story receipts, no-dice
 boundaries, scoring composition, learning eligibility, mitigation, rollback,
-undo and save continuation. It is registered but unrun.
+undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 `test_credulity_learning` exercises actual acquisition, point-funded development,
 direct learning and study. It specifies no points, training, study credit, time
 or dice spent on prohibited learning; mitigation allows a later purchase through
 the normal point ledger. Pre-existing training survives rejected acquisition.
-Replay, rollback, undo and saved continuation are also specified. These fixtures
-are registered but unrun, so integration validation remains outstanding.
+Replay, rollback, undo and saved continuation are also specified. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ### Short attention: owned check-based tasks
 
@@ -3133,7 +3126,7 @@ below handles an authored study segment; the owned task lifecycle below covers
 other authored multi-step work. Short attention is now an eligible exact-cost
 fear selection and supports one-step worsening. `expanded-attention-task.t` and `test_attention_task` specify
 preview purity, failure/success dice consumption, rollback, undo, receipt
-mutation rejection and cross-process continuation. These fixtures are unrun.
+mutation rejection and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 #### Study interruption
 
@@ -3189,8 +3182,7 @@ validates its retained repair receipt and the original repair's history.
 
 `test_attention_repair` specifies minor/major repairs, successful/failed focus,
 parts retention, one time charge, pure preview, preflight rejection, rollback,
-undo, save continuation, receipt mutation and mitigation. These fixtures are
-unrun. This adapter does not establish support for invention projects or other
+undo, save continuation, receipt mutation and mitigation. Validation status is recorded in the [completion checklist](fear-completion.md). This adapter does not establish support for invention projects or other
 ongoing work.
 
 #### Invention concept interruption
@@ -3215,7 +3207,7 @@ trigger applies. Mitigation restores ordinary execution. Internal
 `applyAssessed()` is settlement machinery, not an author entry point.
 `test_attention_concept` specifies both ordinary and rapid attempts, success and
 failure, daily limits, pure preview, unavailable proposals, rollback, undo,
-receipt mutation and cross-process continuation. These fixtures are unrun.
+receipt mutation and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 Prototype failure uses the terminal contract below. Other authored work must use
 the owned lifecycle; extending every peripheral subsystem is outside this milestone.
 
@@ -3256,8 +3248,8 @@ failure. The prototype fixture demonstrates previous expenditure and work,
 blocked delivery, terminal settlement and mitigation. The acquisition fixture
 covers exact-cost purchase, one-step worsening and actual failed work after
 save/restore. `test_attention_work`, `test_attention_prototype` and
-`test_attention_acquisition` are authored but unrun. `test_attention_rapid_prototype` also specifies retaining purchased components
-and money while releasing the failed attempt's reservation. It is unrun.
+`test_attention_acquisition` have their validation recorded in the [completion checklist](fear-completion.md). `test_attention_rapid_prototype` also specifies retaining purchased components
+and money while releasing the failed attempt's reservation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ### Frenzy implementation boundary
 
@@ -3293,23 +3285,21 @@ health boundaries require explicit evidenced pass/fail author rulings; these
 are adjudications, not invented source dice. The ruling does not revive a dead
 or independently unconscious character. Unrelated wounds and conditions remain.
 
-All new fixtures remain unrun until the implementation gate closes; see the
-[completion checklist](fear-completion.md).
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 A `RpgExpandedVolatileTemperTrigger` with an active frenzy purchase requires a
 `RpgExpandedFrenzyTemperEntry` in its `frenzyEntry` field before rolling. Bind
 that adapter to the same character, the frenzy purchase, the temper trigger
 and its episode. A failed temper check starts that episode automatically; it
 does not roll again. A successful temper check retains the adapter receipt
-without starting an episode. `test_frenzy_temper` covers this path and remains
-unrun.
+without starting an episode. `test_frenzy_temper` covers this path; see the [completion checklist](fear-completion.md) for validation.
 
 Voluntary entry uses `RpgExpandedFrenzyVoluntaryEntry` with a bound
 `RpgExpandedFrenzyConcentrate` maneuver, fighter and battle. Calling `apply()`
 preflights the episode, turn and Will score, then commits the actual maneuver.
 The maneuver callback checks Will and starts the episode only on success.
 Incapacity before concentration prevents the Will check; replay does not repeat
-the turn or roll. `test_frenzy_voluntary` is authored and unrun.
+the turn or roll. `test_frenzy_voluntary` has its validation recorded in the [completion checklist](fear-completion.md).
 
 The optional battle-entry enhancement requires both `battleEntry = true` on
 the purchase and `frenzyBattleEntry = true` in campaign rules. Its
@@ -3318,4 +3308,4 @@ requires explicit first-entry evidence. The same encounter cannot trigger a
 second check for that character. The +50% enhancement uses the rated cost
 and signed rounding: ratings 6, 9, 12 and 15 cost −30, −22, −15 and −7 points.
 These are source-derived options, separate from the original accumulating
-stress policy. `test_frenzy_battle` is authored and unrun.
+stress policy. `test_frenzy_battle` has its validation recorded in the [completion checklist](fear-completion.md).

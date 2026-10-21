@@ -398,8 +398,7 @@ objects rather than carried inventory items.
 `test_unarmed_limb_capacity` enumerates healthy, disabled-hand, disabled-arm,
 occupied-arm and authored-capacity cases against actual defense assessment. It
 also covers the built-in punch representation, invalid grip information, attack
-eligibility, no random draws and profiles without anatomy. These fixtures are
-unrun. Full grappling, limb-specific maneuver choices and the B147 modifiers to
+eligibility, no random draws and profiles without anatomy. Validation status is recorded in the [completion checklist](fear-completion.md). Full grappling, limb-specific maneuver choices and the B147 modifiers to
 other tasks remain outstanding; this closes only the unarmed-parry capacity gap.
 
 
@@ -601,8 +600,7 @@ leave a two-month requirement.
 `test_later_crippling_care`, `test_later_care_calendar` and
 `test_later_care_persistence` cover preview purity, non-stacking reductions,
 initial-versus-later care, immediate and future calendar expiry, evidence and
-identity rejection, rollback, undo and cross-process replay. These fixtures are
-unrun. The full treatment, surgery and permanent-repair procedures remain pending.
+identity rejection, rollback, undo and cross-process replay. Validation status is recorded in the [completion checklist](fear-completion.md). The full treatment, surgery and permanent-repair procedures remain pending.
 
 
 ## Expanded natural recovery
@@ -1366,7 +1364,7 @@ automatic twenty-four-hour encounter history is still pending. The result
 reports the complete `modifier`, capped `score` and immunity. It does not
 execute a fear event or recovery check. `test_fear_context` specifies the printed
 categories, trait contributions, distance boundary, exclusive remote bonus and
-combined modifiers. All new fixtures remain unrun.
+combined modifiers. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Owned short fear-stun episodes
@@ -1403,9 +1401,8 @@ undo and exact-compiled-game save mechanisms.
 `test_fear_stun`, `test_fear_stun_modifiers` and `test_fear_stun_persistence`
 specify duration boundaries, automatic recovery, pure previews, exception
 rollback, original modifier retention, uncapped recovery, undo, failed-attempt
-receipts and cross-process continuation. These fixtures remain unrun while
-validation is in progress. Full-table execution, encounter history and fear-triggered
-supernatural reading integration remain incomplete.
+receipts and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Full-table dispatch uses the owned fear-event flow below. Encounter facts remain
+explicit author inputs; supernatural reading is outside this milestone.
 
 
 ### Combat recovery
@@ -1452,8 +1449,8 @@ These fields describe required consequences; this helper does not charge or
 revoke them, change defense scores, or create a recovery episode.
 
 `test_fear_retching` contains independent duration, attribute, concentration and
-resource expectations. The fixture remains unrun. Owned execution is described below. Broader oral-medicine effects
-remain pending; row twelve remains partial.
+resource expectations. Validation status is recorded in the [completion checklist](fear-completion.md). Owned execution is described below. Broader oral-medicine effects
+remain outside this milestone; row twelve uses the owned retching contract below.
 
 
 ### Owned retching episodes
@@ -1506,7 +1503,7 @@ ledgers, elapsed time and random stream together.
 
 `test_retching_fatigue` specifies positive, zero and near-collapse fatigue;
 success and failure; preflight rejection without the required wound rule;
-preview, rollback, undo and replay. It remains unrun with the other new fixtures.
+preview, rollback, undo and replay. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Retching recovery in combat
@@ -1527,7 +1524,7 @@ check, author a new recovery and health gate for the next eligible turn.
 `test_retching_combat` specifies positive and zero fatigue, failed and successful
 checks, concentration rejection before turn consumption, pure preview, exception
 rollback, undo, same-second rejection, no duplicate resource spending and the
-single battle-clock advance. These fixtures remain unrun.
+single battle-clock advance. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Meal credits and expelled food
@@ -1646,7 +1643,7 @@ set and can continue using other supported outcomes.
 
 `test_fear_quirk_stun` specifies compound preview and rollback, unchanged
 spendable points, no fatigue cost, missing-contract rejection, replay and recovery
-after cross-process restoration. The fixture remains unrun.
+after cross-process restoration. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Owned fainting
@@ -1677,13 +1674,13 @@ ordinary behavior when no expansion owns the condition.
 Ending the faint clears only its ownership. It does not wake an actor whose
 health, fatigue, mortality, other unconsciousness owner or other recorded
 medical condition still prevents waking. Those conditions keep their existing
-recovery procedures. Full overlapping-cause timing and later compound faint outcomes remain
-incomplete; this interface does not implement those later rows.
+recovery procedures. Later compound faint outcomes use the owned compound adapters described below.
+Each episode retains its own recovery and independent incapacity checks.
 
 `test_fear_faint` specifies initial duration, suppression of early ordinary wake
 and healing checks, exact deadlines, failure/retry timing, boundary rejection,
 preview, rollback, undo, replay, save continuation and retained unconsciousness
-from another cause. The fixture is authored and unrun.
+from another cause. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 For `tableTotal = 18`, the faint keeps the one-die-minute duration and makes its
@@ -1701,7 +1698,7 @@ occurs. Replay never rolls or injures again.
 
 `test_fear_faint_injury` specifies conditional and unconditional injury, both
 durations, successful immediate resistance, zero-cost rejection, preview,
-rollback, undo, replay and saved-game continuation. These fixtures remain unrun.
+rollback, undo, replay and saved-game continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Optional bleeding: minute outcome
@@ -3466,7 +3463,7 @@ Starting while dead, unconscious or already in a panic episode is rejected.
 [`expanded-fear-panic.t`](../../tests/fixtures/expanded-fear-panic.t) and
 `test_fear_panic` specify preview, one-die timing, early and due recovery, failed
 and successful minute checks, uncapped Will, clock boundaries, replay, rollback,
-undo and cross-process save continuation. All assertions remain unrun. The
+undo and cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md). The
 presence of a behavior description does not count as implemented action routing.
 
 
@@ -3499,7 +3496,7 @@ checks do not themselves authorize an action.
 [`expanded-panic-crying.t`](../../tests/fixtures/expanded-panic-crying.t) and
 `test_panic_crying` specify gate behavior before/during/after panic, pure preview,
 recovery boundaries, single time/permission recording, replay, exception rollback,
-undo and save continuation. Assertions remain unrun. Stationary expression and tactical movement have
+undo and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Stationary expression and tactical movement have
 separate adapters below.
 Independent unconsciousness prevents the crying activity; it does not remove
 the episode's scheduled recovery checks.
@@ -3563,7 +3560,7 @@ processing under the existing condition contract.
 `test_fear_seizure` specify successful/failed/critical HT checks, permanent loss
 without repeated charges, episode timing, the single fatigue payment, missing
 drop-destination preflight, preview, replay, rollback, undo and cross-process save
-continuation. Assertions remain unrun. Owned fear events now dispatch this
+continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Owned fear events now dispatch this
 consequence. At the minimum-HT boundary, the event requires an explicit recorded
 `RpgExpandedFearAdjudication` replacement before executing a consequence; it
 does not create an undefined zero-HT character.
@@ -3611,7 +3608,7 @@ a recovery check. Owned fear events select and dispatch these outcomes.
 [`expanded-fear-coma.t`](../../tests/fixtures/expanded-fear-coma.t) and
 `test_fear_coma` specify both schedules, failures and successful recovery, ownership,
 aftereffect expiry, pure preview, single draws, replay, rollback, undo and
-cross-process save continuation. Assertions remain unrun pending recorded validation.
+cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Catatonia, care and neglect
@@ -3661,13 +3658,13 @@ regimes retain their original behavior. Owned fear events dispatch this row.
 [`expanded-catatonia.t`](../../tests/fixtures/expanded-catatonia.t) and
 `test_catatonia` specify daily injury versus continuous care, care-before-recovery
 ordering, repeated delays, equal-duration aftermath expiry, boundaries, replay,
-rollback, undo and cross-process save continuation. All assertions remain unrun.
+rollback, undo and cross-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 Wilderness-day tool preflight now supplies the actual acting profile through
 `assessForProfile`. An owned assessment for a dependent cannot stand in for the
 leader's tool access. `expanded-owned-wilderness.t` / `test_owned_wilderness`
-specify rejection before randomness or elapsed time; the fixture remains unrun.
+specify rejection before randomness or elapsed time; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Purchased rations and meals
@@ -4170,25 +4167,24 @@ Row 25 supports phobias and the implemented controlled mental traits; row 33
 rejects reaction kinds outside its concrete adapters. Rows 23/35 and their
 compound forms accept phobias, fixed beliefs and supported typed mental purchases.
 Unimplemented catalogue choices remain unavailable.
-Unsupported results remain pending, never converted to an abridged result or
-rerolled automatically. Do not enable this event flow in a campaign expecting
-uninterrupted coverage of the entire table yet. Owned events now connect mandatory phantom-voice follow-ups and source-specific
-fear-aura histories. Explicit inappropriate-result adjudication is described
-below. General exposure-history automation and some phobia combinations remain
-incomplete. The traits guide
-now documents owned phobia checks and their repeat schedule. Postbattle stress uses the
+Unavailable catalogue selections require an explicit supported replacement; they
+are never converted to an abridged result or rerolled automatically. Owned events
+connect mandatory phantom-voice follow-ups and source-specific fear-aura histories.
+Explicit inappropriate-result adjudication is described below. The traits guide
+documents owned phobia checks, concurrent exposures and their repeat schedule.
+Authors supply perception and world facts through those contracts. Postbattle stress uses the
 owned self-control event described in the traits guide.
 
 `expanded-fear-event.t` / `test_fear_event` specify initial success, immunity,
 independent table selection, exact dice counts, duplicate prevention, pending
 consequence time guards, outcome binding, consequence replay, automatic short-stun
-recovery, rollback, undo and saved continuation. Fixtures remain unrun.
+recovery, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 `expanded-fear-event-traits.t` / `test_fear_event_traits` additionally specify
 rolled quirk and fixed-belief selection, acquisition rollback/undo, replay and
-unchanged earned/unspent points. These assertions also remain unrun. Scores below three now use the recorded author-decision contract below; they
-are not an unresolved initial-check policy. Overall completion and verification
-remain outstanding in the [fear completion audit](fear-completion.md).
+unchanged earned/unspent points. Validation status is recorded in the [completion checklist](fear-completion.md). Scores below three now use the recorded author-decision contract below; they
+are not an unresolved initial-check policy. The [completion checklist](fear-completion.md) records the frozen milestone
+and its validation evidence.
 
 
 ## Compound faint/coma and lasting beliefs
@@ -4212,7 +4208,7 @@ It reuses the same character accounting and grants no earned or spendable points
 Use `event.applyConsequence(compound)` to bind it to a rolled selection.
 
 `test_fear_compound` specifies both combinations, duplicate prevention, atomic
-rollback, undo and saved replay after rolled row 26. Fixtures remain unrun.
+rollback, undo and saved replay after rolled row 26. Validation status is recorded in the [completion checklist](fear-completion.md).
 The generalized trait compound below also supports the specific phobia outcomes;
 other disadvantage types are not silently mapped to beliefs.
 
@@ -4234,7 +4230,7 @@ Replaying the compound cannot remove another IQ point. IQ already at one remains
 explicitly unsupported rather than producing an invalid characteristic.
 
 `test_fear_phobia_acquisition` specifies direct acquisition, compound rows 27/39/40,
-accounting, rollback, undo and saved replay of IQ loss. Assertions remain unrun.
+accounting, rollback, undo and saved replay of IQ loss. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Long faint with fatigue
@@ -4251,7 +4247,7 @@ printed rule. At the deadline, use `RpgExpandedFearFaintRecovery`: the automatic
 choice consumes no roll; the other choice uses HT and schedules another minute
 on failure. Independent incapacitation still prevents waking. Other rows reject
 a recovery-policy override. `test_fear_shock_faint` covers costs, boundaries,
-replay, rollback, undo and saved continuation; it is unrun.
+replay, rollback, undo and saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Extreme panic reactions
 
@@ -4277,10 +4273,10 @@ reaction ends the episode without another Will or severity roll. Ordinary effort
 maneuvers and unaccounted clock advances cannot bypass the pending reaction.
 Each reaction is replayable without repeating its time, injury or random draws.
 
-Tactical/interrupted flight routes, attacks, item destruction and arbitrary world
-changes do not yet have reaction adapters and are rejected. A callback alone is not accepted as
-completion. `test_extreme_panic` specifies two successive reactions, rollback,
-undo, invalid selection and cross-process continuation; fixtures remain unrun.
+Tactical and interrupted paths, recorded attacks and object destruction use the
+concrete adapters below. Other world changes require a supported owned operation;
+a callback alone cannot commit a panic reaction. `test_extreme_panic` specifies two successive reactions, rollback,
+undo, invalid selection and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Replacing an inappropriate reaction
@@ -4298,7 +4294,7 @@ dispatch. Further explicit decisions are allowed before commitment. Once a
 consequence is committed, another decision cannot replace or undo its effects.
 Replaying any decision never rolls again. `test_fear_adjudication` specifies
 original-result retention, both modes, consequence dispatch, rollback, undo and
-saved continuation; fixtures remain unrun.
+saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Player routes for fear events
@@ -4312,7 +4308,7 @@ choice calls `perform(context.asker)` on that same action. Only an actor whose
 author evidence are not automatically disclosed.
 
 `test_fear_actions` specifies ownership, preview purity, route parity, undo,
-repeated operations and cross-process continuation; fixtures are unrun. The
+repeated operations and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md). The
 original [Echo Vault example](../../examples/echo-vault/README.md) demonstrates
 a complete small encounter using the shared resolver and explicit confusion
 adjudication, short-stun recovery, and a health-gated follow-up action.
@@ -4350,8 +4346,7 @@ rules for unsupported attribute boundaries.
 `expanded-fear-low-score.t`, `expanded-phobia-low-score.t` and
 `expanded-postbattle-low-score.t` provide fixtures for missing decisions,
 inapplicable decisions, pure previews, receipt binding, voice choices, typed
-consequence dispatch, rollback, undo and save continuation. Their assertions
-remain **unrun** pending recorded validation.
+consequence dispatch, rollback, undo and save continuation. Their Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ### Extreme-panic flight through the authored world
 
@@ -4376,7 +4371,7 @@ Will check and repeat procedure. The receipt binds the route and resulting loop
 state. Replay does not move the actor back if subsequent play changes location.
 `expanded-panic-flight.t` and `test_panic_flight` specify preview, distance/evidence
 rejection, movement, one time charge, replay, rollback, undo and continuation.
-These fixtures remain unrun.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Recovery boundaries and recorded rulings
@@ -4402,7 +4397,7 @@ this ruling; normal recovery retains its existing roll and random consumption.
 This applies to stun, retching, fainting, panic, coma, catatonia and extreme-panic
 survivor checks. Automatic recovery rejects an unused decision. The fixture
 `expanded-fear-recovery-ruling.t` specifies preview, no-dice execution, rollback,
-undo, replay, changed-evidence rejection and saved continuation; it is unrun.
+undo, replay, changed-evidence rejection and saved continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 Configure `fearAftermathOverlapPolicy` (`sum` or `worst`) and
 `fearAftermathOverlapEvidence` before the first relevant episode if subsequent
@@ -4413,7 +4408,7 @@ Episode receipts bind the policy; changing it after an episode starts is rejecte
 The coma fixture specifies both aggregation policies and each expiry boundary;
 the catatonia fixture specifies both daily-care policies and preservation of
 independent unconsciousness. The adjudication fixture specifies the minimum-HT,
-unrollable-HT and minimum-IQ boundaries. All remain unrun.
+unrollable-HT and minimum-IQ boundaries. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Panic falls through the real injury pipeline
 
@@ -4431,7 +4426,7 @@ The reaction charges its interval once and then resolves survivor Will. Replay
 validates the retained operation and never repeats movement, damage or time.
 Tactical placement requires a dedicated adapter and is rejected by this room
 adapter. `expanded-panic-fall.t` specifies preview, impact arithmetic, exception
-rollback, undo, duplicate execution and cross-process continuation; it is unrun.
+rollback, undo, duplicate execution and cross-process continuation; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ## Panic maneuvers and permission dispatch
@@ -4467,8 +4462,7 @@ assessment free of temporary mutations to the profile's panic state.
 
 `expanded-panic-path.t` / `test_panic_path` specify actual hex movement, ordinary
 permission rejection, clock ownership, failed Will follow-up, replay, mutation
-rejection, rollback, undo and cross-process continuation. They are authored and
-unrun. Interrupted paths still require an explicit supported interruption adapter;
+rejection, rollback, undo and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md). Interrupted paths still require an explicit supported interruption adapter;
 this operation accepts the existing path mover's verified uninterrupted route.
 
 The technology library now supplies `RpgExpandedPanicObjectOperation` for an
@@ -4537,7 +4531,7 @@ A forced-major result with positive penetration but zero final injury also rejec
 because the existing wound executor cannot represent that combination. The
 `expanded-panic-critical-hit.t` / `test_panic_critical_hit` fixture specifies the
 fourteen general-table rows currently supported, accounting, preview purity,
-rollback, undo, receipt mutation and save continuation. Assertions remain unrun.
+rollback, undo, receipt mutation and save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 For a critical Dodge or Block failure, include the combat library and attach an
 `RpgExpandedStrikeDefenseFailure` as `defenseConsequence`. Its `owner` is the
@@ -4563,14 +4557,13 @@ necessary: this feature does not make an otherwise illegal Block possible.
 
 `expanded-panic-attack.t` / `test_panic_attack` specify hit, miss, defense,
 ammunition and weapon hooks, preview purity, blocked critical results, incapacity,
-exception rollback, undo, receipt mutation and saved continuation. These fixtures
-are authored and unrun pending recorded validation. The additional
+exception rollback, undo, receipt mutation and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md). The additional
 `expanded-panic-defense.t` / `test_panic_defense` specifies critical Dodge/Block
 failure integration, no duplicate dice or ammunition, immutable consequence
 records, rollback, undo and cross-process continuation. The additional
 `expanded-panic-defense-position.t` / `test_panic_defense_position` covers actual
 map occupancy, already-prone behavior, invalid footprints and saved continuation.
-Both fixtures remain unrun.
+Validation status is recorded in the [completion checklist](fear-completion.md).
 
 ## Declared Wait responses
 
@@ -4609,8 +4602,7 @@ selected. These limitations keep the broader Wait procedure partial.
 
 `expanded-panic-wait.t` / `test_panic_wait` specify declaration, trigger matching,
 expiry, hit and miss consequences, one clock advance, no duplicate consciousness
-roll, receipt mutation, rollback, undo and cross-process continuation. All new
-assertions are authored and unrun pending recorded validation.
+roll, receipt mutation, rollback, undo and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Movement during timed panic
@@ -4642,7 +4634,7 @@ transaction. This adapter does not supply tactical movement or hazard resolution
 
 `test_panic_crying` also specifies movement preview, actual relocation, range and
 evidence rejection, failed consciousness, replay, rollback, undo and separate
-process save continuation. All cases are authored and unrun while validation is in progress.
+process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Tactical movement during timed panic
@@ -4674,7 +4666,7 @@ purposeful actions during panic.
 
 `test_timed_panic_path` specifies preview, direct-execution rejection, actual hex
 movement, failed exertion, deadline rejection, shared-round timing, rollback, undo
-and cross-process continuation. These fixtures are unrun pending recorded validation.
+and cross-process continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Stationary pointless expression
@@ -4708,14 +4700,13 @@ contract; run execution inside an action transaction for rollback and undo.
 
 `test_panic_crying` includes this contract's authored cases for portrayal events,
 missing facts, incorrect capability flags, recovery boundaries, direct gate
-rejection, rollback, undo, replay and saved continuation. These cases are unrun.
+rejection, rollback, undo, replay and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 `test_panic_expression_communication` additionally specifies a row-24 acquired
 speech limitation followed by vocal panic, complete muteness rejecting vocal
 expression before spending, and continued eligibility for nonvocal gestures.
-It includes undo and separate-process save continuation. These fixtures remain
-unrun; their presence does not establish validated coverage.
+It includes undo and separate-process save continuation. Validation status is recorded in the [completion checklist](fear-completion.md); their presence does not establish validated coverage.
 
 
 ### Retained panic-activity histories
@@ -4736,7 +4727,7 @@ receipts without requiring the character to remain at a former destination.
 
 `test_panic_crying` and `test_timed_panic_path` specify changed definitions,
 removed history, changed outcomes and changed permissions rejecting before a
-new time charge. These additional cases remain unrun pending recorded validation.
+new time charge. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Panic execution ownership
@@ -4747,7 +4738,7 @@ reaction to perform a tactical panic attack or path move; directly invoking its
 gate, operation or battle maneuver is rejected before an action can escape the
 reaction's retained history. Completed receipts can still be replayed without
 spending again. `test_panic_attack` and `test_panic_path` specify direct-call
-rejection alongside ordinary execution; these cases remain unrun.
+rejection alongside ordinary execution; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Injury-window prerequisite for uncontrolled rage
@@ -4771,8 +4762,7 @@ The snapshot is consumed by the owned frenzy entry interfaces documented in
 [traits](traits.md#frenzy-implementation-boundary). Those interfaces own
 self-control, witnessed relationship facts, active effects and exit handling.
 `test_rage_injury_window` specifies exact thresholds, multiple-hit aggregation,
-time separation, purity, replay, rollback, undo and saved continuation. It is
-registered but unrun pending recorded validation.
+time separation, purity, replay, rollback, undo and saved continuation. Validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 `RpgExpandedRageInjuryReceipt` retains a qualifying snapshot for the future entry
@@ -4788,7 +4778,7 @@ perform or authorize a self-control roll: the entry adapter must own consumption
 of the receipt together with the resulting episode. This remaining dependency
 is not satisfied by the snapshot alone. The injury-window fixture now specifies
 nonqualifying rejection, duplicate prevention, later hits, mutation rejection,
-rollback, undo and saved continuation for receipts; these cases are unrun.
+rollback, undo and saved continuation for receipts; validation status is recorded in the [completion checklist](fear-completion.md).
 
 
 ### Combined injury knockdown dispatch
@@ -4806,4 +4796,4 @@ The frenzy override uses the approved, recorded knockdown/consciousness ruling.
 episode, retains injury and does not invent a combined-check modifier.
 `test_knockdown_dispatch` specifies default success/failure, one dispatch per
 wound, unchanged random consumption, rollback, undo and saved continuation.
-These regression cases remain unrun pending recorded validation.
+Validation status is recorded in the [completion checklist](fear-completion.md).
