@@ -9781,6 +9781,8 @@ def test(build):
     test_fear_selection(Session,fear_selection,build.out)
     panic_attack = build.build('expanded-panic-attack',ROOT / 'tests/fixtures/expanded-panic-attack.t')
     test_panic_attack(Session,panic_attack,build.out)
+    panic_computer = build.build('expanded-panic-computer',ROOT / 'tests/fixtures/expanded-panic-computer.t')
+    test_panic_computer(Session,panic_computer,build.out)
     panic_object = build.build('expanded-panic-object',ROOT / 'tests/fixtures/expanded-panic-object.t')
     test_panic_object(Session,panic_object,build.out)
     panic_wait = build.build('expanded-panic-wait',ROOT / 'tests/fixtures/expanded-panic-wait.t')
@@ -28901,4 +28903,48 @@ def test_fear_hearing_loss(Session,bundle,out):
         s.command(f':restore {path}\n@2251'); do(s,691)
         assert state(s)==[1,20,None,0,0]
         do(s,694); assert state(s)==[1,20,10,0,0]
+    finally: s.close()
+
+
+def test_panic_computer(Session,bundle,out):
+    """Destruction erases local software/data, stops processes and preserves external backups. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,701)
+        return last(s,'test.panic-computer')
+    for threshold in (False,True):
+        path=out/f'panic-computer-{threshold}.zsave'
+        initial=[1,1,1,1,10,10,1,10,0,0,3]
+        destroyed=[0,0,0,0,0,0,1,10,1,1,9]
+        s=Session(bundle)
+        try:
+            do(s,700); do(s,440); do(s,713)
+            assert last(s,'test.panic-computer-health')==[10]
+            if threshold: do(s,632)
+            do(s,630); assert last(s,'test.panic-object-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,714); do(s,715); assert state(s)==initial
+            do(s,443); assert state(s)==initial
+            do(s,442); s.command('undo'); assert state(s)==initial
+            do(s,442); do(s,442); assert state(s)==destroyed
+            do(s,702); do(s,703); do(s,704); do(s,705); do(s,712)
+            assert state(s)==destroyed
+            do(s,706); assert last(s,'test.panic-computer-write')==['blocked','computer-unavailable']
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,442); assert state(s)==destroyed
+            do(s,707); assert last(s,'test.panic-computer-available')==[0]
+            do(s,706); assert last(s,'test.panic-computer-write')==['blocked','computer-unavailable']
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,700); do(s,708); do(s,710)
+        assert state(s)==[1,1,1,1,10,10,1,10,0,0,0]
+        do(s,709); s.command('undo'); assert state(s)==[1,1,1,1,10,10,1,10,0,0,0]
+        do(s,709); do(s,709)
+        assert state(s)==[0,0,1,1,0,10,1,10,1,0,3]
+        do(s,711); do(s,711)
+        assert state(s)==[0,0,0,0,0,0,1,10,2,0,3]
     finally: s.close()

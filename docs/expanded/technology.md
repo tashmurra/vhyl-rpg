@@ -1560,10 +1560,12 @@ Source: `full-2008`, B477.
 
 `RpgExpandedArtifactCondition` attaches to one `RpgLiteItem` through the item's
 `artifactCondition`. Supply `item`, positive `capacity`, `health` (3–1000), approval
-and evidence establishing the object's statistics and ordinary solid construction.
-The current executor supports one non-sentient, non-fragile, homogeneous object
-without subsystems. It rejects stacks, computer hosts, other construction and
-special artifact flags instead of omitting their special damage procedures.
+and evidence establishing the object's statistics and construction.
+The executor supports one non-sentient, non-fragile object without separately
+resolved subsystems, using `construction = 'homogenous'` or `'unliving'`. Default
+health is twelve for the former and ten for the latter. It rejects stacks,
+diffuse construction and special artifact flags instead of omitting their rules.
+A computer additionally requires the explicit host binding described below.
 
 `RpgExpandedObjectWound` supplies a unique `id`, the `condition`, final injury
 `amount`, approval and evidence explaining how protection and damage-type effects
@@ -1578,8 +1580,9 @@ Destruction makes the item unusable, clears readiness and aim, and notifies exis
 equipment-loss hooks. It does not erase the physical item, inventory quantity or
 weight. Destroyed matter is still present until authored world actions remove it.
 The receipt retains checks, injury thresholds and before/after condition facts.
-Computer data loss, sentient machines, subsystem failures, fragile artifacts and
-broken-weapon salvage require separate adapters and remain outside this executor.
+Computer data loss is handled by the host adapter below. Sentient machines,
+subsystem failures, fragile artifacts and broken-weapon salvage still require
+separate adapters and remain outside this executor.
 
 At zero HP or below, `usableBy` requires a successful owned
 `RpgExpandedArtifactStress` for the current second. Supply its unique `id`, matching
@@ -1614,3 +1617,43 @@ checks. `expanded-panic-object.t` / `test_panic_object` specify this distinction
 automatic destruction, item usability, preserved quantity, stress checks, pure
 preview, rollback, undo and cross-process continuation. Fixtures are authored and
 unrun while implementation checks are paused.
+
+## Destruction of a computer host
+
+For a non-sentient computer, set the condition's `construction = 'unliving'` and
+`computer` to the exact `RpgExpandedComputer` whose `item` is the damaged item.
+One item cannot represent multiple hosts. Explicit subsystem and fragile-object
+procedures remain unsupported; setting those flags rejects the request.
+The same owned object wound and panic operation execute the physical injury.
+Their preflight also validates the host's process, copy and storage inventories
+before spending time or drawing destruction dice.
+
+A failed stress check disables the computer: active runs stop at the failure time,
+reserved processing capacity is released, and power is switched off. Installed
+software and stored data remain retained. Destruction does all of that and removes
+installed software copies, marks all present local data absent and records each
+removal time. Independently stored data on another host survives. This implements
+the local data-loss consequence from full-2008 B484; it does not remove external
+backups or the damaged physical item.
+
+`RpgExpandedComputerFailure` retains the exact wound or stress trigger, timestamp,
+stopped runs, erased copies and erased data. The host exposes `hardwareFailures`
+and the latest `hardwareFailure`. Histories retain identity and descriptive
+references for audit, not usable programs or retrievable game data. Replaying a
+previous `store()` or program `start()` receipt does not restore its erased data or
+restart a stopped process. A later destruction can follow disabling and retains
+both failure records.
+
+`hardwareAvailable()` is now part of program startup, data writes/removal,
+terminal switching, network links and software-task availability. Power alone
+cannot make a failed host operational. Destruction bindings also reject restored
+processes or data that contradict the retained loss. Physical repair/replacement
+and restoring from a backup need explicit future operations; the environmental
+breakdown repair path does not erase these physical failure records.
+
+`expanded-panic-computer.t` / `test_panic_computer` specify threshold and automatic
+destruction, disabled-versus-destroyed storage, stopped programs, external backups,
+no duplicate effects, invalid inventory preflight, rollback, undo and saved
+continuation. These assertions are authored and unrun. This adapter does not
+complete machine characters, subsystem damage, fragile objects, continuous stress
+scheduling or automatic object attack resolution.

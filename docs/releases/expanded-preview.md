@@ -2018,3 +2018,11 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   first-credit compatibility field. Full written/signing/lip-reading procedures
   and specific sound-dependent exceptions remain incomplete. New lifecycle and
   fear-acquisition fixtures are authored and unrun; checks remain paused.
+
+- Connected physical artifact failure to non-sentient computer hosts. Disabling
+  stops processes but retains data; destruction also erases local software and
+  data, preserving external backups and audit history. Host operations now check
+  hardware availability, so restoring power cannot bypass physical failure.
+  Special artifacts, sentient machines, repair and automatic attacks remain
+  incomplete. New panic/destruction lifecycle fixtures are authored and unrun;
+  checks remain paused.

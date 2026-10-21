@@ -880,9 +880,13 @@
       "pages": "B483",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Ordinary machinery in repair defaults to health ten and solid homogeneous objects twelve. Authored poor condition changes this by -1..-3, rugged quality by +1..+2; a machine character retains its actual health.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_panic_object",
+        "tests/expanded.py::test_panic_computer"
+      ],
+      "validation_note": "Owned ordinary conditions now default to health ten for unliving construction and twelve for homogeneous construction, with explicit authored overrides. Machine-character health and special-artifact integration remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "technology-object-capacity",
@@ -916,9 +920,13 @@
       "pages": "B483",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "At zero or negative remaining capacity, check reliability each second under actual stress or use, but not while idle. Failure disables the object; sentient machines become unconscious, homogeneous objects may retain specified partial use, and ropes/cables are severed.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_panic_object",
+        "tests/expanded.py::test_panic_computer"
+      ],
+      "validation_note": "Owned stress checks disable ordinary conditions. A bound non-sentient computer stops its active processes, releases reservations and powers down while retaining data/software. Sentient, special-weapon and rope consequences and automatic continuous scheduling remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "technology-object-destruction",
@@ -926,9 +934,13 @@
       "pages": "B484",
       "module": "technology",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Negative-capacity thresholds use the general destruction checks, with automatic destruction at negative five times maximum capacity. Destroyed computers lose stored data; disabled and destroyed are distinct persistent states.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_panic_object",
+        "tests/expanded.py::test_panic_computer"
+      ],
+      "validation_note": "Owned threshold/automatic destruction now invalidates the item and erases all local data/software on its explicitly bound non-sentient computer, stopping processes and retaining failure history. Independent backups remain. Special artifacts, physical repairs and automatic attacks remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "technology-object-shock",

@@ -434,6 +434,7 @@ class RpgExpandedComputer: object
     capacity() { return 2 * rpgExpandedProcessingUnits(self.complexity); }
     used()
     {
+        self.validateHardwareHistory();
         local used = 0; local ids = [];
         foreach (local run in self.runs)
         {
@@ -505,7 +506,7 @@ class RpgExpandedProgramRun: object
             if (prior.id == self.id) rpgExpandedReject('program-run-duplicate');
         value.capacity = self.host.capacity(); value.used = self.host.used();
         value.units = rpgExpandedProcessingUnits(self.copy.complexity);
-        if (!self.host.powered || self.host.item.environmentFailure != nil)
+        if (!self.host.powered || !self.host.hardwareAvailable())
         { value.reason = 'computer-unavailable'; return value; }
         if (self.copy.complexity > self.host.complexity)
         { value.reason = 'program-complexity'; return value; }
@@ -603,7 +604,7 @@ class RpgExpandedTerminalSwitch: object
         { value.reason = 'terminal-switch-evidence'; return value; }
         value.reason = self.terminal.accessReason(self.target); if (value.reason != nil) return value;
         if (!self.terminal.powered || !self.target.powered || self.target.item == nil
-            || !self.target.item.ofKind(RpgLiteItem) || self.target.item.environmentFailure != nil)
+            || !self.target.item.ofKind(RpgLiteItem) || !self.target.hardwareAvailable())
         { value.reason = 'terminal-switch-unavailable'; return value; }
         local controller = self.terminal.controller;
         if (controller.dead || controller.unconscious || controller.stunned || controller.hp() <= 0 || controller.fp() <= 0)
@@ -638,6 +639,7 @@ modify RpgExpandedComputer
     data = []
     usedStorageMB()
     {
+        self.validateHardwareHistory();
         rpgInteger(self.storageMB,0,1000000000);
         local used = 0; local ids = [];
         foreach (local record in self.data)
@@ -702,7 +704,7 @@ class RpgExpandedStoredData: object
         foreach (local prior in self.host.data)
             if (prior.id == self.id) rpgExpandedReject('computer-data-duplicate');
         if (!self.host.powered || self.host.item == nil || !self.host.item.ofKind(RpgLiteItem)
-            || self.host.item.environmentFailure != nil)
+            || !self.host.hardwareAvailable())
         { value.reason = 'computer-unavailable'; return value; }
         if (self.sizeMB > self.host.storageMB - value.usedMB)
         { value.reason = 'computer-storage-full'; return value; }
@@ -722,7 +724,7 @@ class RpgExpandedStoredData: object
         self.validateBinding();
         if (!self.present) return 'reused';
         if (!self.host.powered || self.host.item == nil || !self.host.item.ofKind(RpgLiteItem)
-            || self.host.item.environmentFailure != nil) rpgExpandedReject('computer-unavailable');
+            || !self.host.hardwareAvailable()) rpgExpandedReject('computer-unavailable');
         self.present = nil; self.removedAt = rpgLedger.seconds; return 'resolved';
     }
 ;
@@ -772,7 +774,7 @@ class RpgExpandedComputerLink: object
             || self.second == nil || !self.second.ofKind(RpgExpandedComputer) || self.first == self.second)
             rpgExpandedReject('computer-link-endpoints');
         foreach (local host in [self.first,self.second])
-            if (!host.powered || host.item == nil || !host.item.ofKind(RpgLiteItem) || host.item.environmentFailure != nil)
+            if (!host.powered || host.item == nil || !host.item.ofKind(RpgLiteItem) || !host.hardwareAvailable())
                 return 'computer-link-host-unavailable';
         if (!self.compatible) return 'computer-link-incompatible';
         if (!self.mediumAvailable) return 'computer-link-medium-unavailable';
@@ -1051,7 +1053,7 @@ class RpgExpandedRemoteTerminal: RpgExpandedTerminal
         if (self.localHost == nil || !self.localHost.ofKind(RpgExpandedComputer)
             || !holds(self.hosts,self.localHost)) rpgExpandedReject('remote-terminal-local-host');
         if (!self.localHost.powered || self.localHost.item == nil
-            || !self.localHost.item.ofKind(RpgLiteItem) || self.localHost.item.environmentFailure != nil)
+            || !self.localHost.item.ofKind(RpgLiteItem) || !self.localHost.hardwareAvailable())
             return 'terminal-local-host-unavailable';
         if (host == self.localHost) return nil;
         local found = nil;
@@ -1106,7 +1108,7 @@ class RpgExpandedSoftwareUse: object
         { value.reason = 'task-software-terminal'; return value; }
         self.terminal.validate();
         if (!self.terminal.powered || !host.powered || host.item == nil || !host.item.ofKind(RpgLiteItem)
-            || host.item.environmentFailure != nil) { value.reason = 'task-software-unavailable'; return value; }
+            || !host.hardwareAvailable()) { value.reason = 'task-software-unavailable'; return value; }
         value.reason = self.terminal.accessReason(host); if (value.reason != nil) return value;
         if (profile.dead || profile.unconscious || profile.stunned || profile.hp() <= 0 || profile.fp() <= 0)
         { value.reason = 'task-software-operator-unavailable'; return value; }
@@ -3454,11 +3456,12 @@ class RpgExpandedDeviceAnalysis: object
     }
 ;
 
-/** Persistent B483-B484 condition of one ordinary, non-sentient solid artifact. */
+/** Persistent B483-B484 condition of one ordinary, non-sentient artifact. */
 class RpgExpandedArtifactCondition: object
     item = nil
     capacity = nil
-    health = 12
+    health = (construction == 'unliving' ? 10 : 12)
+    computer = nil
     construction = 'homogenous'
     sentient = nil
     fragile = nil
@@ -3474,13 +3477,15 @@ class RpgExpandedArtifactCondition: object
     {
         if (self.item == nil || !self.item.ofKind(RpgLiteItem) || self.item.artifactCondition != self
             || self.item.quantity != 1) rpgExpandedReject('artifact-condition-owner');
-        if (self.construction != 'homogenous' || self.sentient || self.fragile || self.subsystems)
+        if (!holds(['homogenous','unliving'],self.construction) || self.sentient || self.fragile || self.subsystems)
             rpgExpandedReject('artifact-condition-special-adapter-required');
+        if (self.computer != nil && (!self.computer.ofKind(RpgExpandedComputer)
+            || self.computer.item != self.item || self.construction != 'unliving')) rpgExpandedReject('artifact-computer-owner');
         for (local host = firstObj(RpgExpandedComputer); host != nil; host = nextObj(host,RpgExpandedComputer))
-            if (host.item == self.item) rpgExpandedReject('artifact-computer-destruction-adapter-required');
+            if (host.item == self.item && host != self.computer) rpgExpandedReject('artifact-computer-destruction-adapter-required');
         rpgInteger(self.capacity,1,1000000); rpgInteger(self.health,3,1000);
         if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('artifact-condition-author-facts');
-        return [self,self.item,self.capacity,self.health,self.approved,self.evidence,self.construction,self.sentient,self.fragile,self.subsystems];
+        return [self,self.item,self.capacity,self.health,self.approved,self.evidence,self.construction,self.sentient,self.fragile,self.subsystems,self.computer];
     }
     validate()
     {
@@ -3511,6 +3516,18 @@ class RpgExpandedArtifactCondition: object
             if (!stress.result.check.achieved) disabled = true;
         }
         if (injury != self.injury || destroyed != self.destroyed || disabled != self.disabled) rpgExpandedReject('artifact-condition-history');
+        if (self.computer != nil)
+        {
+            self.computer.validateHardwareHistory(); self.computer.used(); self.computer.usedStorageMB();
+            local copyIds = [];
+            foreach (local copy in self.computer.copies)
+            {
+                if (copy == nil || !copy.ofKind(RpgExpandedSoftwareCopy) || copy.host != self.computer
+                    || copy.id == nil || copy.id == '' || holds(copyIds,copy.id)) rpgExpandedReject('artifact-computer-copy-inventory');
+                copyIds = copyIds + [copy.id];
+            }
+            if ((destroyed || disabled) && self.computer.hardwareFailure == nil) rpgExpandedReject('artifact-computer-failure-missing');
+        }
         return nil;
     }
     usable()
@@ -3524,6 +3541,7 @@ class RpgExpandedArtifactCondition: object
     }
     notifyUnavailable(cause)
     {
+        if (self.computer != nil) self.computer.failArtifact(self,cause);
         self.item.ready = nil;
         for (local profile = firstObj(RpgLiteProfile); profile != nil; profile = nextObj(profile,RpgLiteProfile))
             if (holds(profile.equipment,self.item)) profile.onEquipmentUnavailable(self.item,cause);
@@ -3714,5 +3732,141 @@ class RpgExpandedPanicObjectOperation: RpgExpandedPanicOperation
         self.owner = reaction; self.boundFacts = self.facts(reaction);
         value = self.wound.apply(); if (value.status != 'resolved') rpgExpandedReject('panic-object-injury-changed');
         self.result = value; return value;
+    }
+;
+
+/** B483-B484 computer hardware failure: process/storage history survives, contents do not. */
+class RpgExpandedComputerFailure: object
+    host = nil
+    condition = nil
+    cause = nil
+    trigger = nil
+    recordedAt = nil
+    stoppedRuns = []
+    erasedCopies = []
+    erasedData = []
+    boundFacts = nil
+    facts()
+    {
+        if (self.host == nil || !self.host.ofKind(RpgExpandedComputer) || self.condition == nil
+            || !self.condition.ofKind(RpgExpandedArtifactCondition) || self.condition.computer != self.host
+            || self.host.item != self.condition.item || !holds(['disabled','destroyed'],self.cause))
+            rpgExpandedReject('computer-failure-owner');
+        local facts = [self,self.host,self.condition,self.cause,self.trigger,self.recordedAt,
+            self.stoppedRuns.length(),self.erasedCopies.length(),self.erasedData.length()] + self.condition.facts();
+        foreach (local run in self.stoppedRuns) facts = facts + [run,run.id,run.host,run.copy,run.startedAt,run.stoppedAt];
+        foreach (local copy in self.erasedCopies) facts = facts + [copy,copy.id,copy.host,copy.complexity];
+        foreach (local record in self.erasedData)
+            facts = facts + [record,record.id,record.host,record.reference,record.sizeMB,record.storedAt,record.removedAt];
+        return facts;
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.boundFacts == nil || facts.length() != self.boundFacts.length() || self.recordedAt == nil
+            || self.recordedAt > rpgLedger.seconds || !holds(self.host.hardwareFailures,self))
+            rpgExpandedReject('computer-failure-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('computer-failure-binding');
+        if (self.cause == 'destroyed')
+        {
+            if (!self.trigger.ofKind(RpgExpandedObjectWound) || self.trigger.condition != self.condition
+                || !self.trigger.result.destroyed || !self.condition.destroyed) rpgExpandedReject('computer-destruction-trigger');
+            self.trigger.validateReceipt();
+        }
+        else
+        {
+            if (!self.trigger.ofKind(RpgExpandedArtifactStress) || self.trigger.condition != self.condition
+                || self.trigger.result.check.achieved || !self.condition.disabled) rpgExpandedReject('computer-disable-trigger');
+            self.trigger.validateReceipt();
+        }
+        if (self.trigger.recordedAt != self.recordedAt) rpgExpandedReject('computer-failure-time');
+        foreach (local run in self.stoppedRuns)
+        {
+            run.validateBinding();
+            if (run.active || run.stoppedAt != self.recordedAt) rpgExpandedReject('computer-failure-running-process');
+        }
+        foreach (local copy in self.erasedCopies)
+            if (holds(self.host.copies,copy)) rpgExpandedReject('computer-failure-restored-copy');
+        foreach (local record in self.erasedData)
+        {
+            record.validateBinding();
+            if (record.present || record.removedAt != self.recordedAt) rpgExpandedReject('computer-failure-restored-data');
+        }
+        return nil;
+    }
+;
+modify RpgExpandedComputer
+    hardwareFailures = []
+    hardwareFailure = nil
+    validateHardwareHistory()
+    {
+        local previous = nil;
+        foreach (local failure in self.hardwareFailures)
+        {
+            if (failure == nil || !failure.ofKind(RpgExpandedComputerFailure) || failure.host != self
+                || previous != nil && (previous.cause == 'destroyed' || previous.recordedAt > failure.recordedAt))
+                rpgExpandedReject('computer-failure-order');
+            failure.validateReceipt(); previous = failure;
+        }
+        if (self.hardwareFailure != previous) rpgExpandedReject('computer-current-failure');
+        if (previous != nil)
+        {
+            foreach (local run in self.runs) if (run.active) rpgExpandedReject('computer-failed-process-active');
+            if (previous.cause == 'destroyed')
+            {
+                if (self.copies.length() != 0) rpgExpandedReject('computer-destroyed-software');
+                foreach (local record in self.data) if (record.present) rpgExpandedReject('computer-destroyed-data');
+            }
+        }
+        return nil;
+    }
+    hardwareAvailable()
+    {
+        self.validateHardwareHistory();
+        if (self.item == nil || !self.item.ofKind(RpgLiteItem) || self.item.environmentFailure != nil
+            || self.hardwareFailure != nil) return nil;
+        return self.item.artifactCondition == nil || self.item.artifactCondition.usable();
+    }
+    failArtifact(condition,cause)
+    {
+        if (condition == nil || condition.computer != self || condition.item != self.item
+            || !holds(['disabled','destroyed'],cause)) rpgExpandedReject('computer-failure-request');
+        self.validateHardwareHistory();
+        local trigger = cause == 'destroyed' ? condition.wounds[condition.wounds.length()]
+            : condition.stresses[condition.stresses.length()];
+        foreach (local prior in self.hardwareFailures)
+            if (prior.trigger == trigger) { prior.validateReceipt(); return prior; }
+        if (cause == 'destroyed' && !condition.destroyed || cause == 'disabled' && !condition.disabled)
+            rpgExpandedReject('computer-failure-state');
+        local failure = new RpgExpandedComputerFailure(); failure.host = self; failure.condition = condition;
+        failure.cause = cause; failure.trigger = trigger; failure.recordedAt = rpgLedger.seconds;
+        foreach (local run in self.runs)
+        {
+            run.validateBinding();
+            if (run.active) { run.stop(); failure.stoppedRuns = failure.stoppedRuns + [run]; }
+        }
+        if (cause == 'destroyed')
+        {
+            local ids = [];
+            foreach (local copy in self.copies)
+            {
+                if (copy == nil || !copy.ofKind(RpgExpandedSoftwareCopy) || copy.host != self
+                    || holds(ids,copy.id)) rpgExpandedReject('computer-destruction-copy-inventory');
+                ids = ids + [copy.id]; failure.erasedCopies = failure.erasedCopies + [copy];
+            }
+            self.copies = [];
+            foreach (local record in self.data)
+            {
+                record.validateBinding();
+                if (record.present)
+                {
+                    record.present = nil; record.removedAt = rpgLedger.seconds;
+                    failure.erasedData = failure.erasedData + [record];
+                }
+            }
+        }
+        self.powered = nil; self.hardwareFailures = self.hardwareFailures + [failure]; self.hardwareFailure = failure;
+        failure.boundFacts = failure.facts(); failure.validateReceipt(); return failure;
     }
 ;
