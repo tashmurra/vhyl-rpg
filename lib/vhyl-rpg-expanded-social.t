@@ -4233,3 +4233,18 @@ class RpgExpandedGestureAction: Action
     }
     exec(context) { return self.perform(context.actor); }
 ;
+
+
+/** B148: classify this observer's reaction to the overconfident subject. */
+class RpgExpandedOverconfidenceObservation: RpgExpandedSocialObservation
+    audienceKind = nil
+    kind() { return 'overconfidence'; }
+    definition() { return inherited() + [self.audienceKind]; }
+    modifier()
+    {
+        if (!holds(['young-or-naive','experienced','neither'],self.audienceKind))
+            rpgExpandedReject('overconfidence-audience-classification');
+        if (!self.subject.overconfidenceActive()) return 0;
+        return self.audienceKind == 'young-or-naive' ? 2 : self.audienceKind == 'experienced' ? -2 : 0;
+    }
+;

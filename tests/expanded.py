@@ -9843,6 +9843,10 @@ def test(build):
     test_nightmares(Session,nightmares,build.out)
     nightmare_compound = build.build('expanded-nightmare-compound',ROOT / 'tests/fixtures/expanded-nightmare-compound.t')
     test_nightmare_compound(Session,nightmare_compound,build.out)
+    confidence = build.build('expanded-overconfidence',ROOT / 'tests/fixtures/expanded-overconfidence.t')
+    test_overconfidence(Session,confidence,build.out)
+    confidence_social = build.build('expanded-overconfidence-social',ROOT / 'tests/fixtures/expanded-overconfidence-social.t')
+    test_overconfidence_social(Session,confidence_social,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29971,3 +29975,59 @@ def test_nightmare_compound(Session,bundle,out):
         s.command(f':restore {path}\n@2251'); do(s,971); do(s,342)
         assert state(s) == [1,1,0,1,1,1,10,9,7,1]
     finally: s.close()
+
+
+def test_overconfidence(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,876)
+        return last(s,'test.confidence')
+    for failed in (False,True):
+        s = Session(bundle)
+        path = out/f'overconfidence-{failed}.zsave'
+        try:
+            do(s,878); assert last(s,'test.confidence-prices') == [-10,1,-7,1,-5,1,-2,1]
+            do(s,870); do(s,581)
+            if failed: do(s,877)
+            do(s,872); assert state(s) == [0,0,0,None,0,0,0]
+            do(s,871); do(s,871)
+            assert state(s) == [int(failed),0,0,None,0,3,0]
+            if failed:
+                do(s,874); assert state(s) == [1,0,0,None,0,3,0]
+                do(s,875); assert state(s) == [1,0,0,None,0,3,0]
+            action = 873 if failed else 874
+            do(s,action); s.command('undo'); assert state(s) == [int(failed),0,0,None,0,3,0]
+            do(s,action); do(s,action)
+            expected = [0,int(failed),int(not failed),1,1,3,0]
+            assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,action); assert state(s) == expected
+        finally: s.close()
+
+
+def test_overconfidence_social(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,984)
+        return last(s,'test.confidence-social')
+    for experienced,modifier in ((False,2),(True,-2)):
+        path = out/f'confidence-social-{experienced}.zsave'
+        s = Session(bundle)
+        try:
+            do(s,870); do(s,581)
+            if experienced: do(s,981)
+            do(s,980); assert state(s) == [modifier,0,0]
+            do(s,983); assert state(s) == [modifier,0,0]
+            do(s,985); assert state(s) == [modifier,0,0]
+            do(s,982); s.command('undo'); assert state(s) == [modifier,0,0]
+            do(s,982); do(s,982); assert state(s) == [modifier,1,3]
+            assert last(s,'test.confidence-reaction') == [3+modifier]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,982); assert state(s) == [modifier,1,3]
+        finally: s.close()

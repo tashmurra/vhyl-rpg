@@ -4198,7 +4198,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -5080,4 +5080,123 @@ modify rpgExpandedTemplateTraits
         if (!trait.ofKind(RpgExpandedNightmares)) return inherited(trait);
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
+;
+
+/** B148: an authored challenge where caution is unreasonably excessive. */
+class RpgExpandedOverconfidence: RpgExpandedDisadvantage
+    id = 'overconfidence'
+    labelId = 'overconfidence'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-overconfidence'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'overconfidence' || self.points != -5 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('overconfidence-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedOverconfidenceTrigger: RpgExpandedSelfControlTrigger
+    cautionUnreasonable = nil
+    confidentActions = []
+    cautiousActions = []
+    completedAction = nil
+    completedAt = nil
+    completionEvidence = nil
+    boundCompletion = nil
+    boundCheck = nil
+    definition()
+    { return inherited() + [self.cautionUnreasonable,self.confidentActions.length(),self.cautiousActions.length()]
+        + self.confidentActions + self.cautiousActions; }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedOverconfidence)) rpgExpandedReject('overconfidence-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (self.boundCheck == nil || self.active != (!self.check.achieved && self.completedAt == nil))
+                rpgExpandedReject('overconfidence-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('overconfidence-check-binding');
+            if (self.completedAt != nil)
+            {
+                if (self.boundCompletion == nil || self.completedAction != self.boundCompletion[1]
+                    || self.completedAt != self.boundCompletion[2] || self.completionEvidence != self.boundCompletion[3])
+                    rpgExpandedReject('overconfidence-completion-binding');
+            }
+            else if (self.completedAction != nil || self.completionEvidence != nil || self.boundCompletion != nil)
+                rpgExpandedReject('overconfidence-uncommitted-completion');
+            return value;
+        }
+        if (self.completedAction != nil || self.completedAt != nil || self.completionEvidence != nil
+            || self.boundCompletion != nil || self.boundCheck != nil)
+            rpgExpandedReject('overconfidence-uncommitted-completion');
+        if (value.status != 'ready') return value;
+        if (!self.cautionUnreasonable || self.confidentActions.length() == 0 || self.cautiousActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'overconfidence-alternatives'; return value; }
+        local seen = [];
+        foreach (local action in self.confidentActions + self.cautiousActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('overconfidence-classification');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        if (self.completedAt != nil) return action == self.completedAction;
+        return holds(self.confidentActions,action) || self.check.achieved && holds(self.cautiousActions,action);
+    }
+    recordAction(action,evidence)
+    {
+        if (self.result == nil || evidence == nil || evidence == '' || !self.permits(action))
+            rpgExpandedReject('overconfidence-execution-required');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            if (self.completedAction != action || self.completionEvidence != evidence) rpgExpandedReject('overconfidence-completion-binding');
+            value.status = 'reused'; return value;
+        }
+        self.completedAction = action; self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence;
+        self.boundCompletion = [action,self.completedAt,evidence]; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'overconfidence') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedOverconfidence(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedOverconfidence)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+
+modify RpgExpandedProfile
+    overconfidenceActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'overconfidence')
+            {
+                if (!trait.ofKind(RpgExpandedOverconfidence) || found != nil) rpgExpandedReject('overconfidence-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.overconfidenceActive(); return nil; }
 ;

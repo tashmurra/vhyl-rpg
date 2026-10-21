@@ -291,3 +291,15 @@ blocked waking while unconscious, recovery without an automatic nightmare check,
 and the later explicitly recorded morning after sleep. The fixture retains
 character accounting and tests repeated compound/waking execution, rollback,
 undo and saved continuation. These are authored expectations, not observed passes.
+
+
+## Overconfidence selection and reactions
+
+The B148 overconfidence selection now retains self-control and explicit confident
+versus cautious scene actions. Its exact ten-point rated purchase is eligible
+for fear acquisition. Participant-specific social records apply +2 for a
+classified young/naive observer or -2 for an experienced observer through the
+ordinary owned reaction procedure, with duplicate-effect prevention. No actual
+skill or attribute increase is granted. Action and social lifecycle fixtures are
+registered but unrun. This adds a concrete selection and reaction adapter; the
+other catalogue and frenzy obligations remain incomplete.

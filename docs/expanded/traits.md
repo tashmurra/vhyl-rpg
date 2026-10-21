@@ -2677,3 +2677,38 @@ fixture then completes a real sleep period and explicitly records the next
 morning. The same acquired trait produces the fatigue and day penalty without
 another point award. `test_nightmare_compound` specifies acquisition and waking
 rollback, undo, duplicate execution and cross-process continuation; it is unrun.
+
+
+### Overconfidence
+
+`RpgExpandedOverconfidence` implements full-2008 B148 with base cost -5 and
+standard self-control pricing. Use `['overconfidence', 1, nil, rating]` in rated
+templates. Rating six supplies the exact -10 mental fear selection. A copy owns
+its purchase independently and inherits no occurrence history.
+
+Create `RpgExpandedOverconfidenceTrigger` for a specific challenge when the
+author judges caution unreasonable. Supply the standard control ID, profile,
+trait, occurrence and evidence, set `cautionUnreasonable`, and list disjoint
+nonempty `confidentActions` and `cautiousActions`. Resolve once. Failure permits
+only the confident alternatives; success also permits the cautious choices.
+Unclassified actions do not grant permission. At the ordinary action boundary,
+check `permits(action)`, execute the legal scene action and its ordinary costs,
+then `recordAction(action, evidence)` in the same transaction. Replay cannot
+repeat the action. The trait grants no actual attribute or skill increase.
+
+With social support installed, record an
+`RpgExpandedOverconfidenceObservation` for the subject and the reacting observer.
+Set `audienceKind` to `young-or-naive`, `experienced` or `neither`, with approval
+and evidence supporting that classification. The modifier is respectively +2,
+-2 or zero while the subject's trait is active and unmitigated. This is the
+observer's reaction to the subject, not the subject's reaction to someone else.
+Use the observation in `RpgExpandedObservedReactionContext` and the normal owned
+reaction attempt. The classification is retained, and duplicate observations
+cannot apply the same effect twice. Where categories overlap, the author must
+record the applicable category explicitly rather than letting the engine infer
+age, experience or naivety.
+
+`test_overconfidence` specifies prices, copies, acquisition, permitted/denied
+scene choices, rollback, undo and saved continuation. The companion social
+fixture specifies both reaction directions, actual reaction totals, duplicate
+rejection and lifecycle behavior. All cases remain unrun while checks are paused.

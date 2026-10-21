@@ -1260,3 +1260,5 @@ class RpgExpandedPanicObjectPermission: object
 modify RpgExpandedProfile
     newNightmareFatigueLoss() { rpgExpandedReject('nightmare-health-module-required'); }
 ;
+
+modify RpgExpandedProfile overconfidenceActive() { return nil; };

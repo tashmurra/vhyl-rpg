@@ -198,9 +198,10 @@
       "pages": "B148",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Overconfidence is base -5 with self-control when the author judges caution inconsistent with it; failure proceeds as if capable. Reactions are +2 from young/naive observers and -2 from experienced observers. It does not grant actual skill or ability increases.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_overconfidence", "tests/expanded.py::test_overconfidence_social"],
+      "validation_note": "Typed rated fear selection, owned caution-triggered control, explicit action permissions/completion and participant-specific +2/-2 social observation adapter implemented. Normal scene legality and costs remain with the action. Pricing, reaction totals, duplicate effects, rollback, undo and saved continuation fixtures authored and unrun."
     },
     {
       "id": "disadvantages-f-violence-reluctance",
