@@ -576,9 +576,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "An authored fear event identifies why it is extraordinary for this actor, with background and setting considered; ordinary threatening events need not trigger fear checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_event"
+      ],
+      "validation_note": " Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "fear-immunity",
@@ -589,9 +592,10 @@
       "status": "partial",
       "acceptance": "An unflappable actor does not make fear checks; do not consume random dice before deciding immunity.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending."
+      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "fear-cap",
@@ -602,9 +606,10 @@
       "status": "partial",
       "acceptance": "After modifiers cap fear-check will at thirteen, so fourteen or higher fails; do not apply this cap to ordinary will or later recovery checks.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending."
+      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "fear-table-roll",
@@ -615,9 +620,10 @@
       "status": "partial",
       "acceptance": "On failure roll three further dice, add failure magnitude and select the full outcome table; do not substitute Lite stun/faint duration formulas.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending."
+      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "fear-trait-award",
@@ -628,9 +634,10 @@
       "status": "partial",
       "acceptance": "New fear-induced traits must relate to the event and character; lower character value without awarding spendable points.",
       "tests": [
-        "tests/expanded.py::test_fear_quirks"
+        "tests/expanded.py::test_fear_quirks",
+        "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Owned behavioral mental-quirk acquisition and explicit scene portrayal records authored. Character value decreases without granting spendable points; a receipt supplies the creation-limit exception. Other fear traits, compound outcomes and advancement sanctions remain incomplete. Fixtures unrun."
+      "validation_note": "Owned behavioral mental-quirk acquisition and explicit scene portrayal records authored. Character value decreases without granting spendable points; a receipt supplies the creation-limit exception. Other fear traits, compound outcomes and advancement sanctions remain incomplete. Fixtures unrun. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "fear-inappropriate-result",
@@ -654,9 +661,10 @@
         "tests/expanded.py::test_fear_stun",
         "tests/expanded.py::test_fear_stun_modifiers",
         "tests/expanded.py::test_fear_stun_persistence",
-        "tests/expanded.py::test_fear_combat"
+        "tests/expanded.py::test_fear_combat",
+        "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "fear-modifier-fear-traits",

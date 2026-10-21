@@ -147,7 +147,12 @@ modify RpgExpandedProfile
 ;
 
 /** Optional trait-module contract; the foundation alone cannot award a quirk. */
-class RpgExpandedFearQuirkContract: object
+/** Optional traits adapter for specific permanent fear consequences. */
+class RpgExpandedFearTraitConsequence: object
+    fearEventMatches(entry) { return nil; }
+;
+
+class RpgExpandedFearQuirkContract: RpgExpandedFearTraitConsequence
     profile = nil
     eventId = nil
     assess()

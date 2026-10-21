@@ -9539,3 +9539,188 @@ modify RpgExpandedMarchStepGroup
     shadowingFacts() { return self.definition(); }
     shadowingSeconds() { return self.steps.length() == 0 ? 0 : self.steps[1].seconds; }
 ;
+
+modify RpgExpandedFearContext
+    eventFacts()
+    {
+        return [self.profile,self.approved,self.evidence,self.physicalRisk,self.cowardicePenalty,self.charging,
+            self.purposeThreat,self.monsters,self.xenophiliaBonus,self.body,self.mutilationPenalty,self.dependentVictim,
+            self.inCombat,self.monsterPenalty,self.hordeBand,self.touching,self.distance,self.remote,self.isolated,
+            self.adverseLighting,self.believesAlone,self.priorExperience,self.priorExposures24h,self.briefingBonus];
+    }
+;
+class RpgExpandedFearEventResult: RpgExpandedResult
+    immune = nil
+    score = nil
+    tableRoll = nil
+    tableTotal = nil
+    row = nil
+;
+/** B360-B361: persist the initial check and selection before authoring a consequence. */
+class RpgExpandedFearEvent: object
+    id = nil
+    occurrence = nil
+    context = nil
+    result = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    consequence = nil
+    boundConsequence = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.occurrence == nil || self.context == nil
+            || !self.context.ofKind(RpgExpandedFearContext)) rpgExpandedReject('fear-event-definition');
+        return [self.id,self.occurrence,self.context] + self.context.eventFacts();
+    }
+    outcomeFacts()
+    {
+        local v = self.result;
+        local facts = [v,v.status,v.reason,v.immune,v.score,v.modifier,v.tableRoll,v.tableTotal,v.row,self.recordedAt,v.check];
+        if (v.check != nil) facts = facts + [v.check.score,v.check.roll,v.check.margin,v.check.achieved,v.check.critical];
+        return facts;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedFearEventResult(); local profile = self.context.profile;
+        if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-event-profile');
+        if (self.result != nil)
+        {
+            if (!holds(profile.fearEvents,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('fear-event-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-event-binding');
+            local outcome = self.outcomeFacts();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('fear-event-outcome');
+            for (local i = 1; i <= outcome.length(); i += 1)
+                if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('fear-event-outcome');
+            if (self.consequence != self.boundConsequence || self.recordedAt > rpgLedger.seconds) rpgExpandedReject('fear-event-consequence-binding');
+            value.status = 'reused'; return value;
+        }
+        if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil || self.consequence != nil
+            || self.boundConsequence != nil) rpgExpandedReject('fear-event-uncommitted');
+        foreach (local prior in profile.fearEvents)
+        {
+            prior.assess();
+            if (prior.id == self.id || prior.occurrence == self.occurrence) rpgExpandedReject('fear-event-duplicate');
+            if (prior.result.row != nil && prior.consequence == nil)
+            { value.reason = 'fear-event-unresolved-consequence'; return value; }
+        }
+        if (profile.dead || profile.unconscious) { value.reason = 'fear-event-observer-unavailable'; return value; }
+        local prepared = self.context.assess();
+        if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
+        /* Preserve existing trait guards until their full-table follow-ups are installed. */
+        if (!prepared.immune) profile.validateDirectFright();
+        value.immune = prepared.immune; value.score = prepared.score; value.modifier = prepared.modifier;
+        value.status = 'ready'; return value;
+    }
+    resolve()
+    {
+        local value = self.assess(); if (value.status == 'reused') return self.result;
+        if (value.status != 'ready') return value;
+        local facts = self.definition();
+        if (!value.immune)
+        {
+            value.check = rpgCheck(value.score,rpgRandom.roll());
+            if (!value.check.achieved)
+            {
+                value.tableRoll = rpgRandom.roll(); value.tableTotal = value.tableRoll-value.check.margin;
+                value.row = rpgExpandedFearTable(value.tableTotal).row;
+            }
+        }
+        value.status = 'resolved'; self.recordedAt = rpgLedger.seconds; self.result = value;
+        self.boundDefinition = facts; self.boundOutcome = self.outcomeFacts();
+        self.context.profile.fearEvents = self.context.profile.fearEvents + [self]; return value;
+    }
+    matchesConsequence(request)
+    {
+        local row = self.result.row;
+        if (request.ofKind(RpgExpandedFearTraitConsequence)) return request.fearEventMatches(self);
+        if (request.ofKind(RpgExpandedFearStun)) return request.tableTotal == row && (row <= 11 || (row >= 14 && row <= 16));
+        if (request.ofKind(RpgExpandedFearRetching)) return row == 12;
+        if (request.ofKind(RpgExpandedFearFaint)) return request.tableTotal == row && row >= 17 && row <= 19;
+        if (request.ofKind(RpgExpandedFearPanic)) return row == 21;
+        if (request.ofKind(RpgExpandedFearComa)) return request.tableTotal == row && (row == 28 || row == 29);
+        if (request.ofKind(RpgExpandedCatatonia)) return row == 30;
+        if (request.ofKind(RpgExpandedFearSeizure)) return row == 31;
+        if (request.ofKind(RpgExpandedFearAcuteInjury)) return row == 32;
+        return nil;
+    }
+    assessConsequence(request)
+    {
+        local value = new RpgExpandedResult();
+        if (self.assess().status != 'reused' || self.result.row == nil)
+        { value.reason = 'fear-event-no-consequence'; return value; }
+        if (request == nil || !self.matchesConsequence(request))
+        { value.reason = 'fear-event-consequence-type-or-row'; return value; }
+        if (!request.ofKind(RpgExpandedFearTraitConsequence) && (request.context != self.context || request.id != self.id))
+            rpgExpandedReject('fear-event-consequence-owner');
+        if (self.consequence != nil)
+        {
+            if (self.consequence != request) rpgExpandedReject('fear-event-consequence-already-selected');
+            if (request.assess().status != 'reused') rpgExpandedReject('fear-event-consequence-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.recordedAt != rpgLedger.seconds) { value.reason = 'fear-event-consequence-delayed'; return value; }
+        local prepared = self.context.assess();
+        if (prepared.status != 'ready' || prepared.immune || prepared.score != self.result.score || prepared.modifier != self.result.modifier)
+        { value.reason = 'fear-event-context-changed'; return value; }
+        value = request.assess();
+        if (value.status == 'reused') rpgExpandedReject('fear-event-used-consequence');
+        return value;
+    }
+    applyConsequence(request)
+    {
+        local value = self.assessConsequence(request); if (value.status != 'ready') return value;
+        value = request.apply(); if (value.status != 'resolved') rpgExpandedReject('fear-event-consequence-changed');
+        self.consequence = request; self.boundConsequence = request; return value;
+    }
+;
+modify RpgExpandedProfile
+    fearEvents = []
+    validateFeatures()
+    {
+        inherited(); local ids = []; local occurrences = [];
+        foreach (local entry in self.fearEvents)
+        {
+            if (entry == nil || !entry.ofKind(RpgExpandedFearEvent) || entry.context.profile != self
+                || holds(ids,entry.id) || holds(occurrences,entry.occurrence) || entry.assess().status != 'reused')
+                rpgExpandedReject('fear-event-profile-history');
+            ids = ids + [entry.id]; occurrences = occurrences + [entry.occurrence];
+        }
+        return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    unresolvedFearEvent()
+    {
+        foreach (local entry in self.fearEvents)
+        {
+            entry.assess();
+            if (entry.result.row != nil && entry.consequence == nil) return entry;
+        }
+        return nil;
+    }
+    healthEffortReason(purpose,mentalAbility,speech,movement)
+    {
+        if (self.unresolvedFearEvent() != nil) return 'fear-event-unresolved-consequence';
+        return inherited(purpose,mentalAbility,speech,movement);
+    }
+    healthManeuverReason(kind)
+    {
+        if (self.unresolvedFearEvent() != nil) return 'fear-event-unresolved-consequence';
+        return inherited(kind);
+    }
+;
+modify rpgLedger
+    validateAdvance(seconds)
+    {
+        inherited(seconds);
+        if (seconds > 0)
+            for (local entry = firstObj(RpgExpandedFearEvent); entry != nil; entry = nextObj(entry,RpgExpandedFearEvent))
+                if (entry.result != nil && entry.result.row != nil && entry.consequence == nil)
+                { entry.assess(); rpgExpandedReject('fear-event-unresolved-consequence'); }
+        return nil;
+    }
+;

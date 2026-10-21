@@ -2392,7 +2392,7 @@ modify RpgExpandedProfile
     }
 ;
 /** B361 rows 22/34, post-creation character-value loss without point income. */
-class RpgExpandedFixedBeliefAcquisition: object
+class RpgExpandedFixedBeliefAcquisition: RpgExpandedFearTraitConsequence
     id = nil
     eventId = nil
     profile = nil
@@ -3537,4 +3537,18 @@ class RpgExpandedSensoryMemoryAction: Action
         return value;
     }
     exec(context) { return self.perform(context.actor); }
+;
+
+modify RpgExpandedFearQuirkAcquisition
+    fearEventMatches(entry)
+    {
+        return entry.result.row == 13 && self.profile == entry.context.profile && self.eventId == entry.id;
+    }
+;
+modify RpgExpandedFixedBeliefAcquisition
+    fearEventMatches(entry)
+    {
+        return holds([22,34],entry.result.row) && self.tableTotal == entry.result.row
+            && self.profile == entry.context.profile && self.eventId == entry.id;
+    }
 ;

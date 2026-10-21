@@ -9763,6 +9763,10 @@ def test(build):
     quirk_stun = build.build('expanded-fear-quirk-stun',ROOT / 'tests/fixtures/expanded-fear-quirk-stun.t')
     test_fear_quirk_stun(Session,quirk_stun,build.out)
     test_fear_stun(Session,fear)
+    fear_event = build.build('expanded-fear-event',ROOT / 'tests/fixtures/expanded-fear-event.t')
+    test_fear_event(Session,fear_event,build.out)
+    fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
+    test_fear_event_traits(Session,fear_event_traits)
     test_fear_fatigue(Session,fear)
     test_fear_faint(Session,fear,build.out)
     test_fear_faint_injury(Session,fear,build.out)
@@ -27552,3 +27556,69 @@ def test_shadowing_round(Session, bundle, out):
         assert last(s,'test.shadow-round-preview') == ['blocked','shadowing-round-previous-required']
     finally:
         s.close()
+
+
+def test_fear_event(Session, bundle, out):
+    """B360 retained initial check and fresh table roll; fixtures unrun."""
+    def do(s,code):
+        s.action(2250,code,4)
+    def state(s):
+        do(s,305)
+        return last(s,'test.fear-event')
+    zero = [0,None,None,None,None,0,0,0,0]
+    selected = [1,10,11,4,4,0,0,6,0]
+    applied = [1,10,11,4,4,1,1,6,0]
+    path = out / 'fear-event.zsave'
+    s = Session(bundle)
+    try:
+        do(s,302); assert last(s,'test.fear-event-preview') == ['ready',None]
+        assert state(s) == zero
+        do(s,301); assert state(s) == zero
+        do(s,300); s.command('undo'); assert state(s) == zero
+        do(s,300); do(s,300); assert state(s) == selected
+        do(s,309); do(s,308); do(s,3); assert state(s) == selected
+        do(s,311); assert last(s,'test.fear-event-consequence') == ['ready',None]
+        do(s,304); assert state(s) == selected
+        do(s,303); s.command('undo'); assert state(s) == selected
+        s.command(f':save {path}\n@2251')
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251')
+        do(s,303); do(s,303); do(s,300); assert state(s) == applied
+        do(s,3)
+        assert state(s) == [1,10,11,4,4,1,0,6,1]
+    finally:
+        s.close()
+    for setup,expected in ((306,[1,10,10,None,None,0,0,3,0]),
+                           (307,[1,None,None,None,None,0,0,0,0])):
+        s = Session(bundle)
+        try:
+            do(s,setup); do(s,300); do(s,300); assert state(s) == expected
+        finally:
+            s.close()
+    s = Session(bundle)
+    try:
+        do(s,310); do(s,300); do(s,311)
+        assert last(s,'test.fear-event-consequence') == ['blocked','fear-event-consequence-type-or-row']
+        do(s,303); do(s,300); assert state(s) == [1,10,11,18,18,0,0,6,0]
+    finally:
+        s.close()
+
+
+def test_fear_event_traits(Session, bundle):
+    """B360-B361 selected permanent consequences do not award spendable points; unrun."""
+    for setup,row,allowance in ((320,13,1),(321,22,10)):
+        s = Session(bundle)
+        try:
+            s.action(2250,setup,4); s.action(2250,300,4); s.action(2250,305,4)
+            assert last(s,'test.fear-event')[4] == row
+            s.action(2250,323,4); s.action(2250,324,4)
+            assert last(s,'test.fear-event-traits') == [0,9,7,0,0,6]
+            s.action(2250,322,4); s.command('undo'); s.action(2250,324,4)
+            assert last(s,'test.fear-event-traits') == [0,9,7,0,0,6]
+            s.action(2250,322,4); s.action(2250,322,4); s.action(2250,324,4)
+            assert last(s,'test.fear-event-traits') == [1,9,7,1,allowance,6]
+        finally:
+            s.close()

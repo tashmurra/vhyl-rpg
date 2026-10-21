@@ -31,8 +31,8 @@ cap without letting a later ordinary wound reduce an existing penalty, and retai
 high-pain immunity. Merely doubling the stored shock value would also double
 unrelated earlier injury and would not satisfy this contract.
 
-Broader detailed injury, anatomy exceptions, medical care, recovery
-and fear remain pending. This option does not enable a complete expanded injury profile;
+Detailed injury, anatomy exceptions, medical care, recovery and fear have partial
+implementations described below. This option does not enable a complete expanded injury profile;
 other wound behavior remains the explicitly selected existing foundation behavior.
 
 Implementation must verify each applicable source procedure and catalogue entry, add module-specific APIs and independent expected-value tests, and exercise persistence and interaction with other modules. A generic callback is not evidence of completed mechanics.
@@ -48,14 +48,18 @@ Some outcomes also impose injury, fatigue, temporary penalties, new traits or
 permanent attribute loss. An owned episode must retain those details across
 time advancement, rollback, undo and save continuation. Lasting traits require a
 specific event-related author decision and alter character value without granting
-spendable points. None of this expanded fear behavior is implemented yet.
+spendable points. Implemented components include initial assessment, scene
+modifiers, complete consequence-table specifications, owned stun, retching,
+fainting, panic, coma, catatonia, seizure and injury handlers, and selected
+lasting-trait acquisitions. The owned event flow below connects initial checks
+to supported handlers. Remaining compound outcomes and trait integrations are
+explicitly incomplete; none of these fixtures has run while checks are paused.
 
 The [injury and recovery inventory](inventory/health.json) covers the first text
 pass through B418–B427. It records location-specific crippling, optional bleeding
 and accumulated wounds, survival and waking checks, treatment tables, advanced
-drug design, fatigue causes and restricted recovery. All detailed entries remain
-pending; shared Lite helpers are integration starting points, not proof of full
-coverage.
+drug design, fatigue causes and restricted recovery. Detailed entries have pending or partial status; the sections below describe
+implemented behavior. Shared Lite helpers alone are not proof of full coverage.
 
 Expanded health must retain one global injury and fatigue balance while also
 recording wound locations, uncapped injury relevant to destruction, disabled body
@@ -4108,3 +4112,58 @@ distances. Authors must provide compatible simultaneous movement; the shadowing
 encounter integration remains pending. `test_march_step_group` specifies shared
 time, individual fatigue, member replay, denial, invalid grouping, tamper
 rejection, rollback, undo and cross-process continuation. Fixtures remain unrun.
+
+
+## Owned fear-event flow
+
+`RpgExpandedFearEvent` connects the initial check to a retained consequence
+selection (full-2008 B360–B361). Supply a unique `id`, an authored `occurrence`
+identity, and an approved `RpgExpandedFearContext`. The evidence must explain
+why the event is extraordinary for this character. Including the library alone
+does not replace `rpgLiteFright` or enable this procedure automatically.
+
+`assess()` is pure. `resolve()` returns a retained `RpgExpandedFearEventResult`:
+immunity consumes no dice, success consumes one three-die roll, and failure
+consumes a second independent three-die roll. The failed check's margin is added
+to that second roll, retaining `tableRoll`, `tableTotal` and capped table `row`.
+The initial check, original modifier and context facts are bound to the receipt.
+An occurrence cannot be resolved twice for the same character, even through a
+new request object. Replay does not reroll or spend time.
+
+On failure, author a matching consequence and call `assessConsequence(request)`
+then `applyConsequence(request)` within the engine's transaction boundary. Health
+handlers must share the exact context and event ID. Supported rows are 4–19,
+21–22, 28–32 and 34: their existing handlers own durations, costs and recovery.
+Row 13 uses the traits library's `RpgExpandedFearQuirkAcquisition`; rows 22 and 34
+use `RpgExpandedFixedBeliefAcquisition`. Those acquisitions must name this event
+through `eventId`, match the profile and satisfy their specific relation and
+accounting contracts. Row 16 retains the stun handler's compound quirk contract.
+Catatonia still requires the explicit care regime; panic still requires authored
+behavior. These choices are not invented by the dispatcher.
+
+Until a consequence is committed, another fear event, normal effort, maneuvers
+and elapsed-time advancement are blocked. This keeps a retained table result
+from being ignored or delayed while play continues. A wrong row, wrong owner,
+used consequence or unsupported handler cannot consume additional resources.
+After commitment, the existing episode governs recovery and action restrictions.
+Reapplying the same consequence returns reused status. Rolling the event and
+committing its consequence may also be enclosed in one transaction by an author.
+
+Rows 20, 23–27, 33 and 35–40+ still need dedicated or compound executors.
+Unsupported results remain pending, never converted to an abridged result or
+rerolled automatically. Do not enable this event flow in a campaign expecting
+uninterrupted coverage of the entire table yet. Active phantom-voice combinations
+remain rejected by the existing guard until their table-triggered follow-ups are
+connected. Exposure-history automation, inappropriate-result adjudication,
+phobias, postbattle stress and fear auras also remain incomplete.
+
+`expanded-fear-event.t` / `test_fear_event` specify initial success, immunity,
+independent table selection, exact dice counts, duplicate prevention, pending
+consequence time guards, outcome binding, consequence replay, automatic short-stun
+recovery, rollback, undo and saved continuation. Fixtures remain unrun.
+
+`expanded-fear-event-traits.t` / `test_fear_event_traits` additionally specify
+rolled quirk and fixed-belief selection, acquisition rollback/undo, replay and
+unchanged earned/unspent points. These assertions also remain unrun. The current
+assessment's score-below-three restriction is still an explicit limitation; it
+must be reconciled before claiming complete extreme-fear table reachability.
