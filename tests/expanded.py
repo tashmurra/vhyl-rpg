@@ -9827,6 +9827,8 @@ def test(build):
     test_fear_selection(Session,fear_selection,build.out)
     goal_fixation = build.build('expanded-goal-fixation',ROOT / 'tests/fixtures/expanded-goal-fixation.t')
     test_goal_fixation(Session,goal_fixation,build.out)
+    impulsive_action = build.build('expanded-impulsive-action',ROOT / 'tests/fixtures/expanded-impulsive-action.t')
+    test_impulsive_action(Session,impulsive_action,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29581,4 +29583,57 @@ def test_goal_template(Session,bundle,out):
     s = Session(bundle)
     try:
         s.command(f':restore {path}\n@2251'); do(s,861); assert state(s) == fulfilled
+    finally: s.close()
+
+
+def test_impulsive_action(Session,bundle,out):
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,876)
+        return last(s,'test.impulsive')
+    for failed in (False,True):
+        path = out/f'impulsive-action-{failed}.zsave'
+        s = Session(bundle)
+        try:
+            do(s,878); assert last(s,'test.impulsive-prices') == [-20,1,-15,1,-10,1,-5,1]
+            do(s,870); do(s,581)
+            if failed: do(s,877)
+            do(s,872); assert state(s) == [0,0,0,None,0,0,0]
+            do(s,871); do(s,871)
+            assert state(s) == [int(failed),0,0,None,0,3,0]
+            if failed:
+                do(s,874); assert state(s) == [1,0,0,None,0,3,0]
+                do(s,875); assert state(s) == [1,0,0,None,0,3,0]
+            chosen = 873 if failed else 874
+            do(s,chosen); s.command('undo'); assert state(s) == [int(failed),0,0,None,0,3,0]
+            do(s,chosen); do(s,chosen)
+            expected = [0,int(failed),int(not failed),1,1,3,0]
+            assert state(s) == expected
+            if failed: do(s,880); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+            assert any('[save ok code=0]' in line for line in s.raw_lines)
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,chosen); assert state(s) == expected
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (870,581,879,871): do(s,code)
+        assert state(s) == [0,0,0,None,0,0,0]
+    finally: s.close()
+
+    # Pre-filled completion cannot suppress the obligation or consume a roll.
+    s = Session(bundle)
+    try:
+        for code in (870,581,881): do(s,code)
+        assert state(s) == [0,0,0,None,0,0,0]
+    finally: s.close()
+    # The more severe fear row requires the exact -15 rated purchase.
+    s = Session(bundle)
+    try:
+        for code in (870,882,581,581,583): do(s,code)
+        assert last(s,'test.fear-mental') == [1,15,0,0,0,1,9,7,0]
+        do(s,871); do(s,874)
+        assert state(s) == [1,0,0,None,0,3,0]
     finally: s.close()

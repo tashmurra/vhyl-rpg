@@ -2550,3 +2550,43 @@ replacement affecting only one, copy fidelity, invalid configuration rejection,
 rollback, undo and saved continuation. `test_goal_fixation` also specifies actual
 successful and failed self-control rolls, with a denied or permitted scene action
 and no reroll on receipt replay. All cases remain unrun.
+
+
+### Impulsive action
+
+`RpgExpandedImpulsiveAction` implements the self-control procedure in full-2008
+B139. Set `approved = true`; base cost is -10, with the standard rated costs
+(-20, -15, -10, -5 for ratings 6, 9, 12, 15). Rated template purchases use
+`['impulsive-action', 1, nil, rating]`. Copies are independent purchases. Exact
+-10 and -15 purchases are supported mental fear selections without granting
+spendable advancement points.
+
+Create an owned `RpgExpandedImpulsiveActionTrigger` for each occasion when
+waiting would be wise. Supply the ordinary ID, profile, trait, trigger and
+evidence, set `waitingWise`, and provide nonempty, disjoint `immediateActions`
+and `deliberativeActions` lists of concrete action identities. `assess()` is pure;
+`resolve()` uses the shared self-control procedure once. Failure permits only
+immediate actions; success also permits the listed deliberative alternatives.
+Unresolved occurrences and unclassified actions do not grant permission.
+
+At the ordinary action boundary, call `permits(action)` alongside target,
+incapacity, turn and resource validation. Execute the actual action and its normal
+costs, then call `recordAction(action, evidence)` in the same transaction. This
+method records the chosen action; it does not execute it, advance time or bypass
+ordinary legality. Do not record a merely proposed action as completed. Replaying
+a completed occurrence permits only its recorded choice; the action owner must
+also avoid repeating the world effect, as the fixture demonstrates. Use a new
+occurrence for a later decision. The source supplies no universal action duration
+or automatic target selection, so those remain explicit author responsibilities.
+
+The trigger retains the check, choice, completion time and evidence. Altered
+receipts and pre-filled completion state reject. Standard optional purchased
+success, giving in and stress follow-ups use the shared self-control machinery;
+prohibited low-score rolls retain its explicit rejection policy.
+
+`expanded-impulsive-action.t` demonstrates opening a door or stopping to plan,
+including actual world mutation and one shared time charge. Registered
+`test_impulsive_action` cases specify both fear-row prices, acquisition accounting,
+a denied deliberation action, successful/failed checks, invalid classifications,
+copy pricing, receipt mutation, rollback, replay, undo and cross-process saved
+continuation. All remain unrun while checks are paused.

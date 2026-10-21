@@ -159,3 +159,14 @@ replacement, accounting, undo and save continuation; they remain unrun. Configur
 authored term, goal and rating. Copy, isolation and actual self-control roll
 cases are registered but unrun. The remaining mental catalogue still requires
 work. This increment adds actual selection behavior rather than only a price.
+
+
+## Impulsive-action selection
+
+The B139 impulsive-action trait now has an owned decision interface. Authors
+classify concrete immediate and deliberative alternatives; failed self-control
+blocks deliberation, and the completed choice is retained without a second time
+charge or roll. Exact ten- and fifteen-point fear acquisitions are supported.
+The fixture includes actual scene effects, acquisition accounting and lifecycle
+cases, but remains unrun. This closes another implementation selection gap;
+remaining catalogue work and full validation still prevent a completion claim.

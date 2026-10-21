@@ -4,7 +4,9 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION follows the merged
 main prerelease; no new tag or release publication is part of this work.
 
-Fear outcomes now include overriding-goal mental traits with owned self-control
+Fear outcomes now include impulsive-action selections with explicit immediate
+and deliberative choices, owned checks and recorded scene completion. These
+fixtures remain unrun. Fear outcomes also include overriding-goal mental traits with owned self-control
 occurrences, concrete action permission, versioned goal replacement and funded
 buyoff. Configured templates preserve the original goal and rating without
 sharing fulfillment history. Recent timed-panic work adds room and tactical

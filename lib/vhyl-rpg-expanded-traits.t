@@ -4197,7 +4197,8 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedPleasureLoss) || trait.ofKind(RpgExpandedPhantomVoices)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
-        || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)))
+        || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
+        || trait.ofKind(RpgExpandedImpulsiveAction)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4720,5 +4721,108 @@ modify rpgExpandedTemplateTraits
         trait.creationCost();
         if (trait.labelId != trait.id) rpgExpandedReject('goal-fixation-template-definition');
         return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
+    }
+;
+
+/** B139: impulsive action at an authored opportunity for wise deliberation. */
+class RpgExpandedImpulsiveAction: RpgExpandedDisadvantage
+    id = 'impulsive-action'
+    labelId = 'impulsive-action'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-impulsive-action'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'impulsive-action' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('impulsive-action-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedImpulsiveActionTrigger: RpgExpandedSelfControlTrigger
+    waitingWise = nil
+    immediateActions = []
+    deliberativeActions = []
+    completedAction = nil
+    completedAt = nil
+    completionEvidence = nil
+    boundCompletion = nil
+    boundCheck = nil
+    definition()
+    { return inherited() + [self.waitingWise,self.immediateActions.length(),self.deliberativeActions.length()]
+        + self.immediateActions + self.deliberativeActions; }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedImpulsiveAction)) rpgExpandedReject('impulsive-action-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (self.boundCheck == nil || self.active != (!self.check.achieved && self.completedAt == nil))
+                rpgExpandedReject('impulsive-action-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('impulsive-action-check-binding');
+            if (self.completedAt != nil)
+            {
+                if (self.boundCompletion == nil || self.completedAction != self.boundCompletion[1]
+                    || self.completedAt != self.boundCompletion[2] || self.completionEvidence != self.boundCompletion[3])
+                    rpgExpandedReject('impulsive-action-completion-binding');
+            }
+            else if (self.completedAction != nil || self.completionEvidence != nil || self.boundCompletion != nil)
+                rpgExpandedReject('impulsive-action-uncommitted-completion');
+            return value;
+        }
+        if (self.completedAction != nil || self.completedAt != nil || self.completionEvidence != nil
+            || self.boundCompletion != nil || self.boundCheck != nil)
+            rpgExpandedReject('impulsive-action-uncommitted-completion');
+        if (value.status != 'ready') return value;
+        if (!self.waitingWise || self.immediateActions.length() == 0 || self.deliberativeActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'impulsive-action-alternatives'; return value; }
+        local seen = [];
+        foreach (local action in self.immediateActions + self.deliberativeActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('impulsive-action-classification');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        if (self.completedAt != nil) return action == self.completedAction;
+        return holds(self.immediateActions,action) || self.check.achieved && holds(self.deliberativeActions,action);
+    }
+    recordAction(action,evidence)
+    {
+        if (self.result == nil || evidence == nil || evidence == '' || !self.permits(action))
+            rpgExpandedReject('impulsive-action-execution-required');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            if (self.completedAction != action || self.completionEvidence != evidence) rpgExpandedReject('impulsive-action-completion-binding');
+            value.status = 'reused'; return value;
+        }
+        self.completedAction = action; self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence;
+        self.boundCompletion = [action,self.completedAt,evidence]; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'impulsive-action') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedImpulsiveAction(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedImpulsiveAction)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
 ;

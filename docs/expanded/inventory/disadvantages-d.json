@@ -412,9 +412,12 @@
       "pages": "B139",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Impulsiveness is base -10 with self-control when waiting and deliberation are appropriate. Failure requires an authored immediate action. Still validate target, physical possibility and ordinary action costs; failure cannot bypass turn ownership.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_impulsive_action"
+      ],
+      "validation_note": "Typed rated purchase and exact -10/-15 fear selection, owned self-control occurrence, explicit immediate/deliberative action classification and immutable completion receipt implemented. Authors must enforce permission inside normal action validation and commit world effects and costs in the same transaction. Fixture specifies successful/failed rolls, denied deliberation, prices, copies, acquisition accounting, invalid definitions, rollback, replay, undo and saved continuation. All cases unrun while checks remain paused; cross-surface integration remains unverified."
     },
     {
       "id": "disadvantages-d-increased-consumption",
