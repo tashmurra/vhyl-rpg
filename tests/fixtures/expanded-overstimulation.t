@@ -3,7 +3,7 @@ overTrait: RpgExpandedOverstimulation approved = true;
 overTrigger: RpgExpandedOverstimulationTrigger id = 'crowded-hall' profile = fearProfile trait = overTrait
     trigger = fearRoom situation = 'commotion' approved = true evidence = 'Several simultaneous conversations prevent decisive action';
 overPlanning: RpgLiteContext attribute = rpgIQ deliberatePlanning = true;
-overMode: RpgLiteAttackMode;
+overMode: RpgLiteAttackMode skillId = 'brawling';
 overWeapon: RpgLiteWeapon id = 'punch' modes = [overMode] ready = true;
 overOtherWeapon: RpgLiteWeapon id = 'punch' modes = [overMode] ready = true;
 overOtherProfile: RpgExpandedProfile rules = fearRules equipment = [overOtherWeapon];
@@ -44,7 +44,13 @@ modify FearTestAction
         }
         if (code == 725)
         { local v = overTrigger.assess(); event('test.overstimulation-preview'); eventValue(v.status); eventValue(v.reason); return nil; }
-        if (code == 726) { overBattle.step(overOther,overIncoming); overCounter.notice = overTrigger.attacks[1]; return nil; }
+        if (code == 726)
+        {
+            local value = overBattle.step(overOther,overIncoming);
+            event('test.overstimulation-incoming'); eventValue(value.status); eventValue(value.reason);
+            if (overTrigger.attacks.length() != 0) overCounter.notice = overTrigger.attacks[1];
+            return nil;
+        }
         if (code == 727 || code == 728)
         { overBattle.step(overActor,overCounter); if (code == 728) throw new RpgError(); return nil; }
         if (code == 729) { overCounter.target = overThird; return nil; }

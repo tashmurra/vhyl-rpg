@@ -38,7 +38,7 @@
         "tests/expanded.py::test_belief_observation",
         "tests/expanded.py::test_belief_credit"
       ],
-      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined credit at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and unfunded or outside-downtime revelation buyoff remain pending. Fixtures authored, unrun. Explicit author allocation supports above-cap ownership without extra credit. Creation requires full permitted aggregate credit; later historical allocations persist. Zero-credit negative purchases receive original buyoff bases. Template copies preserve allocations. No automatic allocation order is asserted."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fixed_beliefs. Remaining registered validation: test_belief_credit, test_belief_observation. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-c-belief-cap",
@@ -53,7 +53,7 @@
         "tests/expanded.py::test_belief_observation",
         "tests/expanded.py::test_belief_credit"
       ],
-      "validation_note": "Concrete authored fixed-belief purchases validate three severity prices, unique scopes and combined credit at most forty points. Distinct beliefs may repeat the neutral trait ID via an expanded-only duplicate-policy hook; ordinary duplicate rejection remains. Template copies preserve author text. Concrete portrayal receipts bind behavior and decisions per situation; observed active beliefs contribute severity reactions. Unnoticed or mitigated beliefs contribute zero. Legacy mixing, multi-belief reaction stacking, automatic action/dialogue routing and unfunded or outside-downtime revelation buyoff remain pending. Fixtures authored, unrun. Explicit author allocation supports above-cap ownership without extra credit. Creation requires full permitted aggregate credit; later historical allocations persist. Zero-credit negative purchases receive original buyoff bases. Template copies preserve allocations. No automatic allocation order is asserted."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fixed_beliefs. Remaining registered validation: test_belief_credit, test_belief_observation. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-c-belief-revelation",

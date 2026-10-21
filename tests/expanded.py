@@ -325,7 +325,7 @@ def test_critical_major_persistence(Session, bundle, out):
             if wounded:
                 first.action(1610,11)
             state_before = owned_wound_state(first); equipment_before = wound_drop_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1611')
         finally:
             first.close()
         second = Session(bundle)
@@ -513,7 +513,7 @@ def test_immunity_persistence(Session, bundle, out):
                 if later:
                     first.action(1810, 12)
                 saved = immunity_state(first)
-                first.command(f':save {path}')
+                first.command(f':save {path}\n@1812')
             finally:
                 first.close()
             second = Session(bundle)
@@ -589,7 +589,7 @@ def test_infection_persistence(Session, bundle, out):
             if stage == 2:
                 first.action(1810, 3); first.action(1810, 6)
             saved = hazard_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1811')
         finally:
             first.close()
         second = Session(bundle)
@@ -655,7 +655,7 @@ def test_rejuvenation_persistence(Session, bundle, out):
             if stage == 2:
                 first.action(1820, 11)
             saved = youth_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1822')
         finally:
             first.close()
         second = Session(bundle)
@@ -721,7 +721,7 @@ def test_aging_persistence(Session, bundle, out):
                 if completed:
                     first.action(1820, 1)
                 saved = aging_state(first)
-                first.command(f':save {path}')
+                first.command(f':save {path}\n@1821')
             finally:
                 first.close()
             second = Session(bundle)
@@ -807,7 +807,7 @@ def test_cold_persistence(Session, bundle, out):
             if stage == 3:
                 first.action(1840, 5)
             saved = cold_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1841')
         finally:
             first.close()
         second = Session(bundle)
@@ -877,7 +877,7 @@ def test_swimming_persistence(Session, bundle, out):
             for code in [1,3,4,6][:stage]:
                 first.action(1910, code)
             saved = swim_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1911')
         finally:
             first.close()
         second = Session(bundle)
@@ -934,7 +934,9 @@ def test_swimming_context(s):
     s.action(1877, 14, 0, 0, 0, 1)
     assert last(s, 'test.swim-score') == ['blocked','swimming-default-unavailable',None,0,0]
     s.action(1877, 10, 9, 0, 0)
-    assert last(s, 'test.swim-score') == ['blocked','swimming-exhaustion-unavailable',None,9,0]
+    assert last(s, 'test.swim-score') == ['ready',None,6,9,0]
+    s.action(1877, 10, 10, 0, 0)
+    assert last(s, 'test.swim-score') == ['blocked','swimming-will-check-required',None,10,0]
     s.action(1877, 10, 0, 20001, 0)
     assert last(s, 'test.swim-score') == ['blocked','swimming-overloaded',None,0,0]
 
@@ -1066,7 +1068,7 @@ def test_cinematic_prototype_persistence(Session,bundle,out):
     first = Session(bundle)
     try:
         first.action(2128,4)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2110')
     finally:
         first.close()
     second = Session(bundle)
@@ -1074,7 +1076,7 @@ def test_cinematic_prototype_persistence(Session,bundle,out):
         second.command(f':restore {path}\n@2110')
         second.action(2128,1)
         assert last(second,'test.cinematic-prototype') == ['resolved',None,7000]
-        second.command(f':save {path}')
+        second.command(f':save {path}\n@2110')
     finally:
         second.close()
     third = Session(bundle)
@@ -1527,7 +1529,7 @@ def test_animal_session_persistence(Session,bundle,out):
     first = Session(bundle)
     try:
         first.action(2207,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2208')
     finally:
         first.close()
     second = Session(bundle)
@@ -2576,7 +2578,7 @@ def test_psionic_purchase(Session,bundle,out):
         s.action(2240,0)
         assert last(s,'test.psionic-purchase') == ['resolved',None,14]
         assert state(s) == [1,6,1,1,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@2241')
     finally: s.close()
     s=Session(bundle)
     try:
@@ -2782,7 +2784,7 @@ def test_swarm_persistence(Session,bundle,out):
     try:
         first.action(2220,0)
         first.action(2222,3)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2221')
     finally: first.close()
     second = Session(bundle)
     try:
@@ -2816,7 +2818,7 @@ def test_swarm_exposure_persistence(Session,bundle,out):
         first.action(2216,0)
         first.action(2216,7)
         assert last(first,'test.swarm-protection') == ['active',None,1,1,0]
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2217')
     finally: first.close()
     second=Session(bundle)
     try:
@@ -3023,7 +3025,7 @@ def test_cinematic_concept_persistence(Session,bundle,out):
     try:
         first.action(2126,0)
         first.action(2126,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2127')
     finally:
         first.close()
     second = Session(bundle)
@@ -3119,7 +3121,7 @@ def test_production_order_persistence(Session,bundle,out):
             first.action(2120,0)
             first.action(2120,1)
             if complete: first.action(2120,9)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2121')
         finally:
             first.close()
         second = Session(bundle)
@@ -3168,7 +3170,7 @@ def test_production_line_persistence(Session,bundle,out):
     try:
         first.action(2118,0)
         first.action(2118,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2119')
     finally:
         first.close()
     second = Session(bundle)
@@ -3244,7 +3246,7 @@ def test_prototype_testing_persistence(Session,bundle,out):
             first.action(2115,0)
             first.action(2115,code)
             saved = prototype_testing_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2116')
         finally:
             first.close()
         second = Session(bundle)
@@ -3301,7 +3303,7 @@ def test_prototype_operation_persistence(Session,bundle,out):
     try:
         first.action(2113,0)
         first.action(2113,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2114')
     finally:
         first.close()
     second = Session(bundle)
@@ -3353,7 +3355,7 @@ def test_prototype_defects_persistence(Session,bundle,out):
         first.action(2111,0)
         first.action(2111,1)
         first.action(2111,5)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2112')
     finally:
         first.close()
     second = Session(bundle)
@@ -3416,7 +3418,7 @@ def test_prototype_completion_persistence(Session,bundle,out):
             first.action(2109,0)
             first.action(2109,code)
             saved = prototype_completion_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2110')
         finally:
             first.close()
         second = Session(bundle)
@@ -3466,7 +3468,7 @@ def test_prototype_accident_persistence(Session,bundle,out):
     try:
         first.action(2107,0)
         first.action(2107,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2108')
     finally:
         first.close()
     second = Session(bundle)
@@ -3513,7 +3515,7 @@ def test_prototype_work_persistence(Session,bundle,out):
     try:
         first.action(2106,0)
         first.action(2106,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2105')
     finally:
         first.close()
     second = Session(bundle)
@@ -3575,7 +3577,7 @@ def test_prototype_start_persistence(Session,bundle,out):
     try:
         first.action(2104,0)
         first.action(2104,1)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2105')
     finally:
         first.close()
     second = Session(bundle)
@@ -3621,7 +3623,7 @@ def test_invention_blueprint_persistence(Session,bundle,out):
     first = Session(bundle)
     try:
         first.action(2097,10)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2098')
     finally:
         first.close()
     second = Session(bundle)
@@ -3696,7 +3698,7 @@ def test_invention_facilities_persistence(Session,bundle,out):
             if stage >= 1: first.action(2102,1)
             if stage >= 2: first.action(2102,6)
             saved = facilities_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2103')
         finally:
             first.close()
         second = Session(bundle)
@@ -3785,7 +3787,7 @@ def test_invention_concept_persistence(Session,bundle,out):
     first = Session(bundle)
     try:
         first.action(2097,0)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@2098')
     finally:
         first.close()
     second = Session(bundle)
@@ -3871,7 +3873,7 @@ def test_software_purchase_persistence(Session,bundle,out):
             if stage >= 1: first.action(2093,0)
             if stage >= 2: first.action(2093,6)
             saved = software_purchase_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2094')
         finally:
             first.close()
         second = Session(bundle)
@@ -3966,7 +3968,7 @@ def test_remote_terminal_persistence(Session,bundle,out):
             first.action(2080,120); first.action(2080,121)
             if revoked:
                 first.action(2080,130)
-            saved = remote_terminal_state(first); first.command(f':save {path}')
+            saved = remote_terminal_state(first); first.command(f':save {path}\n@2089')
         finally:
             first.close()
         second = Session(bundle)
@@ -4023,7 +4025,7 @@ def test_computer_recording_persistence(Session,bundle,out):
                 first.action(2080,100)
             if stage == 2:
                 first.action(2080,108)
-            saved = computer_recording_state(first); first.command(f':save {path}')
+            saved = computer_recording_state(first); first.command(f':save {path}\n@2088')
         finally:
             first.close()
         second = Session(bundle)
@@ -4088,7 +4090,7 @@ def test_computer_transfer_persistence(Session,bundle,out):
                 first.action(2080,81)
             if stage == 2:
                 first.action(2080,89)
-            saved = computer_transfer_state(first); first.command(f':save {path}')
+            saved = computer_transfer_state(first); first.command(f':save {path}\n@2087')
         finally:
             first.close()
         second = Session(bundle)
@@ -4155,7 +4157,7 @@ def test_computer_link_persistence(Session,bundle,out):
                 first.action(2080,71)
             if stage == 2:
                 first.action(2080,63)
-            saved = computer_link_state(first); first.command(f':save {path}')
+            saved = computer_link_state(first); first.command(f':save {path}\n@2086')
         finally:
             first.close()
         second = Session(bundle)
@@ -4229,7 +4231,7 @@ def test_computer_storage_persistence(Session,bundle,out):
             for threshold,code in [(1,43),(2,45),(3,48)]:
                 if stage >= threshold:
                     first.action(2080,code)
-            saved = computer_data_state(first); first.command(f':save {path}')
+            saved = computer_data_state(first); first.command(f':save {path}\n@2083')
         finally:
             first.close()
         second = Session(bundle)
@@ -4292,7 +4294,7 @@ def test_computer_persistence(Session,bundle,out):
             if stage >= 3:
                 first.action(2080,23)
             saved = (computer_state(first),terminal_state(first))
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2082')
         finally:
             first.close()
         second = Session(bundle)
@@ -4444,7 +4446,7 @@ def test_major_parts_persistence(Session,bundle,out):
                 if stage >= threshold:
                     first.action(2060,code)
             saved = (parts_state(first),repair_state(first))
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2064')
         finally:
             first.close()
         second = Session(bundle)
@@ -4512,7 +4514,7 @@ def test_breakdown_repair_persistence(Session,bundle,out):
         first = Session(bundle)
         try:
             first.action(2060,20); first.action(2060,25 if failed else 21)
-            saved = repair_state(first); first.command(f':save {path}')
+            saved = repair_state(first); first.command(f':save {path}\n@2062')
         finally:
             first.close()
         second = Session(bundle)
@@ -4579,7 +4581,7 @@ def test_breakdown_persistence(Session,bundle,out):
         first = Session(bundle)
         try:
             first.action(2060,code); saved = breakdown_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2061')
         finally:
             first.close()
         second = Session(bundle)
@@ -4761,7 +4763,7 @@ def test_shield_ready_persistence(Session,bundle,out):
                 if stage == 2:
                     first.action(2044)
                 saved = shield_ready_state(first)
-                first.command(f':save {path}')
+                first.command(f':save {path}\n@2041')
             finally:
                 first.close()
             second = Session(bundle)
@@ -4845,7 +4847,7 @@ def test_critical_readiness_persistence(Session,bundle,out):
         first = Session(bundle)
         try:
             first.action(2030,code); saved = state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2032')
         finally:
             first.close()
         second = Session(bundle)
@@ -4900,7 +4902,7 @@ def test_weapon_miss_drop_persistence(Session,bundle,out):
         first = Session(bundle)
         try:
             first.action(2030,code); saved = weapon_miss_drop_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2034')
         finally:
             first.close()
         second = Session(bundle)
@@ -4960,7 +4962,7 @@ def test_critical_drop_persistence(Session,bundle,out):
         first = Session(bundle)
         try:
             first.action(2030,code); saved = critical_drop_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@2031')
         finally:
             first.close()
         second = Session(bundle)
@@ -5290,7 +5292,7 @@ def test_maneuver_persistence(Session, bundle, out):
                 if stage == 2:
                     first.action(1980, 2, seed)
                 saved = maneuver_state(first)
-                first.command(f':save {path}')
+                first.command(f':save {path}\n@1981')
             finally:
                 first.close()
             second = Session(bundle)
@@ -5384,7 +5386,7 @@ def test_effort_persistence(Session, bundle, out):
         try:
             first.action(1960, 0, seed)
             saved = effort_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1961')
         finally:
             first.close()
         second = Session(bundle)
@@ -5485,7 +5487,7 @@ def test_cardiac_clock_batch_persistence(Session, bundle, out):
         first.action(1930, 21); first.action(1930, 23)
         saved = cardiac_state(first)
         second_saved = second_cardiac_state(first)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@1931')
     finally:
         first.close()
     restored = Session(bundle)
@@ -5552,7 +5554,7 @@ def test_cardiac_clock_persistence(Session, bundle, out):
             if expired:
                 first.action(1930, 15)
             saved = cardiac_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1931')
         finally:
             first.close()
         second = Session(bundle)
@@ -5632,7 +5634,7 @@ def test_cardiac_persistence(Session, bundle, out):
             if stage == 3:
                 first.action(1930, 8); first.action(1930, 6)
             saved = cardiac_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1931')
         finally:
             first.close()
         second = Session(bundle)
@@ -5780,7 +5782,7 @@ def test_airless_persistence(Session, bundle, out):
             for code in [2,3,5][:stage]:
                 first.action(1900, code)
             saved = air_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1901')
         finally:
             first.close()
         second = Session(bundle)
@@ -5806,7 +5808,7 @@ def test_airless_brain_persistence(Session, bundle, out):
             if rescued:
                 first.action(1900, 5)
             saved = air_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1901')
         finally:
             first.close()
         second = Session(bundle)
@@ -5912,7 +5914,7 @@ def test_breath_persistence(Session, bundle, out):
             if stage == 4:
                 first.action(1880, 10)
             saved = breath_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1881')
         finally:
             first.close()
         second = Session(bundle)
@@ -6008,7 +6010,7 @@ def test_immersion_persistence(Session, bundle, out):
             for code in [1,2,4,6][:stage]:
                 first.action(1860, code)
             saved = immersion_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1861')
         finally:
             first.close()
         second = Session(bundle)
@@ -6275,7 +6277,7 @@ def test_aid_persistence(Session, bundle, out):
             if completed:
                 first.action(1700, completed)
             saved = aid_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1701')
         finally:
             first.close()
         second = Session(bundle)
@@ -6328,7 +6330,7 @@ def test_bandage_persistence(Session, bundle, out):
             if treated:
                 first.action(1690, 1)
             saved = bandage_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1691')
         finally:
             first.close()
         second = Session(bundle)
@@ -6445,7 +6447,7 @@ def test_physician_check_persistence(Session, bundle, out):
             first.action(1680, 0); first.action(1680, 1); first.action(1680, 2)
             first.action(1680, 8 if failure else 3)
             saved = physician_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1681')
         finally:
             first.close()
         second = Session(bundle)
@@ -6495,7 +6497,7 @@ def test_medical_supervision_persistence(Session, bundle, out):
             if rested:
                 first.action(1670, 7)
             saved = medical_roster(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1671')
         finally:
             first.close()
         second = Session(bundle)
@@ -6562,7 +6564,7 @@ def test_natural_recovery_persistence(Session, bundle, out):
             if completed:
                 first.action(1660, 4)
             saved = natural_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1661')
         finally:
             first.close()
         second = Session(bundle)
@@ -6660,7 +6662,7 @@ def test_later_care_persistence(Session, bundle, out):
             if improved:
                 first.action(1650, 2)
             saved = later_care_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1651')
         finally:
             first.close()
         second = Session(bundle)
@@ -6723,7 +6725,7 @@ def test_last_wound_persistence(Session, bundle, out):
     try:
         first.action(1620, 13)
         saved = last_wound_state(first)
-        first.command(f':save {path}')
+        first.command(f':save {path}\n@1624')
     finally:
         first.close()
     second = Session(bundle)
@@ -6788,7 +6790,7 @@ def test_lasting_recovery_persistence(Session, bundle, out):
             for month in range(1, months + 1):
                 first.action(1640, month)
             saved = recovery_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1641')
         finally:
             first.close()
         second = Session(bundle)
@@ -6856,7 +6858,7 @@ def test_crippling_duration_persistence(Session, bundle, out):
         try:
             first.action(1630, code)
             saved = duration_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1631')
         finally:
             first.close()
         second = Session(bundle)
@@ -6916,7 +6918,7 @@ def test_limb_grip_persistence(Session, bundle, out):
         try:
             first.action(1620, code)
             saved = limb_retention(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1621')
         finally:
             first.close()
         second = Session(bundle)
@@ -6990,7 +6992,7 @@ def test_limb_wound_persistence(Session, bundle, out):
         try:
             first.action(1620, code)
             saved = limb_state(first)
-            first.command(f':save {path}')
+            first.command(f':save {path}\n@1621')
         finally:
             first.close()
         second = Session(bundle)
@@ -24151,7 +24153,7 @@ def test_physician_physiology(Session, bundle, out):
     try:
         for code in (19500,19501,19505):
             s.action(1680,code)
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -24397,7 +24399,7 @@ def test_nature_disclosure(Session, bundle, out):
         for code in (20400,20400,20402):
             s.action(2285,code)
         assert last(s,'test.nature-knowledge') == [1,0,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@2286')
     finally:
         s.close()
     s = Session(bundle)
@@ -24561,7 +24563,7 @@ def test_psychology_assessment(Session, bundle, out):
             for code in (21000,21000,21002):
                 s.action(1680,code)
             assert last(s,'test.psychology-history') == [1,3,0]
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@1681')
         finally:
             s.close()
         s = Session(bundle)
@@ -24593,7 +24595,7 @@ def test_psychology_disclosure(Session, bundle, out):
         for code in (21100,21100,21102):
             s.action(1680,code)
         assert last(s,'test.psychology-knowledge') == [1,0,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -24800,7 +24802,7 @@ def test_paleontology_assessment(Session, bundle, out):
             assert last(s,'test.paleontology-history') == [1,3,0]
             s.action(1680,21909)
             assert last(s,'test.paleontology-binding') == ['paleontology-assessment-repeat']
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@1681')
         finally:
             s.close()
         s = Session(bundle)
@@ -24844,7 +24846,7 @@ def test_paleontology_disclosure(Session, bundle, out):
         for code in (22000,22000,22002):
             s.action(1680,code)
         assert last(s,'test.paleontology-knowledge') == [1,0,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -24942,7 +24944,7 @@ def test_paleontology_equipment(Session, bundle, out):
             s.action(1680,code)
         assert last(s,'test.paleontology-finding') == ['reused','The fossil is approximately two million years old']
         assert last(s,'test.paleontology-history') == [1,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -24983,7 +24985,7 @@ def test_paleontology_familiarity(Session, bundle, out):
         assert last(s,'test.fossil-familiarity') == ['ready',19,0]
         s.action(1680,21902)
         assert last(s,'test.paleontology-history') == [1,3,28800]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25047,7 +25049,7 @@ def test_packing_attempt(Session, bundle, out):
         for code in (22500,22500,22506):
             s.action(1680,code)
         assert last(s,'test.packing-state') == [1,1,6,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25090,7 +25092,7 @@ def test_packing_findings(Session, bundle, out):
             assert last(s,'test.packing-finding') == ['reused',None,finding]
             s.action(1680,22506)
             assert last(s,'test.packing-state') == [1,0,3,0]
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@1681')
         finally:
             s.close()
         s = Session(bundle)
@@ -25140,7 +25142,7 @@ def test_packing_disclosure(Session, bundle, out):
         for code in (22700,22700,22702):
             s.action(1680,code)
         assert last(s,'test.packing-knowledge') == [1,0,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25230,7 +25232,7 @@ def test_packing_transfer(Session, bundle, out):
         for code in (22900,22900,22902):
             s.action(1680,code)
         assert last(s,'test.packing-inventory') == [0,1,1,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25280,7 +25282,7 @@ def test_packing_bundle(Session, bundle, out):
         assert last(s,'test.bundle-inventory') == [0,2,2,3,0]
         s.action(1680,22900)
         assert last(s,'test.packing-transfer') == ['blocked','packing-transfer-already-recorded']
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25325,7 +25327,7 @@ def test_overload_carry(Session, bundle, out):
         for code, reason in ((23105,'overload-one-second-step-required'),(23106,'overload-duplicate-clock')):
             s.action(1680,code)
             assert last(s,'test.overload-error') == [reason]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25356,7 +25358,7 @@ def test_packing_overload(Session, bundle, out):
         for code in (23000,23000,23201,23202):
             s.action(1680,code)
         assert last(s,'test.packed-overload') == [1,1,1,1]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25400,7 +25402,7 @@ def test_packing_active_overload(Session, bundle, out):
         for code in (23301,23301,23201,23304):
             s.action(1680,code)
         assert last(s,'test.active-load-state') == [1,0,2,1,2]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25468,7 +25470,7 @@ def test_march_group(Session, bundle, out):
         assert last(s,'test.march-group-state') == [3600,1,2,1,1,0]
         s.action(2285,1137)
         assert last(s,'test.march-combat') == ['march-hour-already-charged']
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@2286')
     finally:
         s.close()
     s = Session(bundle)
@@ -25553,7 +25555,7 @@ def test_march_interruption(Session, bundle, out):
             for code in (23800,23800,23503):
                 s.action(2285,code)
             assert last(s,'test.march-group-state') == [seconds,1,2,1,1,0]
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@2286')
         finally:
             s.close()
         s = Session(bundle)
@@ -25587,7 +25589,7 @@ def test_travel_day(Session, bundle, out):
         assert last(s,'test.travel-familiarity') == ['blocked','activity-dedicated-travel-day']
         assert last(s,'test.travel-forage') == ['blocked','foraging-dedicated-travel-day']
         assert last(s,'test.travel-state') == [1,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25624,7 +25626,7 @@ def test_travel_digging(Session, bundle, out):
         assert last(s,'test.travel-dig-team') == ['blocked','activity-dedicated-travel-day']
         assert last(s,'test.travel-dig-solo') == ['blocked','activity-dedicated-travel-day']
         assert last(s,'test.travel-dig-state') == [0,0,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@2286')
     finally:
         s.close()
     s = Session(bundle)
@@ -25657,7 +25659,7 @@ def test_travel_day_interruption(Session, bundle, out):
         assert last(s,'test.travel-mileage') == ['travel-day-interrupted',1]
         s.action(1680,23913)
         assert last(s,'test.travel-overlap') == ['activity-dedicated-travel-day',None,'foraging-dedicated-travel-day']
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25723,7 +25725,7 @@ def test_hiking_day_party(Session, bundle, out):
         assert last(s,'test.party-day') == ['ready',None,6,0]
         s.action(2285,24102); s.action(2285,24101)
         assert last(s,'test.party-day') == ['blocked','travel-day-interrupted',6,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@2286')
     finally:
         s.close()
     s = Session(bundle)
@@ -25775,7 +25777,7 @@ def test_begging_hour(Session, bundle, out):
         for code in (24300,24300,24303):
             s.action(1680,code)
         assert last(s,'test.begging-hour-state') == [10,3600,3,1,'A resident offers a meal']
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25849,7 +25851,7 @@ def test_begging_gift(Session, bundle, out):
         assert last(s,'test.begging-gift-state') == [1,0,1,10,3600,3]
         s.action(1680,24503)
         assert last(s,'test.begging-gift') == ['blocked','begging-gift-already-recorded']
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25934,7 +25936,7 @@ def test_begging_appearance(Session, bundle, out):
     try:
         s.action(1680,24300); s.action(1680,24718); s.action(1680,24300); s.action(1680,24303)
         assert last(s,'test.begging-hour-state') == [2,3600,3,1,'A resident offers a meal']
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -25979,7 +25981,7 @@ def test_appearance_template(Session, bundle, out):
         assert last(s,'test.appearance-template') == [9,9,9,1,2,1]
         s.action(1680,24902); s.action(1680,24901)
         assert last(s,'test.appearance-template') == [15,9,9,1,2,1]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26006,7 +26008,7 @@ def test_styling(Session, bundle, out):
         for code in (25000,25000,25002):
             s.action(1680,code)
         assert last(s,'test.styling') == [5,1,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26047,7 +26049,7 @@ def test_styling_equipment(Session, bundle, out):
         assert last(s,'test.styling') == [5,1,0,0]
         s.action(1680,25101); s.command('undo'); s.action(1680,25002)
         assert last(s,'test.styling') == [5,1,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26145,7 +26147,7 @@ def test_animal_disguise(Session, bundle, out):
         for code in (25500,25500,25502):
             s.action(1680,code)
         assert last(s,'test.animal-disguise') == [10,None,3,1]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26178,7 +26180,7 @@ def test_animal_habits_health(Session, bundle, out):
         assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-denied',3,1]
         s.action(1680,25509); s.action(1680,25500); s.action(1680,25502)
         assert last(s,'test.animal-disguise') == [None,'animal-disguise-study-denied',3,1]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26205,7 +26207,7 @@ def test_makeup(Session, bundle, out):
         for code in (25600,25600,25603):
             s.action(1680,code)
         assert last(s,'test.makeup-state') == [1,1,600,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26252,7 +26254,7 @@ def test_makeup_lifecycle(Session, bundle, out):
         for code in (25700,25700,25600,25702):
             s.action(1680,code)
         assert last(s,'test.makeup-lifecycle') == ['makeup-ended',0,600,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26297,7 +26299,7 @@ def test_makeup_equipment(Session, bundle, out):
         for code in (25803,25804,25600,25805,25600,25603):
             s.action(1680,code)
         assert last(s,'test.makeup-state') == [1,1,600,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26365,7 +26367,7 @@ def test_makeup_materials(Session, bundle, out):
         s.action(1680,25600); s.action(1680,25600); s.action(1680,26000)
         assert last(s,'test.makeup-materials') == [0,0,1]
         path = out / 'makeup-materials.zsave'
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26420,7 +26422,7 @@ def test_bleeding_receipts(Session, bundle, out):
                 assert last(s,'test.bleeding-aid') == ['reused',None,0]
             s.action(2288)
             assert last(s,'test.bleeding-bandage-state')[2] == (1 if mode == 'bandage' else 0)
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@2287')
         finally:
             s.close()
         s = Session(bundle)
@@ -26512,7 +26514,7 @@ def test_bleeding_timeline(Session, bundle, out):
         for code in range(91,100):
             s.action(2285,code)
             assert state(s) == original
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@2287')
     finally:
         s.close()
     s = Session(bundle)
@@ -26553,7 +26555,7 @@ def test_cultures(Session, bundle, out):
             assert last(s,'test.culture') == [8,1,2,0,0]
         s.action(1680,26202); s.action(1680,26203); s.command('undo'); s.action(1680,26200)
         assert last(s,'test.culture') == [5,1,2,0,0]
-        s.action(1680,26203); s.command(f':save {path}')
+        s.action(1680,26203); s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26580,7 +26582,7 @@ def test_culture_templates(Session, bundle, out):
             assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
             s.action(1680,26300); s.action(1680,26301)
             assert last(s,'test.culture-template') == [1,1,0,0,2,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26615,7 +26617,7 @@ def test_cultural_adaptation(Session, bundle, out):
         assert last(s,'test.adaptation-template') == [-3,0,10]
         s.action(1680,26405); s.command('undo'); s.action(1680,26400)
         assert last(s,'test.cultural-adaptation') == [8,10,0,0]
-        s.action(1680,26402); s.action(1680,26405); s.command(f':save {path}')
+        s.action(1680,26402); s.action(1680,26405); s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26643,7 +26645,7 @@ def test_gesture_attempt(Session, bundle, out):
         s.action(1680,26500); s.command('undo'); assert state(s) == initial
         s.action(1680,26500); s.action(1680,26500); assert state(s) == completed
         s.action(1680,26507); assert state(s) == completed
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26715,7 +26717,7 @@ def test_gesture_actions(Session, bundle, out):
                 perform(s,'resolve'); s.command('undo'); assert state(s) == [0,0,None,0,0]
                 perform(s,'resolve'); perform(s,'resolve')
                 assert state(s) == [1,1,'Wait beside the doorway',2,3]
-                s.command(f':save {path}')
+                s.command(f':save {path}\n@1681')
             finally:
                 s.close()
             s = Session(bundle)
@@ -26794,7 +26796,7 @@ def test_terrain_search(Session, bundle, out):
         s.action(1680,27000); s.command('undo'); assert state(s) == initial
         s.action(1680,27000); s.action(1680,27000); assert state(s) == completed
         s.action(1680,27010); assert state(s) == completed
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26853,7 +26855,7 @@ def test_vision(Session, bundle, out):
         s.action(1680,27120); s.command('undo'); assert state(s) == [0,None,0,0]
         s.action(1680,27120); s.action(1680,27120); assert state(s) == [1,True,3,0]
         s.action(1680,27123); assert state(s) == [1,True,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26883,7 +26885,7 @@ def test_terrain_observation(Session, bundle, out):
         s.action(1680,27000); s.action(1680,27000)
         assert state(s) == [1,'down the eastern gully',30,6]
         s.action(1680,27205); assert state(s) == [1,'down the eastern gully',30,6]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -26951,7 +26953,7 @@ def test_hearing_observation(Session, bundle, out):
         s.action(1680,27400); s.command('undo'); assert state(s) == [0,None,0,0]
         s.action(1680,27400); s.action(1680,27400); assert state(s) == [1,True,3,0]
         s.action(1680,27404); assert state(s) == [1,True,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27027,7 +27029,7 @@ def test_sense_comprehension(Session, bundle, out):
         s.action(1680,27600); s.command('undo'); assert state(s) == [0,None,3,0]
         s.action(1680,27600); s.action(1680,27600); assert state(s) == completed
         s.action(1680,27608); assert state(s) == completed
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27073,7 +27075,7 @@ def test_danger_warning(Session, bundle, out):
         s.action(1680,27700); s.command('undo'); assert state(s) == [0,None,1,0,0]
         s.action(1680,27700); s.action(1680,27700); assert state(s) == [1,detail,1,3,0]
         s.action(1680,27709); assert state(s) == [1,detail,1,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27174,7 +27176,7 @@ def test_chemical(Session, bundle, out):
         s.action(1680,27900); s.command('undo'); assert state(s) == [0,None,0,0]
         s.action(1680,27900); s.action(1680,27900); assert state(s) == [1,True,3,0]
         s.action(1680,27911); assert state(s) == [1,True,3,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27266,7 +27268,7 @@ def test_sensory_recognition(Session, bundle, out):
             s.action(1680,code); assert scores(s) == [16,16,15,15,10,0,0]
         s.action(1680,28006)
         assert last(s,'test.fine-template') == [15,15,True,None,True]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27305,7 +27307,7 @@ def test_sensory_memory(Session, bundle, out):
         assert state(s) == [1,None,86460,60,3]
         s.action(1680,28112); assert state(s) == [1,None,86460,60,3]
         s.action(1680,28104); assert state(s) == [1,None,86460,60,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27380,7 +27382,7 @@ def test_sensory_memory_actions(Session, bundle, out):
             perform(s,'resolve')
             assert last(s,'rpg.expanded.sensory-memory') == ['resolve','blocked','sensory-memory-retry-delay']
             assert state(s) == [1,None,86460,60,3]
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@1681')
         finally:
             s.close()
         s = Session(bundle)
@@ -27419,7 +27421,7 @@ def test_signature_recognition(Session, bundle, out):
     try:
         s.action(1680,27400); s.action(1680,28304); s.action(1680,28300)
         assert state(s) == [1,True,1,0,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27491,7 +27493,7 @@ def test_tracking_acquisition(Session, bundle, out):
         s.action(1680,28500); s.action(1680,28500); assert state(s) == [1,True,30,3]
         for code in (28504,28505,28506):
             s.action(1680,code); assert state(s) == [1,True,30,3]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27555,7 +27557,7 @@ def test_march_steps(Session, bundle, out):
         s.action(1680,28700); s.action(1680,28700); assert state(s) == [60,1,60,0,0,0]
         for code in (28704,28705,28706):
             s.action(1680,code); assert state(s) == [60,1,60,0,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27588,7 +27590,7 @@ def test_tracking_encounter(Session, bundle, out):
         assert last(s,'test.follow-preview') == ['ready',None]
         s.action(1680,28803); assert state(s) == [1,30,0,30,3,30,0]
         s.action(1680,28802); s.command('undo'); assert state(s) == [1,30,0,30,3,30,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27638,7 +27640,7 @@ def test_tracking_marching_boundaries(Session, bundle, out):
         assert state(s) == [1,0,0,1800,6,1800,0]
         s.action(1680,28803); assert state(s) == [1,0,0,1800,6,1800,0]
         s.action(1680,28802); s.command('undo'); assert state(s) == [1,0,0,1800,6,1800,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27671,7 +27673,7 @@ def test_march_partial_exclusion(Session, bundle, out):
             s.action(1680,code)
             assert last(s,'test.march-competing') == ['blocked','march-unsettled-partial-hour']
             assert state(s) == [60,1,60,0,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27703,7 +27705,7 @@ def test_partial_march_interruption(Session, bundle, out):
         s.action(1680,28900); s.action(1680,28900); assert state(s) == [60,1,60,1,1,0]
         for code in (28905,28906,28702,28705):
             s.action(1680,code); assert state(s) == [60,1,60,1,1,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27857,7 +27859,7 @@ def test_march_step_group(Session, bundle, out):
         assert state(s) == [60,60,60,0,0,0,0,0]
         s.action(1680,29508); assert state(s) == [60,60,60,0,0,0,0,0]
         s.action(1680,29503); assert state(s) == [60,60,60,0,0,0,0,0]
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -27898,7 +27900,7 @@ def test_shadowing_round(Session, bundle, out):
         s.action(1680,29610); assert state(s) == first
         s.action(1680,29609); assert last(s,'test.shadow-round-outcome') == [1,0,0,0,0,0]
         s.action(1680,29603); assert state(s) == first
-        s.command(f':save {path}')
+        s.command(f':save {path}\n@1681')
     finally:
         s.close()
     s = Session(bundle)
@@ -28608,11 +28610,11 @@ def test_echo_vault(Session,bundle,out):
             perform(s,'face'); assert state(s)==first
             perform(s,'breathe'); perform(s,'read'); perform(s,'read')
             assert state(s)==[1,0,1,2]
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@1400')
         finally: s.close()
         s=Session(bundle)
         try:
-            s.command(f':restore {path}'); perform(s,'face'); perform(s,'read')
+            s.command(f':restore {path}\n@1400'); perform(s,'face'); perform(s,'read')
             assert state(s)==[1,0,1,2]
         finally: s.close()
 
@@ -30559,8 +30561,8 @@ def test_replay_overlap(Session,bundle,out):
             s.command(f':restore {path}\n@2251'); do(s,1072)
             assert state(s) == [2,penalty,1,4,6,10,2]
             do(s,1075); assert state(s) == [2,-2,1,4,6,10,4]
+            do(s,1075); s.command('undo'); assert state(s) == [2,-2,1,4,6,10,4]
             do(s,1075); assert state(s) == [2,0,0,4,6,10,6]
-            s.command('undo'); assert state(s) == [2,-2,1,4,6,10,4]
         finally: s.close()
 
     s = Session(bundle)
@@ -30611,8 +30613,8 @@ def test_acquired_replay_event(Session,bundle,out):
         do(s,1086); do(s,1087); do(s,1088); do(s,1090)
         assert state(s) == [2,1,10,9,7,1,-5,16,1,0]
         do(s,1091); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
+        do(s,1095); s.command('undo'); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
         do(s,1095); assert state(s) == [2,1,10,9,7,1,0,16,0,120]
-        s.command('undo'); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
     finally: s.close()
 
 

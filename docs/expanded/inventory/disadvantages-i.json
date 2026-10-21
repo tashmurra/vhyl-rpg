@@ -16,7 +16,7 @@
       "tests": [
         "tests/expanded.py::test_fear_quirks"
       ],
-      "validation_note": "Behavioral mental-quirk contract and owned fear-acquisition exception authored with explicit scene decisions. Numeric-penalty quirks, buy-off and advancement sanctions remain incomplete. Fixtures unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-i-quirk-contract",
@@ -29,7 +29,7 @@
       "tests": [
         "tests/expanded.py::test_fear_quirks"
       ],
-      "validation_note": "Behavioral mental-quirk contract and owned fear-acquisition exception authored with explicit scene decisions. Numeric-penalty quirks, buy-off and advancement sanctions remain incomplete. Fixtures unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-i-quirk-change",

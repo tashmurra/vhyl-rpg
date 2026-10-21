@@ -18,7 +18,8 @@
         "tests/expanded.py::test_control_choice_mitigation",
         "tests/expanded.py::test_incuriosity_social"
       ],
-      "implementation_note": "Typed rated purchase and fear selection, owned ignore/investigate choices with completion receipts and observer-side -1 novelty reactions. Lifecycle fixtures registered but unrun."
+      "implementation_note": "Typed rated purchase and fear selection, owned ignore/investigate choices with completion receipts and observer-side -1 novelty reactions. Lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation, test_incuriosity, test_incuriosity_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-indecision",
@@ -33,7 +34,8 @@
         "tests/expanded.py::test_indecision_confusion",
         "tests/expanded.py::test_indecision_turns"
       ],
-      "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun."
+      "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_indecision, test_indecision_confusion, test_indecision_turns. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-indecision-confusion",
@@ -47,7 +49,8 @@
         "tests/expanded.py::test_indecision",
         "tests/expanded.py::test_indecision_confusion"
       ],
-      "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun."
+      "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_indecision, test_indecision_confusion. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-infectious-transformation",
@@ -140,7 +143,7 @@
       "tests": [
         "tests/expanded.py::test_pleasure_loss"
       ],
-      "validation_note": "Neutral PleasureLoss class implements fixed -15 cost and -3 contextual penalties on the four printed skills. The social observation context checks participants, author evidence, visibility of the effect and the 1-3 penalty, then feeds ordinary reaction scoring once. Its adverse-response interface accepts ridicule/rejection and rejects violence before rolling. Skill, scope, mitigation, endpoint, replay and response assertions authored, unrun. Modified variants and broader narrative motivation/appreciation contracts remain pending."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_pleasure_loss. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-theft-compulsion",
@@ -275,7 +278,7 @@
         "tests/expanded.py::test_solitude_social",
         "tests/expanded.py::test_control_choice_mitigation"
       ],
-      "validation_note": "Typed rated fear selection reuses owned hostile responses for an explicit other-person proximity trigger. NPC reaction context applies the four rating penalties from observer to subject, with no reversed or doubled subject penalty. Action, invalid-fact, reaction-direction, mitigation and lifecycle fixtures authored and unrun. Frenzy combinations remain explicitly blocked."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation. Remaining registered validation: test_solitude, test_solitude_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-emotional-understanding",
@@ -311,7 +314,8 @@
       "tests": [
         "tests/expanded.py::test_low_confidence"
       ],
-      "implementation_note": "Typed ten-point fear selection with explicit ordinary/adverse author judgment, shared -3 skill modifier, missing-context no-dice rejection and mitigation. Raw attributes unchanged. Lifecycle fixtures registered but unrun."
+      "implementation_note": "Typed ten-point fear selection with explicit ordinary/adverse author judgment, shared -3 skill modifier, missing-context no-dice rejection and mitigation. Raw attributes unchanged. Lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_low_confidence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-lunar-moods",
@@ -709,7 +713,7 @@
       "tests": [
         "tests/expanded.py::test_nightmares"
       ],
-      "validation_note": "Typed rated purchase, exact ten-point fear selection and owned morning-waking event implemented. Shared sleep-only fatigue/overflow ledger, raw 17/18 skill-and-Perception penalty, explicit day boundary and duplicate prevention are present. Recovery, expiry, mutation, rollback, undo and saved-continuation fixtures are authored and unrun. Playable dream scenarios and their consequence transfers remain a separate pending campaign entry."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_nightmares. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-e-nightmare-scenario",

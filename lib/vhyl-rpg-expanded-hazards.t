@@ -7268,7 +7268,7 @@ class RpgExpandedPanicFallOperation: RpgExpandedPanicOperation
         local value = new RpgExpandedResult(); self.facts(reaction);
         if (self.result != nil) { self.validateReceipt(reaction); value.status = 'reused'; return value; }
         if (self.boundFacts != nil || self.owner != nil) rpgExpandedReject('panic-fall-uncommitted');
-        if (self.actor == nil || !self.actor.ofKind(Actor) || self.actor.rpgProfile != self.profile
+        if (self.actor == nil || (self.actor != player && !self.actor.ofKind(Actor)) || self.actor.rpgProfile != self.profile
             || self.origin == nil || !self.origin.ofKind(Room) || self.destination == nil || !self.destination.ofKind(Room)
             || self.impact.injury.profile != self.profile) rpgExpandedReject('panic-fall-world-facts');
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'panic-fall-author-trajectory'; return value; }

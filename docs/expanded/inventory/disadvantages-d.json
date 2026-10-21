@@ -151,7 +151,8 @@
         "tests/expanded.py::test_replay_overlap",
         "tests/expanded.py::test_acquired_replay_event"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_intrusive_replay. Remaining registered validation: test_acquired_replay_event, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-d-flashback-mild",
@@ -169,7 +170,8 @@
         "tests/expanded.py::test_replay_overlap",
         "tests/expanded.py::test_acquired_replay_event"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_intrusive_replay. Remaining registered validation: test_acquired_replay_event, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-d-flashback-severe",
@@ -187,7 +189,8 @@
         "tests/expanded.py::test_replay_overlap",
         "tests/expanded.py::test_acquired_replay_event"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_intrusive_replay. Remaining registered validation: test_acquired_replay_event, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-d-flashback-incapacitating",
@@ -205,7 +208,8 @@
         "tests/expanded.py::test_replay_overlap",
         "tests/expanded.py::test_acquired_replay_event"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_intrusive_replay. Remaining registered validation: test_acquired_replay_event, test_replay_fear, test_replay_overlap, test_replay_self_control, test_replay_senses. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-d-brittle-body",
@@ -319,7 +323,8 @@
         "tests/expanded.py::test_credulity",
         "tests/expanded.py::test_credulity_learning"
       ],
-      "implementation_note": "Owned story acceptance, source plausibility modifiers, Merchant/exploitation scoring and shared learning restrictions. Exact-cost fear acquisition rejects prior lie-detection training with an explicit replacement requirement. Actual advancement/direct-learning/study and lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned story acceptance, source plausibility modifiers, Merchant/exploitation scoring and shared learning restrictions. Exact-cost fear acquisition rejects prior lie-detection training with an explicit replacement requirement. Actual advancement/direct-learning/study and lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_credulity, test_credulity_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-d-poor-fine-motor",
@@ -453,7 +458,7 @@
       "tests": [
         "tests/expanded.py::test_impulsive_action"
       ],
-      "validation_note": "Typed rated purchase and exact -10/-15 fear selection, owned self-control occurrence, explicit immediate/deliberative action classification and immutable completion receipt implemented. Authors must enforce permission inside normal action validation and commit world effects and costs in the same transaction. Fixture specifies successful/failed rolls, denied deliberation, prices, copies, acquisition accounting, invalid definitions, rollback, replay, undo and saved continuation. All cases unrun pending recorded validation; cross-surface integration remains unverified."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_impulsive_action. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-d-increased-consumption",

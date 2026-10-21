@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B358-B361",
-  "review": "Supplied B358-B361 text reviewed. Individual fear rows have owned dispatch and typed consequences with explicit remaining limitations below. Initial scores below three use a recorded author ruling, not an invented source procedure. Source fixtures, parity, replay and persistence assertions are authored but unrun pending recorded validation.",
+  "review": "Supplied B358-B361 text reviewed. Fear rows use owned dispatch, typed consequences and explicit author contracts. Initial scores below three use recorded rulings without invented source dice. Current acceptance evidence is maintained in fear-completion.md; wider senses and catalogue work remains separate.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -587,7 +587,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-immunity",
@@ -604,7 +604,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_assessments, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-cap",
@@ -621,7 +621,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_assessments, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-table-roll",
@@ -638,7 +638,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_assessments, test_fear_event, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-trait-award",
@@ -652,7 +652,7 @@
         "tests/expanded.py::test_fear_quirks",
         "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Owned quirks, fixed beliefs, phobias, supported physical bundles and related-phobia worsening update character accounting without awarding spendable points. Compound faint/coma outcomes use matching typed acquisitions. Other trait selections remain unsupported. Fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_event, test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-inappropriate-result",
@@ -665,7 +665,7 @@
       "tests": [
         "tests/expanded.py::test_fear_adjudication"
       ],
-      "validation_note": "Owned author replacement or reroll retains the original result and dispatches the selected row. Reroll requires an original rolled margin; author-selected low-score outcomes permit replacement only. Fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_adjudication. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-owned-recovery",
@@ -686,7 +686,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_combat, test_fear_event, test_fear_low_score, test_fear_stress, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-fear-traits",
@@ -702,7 +702,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-reflexes",
@@ -718,7 +718,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-paralysis",
@@ -734,7 +734,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-cowardice",
@@ -750,7 +750,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-daring",
@@ -766,7 +766,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-purpose",
@@ -782,7 +782,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-alien-interest",
@@ -798,7 +798,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-prepared-body",
@@ -814,7 +814,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-nonviolent-body",
@@ -830,7 +830,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-violent-body",
@@ -846,7 +846,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-mutilation",
@@ -862,7 +862,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-dependent-victim",
@@ -878,7 +878,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-battle",
@@ -894,7 +894,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-monster",
@@ -910,7 +910,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-horde-five",
@@ -926,7 +926,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-horde-ten",
@@ -942,7 +942,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-horde-twenty",
@@ -958,7 +958,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-horde-fifty",
@@ -974,7 +974,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-horde-hundred",
@@ -990,7 +990,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-touch",
@@ -1006,7 +1006,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-distance",
@@ -1022,7 +1022,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-remote",
@@ -1038,7 +1038,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-isolation",
@@ -1054,7 +1054,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-darkness",
@@ -1070,7 +1070,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-alone",
@@ -1086,7 +1086,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-experience",
@@ -1102,7 +1102,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-repeated",
@@ -1118,7 +1118,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-modifier-briefing",
@@ -1134,7 +1134,7 @@
         "tests/expanded.py::test_fear_actions",
         "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_actions, test_fear_context, test_fear_low_score, test_voice_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-4-5",
@@ -1151,7 +1151,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-6-7",
@@ -1168,7 +1168,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-8-9",
@@ -1185,7 +1185,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-10",
@@ -1202,7 +1202,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-11",
@@ -1219,7 +1219,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_combat, test_fear_stun, test_fear_stun_modifiers, test_fear_stun_persistence. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-12",
@@ -1240,7 +1240,7 @@
         "tests/expanded.py::test_retching_remedy",
         "tests/expanded.py::test_remedy_persistence"
       ],
-      "validation_note": "Owned oral nausea remedy with explicit authored timing supplies the source +2 trigger modifier without stacking; recent rich meals contribute -2. Retching atomically revokes reviewed remedy and meal records. Other medicines, general nausea state and trigger scheduling remain incomplete. New fixtures, including save continuation, are unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_retching, test_owned_retching, test_remedy_persistence, test_retching_combat, test_retching_fatigue, test_retching_meals, test_retching_persistence, test_retching_remedy. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-13",
@@ -1254,7 +1254,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_quirks"
       ],
-      "validation_note": "Owned behavioral mental-quirk acquisition and authored portrayal records adjust character value without spendable points. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_quirks. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-14-15",
@@ -1270,7 +1270,7 @@
         "tests/expanded.py::test_fear_fatigue_stun",
         "tests/expanded.py::test_fear_stun"
       ],
-      "validation_note": "Owned fatigue-plus-stun execution preflights maximum cost before rolling; individual fatigue injuries use owned wounds and shared collapse handling. Recovery reuses the row-ten policy. Transaction, cost boundary and save-continuation fixtures are authored and unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_fatigue, test_fear_fatigue_stun, test_fear_stun. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-16",
@@ -1284,7 +1284,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_quirk_stun"
       ],
-      "validation_note": "Atomic one-die stun and behavioral mental-quirk acquisition authored; concrete trait-module contract preflights before randomness. Shared modified-Will recovery, replay and cross-process fixtures are unrun. Owned fear-event dispatch accepts this stun-plus-quirk row. Runtime validation remains pending."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_quirk_stun. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-17",
@@ -1298,7 +1298,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_faint"
       ],
-      "validation_note": "Owned one-die-minute faint with due health checks and sixty-second retries authored. Ordinary waking defers to the owner; shared time rejects skipped boundaries. Transaction, overlap handoff and save-continuation fixtures unrun. Broader overlapping-cause timing remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_faint. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-18",
@@ -1312,7 +1312,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_faint_injury"
       ],
-      "validation_note": "Owned fainting supports conditional one-point injury after an immediate health check for row 18 and unconditional injury with two-die-minute duration for row 19. Possible wounds preflight before randomness; replay and continuation fixtures are unrun. Broader overlapping-cause timing remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_faint_injury. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-19",
@@ -1326,7 +1326,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_faint_injury"
       ],
-      "validation_note": "Owned fainting supports conditional one-point injury after an immediate health check for row 18 and unconditional injury with two-die-minute duration for row 19. Possible wounds preflight before randomness; replay and continuation fixtures are unrun. Broader overlapping-cause timing remains incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_faint_injury. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-20",
@@ -1340,7 +1340,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_shock_faint"
       ],
-      "validation_note": "Owned four-die-minute faint and separately rolled fatigue debit, dispatch, minute boundaries and explicit author-selected recovery policy. The source paragraph does not specify the recovery boundary; no default is invented. Fixtures for rollback, undo, replay and continuation are authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_shock_faint. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-21",
@@ -1358,7 +1358,7 @@
         "tests/expanded.py::test_timed_panic_path",
         "tests/expanded.py::test_panic_expression_communication"
       ],
-      "validation_note": "Owned initial 1d-minute episode and unmodified-Will recovery once per minute. Stationary crying has a concrete shared-time activity with owned health permission; common effort and maneuver gates block purposeful actions during panic. Owned fear events dispatch this outcome. Non-tactical authored movement now relocates the actor through an active-action health gate, retaining failed attempts without moving or retrying. Scheduled panic recovery preserves independent incapacity. Tactical timed-panic movement now uses an owned Move turn and one health gate with the shared battle clock. Stationary pointless expression has a mode-specific author contract, physical/speech gates and a once-only portrayal event; arbitrary text never executes movement, attacks or object interactions. Lifecycle fixtures authored, unrun. Timeline and completion are reconstructed from bound recovery receipts; shared clock and action gates reject inconsistent history before spending. Mutation fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_panic, test_panic_crying, test_panic_expression_communication, test_panic_history, test_timed_panic_path. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-22",
@@ -1372,7 +1372,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fixed_beliefs"
       ],
-      "validation_note": "Owned fixed-belief acquisition enforces exact cost, event identity and character accounting without spendable points. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fixed_beliefs. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-23",
@@ -1393,7 +1393,7 @@
         "tests/expanded.py::test_self_sacrifice",
         "tests/expanded.py::test_acquired_replay_event"
       ],
-      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects. The ten-point intrusive-replay selection now has a continuing-scene fixture from actual table selection through later fear onset and independent stun/replay expiry, with unchanged advancement points. Unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition, test_fear_selection. Remaining registered validation: test_acquired_replay_event, test_self_sacrifice, test_status_outburst, test_status_sensitivity. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-24",
@@ -1409,7 +1409,7 @@
         "tests/expanded.py::test_fear_aging",
         "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Motion and free-fall susceptibility are selectable with prior-training preflight and the required free-fall campaign scope. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_aging, test_fear_assessments, test_fear_physical, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-25",
@@ -1425,7 +1425,7 @@
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Related fixed emotional-understanding deficit, emotional obliviousness, callousness and learning bar now support the authored ten-point fallback, retaining their existing effects and costs. Their lifecycle fixtures are unrun. Owned one-step worsening for related phobias and supported controlled mental purchases preserves old receipts and applies new purchase costs without spendable points. Minimum-rating/no-related-trait fallback accepts a fresh exact ten-point phobia, supported mental trait or fixed belief. Other catalogue traits remain unsupported. Fixtures authored, unrun. Fixed mental traits require an explicitly authored fresh-trait fallback because they have no self-control rating."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_mental, test_fear_phobia_worsening, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-26",
@@ -1440,7 +1440,7 @@
         "tests/expanded.py::test_fear_compound",
         "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-18 faint plus exact-cost fixed-belief acquisition with component preflight and shared accounting. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound, test_fear_compound_preflight. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-27",
@@ -1459,7 +1459,7 @@
         "tests/expanded.py::test_fear_selection",
         "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound_preflight, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition, test_fear_selection, test_nightmare_compound. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-28",
@@ -1473,7 +1473,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_coma"
       ],
-      "validation_note": "Owned condition and due recovery preserve independent incapacity. Coma/catatonia aftereffect overlap requires a bound sum/worst author policy; daily catatonia care records a bound elapsed-day/uncared-day escalation ruling. Low recovery scores require recorded author decisions. Fixtures authored, unrun; validation is incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_coma. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-29",
@@ -1487,7 +1487,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_coma"
       ],
-      "validation_note": "Owned condition and due recovery preserve independent incapacity. Coma/catatonia aftereffect overlap requires a bound sum/worst author policy; daily catatonia care records a bound elapsed-day/uncared-day escalation ruling. Low recovery scores require recorded author decisions. Fixtures authored, unrun; validation is incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_coma. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-30",
@@ -1501,7 +1501,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_catatonia"
       ],
-      "validation_note": "Owned condition and due recovery preserve independent incapacity. Coma/catatonia aftereffect overlap requires a bound sum/worst author policy; daily catatonia care records a bound elapsed-day/uncared-day escalation ruling. Low recovery scores require recorded author decisions. Fixtures authored, unrun; validation is incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_catatonia, test_fear_assessments. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-31",
@@ -1516,7 +1516,7 @@
         "tests/expanded.py::test_fear_seizure",
         "tests/expanded.py::test_fear_adjudication"
       ],
-      "validation_note": "Owned timed seizure, immediate HT check, conditional injury and permanent HT loss, with one fatigue payment at finish. Minimum HT and prohibited HT checks require a retained author replacement; the direct zero-attribute procedure is not implemented. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Boundary fixtures now specify actual replacement execution, fixed stun expiry, rollback, undo and cross-process continuation with unchanged attributes and no invented rolls. These cases remain unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_adjudication, test_fear_assessments, test_fear_seizure. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-32",
@@ -1530,7 +1530,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_acute"
       ],
-      "validation_note": "Owned two-die injury through the common wound ledger, lying posture and deduplicated held-item drop. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_acute, test_fear_assessments. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-33",
@@ -1553,7 +1553,7 @@
         "tests/expanded.py::test_panic_wait",
         "tests/expanded.py::test_panic_computer"
       ],
-      "validation_note": "Owned severity/reaction loops support freezing, crying, collapse, room flight, fall relocation, tactical Move paths and recorded ordinary attacks. Staged paths preserve reached hexes, apply reached injury or stationary Wait attacks once and leave later interruptions unspent. Reduced Move requires an explicit stop policy. Object reactions apply actual artifact thresholds; non-sentient computer destruction stops programs and erases local copies/data without altering backups. Below-three survivor checks require recorded author rulings. Automatic critical and multi-hit attacks, broader Wait conversions and special artifacts remain unsupported. Lifecycle fixtures are authored and unrun; validation is in progress. Object operations now require owned physical health permission: known incapacity blocks before spending, while failed committed exertion retains time and the survivor check without creating an object wound. Direct execution cannot bypass the owning reaction. Added lifecycle cases remain unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_extreme_panic, test_fear_assessments, test_fear_recovery_ruling, test_panic_attack, test_panic_computer, test_panic_fall, test_panic_flight, test_panic_interrupted_path, test_panic_object, test_panic_path, test_panic_wait. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-34",
@@ -1567,7 +1567,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fixed_beliefs"
       ],
-      "validation_note": "Owned exact-cost fixed-belief acquisition and character accounting without spendable points. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fixed_beliefs. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-35",
@@ -1583,7 +1583,7 @@
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-36",
@@ -1600,7 +1600,7 @@
         "tests/expanded.py::test_fear_selection",
         "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Motion and free-fall susceptibility are selectable with prior-training preflight and the required free-fall campaign scope. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_aging, test_fear_assessments, test_fear_hearing_loss, test_fear_physical, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-37",
@@ -1617,7 +1617,7 @@
         "tests/expanded.py::test_fear_selection",
         "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Motion and free-fall susceptibility are selectable with prior-training preflight and the required free-fall campaign scope. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_aging, test_fear_assessments, test_fear_hearing_loss, test_fear_physical, test_fear_selection. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-38",
@@ -1632,7 +1632,7 @@
         "tests/expanded.py::test_fear_compound",
         "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost fixed-belief acquisition with atomic component preflight. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound, test_fear_compound_preflight. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-39",
@@ -1649,7 +1649,7 @@
         "tests/expanded.py::test_fear_mental_compound",
         "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_assessments, test_fear_compound_preflight, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-40-plus",
@@ -1666,7 +1666,7 @@
         "tests/expanded.py::test_fear_mental_compound",
         "tests/expanded.py::test_fear_adjudication"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition and permanent IQ loss. Other catalogue mental-disadvantage choices remain unsupported; minimum IQ requires a retained author replacement instead of an unsupported zero-attribute transition. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Boundary fixtures now specify actual replacement execution, fixed stun expiry, rollback, undo and cross-process continuation with unchanged attributes and no invented rolls. These cases remain unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_adjudication, test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     }
   ],
   "exclusions": [

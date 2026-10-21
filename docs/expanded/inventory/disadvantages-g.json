@@ -159,7 +159,8 @@
         "tests/expanded.py::test_status_sensitivity_social",
         "tests/expanded.py::test_status_outburst"
       ],
-      "implementation": "Typed purchase, fear selection, owned slight response and both reaction directions implemented. Conditional outburst penalty requires recorded author confirmation and completed hostile action. Solitude composition specified. Fixtures registered but unrun; frenzy combination remains blocked."
+      "implementation": "Typed purchase, fear selection, owned slight response and both reaction directions implemented. Conditional outburst penalty requires recorded author confirmation and completed hostile action. Solitude composition specified. Fixtures registered but unrun; frenzy combination remains blocked.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation. Remaining registered validation: test_status_outburst, test_status_sensitivity, test_status_sensitivity_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-g-self-sacrifice",
@@ -173,7 +174,8 @@
         "tests/expanded.py::test_self_sacrifice",
         "tests/expanded.py::test_control_choice_mitigation"
       ],
-      "implementation": "Typed rated purchase and fear selection with an owned competing-needs trigger, explicit other-first/self-first action contract and immutable completion. Lifecycle fixtures registered but unrun."
+      "implementation": "Typed rated purchase and fear selection with an owned competing-needs trigger, explicit other-first/self-first action contract and immutable completion. Lifecycle fixtures registered but unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation. Remaining registered validation: test_self_sacrifice. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-g-semi-upright",
@@ -233,7 +235,8 @@
         "tests/expanded.py::test_attention_acquisition",
         "tests/expanded.py::test_attention_rapid_prototype"
       ],
-      "implementation": "Typed rated purchase and owned contextual task resolution; failed attention resolves task failure without a task roll. Preview, replay, rollback, undo and cross-process fixtures authored but unrun. Owned study segments now retain attempted time/daily allowance and earlier credit while withholding failed-segment credit. Owned environmental-fault repairs now retain time/installed parts on attention failure without repair dice; minor/major lifecycle fixtures authored, unrun. Ordinary and rapid invention concepts now consume their actual attempt and timed work on failure without concept dice or a theory; lifecycle fixtures authored, unrun. Owned multi-step lifecycle now records actual progress/costs and terminal failure; prototype work/delivery are gated and terminal settlement retains spent money/time. Exact-cost fear acquisition and one-step worsening enabled. New lifecycle fixtures authored, unrun; rapid component reservation acceptance fixture authored and unrun. Other authored tasks use the concrete lifecycle contract, not further peripheral subsystem expansion."
+      "implementation": "Typed rated purchase and owned contextual task resolution; failed attention resolves task failure without a task roll. Preview, replay, rollback, undo and cross-process fixtures authored but unrun. Owned study segments now retain attempted time/daily allowance and earlier credit while withholding failed-segment credit. Owned environmental-fault repairs now retain time/installed parts on attention failure without repair dice; minor/major lifecycle fixtures authored, unrun. Ordinary and rapid invention concepts now consume their actual attempt and timed work on failure without concept dice or a theory; lifecycle fixtures authored, unrun. Owned multi-step lifecycle now records actual progress/costs and terminal failure; prototype work/delivery are gated and terminal settlement retains spent money/time. Exact-cost fear acquisition and one-step worsening enabled. New lifecycle fixtures authored, unrun; rapid component reservation acceptance fixture authored and unrun. Other authored tasks use the concrete lifecycle contract, not further peripheral subsystem expansion.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_attention_acquisition, test_attention_concept, test_attention_prototype, test_attention_rapid_prototype, test_attention_repair, test_attention_study, test_attention_task, test_attention_work. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-g-short-life-rule",
@@ -306,7 +309,7 @@
       "tests": [
         "tests/expanded.py::test_social_inhibition"
       ],
-      "validation_note": "Neutral SocialInhibition class implements fixed -5/-10/-20 tier costs, contextual -1/-2/-4 on the printed interpersonal skills and an explicit extension flag, active/mitigated effects, duplicate rejection and tier-three learning prohibition. Paid affected skills at tier three require an explicit acquisition/retention adapter and are rejected rather than silently deleted. Default use and integration with paid Carousing preparation have authored, unrun fixtures. Modified variants, acquisition with existing skills and remaining authored roleplay contracts remain pending."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_social_inhibition. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-g-dependent-initiative",

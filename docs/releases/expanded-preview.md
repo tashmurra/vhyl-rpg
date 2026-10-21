@@ -4,14 +4,22 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION follows the merged
 main prerelease; no new tag or release publication is part of this work.
 
-Fear outcomes now include impulsive-action selections with explicit immediate
-and deliberative choices, owned checks and recorded scene completion. These
-fixtures remain unrun. Fear outcomes also include overriding-goal mental traits with owned self-control
-occurrences, concrete action permission, versioned goal replacement and funded
-buyoff. Configured templates preserve the original goal and rating without
-sharing fulfillment history. Recent timed-panic work adds room and tactical
-movement, stationary expression and retained activity-history validation.
-These additions and their regression fixtures remain unvalidated pending recorded validation; the fear completion audit still lists outstanding work.
+The frozen fear milestone covers owned fear outcomes, compound consequences,
+aging and recorded boundary rulings, phobias, auras, stress follow-ups, recovery,
+reactions, the baseline mental roster plus short attention and frenzy, and direct
+panic adapters. Short attention uses an owned multi-step task with terminal failure;
+frenzy owns entry, actions, injury effects and exit. The connected Echo Vault scene
+exercises fear, lasting consequences, panic and later stress through all three interfaces.
+
+The optional accumulating stress module is an original campaign rule: range 0–12,
+explicit gains of 1/2/3, decisions at 4/8/12, nonstacking −1 strain for 600 seconds,
+and one point of recovery per uninterrupted safe hour, at most four per campaign
+day. Inclusion alone does not activate it. Threshold decisions can instead resolve
+ordinary fear or recorded coping; pending choices gate voluntary actions before costs.
+
+The [authoritative checklist](../expanded/fear-completion.md) records implementation,
+acceptance scenarios and observed validation for this milestone. The broader
+catalogue and subsystem conversion remains incomplete and outside its scope.
 
 Exploration now exposes a pure climbing assessment for all nine printed surfaces,
 with exact rates, explicit feet/rung units, encumbrance, check boundaries and

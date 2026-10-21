@@ -16,7 +16,7 @@
       "tests": [
         "tests/expanded.py::test_observed_reactions"
       ],
-      "validation_note": "Fixed -10 purchase, owned/copyable trait and immutable participant-specific evidence. Evident-only -2 composes with callousness once per effect via the shared reaction procedure, with saved observation selection. Actual jokes/dialogue and revelation are explicitly authored decisions; automatic parser/dialogue observation remains pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_observed_reactions. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-no-smell-taste",
@@ -109,8 +109,11 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Overriding goal obsession costs base -5 for a short-term goal or -10 for a long-term goal, with self-control when deviation would be wise. Failure continues the goal pursuit. Author defines the concrete goal and fulfillment event; completion requires replacement with a new goal or point buyoff. Separate additional reaction-producing habits or beliefs from this cost.",
-      "tests": ["tests/expanded.py::test_goal_fixation", "tests/expanded.py::test_goal_template"],
-      "validation_note": "Typed overriding-goal purchase, self-control trigger, explicit concrete-action permission, versioned goal replacement and original-award funded buyoff are implemented. Exact-cost fear acquisition and one-step worsening preserve goal facts. Pricing, denied action, lifecycle and accounting fixtures are authored and unrun. Configured template construction and copy retain the authored initial goal and rating without sharing runtime history; isolation and copy fixtures remain unrun."
+      "tests": [
+        "tests/expanded.py::test_goal_fixation",
+        "tests/expanded.py::test_goal_template"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_goal_fixation, test_goal_template. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-reckless-risk",
@@ -200,8 +203,11 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Overconfidence is base -5 with self-control when the author judges caution inconsistent with it; failure proceeds as if capable. Reactions are +2 from young/naive observers and -2 from experienced observers. It does not grant actual skill or ability increases.",
-      "tests": ["tests/expanded.py::test_overconfidence", "tests/expanded.py::test_overconfidence_social"],
-      "validation_note": "Typed rated fear selection, owned caution-triggered control, explicit action permissions/completion and participant-specific +2/-2 social observation adapter implemented. Normal scene legality and costs remain with the action. Pricing, reaction totals, duplicate effects, rollback, undo and saved continuation fixtures authored and unrun."
+      "tests": [
+        "tests/expanded.py::test_overconfidence",
+        "tests/expanded.py::test_overconfidence_social"
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_overconfidence, test_overconfidence_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-violence-reluctance",
@@ -264,7 +270,7 @@
       "tests": [
         "tests/expanded.py::test_distrust_reactions"
       ],
-      "validation_note": "Fixed cost, validated template copies, owned subject observations and nonplayer observer component arithmetic. Explicit author facts identify strangers and applicable modifiers. Fixtures are authored but unrun; automatic dialogue and remaining contextual modifier integrations are pending."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_distrust_reactions. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-voices-trigger",
@@ -279,7 +285,7 @@
         "tests/expanded.py::test_voice_self_control",
         "tests/expanded.py::test_voice_direct_guards"
       ],
-      "validation_note": "Optional authored stress occurrence rolls once, triggering at six or less, with owned immutable result and author-confirmed end. Owned self-control triggers require stress classification when relevant and automatically append the check after a failed stress-related roll, preserving the original obligation. Surrender and purchased success add no roll. Direct rolled self-control and abridged fear calls reject active-trait combinations before randomness. Owned self-control and owned fear events integrate the stress follow-up; the complete lifecycle still requires validation. Lifecycle fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phantom_voices, test_voice_direct_guards, test_voice_self_control. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-voices-annoying",
@@ -292,7 +298,7 @@
       "tests": [
         "tests/expanded.py::test_phantom_voices"
       ],
-      "validation_note": "Severity one costs -5, validates and copies as an owned purchase. Witnessed-response observation applies -2 for an author-confirmed typical observer and a recorded actual episode. Dialogue decisions remain authored. Fixtures unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phantom_voices. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-voices-disruptive",
@@ -306,7 +312,7 @@
         "tests/expanded.py::test_phantom_voices",
         "tests/expanded.py::test_voice_mask"
       ],
-      "validation_note": "Severity two costs -10 and shares the witnessed-response observation. Owned author-confirmed masking intervals block ordinary hearing and spoken-input checks through shared scoring without rolls or charges, while written and explicit non-auditory input remain available. Ending one interval does not suppress other episodes. Episode-induced fear integration remains pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phantom_voices, test_voice_mask. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-voices-commanding",
@@ -320,7 +326,7 @@
         "tests/expanded.py::test_phantom_voices",
         "tests/expanded.py::test_voice_command"
       ],
-      "validation_note": "Severity three costs -15 and participates in owned stress occurrences. Active episodes support author-selected Will resistance for an identified command under stress or intoxication, with immutable result, duplicate prevention and replay. The result does not execute or guarantee success of the commanded action; author/player flow resolves that action separately. Treatment remains pending. Reaction inheritance is not explicit in the supplied entry, so that observation combination rejects pending resolution. Fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phantom_voices, test_voice_command. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-voices-origin",
@@ -347,7 +353,7 @@
         "tests/expanded.py::test_phobia",
         "tests/expanded.py::test_phobia_awareness"
       ],
-      "validation_note": "Typed phobia purchases and exact self-control tier pricing, persistent exposure checks, ten-minute repeat boundaries, shaken DX/IQ/skill penalties and failed-check stress follow-ups. Explicit owned perception pause permits unconscious recovery and an immediate check on resumed perception. Distinct phobia purchases may coexist, but simultaneous exposure stacking and catalogue activity restrictions remain pending. Fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phobia, test_phobia_awareness. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-phobia-threat",
@@ -360,7 +366,7 @@
       "tests": [
         "tests/expanded.py::test_phobia"
       ],
-      "validation_note": "Owned exposure and self-control checks now retain ten-minute deadlines, rating-based DX/IQ/skill penalties, threat +4, full-table failure selection, stress follow-ups and explicit cessation. Overlap/incapacity combinations, catalogue activity restrictions and remaining consequence rows are incomplete. Fixtures authored but unrun pending recorded validation."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_phobia. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-phobia-isolation",
@@ -603,7 +609,7 @@
       "tests": [
         "tests/expanded.py::test_phobia_learning"
       ],
-      "validation_note": "Typed conditional purchase cost, exposure modifiers and explicit subject-classification gate for prohibited learning through shared skill eligibility. Broader activity/reaction orchestration pending. Fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_phobia_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-phobia-magic",
@@ -616,7 +622,7 @@
       "tests": [
         "tests/expanded.py::test_phobia_learning"
       ],
-      "validation_note": "Typed conditional purchase cost, exposure modifiers and explicit subject-classification gate for prohibited learning through shared skill eligibility. Broader activity/reaction orchestration pending. Fixtures authored, unrun."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_phobia_learning. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-phobia-psi",
@@ -649,7 +655,7 @@
       "tests": [
         "tests/expanded.py::test_postbattle_fear"
       ],
-      "validation_note": " Typed purchase and owned battle-end self-control event select full fear consequences on failure; mandatory failed-stress voice follow-ups, duplicate battle prevention and original recovery modifiers integrated. Fixtures authored but unrun pending recorded validation; full-suite completion not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_postbattle_fear. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-f-fire-setting",

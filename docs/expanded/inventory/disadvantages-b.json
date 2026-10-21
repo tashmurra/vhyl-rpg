@@ -27,7 +27,7 @@
         "tests/expanded.py::test_volatile_temper",
         "tests/expanded.py::test_frenzy_temper"
       ],
-      "validation_note": "Owned hostile-response contract and linked frenzy entry reuse the original failed control roll. Fixtures authored; validation pending."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_temper, test_volatile_temper. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-rage-trigger",
@@ -45,7 +45,7 @@
         "tests/expanded.py::test_frenzy_knockdown",
         "tests/expanded.py::test_frenzy_acquisition"
       ],
-      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_acquisition, test_frenzy_boundaries, test_frenzy_entry, test_frenzy_knockdown, test_frenzy_turn, test_rage_injury_window. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-rage-melee",
@@ -63,7 +63,7 @@
         "tests/expanded.py::test_frenzy_knockdown",
         "tests/expanded.py::test_frenzy_acquisition"
       ],
-      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_acquisition, test_frenzy_boundaries, test_frenzy_entry, test_frenzy_knockdown, test_frenzy_turn, test_rage_melee. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-rage-ranged",
@@ -81,7 +81,7 @@
         "tests/expanded.py::test_frenzy_knockdown",
         "tests/expanded.py::test_frenzy_acquisition"
       ],
-      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_acquisition, test_frenzy_boundaries, test_frenzy_entry, test_frenzy_knockdown, test_frenzy_turn, test_rage_ranged. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-rage-injury",
@@ -98,7 +98,7 @@
         "tests/expanded.py::test_frenzy_knockdown",
         "tests/expanded.py::test_frenzy_acquisition"
       ],
-      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_acquisition, test_frenzy_boundaries, test_frenzy_entry, test_frenzy_knockdown, test_frenzy_turn. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-rage-exit",
@@ -115,7 +115,7 @@
         "tests/expanded.py::test_frenzy_knockdown",
         "tests/expanded.py::test_frenzy_acquisition"
       ],
-      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_acquisition, test_frenzy_boundaries, test_frenzy_entry, test_frenzy_knockdown, test_frenzy_turn. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-battle-rage",
@@ -132,7 +132,7 @@
         "tests/expanded.py::test_frenzy_knockdown",
         "tests/expanded.py::test_frenzy_acquisition"
       ],
-      "validation_note": "Owned frenzy entry, injury effects, recorded combat turns, tactical position, target and exit contracts implemented. Unsupported attack details require an evidenced final-wound ruling; the adapter commits actual injury, ammunition and one battle turn. Fixtures authored; validation pending. Wider catalogue completion is not claimed."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_frenzy_acquisition, test_frenzy_boundaries, test_frenzy_entry, test_frenzy_knockdown, test_frenzy_turn. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-animalistic",
@@ -251,7 +251,8 @@
       "tests": [
         "tests/fixtures/expanded-compelled-aid.t",
         "tests/expanded.py::test_compelled_aid"
-      ]
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_compelled_aid. Remaining registered validation: tests/fixtures/expanded-compelled-aid.t. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-low-motivation",
@@ -264,7 +265,8 @@
       "tests": [
         "tests/fixtures/expanded-low-motivation.t",
         "tests/expanded.py::test_low_motivation"
-      ]
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_low_motivation. Remaining registered validation: tests/fixtures/expanded-low-motivation.t. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-motivation-transition",
@@ -477,7 +479,8 @@
         "tests/fixtures/expanded-company-interrogation.t",
         "tests/fixtures/expanded-company-preparation.t",
         "tests/expanded.py::test_company_social_operations"
-      ]
+      ],
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_companionship, test_company_social_operations. Remaining registered validation: tests/fixtures/expanded-companionship.t, tests/fixtures/expanded-company-interrogation.t, tests/fixtures/expanded-company-preparation.t. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-social-obliviousness",
@@ -673,7 +676,7 @@
         "tests/expanded.py::test_overstimulation_strike",
         "tests/fixtures/expanded-overstimulation-strike.t"
       ],
-      "validation_note": "Owned overstimulation triggers retain self-control results, authored stimulus modifiers and explicit evidence for ending the episode. Failed episodes block initiative and planning without stun penalties. Actual physical strike receipts permit stationary ordinary counterattacks only against their attacker, using the ordinary battle turn and health gate. Fear acquisition supports eligible ten/fifteen-point ratings. Resolver selection is explicit; recorded attacks share the owned panic/Wait strike adapter and require current-turn execution permission. Broader reactive maneuvers remain unsupported. Fixtures for replay, purity, rollback, undo and cross-process continuation are authored and unrun; validation is in progress."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_overstimulation, test_overstimulation_strike. Remaining registered validation: tests/fixtures/expanded-overstimulation-strike.t, tests/fixtures/expanded-overstimulation.t. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-cowardice",
@@ -687,7 +690,7 @@
         "tests/expanded.py::test_danger_avoidance",
         "tests/expanded.py::test_danger_reaction"
       ],
-      "validation_note": "Rated purchase, owned physical-risk trigger, death-risk modifier, explicit greater-threat permissions and fear-context penalty derivation implemented. Matrix, replay, rollback, undo and continuation assertions authored, unrun. Occupational reactions now use explicit observer knowledge and setting facts, deriving the purchased penalty once through shared reaction/Diplomacy handling. Matrix and invalid-before-RNG assertions authored, unrun. Dynamic threat changes and parser/dialogue integration remain incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_danger_avoidance, test_danger_reaction. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-curiosity",
@@ -700,7 +703,7 @@
       "tests": [
         "tests/expanded.py::test_curiosity"
       ],
-      "validation_note": "Rated trait, concrete occurrence choices, owned self-control, action permission and completion contract implemented. Cabinet-action fixture covers normal time cost, replay, rollback, undo and saved pending obligations; assertions unrun. Broader story-action integration and parser/dialogue parity remain incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_curiosity. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-b-curse",
@@ -724,7 +727,8 @@
         "tests/expanded.py::test_hearing_loss",
         "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "implementation_note": "Typed fixed-cost purchase, physical fear acquisition and template copying now block hearing/spoken-comprehension checks without dice, preserve nonauditory checks, reject hearing auras and grant independent gesture-study credit to eligible senders/recipients. Taught study requires an accessible channel and shared language where applicable. Complete written/signing/lip-reading exchange procedures and individual power/skill exceptions remain pending. Fixtures authored, unrun."
+      "implementation_note": "Typed fixed-cost purchase, physical fear acquisition and template copying now block hearing/spoken-comprehension checks without dice, preserve nonauditory checks, reject hearing auras and grant independent gesture-study credit to eligible senders/recipients. Taught study requires an accessible channel and shared language where applicable. Complete written/signing/lip-reading exchange procedures and individual power/skill exceptions remain pending. Fixtures authored, unrun.",
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_fear_hearing_loss. Remaining registered validation: test_hearing_loss. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     }
   ]
 }

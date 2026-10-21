@@ -10646,7 +10646,7 @@ class RpgExpandedExtremePanicReaction: object
         else if (self.operation != nil) rpgExpandedReject('panic-operation-unused');
         if (self.kind == 'flight')
         {
-            if (self.actor == nil || !self.actor.ofKind(Actor) || self.actor.rpgProfile != profile
+            if (self.actor == nil || (self.actor != player && !self.actor.ofKind(Actor)) || self.actor.rpgProfile != profile
                 || self.origin == nil || !self.origin.ofKind(Room) || self.destination == nil || !self.destination.ofKind(Room)
                 || self.origin == self.destination) rpgExpandedReject('panic-flight-world-facts');
             rpgInteger(self.distanceYards,1,1000000);
@@ -11618,7 +11618,7 @@ class RpgExpandedFearPanicMovement: RpgExpandedFearPanicCrying
     activityReason()
     {
         local profile = self.episode.context.profile;
-        if (self.actor == nil || !self.actor.ofKind(Actor) || self.actor.rpgProfile != profile
+        if (self.actor == nil || (self.actor != player && !self.actor.ofKind(Actor)) || self.actor.rpgProfile != profile
             || self.origin == nil || !self.origin.ofKind(Room) || self.destination == nil || !self.destination.ofKind(Room)
             || self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedPanicMovementGate)
             || self.healthGate.activity != self || !self.healthGate.requiresMovement || self.healthGate.mentalAbility)

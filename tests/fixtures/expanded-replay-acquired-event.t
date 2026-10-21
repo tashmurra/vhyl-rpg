@@ -5,7 +5,7 @@ acquiredReplayContext: RpgExpandedFearContext profile = fearProfile approved = t
     evidence = 'A later alarm recalls the first frightening encounter'
     intrusiveReplayContent = 'The character relives the original evacuation';
 acquiredReplayEvent: RpgExpandedFearEvent id = 'later-alarm' occurrence = acquiredReplayScene context = acquiredReplayContext;
-acquiredReplayStun: RpgExpandedFearStun id = 'later-alarm-stun' context = acquiredReplayContext tableTotal = 4
+acquiredReplayStun: RpgExpandedFearStun id = 'later-alarm' context = acquiredReplayContext tableTotal = 4
     approved = true evidence = 'The later fear result requires brief stun';
 modify rpgRandom
     roll()

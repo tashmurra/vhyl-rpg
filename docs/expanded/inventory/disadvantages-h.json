@@ -300,7 +300,7 @@
         "tests/expanded.py::test_truthfulness",
         "tests/expanded.py::test_statement_delivery"
       ],
-      "validation_note": "Fixed controlled trait and owned omission/falsehood triggers now select only authored relevant communication outcomes; shared skill penalties are reused without duplication. Outcome, replay, rollback, undo and save-continuation assertions authored, unrun. Parser/dialogue delivery and wider social contest integrations remain incomplete. Concrete resolved communications can now be delivered once per evidenced recipient through the social knowledge ledger, without granting belief. Preview, replay, rollback, undo and continuation assertions authored, unrun. Parser/dialogue routing and broader contest integration remain incomplete."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_statement_delivery, test_truthfulness. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-h-predatory-appetite",

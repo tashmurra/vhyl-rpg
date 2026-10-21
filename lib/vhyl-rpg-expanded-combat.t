@@ -604,7 +604,7 @@ class RpgExpandedDefenseFailure: object
             if (prior.id == self.id) rpgExpandedReject('critical-defense-duplicate');
         rpgExpandedValidate(profile);
         value.check = rpgExpandedCombatCheck('defense',self.score,self.roll);
-        if (value.check.rollSucceeded || !value.check.critical)
+        if (value.check.rollSucceeded || value.check.critical != 'failure')
         { value.reason = 'critical-defense-not-critical'; return value; }
         if (self.kind == 'dodge')
         {

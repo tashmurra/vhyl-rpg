@@ -213,4 +213,4 @@ The [optional accumulating stress library](docs/expanded/stress.md) implements o
 rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.
 It is inactive until configured and separate from reference-derived fear.
 The focused fear milestone and its validation status are tracked in the
-completion checklist; the wider rules conversion remains incomplete.
+[completion checklist](docs/expanded/fear-completion.md); the wider rules conversion remains incomplete.

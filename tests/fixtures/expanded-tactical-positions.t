@@ -11,6 +11,7 @@
 positionRoom: Room 'Courtyard';
 modify gameMain initialRoom = positionRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 positionRules: RpgExpandedRules;
 positionHero: RpgExpandedProfile rules = positionRules;
 positionOther: RpgExpandedProfile rules = positionRules;
