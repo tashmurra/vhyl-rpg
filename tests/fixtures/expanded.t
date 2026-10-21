@@ -8,14 +8,14 @@
 #include <vhyl-rpg-expanded-all.t>
 expandedRoom: Room 'Workshop';
 advancingWealthHero: RpgExpandedProfile rules = expandedRules campaignTL = 3 creationComplete = true
-    money = 5000 unspentPoints = 30 contributions = [advancingWealth];
+    money = 5000 earnedPoints = 30 unspentPoints = 30 contributions = [advancingWealth];
 advancingWealth: RpgExpandedWealth owner = advancingWealthHero;
 wealthAdvance: RpgExpandedWealthAdvancement id = 'earned-fortune' profile = advancingWealthHero
     wealth = advancingWealth targetLevel = 'wealthy' permitted = true
     obligationsSettled = true evidence = 'settled-assessment';
 
 obligationHero: RpgExpandedProfile rules = expandedRules campaignTL = 3 creationComplete = true
-    money = 2000 unspentPoints = 5 developmentOpen = true contributions = [obligationWealth]
+    money = 2000 earnedPoints = 5 unspentPoints = 5 developmentOpen = true contributions = [obligationWealth]
     employments = [obligationJobA,obligationJobB] skills = [obligationTraining];
 obligationWealth: RpgExpandedWealth owner = obligationHero;
 obligationJob: RpgExpandedJob id = 'comfortable-job' wealthLevel = 'comfortable' requirementsApproved = true;
@@ -67,7 +67,7 @@ monthlyHero: RpgExpandedProfile rules = expandedRules campaignTL = 8
 monthlyWealth: RpgExpandedWealth owner = monthlyHero;
 monthlyIncome: RpgExpandedMonthlyFinance id = 'pension' owner = monthlyHero wealth = monthlyWealth levels = 3;
 monthlyPayment: RpgExpandedMonthlySettlement finance = monthlyIncome due = true;
-exchangeHero: RpgExpandedProfile rules = expandedRules campaignTL = 8 creationComplete = true unspentPoints = 5;
+exchangeHero: RpgExpandedProfile rules = expandedRules campaignTL = 8 creationComplete = true earnedPoints = 5 unspentPoints = 5;
 exchangeOffer: RpgExpandedMoneyExchange id = 'supply-fund' profile = exchangeHero points = 2 permitted = true;
 reputationHero: RpgExpandedProfile rules = expandedRules contributions = [publicReputation];
 publicReputation: RpgExpandedReputation id = 'bridge-rescuer' owner = reputationHero
