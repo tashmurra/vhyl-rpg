@@ -3,6 +3,9 @@ comaEpisode: RpgExpandedFearComa id = 'apparition-coma' context = acuteScene app
     evidence = 'The recorded table outcome is an isolated light coma';
 comaRecovery: RpgExpandedFearComaRecovery id = 'first-check' episode = comaEpisode;
 comaRetry: RpgExpandedFearComaRecovery id = 'next-check' episode = comaEpisode;
+comaSecondEpisode: RpgExpandedFearComa id = 'second-coma' context = acuteScene approved = true
+    evidence = 'A separately authored incident occurs during the earlier aftereffect';
+comaSecondRecovery: RpgExpandedFearComaRecovery id = 'second-episode-check' episode = comaSecondEpisode;
 comaTask: RpgLiteContext attribute = rpgIQ;
 comaInput: object independent = nil;
 modify bleedProfile
@@ -31,6 +34,15 @@ modify BleedTestAction
         if (code == 11009) { rpgSpendTime(21599); return nil; }
         if (code == 11010) { rpgSpendTime(1); return nil; }
         if (code == 11011) { comaInput.independent = true; return nil; }
+        if (code == 11020 || code == 11021)
+        {
+            bleedProfile.fearAftermathOverlapPolicy = code == 11020 ? 'sum' : 'worst';
+            bleedProfile.fearAftermathOverlapEvidence = 'Author selects aggregation before any episode starts'; return nil;
+        }
+        if (code == 11022) { comaSecondEpisode.apply(); return nil; }
+        if (code == 11023) { rpgSpendTime(1800); bleedInput.forcedRoll = 3; comaSecondRecovery.apply(); return nil; }
+        if (code == 11024) { rpgSpendTime(19800); return nil; }
+        if (code == 11025) { rpgSpendTime(1800); return nil; }
         if (code == 11012) { event('test.coma-preview'); eventValue(comaEpisode.assess().status); eventValue(rpgRandom.draws); return nil; }
         return inherited(context);
     }

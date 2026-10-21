@@ -4374,6 +4374,9 @@ retching retain their respective consciousness requirements. At the minimum
 attribute boundary, a row-31 HT loss or row-40 IQ loss cannot silently turn a
 human profile into an unsupported zero-attribute state. `consequenceBoundaryReason()`
 reports the required author adjudication before any consequence is charged.
+A prohibited row-31 health check also reports
+`fear-seizure-health-author-adjudication`; no seizure duration or injury dice are
+spent before the author replaces the result.
 Use an owned `RpgExpandedFearAdjudication` to replace an inappropriate result;
 the original result and the reason for replacement remain in history.
 
@@ -4394,6 +4397,10 @@ coma/catatonia aftereffects may overlap. `sum` applies each active -2 separately
 `worst` applies -2 once while any is active. With no policy, the first isolated
 episode works as before and overlapping aftereffects require an author choice.
 Episode receipts bind the policy; changing it after an episode starts is rejected.
+The coma fixture specifies both aggregation policies and each expiry boundary;
+the catatonia fixture specifies both daily-care policies and preservation of
+independent unconsciousness. The adjudication fixture specifies the minimum-HT,
+unrollable-HT and minimum-IQ boundaries. All remain unrun.
 
 ## Panic falls through the real injury pipeline
 

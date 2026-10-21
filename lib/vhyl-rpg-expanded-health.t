@@ -8292,7 +8292,7 @@ class RpgExpandedFearSeizure: object
             if (injury.status != 'ready') { value.reason = injury.reason; return value; }
         }
         local score = rpgLiteScore(profile,self.healthContext());
-        if (score == nil || score < 3) { value.reason = 'fear-seizure-health-score'; return value; }
+        if (score == nil || score < 3) { value.reason = 'fear-seizure-health-author-adjudication'; return value; }
         value.status = 'ready'; return value;
     }
     apply()
@@ -10892,7 +10892,13 @@ modify RpgExpandedFearEvent
     consequenceBoundaryReason()
     {
         local row = self.selectedRow(); local profile = self.context.profile;
-        if (row == 31 && profile.ht <= 1) return 'fear-minimum-health-author-adjudication';
+        if (row == 31)
+        {
+            if (profile.ht <= 1) return 'fear-minimum-health-author-adjudication';
+            local context = new RpgLiteContext(); context.attribute = rpgHT; context.kind = 'fear-seizure-health';
+            local score = rpgLiteScore(profile,context);
+            if (score == nil || score < 3) return 'fear-seizure-health-author-adjudication';
+        }
         if (row == 40 && profile.iq <= 1) return 'fear-minimum-iq-author-adjudication';
         return nil;
     }

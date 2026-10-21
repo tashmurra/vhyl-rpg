@@ -1,4 +1,6 @@
 #include "expanded-fear-event.t"
+boundaryDecision: RpgExpandedLowScoreFearDecision entry = ownedFearEvent row = 31 approved = true
+    evidence = 'The author selects a consequence at the unrollable initial fear boundary';
 fearDecision: RpgExpandedFearAdjudication id = 'replacement' entry = ownedFearEvent mode = 'replace' row = 10
     approved = true evidence = 'The author selects a suitable brief stunned reaction for this scene';
 fearReroll: RpgExpandedFearAdjudication id = 'reroll' entry = ownedFearEvent mode = 'reroll'
@@ -14,6 +16,14 @@ modify FearTestAction
             event('test.fear-adjudication'); eventValue(ownedFearEvent.result == nil ? nil : ownedFearEvent.result.row);
             eventValue(ownedFearEvent.selectedRow()); eventValue(ownedFearEvent.adjudications.length()); eventValue(rpgRandom.draws); return nil;
         }
+        if (code == 486 || code == 487 || code == 488)
+        {
+            fearProfile.willAdjustment = -8; fearProfile.ht = code == 486 ? 1 : 2;
+            if (code == 488) { fearProfile.iq = 1; fearProfile.willAdjustment = 1; boundaryDecision.row = 40; }
+            ownedFearEvent.lowScoreDecision = boundaryDecision; ownedFearEvent.resolve(); return nil;
+        }
+        if (code == 489)
+        { event('test.fear-boundary'); eventValue(ownedFearEvent.consequenceBoundaryReason()); eventValue(rpgRandom.draws); return nil; }
         if (code == 484) { fearDecision.approved = nil; fearDecision.apply(); return nil; }
         if (code == 485) { fearEpisode.tableTotal = 10; ownedFearEvent.applyConsequence(fearEpisode); return nil; }
         return inherited(context);

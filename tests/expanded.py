@@ -20797,6 +20797,18 @@ def test_fear_coma(Session, bundle, out):
     finally:
         s.close()
 
+    for policy,score in ((11020,6),(11021,8)):
+        s=Session(bundle)
+        try:
+            for code in (policy,11002,11005,11006,11004,11022,11023,11008):
+                s.action(2285,code)
+            assert last(s,'test.coma-state')==[2,0,1800,1800,3600,6,score]
+            for code in (11024,11008): s.action(2285,code)
+            assert last(s,'test.coma-state')[-1]==8
+            for code in (11025,11008): s.action(2285,code)
+            assert last(s,'test.coma-state')[-1]==10
+        finally: s.close()
+
 
 def test_catatonia(Session, bundle, out):
     """B361 row 30: daily neglect, recovery days and equal-duration aftermath; unrun."""
@@ -28068,6 +28080,20 @@ def test_fear_adjudication(Session,bundle,out):
         do(s,482); assert state(s)[:3]==[4,10,1]
     finally: s.close()
 
+
+
+    for setup,reason in ((486,'fear-minimum-health-author-adjudication'),
+                         (487,'fear-seizure-health-author-adjudication'),
+                         (488,'fear-minimum-iq-author-adjudication')):
+        s=Session(bundle)
+        try:
+            do(s,setup); do(s,489)
+            assert last(s,'test.fear-boundary')==[reason,0]
+            do(s,480); do(s,489)
+            assert last(s,'test.fear-boundary')==[None,0]
+            do(s,483)
+            assert last(s,'test.fear-adjudication')==[40 if setup==488 else 31,10,1,0]
+        finally: s.close()
 
 
 def test_phobia_learning(Session,bundle):

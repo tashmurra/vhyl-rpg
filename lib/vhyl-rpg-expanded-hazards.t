@@ -428,6 +428,9 @@ rpgExpandedAgingSequence(profile, medicalTL, fitness, longevity, rolls)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile) || rolls == nil || rolls.length() != 4)
         rpgExpandedReject('aging-sequence-definition');
+    foreach (local score in [profile.st,profile.dx,profile.iq,profile.ht]) rpgInteger(score,1,1000);
+    foreach (local roll in rolls) rpgInteger(roll,3,18);
+    if (profile.dead) { local value = new RpgExpandedAgingSequence(); value.reason = 'aging-patient-dead'; return value; }
     local target = profile.ht + rpgExpandedAgingModifier(medicalTL,fitness);
     rpgInteger(target,-1000,1000); local losses = [];
     foreach (local roll in rolls)
