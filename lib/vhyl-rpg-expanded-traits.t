@@ -1097,11 +1097,11 @@ modify RpgExpandedProfile
         return !found.active || found.mitigated ? 0 : found.total ? 2 : 1;
     }
     validateFeatures() { inherited(); self.speechLimitationLevel(); return nil; }
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         if ((purpose == 'talk' || speech) && self.speechLimitationLevel() > 0)
             return 'articulated-speech-unavailable';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
     healthCheckReason(context)
     {

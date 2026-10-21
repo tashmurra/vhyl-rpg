@@ -1528,9 +1528,10 @@
         "tests/expanded.py::test_extreme_panic",
         "tests/expanded.py::test_panic_flight",
         "tests/expanded.py::test_panic_fall",
-        "tests/expanded.py::test_fear_recovery_ruling"
+        "tests/expanded.py::test_fear_recovery_ruling",
+        "tests/expanded.py::test_panic_path"
       ],
-      "validation_note": "Owned severity/reaction loop supports freezing, crying, collapse, unobstructed room flight and actual fall relocation with owned impact/injury. Survivor checks below three use recorded author rulings. Tactical routes and attack/destruction adapters remain unsupported. Fixtures authored, unrun."
+      "validation_note": "Owned severity/reaction loop supports freezing, crying, collapse, room flight, actual fall relocation and uninterrupted tactical Move turns with physical permission and battle-owned round time. Survivor checks below three use recorded author rulings. Interrupted routes and attack/destruction adapters remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-34",

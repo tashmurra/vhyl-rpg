@@ -492,3 +492,15 @@ surface. General three-dimensional movement, changing supports during a maneuver
 and interrupt resolution remain pending. The clamber fixture covers completion,
 skipped turns, invalid reach, occupancy, rollback, undo and saved continuation.
 Assertions remain unrun while checks are paused.
+
+
+## Extreme-panic escape turns
+
+`RpgExpandedPanicPathOperation` connects an owned extreme-panic reaction to the
+existing `RpgExpandedPathMove` and battle scheduler. It commits actual coordinates,
+facing and path costs, uses a fresh physical health permission and retains the
+turn receipt. See [panic maneuvers](health.md#panic-maneuvers-and-permission-dispatch)
+for wiring, clock ownership and custom permission hooks. Movement remains subject
+to the path engine's occupancy, posture, terrain, footprint and interruption limits.
+The panic adapter does not substitute a narrative room move for a tactical route.
+The integration and persistence fixture is authored but unrun.

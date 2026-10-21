@@ -78,14 +78,18 @@ class RpgLiteProfile: RpgProfile
     healthAttributeModifier(context) { return 0; }
     healthSelfControlModifier(trait) { return 0; }
     healthCheckReason(context) { return nil; }
-    healthManeuverReason(kind) { return nil; }
+    healthManeuverReason(kind) { return self.healthManeuverReasonFor(kind,nil); }
+    healthManeuverReasonFor(kind,request) { return nil; }
+    healthManeuverRequestReason(request) { return self.healthManeuverReason(request.kind); }
     voluntaryMovementUnavailable() { return nil; }
     postureChangeReason(posture) { return nil; }
     legUsePenalty() { return 0; }
     onEquipmentDropped(item) { return nil; }
     onEquipmentUnavailable(item, cause) { return nil; }
     groundMoveBase() { return self.basicMove(); }
-    healthEffortReason(purpose, mentalAbility, speech, movement) { return nil; }
+    healthEffortReason(purpose, mentalAbility, speech, movement)
+    { return self.healthEffortReasonFor(purpose,mentalAbility,speech,movement,nil); }
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization) { return nil; }
     healthDefensePenalty() { return 0; }
     afterNeedsCycle(needs) { return nil; }
     quirkCountsTowardCreationLimit(trait) { return true; }

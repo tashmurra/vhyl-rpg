@@ -598,11 +598,11 @@ modify RpgExpandedProfile
             if (carry.endedAt == nil) total += carry.shareFor(self);
         return total;
     }
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         foreach (local carry in self.sharedCarries)
             if (carry.endedAt == nil && movement) return 'shared-carry-action-adapter-required';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
 ;
 

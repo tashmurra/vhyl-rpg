@@ -1031,3 +1031,79 @@ modify RpgExpandedProfile
         return inherited();
     }
 ;
+
+/** One authored panic Move turn uses the existing path, health gate and battle scheduler. */
+class RpgExpandedPanicPathOperation: RpgExpandedPanicOperation
+    ownsTime = true
+    reaction = nil
+    move = nil
+    maneuver = nil
+    result = nil
+    boundFacts = nil
+    boundOutcome = nil
+    battleSecond = nil
+    ledgerSecond = nil
+    facts(owner)
+    {
+        if (self.reaction != owner || self.move == nil || !self.move.ofKind(RpgExpandedPathMove)
+            || self.maneuver == nil || !self.maneuver.ofKind(RpgExpandedPanicPathManeuver)
+            || self.maneuver.operation != self.move || self.maneuver.panicReaction != owner
+            || self.maneuver.healthGate == nil || !self.maneuver.healthGate.ofKind(RpgExpandedPanicActionGate)
+            || self.maneuver.healthGate.panicReaction != owner || self.move.fighter.profile != self.profile)
+            rpgExpandedReject('panic-path-definition');
+        return [self,self.profile,owner,self.move,self.maneuver,self.maneuver.healthGate,self.ownsTime]
+            + self.move.definition();
+    }
+    outcomeFacts()
+    { return [self.result,self.result.status,self.result.outcome,self.battleSecond,self.ledgerSecond]; }
+    permitsAuthorization(request)
+    { return self.result == nil && (request == self.maneuver || request == self.maneuver.healthGate); }
+    clockSeconds(owner)
+    {
+        self.facts(owner);
+        return self.move.battle.index == self.move.battle.order.length() ? 1 : 0;
+    }
+    permitsBattleClock(battle)
+    {
+        return self.result != nil && battle == self.move.battle && battle.active
+            && battle.seconds == self.battleSecond+1 && rpgLedger.seconds == self.ledgerSecond;
+    }
+    validateReceipt(owner)
+    {
+        local facts = self.facts(owner);
+        if (self.result == nil || self.boundFacts == nil || facts.length() != self.boundFacts.length()
+            || self.battleSecond == nil || self.ledgerSecond == nil) rpgExpandedReject('panic-path-receipt');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('panic-path-binding');
+        facts = self.outcomeFacts();
+        if (self.boundOutcome == nil || facts.length() != self.boundOutcome.length()) rpgExpandedReject('panic-path-outcome');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('panic-path-outcome');
+        if (self.maneuver.healthGate.assess().status != 'reused') rpgExpandedReject('panic-path-permission-receipt');
+        if (self.result.outcome == 'incapacitated')
+        {
+            if (self.move.result != nil || self.maneuver.healthGate.result.allowed) rpgExpandedReject('panic-path-incapacity-receipt');
+        }
+        else if (self.move.assess().status != 'reused') rpgExpandedReject('panic-path-movement-receipt');
+        return nil;
+    }
+    assess(owner)
+    {
+        local facts = self.facts(owner); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(owner); value.status = 'reused'; return value; }
+        if (self.boundFacts != nil || self.boundOutcome != nil || self.battleSecond != nil || self.ledgerSecond != nil) rpgExpandedReject('panic-path-uncommitted');
+        if (!self.ownsTime || owner.operation != self) rpgExpandedReject('panic-path-time-owner');
+        if (owner.seconds != 1) { value.reason = 'panic-path-one-turn'; return value; }
+        value.reason = self.maneuver.available(self.move.fighter); if (value.reason != nil) return value;
+        value.reason = self.maneuver.healthAvailable(self.move.fighter); if (value.reason != nil) return value;
+        value.status = 'ready'; return value;
+    }
+    apply(owner)
+    {
+        local value = self.assess(owner); if (value.status != 'ready') return value;
+        self.boundFacts = self.facts(owner); self.battleSecond = self.move.battle.seconds; self.ledgerSecond = rpgLedger.seconds;
+        value = self.move.battle.step(self.move.fighter,self.maneuver);
+        if (value.status != 'resolved') rpgExpandedReject('panic-path-turn-changed');
+        self.result = value; self.boundOutcome = self.outcomeFacts(); return value;
+    }
+;

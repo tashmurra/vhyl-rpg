@@ -1169,6 +1169,9 @@ class RpgExpandedFearAgingContract: object
 class RpgExpandedPanicOperation: object
     profile = nil
     ownsTime = nil
+    clockSeconds(reaction) { return reaction.seconds; }
+    permitsAuthorization(request) { return nil; }
+    permitsBattleClock(battle) { return nil; }
     facts(reaction) { rpgExpandedReject('panic-operation-module-required'); }
     assess(reaction) { rpgExpandedReject('panic-operation-module-required'); }
     apply(reaction) { rpgExpandedReject('panic-operation-module-required'); }

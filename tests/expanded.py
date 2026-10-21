@@ -9773,6 +9773,8 @@ def test(build):
     test_fear_aging(Session,fear_aging,build.out)
     recovery_ruling = build.build('expanded-fear-recovery-ruling',ROOT / 'tests/fixtures/expanded-fear-recovery-ruling.t')
     test_fear_recovery_ruling(Session,recovery_ruling,build.out)
+    panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
+    test_panic_path(Session,panic_path,build.out)
     panic_fall = build.build('expanded-panic-fall',ROOT / 'tests/fixtures/expanded-panic-fall.t')
     test_panic_fall(Session,panic_fall,build.out)
     fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
@@ -28535,4 +28537,53 @@ def test_panic_fall(Session,bundle,out):
     try:
         s.command(f':restore {path}\n@2251'); do(s,442); do(s,623)
         assert state(s)==[1,1,1,3,1,10]
+    finally: s.close()
+
+
+def test_panic_path(Session,bundle,out):
+    """Panic uses an actual Move turn, physical permission and the battle's single round clock. Unrun."""
+    def do(s,c): s.action(2278,c)
+    def state(s):
+        do(s,204)
+        return last(s,'test.panic-path')
+    initial=[0,0,0,0,1,0,0,3,18]
+    moved=[2,0,1,1,2,0,0,9,7]
+    advanced=[2,0,1,1,1,1,1,9,7]
+    path=out/'panic-path.zsave'
+    s=Session(bundle)
+    try:
+        do(s,200); do(s,201)
+        assert last(s,'test.panic-path-preview')==['ready',None]
+        assert state(s)==initial
+        do(s,206); do(s,207); assert state(s)==initial
+        do(s,203); assert state(s)==initial
+        do(s,202); s.command('undo'); assert state(s)==initial
+        do(s,202); do(s,202); assert state(s)==moved
+        do(s,207); do(s,209); assert state(s)==moved
+        s.command(f':save {path}\n@2279')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279'); do(s,202); assert state(s)==moved
+        do(s,205); assert state(s)==advanced
+        do(s,207); assert state(s)==advanced
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,200); do(s,208); do(s,201)
+        assert last(s,'test.panic-path-preview')==['blocked','path-move-interruption-facts']
+        assert state(s)==initial
+    finally: s.close()
+
+    s=Session(bundle)
+    try:
+        do(s,200); do(s,210); do(s,202)
+        assert state(s)==advanced
+        do(s,207); assert state(s)==advanced
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,200); do(s,211); do(s,201)
+        assert last(s,'test.panic-path-preview')==['blocked','effort-other-incapacity']
+        assert state(s)==initial
     finally: s.close()

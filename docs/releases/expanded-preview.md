@@ -1964,3 +1964,11 @@ have recorded author rulings. Intermittent catatonia care and overlapping
 coma/catatonia aftereffects require explicit, bound author policies. Corresponding
 fixtures are authored, not yet run. Checks remain paused while remaining fear
 integration gaps are addressed; this update does not claim complete coverage.
+
+
+Extreme panic now has an owned tactical Move adapter using the existing path,
+physical health permission and battle scheduler. It retains the per-turn receipt
+and allows the corresponding round advance without charging a second interval.
+Request-aware permission dispatch preserves normal public hooks and keeps preview
+pure. Interrupted routes, attack/destruction adapters and remaining trait selections
+are still pending. The new tactical fixture is unrun; checks remain paused.

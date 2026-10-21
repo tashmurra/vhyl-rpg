@@ -4419,3 +4419,41 @@ validates the retained operation and never repeats movement, damage or time.
 Tactical placement requires a dedicated adapter and is rejected by this room
 adapter. `expanded-panic-fall.t` specifies preview, impact arithmetic, exception
 rollback, undo, duplicate execution and cross-process continuation; it is unrun.
+
+
+## Panic maneuvers and permission dispatch
+
+For an owned tactical escape turn, pair `RpgExpandedPanicPathOperation` with an
+existing `RpgExpandedPathMove`, `RpgExpandedPanicPathManeuver` and
+`RpgExpandedPanicActionGate`. Both maneuver and gate name the exact `panicReaction`;
+the operation names that same `reaction`, profile, move and maneuver. The reaction
+uses `kind = 'world-operation'` and `seconds = 1` (one maneuver).
+
+The actual path and physical health gate still run. Authorization bypasses only
+the pending extreme-panic restriction; fatigue, injury, unconsciousness, equipment
+and other condition policies continue to apply. An ordinary Move cannot use this
+permission. A failed physical permission consumes the actual battle turn without
+committing the path. The survivor check and subsequent severity use the same
+reaction lifecycle as other extreme panic outcomes.
+
+The battle owns elapsed time. A reaction taken before the final combatant has
+zero immediate shared-clock delta; completing the round adds one second. The
+retained turn permits that round's scheduler advance even when the next panic
+reaction is still pending. It does not permit arbitrary time advancement or a
+second unscheduled reaction turn. The scoped scheduler marker is restored after
+both successful execution and rules exceptions.
+
+The existing four-argument `healthEffortReason` and one-argument
+`healthManeuverReason` remain public and retain ordinary default behavior. Their
+supplied policies now dispatch through `healthEffortReasonFor(...,authorization)`
+and `healthManeuverReasonFor(kind,request)`. New panic gates use these request-aware
+hooks; custom condition policies intended to cover authorized panic actions must
+extend these hooks and chain `inherited` with the authorization/request argument.
+`healthManeuverRequestReason(request)` is the battle entry point. This keeps pure
+assessment free of temporary mutations to the profile's panic state.
+
+`expanded-panic-path.t` / `test_panic_path` specify actual hex movement, ordinary
+permission rejection, clock ownership, failed Will follow-up, replay, mutation
+rejection, rollback, undo and cross-process continuation. They are authored and
+unrun. Interrupted paths still require an explicit supported interruption adapter;
+this operation accepts the existing path mover's verified uninterrupted route.

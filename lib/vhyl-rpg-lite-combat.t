@@ -435,7 +435,7 @@ class RpgLiteBattle: object
             || request.kind == 'all-out-defense' && request.option != 'dodge' && request.movement > 1)
         { result.reason = 'movement-limit'; return result; }
         result.reason = request.available(fighter); if (result.reason != nil) return result;
-        result.reason = fighter.profile.healthManeuverReason(request.kind);
+        result.reason = fighter.profile.healthManeuverRequestReason(request);
         if (result.reason != nil) return result;
         if (request.target != nil && !holds(self.fighters, request.target)) throw new RpgError();
         if ((fighter.profile.stunned || fighter.profile.mentalStun) && request.kind != 'nothing')
@@ -511,11 +511,12 @@ class RpgLiteBattle: object
         self.index += 1;
         if (self.index > self.order.length())
         {
-            self.index = 1; self.seconds += 1; rpgSpendTime(1);
+            self.index = 1; self.seconds += 1; self.advanceClock();
             foreach (local fighter in self.order) rpgLiteHealthTime(fighter.profile, 1);
         }
         return nil;
     }
+    advanceClock() { return rpgSpendTime(1); }
     finish()
     {
         if (!self.active) return nil;

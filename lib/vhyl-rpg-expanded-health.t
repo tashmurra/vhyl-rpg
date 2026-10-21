@@ -2134,6 +2134,8 @@ class RpgExpandedEffort: object
     boundProfile = nil
     boundPurpose = nil
     boundEvidence = nil
+    healthPermissionReason()
+    { return self.profile.healthEffortReason(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement); }
     assess()
     {
         local value = new RpgExpandedEffortResult();
@@ -2160,7 +2162,7 @@ class RpgExpandedEffort: object
         if (holds(['action','talk'],self.purpose) && (self.profile.unconscious || self.profile.mortal
             || self.profile.stunned || self.profile.mentalStun))
         { value.reason = 'effort-other-incapacity'; return value; }
-        local healthReason = self.profile.healthEffortReason(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement);
+        local healthReason = self.healthPermissionReason();
         if (healthReason != nil) { value.reason = healthReason; return value; }
         rpgInteger(self.profile.maxEnergy,1,1000); rpgInteger(self.profile.fp(),-self.profile.maxEnergy,self.profile.maxEnergy);
         value.requiresCheck = self.purpose == 'action' && self.profile.fp() <= 0
@@ -2833,10 +2835,10 @@ modify RpgExpandedProfile
             return 'retching-concentration-failure';
         return inherited(context);
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
         if (self.retchingEpisode != nil && kind == 'concentrate') return 'retching-concentration-failure';
-        return inherited(kind);
+        return inherited(kind,request);
     }
     healthDefensePenalty()
     {
@@ -5866,11 +5868,11 @@ modify RpgExpandedProfile
         return active;
     }
     voluntaryMovementUnavailable() { return self.paralyzed() || inherited(); }
-    healthEffortReason(purpose, mentalAbility, speech, movement)
+    healthEffortReasonFor(purpose, mentalAbility, speech, movement,authorization)
     {
         if (self.paralyzed() && !holds(['rest','do-nothing'],purpose)
             && (purpose == 'talk' || !mentalAbility || speech || movement)) return 'paralysis-action-unavailable';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
     healthCheckReason(context)
     {
@@ -5883,10 +5885,10 @@ modify RpgExpandedProfile
         }
         return inherited(context);
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
         if (self.paralyzed() && kind != 'nothing') return 'paralysis-do-nothing-required';
-        return inherited(kind);
+        return inherited(kind,request);
     }
     healthBlocksDefense() { return self.paralyzed() || inherited(); }
     healthDefensePenalty()
@@ -5960,10 +5962,10 @@ modify RpgExpandedProfile
         return active;
     }
     voluntaryMovementUnavailable() { return self.seizing() || inherited(); }
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         if (self.seizing() && !holds(['rest','do-nothing'],purpose)) return 'seizure-action-unavailable';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
     healthCheckReason(context)
     {
@@ -5973,10 +5975,10 @@ modify RpgExpandedProfile
             return 'seizure-check-unavailable';
         return inherited(context);
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
         if (self.seizing() && kind != 'nothing') return 'seizure-do-nothing-required';
-        return inherited(kind);
+        return inherited(kind,request);
     }
     healthBlocksDefense() { return self.seizing() || inherited(); }
 ;
@@ -6094,10 +6096,10 @@ modify RpgExpandedProfile
     }
     agonyIncapacitated() { return self.agonized() && self.level('high-pain-threshold') == 0; }
     voluntaryMovementUnavailable() { return self.agonyIncapacitated() || inherited(); }
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         if (self.agonyIncapacitated() && !holds(['rest','do-nothing'],purpose)) return 'agony-action-unavailable';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
     healthCheckReason(context)
     {
@@ -6115,10 +6117,10 @@ modify RpgExpandedProfile
             && holds([rpgDX,rpgIQ,rpgPerception,rpgWill],context.controllingAttribute())) value -= 3;
         return value;
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
         if (self.agonyIncapacitated() && kind != 'nothing') return 'agony-do-nothing-required';
-        return inherited(kind);
+        return inherited(kind,request);
     }
     healthDefensePenalty()
     { local value = inherited(); return self.agonyIncapacitated() && value < 4 ? 4 : value; }
@@ -8140,15 +8142,15 @@ modify RpgExpandedProfile
         if (self.fearPanic == nil) return nil;
         self.fearPanic.assess(); return self.fearPanic.completedAt == nil;
     }
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
-        local reason = inherited(purpose,mentalAbility,speech,movement); if (reason != nil) return reason;
+        local reason = inherited(purpose,mentalAbility,speech,movement,authorization); if (reason != nil) return reason;
         if (self.activeFearPanic() && !holds(['rest','do-nothing'],purpose)) return 'fear-panic-purposeful-action';
         return nil;
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
-        local reason = inherited(kind); if (reason != nil) return reason;
+        local reason = inherited(kind,request); if (reason != nil) return reason;
         return self.activeFearPanic() && kind != 'nothing' ? 'fear-panic-purposeful-maneuver' : nil;
     }
 ;
@@ -8511,13 +8513,13 @@ modify rpgLedger
 modify RpgExpandedProfile
     catatonia = nil
     catatoniaHistory = []
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         if (self.catatonia != nil && !holds(['rest','do-nothing'],purpose)) return 'catatonia-action-unavailable';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
-    healthManeuverReason(kind)
-    { return self.catatonia != nil && kind != 'nothing' ? 'catatonia-do-nothing-required' : inherited(kind); }
+    healthManeuverReasonFor(kind,request)
+    { return self.catatonia != nil && kind != 'nothing' ? 'catatonia-do-nothing-required' : inherited(kind,request); }
     healthAttributeModifier(context)
     {
         local amount = inherited(context);
@@ -9866,15 +9868,15 @@ modify RpgExpandedProfile
         }
         return nil;
     }
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         if (self.unresolvedFearEvent() != nil) return 'fear-event-unresolved-consequence';
-        return inherited(purpose,mentalAbility,speech,movement);
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
         if (self.unresolvedFearEvent() != nil) return 'fear-event-unresolved-consequence';
-        return inherited(kind);
+        return inherited(kind,request);
     }
 ;
 modify rpgLedger
@@ -10526,12 +10528,13 @@ class RpgExpandedExtremePanicReaction: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         local profile = self.episode.context.profile; local facts = self.definition(); local start = rpgLedger.seconds;
+        local clockSeconds = self.operation == nil ? self.seconds : self.operation.clockSeconds(self);
         self.episode.settlingReaction = self;
         if (self.operation == nil || !self.operation.ownsTime) rpgSpendTime(self.seconds);
         if (profile.dead) rpgExpandedReject('panic-reaction-time-changed');
         if (self.operation != nil && self.operation.apply(self).status != 'resolved') rpgExpandedReject('panic-operation-changed');
         self.episode.settlingReaction = nil;
-        if (rpgLedger.seconds != start+self.seconds) rpgExpandedReject('panic-operation-time');
+        if (rpgLedger.seconds != start+clockSeconds) rpgExpandedReject('panic-operation-time');
         if (self.kind == 'flight')
         {
             if (location.get(self.actor) != self.origin || profile.unconscious || profile.fatigue >= profile.maxEnergy
@@ -10557,15 +10560,17 @@ class RpgExpandedExtremePanicReaction: object
 modify RpgExpandedProfile
     extremePanic = nil
     extremePanicHistory = []
-    healthEffortReason(purpose,mentalAbility,speech,movement)
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
-        if (self.extremePanic != nil) { self.extremePanic.assess(); return 'extreme-panic-reaction-required'; }
-        return inherited(purpose,mentalAbility,speech,movement);
+        if (self.extremePanic != nil && !self.panicAuthorization(authorization))
+        { self.extremePanic.assess(); return 'extreme-panic-reaction-required'; }
+        return inherited(purpose,mentalAbility,speech,movement,authorization);
     }
-    healthManeuverReason(kind)
+    healthManeuverReasonFor(kind,request)
     {
-        if (self.extremePanic != nil) { self.extremePanic.assess(); return 'extreme-panic-reaction-required'; }
-        return inherited(kind);
+        if (self.extremePanic != nil && !self.panicAuthorization(request))
+        { self.extremePanic.assess(); return 'extreme-panic-reaction-required'; }
+        return inherited(kind,request);
     }
 ;
 modify rpgLedger
@@ -10574,7 +10579,7 @@ modify rpgLedger
         inherited(seconds);
         if (seconds > 0)
             for (local episode = firstObj(RpgExpandedExtremePanic); episode != nil; episode = nextObj(episode,RpgExpandedExtremePanic))
-                if (episode.startedAt != nil && episode.completedAt == nil && !episode.context.profile.dead && episode.settlingReaction == nil)
+                if (episode.startedAt != nil && episode.completedAt == nil && !episode.context.profile.dead && episode.settlingReaction == nil && !episode.permitsBattleClock(self.panicBattleAdvance))
                     rpgExpandedReject('extreme-panic-reaction-required');
         return nil;
     }
@@ -10981,3 +10986,51 @@ rpgExpandedFearRecoveryCheck(owner,profile,context)
     if (score != nil && score >= 3 && owner.recoveryDecision == nil) return rpgLiteCheck(profile,context);
     return rpgExpandedFearRecoveryRoll(owner,score);
 }
+
+/** Explicit panic authorization travels with the request; preview never changes profile state. */
+class RpgExpandedPanicActionGate: RpgExpandedActionGate
+    panicReaction = nil
+    healthPermissionReason()
+    {
+        if (!self.profile.panicAuthorization(self)) return 'panic-permission-owner';
+        return self.profile.healthEffortReasonFor(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement,self);
+    }
+;
+class RpgExpandedPanicPathManeuver: RpgExpandedPathMoveManeuver
+    panicReaction = nil
+;
+modify RpgExpandedProfile
+    panicAuthorization(request)
+    {
+        if (request == nil || self.extremePanic == nil) return nil;
+        local reaction = request.panicReaction;
+        if (reaction == nil || !reaction.ofKind(RpgExpandedExtremePanicReaction)
+            || reaction.episode != self.extremePanic || reaction.result != nil
+            || reaction.episode.completedAt != nil || reaction.severity != reaction.episode.pendingSeverity
+            || !reaction.approved || reaction.operation == nil) return nil;
+        return reaction.operation.permitsAuthorization(request);
+    }
+    healthManeuverRequestReason(request)
+    {
+        if (self.panicAuthorization(request)) return self.healthManeuverReasonFor(request.kind,request);
+        return inherited(request);
+    }
+;
+modify RpgExpandedExtremePanic
+    permitsBattleClock(battle)
+    {
+        if (battle == nil || self.reactions.length() == 0) return nil;
+        self.assess(); local reaction = self.reactions[self.reactions.length()];
+        return reaction.operation != nil && reaction.operation.permitsBattleClock(battle);
+    }
+;
+modify rpgLedger panicBattleAdvance = nil;
+modify RpgLiteBattle
+    advanceClock()
+    {
+        local prior = rpgLedger.panicBattleAdvance; rpgLedger.panicBattleAdvance = self;
+        try { inherited(); }
+        catch (RpgError error) { rpgLedger.panicBattleAdvance = prior; throw error; }
+        rpgLedger.panicBattleAdvance = prior; return nil;
+    }
+;
