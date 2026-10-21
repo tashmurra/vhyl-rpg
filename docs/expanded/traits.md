@@ -3279,7 +3279,7 @@ for the supplied printing's combined procedure.
 
 This is **not yet a complete or fear-selectable trait**. Maneuvers reject with
 `frenzy-owned-action-required` until committed action adapters are implemented.
-Optional entry, target changes and exit handling remain
+Committed actions, target changes and exit handling remain
 open in F13 of the [completion checklist](fear-completion.md). Entry and ruling
 fixtures are authored but unrun while implementation checks remain paused.
 
@@ -3297,3 +3297,12 @@ preflights the episode, turn and Will score, then commits the actual maneuver.
 The maneuver callback checks Will and starts the episode only on success.
 Incapacity before concentration prevents the Will check; replay does not repeat
 the turn or roll. `test_frenzy_voluntary` is authored and unrun.
+
+The optional battle-entry enhancement requires both `battleEntry = true` on
+the purchase and `frenzyBattleEntry = true` in campaign rules. Its
+`RpgExpandedFrenzyBattleTrigger` binds the concrete battle and fighter and
+requires explicit first-entry evidence. The same encounter cannot trigger a
+second check for that character. The +50% enhancement uses the rated cost
+and signed rounding: ratings 6, 9, 12 and 15 cost −30, −22, −15 and −7 points.
+These are source-derived options, separate from the original accumulating
+stress policy. `test_frenzy_battle` is authored and unrun.

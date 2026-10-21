@@ -9897,6 +9897,8 @@ def test(build):
     test_frenzy_temper(Session,frenzy_temper,build.out)
     frenzy_voluntary = build.build('expanded-frenzy-voluntary',ROOT / 'tests/fixtures/expanded-frenzy-voluntary.t')
     test_frenzy_voluntary(Session,frenzy_voluntary,build.out)
+    frenzy_battle = build.build('expanded-frenzy-battle',ROOT / 'tests/fixtures/expanded-frenzy-battle.t')
+    test_frenzy_battle(Session,frenzy_battle,build.out)
     frenzy_entry = build.build('expanded-frenzy-entry',ROOT / 'tests/fixtures/expanded-frenzy-entry.t')
     test_frenzy_entry(Session,frenzy_entry,build.out)
     attention_acquisition = build.build('expanded-attention-acquisition',ROOT / 'tests/fixtures/expanded-attention-acquisition.t')
@@ -31263,3 +31265,30 @@ def test_frenzy_voluntary(Session,bundle,out):
         do(s,1350); do(s,1357); do(s,1351)
         assert state(s) == before
     finally: s.close()
+
+
+def test_frenzy_battle(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1365)
+        return last(s,'test.frenzy-battle')
+    for success in (False,True):
+        s = Session(bundle)
+        path = out/f'frenzy-battle-{success}.zsave'
+        before = ['new',0,0,0]
+        after = ['new' if success else 'active',1,3,0]
+        try:
+            do(s,1366); assert last(s,'test.frenzy-prices') == [-20,-30,-15,-22,-10,-15,-5,-7]
+            do(s,1360)
+            if success: do(s,1315)
+            do(s,1362); assert state(s) == before
+            do(s,1361); do(s,1364); assert state(s) == before
+            do(s,1363); assert state(s) == before
+            do(s,1362); s.command('undo'); assert state(s) == before
+            do(s,1362); do(s,1362); assert state(s) == after
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1362); assert state(s) == after
+        finally: s.close()

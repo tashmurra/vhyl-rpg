@@ -6816,20 +6816,25 @@ modify RpgExpandedProfile
     }
 ;
 
-/** B124: priced controlled frenzy. Battle-entry pricing remains explicitly
- * unavailable until its modifier composition has source-verified support. */
+/** B124 controlled frenzy; the optional battle-entry enhancement uses the
+ * B121 rating and B110 signed-cost rounding. No other modifiers are supported. */
 class RpgExpandedFrenzy: RpgExpandedDisadvantage
     id = 'frenzy'
     labelId = 'frenzy'
     points = -10
     controlled = true
+    battleEntry = nil
     validateDefinition()
     {
         if (!self.approved || self.id != 'frenzy' || self.points != -10 || self.level != 1
             || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
             rpgExpandedReject('frenzy-definition');
     }
-    creationCost() { self.validateDefinition(); return inherited(); }
+    creationCost()
+    {
+        self.validateDefinition(); local cost = inherited();
+        return self.battleEntry ? rpgExpandedSignedModifiedCost(cost,[50]) : cost;
+    }
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
 
@@ -6906,11 +6911,17 @@ class RpgExpandedFrenzyInjuryTrigger: RpgExpandedSelfControlTrigger
     boundCheck = nil
     definition() { return inherited() + [self.episode,self.injuryReceipt,self.witnessed,self.lovedOne]; }
     checkFacts() { return [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; }
+    causeReason()
+    {
+        if (self.trigger != self.injuryReceipt) rpgExpandedReject('frenzy-injury-trigger-owner');
+        self.profile.validateFrenzyInjury(self.injuryReceipt,self.witnessed,self.lovedOne);
+        return self.injuryReceipt.second == rpgLedger.seconds ? nil : 'frenzy-injury-current-event-required';
+    }
     assess()
     {
         local value = inherited();
         if (!self.trait.ofKind(RpgExpandedFrenzy) || self.episode == nil || !self.episode.ofKind(RpgExpandedFrenzyEpisode)
-            || self.episode.entry != self || self.trigger != self.injuryReceipt || self.modifier != 0)
+            || self.episode.entry != self || self.modifier != 0)
             rpgExpandedReject('frenzy-injury-trigger-definition');
         if (value.status == 'reused')
         {
@@ -6919,9 +6930,8 @@ class RpgExpandedFrenzyInjuryTrigger: RpgExpandedSelfControlTrigger
             return value;
         }
         if (value.status != 'ready') return value;
-        self.profile.validateFrenzyInjury(self.injuryReceipt,self.witnessed,self.lovedOne);
-        if (self.injuryReceipt.second != rpgLedger.seconds)
-        { value.status = 'blocked'; value.reason = 'frenzy-injury-current-event-required'; return value; }
+        local cause = self.causeReason();
+        if (cause != nil) { value.status = 'blocked'; value.reason = cause; return value; }
         local episode = self.episode.assessEntry();
         if (episode.status != 'ready') { value.status = 'blocked'; value.reason = episode.reason; }
         return value;
@@ -7181,3 +7191,27 @@ class RpgExpandedFrenzyVoluntaryEntry: object
     }
 ;
 modify RpgExpandedProfile frenzyVoluntaryEntries = [];
+
+/** B124 optional entry on first joining a concrete encounter. The author
+ * supplies first-entry evidence; actor/encounter identity prevents repetition. */
+class RpgExpandedFrenzyBattleTrigger: RpgExpandedFrenzyInjuryTrigger
+    battle = nil
+    fighter = nil
+    firstEntry = nil
+    definition() { return inherited() + [self.battle,self.fighter,self.firstEntry]; }
+    causeReason()
+    {
+        if (self.injuryReceipt != nil || self.witnessed || self.lovedOne || self.battle == nil
+            || !self.battle.ofKind(RpgLiteBattle) || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
+            || self.fighter.profile != self.profile || self.trigger != self.battle)
+            rpgExpandedReject('frenzy-battle-trigger-definition');
+        if (!self.trait.battleEntry || self.profile.rules == nil || !self.profile.rules.frenzyBattleEntry)
+            return 'frenzy-battle-policy-disabled';
+        if (!self.firstEntry || !self.battle.active || !holds(self.battle.fighters,self.fighter)
+            || !holds(self.battle.order,self.fighter)) return 'frenzy-battle-first-entry-required';
+        foreach (local prior in self.profile.selfControlTriggers)
+            if (prior.ofKind(RpgExpandedFrenzyBattleTrigger) && prior.battle == self.battle)
+                return 'frenzy-battle-entry-already-resolved';
+        return nil;
+    }
+;

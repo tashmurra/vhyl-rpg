@@ -1303,3 +1303,5 @@ modify RpgExpandedProfile
     applyFrenzyKnockdown(result,modifier) { rpgExpandedReject('frenzy-health-module-required'); }
     validateFrenzyKnockdown(modifier) { rpgExpandedReject('frenzy-health-module-required'); }
 ;
+
+modify RpgExpandedRules frenzyBattleEntry = nil;
