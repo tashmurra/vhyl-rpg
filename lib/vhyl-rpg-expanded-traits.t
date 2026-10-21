@@ -4195,6 +4195,13 @@ class RpgExpandedFearMentalWorsening: RpgExpandedFearPhobiaWorsening
     purchaseFacts(trait)
     {
         if (trait.ofKind(RpgExpandedPhobia)) return inherited(trait);
+        if (trait.ofKind(RpgExpandedEmotionalUnderstandingDeficit) || trait.ofKind(RpgExpandedEmotionalObliviousness)
+            || trait.ofKind(RpgExpandedCallousness) || trait.ofKind(RpgExpandedLearningBar))
+        {
+            trait.creationCost();
+            if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
+            return [trait,trait.id,trait.points,nil,trait.level,trait.scope,trait.approved,nil];
+        }
         return rpgExpandedFearMentalFacts(trait);
     }
 ;

@@ -1421,7 +1421,7 @@
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Owned one-step worsening for related phobias and supported controlled mental purchases preserves old receipts and applies new purchase costs without spendable points. Minimum-rating/no-related-trait fallback accepts a fresh exact ten-point phobia, supported mental trait or fixed belief. Other catalogue traits remain unsupported. Fixtures authored, unrun. Fixed mental traits require an explicitly authored fresh-trait fallback because they have no self-control rating."
+      "validation_note": "Related fixed emotional-understanding deficit, emotional obliviousness, callousness and learning bar now support the authored ten-point fallback, retaining their existing effects and costs. Their lifecycle fixtures are unrun. Owned one-step worsening for related phobias and supported controlled mental purchases preserves old receipts and applies new purchase costs without spendable points. Minimum-rating/no-related-trait fallback accepts a fresh exact ten-point phobia, supported mental trait or fixed belief. Other catalogue traits remain unsupported. Fixtures authored, unrun. Fixed mental traits require an explicitly authored fresh-trait fallback because they have no self-control rating."
     },
     {
       "id": "fear-outcome-26",

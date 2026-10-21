@@ -83,3 +83,38 @@ modify FearTestAction
         return inherited(context);
     }
 ;
+
+selectionUnderstanding: RpgExpandedEmotionalUnderstandingDeficit approved = true;
+selectionOblivious: RpgExpandedEmotionalObliviousness approved = true;
+selectionCallous: RpgExpandedCallousness approved = true;
+selectionLearning: RpgExpandedLearningBar approved = true;
+selectionFixedSkill: RpgLiteSkill id = 'acting' attribute = rpgIQ difficulty = 1;
+selectionFixedContext: RpgLiteContext skill = selectionFixedSkill;
+modify FearTestAction
+    exec(context)
+    {
+        local code = fearInput.code;
+        if (code == 820)
+        {
+            rpgInteger(fearInput.row,1,4);
+            selectionFallback.previous = [selectionUnderstanding,selectionOblivious,selectionCallous,selectionLearning][fearInput.row];
+            fearProfile.traits = [selectionFallback.previous]; fearProfile.creationComplete = true;
+            fearProfile.earnedPoints = 9; fearProfile.unspentPoints = 7;
+            selectionFixedSkill.id = fearInput.row == 2 ? 'fast-talk' : fearInput.row == 3 ? 'teaching' : 'acting';
+            return nil;
+        }
+        if (code == 821)
+        {
+            event('test.fixed-mental-fallback'); eventValue(holds(fearProfile.traits,selectionFallback.previous) ? 1 : 0);
+            eventValue(fearProfile.traits.length()); eventValue(selectionFallback.previous.creationCost());
+            eventValue(fearProfile.postCreationDisadvantageAllowance()); eventValue(fearProfile.developmentRevision);
+            eventValue(fearProfile.earnedPoints); eventValue(fearProfile.unspentPoints);
+            eventValue(selectionFixedContext.socialTraitModifier(fearProfile));
+            eventValue(fearProfile.learningAcquisitionReason('skill')); eventValue(rpgRandom.draws); return nil;
+        }
+        if (code == 822) { selectionFallback.previous.approved = nil; selectionFallback.assess(); return nil; }
+        if (code == 823)
+        { local value = selectionFallback.assess(); event('test.fixed-mental-preview'); eventValue(value.status); eventValue(value.reason); return nil; }
+        return inherited(context);
+    }
+;

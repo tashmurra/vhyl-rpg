@@ -119,3 +119,13 @@ noncommunicative vocal panic, while total muteness rejects it without a time or
 randomness charge. Nonvocal gestures remain available subject to other health
 restrictions. This closes an integration gap in an already supported physical
 selection; it does not complete the remaining trait catalogue. Fixtures are unrun.
+
+## Fixed mental-trait fallback increment
+
+Row 25 now recognizes four additional already-implemented fixed mental traits
+as the related prior condition: emotional-understanding deficit, emotional
+obliviousness, callousness and learning bar. Their specific existing behavior
+remains active while the author-selected ten-point fallback is acquired once.
+The selection fixture includes their costs, skill/learning effects and accounting
+across replay, rollback, undo and save continuation. These cases remain unrun;
+this is not a claim that the entire mental-trait catalogue is implemented.

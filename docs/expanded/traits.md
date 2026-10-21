@@ -2311,6 +2311,20 @@ for that selection. It preserves the existing fixed trait. The normal one-step
 procedure still applies to supported controlled traits with a rating above six;
 no self-control number is fabricated for fixed traits.
 
+The row-25 prior-trait interface also recognizes the existing
+`RpgExpandedEmotionalUnderstandingDeficit`, `RpgExpandedEmotionalObliviousness`,
+`RpgExpandedCallousness` and `RpgExpandedLearningBar` implementations. The author
+must still record why that particular trait is related to the new incident and
+select the exact-cost fallback. Their original costs, skill modifiers and learning
+restrictions remain intact. Recognition as a prior trait does not make their
+five-, twenty- or thirty-point costs valid new selections for a ten- or
+fifteen-point outcome. Those acquisition constraints remain unchanged.
+
+`test_fear_selection` specifies all four prior-trait paths, retained mechanical
+effects and costs, one fallback acquisition, unchanged spendable points, preview,
+exception rollback, undo, altered-history rejection and saved continuation.
+These cases are authored and unrun while build checks remain paused.
+
 Physical acquisitions additionally accept negative `RpgExpandedAppearance`,
 `RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
 `RpgExpandedHearingImpairment` purchases. Appearance observer modifiers,

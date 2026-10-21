@@ -28894,6 +28894,33 @@ def test_fear_selection(Session,bundle,out):
         assert state(s)==[2,20,1,1,0,0,2,0]
     finally: s.close()
 
+    # Existing fixed mental traits have no rating to lower. Keep their effects
+    # and install the separately authored, exact-cost fallback once.
+    for choice,cost,modifier,learning in [(1,-20,-3,None),(2,-5,-1,None),
+                                          (3,-5,-3,None),(4,-30,0,'learning-bar-acquisition')]:
+        path = out/f'fixed-mental-fallback-{choice}.zsave'
+        initial = [1,1,cost,0,0,9,7,modifier,learning,0]
+        acquired = [1,2,cost,10,1,9,7,modifier,learning,0]
+        s = Session(bundle)
+        try:
+            s.action(2250,820,choice)
+            for code in (823,666):
+                s.action(2250,code,choice); s.action(2250,821,choice)
+                assert last(s,'test.fixed-mental-fallback') == initial
+            s.action(2250,665,choice); s.command('undo'); s.action(2250,821,choice)
+            assert last(s,'test.fixed-mental-fallback') == initial
+            for code in (665,665,822,821): s.action(2250,code,choice)
+            assert last(s,'test.fixed-mental-fallback') == acquired
+            s.command(f':save {path}\n@2251')
+            assert any('[save ok code=0]' in line for line in s.raw_lines)
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251')
+            for code in (665,821): s.action(2250,code,choice)
+            assert last(s,'test.fixed-mental-fallback') == acquired
+        finally: s.close()
+
 
 def test_panic_attack(Session,bundle,out):
     """Recorded attacks commit one battle turn, real injury and ammunition; assertions unrun."""
