@@ -9825,6 +9825,8 @@ def test(build):
     test_overstimulation(Session,overstimulation,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
+    goal_fixation = build.build('expanded-goal-fixation',ROOT / 'tests/fixtures/expanded-goal-fixation.t')
+    test_goal_fixation(Session,goal_fixation,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
     test_panic_critical_hit(Session,panic_critical_hit,build.out)
     panic_defense_position = build.build('expanded-panic-defense-position',ROOT / 'tests/fixtures/expanded-panic-defense-position.t')
@@ -29497,4 +29499,46 @@ def test_panic_expression_communication(Session,bundle,out):
         for code in (10733,10721,10722,10703): s.action(2285,code)
         assert last(s,'test.panic-expression') == ['resolved',None]
         assert last(s,'test.crying-state') == [1,1,60,1]
+    finally: s.close()
+
+
+def test_goal_fixation(Session,bundle,out):
+    """B146 pricing, concrete deviation permission, replacement and funded buyoff. Unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,846)
+        return last(s,'test.fixation')
+    path = out/'goal-fixation.zsave'
+    s = Session(bundle)
+    try:
+        do(s,852)
+        assert last(s,'test.fixation-costs') == [-10,-7,-5,-2,-20,-15,-10,-5]
+        do(s,840); do(s,581); do(s,847)
+        do(s,842); assert state(s) == ['Recover the lost survey',1,0,7,0,0,None]
+        do(s,841); do(s,841); do(s,843)
+        assert last(s,'test.fixation-permission') == ['blocked','fixation-action-pursuit-required']
+        assert state(s) == ['Recover the lost survey',1,0,7,0,0,1]
+        do(s,845); assert state(s) == ['Recover the lost survey',1,0,7,0,0,1]
+        do(s,844); s.command('undo'); assert state(s) == ['Recover the lost survey',1,0,7,0,0,1]
+        do(s,844); do(s,844); do(s,851)
+        assert state(s) == ['Map the uncharted valley',1,1,7,0,0,1]
+        s.command(f':save {path}\n@2251')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251')
+        do(s,844); do(s,848); do(s,850)
+        assert state(s) == ['Map the uncharted valley',1,1,7,0,0,1]
+        do(s,849); s.command('undo'); assert state(s) == ['Map the uncharted valley',1,1,7,0,0,1]
+        do(s,849); do(s,849)
+        assert state(s) == [None,0,2,7,0,0,1]
+    finally: s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (853,844,848,855): do(s,code)
+        assert last(s,'test.fixation-buyoff') == ['blocked','rpg.insufficient-points']
+        do(s,854); do(s,849); do(s,849)
+        assert state(s) == [None,0,2,5,0,0,None]
     finally: s.close()

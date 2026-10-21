@@ -2480,3 +2480,54 @@ wound, learning restrictions, incompatible and unclassified prior training,
 preview, replay, rollback, undo and separate-process save continuation. These
 cases are unrun; the existing journey and free-fall fixtures also require the
 post-implementation validation pass.
+
+
+## Overriding goal
+
+`RpgExpandedGoalFixation` implements the authored goal procedure from full-2008
+B146. Set `approved`, original `initialGoal`, `term` (`short-term` or `long-term`)
+and matching base `points` (-5 or -10). The normal self-control ratings and pricing
+apply. It is a supported fear mental acquisition when its resulting cost exactly
+matches the selected row. Goal text and term are retained in the acquisition;
+worsening may change the self-control rating but cannot silently change either.
+This trait does not itself impose a reaction penalty.
+
+For an occasion when deviation would be wise, create an
+`RpgExpandedFixationTrigger` with the ordinary trigger ID, profile, trait,
+occurrence and evidence. Supply `goal = profile.fixationGoal(trait)`,
+`goalVersion = profile.fixationGoalVersion(trait)`, `deviationWise = true` and
+explicit `pursuitActions`. Resolve once. Failure permits only those pursuit
+alternatives; success permits deviation for this occurrence. The existing
+self-control machinery retains optional purchased success and stress follow-ups.
+Low effective self-control scores retain the existing explicit rejection.
+
+Authors must use `RpgExpandedFixationActionPermission` at their ordinary action
+boundary. Supply the profile, trait, current goal, concrete action, approval and
+`rationale` explaining its relationship to the goal. For wise deviation also
+supply the resolved trigger in `deviation`; an unresolved or failed check cannot
+permit an unrelated action. `assess()` returns permission only. The ordinary
+world action still owns execution, time and costs. This specific author contract
+is necessary because the engine cannot infer whether an arbitrary action pursues
+a narrative goal. The fixture demonstrates an actual scene action being denied.
+
+When the goal is achieved, record an `RpgExpandedFixationFulfillment` with unique
+ID, profile, currently owned trait, `previousGoal`, approval and evidence of the
+world outcome. Set a different nonempty `nextGoal` to replace it without changing
+the trait's pricing term or rating. Omit `nextGoal` for buyoff through the existing
+approved-downtime and original-award basis rules. Insufficient points or a missing
+basis blocks before mutation. Acquired disadvantages that awarded no spendable
+points require an explicit zero-award basis; no credit is invented. Replacing a
+goal grants no points. Replay cannot replace the goal or charge again.
+
+Fulfillment history retains goal versions independently of wording. Triggers for
+an earlier goal cease restricting actions after fulfillment, even if a later goal
+reuses the same words. Queries validate the bound history; old acquisition
+receipts continue to refer to the original goal. Authors must construct goal
+purchases explicitly; generic template copying of authored goals is not supplied.
+
+`test_goal_fixation` specifies all eight prices, fear acquisition, denied concrete
+deviation, permitted pursuit, recorded replacement, zero-award and paid buyoff,
+insufficient funding, altered receipt rejection, replay, rollback, undo and saved
+continuation. These fixtures are unrun while checks remain paused. Broader
+character-template integration and additional mental catalogue entries remain
+outside this implementation increment.

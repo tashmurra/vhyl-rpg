@@ -107,9 +107,10 @@
       "pages": "B146",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Overriding goal obsession costs base -5 for a short-term goal or -10 for a long-term goal, with self-control when deviation would be wise. Failure continues the goal pursuit. Author defines the concrete goal and fulfillment event; completion requires replacement with a new goal or point buyoff. Separate additional reaction-producing habits or beliefs from this cost.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_goal_fixation"],
+      "validation_note": "Typed overriding-goal purchase, self-control trigger, explicit concrete-action permission, versioned goal replacement and original-award funded buyoff are implemented. Exact-cost fear acquisition and one-step worsening preserve goal facts. Pricing, denied action, lifecycle and accounting fixtures are authored and unrun. Generic authored-goal template copying remains unavailable."
     },
     {
       "id": "disadvantages-f-reckless-risk",

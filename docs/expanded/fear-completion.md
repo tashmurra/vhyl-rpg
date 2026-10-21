@@ -147,3 +147,14 @@ expression and tactical movement. Recorded count, unique ownership and interval
 ordering guard the episode history; retained definitions, outcomes and health
 permissions are checked before later clock advancement or action permission.
 Mutation cases are added to the existing fixtures and remain unrun.
+
+## Overriding-goal selection
+
+A new B146 overriding-goal trait is selectable at exact fear-row costs. Its
+specific author interface classifies concrete actions, resolves wise deviation,
+retains pursuit obligations and records goal fulfillment through replacement or
+funded buyoff. Goal versions prevent old obligations from reactivating through
+reused wording. Registered fixtures cover pricing, a denied world action,
+replacement, accounting, undo and save continuation; they remain unrun. Generic
+authored-goal template copying and the remaining mental catalogue still require
+work. This increment adds actual selection behavior rather than only a price.

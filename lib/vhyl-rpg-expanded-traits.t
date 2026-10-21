@@ -4197,12 +4197,14 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedPleasureLoss) || trait.ofKind(RpgExpandedPhantomVoices)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
-        || trait.ofKind(RpgExpandedOverstimulation)))
+        || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
-    return [trait,trait.id,trait.points,trait.controlled ? trait.selfControlNumber() : nil,
+    local facts = [trait,trait.id,trait.points,trait.controlled ? trait.selfControlNumber() : nil,
         trait.level,trait.scope,trait.approved,trait.controlled];
+    if (trait.ofKind(RpgExpandedGoalFixation)) facts = facts + [trait.term,trait.initialGoal];
+    return facts;
 }
 /** B361 rows 23/35 and matching compounds: retain the concrete typed trait. */
 class RpgExpandedFearMentalAcquisition: RpgExpandedFearPhobiaAcquisition
@@ -4222,6 +4224,13 @@ class RpgExpandedFearMentalWorsening: RpgExpandedFearPhobiaWorsening
             return [trait,trait.id,trait.points,nil,trait.level,trait.scope,trait.approved,nil];
         }
         return rpgExpandedFearMentalFacts(trait);
+    }
+    assess()
+    {
+        if (self.previous != nil && self.previous.ofKind(RpgExpandedGoalFixation) && self.replacement != nil
+            && (!self.replacement.ofKind(RpgExpandedGoalFixation) || self.replacement.term != self.previous.term
+                || self.replacement.initialGoal != self.previous.initialGoal)) rpgExpandedReject('fixation-worsening-goal');
+        return inherited();
     }
 ;
 
@@ -4494,4 +4503,190 @@ modify rpgExpandedTemplateTraits
 modify RpgExpandedProfile
     panicVocalizationReason()
     { return self.speechLimitationLevel() == 2 ? 'panic-vocalization-unavailable' : inherited(); }
+;
+
+/** B146: an authored overriding goal, with ordinary self-control pricing. */
+class RpgExpandedGoalFixation: RpgExpandedDisadvantage
+    id = 'goal-fixation'
+    points = -10
+    controlled = true
+    term = 'long-term'
+    initialGoal = nil
+    creationCost()
+    {
+        if (!self.approved || self.id != 'goal-fixation' || !self.controlled || self.level != 1
+            || !holds(['short-term','long-term'],self.term) || self.points != (self.term == 'short-term' ? -5 : -10)
+            || self.initialGoal == nil || self.initialGoal == '' || self.scope != nil || self.skills.length() != 0
+            || self.percentages.length() != 0) rpgExpandedReject('goal-fixation-definition');
+        return inherited();
+    }
+;
+modify RpgExpandedProfile
+    fixationFulfillments = []
+    fixationGoalVersion(trait)
+    {
+        local version = nil;
+        foreach (local entry in self.fixationFulfillments)
+        {
+            entry.validateReceipt();
+            if (self.phobiaCurrentTrait(entry.trait) == self.phobiaCurrentTrait(trait)) version = entry;
+        }
+        return version;
+    }
+    fixationGoal(trait)
+    {
+        if (trait == nil || !trait.ofKind(RpgExpandedGoalFixation)) rpgExpandedReject('fixation-goal-trait');
+        trait.creationCost(); local current = trait.initialGoal; local ids = [];
+        foreach (local entry in self.fixationFulfillments)
+        {
+            entry.validateReceipt();
+            if (entry.profile != self || holds(ids,entry.id)) rpgExpandedReject('fixation-goal-history');
+            ids = ids + [entry.id];
+            if (self.phobiaCurrentTrait(entry.trait) == self.phobiaCurrentTrait(trait))
+            {
+                if (entry.previousGoal != current) rpgExpandedReject('fixation-goal-sequence');
+                current = entry.nextGoal;
+            }
+        }
+        return current;
+    }
+;
+/** One authored occasion when deviation would be wise; all alternatives are explicit. */
+class RpgExpandedFixationTrigger: RpgExpandedSelfControlTrigger
+    goal = nil
+    goalVersion = nil
+    deviationWise = nil
+    pursuitActions = []
+    boundCheck = nil
+    definition() { return inherited() + [self.goal,self.goalVersion,self.deviationWise,self.pursuitActions.length()] + self.pursuitActions; }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedGoalFixation)) rpgExpandedReject('fixation-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (self.boundCheck == nil || self.active != !self.check.achieved) rpgExpandedReject('fixation-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('fixation-check-binding');
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        self.trait.creationCost();
+        if (!self.deviationWise || self.goal == nil || self.goal != self.profile.fixationGoal(self.trait)
+            || self.goalVersion != self.profile.fixationGoalVersion(self.trait)
+            || self.pursuitActions.length() == 0) { value.status = 'blocked'; value.reason = 'fixation-trigger-facts'; return value; }
+        local seen = [];
+        foreach (local action in self.pursuitActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('fixation-pursuit-actions');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated
+            || self.profile.fixationGoalVersion(self.trait) != self.goalVersion) return true;
+        return !self.active || holds(self.pursuitActions,action);
+    }
+;
+/** Completed goal: retain the authored world fact and either replace it or fund buyoff. */
+class RpgExpandedFixationFulfillment: object
+    id = nil
+    profile = nil
+    trait = nil
+    previousGoal = nil
+    nextGoal = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundFacts = nil
+    recordedAt = nil
+    chargedPoints = nil
+    facts()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedGoalFixation)) rpgExpandedReject('fixation-fulfillment-definition');
+        self.trait.creationCost();
+        return [self.id,self.profile,self.trait,self.previousGoal,self.nextGoal,self.approved,self.evidence,
+            self.trait.initialGoal,self.trait.term,self.recordedAt,self.chargedPoints];
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.result == nil || self.boundFacts == nil || !holds(self.profile.fixationFulfillments,self))
+            rpgExpandedReject('fixation-fulfillment-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('fixation-fulfillment-binding');
+        return nil;
+    }
+    assess()
+    {
+        self.facts(); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; value.points = self.chargedPoints; return value; }
+        if (self.recordedAt != nil || self.chargedPoints != nil || self.boundFacts != nil) rpgExpandedReject('fixation-fulfillment-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fixation-fulfillment-evidence'; return value; }
+        if (!holds(self.profile.traits,self.trait) || self.profile.phobiaCurrentTrait(self.trait) != self.trait
+            || self.previousGoal == nil || self.previousGoal != self.profile.fixationGoal(self.trait))
+        { value.reason = 'fixation-fulfillment-current-goal'; return value; }
+        foreach (local entry in self.profile.fixationFulfillments)
+            if (entry.id == self.id) rpgExpandedReject('fixation-fulfillment-duplicate');
+        if (self.nextGoal != nil)
+        {
+            if (self.nextGoal == '' || self.nextGoal == self.previousGoal) rpgExpandedReject('fixation-replacement-goal');
+            value.points = 0;
+        }
+        else
+        {
+            if (!self.profile.developmentOpen) { value.reason = 'rpg.downtime-required'; return value; }
+            value.points = self.profile.disadvantageBuyoffCost(self.trait);
+            if (value.points == nil) { value.reason = 'buyoff-original-cost-required'; return value; }
+            value.reason = self.profile.developmentSpendingReason(); if (value.reason != nil) return value;
+            if (self.profile.unspentPoints < value.points) { value.reason = 'rpg.insufficient-points'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.nextGoal == nil && !rpgLiteBuyOff(self.profile,self.trait)) rpgExpandedReject('fixation-buyoff-changed');
+        self.recordedAt = rpgLedger.seconds; self.chargedPoints = value.points; self.result = value;
+        self.boundFacts = self.facts(); self.profile.fixationFulfillments = self.profile.fixationFulfillments + [self];
+        value.status = 'resolved'; return value;
+    }
+;
+
+/** Specific author interface: rationalize a concrete action or resolve wise deviation. */
+class RpgExpandedFixationActionPermission: object
+    profile = nil
+    trait = nil
+    goal = nil
+    action = nil
+    rationale = nil
+    deviation = nil
+    approved = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.trait == nil
+            || !self.trait.ofKind(RpgExpandedGoalFixation) || self.action == nil) rpgExpandedReject('fixation-action-definition');
+        local value = new RpgExpandedResult(); local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated) { value.status = 'ready'; return value; }
+        if (!self.approved || self.rationale == nil || self.rationale == '' || self.goal != self.profile.fixationGoal(self.trait))
+        { value.reason = 'fixation-action-rationale'; return value; }
+        if (self.deviation != nil)
+        {
+            if (!self.deviation.ofKind(RpgExpandedFixationTrigger) || self.deviation.profile != self.profile
+                || self.profile.phobiaCurrentTrait(self.deviation.trait) != current || self.deviation.goal != self.goal
+                || self.deviation.goalVersion != self.profile.fixationGoalVersion(self.trait))
+                rpgExpandedReject('fixation-action-deviation-owner');
+            if (!self.deviation.permits(self.action)) { value.reason = 'fixation-action-pursuit-required'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
 ;
