@@ -526,3 +526,15 @@ outcome rather than erasure or a refund. Fixtures now exercise point-funded
 advancement, direct learning and study, specifying rejection before resources
 are spent and normal point spending after mitigation. Acquisition, rollback,
 undo and saved continuation are covered in authored cases, all still unrun.
+
+## Short-attention task increment
+
+The typed controlled purchase and an owned check-based task operation now exist.
+Failed attention records an actual task failure without a task die roll; passed
+attention performs the contextual task check. Receipt reuse preserves both
+results, and the operation does not introduce a second resource or time charge.
+`test_attention_task` specifies the failure/success paths, pure preview,
+rollback, undo, retained receipt integrity and cross-process continuation.
+No checks have run. Multi-stage task interruption adapters and fear-acquisition
+integration remain outstanding; this trait is not yet a supported fear selection.
+The broader mental-state work, including active frenzy, remains incomplete.

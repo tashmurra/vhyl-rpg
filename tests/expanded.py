@@ -9891,6 +9891,8 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    attention_task = build.build('expanded-attention-task',ROOT / 'tests/fixtures/expanded-attention-task.t')
+    test_attention_task(Session,attention_task,build.out)
     credulity_learning = build.build('expanded-credulity-learning',ROOT / 'tests/fixtures/expanded-credulity-learning.t')
     test_credulity_learning(Session,credulity_learning,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
@@ -30833,3 +30835,30 @@ def test_credulity_learning(Session,bundle,out):
         assert last(s,'test.credulity-acquisition') == ['blocked','credulity-existing-training-author-replacement']
         do(s,581); assert state(s) == [0,0,1,9,7,0,0,0]
     finally: s.close()
+
+
+def test_attention_task(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1204)
+        return last(s,'test.attention-task')
+    for success in (False,True):
+        s = Session(bundle)
+        path = out/f'attention-{success}.zsave'
+        initial = [0,None,None,None,0,0]
+        expected = [1,'resolved',1 if success else None,7 if success else None,6 if success else 3,0]
+        try:
+            do(s,1200)
+            if success: do(s,1203)
+            do(s,1207); assert state(s) == initial
+            do(s,1205); assert state(s) == initial
+            do(s,1202); assert state(s) == initial
+            do(s,1201); s.command('undo'); assert state(s) == initial
+            do(s,1201); do(s,1201); assert state(s) == expected
+            do(s,1206); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1201); assert state(s) == expected
+        finally: s.close()

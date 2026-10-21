@@ -3103,3 +3103,34 @@ or dice spent on prohibited learning; mitigation allows a later purchase through
 the normal point ledger. Pre-existing training survives rejected acquisition.
 Replay, rollback, undo and saved continuation are also specified. These fixtures
 are registered but unrun, so integration validation remains outstanding.
+
+### Short attention: owned check-based tasks
+
+`RpgExpandedShortAttention` implements the base -10 controlled purchase
+(`full-2008` B153), including rated template construction and copying.
+`RpgExpandedAttentionTask` owns both the attention check and the actual
+`RpgLiteContext` task check. Set `occasion` to `extended-focus` or `distraction`,
+identify the task with a unique `id` and `trigger`, and supply `evidence`.
+A positive control `modifier` requires `crucialEvidence`; its size is an authored
+ruling, since the source specifies no fixed bonus or check interval.
+
+Call `assess()` for a pure preview and `resolve()` inside the action transaction.
+Read `check` for attention and `taskCheck` for task success. Failed attention
+produces a resolved task failure with reason `short-attention-task-failure` and
+no task roll, invented margin or critical failure. Successful attention executes
+the actual contextual check. Reusing the operation returns its retained result;
+it does not retry the task. Stress follow-ups use the shared owned control path.
+
+The operation spends no time or task materials. The caller owns the existing
+attempt's costs and consequences in the same transaction, consumes `taskCheck`
+instead of making another task check, and retains costs already committed before
+the distraction. It must not refund earlier progress or unrelated completed work.
+A mitigated purchase blocks this attention operation; ordinary task resolution
+remains available. Historical resolved failures remain historical after mitigation.
+
+Current scope is a task resolved by one contextual check. Ongoing study, craft,
+and other multi-stage work need concrete interruption adapters before this trait
+can be offered as a general fear-acquired selection; it is not yet on that
+selection whitelist. `expanded-attention-task.t` and `test_attention_task` specify
+preview purity, failure/success dice consumption, rollback, undo, receipt
+mutation rejection and cross-process continuation. These fixtures are unrun.

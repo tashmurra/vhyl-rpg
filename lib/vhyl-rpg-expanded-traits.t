@@ -6261,3 +6261,87 @@ modify RpgExpandedFearMentalWorsening
         return value;
     }
 ;
+
+/** B153: a distracted check-based task fails without a task die roll. */
+class RpgExpandedShortAttention: RpgExpandedDisadvantage
+    id = 'short-attention'
+    labelId = 'short-attention'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-short-attention'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'short-attention' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('short-attention-definition');
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+/** Owns one task's attention decision and actual contextual check. Costs already
+ * committed to this attempt stay in the caller's shared ledgers. */
+class RpgExpandedAttentionTask: RpgExpandedSelfControlTrigger
+    taskContext = nil
+    occasion = nil
+    crucialEvidence = nil
+    taskCheck = nil
+    boundChecks = nil
+    definition() { return inherited() + [self.taskContext,self.occasion,self.crucialEvidence]; }
+    checkFacts()
+    {
+        return [self.check,self.check.status,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical,
+            self.taskCheck,self.taskCheck.status,self.taskCheck.reason,self.taskCheck.score,self.taskCheck.roll,
+            self.taskCheck.margin,self.taskCheck.achieved,self.taskCheck.critical];
+    }
+    assess()
+    {
+        if (self.trait == nil || !self.trait.ofKind(RpgExpandedShortAttention)
+            || self.taskContext == nil || !self.taskContext.ofKind(RpgLiteContext)
+            || !holds(['extended-focus','distraction'],self.occasion)) rpgExpandedReject('attention-task-definition');
+        if (self.modifier < 0 || self.modifier > 0 && (self.crucialEvidence == nil || self.crucialEvidence == ''))
+            rpgExpandedReject('attention-task-bonus-evidence');
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.taskCheck == nil || self.boundChecks == nil) rpgExpandedReject('attention-task-receipt');
+            local facts = self.checkFacts();
+            if (facts.length() != self.boundChecks.length() || self.active != !self.check.achieved)
+                rpgExpandedReject('attention-task-receipt');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundChecks[i]) rpgExpandedReject('attention-task-receipt');
+        }
+        else
+        {
+            if (self.taskCheck != nil || self.boundChecks != nil) rpgExpandedReject('attention-task-uncommitted');
+            if (value.status == 'ready' && (self.trait.mitigated || self.profile.dead || self.profile.unconscious))
+            { value.status = 'blocked'; value.reason = 'attention-task-unavailable'; }
+            if (value.status == 'ready' && rpgLiteScore(self.profile,self.taskContext) == nil)
+            { value.status = 'blocked'; value.reason = 'attention-task-check-unavailable'; }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        if (self.check.achieved) self.taskCheck = rpgLiteCheck(self.profile,self.taskContext);
+        else
+        {
+            self.taskCheck = new RpgResult(); self.taskCheck.status = 'resolved';
+            self.taskCheck.reason = 'short-attention-task-failure'; self.taskCheck.achieved = nil;
+        }
+        self.boundChecks = self.checkFacts(); return nil;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'short-attention') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedShortAttention(); trait.approved = true; trait.level = level; trait.scope = scope;
+        trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedShortAttention)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
