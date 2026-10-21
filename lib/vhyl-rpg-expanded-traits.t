@@ -3953,6 +3953,7 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
     profile = nil
     tableTotal = 24
     purchases = []
+    aging = nil
     approved = nil
     evidence = nil
     result = nil
@@ -3969,22 +3970,29 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
     definition()
     {
         if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == '' || self.profile == nil
-            || !self.profile.ofKind(RpgExpandedProfile) || !holds([24,36,37],self.tableTotal) || self.purchases.length() == 0)
+            || !self.profile.ofKind(RpgExpandedProfile) || !holds([24,36,37],self.tableTotal) || self.purchases.length() == 0 && self.aging == nil)
             rpgExpandedReject('fear-physical-definition');
-        local facts = [self.id,self.eventId,self.profile,self.tableTotal,self.approved,self.evidence,self.purchases.length()];
+        local facts = [self.id,self.eventId,self.profile,self.tableTotal,self.approved,self.evidence,self.purchases.length(),self.aging];
         foreach (local trait in self.purchases) facts = facts + self.purchaseFacts(trait);
+        if (self.aging != nil)
+        {
+            if (!self.aging.ofKind(RpgExpandedFearAgingContract) || self.aging.profile != self.profile) rpgExpandedReject('fear-physical-aging-owner');
+            facts = facts + self.aging.definition();
+        }
         return facts;
     }
     assess()
     {
         local facts = self.definition(); local value = new RpgExpandedResult(); value.points = 0;
         foreach (local trait in self.purchases) value.points += trait.creationCost();
+        if (self.aging != nil) { rpgInteger(self.aging.years,1,10); value.points -= self.aging.years*3; }
         if (self.result != nil)
         {
             if (!holds(self.profile.fearPhysicalAcquisitions,self) || self.boundDefinition == nil
                 || facts.length() != self.boundDefinition.length()) rpgExpandedReject('fear-physical-history');
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-physical-binding');
+            if (self.aging != nil && self.aging.assess().status != 'reused') rpgExpandedReject('fear-physical-aging-history');
             value.status = 'reused'; return value;
         }
         if (self.boundDefinition != nil) rpgExpandedReject('fear-physical-uncommitted');
@@ -4012,6 +4020,12 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
             foreach (local existing in self.profile.traits)
                 if (existing.id == 'stuttering' || speech.total && (existing.voiceRelated
                     || holds(['voice','mimicry','disturbing-voice'],existing.id))) rpgExpandedReject('fear-physical-speech-conflict');
+        if (self.aging != nil)
+        {
+            local age = self.aging.assess();
+            if (age.status == 'reused') rpgExpandedReject('fear-physical-aging-used');
+            if (age.status != 'ready') return age;
+        }
         value.status = 'ready'; return value;
     }
     apply()
@@ -4019,6 +4033,7 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
         local value = self.assess(); if (value.status != 'ready') return value;
         self.boundDefinition = self.definition(); self.profile.traits = self.profile.traits + self.purchases;
         self.profile.fearPhysicalAcquisitions = self.profile.fearPhysicalAcquisitions + [self];
+        if (self.aging != nil && self.aging.apply().status != 'resolved') rpgExpandedReject('fear-physical-aging-changed');
         self.profile.developmentRevision += 1; value.status = 'resolved'; self.result = value; return value;
     }
     fearEventMatches(entry)

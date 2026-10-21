@@ -2130,8 +2130,9 @@ The acquisition adds the actual traits, preserving their existing speech, pain
 and wound effects. A persistent wound purchase does not subtract HP at acquisition.
 Duplicate effects, already-owned purchases, unsupported types and speech
 conflicts are rejected before committing. Development revision increments once;
-there is no earned-point or spendable-point reward. Aging, appearance changes and
-other physical transformations still need specific adapters. Approval of a price
+there is no earned-point or spendable-point reward. Forced aging is available
+through the hazards adapter below. Appearance changes and other physical
+transformations still need specific adapters. Approval of a price
 alone cannot satisfy this interface. `test_fear_physical` specifies all three
 required totals, speech blocking, accounting, rollback, undo and saved replay;
 fixtures are unrun.
@@ -2257,3 +2258,33 @@ prices, actual trait effects, worsening, compound outcomes, preview, duplicate
 prevention, rollback, undo and saved continuation. Assertions are unrun. Other
 catalogue traits still require concrete acquisition adapters; this is not a
 claim that every mental trait or treatment procedure is complete.
+
+
+## Forced aging selected by fear
+
+An optional `aging` on `RpgExpandedFearPhysicalAcquisition` accepts
+`RpgExpandedFearAging` from hazards. Set its matching `profile`, `years` (1–10),
+`calendarId`, `oldAgeMonths`, `medicalTL`, approval and age evidence. The selection
+budget counts each added year as -3; this is only a selection value. It does not
+award character points or add a trait priced at that amount. Combine it with
+actual purchases to meet the selected row's exact total, or use five years alone
+for row 24. Attribute losses retain ordinary aging accounting.
+
+The advance evaluates every crossed aging boundary through the existing loss
+ledger, including lifespan bands, fitness, longevity and natural death. Unaging
+rejects this outcome. No elapsed gameplay time is charged. The last age reached
+constrains later ordinary and deprivation-related aging, and rejuvenation restores
+the existing recorded losses. Use `RpgExpandedFearAgingCalendar` where an exact
+campaign day map is required; its span must match the selected years.
+
+When a crossed boundary can have an effective score below 3, provide a contingent
+`RpgExpandedFearAgingRuling` as `lowScoreRuling`: matching `owner`, four `losses`
+in ST/DX/IQ/HT order (each 0–2), approval and evidence. It is used only at an
+unrollable boundary. That boundary retains `author-selected-aging-losses` with an
+empty rolls list. No failure margin is invented. The ruling is bound before the
+advance begins so a later random loss cannot leave a partly paid advance awaiting
+an undefined decision. Ordinary rollable boundaries keep their four existing rolls.
+
+`expanded-fear-aging.t` / `test_fear_aging` specify selection accounting, crossed
+boundaries, ordinary losses, no-dice author losses, rejuvenation, receipt mutation,
+rollback, undo and saved continuation. These assertions are authored and unrun.

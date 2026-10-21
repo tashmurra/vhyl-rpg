@@ -1953,3 +1953,14 @@ Lasting mental outcomes now accept eight additional typed trait families with
 existing executable effects. They share compound faint/coma and permanent-IQ
 accounting. Controlled purchases can worsen one self-control step with retained
 history; fallback also accepts a fixed belief. New fixtures remain unrun.
+
+
+Forced fear aging now crosses the existing aging calendar and retains actual
+attribute losses for rejuvenation. Its -3-per-year selection value is not a point
+reward. Below-three aging checks use recorded author-selected losses without dice.
+Extreme panic can now own real relocation and fall impact through the hazards
+pipeline. Due fear recovery preserves unrelated incapacity; low recovery scores
+have recorded author rulings. Intermittent catatonia care and overlapping
+coma/catatonia aftereffects require explicit, bound author policies. Corresponding
+fixtures are authored, not yet run. Checks remain paused while remaining fear
+integration gaps are addressed; this update does not claim complete coverage.

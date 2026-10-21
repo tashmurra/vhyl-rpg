@@ -33,6 +33,14 @@ modify BleedTestAction
         {
             catEpisode.careMode = 'continuous'; catDay.careProvided = true; catSecondDay.careProvided = true; return nil;
         }
+        if (code == 11112 || code == 11113)
+        {
+            catEpisode.careMode = 'daily'; catEpisode.neglectPolicy = code == 11112 ? 'elapsed-days' : 'uncared-days';
+            catEpisode.neglectEvidence = 'Author selects how intermittent care affects escalation';
+            catDay.careProvided = true; catSecondDay.careProvided = nil; return nil;
+        }
+        if (code == 11114) { bleedProfile.unconscious = true; return nil; }
+        if (code == 11115) { event('test.cat-unconscious'); eventValue(bleedProfile.unconscious ? 1 : 0); return nil; }
         if (code == 11110) { rpgSpendTime(172800); return nil; }
         if (code == 11111)
         {

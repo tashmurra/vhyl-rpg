@@ -1395,9 +1395,10 @@
       "acceptance": "An authored physical effect adds negative fifteen points of physical disadvantages; each year of event-induced aging counts as negative three points for this selection.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_physical"
+        "tests/expanded.py::test_fear_physical",
+        "tests/expanded.py::test_fear_aging"
       ],
-      "validation_note": "Owned exact-cost bundles of pain sensitivity, persistent wound and speech limitation. Aging and other physical transformations remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete."
     },
     {
       "id": "fear-outcome-25",
@@ -1456,7 +1457,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_coma"
       ],
-      "validation_note": "Owned half-hour coma recovery checks and six-hour scoring aftermath. Independent unconsciousness overlap remains unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned condition and due recovery preserve independent incapacity. Coma/catatonia aftereffect overlap requires a bound sum/worst author policy; daily catatonia care records a bound elapsed-day/uncared-day escalation ruling. Low recovery scores require recorded author decisions. Fixtures authored, unrun; validation is incomplete."
     },
     {
       "id": "fear-outcome-29",
@@ -1470,7 +1471,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_coma"
       ],
-      "validation_note": "Owned repeated one-die-hour coma intervals, HT recovery and six-hour scoring aftermath. Independent unconsciousness overlap remains unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned condition and due recovery preserve independent incapacity. Coma/catatonia aftereffect overlap requires a bound sum/worst author policy; daily catatonia care records a bound elapsed-day/uncared-day escalation ruling. Low recovery scores require recorded author decisions. Fixtures authored, unrun; validation is incomplete."
     },
     {
       "id": "fear-outcome-30",
@@ -1484,7 +1485,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_catatonia"
       ],
-      "validation_note": "Owned catatonia, daily care receipts, escalating absent-care injury, repeated HT recovery and equal-duration scoring aftermath. Changes of care regime and independent incapacitation remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned condition and due recovery preserve independent incapacity. Coma/catatonia aftereffect overlap requires a bound sum/worst author policy; daily catatonia care records a bound elapsed-day/uncared-day escalation ruling. Low recovery scores require recorded author decisions. Fixtures authored, unrun; validation is incomplete."
     },
     {
       "id": "fear-outcome-31",
@@ -1525,9 +1526,11 @@
       "tests": [
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_extreme_panic",
-        "tests/expanded.py::test_panic_flight"
+        "tests/expanded.py::test_panic_flight",
+        "tests/expanded.py::test_panic_fall",
+        "tests/expanded.py::test_fear_recovery_ruling"
       ],
-      "validation_note": "Owned severity/reaction/survivor-Will/repeat sequence. Freeze, cry, collapse with optional injury, and bounded noncombat flight with actual room relocation execute. Tactical/interrupted routes, attacks and falling reactions remain unsupported. Fixtures authored, unrun."
+      "validation_note": "Owned severity/reaction loop supports freezing, crying, collapse, unobstructed room flight and actual fall relocation with owned impact/injury. Survivor checks below three use recorded author rulings. Tactical routes and attack/destruction adapters remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-34",
@@ -1569,9 +1572,10 @@
       "acceptance": "Apply an authored physical effect worth negative twenty points using the row-twenty-four selection policy.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_physical"
+        "tests/expanded.py::test_fear_physical",
+        "tests/expanded.py::test_fear_aging"
       ],
-      "validation_note": "Owned exact-cost physical trait bundles; aging and other physical transformations remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete."
     },
     {
       "id": "fear-outcome-37",
@@ -1583,9 +1587,10 @@
       "acceptance": "Apply an authored physical effect worth negative thirty points using the row-twenty-four selection policy.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_physical"
+        "tests/expanded.py::test_fear_physical",
+        "tests/expanded.py::test_fear_aging"
       ],
-      "validation_note": "Owned exact-cost physical trait bundles; aging and other physical transformations remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete."
     },
     {
       "id": "fear-outcome-38",
@@ -1631,7 +1636,7 @@
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition and permanent IQ loss. Other catalogue mental-disadvantage choices and the minimum-IQ boundary remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition and permanent IQ loss. Other catalogue mental-disadvantage choices remain unsupported; minimum IQ requires a retained author replacement instead of an unsupported zero-attribute transition. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     }
   ],
   "exclusions": [

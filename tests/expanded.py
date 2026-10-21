@@ -9769,6 +9769,12 @@ def test(build):
     test_fear_actions(Session,fear_actions,build.out)
     fear_adjudication = build.build('expanded-fear-adjudication',ROOT / 'tests/fixtures/expanded-fear-adjudication.t')
     test_fear_adjudication(Session,fear_adjudication,build.out)
+    fear_aging = build.build('expanded-fear-aging',ROOT / 'tests/fixtures/expanded-fear-aging.t')
+    test_fear_aging(Session,fear_aging,build.out)
+    recovery_ruling = build.build('expanded-fear-recovery-ruling',ROOT / 'tests/fixtures/expanded-fear-recovery-ruling.t')
+    test_fear_recovery_ruling(Session,recovery_ruling,build.out)
+    panic_fall = build.build('expanded-panic-fall',ROOT / 'tests/fixtures/expanded-panic-fall.t')
+    test_panic_fall(Session,panic_fall,build.out)
     fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
     test_fear_event_traits(Session,fear_event_traits)
     fear_stress = build.build('expanded-fear-stress',ROOT / 'tests/fixtures/expanded-fear-stress.t')
@@ -20784,10 +20790,10 @@ def test_fear_coma(Session, bundle, out):
             s.close()
     s = Session(bundle)
     try:
-        for code in (11002, 11005, 11011, 11004, 11008):
+        for code in (11002, 11005, 11011, 11006, 11004, 11008):
             s.action(2285, code)
-        assert last(s, 'test.coma-recovery') == ['blocked', 'fear-coma-independent-incapacity-unimplemented', None]
-        assert last(s, 'test.coma-state')[:6] == [1, 1, 1800, None, 1800, 0]
+        assert last(s, 'test.coma-recovery') == ['resolved', None, 10]
+        assert last(s, 'test.coma-state')[:6] == [1, 1, 1800, 1800, 1800, 3]
     finally:
         s.close()
 
@@ -20826,6 +20832,16 @@ def test_catatonia(Session, bundle, out):
             assert last(s, 'test.cat-state')[-1] == 10
         finally:
             s.close()
+
+
+    for policy,injury in ((11112,2),(11113,1)):
+        s=Session(bundle)
+        try:
+            for code in (policy,11100,11101,11102,11105,11101,11103,11114,11107,11106,11108,11115):
+                s.action(2285,code)
+            assert last(s,'test.cat-state')[:5]==[2,injury,0,172800,172800]
+            assert last(s,'test.cat-unconscious')==[1]
+        finally: s.close()
 
 
 def test_fixed_beliefs(Session, bundle, out):
@@ -28406,3 +28422,91 @@ def test_fear_mental_compound(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,342); assert state(s)==expected
         finally: s.close()
+
+
+def test_fear_aging(Session,bundle,out):
+    """B361 selection value is not a point award; B444 losses restore through one ledger. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,604)
+        return last(s,'test.fear-aging')
+    zero=[0,0,10,10,10,10,0,0,0,0]
+    aged=[1,1,8,8,8,8,0,12,0,1]
+    path=out/'fear-aging.zsave'
+    s=Session(bundle)
+    try:
+        do(s,600); do(s,601)
+        assert last(s,'test.fear-aging-preview')==['ready',None]
+        assert state(s)==zero
+        do(s,603); assert state(s)==zero
+        do(s,602); s.command('undo'); assert state(s)==zero
+        do(s,602); do(s,602); assert state(s)==aged
+        do(s,606); do(s,607); do(s,608); assert state(s)==aged
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,602); assert state(s)==aged
+        do(s,605); do(s,605); do(s,608)
+        assert state(s)==[1,1,10,10,10,10,0,12,0,1]
+    finally: s.close()
+
+    s=Session(bundle)
+    try:
+        do(s,600); do(s,609); do(s,601)
+        assert last(s,'test.fear-aging-preview')==['ready',None]
+        do(s,603); assert state(s)==[0,0,10,10,10,2,0,0,0,0]
+        do(s,602); do(s,602); do(s,608)
+        assert state(s)==[1,1,10,10,10,1,0,0,0,1]
+    finally: s.close()
+
+
+def test_fear_recovery_ruling(Session,bundle,out):
+    """No invented roll or failure margin at the forbidden recovery-score boundary. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,615)
+        return last(s,'test.recovery-ruling')
+    path=out/'fear-recovery-ruling.zsave'
+    s=Session(bundle)
+    try:
+        do(s,610); do(s,612)
+        assert last(s,'test.recovery-ruling-preview')==['blocked','fear-recovery-author-decision-required']
+        assert state(s)==[0,0,1,None,None,None]
+        do(s,611); do(s,612)
+        assert last(s,'test.recovery-ruling-preview')==['ready',None]
+        do(s,614); assert state(s)==[0,0,1,None,None,None]
+        do(s,613); s.command('undo'); assert state(s)==[0,0,1,None,None,None]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,613); do(s,613); do(s,616)
+        assert state(s)==[1,0,2,None,None,'author-selected-recovery']
+    finally: s.close()
+
+
+def test_panic_fall(Session,bundle,out):
+    """Panic relocation owns an actual fall impact; replay never repeats injury or time. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,621)
+        return last(s,'test.panic-fall')
+    path=out/'panic-fall.zsave'
+    s=Session(bundle)
+    try:
+        do(s,440); do(s,620)
+        assert last(s,'test.panic-fall-preview')==['ready',None]
+        assert state(s)==[0,0,0,0,0,3]
+        do(s,443); assert state(s)==[0,0,0,0,0,3]
+        do(s,442); s.command('undo'); assert state(s)==[0,0,0,0,0,3]
+        do(s,442); do(s,442)
+        # HP 10 * velocity 8 / 100 => 1d-1; fixed die 4 gives 3 crushing injury.
+        assert state(s)==[1,1,1,3,1,10]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,442); do(s,623)
+        assert state(s)==[1,1,1,3,1,10]
+    finally: s.close()

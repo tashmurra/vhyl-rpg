@@ -428,18 +428,30 @@ rpgExpandedAgingSequence(profile, medicalTL, fitness, longevity, rolls)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile) || rolls == nil || rolls.length() != 4)
         rpgExpandedReject('aging-sequence-definition');
+    local target = profile.ht + rpgExpandedAgingModifier(medicalTL,fitness);
+    rpgInteger(target,-1000,1000); local losses = [];
+    foreach (local roll in rolls)
+    {
+        rpgInteger(roll,3,18);
+        local outcome = rpgExpandedAgingLoss(target,roll,longevity);
+        if (outcome.status != 'ready') return outcome;
+        losses = losses + [outcome.loss];
+    }
+    return rpgExpandedAgingLossSequence(profile,losses,rolls);
+}
+
+/** Shared attribute accounting for rolled losses and explicitly recorded rulings. */
+rpgExpandedAgingLossSequence(profile,losses,rolls)
+{
+    if (losses == nil || losses.length() != 4) rpgExpandedReject('aging-loss-sequence');
     local value = new RpgExpandedAgingSequence();
     value.scoresBefore = [profile.st,profile.dx,profile.iq,profile.ht];
     foreach (local score in value.scoresBefore) rpgInteger(score,1,1000);
-    foreach (local roll in rolls) rpgInteger(roll,3,18);
     if (profile.dead) { value.reason = 'aging-patient-dead'; return value; }
-    local target = profile.ht + rpgExpandedAgingModifier(medicalTL,fitness);
-    rpgInteger(target,-1000,1000); local prices = [10,20,20,10];
+    local prices = [10,20,20,10];
     for (local index = 1; index <= 4; index += 1)
     {
-        local outcome = rpgExpandedAgingLoss(target,rolls[index],longevity);
-        if (outcome.status != 'ready') { value.reason = outcome.reason; return value; }
-        local loss = outcome.loss;
+        local loss = losses[index]; rpgInteger(loss,0,2);
         if (loss > value.scoresBefore[index]) loss = value.scoresBefore[index];
         local after = value.scoresBefore[index] - loss;
         value.scoresAfter = value.scoresAfter + [after]; value.losses = value.losses + [loss];
@@ -526,8 +538,7 @@ class RpgExpandedAgingEvent: object
         local schedule = rpgExpandedAgingSchedule(self.profile.level('short-lifespan'),self.profile.level('extended-lifespan'));
         if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
         if (self.ageYears < schedule.bands[1][1]) { value.reason = 'aging-before-onset'; return value; }
-        local worst = rpgExpandedAgingSequence(self.profile,self.medicalTL,self.fitnessModifier(),
-            self.profile.level('longevity') > 0,[18,18,18,18]);
+        local worst = self.prepareSequence(true);
         if (worst.status != 'ready') { value.reason = worst.reason; return value; }
         if (self.profile.hpAdjustment < 0 && worst.healthCapacity <= 0
             || self.profile.fpAdjustment < 0 && worst.fatigueCapacity <= 0
@@ -537,13 +548,20 @@ class RpgExpandedAgingEvent: object
         { value.reason = 'aging-derived-state-unavailable'; return value; }
         value.status = 'ready'; return value;
     }
+    prepareSequence(preview)
+    {
+        local rolls = [18,18,18,18];
+        if (!preview)
+        {
+            rolls = [];
+            for (local index = 0; index < 4; index += 1) rolls = rolls + [rpgRandom.roll()];
+        }
+        return rpgExpandedAgingSequence(self.profile,self.medicalTL,self.fitnessModifier(),self.profile.level('longevity') > 0,rolls);
+    }
     apply()
     {
         local prepared = self.assess(); if (prepared.status != 'ready') return prepared;
-        local rolls = [];
-        for (local index = 0; index < 4; index += 1) rolls = rolls + [rpgRandom.roll()];
-        local value = rpgExpandedAgingSequence(self.profile,self.medicalTL,self.fitnessModifier(),
-            self.profile.level('longevity') > 0,rolls);
+        local value = self.prepareSequence(nil);
         if (value.status != 'ready') rpgExpandedReject('aging-assessment-changed');
         self.profile.st = value.scoresAfter[1]; self.profile.dx = value.scoresAfter[2];
         self.profile.iq = value.scoresAfter[3]; self.profile.ht = value.scoresAfter[4];
@@ -6095,10 +6113,13 @@ class RpgExpandedSustenanceAgingPlan: RpgExpandedResult
 /** B130 two years per injury point; B444/B53/B154 existing aging schedule.
  * This assessment deliberately does not exempt ordinarily ageless characters. */
 rpgExpandedSustenanceAgingPlan(profile,oldAgeMonths)
+{ return rpgExpandedAgeAdvancePlan(profile,oldAgeMonths,24); }
+
+rpgExpandedAgeAdvancePlan(profile,oldAgeMonths,months)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('sustenance-aging-profile');
-    rpgInteger(oldAgeMonths,0,11999976);
-    local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + 24;
+    rpgInteger(months,1,120); rpgInteger(oldAgeMonths,0,12000000-months);
+    local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + months; value.addedYears = months / 12;
     local schedule = rpgExpandedAgingSchedule(profile.level('short-lifespan'),profile.level('extended-lifespan'));
     if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
     for (local month = oldAgeMonths + 1; month <= value.newAgeMonths; month += 1)
@@ -6303,6 +6324,7 @@ rpgExpandedSustenanceAgingPreflight(profile,count,medicalTL)
 
 /** Explicit campaign calendar map for one two-year span; no fixed month length. */
 class RpgExpandedSustenanceAgingCalendar: object
+    spanMonths() { return 24; }
     calendarId = nil
     approved = nil
     evidence = nil
@@ -6311,7 +6333,7 @@ class RpgExpandedSustenanceAgingCalendar: object
     startDay = nil
     endDay = nil
     firstDay() { return self.startDay == nil ? self.months[1][2] : self.startDay; }
-    lastDay() { return self.endDay == nil ? self.months[25][2] : self.endDay; }
+    lastDay() { return self.endDay == nil ? self.months[self.spanMonths()+1][2] : self.endDay; }
     definition()
     {
         local facts = [self.calendarId,self.approved,self.evidence,self.startDay,self.endDay,self.months.length(),self.dayBandOrigins.length()];
@@ -6323,7 +6345,7 @@ class RpgExpandedSustenanceAgingCalendar: object
     {
         if (self.calendarId == nil || self.calendarId == '' || !self.approved || self.evidence == nil || self.evidence == ''
             || (self.startDay == nil) != (self.endDay == nil)
-            || self.months.length() != (self.startDay == nil ? 25 : 26)) rpgExpandedReject('sustenance-aging-calendar-definition');
+            || self.months.length() != (self.startDay == nil ? self.spanMonths()+1 : self.spanMonths()+2)) rpgExpandedReject('sustenance-aging-calendar-definition');
         local index = 0; local prior = nil;
         foreach (local row in self.months)
         {
@@ -6335,7 +6357,7 @@ class RpgExpandedSustenanceAgingCalendar: object
         if (self.startDay != nil)
         {
             rpgInteger(self.startDay,self.months[1][2],self.months[2][2] - 1);
-            rpgInteger(self.endDay,self.months[25][2],self.months[26][2] - 1);
+            rpgInteger(self.endDay,self.months[self.spanMonths()+1][2],self.months[self.spanMonths()+2][2] - 1);
         }
         rpgInteger(self.lastDay() - self.firstDay(),1,10000);
         local ages = [];
@@ -6363,15 +6385,15 @@ rpgExpandedSustenanceCalendarAgingPlan(profile,oldAgeMonths,calendar)
 {
     if (profile == nil || !profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('sustenance-aging-profile');
     if (calendar == nil || !calendar.ofKind(RpgExpandedSustenanceAgingCalendar)) rpgExpandedReject('sustenance-aging-calendar-required');
-    rpgInteger(oldAgeMonths,0,11999976); calendar.validate(oldAgeMonths);
-    local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + 24;
+    rpgInteger(calendar.spanMonths(),1,120); rpgInteger(oldAgeMonths,0,12000000-calendar.spanMonths()); calendar.validate(oldAgeMonths);
+    local value = new RpgExpandedSustenanceAgingPlan(); value.oldAgeMonths = oldAgeMonths; value.newAgeMonths = oldAgeMonths + calendar.spanMonths(); value.addedYears = calendar.spanMonths()/12;
     local schedule = rpgExpandedAgingSchedule(profile.level('short-lifespan'),profile.level('extended-lifespan'));
     if (schedule.status != 'ready') { value.reason = schedule.reason; return value; }
     value.oldAgeCalendarDay = calendar.firstDay(); value.newAgeCalendarDay = calendar.lastDay();
     local monthIndex = 1;
     for (local day = calendar.firstDay() + 1; day <= calendar.lastDay(); day += 1)
     {
-        while (monthIndex < 25 && calendar.months[monthIndex + 1][2] <= day) monthIndex += 1;
+        while (monthIndex < calendar.spanMonths()+1 && calendar.months[monthIndex + 1][2] <= day) monthIndex += 1;
         local month = calendar.months[monthIndex]; local band = nil;
         foreach (local candidate in schedule.bands) if (month[1] >= candidate[1] * 12) band = candidate;
         if (band == nil) continue;
@@ -6977,3 +6999,318 @@ modify RpgExpandedBreathReserve
         local value = new RpgExpandedResult(); value.reason = 'breath-airless-recovery-owned'; return value;
     }
 ;
+
+
+/** B361 forced-age selection uses the existing B444 loss ledger and calendar. */
+class RpgExpandedFearAgingCalendar: RpgExpandedSustenanceAgingCalendar
+    years = 5
+    spanMonths() { rpgInteger(self.years,1,10); return self.years*12; }
+;
+class RpgExpandedFearAging: RpgExpandedFearAgingContract
+    lowScoreRuling = nil
+    calendarId = nil
+    calendar = nil
+    oldAgeMonths = nil
+    medicalTL = 3
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    era = nil
+    plan = nil
+    boundDefinition = nil
+    boundPlan = nil
+    boundaries = []
+    boundBoundaries = nil
+    endedByDeath = nil
+    definition()
+    {
+        local facts = [self,self.profile,self.years,self.calendarId,self.calendar,self.oldAgeMonths,self.medicalTL,self.approved,self.evidence,self.lowScoreRuling];
+        if (self.lowScoreRuling != nil)
+        {
+            if (!self.lowScoreRuling.ofKind(RpgExpandedFearAgingRuling)) rpgExpandedReject('fear-aging-ruling-type');
+            facts = facts + self.lowScoreRuling.facts(self);
+        }
+        return self.calendar == nil ? facts : facts + self.calendar.definition();
+    }
+    prepare()
+    {
+        if (self.calendar == nil) return rpgExpandedAgeAdvancePlan(self.profile,self.oldAgeMonths,self.years*12);
+        if (!self.calendar.ofKind(RpgExpandedFearAgingCalendar) || self.calendar.years != self.years
+            || self.calendar.calendarId != self.calendarId) rpgExpandedReject('fear-aging-calendar');
+        return rpgExpandedSustenanceCalendarAgingPlan(self.profile,self.oldAgeMonths,self.calendar);
+    }
+    planFacts()
+    {
+        return [self.plan.oldAgeMonths,self.plan.newAgeMonths,self.plan.oldAgeCalendarDay,self.plan.newAgeCalendarDay,
+            self.recordedAt,self.era,self.plan.boundaryAgeMonths.length()] + self.plan.boundaryAgeMonths
+            + [self.plan.boundaryCalendarDays.length()] + self.plan.boundaryCalendarDays;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult(); rpgInteger(self.years,1,10);
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.calendarId == nil || self.calendarId == '')
+            rpgExpandedReject('fear-aging-definition');
+        local facts = self.definition();
+        if (self.recordedAt != nil)
+        {
+            if (!holds(self.profile.fearAgingHistory,self) || self.boundDefinition == nil || facts.length() != self.boundDefinition.length())
+                rpgExpandedReject('fear-aging-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-aging-binding');
+            facts = self.planFacts();
+            if (facts.length() != self.boundPlan.length()) rpgExpandedReject('fear-aging-plan');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundPlan[i]) rpgExpandedReject('fear-aging-plan');
+            if (self.boundBoundaries == nil || self.boundaries.length() != self.boundBoundaries.length()
+                || !self.endedByDeath && self.boundaries.length() != self.plan.boundaryAgeMonths.length())
+                rpgExpandedReject('fear-aging-incomplete-history');
+            for (local i = 1; i <= self.boundaries.length(); i += 1)
+            {
+                local boundary = self.boundaries[i];
+                if (boundary != self.boundBoundaries[i] || boundary.boundaryIndex != i || boundary.advance != self)
+                    rpgExpandedReject('fear-aging-boundary-history');
+                boundary.assess();
+            }
+            if (self.endedByDeath && (self.boundaries.length() == 0
+                || !self.boundaries[self.boundaries.length()].result.naturalDeath)) rpgExpandedReject('fear-aging-death-receipt');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.boundPlan != nil || self.plan != nil || self.era != nil || self.boundaries.length() != 0
+            || self.boundBoundaries != nil || self.endedByDeath != nil)
+            rpgExpandedReject('fear-aging-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-aging-author-age'; return value; }
+        if (self.profile.dead || self.profile.level('unaging') > 0) { value.reason = 'fear-aging-inapplicable'; return value; }
+        local plan = self.prepare(); if (plan.status != 'ready') return plan;
+        self.profile.validateFearAgeStart(self.calendarId,self.oldAgeMonths);
+        foreach (local prior in self.profile.sustenanceAgingAdvances)
+        {
+            prior.validateReceipt();
+            if (prior.calendarId != self.calendarId || prior.era == self.profile.rejuvenations.length() && prior.plan.newAgeMonths > self.oldAgeMonths)
+                rpgExpandedReject('fear-aging-deprivation-overlap');
+            if (!self.profile.dead && prior.boundaries.length() != prior.plan.boundaryAgeMonths.length()) rpgExpandedReject('sustenance-aging-unsettled');
+        }
+        foreach (local prior in self.profile.agingHistory)
+            if (prior.calendarId != self.calendarId || prior.era == self.profile.rejuvenations.length() && prior.ageYears*12 > self.oldAgeMonths)
+                rpgExpandedReject('fear-aging-calendar-history');
+        return rpgExpandedFearAgingPreflight(self,plan.boundaryAgeMonths.length());
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.plan = self.prepare(); self.recordedAt = rpgLedger.seconds; self.era = self.profile.rejuvenations.length();
+        self.boundDefinition = self.definition(); self.boundPlan = self.planFacts();
+        self.profile.fearAgingHistory = self.profile.fearAgingHistory + [self];
+        for (local i = 1; i <= self.plan.boundaryAgeMonths.length() && !self.profile.dead; i += 1)
+        {
+            local boundary = new RpgExpandedFearAgingBoundary(); boundary.advance = self; boundary.boundaryIndex = i;
+            boundary.profile = self.profile; boundary.calendarId = self.calendarId; boundary.boundaryId = boundary;
+            boundary.ageYears = self.plan.boundaryAgeMonths[i]/12;
+            if (self.plan.boundaryCalendarDays.length() != 0) boundary.calendarDay = self.plan.boundaryCalendarDays[i];
+            boundary.ordinal = self.profile.agingHistory.length()+1; boundary.reached = true;
+            boundary.evidence = self.evidence; boundary.medicalTL = self.medicalTL;
+            if (boundary.apply().status != 'resolved') rpgExpandedReject('fear-aging-boundary-changed');
+            self.boundaries = self.boundaries + [boundary];
+        }
+        self.boundBoundaries = self.boundaries;
+        self.endedByDeath = self.profile.dead;
+        value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedFearAgingBoundary: RpgExpandedAgingEvent
+    advance = nil
+    boundaryIndex = nil
+    boundLosses = nil
+    lossFacts()
+    {
+        local value = self.result;
+        return [value,value.status,value.reason,value.pointLoss,value.naturalDeath,value.rolls.length()]
+            + value.rolls + [value.losses.length()] + value.losses + value.scoresBefore + value.scoresAfter;
+    }
+    apply()
+    {
+        local fresh = self.result == nil; local value = inherited();
+        if (fresh && value.status == 'resolved') self.boundLosses = self.lossFacts();
+        return value;
+    }
+    prepareSequence(preview)
+    {
+        local score = self.profile.ht + rpgExpandedAgingModifier(self.medicalTL,self.fitnessModifier());
+        if (score >= 3 || self.profile.level('longevity') > 0) return inherited(preview);
+        if (self.advance.lowScoreRuling == nil) rpgExpandedReject('fear-aging-author-losses-required');
+        local ruling = self.advance.lowScoreRuling; ruling.facts(self.advance);
+        local value = rpgExpandedAgingLossSequence(self.profile,ruling.losses,[]);
+        value.reason = 'author-selected-aging-losses'; return value;
+    }
+    assess()
+    {
+        if (self.advance == nil || !self.advance.ofKind(RpgExpandedFearAging) || self.advance.plan == nil
+            || !holds(self.profile.fearAgingHistory,self.advance)) rpgExpandedReject('fear-aging-boundary-owner');
+        rpgInteger(self.boundaryIndex,1,self.advance.plan.boundaryAgeMonths.length());
+        if (self.profile != self.advance.profile || self.calendarId != self.advance.calendarId
+            || self.ageYears != self.advance.plan.boundaryAgeMonths[self.boundaryIndex]/12 || self.medicalTL != self.advance.medicalTL
+            || self.boundaryId != self) rpgExpandedReject('fear-aging-boundary-definition');
+        if (self.result == nil && self.boundaryIndex != self.advance.boundaries.length()+1
+            || self.result != nil && !holds(self.advance.boundaries,self)) rpgExpandedReject('fear-aging-boundary-order');
+        if (self.result != nil)
+        {
+            local facts = self.lossFacts();
+            if (self.boundLosses == nil || facts.length() != self.boundLosses.length()) rpgExpandedReject('fear-aging-loss-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundLosses[i]) rpgExpandedReject('fear-aging-loss-binding');
+        }
+        else if (self.boundLosses != nil) rpgExpandedReject('fear-aging-loss-uncommitted');
+        return inherited();
+    }
+;
+modify RpgExpandedProfile
+    fearAgingHistory = []
+    validateFearAgeStart(calendarId,oldAgeMonths)
+    {
+        foreach (local prior in self.fearAgingHistory)
+        {
+            prior.assess();
+            if (prior.calendarId != calendarId || prior.era == self.rejuvenations.length() && prior.plan.newAgeMonths > oldAgeMonths)
+                rpgExpandedReject('fear-aging-age-overlap');
+        }
+        return nil;
+    }
+;
+modify RpgExpandedSustenanceAgingAdvance
+    assess()
+    {
+        if (self.recordedAt == nil && self.tick != nil) self.profile().validateFearAgeStart(self.calendarId,self.oldAgeMonths);
+        return inherited();
+    }
+;
+
+
+/** B361 row 33 fall: real relocation, B431 impact and one injury ledger. */
+class RpgExpandedPanicFallOperation: RpgExpandedPanicOperation
+    actor = nil
+    origin = nil
+    destination = nil
+    impact = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundFacts = nil
+    owner = nil
+    facts(reaction)
+    {
+        if (self.impact == nil || !self.impact.ofKind(RpgExpandedFallImpact)) rpgExpandedReject('panic-fall-impact');
+        return [self,self.profile,self.actor,self.origin,self.destination,self.impact,self.approved,self.evidence,reaction]
+            + self.impact.definition();
+    }
+    validateReceipt(reaction)
+    {
+        if (self.result == nil || self.owner != reaction || self.result != self.impact.result || self.impact.assess().status != 'reused')
+            rpgExpandedReject('panic-fall-receipt');
+        local facts = self.facts(reaction);
+        if (self.boundFacts == nil || facts.length() != self.boundFacts.length()) rpgExpandedReject('panic-fall-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('panic-fall-binding');
+        return nil;
+    }
+    assess(reaction)
+    {
+        local value = new RpgExpandedResult(); self.facts(reaction);
+        if (self.result != nil) { self.validateReceipt(reaction); value.status = 'reused'; return value; }
+        if (self.boundFacts != nil || self.owner != nil) rpgExpandedReject('panic-fall-uncommitted');
+        if (self.actor == nil || !self.actor.ofKind(Actor) || self.actor.rpgProfile != self.profile
+            || self.origin == nil || !self.origin.ofKind(Room) || self.destination == nil || !self.destination.ofKind(Room)
+            || self.impact.injury.profile != self.profile) rpgExpandedReject('panic-fall-world-facts');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'panic-fall-author-trajectory'; return value; }
+        if (location.get(self.actor) != self.origin) { value.reason = 'panic-fall-origin'; return value; }
+        value.reason = self.profile.panicRelocationReason(); if (value.reason != nil) return value;
+        if (self.impact.assess().status == 'reused') rpgExpandedReject('panic-fall-used-impact');
+        return self.impact.assess();
+    }
+    apply(reaction)
+    {
+        local value = self.assess(reaction); if (value.status != 'ready') return value;
+        self.boundFacts = self.facts(reaction); self.owner = reaction;
+        relocateActor(self.actor,self.destination);
+        value = self.impact.apply(); if (value.status != 'resolved') rpgExpandedReject('panic-fall-impact-changed');
+        self.result = value; return value;
+    }
+;
+
+modify RpgExpandedAgingEvent
+    assess()
+    {
+        if (self.result == nil && self.profile != nil && !self.ofKind(RpgExpandedFearAgingBoundary))
+            self.profile.validateFearAgeStart(self.calendarId,self.ageYears*12);
+        return inherited();
+    }
+;
+modify RpgExpandedRejuvenation
+    assess()
+    {
+        if (self.result == nil && self.profile != nil)
+            self.profile.validateFearAgeStart(self.calendarId,self.oldAgeYears*12);
+        return inherited();
+    }
+;
+modify RpgExpandedProfile
+    validateFeatures()
+    {
+        inherited(); local seen = [];
+        foreach (local advance in self.fearAgingHistory)
+        {
+            if (advance == nil || !advance.ofKind(RpgExpandedFearAging) || advance.profile != self
+                || holds(seen,advance) || advance.assess().status != 'reused') rpgExpandedReject('fear-aging-profile-history');
+            seen = seen + [advance];
+        }
+        return nil;
+    }
+;
+
+/** A contingent author decision, used only at otherwise unrollable forced-age boundaries. */
+class RpgExpandedFearAgingRuling: object
+    owner = nil
+    losses = []
+    approved = nil
+    evidence = nil
+    facts(advance)
+    {
+        if (self.owner != advance || !self.approved || self.evidence == nil || self.evidence == ''
+            || self.losses.length() != 4) rpgExpandedReject('fear-aging-author-losses-definition');
+        foreach (local loss in self.losses) rpgInteger(loss,0,2);
+        return [self,self.owner,self.approved,self.evidence] + self.losses;
+    }
+;
+rpgExpandedFearAgingPreflight(advance,count)
+{
+    local profile = advance.profile; local medicalTL = advance.medicalTL;
+    rpgInteger(count,0,10000); rpgInteger(medicalTL,0,1000);
+    local value = new RpgExpandedResult(); local probe = new RpgExpandedAgingEvent(); probe.profile = profile;
+    local fitness = probe.fitnessModifier(); local longevity = profile.level('longevity') > 0;
+    local maximumLoss = longevity ? 1 : 2;
+    if (advance.lowScoreRuling != nil) advance.lowScoreRuling.facts(advance);
+    local scratch = new RpgExpandedProfile();
+    scratch.hpAdjustment = profile.hpAdjustment; scratch.fpAdjustment = profile.fpAdjustment;
+    scratch.willAdjustment = profile.willAdjustment; scratch.perceptionAdjustment = profile.perceptionAdjustment;
+    scratch.speedQuarterAdjustment = profile.speedQuarterAdjustment; scratch.moveAdjustment = profile.moveAdjustment;
+    for (local i = 0; i < count; i += 1)
+    {
+        scratch.st = profile.st-maximumLoss*i; if (scratch.st < 1) scratch.st = 1;
+        scratch.dx = profile.dx-maximumLoss*i; if (scratch.dx < 1) scratch.dx = 1;
+        scratch.iq = profile.iq-maximumLoss*i; if (scratch.iq < 1) scratch.iq = 1;
+        scratch.ht = profile.ht-maximumLoss*i; if (scratch.ht < 1) scratch.ht = 1;
+        local worst = nil;
+        if (!longevity && scratch.ht+rpgExpandedAgingModifier(medicalTL,fitness) < 3)
+        {
+            if (advance.lowScoreRuling == nil) { value.reason = 'fear-aging-author-losses-required'; return value; }
+            worst = rpgExpandedAgingLossSequence(scratch,advance.lowScoreRuling.losses,[]);
+        }
+        else worst = rpgExpandedAgingSequence(scratch,medicalTL,fitness,longevity,[18,18,18,18]);
+        if (worst.status != 'ready') return worst;
+        if (scratch.hpAdjustment < 0 && worst.healthCapacity <= 0
+            || scratch.fpAdjustment < 0 && worst.fatigueCapacity <= 0
+            || scratch.willAdjustment < 0 && worst.will <= 0
+            || scratch.perceptionAdjustment < 0 && worst.perception <= 0
+            || worst.speedQuarters < 0 || worst.move < 0)
+        { value.reason = 'aging-derived-state-unavailable'; return value; }
+    }
+    value.status = 'ready'; return value;
+}

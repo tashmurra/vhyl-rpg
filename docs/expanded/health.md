@@ -3583,8 +3583,8 @@ against its bound recovery history.
 
 For exactly 21,600 seconds after successful recovery, the shared attribute/skill
 scoring path applies -2. At the endpoint the modifier ceases. No attribute is
-permanently reduced and no extra fatigue is charged. An overlapping coma or
-aftereffect is rejected until stacking rules are supported. Higher coma rows
+permanently reduced and no extra fatigue is charged. An active coma remains exclusive. Overlapping aftereffects require the explicit
+profile policy described below. Higher coma rows
 with additional trait acquisition are not accepted by this executor.
 
 The public `unconsciousRecoveryOwned()` query retains its boolean contract.
@@ -3594,11 +3594,11 @@ fainting, suspended mortal recovery, decompression illness, acceleration blackou
 and coma owners implement this query. Custom unconsciousness owners participating
 in coma integrations must implement it too and chain to `inherited(owner)`.
 
-Starting with another incapacity is blocked. If a separate incapacity arises
-before recovery, the recovery request returns
-`fear-coma-independent-incapacity-unimplemented` rather than waking the actor
-through it or inventing an aftereffect start time. This combination and automatic
-full fear selection remain unfinished.
+Starting with another incapacity remains blocked. If a separate incapacity arises
+before the due recovery check, the check can resolve the fear coma. Success starts
+its aftereffect at that boundary but preserves unrelated unconsciousness, mortal
+injury, exhausted fatigue and other owned recovery requirements. Death prevents
+a recovery check. Owned fear events select and dispatch these outcomes.
 
 [`expanded-fear-coma.t`](../../tests/fixtures/expanded-fear-coma.t) and
 `test_fear_coma` specify both schedules, failures and successful recovery, ownership,
@@ -3634,18 +3634,21 @@ The clock stops at both day boundaries and recovery deadlines. Settle the
 completed day's care before a `RpgExpandedCatatoniaRecovery` at that same boundary.
 A successful shared HT check clears the current episode. Failure rolls another
 one-die-day interval. Neither receipt adds elapsed time; the shared clock already
-charged it. Fatal neglect ends active processing. Independent unconsciousness
-blocks recovery pending integration rather than being silently cleared.
+charged it. Fatal neglect ends active processing. Independent unconsciousness does not block
+a due recovery check and is not cleared by ending catatonia.
 
 After recovery, shared skill/attribute scoring receives -2 for exactly the
-elapsed duration of catatonia. Recovery does not heal neglect injury. Overlapping
-episodes/aftereffects are rejected. The episode checks daily receipt ordering,
+elapsed duration of catatonia. Recovery does not heal neglect injury. Concurrent active
+episodes are rejected; aftereffect overlap uses an explicit campaign policy. The episode checks daily receipt ordering,
 recovery history, deadlines and completion before using stored results.
 
-Changing care regimes is currently rejected with
-`catatonia-changing-care-unimplemented`; the supplied paragraph does not resolve
-how escalation changes with intermittent care. This limitation, independent
-incapacitation keep the row partial. Owned fear events now dispatch this row.
+For intermittent care, choose `careMode = 'daily'` and provide `neglectPolicy`
+(`elapsed-days` or `uncared-days`) with `neglectEvidence`. Each owned day records
+whether care was provided. The first policy bases uncared injury on the elapsed
+day number; the second counts only uncared days. These are explicit author rulings
+for a source ambiguity, not a newly inferred printed procedure. Set the policy
+before starting the episode; replay rejects later changes. Continuous and no-care
+regimes retain their original behavior. Owned fear events dispatch this row.
 
 [`expanded-catatonia.t`](../../tests/fixtures/expanded-catatonia.t) and
 `test_catatonia` specify daily injury versus continuous care, care-before-recovery
@@ -4153,11 +4156,12 @@ Reapplying the same consequence returns reused status. Rolling the event and
 committing its consequence may also be enclosed in one transaction by an author.
 
 Rows 24 and 36–37 support the specific physical acquisition bundles documented
-in the traits guide; aging and other physical transformations remain pending.
-Row 25 currently supports phobias only; row 33 rejects reaction kinds outside
-its concrete adapters. Rows 23/35 and
-their compound forms support phobia or fixed-belief selection; other
-mental-disadvantage choices remain unsupported.
+in the traits guide, including hazards-owned forced aging. Other physical
+transformations require their own executable adapters.
+Row 25 supports phobias and the implemented controlled mental traits; row 33
+rejects reaction kinds outside its concrete adapters. Rows 23/35 and their
+compound forms accept phobias, fixed beliefs and supported typed mental purchases.
+Unimplemented catalogue choices remain unavailable.
 Unsupported results remain pending, never converted to an abridged result or
 rerolled automatically. Do not enable this event flow in a campaign expecting
 uninterrupted coverage of the entire table yet. Owned events now connect mandatory phantom-voice follow-ups and source-specific
@@ -4246,8 +4250,9 @@ replay, rollback, undo and saved continuation; it is unrun.
 
 An author supplies `RpgExpandedExtremePanicReaction` with a unique `id`, the
 `episode`, exact retained `severity`, approval, a concrete `description`, and
-actual `seconds`. Supported `kind` values are `freeze`, `cry`, `collapse` and
-`flight` (the bounded room-route adapter described below).
+actual `seconds`. Supported `kind` values are `freeze`, `cry`, `collapse`,
+`flight` (the bounded room-route adapter described below), and `world-operation`
+with a concrete owned operation such as the fall adapter.
 All spend the shared clock once. Collapse commits the equipment drop and lying
 posture; it may additionally own a fresh `RpgExpandedWound` for that profile,
 with a matching drop destination. Injury uses the existing injury ledger.
@@ -4359,3 +4364,51 @@ state. Replay does not move the actor back if subsequent play changes location.
 `expanded-panic-flight.t` and `test_panic_flight` specify preview, distance/evidence
 rejection, movement, one time charge, replay, rollback, undo and continuation.
 These fixtures remain unrun.
+
+
+## Recovery boundaries and recorded rulings
+
+The due coma, catatonia and panic checks resolve their own condition even when
+another incapacity is present. They do not clear that other condition. Stun and
+retching retain their respective consciousness requirements. At the minimum
+attribute boundary, a row-31 HT loss or row-40 IQ loss cannot silently turn a
+human profile into an unsupported zero-attribute state. `consequenceBoundaryReason()`
+reports the required author adjudication before any consequence is charged.
+Use an owned `RpgExpandedFearAdjudication` to replace an inappropriate result;
+the original result and the reason for replacement remain in history.
+
+For a recovery score below 3, attach `RpgExpandedFearRecoveryDecision` to the
+recovery's `recoveryDecision`. Set `owner` to that exact request, `recover` to
+true or nil, and supply approval and evidence. The owned result records
+`author-selected-recovery`, the effective score and the decision. Its roll,
+margin and critical classification are nil. A score that permits rolling rejects
+this ruling; normal recovery retains its existing roll and random consumption.
+This applies to stun, retching, fainting, panic, coma, catatonia and extreme-panic
+survivor checks. Automatic recovery rejects an unused decision. The fixture
+`expanded-fear-recovery-ruling.t` specifies preview, no-dice execution, rollback,
+undo, replay, changed-evidence rejection and saved continuation; it is unrun.
+
+Configure `fearAftermathOverlapPolicy` (`sum` or `worst`) and
+`fearAftermathOverlapEvidence` before the first relevant episode if subsequent
+coma/catatonia aftereffects may overlap. `sum` applies each active -2 separately;
+`worst` applies -2 once while any is active. With no policy, the first isolated
+episode works as before and overlapping aftereffects require an author choice.
+Episode receipts bind the policy; changing it after an episode starts is rejected.
+
+## Panic falls through the real injury pipeline
+
+`RpgExpandedPanicFallOperation` is a concrete `world-operation` for an extreme
+panic reaction. Include hazards and supply the same `profile`, owning `actor`,
+current `origin`, landing `destination`, an unused `RpgExpandedFallImpact`, approval
+and trajectory evidence. The impact owns a `RpgExpandedFallInjury` for that profile
+and fall occurrence. Define actual velocity and protection through the existing
+fall interfaces; severity is not converted into invented damage.
+
+Assessment validates the origin, profile, impact and supported world placement
+without moving, rolling or spending time. Execution relocates the actor, resolves
+the actual impact into the existing injury ledger, and retains the impact receipt.
+The reaction charges its interval once and then resolves survivor Will. Replay
+validates the retained operation and never repeats movement, damage or time.
+Tactical placement requires a dedicated adapter and is rejected by this room
+adapter. `expanded-panic-fall.t` specifies preview, impact arithmetic, exception
+rollback, undo, duplicate execution and cross-process continuation; it is unrun.

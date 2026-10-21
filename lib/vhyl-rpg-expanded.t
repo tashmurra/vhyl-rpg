@@ -1155,3 +1155,22 @@ modify RpgExpandedProfile
 
 /** Lasting fear acquisitions retain their source receipt after later buyoff. */
 modify RpgLiteTrait fearAcquisition = nil;
+
+/** Optional hazards-owned implementation of a B361 forced-age selection. */
+class RpgExpandedFearAgingContract: object
+    profile = nil
+    years = 5
+    definition() { rpgExpandedReject('fear-aging-hazards-required'); }
+    assess() { rpgExpandedReject('fear-aging-hazards-required'); }
+    apply() { rpgExpandedReject('fear-aging-hazards-required'); }
+;
+
+/** Concrete modules implement owned panic world operations; the base executes nothing. */
+class RpgExpandedPanicOperation: object
+    profile = nil
+    ownsTime = nil
+    facts(reaction) { rpgExpandedReject('panic-operation-module-required'); }
+    assess(reaction) { rpgExpandedReject('panic-operation-module-required'); }
+    apply(reaction) { rpgExpandedReject('panic-operation-module-required'); }
+    validateReceipt(reaction) { rpgExpandedReject('panic-operation-module-required'); }
+;
