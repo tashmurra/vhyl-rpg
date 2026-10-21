@@ -10898,10 +10898,10 @@ def test_radiation_doses(Session, bundle, out):
         s.action(2291, 2, 0)
         assert state(s) == before
         s.action(2291, 0, 0)
-        assert state(s) == [1, 2000, 0, None, 0, 0]
         s.command('undo')
         assert state(s) == before
         s.action(2291, 0, 0)
+        assert state(s) == [1, 2000, 0, None, 0, 0]
         s.action(2291, 3, 30)
         s.action(2291, 4, 0)
         assert state(s) == [2, 3000, 0, 2592000, 2592000, 0]
@@ -10959,10 +10959,10 @@ def test_radiation_exposures(Session, bundle):
         s.action(2291, 12, 0)
         assert state(s) == before
         s.action(2291, 10, 0)
-        assert state(s) == [1, 1000, None, None, 0, 0]
         s.command('undo')
         assert state(s) == before
         s.action(2291, 10, 0)
+        assert state(s) == [1, 1000, None, None, 0, 0]
         after = state(s)
         s.action(2291, 10, 0)
         assert last(s, 'test.radiation-exposure') == ['reused', None]
@@ -10998,10 +10998,10 @@ def test_fractional_radiation(Session, bundle, out):
         s.action(2291, 10, 0)
         assert ratio(s) == [1, 2, 1, 0, 0]
         s.action(2291, 17, 0)
-        assert ratio(s) == [5, 6, 2, 0, 0]
         s.command('undo')
         assert ratio(s) == [1, 2, 1, 0, 0]
         s.action(2291, 17, 0)
+        assert ratio(s) == [5, 6, 2, 0, 0]
         s.action(2291, 3, 31)
         saved = ratio(s)
         assert saved == [1, 12, 2, 2678400, 0]
@@ -31555,10 +31555,20 @@ def test_stress_pending(Session,bundle,out):
     try:
         s.command(f':restore {path}\n@2251')
         do(s,1405); assert last(s,'test.stress')[0:5] == [6,1,2,1,4]
+        do(s,1416); do(s,1417)
+        assert last(s,'test.stress-score')[2] == 1  # Incoming harm bypasses only the voluntary-action gate.
         do(s,1410,1); do(s,1409,3600); do(s,1405)
         assert last(s,'test.stress')[0:5] == [5,1,2,1,4]
         do(s,1407); assert last(s,'test.stress-check') == ['blocked','stress-decision-required']
         do(s,1403,3); do(s,1405); assert last(s,'test.stress')[4] == 0
+    finally: s.close()
+
+    s=Session(bundle)
+    try:
+        do(s,1400); do(s,1401,1); do(s,1401,2); do(s,1410,1)
+        do(s,1409,3599); do(s,1416); do(s,1409,1); do(s,1405)
+        assert last(s,'test.stress')[0:5] == [6,1,2,1,4]
+        do(s,1417); assert last(s,'test.stress-score')[2] == 1
     finally: s.close()
 
 

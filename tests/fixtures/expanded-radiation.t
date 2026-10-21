@@ -12,6 +12,7 @@
 radiationRoom: Room 'Shielded Shelter';
 modify gameMain initialRoom = radiationRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 radiationRules: RpgExpandedRules;
 radiationProfile: RpgExpandedProfile rules = radiationRules;
 radiationSource: object;

@@ -59,3 +59,29 @@ class HostSliceTests(unittest.TestCase):
             self.assertEqual(json.loads((result / 'manifest.json').read_text())['bundle']['targets'], ['macos-x86_64'])
             self.assertEqual((result / 'zeb_game.h').read_text(), (root / 'zeb_game.h').read_text())
             self.assertIn('tool deadline exceeded', (result / 'universal-build-failure.txt').read_text())
+
+
+class WindowsTestHostTests(unittest.TestCase):
+    def test_default_worker_reserve_is_configured_without_replacing_game(self):
+        from support import Build
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = '_beginthreadex(NULL, 0, worker, NULL, 0, NULL)'
+            (root / 'consumer.c').write_text(source)
+            game = root / 'game.dll'; game.write_bytes(b'unchanged game')
+            with patch('support.run') as command:
+                Build('compiler', root, root).configure_windows_test_host(root)
+            command.assert_called_once_with(
+                ['editbin', '/NOLOGO', '/STACK:67108864', root / 'consumer.exe'], cwd=root)
+            self.assertEqual(game.read_bytes(), b'unchanged game')
+            self.assertEqual((root / 'consumer.c').read_text(), source)
+
+    def test_changed_worker_contract_rejects_before_editing(self):
+        from support import Build
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'consumer.c').write_text('_beginthreadex(NULL, 1024, worker, NULL, 0, NULL)')
+            with patch('support.run') as command:
+                with self.assertRaisesRegex(RuntimeError, 'Compiler sample host changed'):
+                    Build('compiler', root, root).configure_windows_test_host(root)
+            command.assert_not_called()

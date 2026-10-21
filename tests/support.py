@@ -82,6 +82,8 @@ class Build:
             bundle = self.completed_host_slice(bundle, str(error))
         if sys.platform == 'darwin':
             self.configure_macos_test_host(bundle)
+        elif sys.platform == 'win32':
+            self.configure_windows_test_host(bundle)
         return bundle
 
     def completed_host_slice(self, bundle, failure):
@@ -127,3 +129,11 @@ class Build:
             raise RuntimeError('Expected one compiled game library for the native test host')
         run([os.environ.get('CC', '/usr/bin/clang'), host_source, libraries[0],
              '-Wl,-rpath,@executable_path', '-o', bundle / 'consumer'], cwd=bundle)
+
+    def configure_windows_test_host(self, bundle):
+        # _beginthreadex(size=0) inherits the executable's stack reserve.
+        # Match the explicit macOS test-worker stack without changing game DLLs.
+        source = (bundle / 'consumer.c').read_text()
+        if source.count('_beginthreadex(NULL, 0, worker, NULL, 0, NULL)') != 1:
+            raise RuntimeError('Compiler sample host changed: review the explicit stack configuration')
+        run(['editbin', '/NOLOGO', '/STACK:67108864', bundle / 'consumer.exe'], cwd=bundle)

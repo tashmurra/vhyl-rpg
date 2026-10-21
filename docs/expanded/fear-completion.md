@@ -237,3 +237,23 @@ scenario passes. No rule outcome is marked complete from compilation alone.
 
 The final gate includes source, native behavior, strict documentation, packaging
 and archive checksums. PR #4 remains draft for the separate wider conversion.
+
+### Cross-platform CI investigation
+
+Run `39607149339` at `654ceda` failed all three native jobs. Linux and macOS
+reached the radiation fixture and stopped at its missing parser/undo entry point.
+The entry point and immediate-mutation undo assertions are repaired; all three
+radiation acceptance functions passed locally. This is a fixture repair, not a
+change to radiation procedures.
+
+Windows stopped earlier during combined character validation. The pinned sample
+host uses `_beginthreadex` with a zero stack-size argument, inheriting the executable
+reserve. The test harness now sets the Windows consumer reserve to 64 MiB, matching
+the explicit macOS worker stack. Game libraries and runtime quotas are unchanged.
+Stack exhaustion is the working diagnosis, pending the Windows rerun. Native-host
+failures now report the process exit code and bundle path to distinguish a crash
+from an assertion or protocol failure. The full native gate remains open.
+
+The stress pending-decision fixture additionally passed actual incoming injury
+and wound-interrupted safe rest: injury remains possible, the pending decision
+survives, and the interrupted hour grants no recovery credit.

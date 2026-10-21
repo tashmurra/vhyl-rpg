@@ -11,7 +11,18 @@ def load_host(vhyl):
     spec = importlib.util.spec_from_file_location('vhyl_example_host', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.Session
+    class DiagnosedSession(module.Session):
+        def read_boundary(self):
+            try:
+                return super().read_boundary()
+            except RuntimeError as error:
+                code = self.proc.poll()
+                if code is None:
+                    raise
+                raise RuntimeError(
+                    f'{error}\nNative consumer exit: {code} (0x{code & 0xffffffff:08X}); '
+                    f'bundle: {self.bundle}') from error
+    return DiagnosedSession
 
 
 def last(session, name):
