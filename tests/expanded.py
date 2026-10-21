@@ -27775,6 +27775,11 @@ def test_phobia(Session,bundle,out):
         return last(s,'test.phobia')
     s=Session(bundle)
     try:
+        do(s,380); do(s,500)
+        do(s,384); assert last(s,'test.phobia')==[0,0,10,0,0]
+    finally: s.close()
+    s=Session(bundle)
+    try:
         do(s,400)
         assert last(s,'test.phobia-tables')==[-5,-15,-15,-10,-15,-10,-5,0,0,-1,-1,-2,-2,-3,-3,-4,-4,-6,-5,-5,-3,-4]
     finally: s.close()

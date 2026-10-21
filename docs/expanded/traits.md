@@ -2159,3 +2159,11 @@ learning magic. Missing classification blocks learning before time, points or
 dice are spent. These gates do not erase previously acquired training.
 `test_phobia_learning` specifies the shared gate and no-randomness behavior; it
 is unrun. Broader voluntary-activity permissions remain pending.
+
+Direct low-level self-control and generic self-control triggers reject typed
+phobias and postbattle stress before spending resources. Their owned exposure or
+battle event is required so table consequences and stress follow-ups cannot be
+bypassed. `RpgLiteTrait.validateDirectControl()` is a no-op for existing traits;
+its expanded overrides supply these guards without changing ordinary Lite dice
+consumption. The phobia fixture includes a direct-call rejection assertion,
+unrun with the rest of the paused suite.

@@ -408,6 +408,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         }
         if (!holds(self.profile.traits,self.trait) || !self.trait.controlled || !self.trait.active)
             rpgExpandedReject('self-control-trigger-trait');
+        self.trait.validateDirectControl();
         if (self.trigger == nil || self.evidence == nil || self.evidence == '')
         { value.reason = 'self-control-trigger-evidence'; return value; }
         foreach (local prior in self.profile.selfControlTriggers)
@@ -4072,4 +4073,11 @@ modify RpgExpandedProfile
         }
         return nil;
     }
+;
+
+modify RpgExpandedPhobia
+    validateDirectControl() { rpgExpandedReject('phobia-owned-exposure-required'); }
+;
+modify RpgExpandedPostbattleStress
+    validateDirectControl() { rpgExpandedReject('postbattle-owned-event-required'); }
 ;

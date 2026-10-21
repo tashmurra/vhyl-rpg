@@ -33,6 +33,7 @@ modify FearTestAction
         { phobiaFirstContext.threatOnly = true; fearEventInput.initialRoll = 14; return nil; }
         if (code == 391) { phobiaPurchase.selfControlRating = fearInput.row; return nil; }
         if (code == 392) { rpgSpendTime(601); return nil; }
+        if (code == 500) { rpgLiteSelfControl(fearProfile,phobiaPurchase,0,nil); return nil; }
         if (code == 400)
         {
             event('test.phobia-tables');

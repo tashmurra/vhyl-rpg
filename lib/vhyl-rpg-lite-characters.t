@@ -1,5 +1,6 @@
 /** Owned, parameterized advantage or disadvantage; scope identifies authored subjects or specialties. */
 class RpgLiteTrait: RpgTrait
+    validateDirectControl() { return nil; }
     id = nil
     points = 0
     level = 1
@@ -389,6 +390,7 @@ rpgLiteSelfControl(profile, trait, modifier, giveIn)
 rpgLiteSelfControlCore(profile, trait, modifier, giveIn)
 {
     if (!holds(profile.traits, trait) || !trait.controlled || !trait.active) throw new RpgError();
+    trait.validateDirectControl();
     local base = trait.selfControlNumber();
     if (giveIn)
     {
