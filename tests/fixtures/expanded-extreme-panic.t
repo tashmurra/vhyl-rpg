@@ -26,6 +26,20 @@ modify FearTestAction
         if (code == 446) { extremeFirst.severity = 17; extremeFirst.apply(); return nil; }
         if (code == 447) { extremeFirst.kind = 'flight'; extremeFirst.apply(); return nil; }
         if (code == 448) { fearProfile.validateFeatures(); return nil; }
+        if (code == 449)
+        { extremeFirst.boundDefinition = extremeFirst.boundDefinition + ['extra']; extremeEpisode.assess(); return nil; }
+        if (code == 450)
+        { extremeFirst.result.status = 'blocked'; extremeEpisode.assess(); return nil; }
+        if (code == 451)
+        { extremeEpisode.boundDefinition = extremeEpisode.boundDefinition + ['extra']; extremeEpisode.assess(); return nil; }
+        if (code == 452)
+        {
+            extremeEpisode.assess(); event('test.extreme-receipts');
+            eventValue(extremeFirst.result.status);
+            eventValue(extremeFirst.boundDefinition.length() == extremeFirst.definition().length() ? 1 : 0);
+            eventValue(extremeEpisode.boundDefinition.length() == extremeEpisode.definition().length() ? 1 : 0);
+            return nil;
+        }
         return inherited(context);
     }
 ;

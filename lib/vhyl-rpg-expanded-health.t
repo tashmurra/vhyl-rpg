@@ -10399,7 +10399,8 @@ class RpgExpandedExtremePanic: RpgExpandedFearTraitConsequence
         local facts = self.definition(); local value = new RpgExpandedResult(); local profile = self.context.profile;
         if (self.startedAt != nil)
         {
-            if (!holds(profile.extremePanicHistory,self) || self.boundDefinition == nil) rpgExpandedReject('extreme-panic-history');
+            if (!holds(profile.extremePanicHistory,self) || self.boundDefinition == nil
+                || facts.length() != self.boundDefinition.length()) rpgExpandedReject('extreme-panic-history');
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('extreme-panic-binding');
             local pending = self.initialSeverity; local ended = nil; local ids = [];
@@ -10476,7 +10477,7 @@ class RpgExpandedExtremePanicReaction: object
     outcomeFacts()
     {
         local check = self.result.check;
-        local facts = [self.result,self.startedAt,self.finishedAt,self.nextSeverity,check];
+        local facts = [self.result,self.result.status,self.startedAt,self.finishedAt,self.nextSeverity,check];
         if (check != nil) facts = facts + [check.score,check.roll,check.margin,check.achieved,check.critical];
         return facts;
     }
@@ -10484,6 +10485,7 @@ class RpgExpandedExtremePanicReaction: object
     {
         if (self.result == nil || self.boundDefinition == nil || self.boundOutcome == nil) rpgExpandedReject('panic-reaction-receipt');
         local facts = self.definition();
+        if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('panic-reaction-binding');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('panic-reaction-binding');
         facts = self.outcomeFacts();

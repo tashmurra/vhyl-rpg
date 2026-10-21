@@ -28192,12 +28192,20 @@ def test_extreme_panic(Session,bundle,out):
         do(s,442); s.command('undo'); assert state(s)==[18,0,None,1,3,0]
         do(s,442); do(s,442); do(s,448)
         assert state(s)==[7,1,None,1,9,1]
+        for mutation in (449,450,451):
+            do(s,mutation); do(s,452)
+            assert last(s,'test.extreme-receipts') == ['resolved',1,1]
+            assert state(s)==[7,1,None,1,9,1]
         s.command(f':save {path}\n@2251')
     finally: s.close()
     s=Session(bundle)
     try:
         s.command(f':restore {path}\n@2251'); do(s,442); do(s,444); do(s,444); do(s,448)
         assert state(s)==[None,2,2,0,12,2]
+        for mutation in (449,450,451):
+            do(s,mutation); do(s,452)
+            assert last(s,'test.extreme-receipts') == ['resolved',1,1]
+            assert state(s)==[None,2,2,0,12,2]
         do(s,3); assert state(s)==[None,2,2,0,12,3]
     finally: s.close()
     for invalid in (446,447):

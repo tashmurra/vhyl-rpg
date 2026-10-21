@@ -170,3 +170,14 @@ charge or roll. Exact ten- and fifteen-point fear acquisitions are supported.
 The fixture includes actual scene effects, acquisition accounting and lifecycle
 cases, but remains unrun. This closes another implementation selection gap;
 remaining catalogue work and full validation still prevent a completion claim.
+
+
+## Extreme-panic receipt boundaries
+
+The row-33 episode and reaction now reject retained definition lists with altered
+lengths, and reaction receipts bind the result status as well as the recovery
+check and timing. `test_extreme_panic` specifies these mutations during an active
+reaction chain and after restored continuation has completed it. Rejection must
+roll back the mutation without changing severity, clock or random consumption.
+These cases remain unrun; this closes a receipt-integrity gap, not the remaining
+catalogue or execution-validation work.
