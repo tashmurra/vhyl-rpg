@@ -790,3 +790,57 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B382 Dodge/Block failures tied to the actual recorded strike, without new dice. */
+class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
+    owner = nil
+    failure = nil
+    boundFacts = nil
+    boundOutcome = nil
+    facts(strike)
+    {
+        if (self.owner != strike || self.failure == nil || !self.failure.ofKind(RpgExpandedDefenseFailure)
+            || self.failure.fighter != strike.defender || self.failure.kind != strike.defenseKind
+            || self.failure.score != strike.defenseScore || self.failure.roll != strike.defenseRoll)
+            rpgExpandedReject('strike-defense-failure-owner');
+        return [self,self.owner,self.failure,self.failure.id,self.failure.fighter,self.failure.fighter.profile,
+            self.failure.kind,self.failure.score,self.failure.roll,self.failure.mobility,self.failure.evidence];
+    }
+    outcomeFacts()
+    {
+        local value = self.failure.result; local check = value.check;
+        return [value,value.status,value.shield,check,check.score,check.roll,check.achieved,check.margin,check.critical];
+    }
+    assess(strike)
+    {
+        self.facts(strike);
+        if (self.boundFacts != nil) { self.validate(strike); local prior = new RpgExpandedResult(); prior.status = 'reused'; return prior; }
+        if (self.boundOutcome != nil) rpgExpandedReject('strike-defense-failure-uncommitted');
+        local value = self.failure.assess();
+        if (value.status == 'reused') { value.status = 'blocked'; value.reason = 'strike-defense-failure-already-used'; return value; }
+        if (value.status != 'ready') return value;
+        if (self.failure.kind == 'dodge' && self.failure.fighter.profile.jumpPositionRequired())
+        { value.status = 'blocked'; value.reason = 'strike-defense-tactical-fall-required'; }
+        return value;
+    }
+    apply(strike)
+    {
+        if (self.owner != strike || !strike.committingDefense) rpgExpandedReject('strike-defense-execution-owner');
+        local value = self.assess(strike); if (value.status != 'ready') return value;
+        self.boundFacts = self.facts(strike); value = self.failure.apply();
+        if (value.status != 'resolved') rpgExpandedReject('strike-defense-failure-changed');
+        self.boundOutcome = self.outcomeFacts(); return value;
+    }
+    validate(strike)
+    {
+        local facts = self.facts(strike);
+        if (self.boundFacts == nil || self.boundOutcome == nil || facts.length() != self.boundFacts.length()
+            || self.failure.assess().status != 'reused') rpgExpandedReject('strike-defense-failure-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('strike-defense-failure-binding');
+        facts = self.outcomeFacts();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('strike-defense-failure-outcome');
+        return nil;
+    }
+;

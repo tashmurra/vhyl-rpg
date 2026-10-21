@@ -207,9 +207,14 @@
       "pages": "B381",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Critical melee defense immediately sends the attacker to the appropriate critical-miss table. Critical ranged defense normally has no special effect except catching thrown weapons on an eligible barehanded parry; retain rapid-fire dodge\u2019s explicit all-hit exception.",
-      "tests": []
+      "tests": [
+        "tests/fixtures/expanded-panic-defense.t",
+        "tests/expanded.py::test_panic_defense",
+        "tests/expanded.py::test_panic_attack"
+      ],
+      "validation_note": "Recorded panic/Wait/reactive attacks accept critical defense success against non-thrown ranged attacks and typed owned critical Dodge/Block failures. Consequences bind the actual defense and commit alongside injury with no second defense roll or turn. Tactical/airborne Dodge falls, critical Parry and melee critical-defense successes remain unsupported. Existing standalone readiness and lifecycle fixtures plus new integration fixtures are authored and unrun; checks remain paused."
     },
     {
       "id": "damage-readiness-critical-failure",
@@ -234,9 +239,12 @@
       "acceptance": "Critical dodge failure causes prone posture, with no added effect when already prone. Do not use the weapon-miss table; reconcile non-ground movement cases before declaring support.",
       "tests": [
         "tests/expanded.py::test_critical_defense_failures",
-        "tests/expanded.py::test_critical_readiness_persistence"
+        "tests/expanded.py::test_critical_readiness_persistence",
+        "tests/fixtures/expanded-panic-defense.t",
+        "tests/expanded.py::test_panic_defense",
+        "tests/expanded.py::test_panic_attack"
       ],
-      "validation_note": "Owned supplied-roll consequence authored; fixtures unrun. Automatic attack dispatch remains pending. Dodge supports ground movement only; Block reuses readiness and B374 defense-bonus gating."
+      "validation_note": "Recorded panic/Wait/reactive attacks accept critical defense success against non-thrown ranged attacks and typed owned critical Dodge/Block failures. Consequences bind the actual defense and commit alongside injury with no second defense roll or turn. Tactical/airborne Dodge falls, critical Parry and melee critical-defense successes remain unsupported. Existing standalone readiness and lifecycle fixtures plus new integration fixtures are authored and unrun; checks remain paused."
     },
     {
       "id": "damage-readiness-critical-block",
@@ -252,9 +260,12 @@
         "tests/expanded.py::test_shield_ready",
         "tests/expanded.py::test_shield_ready_health",
         "tests/expanded.py::test_shield_ready_routes",
-        "tests/expanded.py::test_shield_ready_persistence"
+        "tests/expanded.py::test_shield_ready_persistence",
+        "tests/fixtures/expanded-panic-defense.t",
+        "tests/expanded.py::test_panic_defense",
+        "tests/expanded.py::test_panic_attack"
       ],
-      "validation_note": "Owned failure and battle Ready recovery authored, including shared time and expanded health permission. Fixtures unrun; automatic attack dispatch remains pending."
+      "validation_note": "Recorded panic/Wait/reactive attacks accept critical defense success against non-thrown ranged attacks and typed owned critical Dodge/Block failures. Consequences bind the actual defense and commit alongside injury with no second defense roll or turn. Tactical/airborne Dodge falls, critical Parry and melee critical-defense successes remain unsupported. Existing standalone readiness and lifecycle fixtures plus new integration fixtures are authored and unrun; checks remain paused."
     },
     {
       "id": "damage-readiness-malfunction-priority",

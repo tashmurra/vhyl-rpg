@@ -9783,6 +9783,8 @@ def test(build):
     test_overstimulation(Session,overstimulation,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
+    panic_defense = build.build('expanded-panic-defense',ROOT / 'tests/fixtures/expanded-panic-defense.t')
+    test_panic_defense(Session,panic_defense,build.out)
     panic_attack = build.build('expanded-panic-attack',ROOT / 'tests/fixtures/expanded-panic-attack.t')
     test_panic_attack(Session,panic_attack,build.out)
     panic_computer = build.build('expanded-panic-computer',ROOT / 'tests/fixtures/expanded-panic-computer.t')
@@ -28733,7 +28735,7 @@ def test_panic_attack(Session,bundle,out):
         do(s,672)
         return last(s,'test.panic-attack')
     initial=[0,2,0,0,0,1,0,0,3,0]
-    for choice,injury in ((None,1),(675,0),(676,0)):
+    for choice,injury in ((None,1),(675,0),(676,0),(682,0)):
         path=out/f'panic-attack-{choice}.zsave'
         expected=[injury,1,1,1,1,2,0,0,9,1]
         s=Session(bundle)
@@ -28759,7 +28761,7 @@ def test_panic_attack(Session,bundle,out):
         finally: s.close()
     for code,reason in ((674,'adjudicated-strike-critical-adapter-required'),
                         (678,'adjudicated-strike-empty'),(679,'effort-other-incapacity'),
-                        (682,'adjudicated-strike-critical-defense-required'),(683,'adjudicated-strike-evidence')):
+                        (683,'adjudicated-strike-evidence')):
         s=Session(bundle)
         try:
             do(s,670); do(s,code); do(s,671)
@@ -29060,4 +29062,38 @@ def test_overstimulation_strike(Session,bundle,out):
         try:
             do(s,720); do(s,581); do(s,721); do(s,726); do(s,750); do(s,change)
             do(s,727); assert state(s)==initial
+        finally: s.close()
+
+
+def test_panic_defense(Session,bundle,out):
+    """B381-B382 critical defenses commit effects once alongside recorded attacks. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,762)
+        return last(s,'test.panic-defense')
+    for setup,posture,ready in ((760,'lying',1),(761,'standing',0)):
+        path=out/f'panic-defense-{setup}.zsave'
+        initial=['standing',1,0,0,2,0,3,0]
+        expected=[posture,ready,1,1,1,1,9,0]
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,setup); do(s,671)
+            assert last(s,'test.panic-attack-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,763); assert state(s)==initial
+            do(s,443); assert state(s)==initial
+            do(s,442); s.command('undo'); assert state(s)==initial
+            do(s,442); do(s,442); assert state(s)==expected
+            do(s,764); do(s,765); assert state(s)==expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,442); assert state(s)==expected
+        finally: s.close()
+    for change in (766,767,768,769):
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,760); do(s,change); do(s,442)
+            assert state(s)==['standing',1,0,0,2,0,3,0]
         finally: s.close()

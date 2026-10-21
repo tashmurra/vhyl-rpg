@@ -11051,6 +11051,8 @@ class RpgExpandedAdjudicatedStrike: object
     defenseKind = nil
     defenseScore = nil
     defenseRoll = nil
+    defenseConsequence = nil
+    committingDefense = nil
     defenseWaivedEvidence = nil
     wound = nil
     unready = nil
@@ -11080,6 +11082,12 @@ class RpgExpandedAdjudicatedStrike: object
                 self.wound.severing,self.wound.maleGroin,self.wound.dropDestination,self.wound.anatomy,
                 self.wound.criticalHit,self.wound.forceMajorWound];
         }
+        if (self.defenseConsequence != nil)
+        {
+            if (!self.defenseConsequence.ofKind(RpgExpandedStrikeDefenseConsequence)) rpgExpandedReject('adjudicated-strike-defense-consequence');
+            facts = facts + self.defenseConsequence.facts(self);
+        }
+        else facts = facts + [nil];
         return facts;
     }
     classified()
@@ -11095,12 +11103,22 @@ class RpgExpandedAdjudicatedStrike: object
             if (!value.attack.achieved || !holds(['dodge','parry','block'],self.defenseKind)
                 || self.defenseWaivedEvidence != nil) rpgExpandedReject('adjudicated-strike-defense-definition');
             local check = rpgExpandedCombatCheck('defense',self.defenseScore,self.defenseRoll);
-            if (check.critical != nil) { value.reason = 'adjudicated-strike-critical-defense-required'; return value; }
+            if (check.critical == 'success' && (!self.mode.ranged || self.mode.thrown))
+            { value.reason = 'adjudicated-strike-critical-defense-required'; return value; }
+            if (check.critical == 'failure')
+            {
+                if (self.defenseConsequence == nil) { value.reason = 'adjudicated-strike-critical-defense-required'; return value; }
+                local consequence = self.defenseConsequence.assess(self);
+                if (consequence.status != 'ready')
+                { value.reason = consequence.status == 'reused' ? 'adjudicated-strike-defense-consequence-used' : consequence.reason; return value; }
+            }
+            else if (self.defenseConsequence != nil) rpgExpandedReject('adjudicated-strike-unused-defense-consequence');
             value.defenses = [check];
             if (check.achieved) { value.outcome = 'defended'; value.successfulDefense = self.defenseKind; }
         }
         else
         {
+            if (self.defenseConsequence != nil) rpgExpandedReject('adjudicated-strike-unused-defense-consequence');
             if (self.defenseScore != nil || self.defenseRoll != nil) rpgExpandedReject('adjudicated-strike-unused-defense');
             if (value.attack.achieved && (self.defenseWaivedEvidence == nil || self.defenseWaivedEvidence == ''))
             { value.reason = 'adjudicated-strike-defense-disposition'; return value; }
@@ -11132,6 +11150,7 @@ class RpgExpandedAdjudicatedStrike: object
         if (facts.length() != self.boundOutcome.length()) rpgExpandedReject('adjudicated-strike-outcome');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('adjudicated-strike-outcome');
+        if (self.defenseConsequence != nil) self.defenseConsequence.validate(self);
         if (self.wound != nil && self.wound.assess().status != 'reused') rpgExpandedReject('adjudicated-strike-injury-history');
         return nil;
     }
@@ -11187,6 +11206,15 @@ class RpgExpandedAdjudicatedStrike: object
         if (self.defenseKind == 'parry') self.defender.parries += 1;
         if (self.defenseKind == 'block') self.defender.blocks += 1;
         if (self.defenseKind != nil) { self.defender.participated = true; rpgLiteDistract(self.defender); }
+        if (self.defenseConsequence != nil)
+        {
+            self.committingDefense = true;
+            local consequence = nil;
+            try { consequence = self.defenseConsequence.apply(self); }
+            catch (RpgError error) { self.committingDefense = nil; throw error; }
+            self.committingDefense = nil;
+            if (consequence.status != 'resolved') rpgExpandedReject('adjudicated-strike-defense-consequence-changed');
+        }
         if (self.wound != nil)
         {
             local injury = self.wound.apply();

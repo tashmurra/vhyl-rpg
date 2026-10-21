@@ -4498,19 +4498,39 @@ a ranged attack, records attack participation and defense usage, clears aim,
 applies actual injury and distraction, and invokes the existing weapon validation
 and post-strike hooks. It preserves the wound ledger and does not grant points or
 charge a second action. Its direct `apply(request)` requires the currently settling
-panic reaction and its successful owned physical permission gate.
+panic reaction, a declared Wait response, or a permitted recorded reactive turn.
+Each route retains its own execution authorization and physical permission gate.
 
-This contract currently admits only a single ordinary attack with at most one
-ordinary defense. Critical attack/defense results and thrown weapons are rejected
-before permission rolls or resource spending. Bursts, multiple defenses,
-counterattacks and other additional consequences require further adapters; they
-must not be folded into this contract as an undocumented approximation. A complete
-automatic expanded attack resolver is still outstanding.
+This contract currently admits a single ordinary attack with at most one defense.
+A critical defense success against a non-thrown ranged attack is supported: the
+attack is defended and causes no injury. Against melee attacks, critical defense
+success still requires an attacker critical-miss adapter and rejects before
+spending. Critical attack results, thrown weapons, bursts and multiple defenses
+remain unsupported. A complete automatic expanded attack resolver is outstanding.
+
+For a critical Dodge or Block failure, include the combat library and attach an
+`RpgExpandedStrikeDefenseFailure` as `defenseConsequence`. Its `owner` is the
+strike; `failure` is a fresh `RpgExpandedDefenseFailure` with matching defender,
+defense kind, score and roll, a unique ID and evidence. The existing failure
+executor makes a grounded defender prone or leaves the actual shield unready.
+It draws no second defense roll and charges no extra turn. Injury then uses the
+same owned wound. The strike binds both consequence inputs and the retained
+result, rejecting pre-used or mismatched consequences. Direct consequence
+execution outside its owning strike rejects.
+
+A Dodge failure for an actor with tactical placement currently rejects with
+`strike-defense-tactical-fall-required`; the adapter cannot silently change
+posture while leaving an invalid map footprint. Airborne falls and critical
+Parry failures also require further adapters. Author legality evidence remains
+necessary: this feature does not make an otherwise illegal Block possible.
 
 `expanded-panic-attack.t` / `test_panic_attack` specify hit, miss, defense,
 ammunition and weapon hooks, preview purity, blocked critical results, incapacity,
 exception rollback, undo, receipt mutation and saved continuation. These fixtures
-are authored and unrun while checks are paused.
+are authored and unrun while checks are paused. The additional
+`expanded-panic-defense.t` / `test_panic_defense` specifies critical Dodge/Block
+failure integration, no duplicate dice or ammunition, immutable consequence
+records, rollback, undo and cross-process continuation. It is also unrun.
 
 ## Declared Wait responses
 

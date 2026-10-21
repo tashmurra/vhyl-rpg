@@ -47,7 +47,7 @@ modify FearTestAction
         if (code == 679) { fearProfile.stunned = true; return nil; }
         if (code == 680) { rpgSpendTime(1); return nil; }
         if (code == 681) { attackDecision.apply(nil); return nil; }
-        if (code == 682) { attackDecision.defenseRoll = 3; return nil; }
+        if (code == 682) { attackDecision.defenseRoll = 3; attackDecision.basicDamage = 0; attackDecision.wound = nil; return nil; }
         if (code == 683) { attackDecision.legalityEvidence = nil; return nil; }
         if (code == 684) { fearProfile.injury = fearProfile.maxHP; return nil; }
         if (code == 685) { event('test.panic-attack-incapacity'); eventValue(fearProfile.unconscious ? 1 : 0);

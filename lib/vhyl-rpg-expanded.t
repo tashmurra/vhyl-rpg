@@ -1208,3 +1208,11 @@ modify RpgExpandedProfile
     overstimulationCounterAllowed(request) { return nil; }
     overstimulationNoticeReason(notice,target) { return 'overstimulation-traits-required'; }
 ;
+
+/** Optional combat-owned consequence of a recorded critical defense. */
+class RpgExpandedStrikeDefenseConsequence: object
+    facts(strike) { rpgExpandedReject('strike-defense-combat-required'); }
+    assess(strike) { rpgExpandedReject('strike-defense-combat-required'); }
+    apply(strike) { rpgExpandedReject('strike-defense-combat-required'); }
+    validate(strike) { rpgExpandedReject('strike-defense-combat-required'); }
+;

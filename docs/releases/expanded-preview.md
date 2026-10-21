@@ -2040,3 +2040,10 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   current-turn execution permission, actual wounds and one health gate. Direct
   calls cannot bypass the battle turn. Hit, miss, defense and lifecycle fixtures
   are authored but unrun; checks remain paused.
+
+- Recorded attacks now support critical defense success against non-thrown
+  ranged attacks and owned critical Dodge/Block failures. Failed defenses commit
+  prone posture or shield unreadiness together with the wound, without another
+  defense roll or turn. Tactical/airborne falls, critical Parry failures and
+  melee critical-defense successes still reject pending their adapters. New
+  lifecycle fixtures are authored and unrun; checks remain paused.
