@@ -312,7 +312,7 @@ modify RpgExpandedProfile
         self.stressState.validate(); return self.stressState.pending() == nil ? nil : 'stress-decision-required';
     }
     healthAttributeModifier(context)
-    { return inherited(context) + (self.stressState == nil ? 0 : self.stressState.strainPenalty()); }
+    { return inherited(context) + (self.stressState == nil || context.kind == 'defense' ? 0 : self.stressState.strainPenalty()); }
     blockedReason(context)
     { local reason = self.stressPendingReason(); return reason == nil ? inherited(context) : reason; }
     stressInvoluntary(request)

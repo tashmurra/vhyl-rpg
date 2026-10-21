@@ -31348,7 +31348,7 @@ def test_stress(Session,bundle,out):
         do(s,1404,1); assert state(s)[5] == 0
         do(s,1403,1); s.command('undo'); assert state(s)[5] == 0
         do(s,1403,1); do(s,1415); assert state(s) == [6,1,2,1,0,1,-1,0,0]
-        do(s,1417); assert last(s,'test.stress-score') == [9,0,0]
+        do(s,1417); assert last(s,'test.stress-score') == [9,0,0,0]
         do(s,1401,3); do(s,1403,3); do(s,1401,4); do(s,1401,5)
         assert state(s) == [12,1,5,3,12,1,-1,0,0]
         do(s,1418); assert last(s,'test.stress-gain') == [3,0,3]

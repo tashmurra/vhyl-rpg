@@ -52,7 +52,9 @@ modify FearTestAction
         if (code == 1417)
         {
             event('test.stress-score'); eventValue(rpgLiteScore(fearProfile,stressContext));
-            eventValue(fearProfile.healthSelfControlModifier(eventQuirk)); eventValue(fearProfile.injury); return nil;
+            eventValue(fearProfile.healthSelfControlModifier(eventQuirk)); eventValue(fearProfile.injury);
+            local defense = new RpgLiteContext(); defense.kind = 'defense'; defense.attribute = rpgDX;
+            eventValue(fearProfile.healthAttributeModifier(defense)); return nil;
         }
         if (code == 1419)
         {
