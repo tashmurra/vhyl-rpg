@@ -9887,6 +9887,8 @@ def test(build):
     test_indecision(Session,indecision,build.out)
     indecision_confusion = build.build('expanded-indecision-confusion',ROOT / 'tests/fixtures/expanded-indecision-confusion.t')
     test_indecision_confusion(Session,indecision_confusion,build.out)
+    indecision_turns = build.build('expanded-indecision-turns',ROOT / 'tests/fixtures/expanded-indecision-turns.t')
+    test_indecision_turns(Session,indecision_turns,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30728,4 +30730,36 @@ def test_indecision_confusion(Session,bundle,out):
     try:
         for code in (1140,1145,1121): do(s,code)
         assert state(s) == [0,0,0,0,0,0,None]
+    finally: s.close()
+
+
+def test_indecision_turns(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1163)
+        return last(s,'test.indecision-turns')
+    s = Session(bundle)
+    path = out/'indecision-turns.zsave'
+    try:
+        do(s,1160); do(s,1121)
+        blocked = [0,'nothing',0,0,3,1,1]
+        do(s,1161)
+        assert last(s,'test.indecision-turn-result')[1] == 'indecision-do-nothing'
+        assert state(s) == blocked
+        do(s,1123); assert state(s) == blocked
+        do(s,1165); assert state(s) == blocked
+        do(s,1162); s.command('undo'); assert state(s) == blocked
+        do(s,1162); assert state(s) == [1,'nothing',1,1,3,1,1]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251')
+        do(s,1161); assert state(s) == [1,'nothing',1,1,3,1,1]
+        do(s,1124); assert state(s) == [1,'nothing',1,1,3,1,1]
+        do(s,1123); do(s,1123); assert state(s) == [1,'nothing',1,1,6,2,0]
+        do(s,1164); assert state(s) == [1,'nothing',1,1,6,2,0]
+        do(s,1161); assert last(s,'test.indecision-turn-result') == ['resolved',None]
+        assert state(s) == [2,'move',2,2,6,2,0]
+        s.command('undo'); assert state(s) == [1,'nothing',1,1,6,2,0]
     finally: s.close()

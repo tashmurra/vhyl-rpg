@@ -30,7 +30,8 @@
       "acceptance": "Indecision is base -10. A choice prompts self-control with a penalty equal to perceived alternatives, such as -2 for two and -3 for three. Failure prevents action; retry each minute, or each second under combat-like stress. Success persists until a new decision; do not reroll the same decision on each parser query.",
       "tests": [
         "tests/expanded.py::test_indecision",
-        "tests/expanded.py::test_indecision_confusion"
+        "tests/expanded.py::test_indecision_confusion",
+        "tests/expanded.py::test_indecision_turns"
       ],
       "implementation_note": "Owned alternatives, count penalty and clocked retries feed shared action restrictions. A preflighted confusion request resolves after successful indecision in the same transaction. Rated fear acquisition enabled. Lifecycle and accounting fixtures registered but unrun."
     },

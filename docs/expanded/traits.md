@@ -3052,3 +3052,11 @@ to other independently active conditions. `test_indecision_confusion` specifies
 both outcomes, blocked premature resolution, missing request, rollback, undo and
 saved continuation. `test_indecision` also specifies ten-point fear acquisition
 and subsequent restrictions without advancement refunds. These cases are unrun.
+
+
+`test_indecision_turns` exercises `RpgLiteBattle.step`, rather than only calling
+the permission methods. It specifies that denied Move preserves turn serial,
+battle time and shared time; Do Nothing advances one second; and the now-due
+retry changes neither clock before a permitted next maneuver. Throw/undo and
+cross-process continuation cover the blocked turn, waiting turn, retry and
+subsequent maneuver. This registered fixture is unrun.

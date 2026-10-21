@@ -496,3 +496,13 @@ rejected. The episode now binds the ordered attempt sequence, and successful
 combined attempts require their confusion receipt. Added mutation cases specify
 preserved timing/restrictions and validation after save restoration. They remain
 unrun; no build or test checks were resumed.
+
+
+## Indecision through the battle scheduler
+
+The source trace confirms the shared battle entry point consults the maneuver
+permission before incrementing turn serial or advancing the clock. A new fixture
+specifies failed indecision followed by denied Move, a real Do Nothing turn, a
+due retry without duplicate time, and a subsequently permitted maneuver. It
+covers thrown actions, undo and cross-process continuation. This is authored
+battle-level coverage, not an observed passing result; checks remain paused.
