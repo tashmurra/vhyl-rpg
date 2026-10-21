@@ -31,7 +31,7 @@ need reconciliation with the detailed hex movement chapter.
 
 The [tactical chapter inventory](inventory/tactical.json) now covers the first
 text pass through B384–B392. Facing, reach and large-body diagrams have also been
-inspected. This remains a requirements inventory: coordinate fixtures now cover adjacent facing; executable paths remain pending.
+inspected. This remains a requirements inventory: coordinate fixtures cover adjacent facing, and owned Move paths now execute through the battle scheduler. General maneuver and interruption coverage remains incomplete.
 Neither these fixtures nor the merged suite have been validated.
 
 Movement assessment needs an ordered path containing position, heading, posture,
@@ -443,8 +443,9 @@ to the path, avoiding a second crouching reduction. Lite `move()` still applies
 its existing posture reductions after this shared calculation.
 
 Set `uninterrupted` and `evidence` only for an authored route with no pending
-reaction, interrupt or additional hazard check. Interrupted routes, movement
-attacks and other maneuvers are not implemented by this adapter. The existing
+reaction, interrupt or additional hazard check. For known injury interruptions,
+use the staged subtype described below. Movement attacks and other maneuvers
+are not implemented by this adapter. The existing
 path validation still rejects unknown terrain, unsupported footprints, unresolved
 evasion and illegal destinations.
 
@@ -504,3 +505,53 @@ for wiring, clock ownership and custom permission hooks. Movement remains subjec
 to the path engine's occupancy, posture, terrain, footprint and interruption limits.
 The panic adapter does not substitute a narrative room move for a tactical route.
 The integration and persistence fixture is authored but unrun.
+
+## Injury interruptions during panic movement
+
+Use `RpgExpandedInterruptedPathMove` when a route has known injury triggers rather
+than declaring it uninterrupted. It uses the same `fighter`, `battle`, `path` and
+Move maneuver interface. `RpgExpandedPanicPathOperation` accepts this subtype and
+retains the existing one-turn permission and battle-clock handling.
+
+Supply an ordered `interruptions` list of `RpgExpandedPathInjuryInterruption`
+objects. Each declares its owning `move`, a distinct increasing `afterLeg` index,
+one fresh `RpgExpandedWound` for that moving character, and an adjacent `fallUpper`
+hex. Approval, `triggerEvidence` and `injuryEvidence` record why the trigger occurs
+at that leg and how its final injury was adjudicated. This is a concrete injury
+contract, not an implicit attack roll or a generic callback. A trap or comparable
+authored event must have its damage and protection resolved separately. Body-part
+injuries currently require a further adapter and reject explicitly.
+
+Assessment verifies the complete planned route, every interruption, each wound,
+and clear standing/prone stopping spaces without changing position or rolling.
+Execution enters each leg in order and applies its declared injury exactly once.
+A surviving, conscious, unstunned actor with unchanged posture and allowance
+continues along the remaining planned legs, preserving cumulative movement cost.
+An actor who dies, becomes incapacitated or changes posture stops at the trigger.
+Unreached interruptions remain unspent. A prone actor's lower body remains in the
+trigger hex and the upper body occupies the authored adjacent `fallUpper` hex,
+as specified by full-2008 B385. Ending in a shared occupied hex is unsupported and
+is rejected during assessment.
+
+Set `reducedMovePolicy = 'stop'` and record that choice in the move's `evidence`.
+This is an **author-selected stop policy**, not a claimed printed formula for
+recalculating a partly completed turn. Full-2008 B419 reduces Move after injury,
+but does not specify the remaining-budget treatment used here. If the allowance
+falls mid-route, this policy ends movement at that trigger. Other policies are
+unsupported rather than silently inferred.
+
+The retained result separates the planned `pathResult` from actual execution:
+`completedLegs`, `spentHalfPoints`, `stoppedReason`, `finalQ`, `finalR` and
+`finalFacing`. Free final-facing choice is applied only when the route completes.
+Neither a trigger nor resumption spends another second; the battle owns the
+round clock. Definition and outcome bindings retain the actual path and wound
+history across duplicate calls, rollback, undo and saved continuation.
+
+The [interrupted panic fixture](../../tests/fixtures/expanded-panic-interrupted-path.t)
+and `test_panic_interrupted_path` specify two-trigger continuation, collapse at the
+first trigger, an unspent later injury, reduced-allowance stopping, preview purity,
+mutation rejection and persistence. Assertions are authored and unrun.
+Wait declaration, opportunity-fire attacks, nested interrupts and automatic
+attack resolution remain outstanding. B366 permits a mover to resume after a
+Wait interrupt; the injury executor supplies staged movement but does not itself
+implement that attack procedure.

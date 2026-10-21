@@ -95,9 +95,11 @@
       "acceptance": "Forward entry costs one point and goes into one of three front neighbors. Straight entry preserves facing; diagonal-front entry rotates one side toward the entered hex.",
       "tests": [
         "tests/expanded.py::test_tactical_movement_values",
-        "tests/expanded.py::test_tactical_paths"
+        "tests/expanded.py::test_tactical_paths",
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; execution and interruption integration remain pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-back-side",
@@ -109,9 +111,11 @@
       "acceptance": "Side/back movement preserves heading and costs two points, permitted for move, move-and-attack and increased dodge but not committed attack.",
       "tests": [
         "tests/expanded.py::test_tactical_movement_values",
-        "tests/expanded.py::test_tactical_paths"
+        "tests/expanded.py::test_tactical_paths",
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; execution and interruption integration remain pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-front-sidestep",
@@ -136,9 +140,11 @@
       "acceptance": "Rotating before/during eligible move, move-and-attack or increased dodge costs one point per hex-side. A half-turn costs three; do not confuse this with free final facing.",
       "tests": [
         "tests/expanded.py::test_tactical_movement_values",
-        "tests/expanded.py::test_tactical_paths"
+        "tests/expanded.py::test_tactical_paths",
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; execution and interruption integration remain pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-final-facing",
@@ -150,9 +156,11 @@
       "acceptance": "Move/move-and-attack spending at most half budget may finish at any heading; spending more permits one-side rotation. Increased dodge permits any final heading. The summary free-turn wording does not override committed attack prohibition.",
       "tests": [
         "tests/expanded.py::test_tactical_movement_values",
-        "tests/expanded.py::test_tactical_paths"
+        "tests/expanded.py::test_tactical_paths",
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; execution and interruption integration remain pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-step",
@@ -173,9 +181,11 @@
       "status": "partial",
       "acceptance": "Eligible movement maneuvers allow at least one hex despite high costs. This is not permission to enter solid terrain, ignore sitting prohibition, bypass enemies or traverse impossible obstacles; document exact precedence.",
       "tests": [
-        "tests/expanded.py::test_tactical_paths"
+        "tests/expanded.py::test_tactical_paths",
+        "tests/expanded.py::test_path_move",
+        "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; execution and interruption integration remain pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-wait-intercept",
@@ -185,7 +195,8 @@
       "kind": "procedure",
       "status": "pending",
       "acceptance": "A declared wait can interrupt a path between hex entries. An actor who has not moved can take the allowed step and strike; a surviving mover resumes with remaining budget and updated state.",
-      "tests": []
+      "tests": [],
+      "implementation_note": "Staged injury interruption infrastructure now retains prefix movement, applies owned wounds and resumes or stops with actual geometry. Wait declaration and attack execution are still pending; this does not complete the procedure."
     },
     {
       "id": "tactical-reach",

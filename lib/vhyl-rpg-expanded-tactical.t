@@ -883,6 +883,8 @@ class RpgExpandedPathMove: RpgExpandedPathMoveReceipt
                 leg.actorSize,leg.obstacleSize,leg.significant,leg.jumpApproved,leg.jumpEvidence];
         return values;
     }
+    interruptionReason()
+    { return !self.uninterrupted || self.evidence == nil || self.evidence == '' ? 'path-move-interruption-facts' : nil; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter)
@@ -903,8 +905,7 @@ class RpgExpandedPathMove: RpgExpandedPathMoveReceipt
         if (!self.battle.active || self.battle.current() != self.fighter)
         { value.reason = 'path-move-turn'; return value; }
         if (self.path.maneuver != 'move') { value.reason = 'path-move-maneuver'; return value; }
-        if (!self.uninterrupted || self.evidence == nil || self.evidence == '')
-        { value.reason = 'path-move-interruption-facts'; return value; }
+        value.reason = self.interruptionReason(); if (value.reason != nil) return value;
         if (self.fighter.profile.moveBeforePosture() <= 0)
         { value.reason = 'path-move-unavailable'; return value; }
         if (self.path.move != self.fighter.profile.moveBeforePosture())
@@ -1105,5 +1106,189 @@ class RpgExpandedPanicPathOperation: RpgExpandedPanicOperation
         value = self.move.battle.step(self.move.fighter,self.maneuver);
         if (value.status != 'resolved') rpgExpandedReject('panic-path-turn-changed');
         self.result = value; self.boundOutcome = self.outcomeFacts(); return value;
+    }
+;
+
+/** A concrete predeclared injury interruption at a completed path leg.
+ * Attack/Wait resolution is separate; wound amount is already adjudicated. */
+class RpgExpandedPathInjuryInterruption: object
+    move = nil
+    afterLeg = nil
+    wound = nil
+    fallUpper = nil
+    approved = nil
+    triggerEvidence = nil
+    injuryEvidence = nil
+    result = nil
+    boundFacts = nil
+    facts()
+    {
+        if (self.move == nil || !self.move.ofKind(RpgExpandedInterruptedPathMove)
+            || self.wound == nil || !self.wound.ofKind(RpgExpandedWound)
+            || self.wound.profile != self.move.fighter.profile || self.fallUpper == nil
+            || !self.fallUpper.ofKind(RpgExpandedHex)) rpgExpandedReject('path-interruption-definition');
+        rpgInteger(self.afterLeg,1,self.move.path.legs.length()); self.fallUpper.validate();
+        return [self,self.move,self.afterLeg,self.wound,self.wound.id,self.wound.profile,self.wound.amount,
+            self.wound.location,self.wound.maleGroin,self.wound.dropDestination,self.wound.anatomy,
+            self.wound.bodyPart,self.wound.severing,self.wound.criticalHit,self.wound.forceMajorWound,
+            self.fallUpper.q,self.fallUpper.r,self.approved,self.triggerEvidence,self.injuryEvidence];
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.result == nil || self.boundFacts == nil || facts.length() != self.boundFacts.length()
+            || !holds(self.move.interruptions,self) || self.move.result == nil
+            || self.move.result.completedLegs < self.afterLeg) rpgExpandedReject('path-interruption-receipt');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('path-interruption-binding');
+        if (self.wound.assess().status != 'reused' || self.result.health != self.wound.health)
+            rpgExpandedReject('path-interruption-wound-history');
+        return nil;
+    }
+    assess(stage)
+    {
+        self.facts(); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundFacts != nil) rpgExpandedReject('path-interruption-uncommitted');
+        if (!self.approved || self.triggerEvidence == nil || self.triggerEvidence == ''
+            || self.injuryEvidence == nil || self.injuryEvidence == '')
+        { value.reason = 'path-interruption-author-facts'; return value; }
+        if (self.wound.bodyPart != nil)
+        { value.reason = 'path-interruption-body-part-adapter-required'; return value; }
+        local landing = rpgExpandedHex(stage[1],stage[2]);
+        if (rpgExpandedHexDistance(landing,self.fallUpper) != 1)
+            rpgExpandedReject('path-interruption-fall-footprint');
+        local landingOccupancy = self.move.path.figure.map.occupancy(landing);
+        if (landingOccupancy.status != 'ready') return landingOccupancy;
+        foreach (local figure in landingOccupancy.occupants)
+            if (figure != self.move.path.figure) { value.reason = 'path-interruption-shared-stop'; return value; }
+        local occupancy = self.move.path.figure.map.occupancy(self.fallUpper);
+        if (occupancy.status != 'ready') return occupancy;
+        foreach (local figure in occupancy.occupants)
+            if (figure != self.move.path.figure) { value.reason = 'path-interruption-fall-occupied'; return value; }
+        local injury = self.wound.assess();
+        if (injury.status == 'reused') rpgExpandedReject('path-interruption-used-wound');
+        return injury;
+    }
+    apply(stage)
+    {
+        if (!self.move.executing || self.move.result != nil
+            || self.move.executingLeg != self.afterLeg) rpgExpandedReject('path-interruption-execution-owner');
+        local value = self.assess(stage); if (value.status != 'ready') rpgExpandedReject('path-interruption-changed');
+        self.boundFacts = self.facts(); self.result = self.wound.apply();
+        if (self.result.status != 'resolved') rpgExpandedReject('path-interruption-injury-changed');
+        if (self.move.fighter.profile.posture == 'lying')
+            self.move.path.figure.upperCoordinate = rpgExpandedHex(self.fallUpper.q,self.fallUpper.r);
+        return self.result;
+    }
+;
+modify RpgExpandedPathMoveResult
+    completedLegs = 0
+    stoppedReason = nil
+    finalQ = nil
+    finalR = nil
+    finalFacing = nil
+    spentHalfPoints = 0
+;
+
+/** Staged Move execution; health can stop the route before its planned endpoint. */
+class RpgExpandedInterruptedPathMove: RpgExpandedPathMove
+    interruptions = []
+    reducedMovePolicy = nil
+    executing = nil
+    executingLeg = nil
+    boundOutcome = nil
+    interruptionReason()
+    {
+        if (self.uninterrupted || self.interruptions.length() == 0 || self.evidence == nil || self.evidence == '')
+            return 'interrupted-path-author-facts';
+        /* No unprinted rule is inferred for a mid-turn change to the allowance. */
+        if (self.reducedMovePolicy != 'stop') return 'interrupted-path-allowance-policy';
+        return nil;
+    }
+    definition()
+    {
+        local facts = inherited() + [self.reducedMovePolicy,self.interruptions.length()];
+        foreach (local interruption in self.interruptions)
+        {
+            if (interruption == nil || !interruption.ofKind(RpgExpandedPathInjuryInterruption)
+                || interruption.move != self) rpgExpandedReject('interrupted-path-owner');
+            facts = facts + interruption.facts();
+        }
+        return facts;
+    }
+    outcomeFacts()
+    {
+        local value = self.result;
+        return [value,value.status,value.completedLegs,value.stoppedReason,value.finalQ,value.finalR,
+            value.finalFacing,value.spentHalfPoints,value.originQ,value.originR,value.originFacing];
+    }
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.executing || self.executingLeg != nil || self.boundOutcome == nil) rpgExpandedReject('interrupted-path-history');
+            local facts = self.outcomeFacts();
+            if (facts.length() != self.boundOutcome.length()) rpgExpandedReject('interrupted-path-outcome');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('interrupted-path-outcome');
+            foreach (local interruption in self.interruptions)
+                if (interruption.afterLeg <= self.result.completedLegs) interruption.validateReceipt();
+                else if (interruption.result != nil || interruption.boundFacts != nil) rpgExpandedReject('interrupted-path-unreached-consequence');
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        if (self.boundOutcome != nil) rpgExpandedReject('interrupted-path-uncommitted');
+        local last = 0; local wounds = [];
+        foreach (local interruption in self.interruptions)
+        {
+            if (interruption.afterLeg <= last || holds(wounds,interruption.wound))
+                rpgExpandedReject('interrupted-path-order');
+            last = interruption.afterLeg; wounds = wounds + [interruption.wound];
+            local consequence = interruption.assess(value.pathResult.stages[last]);
+            if (consequence.status != 'ready') { value.status = 'blocked'; value.reason = consequence.reason; return value; }
+        }
+        return value;
+    }
+    commit(value)
+    {
+        if (self.result != nil || self.executing || value == nil || !value.ofKind(RpgExpandedPathMoveResult)
+            || value.operation != self || value.status != 'ready' || self.fighter.maneuver != 'move')
+            rpgExpandedReject('interrupted-path-commit');
+        local current = self.assess();
+        if (current.status != 'ready' || current.definition.length() != value.definition.length()
+            || current.originQ != value.originQ || current.originR != value.originR || current.originFacing != value.originFacing
+            || current.pathResult.heading != value.pathResult.heading
+            || current.pathResult.stages.length() != value.pathResult.stages.length()) rpgExpandedReject('interrupted-path-changed');
+        for (local i = 1; i <= current.definition.length(); i += 1)
+            if (current.definition[i] != value.definition[i]) rpgExpandedReject('interrupted-path-changed');
+        for (local i = 1; i <= current.pathResult.stages.length(); i += 1)
+            for (local j = 1; j <= 4; j += 1)
+                if (current.pathResult.stages[i][j] != value.pathResult.stages[i][j]) rpgExpandedReject('interrupted-path-changed');
+        local startTime = rpgLedger.seconds; local startBattle = self.battle.seconds;
+        local figure = self.path.figure; local profile = self.fighter.profile; local posture = profile.posture;
+        self.executing = true;
+        for (local i = 1; i <= value.pathResult.stages.length(); i += 1)
+        {
+            local stage = value.pathResult.stages[i]; self.executingLeg = i;
+            figure.coordinate = rpgExpandedHex(stage[1],stage[2]); figure.facing = stage[3];
+            value.completedLegs = i; value.spentHalfPoints = stage[4];
+            foreach (local interruption in self.interruptions)
+                if (interruption.afterLeg == i) interruption.apply(stage);
+            if (profile.dead) value.stoppedReason = 'dead';
+            else if (profile.unconscious || profile.mortal || profile.stunned || profile.mentalStun)
+                value.stoppedReason = 'incapacitated';
+            else if (profile.posture != posture) value.stoppedReason = 'posture-changed';
+            else if (profile.moveBeforePosture() < self.path.move) value.stoppedReason = 'authored-reduced-move-stop';
+            if (value.stoppedReason != nil) break;
+        }
+        if (value.stoppedReason == nil) figure.facing = value.pathResult.heading;
+        if (rpgLedger.seconds != startTime || self.battle.seconds != startBattle) rpgExpandedReject('interrupted-path-extra-time');
+        self.executing = nil; self.executingLeg = nil;
+        value.finalQ = figure.coordinate.q; value.finalR = figure.coordinate.r; value.finalFacing = figure.facing;
+        self.boundDefinition = value.definition; self.result = value; value.status = 'resolved';
+        self.fighter.profile.pathMoves = self.fighter.profile.pathMoves + [self]; self.boundOutcome = self.outcomeFacts();
+        return value;
     }
 ;

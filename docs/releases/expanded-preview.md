@@ -1996,3 +1996,10 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   critical results and unsupported attack combinations reject before spending.
   Automatic expanded attack resolution remains incomplete. New lifecycle fixtures
   are authored and unrun; checks remain paused.
+
+- Added staged tactical panic movement with owned injury interruptions. Surviving
+  movers resume the remaining path; incapacitated movers retain the stopping hex
+  and a declared prone footprint, leaving later triggers unspent. Reduced Move
+  uses an explicit authored stop policy. The battle still owns the sole round
+  clock. Wait attacks and other interrupt procedures remain incomplete; lifecycle
+  fixtures are authored and unrun while checks remain paused.

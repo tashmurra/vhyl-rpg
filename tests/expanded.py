@@ -9779,6 +9779,8 @@ def test(build):
     test_panic_attack(Session,panic_attack,build.out)
     panic_object = build.build('expanded-panic-object',ROOT / 'tests/fixtures/expanded-panic-object.t')
     test_panic_object(Session,panic_object,build.out)
+    interrupted_path = build.build('expanded-panic-interrupted-path',ROOT / 'tests/fixtures/expanded-panic-interrupted-path.t')
+    test_panic_interrupted_path(Session,interrupted_path,build.out)
     panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
     test_panic_path(Session,panic_path,build.out)
     panic_fall = build.build('expanded-panic-fall',ROOT / 'tests/fixtures/expanded-panic-fall.t')
@@ -28747,3 +28749,50 @@ def test_panic_attack(Session,bundle,out):
         assert state(s)==[0,2,0,1,1,2,0,0,9,0]
         do(s,685); assert last(s,'test.panic-attack-incapacity')==[1,0]
     finally: s.close()
+
+
+def test_panic_interrupted_path(Session,bundle,out):
+    """A route applies injury at its trigger, resumes or stops, and never spends an extra turn. Unrun."""
+    def do(s,c): s.action(2278,c)
+    def state(s):
+        do(s,220)
+        return last(s,'test.interrupted-path')
+    for setup,expected in ((None,[2,0,None,2,2,2,None,4,1,0,9]),
+                           (221,[1,0,0,6,1,1,'incapacitated',2,1,0,9]),
+                           (227,[1,0,None,7,1,1,'authored-reduced-move-stop',2,1,0,9])):
+        path=out/f'interrupted-path-{setup}.zsave'
+        initial=[0,0,None,6 if setup==227 else 0,0,0,None,0,0,0,3]
+        s=Session(bundle)
+        try:
+            do(s,200)
+            if setup is not None: do(s,setup)
+            do(s,201); assert last(s,'test.panic-path-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,229); assert state(s)==initial
+            do(s,203); assert state(s)==initial
+            do(s,202); s.command('undo'); assert state(s)==initial
+            do(s,202); do(s,202); assert state(s)==expected
+            do(s,222); assert state(s)==expected
+            s.command(f':save {path}\n@2279')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2279'); do(s,202)
+            assert state(s)==expected
+            do(s,205); expected[9]=1
+            assert state(s)==expected
+        finally: s.close()
+    for code,reason in ((224,'interrupted-path-allowance-policy'),(228,'path-interruption-author-facts')):
+        s=Session(bundle)
+        try:
+            do(s,200); do(s,code); do(s,201)
+            assert last(s,'test.panic-path-preview')==['blocked',reason]
+            do(s,202); assert state(s)==[0,0,None,0,0,0,None,0,0,0,3]
+        finally: s.close()
+
+    for code in (223,225):
+        s=Session(bundle)
+        try:
+            do(s,200); do(s,code); do(s,202)
+            assert state(s)==[0,0,None,0,0,0,None,0,0,0,3]
+        finally: s.close()
