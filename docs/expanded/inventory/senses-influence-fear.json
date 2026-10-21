@@ -1405,7 +1405,7 @@
         "tests/expanded.py::test_fear_aging",
         "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Motion and free-fall susceptibility are selectable with prior-training preflight and the required free-fall campaign scope. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
     },
     {
       "id": "fear-outcome-25",
@@ -1592,7 +1592,7 @@
         "tests/expanded.py::test_fear_selection",
         "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Motion and free-fall susceptibility are selectable with prior-training preflight and the required free-fall campaign scope. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
     },
     {
       "id": "fear-outcome-37",
@@ -1609,7 +1609,7 @@
         "tests/expanded.py::test_fear_selection",
         "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Motion and free-fall susceptibility are selectable with prior-training preflight and the required free-fall campaign scope. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
     },
     {
       "id": "fear-outcome-38",

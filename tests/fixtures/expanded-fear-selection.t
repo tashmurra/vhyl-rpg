@@ -118,3 +118,44 @@ modify FearTestAction
         return inherited(context);
     }
 ;
+
+selectionMotion: RpgExpandedMotionSusceptibility approved = true;
+selectionFreeFall: RpgExpandedFreeFallSusceptibility approved = true scope = 'regular-space-travel';
+selectionVehicleSkill: RpgLiteSkill id = 'driving' attribute = rpgDX difficulty = 1;
+selectionFreeFallSkill: RpgLiteSkill id = 'free-fall' attribute = rpgDX difficulty = 1 vehicleOperationClass = 0;
+selectionUnknownSkill: RpgLiteSkill id = 'authored-activity' attribute = rpgIQ difficulty = 1;
+selectionPriorTraining: RpgTraining skill = selectionVehicleSkill points = 1;
+modify FearTestAction
+    exec(context)
+    {
+        local code = fearInput.code;
+        if (code == 830)
+        {
+            rpgInteger(fearInput.row,1,2); fearProfile.creationComplete = true;
+            selectionPhysical.purchases = [fearInput.row == 1 ? selectionMotion : selectionFreeFall,selectionWound];
+            fearProfile.earnedPoints = 9; fearProfile.unspentPoints = 7; return nil;
+        }
+        if (code == 831)
+        {
+            local value = selectionPhysical.assess(); event('test.fear-susceptibility-preview');
+            eventValue(value.status); eventValue(value.reason); return nil;
+        }
+        if (code == 832)
+        {
+            event('test.fear-susceptibility'); eventValue(fearProfile.motionSusceptible(true) ? 1 : 0);
+            eventValue(fearProfile.freeFallSusceptible(true) ? 1 : 0); eventValue(fearProfile.postCreationDisadvantageAllowance());
+            eventValue(fearProfile.traits.length()); eventValue(fearProfile.developmentRevision);
+            eventValue(fearProfile.earnedPoints); eventValue(fearProfile.unspentPoints); eventValue(rpgRandom.draws);
+            eventValue(fearProfile.physiologySkillLearningReason(selectionVehicleSkill));
+            eventValue(fearProfile.physiologySkillLearningReason(selectionFreeFallSkill)); return nil;
+        }
+        if (code == 833)
+        {
+            selectionPriorTraining.skill = fearInput.row == 1 ? selectionVehicleSkill : selectionFreeFallSkill;
+            fearProfile.skills = [selectionPriorTraining]; return nil;
+        }
+        if (code == 834) { selectionPriorTraining.skill = selectionUnknownSkill; fearProfile.skills = [selectionPriorTraining]; return nil; }
+        if (code == 835) { selectionFreeFall.scope = nil; selectionPhysical.assess(); return nil; }
+        return inherited(context);
+    }
+;

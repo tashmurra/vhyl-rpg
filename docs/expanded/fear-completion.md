@@ -129,3 +129,12 @@ remains active while the author-selected ten-point fallback is acquired once.
 The selection fixture includes their costs, skill/learning effects and accounting
 across replay, rollback, undo and save continuation. These cases remain unrun;
 this is not a claim that the entire mental-trait catalogue is implemented.
+
+## Susceptibility selections
+
+Physical fear selections now accept motion and free-fall susceptibility, reusing
+the existing trait and hazard mechanics. Acquisition preflights incompatible
+prior training and retains the free-fall campaign restriction; it cannot erase
+training or grant point refunds. The selection fixture specifies both new
+purchases and their learning effects. Lifecycle and composed hazard validation
+remain unrun, and other catalogue selections remain outstanding.

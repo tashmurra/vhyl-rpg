@@ -2449,3 +2449,34 @@ incapacity, receipt mutation, rollback, undo and cross-process continuation.
 Recorded strike dice are supplied by the author; only required
 permission, injury or distraction checks may consume new randomness. These
 fixtures remain unrun.
+
+
+### Fear-acquired motion and free-fall susceptibility
+
+`RpgExpandedFearPhysicalAcquisition` also accepts the existing typed
+`RpgExpandedMotionSusceptibility` and `RpgExpandedFreeFallSusceptibility`
+purchases (full-2008 B144, B156, with author selection under B361). Each costs
+ten negative points; combine purchases to meet the selected physical row's
+exact total. Acquisition still requires recorded evidence linking the authored
+physical change to the incident. It does not infer such a cause from an event.
+Free-fall susceptibility retains its required `scope = 'regular-space-travel'`;
+the receipt binds that scope along with the other purchase facts.
+
+Before committing, motion susceptibility checks every existing trained skill's
+vehicle-operation classification. Missing classifications and existing vehicle
+operation training block the selection. Existing trained Free Fall similarly
+blocks free-fall susceptibility. These cases need another authored selection;
+the acquisition does not erase training, refund points or silently install an
+invalid character. Assessment and rejection do not change traits or accounting.
+
+After acquisition, the existing learning restrictions and hazard-owned journey
+or free-fall procedures apply. Acquiring a susceptibility does not itself start
+a journey, invent exposure or roll for illness. The author must supply the actual
+exposure through the existing hazards interfaces. Replaying the acquisition
+cannot duplicate the trait or grant spendable points.
+
+`test_fear_selection` specifies exact-cost compound purchases with a persistent
+wound, learning restrictions, incompatible and unclassified prior training,
+preview, replay, rollback, undo and separate-process save continuation. These
+cases are unrun; the existing journey and free-fall fixtures also require the
+post-implementation validation pass.

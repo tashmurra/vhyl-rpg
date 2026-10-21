@@ -28921,6 +28921,44 @@ def test_fear_selection(Session,bundle,out):
             assert last(s,'test.fixed-mental-fallback') == acquired
         finally: s.close()
 
+    for choice in (1,2):
+        path = out/f'fear-susceptibility-{choice}.zsave'
+        initial = [0,0,0,0,0,9,7,0,None,None]
+        learned = ['motion-susceptibility-learning',None] if choice == 1 else [None,'free-fall-susceptibility-learning']
+        acquired = [int(choice==1),int(choice==2),15,2,1,9,7,0] + learned
+        s = Session(bundle)
+        try:
+            s.action(2250,830,choice)
+            for code in (831,653):
+                s.action(2250,code,choice); s.action(2250,832,choice)
+                assert last(s,'test.fear-susceptibility') == initial
+            s.action(2250,652,choice); s.command('undo'); s.action(2250,832,choice)
+            assert last(s,'test.fear-susceptibility') == initial
+            for code in (652,652,832): s.action(2250,code,choice)
+            assert last(s,'test.fear-susceptibility') == acquired
+            s.command(f':save {path}\n@2251')
+            assert any('[save ok code=0]' in line for line in s.raw_lines)
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251')
+            for code in (652,832): s.action(2250,code,choice)
+            assert last(s,'test.fear-susceptibility') == acquired
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            for code in (830,833,831): s.action(2250,code,choice)
+            assert last(s,'test.fear-susceptibility-preview') == ['blocked',
+                'fear-motion-existing-training' if choice == 1 else 'fear-free-fall-existing-training']
+            s.action(2250,652,choice); s.action(2250,832,choice)
+            assert last(s,'test.fear-susceptibility') == initial
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (830,834,831): s.action(2250,code,1)
+        assert last(s,'test.fear-susceptibility-preview') == ['blocked','motion-skill-classification-required']
+    finally: s.close()
+
 
 def test_panic_attack(Session,bundle,out):
     """Recorded attacks commit one battle turn, real injury and ammunition; assertions unrun."""

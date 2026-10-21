@@ -3964,10 +3964,12 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
         if (trait == nil || !(trait.ofKind(RpgExpandedPainSensitivity) || trait.ofKind(RpgExpandedPersistentWound)
             || trait.ofKind(RpgExpandedSpeechLimitation) || trait.ofKind(RpgExpandedAppearance)
             || trait.ofKind(RpgExpandedDistinctiveFeatures) || trait.ofKind(RpgExpandedRecurrentPain)
-            || trait.ofKind(RpgExpandedHearingImpairment) || trait.ofKind(RpgExpandedHearingLoss)))
+            || trait.ofKind(RpgExpandedHearingImpairment) || trait.ofKind(RpgExpandedHearingLoss)
+            || trait.ofKind(RpgExpandedMotionSusceptibility) || trait.ofKind(RpgExpandedFreeFallSusceptibility)))
             rpgExpandedReject('fear-physical-effect-unsupported');
         local cost = trait.creationCost();
-        if (trait.skills.length() != 0 || trait.scope != nil || cost >= 0) rpgExpandedReject('fear-physical-effect-fields');
+        if (trait.skills.length() != 0 || trait.scope != nil && !trait.ofKind(RpgExpandedFreeFallSusceptibility)
+            || cost >= 0) rpgExpandedReject('fear-physical-effect-fields');
         local facts = [trait,trait.id,trait.level,trait.points,trait.scope,trait.approved,cost,
             trait.ofKind(RpgExpandedSpeechLimitation) ? trait.total : nil];
         if (trait.ofKind(RpgExpandedAppearance))
@@ -4031,6 +4033,23 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
                 foreach (local existing in self.profile.traits)
                     if (holds(['hideous','ugly','unattractive','attractive','handsome','very-handsome'],existing.id))
                         rpgExpandedReject('fear-appearance-existing-tier');
+            if (trait.ofKind(RpgExpandedMotionSusceptibility) || trait.ofKind(RpgExpandedFreeFallSusceptibility))
+                foreach (local training in self.profile.skills)
+                    if (training.points > 0)
+                    {
+                        if (trait.ofKind(RpgExpandedFreeFallSusceptibility))
+                        {
+                            if (training.skill.ofKind(RpgLiteSkill) && training.skill.studyIdentity() == 'free-fall')
+                            { value.reason = 'fear-free-fall-existing-training'; return value; }
+                        }
+                        else
+                        {
+                            local operation = training.skill.vehicleOperationClassification();
+                            if (operation == nil) { value.reason = 'motion-skill-classification-required'; return value; }
+                            rpgInteger(operation,0,1);
+                            if (operation == 1) { value.reason = 'fear-motion-existing-training'; return value; }
+                        }
+                    }
             if (trait.ofKind(RpgExpandedSpeechLimitation)) speech = trait;
         }
         if (speech != nil)
