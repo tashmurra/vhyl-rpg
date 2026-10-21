@@ -9891,6 +9891,8 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    credulity_learning = build.build('expanded-credulity-learning',ROOT / 'tests/fixtures/expanded-credulity-learning.t')
+    test_credulity_learning(Session,credulity_learning,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30797,4 +30799,37 @@ def test_credulity(Session,bundle,out):
         do(s,1180); do(s,1171); assert state(s) == [0,None,None,0]
         do(s,1179); do(s,1177)
         assert last(s,'test.credulity-effects') == [12,10,None,0]
+    finally: s.close()
+
+
+def test_credulity_learning(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1196)
+        return last(s,'test.credulity-learning-state')
+    s = Session(bundle)
+    path = out/'credulity-learning.zsave'
+    try:
+        do(s,1190); do(s,582); assert state(s) == [0,0,0,9,7,0,0,0]
+        do(s,581); s.command('undo'); assert state(s) == [0,0,0,9,7,0,0,0]
+        do(s,581); do(s,581)
+        acquired = [1,10,0,9,7,0,0,0]
+        assert state(s) == acquired
+        do(s,1193); assert last(s,'test.credulity-development')[1] == 'credulity-learning-prohibited'
+        do(s,1195); assert last(s,'test.credulity-learning') == [0,'credulity-learning-prohibited']
+        assert state(s) == acquired
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1193); assert state(s) == acquired
+        do(s,1179); do(s,1194); assert state(s) == acquired
+        do(s,1193); s.command('undo'); assert state(s) == acquired
+        do(s,1193); do(s,1193); assert state(s) == [1,10,1,9,6,0,0,0]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1190); do(s,1191); do(s,1192)
+        assert last(s,'test.credulity-acquisition') == ['blocked','credulity-existing-training-author-replacement']
+        do(s,581); assert state(s) == [0,0,1,9,7,0,0,0]
     finally: s.close()

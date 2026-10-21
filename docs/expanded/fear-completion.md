@@ -516,3 +516,13 @@ or authored-exploitation penalty once, and shared learning eligibility rejects
 new lie-detection training. Fixtures specify these effects and lifecycle behavior
 but remain unrun. Fear acquisition is not enabled yet: prior learned skills and
 actual advancement transactions require further integration.
+
+
+## Credulity acquisition and learning transactions
+
+Credulity is now enabled for exact-cost fear acquisition, with an explicit
+prior-training boundary: already learned lie detection requires a replacement
+outcome rather than erasure or a refund. Fixtures now exercise point-funded
+advancement, direct learning and study, specifying rejection before resources
+are spent and normal point spending after mitigation. Acquisition, rollback,
+undo and saved continuation are covered in authored cases, all still unrun.

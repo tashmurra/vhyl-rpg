@@ -3087,8 +3087,19 @@ their other context facts. The shared social-learning hook rejects new
 `detect-lies` training while the purchase is active. Mitigation releases these
 scoring and learning restrictions.
 
-Fear acquisition remains disabled pending treatment of previously learned
-lie-detection training and concrete advancement coverage. `test_credulity`
+Credulity is available to exact-cost fear acquisition. If the character already
+has positive-point lie-detection training, acquisition or worsening rejects with
+`credulity-existing-training-author-replacement`. The supplied procedure does not
+specify how to remove previously learned skill; select another fear consequence
+instead of silently erasing training or refunding its investment. `test_credulity`
 specifies the three plausibility modifiers, accepted-story receipts, no-dice
 boundaries, scoring composition, learning eligibility, mitigation, rollback,
 undo and save continuation. It is registered but unrun.
+
+
+`test_credulity_learning` exercises actual acquisition, point-funded development,
+direct learning and study. It specifies no points, training, study credit, time
+or dice spent on prohibited learning; mitigation allows a later purchase through
+the normal point ledger. Pre-existing training survives rejected acquisition.
+Replay, rollback, undo and saved continuation are also specified. These fixtures
+are registered but unrun, so integration validation remains outstanding.

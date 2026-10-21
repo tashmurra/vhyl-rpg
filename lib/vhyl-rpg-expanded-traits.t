@@ -4229,7 +4229,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision) || trait.ofKind(RpgExpandedCredulity)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -6225,5 +6225,39 @@ modify RpgExpandedProfile
         if (context.credulityExploited && (context.credulityEvidence == nil || context.credulityEvidence == ''))
             rpgExpandedReject('credulity-exploitation-evidence');
         return value - (context.credulityExploited || context.skill != nil && context.skill.id == 'merchant' ? 3 : 0);
+    }
+;
+
+modify RpgExpandedProfile
+    credulityPriorTrainingReason()
+    {
+        foreach (local training in self.skills)
+            if (training.points > 0 && training.skill.id == 'detect-lies')
+                return 'credulity-existing-training-author-replacement';
+        return nil;
+    }
+;
+modify RpgExpandedFearMentalAcquisition
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && self.trait.ofKind(RpgExpandedCredulity))
+        {
+            local reason = self.profile.credulityPriorTrainingReason();
+            if (reason != nil) { value.status = 'blocked'; value.reason = reason; }
+        }
+        return value;
+    }
+;
+modify RpgExpandedFearMentalWorsening
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'ready' && self.replacement.ofKind(RpgExpandedCredulity))
+        {
+            local reason = self.profile.credulityPriorTrainingReason();
+            if (reason != nil) { value.status = 'blocked'; value.reason = reason; }
+        }
+        return value;
     }
 ;
