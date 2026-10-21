@@ -1988,3 +1988,11 @@ Physical selections now include negative appearance, distinctive features,
 recurrent pain and the fixed hearing-impairment purchase. Receipts bind each
 selection's settings and retain the existing executable effects. Compound,
 accounting and lifecycle fixtures are authored but unrun; checks remain paused.
+
+- Added request-level strike dispatch with the existing resolver as its default,
+  and a recorded ordinary panic-attack adapter using actual battle turns,
+  permission gates, ammunition, weapon hooks and owned wounds. External scores,
+  rolls and injury calculations are explicitly labelled author adjudications;
+  critical results and unsupported attack combinations reject before spending.
+  Automatic expanded attack resolution remains incomplete. New lifecycle fixtures
+  are authored and unrun; checks remain paused.

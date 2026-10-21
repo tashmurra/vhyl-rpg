@@ -77,6 +77,7 @@ class RpgLiteManeuver: object
         if (self.option == 'reload') return rpgLiteReload(fighter.profile, fighter.weapon, fighter.mode());
         fighter.weapon.ready = true; return nil;
     }
+    resolveStrike(attacker, defender) { return rpgLiteDefaultStrike(attacker,defender,self); }
     apply(fighter, result) { return nil; }
     reroll(profile, kind, roll) { return nil; }
 ;
@@ -231,6 +232,10 @@ rpgLiteDistract(fighter)
 
 /** Resolve one legal strike; normally invoked by the battle turn scheduler. */
 rpgLiteStrike(attacker, defender, request)
+{
+    return request.resolveStrike(attacker,defender);
+}
+rpgLiteDefaultStrike(attacker, defender, request)
 {
     local weapon = attacker.weapon;
     local result = rpgLiteResolveStrike(attacker,defender,request);

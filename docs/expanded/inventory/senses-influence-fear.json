@@ -1534,9 +1534,10 @@
         "tests/expanded.py::test_panic_fall",
         "tests/expanded.py::test_fear_recovery_ruling",
         "tests/expanded.py::test_panic_path",
-        "tests/expanded.py::test_panic_object"
+        "tests/expanded.py::test_panic_object",
+        "tests/expanded.py::test_panic_attack"
       ],
-      "validation_note": "Owned severity/reaction loop supports freezing, crying, collapse, room flight, actual fall relocation, uninterrupted tactical Move turns and author-adjudicated solid-object injury/destruction. Real artifact thresholds and usability are retained. Survivor checks below three use recorded author rulings. Interrupted routes, attack resolution and special artifact adapters remain unsupported. Fixtures authored, unrun."
+      "validation_note": "Owned severity/reaction loop supports freezing, crying, collapse, room flight, actual fall relocation, uninterrupted tactical Move turns and author-adjudicated solid-object injury/destruction. Real artifact thresholds and usability are retained. Survivor checks below three use recorded author rulings. Interrupted routes, attack resolution and special artifact adapters remain unsupported. Fixtures authored, unrun. Recorded ordinary attack adjudications now commit a physical permission gate, battle turn, loaded ammunition, weapon hooks and an owned wound. Externally supplied dice and injury require explicit evidence; critical and multi-hit attack resolution remains unsupported. New fixtures are authored and unrun."
     },
     {
       "id": "fear-outcome-34",

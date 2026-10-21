@@ -11034,3 +11034,253 @@ modify RpgLiteBattle
         rpgLedger.panicBattleAdvance = prior; return nil;
     }
 ;
+
+/** Recorded ordinary attack adjudication. Scores/dice and final injury are supplied
+ * by the author; permission, equipment, injury and the battle clock are committed here.
+ * This is not the automatic expanded attack resolver. */
+class RpgExpandedAdjudicatedStrike: object
+    id = nil
+    attacker = nil
+    defender = nil
+    weapon = nil
+    mode = nil
+    attackScore = nil
+    attackRoll = nil
+    basicDamage = 0
+    defenseKind = nil
+    defenseScore = nil
+    defenseRoll = nil
+    defenseWaivedEvidence = nil
+    wound = nil
+    unready = nil
+    approved = nil
+    legalityEvidence = nil
+    resolutionEvidence = nil
+    result = nil
+    boundFacts = nil
+    boundOutcome = nil
+    ammunitionBefore = nil
+    facts()
+    {
+        if (self.id == nil || self.id == '' || self.attacker == nil || !self.attacker.ofKind(RpgLiteFighter)
+            || self.defender == nil || !self.defender.ofKind(RpgLiteFighter) || self.attacker == self.defender
+            || !self.attacker.profile.ofKind(RpgExpandedProfile) || !self.defender.profile.ofKind(RpgExpandedProfile)
+            || self.weapon == nil || !self.weapon.ofKind(RpgLiteWeapon) || self.mode == nil || !self.mode.ofKind(RpgLiteAttackMode))
+            rpgExpandedReject('adjudicated-strike-definition');
+        local facts = [self,self.id,self.attacker,self.defender,self.attacker.profile,self.defender.profile,
+            self.weapon,self.mode,self.mode.ranged,self.mode.thrown,self.attackScore,self.attackRoll,self.basicDamage,
+            self.defenseKind,self.defenseScore,self.defenseRoll,self.defenseWaivedEvidence,self.wound,
+            self.unready,self.approved,self.legalityEvidence,self.resolutionEvidence];
+        if (self.wound != nil)
+        {
+            if (!self.wound.ofKind(RpgExpandedWound) || self.wound.profile != self.defender.profile)
+                rpgExpandedReject('adjudicated-strike-wound-owner');
+            facts = facts + [self.wound.id,self.wound.amount,self.wound.location,self.wound.bodyPart,
+                self.wound.severing,self.wound.maleGroin,self.wound.dropDestination,self.wound.anatomy,
+                self.wound.criticalHit,self.wound.forceMajorWound];
+        }
+        return facts;
+    }
+    classified()
+    {
+        rpgInteger(self.attackScore,3,1000); rpgInteger(self.attackRoll,3,18);
+        rpgInteger(self.basicDamage,0,1000000);
+        local value = new RpgLiteCombatResult(); value.attackMode = self.mode; value.damage = self.basicDamage;
+        value.attack = rpgExpandedCombatCheck(self.mode.ranged ? 'ranged' : 'melee',self.attackScore,self.attackRoll);
+        if (value.attack.critical != nil) { value.reason = 'adjudicated-strike-critical-adapter-required'; return value; }
+        value.outcome = value.attack.achieved ? 'hit' : 'miss';
+        if (self.defenseKind != nil)
+        {
+            if (!value.attack.achieved || !holds(['dodge','parry','block'],self.defenseKind)
+                || self.defenseWaivedEvidence != nil) rpgExpandedReject('adjudicated-strike-defense-definition');
+            local check = rpgExpandedCombatCheck('defense',self.defenseScore,self.defenseRoll);
+            if (check.critical != nil) { value.reason = 'adjudicated-strike-critical-defense-required'; return value; }
+            value.defenses = [check];
+            if (check.achieved) { value.outcome = 'defended'; value.successfulDefense = self.defenseKind; }
+        }
+        else
+        {
+            if (self.defenseScore != nil || self.defenseRoll != nil) rpgExpandedReject('adjudicated-strike-unused-defense');
+            if (value.attack.achieved && (self.defenseWaivedEvidence == nil || self.defenseWaivedEvidence == ''))
+            { value.reason = 'adjudicated-strike-defense-disposition'; return value; }
+        }
+        if (value.outcome != 'hit' && self.basicDamage != 0) rpgExpandedReject('adjudicated-strike-unused-damage');
+        if ((value.outcome == 'hit') != (self.wound != nil)) rpgExpandedReject('adjudicated-strike-injury-disposition');
+        if (self.wound != nil && (self.wound.criticalHit || self.wound.forceMajorWound))
+            rpgExpandedReject('adjudicated-strike-unused-critical');
+        value.status = 'ready'; return value;
+    }
+    outcomeFacts()
+    {
+        local value = self.result; local check = value.attack;
+        local facts = [value,value.status,value.outcome,value.injury,value.damage,value.attackMode,value.successfulDefense,
+            check,check.score,check.roll,check.margin,check.achieved,check.critical,self.ammunitionBefore];
+        foreach (local defense in value.defenses)
+            facts = facts + [defense,defense.score,defense.roll,defense.margin,defense.achieved,defense.critical];
+        return facts;
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.result == nil || self.boundFacts == nil || self.boundOutcome == nil
+            || !holds(self.attacker.profile.adjudicatedStrikes,self) || facts.length() != self.boundFacts.length())
+            rpgExpandedReject('adjudicated-strike-receipt');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('adjudicated-strike-binding');
+        facts = self.outcomeFacts();
+        if (facts.length() != self.boundOutcome.length()) rpgExpandedReject('adjudicated-strike-outcome');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('adjudicated-strike-outcome');
+        if (self.wound != nil && self.wound.assess().status != 'reused') rpgExpandedReject('adjudicated-strike-injury-history');
+        return nil;
+    }
+    assess()
+    {
+        self.facts();
+        if (self.result != nil) { self.validateReceipt(); local prior = new RpgLiteCombatResult(); prior.status = 'reused'; return prior; }
+        if (self.boundFacts != nil || self.boundOutcome != nil || self.ammunitionBefore != nil)
+            rpgExpandedReject('adjudicated-strike-uncommitted');
+        local value = self.classified(); if (value.status != 'ready') return value;
+        value.status = 'blocked';
+        if (!self.approved || self.legalityEvidence == nil || self.legalityEvidence == ''
+            || self.resolutionEvidence == nil || self.resolutionEvidence == '')
+        { value.reason = 'adjudicated-strike-evidence'; return value; }
+        self.weapon.validateStrike(self.attacker,self.mode);
+        if (self.mode.thrown) { value.reason = 'adjudicated-strike-thrown-adapter-required'; return value; }
+        if (self.attacker.weapon != self.weapon || self.attacker.mode() != self.mode
+            || !holds(self.attacker.profile.equipment,self.weapon) || !self.weapon.ready
+            || !self.weapon.attackUsableBy(self.attacker.profile))
+        { value.reason = 'adjudicated-strike-weapon-unavailable'; return value; }
+        if (self.attacker.profile.dead || self.defender.profile.dead)
+        { value.reason = 'adjudicated-strike-dead'; return value; }
+        if (self.mode.ranged && self.weapon.ammunition < 1)
+        { value.reason = 'adjudicated-strike-empty'; return value; }
+        foreach (local prior in self.attacker.profile.adjudicatedStrikes)
+            if (prior.id == self.id) rpgExpandedReject('adjudicated-strike-duplicate');
+        if (self.wound != nil)
+        {
+            local injury = self.wound.assess();
+            if (injury.status == 'reused') rpgExpandedReject('adjudicated-strike-used-wound');
+            if (injury.status != 'ready') { value.reason = injury.reason; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply(request)
+    {
+        if (request == nil || !request.ofKind(RpgExpandedPanicAttackManeuver) || request.strike != self
+            || request.panicReaction == nil || request.panicReaction.episode.settlingReaction != request.panicReaction
+            || request.panicReaction.operation.maneuver != request
+            || !self.attacker.profile.panicAuthorization(request) || request.healthGate.result == nil
+            || !request.healthGate.result.allowed) rpgExpandedReject('adjudicated-strike-execution-owner');
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundFacts = self.facts(); self.ammunitionBefore = self.weapon.ammunition;
+        if (self.mode.ranged) self.weapon.ammunition -= 1;
+        if (self.unready) self.weapon.ready = nil;
+        self.attacker.attacked = true; self.attacker.participated = true; self.attacker.aimSeconds = 0;
+        if (self.defenseKind == 'parry') self.defender.parries += 1;
+        if (self.defenseKind == 'block') self.defender.blocks += 1;
+        if (self.defenseKind != nil) { self.defender.participated = true; rpgLiteDistract(self.defender); }
+        if (self.wound != nil)
+        {
+            local injury = self.wound.apply();
+            if (injury.status != 'resolved') rpgExpandedReject('adjudicated-strike-injury-changed');
+            value.injury = injury.healthLoss;
+            if (value.injury > 0) rpgLiteDistract(self.defender);
+        }
+        value.status = 'resolved'; self.weapon.afterStrike(self.attacker,self.mode,value); self.result = value;
+        self.attacker.profile.adjudicatedStrikes = self.attacker.profile.adjudicatedStrikes + [self];
+        self.boundOutcome = self.outcomeFacts(); return value;
+    }
+;
+modify RpgExpandedProfile
+    adjudicatedStrikes = []
+    validateFeatures()
+    { inherited(); foreach (local strike in self.adjudicatedStrikes) strike.validateReceipt(); return nil; }
+;
+class RpgExpandedPanicAttackManeuver: RpgExpandedPhysicalManeuver
+    kind = 'attack'
+    panicReaction = nil
+    strike = nil
+    resolveStrike(attacker,defender)
+    {
+        if (self.strike == nil || !self.strike.ofKind(RpgExpandedAdjudicatedStrike)
+            || self.strike.attacker != attacker || self.strike.defender != defender)
+            rpgExpandedReject('panic-attack-strike-owner');
+        return self.preflight ? self.strike.assess() : self.strike.apply(self);
+    }
+;
+class RpgExpandedPanicAttackOperation: RpgExpandedPanicOperation
+    ownsTime = true
+    reaction = nil
+    battle = nil
+    maneuver = nil
+    result = nil
+    boundFacts = nil
+    boundOutcome = nil
+    battleSecond = nil
+    ledgerSecond = nil
+    facts(owner)
+    {
+        if (self.reaction != owner || self.battle == nil || !self.battle.ofKind(RpgLiteBattle)
+            || self.maneuver == nil || !self.maneuver.ofKind(RpgExpandedPanicAttackManeuver)
+            || self.maneuver.panicReaction != owner || self.maneuver.kind != 'attack'
+            || self.maneuver.movement != 0 || self.maneuver.strike == nil
+            || self.maneuver.strike.attacker.profile != self.profile
+            || self.maneuver.target != self.maneuver.strike.defender
+            || self.maneuver.healthGate == nil || !self.maneuver.healthGate.ofKind(RpgExpandedPanicActionGate)
+            || self.maneuver.healthGate.panicReaction != owner)
+            rpgExpandedReject('panic-attack-definition');
+        return [self,self.profile,owner,self.battle,self.maneuver,self.maneuver.healthGate,self.ownsTime]
+            + self.maneuver.strike.facts();
+    }
+    permitsAuthorization(request)
+    { return self.result == nil && (request == self.maneuver || request == self.maneuver.healthGate); }
+    clockSeconds(owner) { self.facts(owner); return self.battle.index == self.battle.order.length() ? 1 : 0; }
+    permitsBattleClock(battle)
+    { return self.result != nil && battle == self.battle && battle.active
+        && battle.seconds == self.battleSecond+1 && rpgLedger.seconds == self.ledgerSecond; }
+    outcomeFacts() { return [self.result,self.result.status,self.result.outcome,self.battleSecond,self.ledgerSecond]; }
+    validateReceipt(owner)
+    {
+        local facts = self.facts(owner);
+        if (self.result == nil || self.boundFacts == nil || self.boundOutcome == nil
+            || facts.length() != self.boundFacts.length()) rpgExpandedReject('panic-attack-receipt');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('panic-attack-binding');
+        facts = self.outcomeFacts();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('panic-attack-outcome');
+        if (self.maneuver.healthGate.assess().status != 'reused') rpgExpandedReject('panic-attack-permission-receipt');
+        if (self.result.outcome == 'incapacitated')
+        {
+            if (self.maneuver.strike.result != nil || self.maneuver.healthGate.result.allowed)
+                rpgExpandedReject('panic-attack-incapacity-receipt');
+        }
+        else if (self.maneuver.strike.result != self.result || self.maneuver.strike.assess().status != 'reused')
+            rpgExpandedReject('panic-attack-strike-receipt');
+        return nil;
+    }
+    assess(owner)
+    {
+        self.facts(owner); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(owner); value.status = 'reused'; return value; }
+        if (self.boundFacts != nil || self.boundOutcome != nil || self.battleSecond != nil || self.ledgerSecond != nil)
+            rpgExpandedReject('panic-attack-uncommitted');
+        if (!self.ownsTime || owner.operation != self) rpgExpandedReject('panic-attack-time-owner');
+        if (owner.seconds != 1) { value.reason = 'panic-attack-one-turn'; return value; }
+        if (self.battle.current() != self.maneuver.strike.attacker || !holds(self.battle.fighters,self.maneuver.target))
+        { value.reason = 'panic-attack-battle-turn'; return value; }
+        value.reason = self.maneuver.healthAvailable(self.maneuver.strike.attacker); if (value.reason != nil) return value;
+        value = self.maneuver.strike.assess();
+        if (value.status == 'reused') rpgExpandedReject('panic-attack-used-strike');
+        return value;
+    }
+    apply(owner)
+    {
+        local value = self.assess(owner); if (value.status != 'ready') return value;
+        self.boundFacts = self.facts(owner); self.battleSecond = self.battle.seconds; self.ledgerSecond = rpgLedger.seconds;
+        value = self.battle.step(self.maneuver.strike.attacker,self.maneuver);
+        if (value.status != 'resolved') rpgExpandedReject('panic-attack-turn-changed');
+        self.result = value; self.boundOutcome = self.outcomeFacts(); return value;
+    }
+;

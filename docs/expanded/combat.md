@@ -602,3 +602,19 @@ expanded foundation. Combat continues to use it for ranged and defense outcomes;
 exploration also uses it for throwing and catching. Moving this helper adds no
 optional combat behavior automatically. General skill rolls and the Lite
 profile retain their existing check functions.
+
+### Attack dispatch and recorded panic decisions
+
+`RpgLiteManeuver.resolveStrike(attacker, defender)` is now the strike dispatch
+point. Its default calls `rpgLiteDefaultStrike` with the original resolver and
+weapon post-strike hook; `rpgLiteStrike` retains its public signature. Existing
+maneuvers therefore keep their default arithmetic and random draw order.
+Overrides must implement pure `preflight` assessment, committed execution and any
+weapon hooks they replace.
+
+The health library's `RpgExpandedAdjudicatedStrike` provides a concrete recorded
+ordinary-attack contract for panic battle turns. See the [health guide](health.md#recorded-panic-attacks)
+for required externally adjudicated scores, rolls, legality, final injury and
+replay evidence. This adapter commits actual resources and effects, but does not
+complete automatic expanded combat or its critical consequence dispatch. The
+compatibility and lifecycle assertions remain unrun.

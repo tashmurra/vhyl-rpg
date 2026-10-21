@@ -4463,3 +4463,47 @@ The technology library now supplies `RpgExpandedPanicObjectOperation` for an
 It commits real object injury and destruction receipts while the reaction owns
 time. It requires explicit target/protection/material adjudication and does not
 stand in for the unfinished attack-resolution adapter.
+
+## Recorded panic attacks
+
+`RpgExpandedPanicAttackOperation` connects an explicitly recorded attack
+adjudication to an extreme-panic reaction and the actual battle scheduler. Supply
+its `profile`, `reaction`, `battle` and `maneuver`. The maneuver is a
+`RpgExpandedPanicAttackManeuver` with `kind = 'attack'`, no movement, matching
+`target`, a fresh physical `RpgExpandedPanicActionGate`, and a
+`RpgExpandedAdjudicatedStrike`. The reaction owns one logical second; the battle
+advances the shared clock only at the round boundary. A later fighter may finish
+that round while the next panic reaction is pending.
+
+The strike is an **author-adjudication contract**, not automatic attack resolution.
+Record the exact attacker, defender, weapon, mode, effective `attackScore` and
+externally rolled `attackRoll`. For an attempted defense, record `defenseKind`
+(`dodge`, `parry` or `block`), effective `defenseScore` and externally rolled
+`defenseRoll`; otherwise a successful attack needs `defenseWaivedEvidence`.
+Supply approval, `legalityEvidence` covering reach, visibility, hands, target
+permissions and chosen options, and `resolutionEvidence` identifying the external
+resolution, protection and injury calculation. These are retained rulings; the
+engine does not invent or reroll the supplied dice. Numeric attack and defense
+classification is checked against full-2008 B347-B348, B374 and B381.
+
+For a hit, supply `basicDamage` and one owned `RpgExpandedWound` against the exact
+defender, with the already adjudicated final injury and body location. A miss or
+successful defense requires zero basic damage and no wound. Set `unready` when
+that attack leaves the weapon unready. The executor spends one loaded round for
+a ranged attack, records attack participation and defense usage, clears aim,
+applies actual injury and distraction, and invokes the existing weapon validation
+and post-strike hooks. It preserves the wound ledger and does not grant points or
+charge a second action. Its direct `apply(request)` requires the currently settling
+panic reaction and its successful owned physical permission gate.
+
+This contract currently admits only a single ordinary attack with at most one
+ordinary defense. Critical attack/defense results and thrown weapons are rejected
+before permission rolls or resource spending. Bursts, multiple defenses,
+counterattacks and other additional consequences require further adapters; they
+must not be folded into this contract as an undocumented approximation. A complete
+automatic expanded attack resolver is still outstanding.
+
+`expanded-panic-attack.t` / `test_panic_attack` specify hit, miss, defense,
+ammunition and weapon hooks, preview purity, blocked critical results, incapacity,
+exception rollback, undo, receipt mutation and saved continuation. These fixtures
+are authored and unrun while checks are paused.

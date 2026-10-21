@@ -9775,6 +9775,8 @@ def test(build):
     test_fear_recovery_ruling(Session,recovery_ruling,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
+    panic_attack = build.build('expanded-panic-attack',ROOT / 'tests/fixtures/expanded-panic-attack.t')
+    test_panic_attack(Session,panic_attack,build.out)
     panic_object = build.build('expanded-panic-object',ROOT / 'tests/fixtures/expanded-panic-object.t')
     test_panic_object(Session,panic_object,build.out)
     panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
@@ -28693,4 +28695,55 @@ def test_fear_selection(Session,bundle,out):
         assert state(s)[:4]==[1,10,1,0]
         do(s,665); do(s,665); do(s,584)
         assert state(s)==[2,20,1,1,0,0,2,0]
+    finally: s.close()
+
+
+def test_panic_attack(Session,bundle,out):
+    """Recorded attacks commit one battle turn, real injury and ammunition; assertions unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,672)
+        return last(s,'test.panic-attack')
+    initial=[0,2,0,0,0,1,0,0,3,0]
+    for choice,injury in ((None,1),(675,0),(676,0)):
+        path=out/f'panic-attack-{choice}.zsave'
+        expected=[injury,1,1,1,1,2,0,0,9,1]
+        s=Session(bundle)
+        try:
+            do(s,670)
+            if choice is not None: do(s,choice)
+            do(s,671); assert last(s,'test.panic-attack-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,681); assert state(s)==initial
+            do(s,443); assert state(s)==initial
+            do(s,442); s.command('undo'); assert state(s)==initial
+            do(s,442); do(s,442); assert state(s)==expected
+            do(s,677); assert state(s)==expected
+            do(s,680); assert state(s)==expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,442)
+            assert state(s)==expected
+            do(s,673); expected[5:8]=[1,1,1]
+            assert state(s)==expected
+        finally: s.close()
+    for code,reason in ((674,'adjudicated-strike-critical-adapter-required'),
+                        (678,'adjudicated-strike-empty'),(679,'effort-other-incapacity'),
+                        (682,'adjudicated-strike-critical-defense-required'),(683,'adjudicated-strike-evidence')):
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,code); do(s,671)
+            assert last(s,'test.panic-attack-preview')==['blocked',reason]
+            expected=initial.copy()
+            if code==678: expected[1]=0
+            do(s,442); assert state(s)==expected
+        finally: s.close()
+
+    s=Session(bundle)
+    try:
+        do(s,670); do(s,684); do(s,442); do(s,442)
+        assert state(s)==[0,2,0,1,1,2,0,0,9,0]
+        do(s,685); assert last(s,'test.panic-attack-incapacity')==[1,0]
     finally: s.close()
