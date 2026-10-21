@@ -88,3 +88,29 @@ modify BleedTestAction
         return inherited(context);
     }
 ;
+
+modify BleedTestAction
+    exec(context)
+    {
+        local code = bleedInput.code;
+        if (code == 10740) { cryActivity.seconds = 59; return nil; }
+        if (code == 10741) { panicEpisode.activities = []; return nil; }
+        if (code == 10742) { cryActivity.result.allowed = nil; return nil; }
+        if (code == 10743) { cryGate.evidence = 'Changed receipt'; return nil; }
+        if (code == 10744) { expressionActivity.portrayal = 'Changed portrayal'; return nil; }
+        if (code == 10745) { movePanicActivity.distanceYards = 2; return nil; }
+        if (code == 10746 || code == 10747)
+        {
+            event('test.panic-activity-history');
+            try
+            {
+                if (code == 10746) rpgSpendTime(1);
+                else bleedProfile.healthEffortReason('action',nil,nil,true);
+                eventValue('accepted');
+            }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
+        return inherited(context);
+    }
+;

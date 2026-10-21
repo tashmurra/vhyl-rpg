@@ -138,3 +138,12 @@ prior training and retains the free-fall campaign restriction; it cannot erase
 training or grant point refunds. The selection fixture specifies both new
 purchases and their learning effects. Lifecycle and composed hazard validation
 remain unrun, and other catalogue selections remain outstanding.
+
+## Activity-history integrity
+
+The timed-panic episode now validates its activity histories, not only recovery
+checks. Non-recursive receipt validation covers crying, world movement,
+expression and tactical movement. Recorded count, unique ownership and interval
+ordering guard the episode history; retained definitions, outcomes and health
+permissions are checked before later clock advancement or action permission.
+Mutation cases are added to the existing fixtures and remain unrun.

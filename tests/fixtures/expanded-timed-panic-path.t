@@ -33,6 +33,16 @@ modify PositionTestAction
         if (code == 806) { pathBattle.order = [pathFighter]; return nil; }
         if (code == 807) { timedPathGate.apply(); return nil; }
         if (code == 808) { rpgSpendTime(60); return nil; }
+        if (code == 810) { timedPathEpisode.activities = []; return nil; }
+        if (code == 811) { timedPathActivity.evidence = 'Changed receipt'; return nil; }
+        if (code == 812) { timedPathActivity.result.outcome = 'changed'; return nil; }
+        if (code == 813)
+        {
+            event('test.timed-panic-history');
+            try { rpgSpendTime(1); eventValue('accepted'); }
+            catch (RpgExpandedError error) { eventValue(error.reason); }
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
+        }
         if (code == 809) { timedPathActivity.evidence = nil; return nil; }
         return inherited(context);
     }

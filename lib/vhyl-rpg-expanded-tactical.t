@@ -1437,7 +1437,7 @@ class RpgExpandedDefenseFallPosition: RpgExpandedStrikeDefensePosition
 ;
 
 /** One row-21 Move turn; the battle owns elapsed time, not the panic activity. */
-class RpgExpandedTimedPanicPath: object
+class RpgExpandedTimedPanicPath: RpgExpandedPanicActivityReceipt
     id = nil
     episode = nil
     move = nil
@@ -1471,26 +1471,32 @@ class RpgExpandedTimedPanicPath: object
             && rpgLedger.seconds < self.episode.nextCheckAt && self.maneuver != nil
             && (request == self.maneuver || request == self.maneuver.healthGate);
     }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.result == nil) rpgExpandedReject('timed-panic-path-history');
+        if (self.boundFacts == nil || facts.length() != self.boundFacts.length()
+            || !holds(self.episode.activities,self)) rpgExpandedReject('timed-panic-path-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('timed-panic-path-binding');
+        if (self.boundOutcome == nil || self.result != self.boundOutcome[1]
+            || self.result.status != self.boundOutcome[2] || self.result.outcome != self.boundOutcome[3]
+            || self.startedAt != self.boundOutcome[4] || self.completedAt != self.boundOutcome[5])
+            rpgExpandedReject('timed-panic-path-outcome');
+        if (self.maneuver.healthGate.assess().status != 'reused') rpgExpandedReject('timed-panic-path-gate-history');
+        if (self.result.outcome == 'incapacitated')
+        {
+            if (self.move.result != nil || self.maneuver.healthGate.result.allowed) rpgExpandedReject('timed-panic-path-incapacity');
+        }
+        else if (self.move.assess().status != 'reused') rpgExpandedReject('timed-panic-path-move-history');
+        return nil;
+    }
     assess()
     {
         local facts = self.facts(); local value = new RpgExpandedResult();
         if (self.result != nil)
         {
-            if (self.boundFacts == nil || facts.length() != self.boundFacts.length()
-                || !holds(self.episode.activities,self)) rpgExpandedReject('timed-panic-path-history');
-            for (local i = 1; i <= facts.length(); i += 1)
-                if (facts[i] != self.boundFacts[i]) rpgExpandedReject('timed-panic-path-binding');
-            if (self.boundOutcome == nil || self.result != self.boundOutcome[1]
-                || self.result.status != self.boundOutcome[2] || self.result.outcome != self.boundOutcome[3]
-                || self.startedAt != self.boundOutcome[4] || self.completedAt != self.boundOutcome[5])
-                rpgExpandedReject('timed-panic-path-outcome');
-            self.episode.assess();
-            if (self.maneuver.healthGate.assess().status != 'reused') rpgExpandedReject('timed-panic-path-gate-history');
-            if (self.result.outcome == 'incapacitated')
-            {
-                if (self.move.result != nil || self.maneuver.healthGate.result.allowed) rpgExpandedReject('timed-panic-path-incapacity');
-            }
-            else if (self.move.assess().status != 'reused') rpgExpandedReject('timed-panic-path-move-history');
+            self.validateReceipt(); self.episode.assess();
             value.status = 'reused'; value.seconds = self.completedAt-self.startedAt; return value;
         }
         if (self.boundFacts != nil || self.boundOutcome != nil || self.startedAt != nil || self.completedAt != nil)
@@ -1521,7 +1527,7 @@ class RpgExpandedTimedPanicPath: object
             if (facts[i] != current[i]) rpgExpandedReject('timed-panic-path-changed');
         self.boundFacts = facts; self.startedAt = start; self.completedAt = rpgLedger.seconds; self.result = value;
         self.boundOutcome = [value,value.status,value.outcome,self.startedAt,self.completedAt];
-        self.episode.activities = self.episode.activities + [self]; return value;
+        self.episode.activities = self.episode.activities + [self]; self.episode.activityCount += 1; return value;
     }
 ;
 class RpgExpandedTimedPanicPathManeuver: RpgExpandedPathMoveManeuver

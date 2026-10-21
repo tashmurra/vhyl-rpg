@@ -20844,6 +20844,20 @@ def test_panic_crying(Session, bundle, out):
         assert last(s,'test.crying-state') == [0,0,0,1]
     finally: s.close()
 
+    for setup,mutation,reason,seconds in [
+            ((10602,10701),10740,'panic-crying-binding',60),
+            ((10602,10701),10741,'fear-panic-activity-count',60),
+            ((10602,10701),10742,'panic-activity-outcome-binding',60),
+            ((10602,10701),10743,'effort-binding',60),
+            ((10720,10602,10722),10744,'panic-crying-binding',60),
+            ((10710,10602,10712),10745,'panic-crying-binding',1)]:
+        for query in (10746,10747):
+            s = Session(bundle)
+            try:
+                for code in (*setup,mutation,query): s.action(2285,code)
+                assert last(s,'test.panic-activity-history') == [reason,seconds,1]
+            finally: s.close()
+
 
 def test_panic_history(Session, bundle):
     """A changed deadline, receipt or completion cannot bypass a due check; unrun."""
@@ -29445,6 +29459,14 @@ def test_timed_panic_path(Session,bundle,out):
         assert state(s) == [0,0,0,1,1,2,0,4]
         do(s,802); assert state(s) == [0,0,0,1,1,2,0,4]
     finally: s.close()
+
+    for mutation,reason in [(810,'fear-panic-activity-count'),(811,'timed-panic-path-binding'),
+                            (812,'timed-panic-path-outcome')]:
+        s = Session(bundle)
+        try:
+            for code in (800,802,mutation,813): do(s,code)
+            assert last(s,'test.timed-panic-history') == [reason,0,1]
+        finally: s.close()
 
 
 def test_panic_expression_communication(Session,bundle,out):

@@ -4714,3 +4714,24 @@ speech limitation followed by vocal panic, complete muteness rejecting vocal
 expression before spending, and continued eligibility for nonvocal gestures.
 It includes undo and separate-process save continuation. These fixtures remain
 unrun; their presence does not establish validated coverage.
+
+
+### Retained panic-activity histories
+
+Timed-panic episodes validate both recovery and activity histories when assessed,
+including through clock advancement and ordinary health permission queries.
+Activities implement `RpgExpandedPanicActivityReceipt.validateReceipt()` without
+recursively assessing their episode. The built-in crying, expression, world
+movement and tactical movement adapters bind their definitions and outcomes and
+validate the owned permission receipt. Tactical activities also validate their
+retained movement or incapacitated-turn result.
+
+The episode checks its recorded activity count, unique IDs, ownership and ordered
+intervals. Removing an activity, changing its portrayal or route, or changing its
+recorded outcome is not a way to undo an action. Use the engine transaction/undo
+mechanisms. Completed episodes retain these histories; replay still validates
+receipts without requiring the character to remain at a former destination.
+
+`test_panic_crying` and `test_timed_panic_path` specify changed definitions,
+removed history, changed outcomes and changed permissions rejecting before a
+new time charge. These additional cases remain unrun while checks are paused.

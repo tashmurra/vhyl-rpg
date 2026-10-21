@@ -1240,3 +1240,8 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     panicVocalizationReason() { return nil; }
 ;
+
+/** Non-recursive validation contract for retained timed-panic activities. */
+class RpgExpandedPanicActivityReceipt: object
+    validateReceipt() { rpgExpandedReject('panic-activity-receipt-implementation'); }
+;
