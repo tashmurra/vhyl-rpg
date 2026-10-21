@@ -33,18 +33,7 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
     if (profile.level('high-pain-threshold') == 0)
     { profile.shock += shock; if (profile.shock > profile.shockLimit()) profile.shock = profile.shockLimit(); }
     profile.afterInjuryShock(amount,result);
-    if (knockdown && !profile.unconscious)
-    {
-        result.check = rpgLiteAttributeCheck(profile, rpgHT, 'major-wound', modifier);
-        result.checks = result.checks + [result.check];
-        if (!result.check.achieved)
-        {
-            result.knockedDown = true;
-            profile.stunned = true; profile.posture = 'lying'; profile.onKnockdown();
-            foreach (local item in profile.equipment) if (!item.worn) item.ready = nil;
-            if (result.check.margin <= -5 || result.check.critical == 'failure') profile.becomeUnconscious();
-        }
-    }
+    if (knockdown && !profile.unconscious) profile.applyInjuryKnockdown(result,modifier);
     for (local multiple = 1; multiple <= 4 && !profile.dead; multiple += 1)
         if (oldHP > -multiple * profile.maxHP && profile.hp() <= -multiple * profile.maxHP)
         {
@@ -617,4 +606,29 @@ modify RpgLiteProfile
 
 modify RpgLiteProfile
     validateDirectFright() { return nil; }
+;
+
+
+/** Default combined knockdown procedure; expanded effects may supply an explicit policy. */
+modify RpgLiteProfile
+    injuryKnockdownReason(modifier)
+    {
+        local context = new RpgLiteContext(); context.attribute = rpgHT;
+        context.kind = 'major-wound'; context.modifier = modifier;
+        local score = rpgLiteScore(self,context);
+        return score == nil || score < 3 ? 'expanded-knockdown-score-unavailable' : nil;
+    }
+    applyInjuryKnockdown(result,modifier)
+    {
+        result.check = rpgLiteAttributeCheck(self,rpgHT,'major-wound',modifier);
+        result.checks = result.checks + [result.check];
+        if (!result.check.achieved)
+        {
+            result.knockedDown = true;
+            self.stunned = true; self.posture = 'lying'; self.onKnockdown();
+            foreach (local item in self.equipment) if (!item.worn) item.ready = nil;
+            if (result.check.margin <= -5 || result.check.critical == 'failure') self.becomeUnconscious();
+        }
+        return nil;
+    }
 ;

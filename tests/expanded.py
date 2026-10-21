@@ -9837,6 +9837,8 @@ def test(build):
     test_rage_ranged(Session,rage_ranged,build.out)
     rage_melee = build.build('expanded-rage-melee',ROOT / 'tests/fixtures/expanded-rage-melee.t')
     test_rage_melee(Session,rage_melee,build.out)
+    knockdown_dispatch = build.build('expanded-knockdown-dispatch',ROOT / 'tests/fixtures/expanded-knockdown-dispatch.t')
+    test_knockdown_dispatch(Session,knockdown_dispatch,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29873,4 +29875,27 @@ def test_rage_melee(Session,bundle,out):
             for _ in range(2):
                 s.action(2250,930,4)
                 assert last(s,'test.rage-melee') == ['ready' if reason is None else 'blocked',reason,0,2,0,0]
+        finally: s.close()
+
+
+def test_knockdown_dispatch(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,942)
+        return last(s,'test.knockdown-dispatch')
+    for succeeds in (False,True):
+        path = out/f'knockdown-dispatch-{succeeds}.zsave'
+        initial = [0,0,0,'standing',0,0,0]
+        expected = [6,int(not succeeds),0,'standing' if succeeds else 'lying',1,1,3]
+        s = Session(bundle)
+        try:
+            if succeeds: do(s,943)
+            do(s,941); assert state(s) == initial
+            do(s,940); s.command('undo'); assert state(s) == initial
+            do(s,940); do(s,940); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,940); assert state(s) == expected
         finally: s.close()

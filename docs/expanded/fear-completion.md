@@ -261,3 +261,14 @@ or slam when possible. Actual weapon ownership/readiness and current Move bound
 the choice. Boundary fixtures are registered and unrun. These assessments still
 need the owned rage episode and actual turn adapter; they do not themselves
 apply attacks, defense restrictions, injury immunity or recovery checks.
+
+
+## Combined knockdown policy boundary
+
+Source review of B124 and B420 found an unresolved interaction between frenzy
+stun immunity, the bonus for remaining conscious and the combined
+knockdown/stun/unconsciousness roll. A recorded-author-policy versus explicit
+blocking decision has been requested; no answer is assumed. Independent work
+extracted the existing combined procedure into default-preserving profile hooks
+so an eventual policy can share the wound ledger. No frenzy benefit is enabled.
+Default success/failure and persistence fixtures are registered but unrun.

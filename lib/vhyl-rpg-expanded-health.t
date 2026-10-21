@@ -204,11 +204,8 @@ class RpgExpandedWound: object
             value.dropPlan = self.profile.prepareKnockdownDrop(self.dropDestination);
             if (value.dropPlan != nil && value.dropPlan.status != 'ready')
             { value.reason = value.dropPlan.reason; return value; }
-            local context = new RpgLiteContext(); context.attribute = rpgHT;
-            context.kind = 'major-wound'; context.modifier = value.assessment.modifier;
-            local score = rpgLiteScore(self.profile,context);
-            if (score == nil || score < 3)
-            { value.reason = 'expanded-knockdown-score-unavailable'; return value; }
+            value.reason = self.profile.injuryKnockdownReason(value.assessment.modifier);
+            if (value.reason != nil) return value;
         }
         if (value.healthLoss > 0 && self.profile.ht < 3 && self.profile.hp() - value.healthLoss <= -self.profile.maxHP)
         { value.reason = 'expanded-survival-score-unavailable'; return value; }

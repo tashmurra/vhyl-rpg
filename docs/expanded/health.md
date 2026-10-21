@@ -4790,3 +4790,20 @@ of the receipt together with the resulting episode. This remaining dependency
 is not satisfied by the snapshot alone. The injury-window fixture now specifies
 nonqualifying rejection, duplicate prevention, later hits, mutation rejection,
 rollback, undo and saved continuation for receipts; these cases are unrun.
+
+
+### Combined injury knockdown dispatch
+
+The shared wound procedure now delegates its combined major-wound check to
+`profile.applyInjuryKnockdown(result, modifier)`. The default retains the existing
+check, stun, prone posture, held-item unreadiness and severe-failure
+unconsciousness behavior. Expanded wound preflight delegates the corresponding
+score check to `profile.injuryKnockdownReason(modifier)`; it still prepares the
+existing drop plan and commits injury through the same wound ledger.
+
+This hook is a prerequisite for explicit injury policies, not a new immunity.
+No frenzy override is installed. The supplied frenzy and combined knockdown text
+needs an explicit boundary policy before that integration can be activated.
+`test_knockdown_dispatch` specifies default success/failure, one dispatch per
+wound, unchanged random consumption, rollback, undo and saved continuation.
+These regression cases remain unrun while checks are paused.
