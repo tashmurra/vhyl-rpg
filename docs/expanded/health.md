@@ -52,8 +52,12 @@ spendable points. Implemented components include initial assessment, scene
 modifiers, complete consequence-table specifications, owned stun, retching,
 fainting, panic, coma, catatonia, seizure and injury handlers, and selected
 lasting-trait acquisitions. The owned event flow below connects initial checks
-to supported handlers. Remaining compound outcomes and trait integrations are
-explicitly incomplete; none of these fixtures has run while checks are paused.
+to supported handlers, including compound consequences and forced aging with
+recorded losses at otherwise unrollable boundaries. Trait catalogue coverage,
+automatic expanded attacks and some tactical reaction variants remain incomplete;
+none of these fixtures has run while checks are paused. See the
+[overstimulation adapter](traits.md#overstimulation-and-reactive-action) for
+target-specific reactive permission that preserves independent incapacity.
 
 The [injury and recovery inventory](inventory/health.json) covers the first text
 pass through B418–B427. It records location-specific crippling, optional bleeding

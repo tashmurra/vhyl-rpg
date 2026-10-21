@@ -511,9 +511,12 @@
       "pages": "B129",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Stimulus confusion is base -10 with self-control. Author supplies unfamiliarity/commotion modifier, ranging from ordinary situations to severe battle stimuli. Failure prevents decisive initiative. In combat use do-nothing but no stun penalty; direct attacks allow ordinary defense and counterattack against that foe. Track episode and reactive permission.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_overstimulation"
+      ],
+      "validation_note": "Owned overstimulation triggers retain self-control results, authored stimulus modifiers and explicit evidence for ending the episode. Failed episodes block initiative and planning without stun penalties. Actual physical strike receipts permit stationary ordinary counterattacks only against their attacker, using the ordinary battle turn and health gate. Fear acquisition supports eligible ten/fifteen-point ratings. Broader reactive maneuvers remain unsupported. Fixtures for replay, purity, rollback, undo and cross-process continuation are authored and unrun; checks remain paused."
     },
     {
       "id": "disadvantages-b-cowardice",

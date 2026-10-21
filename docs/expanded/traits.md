@@ -2375,3 +2375,47 @@ fixtures in `expanded-hearing-loss.t` and `expanded-fear-hearing-loss.t`. Comple
 owned written/sign-language/lip-reading exchange procedures and individual
 sound-dependent powers/skill exceptions remain unfinished. This is partial
 catalogue coverage, not a claim that every hearing-related rule is complete.
+
+## Overstimulation and reactive action
+
+`RpgExpandedOverstimulation` implements the controlled B129 selection under
+`full-2008`. Its base cost is −10; self-control 9 costs −15. Both are eligible
+for matching lasting mental fear outcomes. Template copying preserves the rating.
+
+Create an owned `RpgExpandedOverstimulationTrigger` with a unique `id`, `profile`,
+installed `trait`, occurrence object in `trigger`, approved `situation`
+(`unfamiliar-place` or `commotion`), `modifier` and evidence. `assess()` is pure;
+`resolve()` retains the check once and uses the shared self-control procedure.
+Classify `stressRelation` when the actor has phantom voices; an applicable failed
+check retains the usual owned stress follow-up. Scores below 3 block without dice.
+
+Failure blocks deliberate initiative through the effort gate and requires Do
+Nothing in combat. Planning contexts set `deliberatePlanning = true`; Tactics,
+Strategy and `kind = 'planning'` also reject before rolling. Authors must route
+other deliberate actions through the effort gate. The episode does not set stun
+or penalize ordinary defense. Independent injuries and mental conditions still
+apply. A successful check creates no active restriction.
+
+Resolved physical strikes retain `RpgExpandedOverstimulationAttackNotice`
+receipts in the episode. A stationary ordinary Attack may use
+`RpgExpandedOverstimulationCounterManeuver`, targeting the notice's attacker,
+with a fresh `RpgExpandedOverstimulationCounterGate`. Set the gate's `maneuver`
+back-reference, matching `profile`, unique `id`, `requiresMovement = true` and
+evidence. The battle scheduler owns the turn and clock; this grants no free
+attack. The notice must belong to the acting fighter. Unconsciousness and other
+independent incapacity cannot be bypassed. The current counterattack uses the
+existing ordinary strike resolver; expanded critical/multi-hit attacks and other
+reactive maneuver variants are outside this adapter.
+
+The source provides no recovery interval. End the episode only with recorded
+world evidence through `end(reason, evidence)`, where `reason` is
+`stimulus-ended` or `quiet-familiar-place`. This explicit author-adjudication
+contract asserts that the triggering conditions have ended; it invents neither
+a recovery roll nor a duration. Replaying the same end does not spend resources.
+
+`expanded-overstimulation.t` / `test_overstimulation` cover eligible acquisition
+costs, preview purity, failure/success, ordinary defense penalties, target-specific
+counter permissions, independent unconsciousness, low-score rejection, receipt
+mutation, rollback, undo and cross-process save continuation. These assertions
+are authored and unrun while build checks remain paused. Catalogue status is
+partial until unsupported reactive maneuvers and validation are resolved.

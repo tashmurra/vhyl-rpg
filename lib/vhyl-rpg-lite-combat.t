@@ -241,6 +241,7 @@ rpgLiteDefaultStrike(attacker, defender, request)
     local weapon = attacker.weapon;
     local result = rpgLiteResolveStrike(attacker,defender,request);
     if (weapon != nil && result.status == 'resolved') weapon.afterStrike(attacker,result.attackMode,result);
+    if (result.status == 'resolved') defender.profile.recordDirectPhysicalAttack(attacker,defender,result);
     return result;
 }
 rpgLiteResolveStrike(attacker, defender, request)

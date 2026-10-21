@@ -1201,3 +1201,10 @@ class RpgExpandedPanicOperation: object
     apply(reaction) { rpgExpandedReject('panic-operation-module-required'); }
     validateReceipt(reaction) { rpgExpandedReject('panic-operation-module-required'); }
 ;
+
+modify RpgLiteContext deliberatePlanning = nil;
+modify RpgExpandedProfile
+    activeOverstimulation() { return nil; }
+    overstimulationCounterAllowed(request) { return nil; }
+    overstimulationNoticeReason(notice,target) { return 'overstimulation-traits-required'; }
+;

@@ -11195,7 +11195,8 @@ class RpgExpandedAdjudicatedStrike: object
         }
         value.status = 'resolved'; self.weapon.afterStrike(self.attacker,self.mode,value); self.result = value;
         self.attacker.profile.adjudicatedStrikes = self.attacker.profile.adjudicatedStrikes + [self];
-        self.boundOutcome = self.outcomeFacts(); return value;
+        self.boundOutcome = self.outcomeFacts();
+        self.defender.profile.recordDirectPhysicalAttack(self.attacker,self.defender,value); return value;
     }
 ;
 modify RpgExpandedProfile
@@ -11400,4 +11401,48 @@ modify RpgExpandedProfile
     waitDeclarations = []
     validateFeatures()
     { inherited(); foreach (local declaration in self.waitDeclarations) declaration.validateReceipt(); return nil; }
+;
+
+/** No free attack: this permission applies only to the actor's ordinary Attack turn. */
+class RpgExpandedOverstimulationCounterManeuver: RpgExpandedPhysicalManeuver
+    kind = 'attack'
+    notice = nil
+    available(fighter)
+    {
+        if (self.kind != 'attack' || self.movement != 0) rpgExpandedReject('overstimulation-counter-maneuver');
+        local reason = fighter.profile.overstimulationNoticeReason(self.notice,self.target);
+        if (reason != nil) return reason;
+        if (self.notice.defender != fighter) return 'overstimulation-counterattack-owner';
+        return inherited(fighter);
+    }
+    healthAvailable(fighter)
+    {
+        if (self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedOverstimulationCounterGate)
+            || self.healthGate.maneuver != self) rpgExpandedReject('overstimulation-counter-gate');
+        return inherited(fighter);
+    }
+;
+class RpgExpandedOverstimulationCounterGate: RpgExpandedActionGate
+    maneuver = nil
+    healthPermissionReason()
+    {
+        if (!self.profile.overstimulationCounterAllowed(self)) return 'overstimulation-counter-permission';
+        return self.profile.healthEffortReasonFor(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement,self);
+    }
+;
+modify RpgExpandedProfile
+    overstimulationCounterAllowed(request)
+    {
+        local maneuver = request;
+        if (request != nil && request.ofKind(RpgExpandedOverstimulationCounterGate)) maneuver = request.maneuver;
+        if (maneuver == nil || !maneuver.ofKind(RpgExpandedOverstimulationCounterManeuver)
+            || maneuver.kind != 'attack' || maneuver.movement != 0 || maneuver.healthGate == nil
+            || maneuver.healthGate.profile != self) return nil;
+        return self.overstimulationNoticeReason(maneuver.notice,maneuver.target) == nil;
+    }
+    healthManeuverRequestReason(request)
+    {
+        if (self.activeOverstimulation() != nil) return self.healthManeuverReasonFor(request.kind,request);
+        return inherited(request);
+    }
 ;

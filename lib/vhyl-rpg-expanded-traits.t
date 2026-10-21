@@ -379,6 +379,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
     definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence,self.buySuccess,self.stressRelation]; }
     effectiveModifier() { return self.modifier; }
     newResult() { return new RpgExpandedResult(); }
+    afterControlResolution(value) { return nil; }
     phantomVoiceRequest()
     {
         local occurrence = new RpgExpandedPhantomVoiceOccurrence();
@@ -455,7 +456,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         if (value.check.status != 'resolved') rpgExpandedReject('self-control-trigger-changed');
         self.check = value.check; self.active = !self.check.achieved;
         self.boundDefinition = self.definition(); self.profile.selfControlTriggers = self.profile.selfControlTriggers + [self];
-        value.status = 'resolved'; self.result = value;
+        value.status = 'resolved'; self.result = value; self.afterControlResolution(value);
         if (self.stressRelation == 'stress-related' && value.check.roll != nil && !value.check.achieved
             && self.profile.phantomVoiceSeverity() > 0)
         {
@@ -4176,7 +4177,8 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedLowMotivation) || trait.ofKind(RpgExpandedPostbattleStress)
         || trait.ofKind(RpgExpandedPleasureLoss) || trait.ofKind(RpgExpandedPhantomVoices)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
-        || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)))
+        || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
+        || trait.ofKind(RpgExpandedOverstimulation)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4284,5 +4286,180 @@ modify rpgExpandedTemplateTraits
     {
         if (!trait.ofKind(RpgExpandedHearingLoss)) return inherited(trait);
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
+    }
+;
+
+/** B129: a controlled response to unfamiliar surroundings or excessive stimulation. */
+class RpgExpandedOverstimulation: RpgExpandedDisadvantage
+    id = 'overstimulation'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-overstimulation'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'overstimulation' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('overstimulation-definition');
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedOverstimulationTrigger: RpgExpandedSelfControlTrigger
+    situation = nil
+    approved = nil
+    endedAt = nil
+    endReason = nil
+    endEvidence = nil
+    boundEnding = nil
+    boundCheck = nil
+    attacks = []
+    definition() { return inherited() + [self.situation,self.approved]; }
+    checkFacts() { return [self.check,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical]; }
+    afterControlResolution(value) { self.boundCheck = self.checkFacts(); return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedOverstimulation)) rpgExpandedReject('overstimulation-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = self.checkFacts();
+            if (self.boundCheck == nil || facts.length() != self.boundCheck.length()
+                || self.active != (!self.check.achieved && self.endedAt == nil)) rpgExpandedReject('overstimulation-state');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('overstimulation-check-binding');
+            if (self.endedAt != nil)
+            {
+                if (self.boundEnding == nil || self.boundEnding[1] != self.endedAt || self.boundEnding[2] != self.endReason
+                    || self.boundEnding[3] != self.endEvidence) rpgExpandedReject('overstimulation-ending-binding');
+            }
+            else if (self.endReason != nil || self.endEvidence != nil || self.boundEnding != nil)
+                rpgExpandedReject('overstimulation-unused-ending');
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        if (!self.approved || !holds(['unfamiliar-place','commotion'],self.situation))
+        { value.status = 'blocked'; value.reason = 'overstimulation-stimulus-facts'; return value; }
+        if (self.trait.mitigated || self.profile.dead || self.profile.unconscious)
+        { value.status = 'blocked'; value.reason = 'overstimulation-unavailable'; return value; }
+        if (self.profile.activeOverstimulation() != nil)
+        { value.status = 'blocked'; value.reason = 'overstimulation-existing-episode'; return value; }
+        return value;
+    }
+    end(reason,evidence)
+    {
+        local value = self.assess();
+        if (value.status != 'reused') { value.status = 'blocked'; value.reason = 'overstimulation-not-started'; return value; }
+        if (self.endedAt != nil)
+        {
+            if (reason != self.endReason || evidence != self.endEvidence) rpgExpandedReject('overstimulation-ending-replay');
+            return value;
+        }
+        if (!self.active) { value.status = 'blocked'; value.reason = 'overstimulation-not-active'; return value; }
+        if (!holds(['stimulus-ended','quiet-familiar-place'],reason) || evidence == nil || evidence == '')
+        { value.status = 'blocked'; value.reason = 'overstimulation-ending-facts'; return value; }
+        self.endedAt = rpgLedger.seconds; self.endReason = reason; self.endEvidence = evidence;
+        self.boundEnding = [self.endedAt,reason,evidence]; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+/** Retained evidence of an actual resolved physical attack during this episode. */
+class RpgExpandedOverstimulationAttackNotice: object
+    episode = nil
+    attacker = nil
+    defender = nil
+    attack = nil
+    recordedAt = nil
+    boundFacts = nil
+    facts()
+    {
+        return [self,self.episode,self.attacker,self.defender,self.attack,self.recordedAt,self.attack.status,
+            self.attack.attack,self.attack.attack.score,self.attack.attack.roll,self.attack.attack.achieved,
+            self.attack.outcome,self.attack.injury,self.attacker.profile,self.defender.profile,
+            self.attack.attack.margin,self.attack.attack.critical];
+    }
+    validate()
+    {
+        if (self.episode == nil || !self.episode.ofKind(RpgExpandedOverstimulationTrigger)
+            || self.attacker == nil || !self.attacker.ofKind(RpgLiteFighter)
+            || self.defender == nil || !self.defender.ofKind(RpgLiteFighter)
+            || self.episode.profile != self.defender.profile || self.attacker == self.defender
+            || self.attack == nil || self.attack.attack == nil || self.attack.status != 'resolved'
+            || !holds(self.episode.attacks,self) || self.boundFacts == nil) rpgExpandedReject('overstimulation-attack-notice');
+        local facts = self.facts();
+        if (facts.length() != self.boundFacts.length()) rpgExpandedReject('overstimulation-attack-binding');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('overstimulation-attack-binding');
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    activeOverstimulation()
+    {
+        local active = nil;
+        foreach (local trigger in self.selfControlTriggers)
+            if (trigger.ofKind(RpgExpandedOverstimulationTrigger))
+            {
+                trigger.assess();
+                foreach (local notice in trigger.attacks) notice.validate();
+                if (trigger.active)
+                {
+                    if (active != nil) rpgExpandedReject('overstimulation-overlapping-episodes');
+                    active = trigger;
+                }
+            }
+        return active;
+    }
+    validateFeatures() { inherited(); self.activeOverstimulation(); return nil; }
+    healthCheckReason(context)
+    {
+        local reason = inherited(context); if (reason != nil) return reason;
+        if (self.activeOverstimulation() != nil && (context.deliberatePlanning || context.kind == 'planning'
+            || context.skill != nil && holds(['tactics','strategy'],context.skill.id))) return 'overstimulation-planning';
+        return nil;
+    }
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
+    {
+        local reason = inherited(purpose,mentalAbility,speech,movement,authorization); if (reason != nil) return reason;
+        if (self.activeOverstimulation() != nil && !holds(['rest','do-nothing'],purpose)
+            && !self.overstimulationCounterAllowed(authorization)) return 'overstimulation-reactive-only';
+        return nil;
+    }
+    healthManeuverReasonFor(kind,request)
+    {
+        local reason = inherited(kind,request); if (reason != nil) return reason;
+        if (self.activeOverstimulation() != nil && kind != 'nothing' && !self.overstimulationCounterAllowed(request))
+            return 'overstimulation-do-nothing';
+        return nil;
+    }
+    recordDirectPhysicalAttack(attacker,defender,result)
+    {
+        inherited(attacker,defender,result); local episode = self.activeOverstimulation();
+        if (episode == nil || result == nil || result.status != 'resolved' || result.attack == nil) return nil;
+        if (defender.profile != self || attacker == defender) rpgExpandedReject('overstimulation-attack-owner');
+        foreach (local prior in episode.attacks) if (prior.attack == result) return prior;
+        local notice = new RpgExpandedOverstimulationAttackNotice(); notice.episode = episode;
+        notice.attacker = attacker; notice.defender = defender; notice.attack = result; notice.recordedAt = rpgLedger.seconds;
+        episode.attacks = episode.attacks + [notice]; notice.boundFacts = notice.facts(); return notice;
+    }
+    overstimulationNoticeReason(notice,target)
+    {
+        local episode = self.activeOverstimulation();
+        if (episode == nil || notice == nil || !notice.ofKind(RpgExpandedOverstimulationAttackNotice)
+            || notice.episode != episode) return 'overstimulation-counterattack-notice';
+        notice.validate();
+        return target == notice.attacker ? nil : 'overstimulation-counterattack-target';
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'overstimulation') return inherited(id,level,scope,rating);
+        local trait = new RpgExpandedOverstimulation(); trait.level = level; trait.scope = scope;
+        trait.selfControlRating = rating; trait.approved = true; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedOverstimulation)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
 ;

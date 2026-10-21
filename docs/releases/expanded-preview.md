@@ -2026,3 +2026,11 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   Special artifacts, sentient machines, repair and automatic attacks remain
   incomplete. New panic/destruction lifecycle fixtures are authored and unrun;
   checks remain paused.
+
+- Added owned overstimulation episodes and eligible lasting mental fear
+  selections. Failed control prevents initiative and planning without imposing
+  stun; physical attack receipts permit a stationary counterattack against the
+  actual attacker on the ordinary turn. Independent incapacity still applies.
+  Episode endings require recorded world evidence, with no invented recovery
+  timer. Broader reactive maneuvers remain unsupported. Lifecycle fixtures are
+  authored and unrun while build checks remain paused.

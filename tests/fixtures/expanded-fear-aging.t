@@ -29,6 +29,9 @@ modify FearTestAction
         if (code == 606) { fearAge.boundaries = []; fearAge.assess(); return nil; }
         if (code == 607) { fearAge.years = 6; fearAge.assess(); return nil; }
         if (code == 609) { fearProfile.ht = 2; fearAge.medicalTL = 3; fearAge.lowScoreRuling = fearAgeRuling; return nil; }
+        if (code == 740) { fearAge.lowScoreRuling = nil; return nil; }
+        if (code == 741) { fearAgeRuling.losses = [0,0,0,3]; return nil; }
+        if (code == 742) { fearAgeRuling.losses = [0,0,0,0]; fearAge.assess(); return nil; }
         if (code == 608) { fearProfile.validateFeatures(); return nil; }
         return inherited(context);
     }

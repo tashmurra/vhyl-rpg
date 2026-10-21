@@ -9777,6 +9777,8 @@ def test(build):
     test_hearing_loss(Session,hearing_loss,build.out)
     fear_hearing_loss = build.build('expanded-fear-hearing-loss',ROOT / 'tests/fixtures/expanded-fear-hearing-loss.t')
     test_fear_hearing_loss(Session,fear_hearing_loss,build.out)
+    overstimulation = build.build('expanded-overstimulation',ROOT / 'tests/fixtures/expanded-overstimulation.t')
+    test_overstimulation(Session,overstimulation,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
     panic_attack = build.build('expanded-panic-attack',ROOT / 'tests/fixtures/expanded-panic-attack.t')
@@ -28500,9 +28502,23 @@ def test_fear_aging(Session,bundle,out):
         do(s,600); do(s,609); do(s,601)
         assert last(s,'test.fear-aging-preview')==['ready',None]
         do(s,603); assert state(s)==[0,0,10,10,10,2,0,0,0,0]
+        do(s,602); s.command('undo'); assert state(s)==[0,0,10,10,10,2,0,0,0,0]
         do(s,602); do(s,602); do(s,608)
         assert state(s)==[1,1,10,10,10,1,0,0,0,1]
+        do(s,742); assert state(s)==[1,1,10,10,10,1,0,0,0,1]
+        s.command(f":save {out / 'fear-aging-ruling.zsave'}\n@2251")
     finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f":restore {out / 'fear-aging-ruling.zsave'}\n@2251")
+        do(s,602); do(s,608); assert state(s)==[1,1,10,10,10,1,0,0,0,1]
+    finally: s.close()
+    for code in (740,741):
+        s=Session(bundle)
+        try:
+            do(s,600); do(s,609); do(s,code); do(s,602)
+            assert state(s)==[0,0,10,10,10,2,0,0,0,0]
+        finally: s.close()
 
 
 def test_fear_recovery_ruling(Session,bundle,out):
@@ -28947,4 +28963,64 @@ def test_panic_computer(Session,bundle,out):
         assert state(s)==[0,0,1,1,0,10,1,10,1,0,3]
         do(s,711); do(s,711)
         assert state(s)==[0,0,0,0,0,0,1,10,2,0,3]
+    finally: s.close()
+
+
+def test_overstimulation(Session,bundle,out):
+    """B129 owned episodes and target-specific ordinary counterattack turns. Authored, unrun."""
+    def do(s,c,rating=12): s.action(2250,c,rating)
+    def state(s):
+        do(s,723)
+        return last(s,'test.overstimulation')
+    for rating in (12,9):
+        path=out/f'overstimulation-{rating}.zsave'
+        s=Session(bundle)
+        try:
+            do(s,720,rating); do(s,581); do(s,584)
+            do(s,725); assert last(s,'test.overstimulation-preview')==['ready',None]
+            assert state(s)==[0,0,0,0,1,0,0]
+            do(s,722); assert state(s)==[0,0,0,0,1,0,0]
+            do(s,721); s.command('undo'); assert state(s)==[0,0,0,0,1,0,0]
+            do(s,721); do(s,721); assert state(s)==[1,0,0,0,1,0,3]
+            do(s,739); assert last(s,'test.overstimulation-defense')==[8]
+            do(s,724)
+            assert last(s,'test.overstimulation-permission')==[
+                'overstimulation-planning','overstimulation-do-nothing',None,'overstimulation-reactive-only']
+            do(s,733); assert state(s)==[1,0,0,0,1,0,3]
+            do(s,726); assert state(s)==[1,0,0,1,2,0,6]
+            do(s,736); assert last(s,'test.overstimulation-counter')==[None,None,None]
+            s.command(f':save {path}\n@2251')
+            do(s,729); do(s,727); assert state(s)==[1,0,0,1,2,0,6]
+            s.command(f':restore {path}\n@2251')
+            do(s,730); do(s,727); assert state(s)==[1,0,0,1,2,0,6]
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251')
+            do(s,728); assert state(s)==[1,0,0,1,2,0,6]
+            do(s,727); s.command('undo'); assert state(s)==[1,0,0,1,2,0,6]
+            do(s,727); assert state(s)==[1,0,0,1,1,1,9]
+            do(s,732); assert state(s)==[1,0,0,1,1,1,9]
+            do(s,731); do(s,731); assert state(s)==[0,0,0,1,1,1,9]
+            do(s,724); assert last(s,'test.overstimulation-permission')==[None,None,None,None]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,720); do(s,581); do(s,734); do(s,725)
+        assert last(s,'test.overstimulation-preview')==['blocked','self-control-trigger-score']
+        do(s,721); assert state(s)==[0,0,0,0,1,0,0]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,720); do(s,581); do(s,735); do(s,721)
+        assert state(s)==[0,0,0,0,1,0,3]
+        do(s,724); assert last(s,'test.overstimulation-permission')==[None,None,None,None]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,720); do(s,581); do(s,737); do(s,722)
+        do(s,738); assert last(s,'test.overstimulation-voices')==[0,0]
+        do(s,721); do(s,721); do(s,584)
+        assert state(s)==[1,0,0,0,1,0,6]
+        do(s,738); assert last(s,'test.overstimulation-voices')==[1,1]
     finally: s.close()

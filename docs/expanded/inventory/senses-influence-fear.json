@@ -1151,7 +1151,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
     },
     {
       "id": "fear-outcome-6-7",
@@ -1168,7 +1168,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
     },
     {
       "id": "fear-outcome-8-9",
@@ -1185,7 +1185,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
     },
     {
       "id": "fear-outcome-10",
@@ -1202,7 +1202,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
     },
     {
       "id": "fear-outcome-11",
@@ -1219,7 +1219,7 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Owned initial-event table selection is implemented; other consequence coverage is recorded in the corresponding entries. Validation remains incomplete."
     },
     {
       "id": "fear-outcome-12",
@@ -1543,7 +1543,7 @@
         "tests/expanded.py::test_panic_wait",
         "tests/expanded.py::test_panic_computer"
       ],
-      "validation_note": "Owned severity/reaction loop supports freezing, crying, collapse, room flight, actual fall relocation, uninterrupted tactical Move turns and author-adjudicated solid-object injury/destruction. Real artifact thresholds and usability are retained. Survivor checks below three use recorded author rulings. Interrupted routes, attack resolution and special artifact adapters remain unsupported. Fixtures authored, unrun. Recorded ordinary attack adjudications now commit a physical permission gate, battle turn, loaded ammunition, weapon hooks and an owned wound. Externally supplied dice and injury require explicit evidence; critical and multi-hit attack resolution remains unsupported. New fixtures are authored and unrun. Staged tactical injury interruptions now retain actual movement prefixes and prone footprints, apply reached wounds once and leave later triggers unspent; allowance reduction requires an explicit author stop policy. Full Wait attack integration remains pending. Fixtures unrun. A stationary ordinary-attack Wait declaration now connects recorded attacks to staged routes, expires at the next accepted turn and charges no second turn when triggered. Broader Wait conversions and automatic attacks remain incomplete; fixtures unrun. Destructive reactions now support bound non-sentient computers: disabling stops processes; destruction also erases local software/data while retaining external backups and owned history. Special-artifact and attack integration remains incomplete. Fixtures unrun."
+      "validation_note": "Owned severity/reaction loops support freezing, crying, collapse, room flight, fall relocation, tactical Move paths and recorded ordinary attacks. Staged paths preserve reached hexes, apply reached injury or stationary Wait attacks once and leave later interruptions unspent. Reduced Move requires an explicit stop policy. Object reactions apply actual artifact thresholds; non-sentient computer destruction stops programs and erases local copies/data without altering backups. Below-three survivor checks require recorded author rulings. Automatic critical and multi-hit attacks, broader Wait conversions and special artifacts remain unsupported. Lifecycle fixtures are authored and unrun; checks remain paused."
     },
     {
       "id": "fear-outcome-34",
