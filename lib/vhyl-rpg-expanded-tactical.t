@@ -1022,3 +1022,12 @@ class RpgExpandedClamber: RpgExpandedPathMoveReceipt
         value.status = 'resolved'; return value;
     }
 ;
+
+/** Narrative room relocation must never leave an installed tactical figure behind. */
+modify RpgExpandedProfile
+    panicRelocationReason()
+    {
+        if (self.tacticalFigure != nil) return 'panic-flight-tactical-route-required';
+        return inherited();
+    }
+;

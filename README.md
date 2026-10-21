@@ -44,6 +44,9 @@ The partial [campaign module](docs/expanded/campaign.md) adds authored equipment
 legal-access policies; its new validation cases remain unrun.
 Partial [health](docs/expanded/health.md) and [hazards](docs/expanded/hazards.md)
 modules add owned injury/recovery, treatment, infection and aging procedures.
+The original [Echo Vault example](examples/echo-vault/README.md) demonstrates
+owned fear, explicit author adjudication, recovery and shared player routes.
+Its implementation and fixtures are authored but unrun.
 These share character balances and retain explicit unsupported cases; their
 recent transaction and save-continuation fixtures are authored but unrun while
 checks are paused.

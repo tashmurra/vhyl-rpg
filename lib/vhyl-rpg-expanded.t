@@ -1135,3 +1135,20 @@ modify RpgSkill
 modify RpgExpandedProfile
     phobiaSkillLearningReason(skill) { return nil; }
 ;
+modify RpgExpandedProfile
+    phobiaCurrentTrait(trait) { return trait; }
+;
+class RpgExpandedPhobiaActivityContract: object
+    profile = nil
+    activityFacts() { rpgExpandedReject('phobia-activity-traits-required'); }
+    assess() { rpgExpandedReject('phobia-activity-traits-required'); }
+;
+modify RpgExpandedProfile
+    voiceFearFacts(occurrence) { rpgExpandedReject('voice-fear-traits-required'); }
+    voiceFearReason(occurrence) { return 'voice-fear-traits-required'; }
+;
+
+/** Tactical placement supplies a stricter route adapter when installed. */
+modify RpgExpandedProfile
+    panicRelocationReason() { return nil; }
+;

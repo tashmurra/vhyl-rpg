@@ -1478,7 +1478,7 @@ the supplied entry.
 `test_voice_mask` specify hearing, speech, writing, alternate channels, absence of
 extra dice/time, preview, replay, overlapping episodes, mitigation, rollback, undo
 and cross-process save continuation. These assertions remain unrun. Startling
-voices still require the pending full fear integration.
+voices use the owned fear-cue interface below.
 
 
 ### Private origins and funded exorcism buyoff
@@ -2052,12 +2052,11 @@ Use the engine transaction boundary for starting, checking and ending exposure.
 ordinary fear cap, DX penalties, failure-to-consequence execution, stress
 follow-ups, replay, rollback, undo and saved continuation. Fixtures remain unrun.
 
-This does not yet complete every catalogue entry: learning prohibitions and
-voluntary activity restrictions still need their author/action adapters.
-Simultaneous exposures are rejected rather than inventing a stacking rule.
-If independent incapacity prevents a scheduled check, that interaction remains
-unsupported; do not silently skip the check. Scores below the existing supported
-minimum and unsupported consequence rows retain their explicit limitations.
+The learning, voluntary activity, overlap and unconscious-perception adapters
+below supply explicit interfaces for these interactions. They require authored
+world facts; they do not infer every catalogue trigger from room descriptions.
+Prohibited initial rolls below score 3 require the recorded author ruling
+documented in the health guide. Unsupported consequence choices remain explicit.
 
 
 ### Fear-induced phobia acquisition
@@ -2067,7 +2066,7 @@ rows 23 and 35. Supply a new unowned `RpgExpandedPhobia`, completed-creation
 `profile`, unique `id`, source `eventId`, `tableTotal`, approval and evidence
 connecting this new fear to that event. The fully adjusted purchase must cost
 exactly -10 or -15 respectively. An already-owned phobia of the same scope is
-rejected; worsening an existing purchase is a separate, still-pending procedure.
+rejected; worsening an existing purchase uses the separate owned procedure below.
 
 `assess()` is pure; `apply()` installs the purchase once, records ownership and
 increments the existing development revision. Earned and unspent points remain
@@ -2167,3 +2166,58 @@ bypassed. `RpgLiteTrait.validateDirectControl()` is a no-op for existing traits;
 its expanded overrides supply these guards without changing ordinary Lite dice
 consumption. The phobia fixture includes a direct-call rejection assertion,
 unrun with the rest of the paused suite.
+
+
+## Concurrent phobia exposures
+
+Declare `phobiaOverlapPolicy` and `phobiaOverlapEvidence` on the profile before
+starting its first exposure if concurrent phobias are possible. `sum` combines
+shaken penalties; `worst` applies the greatest penalty. These are explicit
+campaign rulings: the supplied B149 passage does not specify aggregation of
+several simultaneous phobias. With no declared ruling, a second active exposure
+is rejected. The policy is bound into each exposure's history.
+
+Distinct purchases may respond to the same scene, but the same current purchase
+and cause cannot create duplicate active exposure records. Each exposure retains
+its own check schedule, outcomes and perception pauses. Resolve each due check
+and its consequence before advancing time. Ending one exposure does not cancel
+another. `test_phobia_overlap` specifies both rulings, missing-policy rejection,
+independent penalties, rollback, undo and save continuation; fixtures are unrun.
+
+## Voluntary activity permissions
+
+Attach `RpgExpandedPhobiaActivity` to the `phobiaActivity` property of an
+`RpgExpandedEffort` or `RpgExpandedActionGate`. The activity must name the same
+profile, approval and evidence describing the world facts. This supplements
+ordinary health permission; it does not spend a second action or time cost.
+
+For `kind = 'height'`, supply `heightFeet`, `insideBuilding` and
+`awayFromWindows`. An active heights phobia blocks voluntary movement above
+15 feet unless both building and window conditions hold (full-2008 B149).
+For `kind = 'power-consent'`, an active psi phobia blocks voluntary consent to
+receiving that power (B150). Forced exposure uses the exposure/check interface
+instead; passing an action permission cannot replace that check.
+
+The gate binds the actual activity facts into its receipt. Replaying a granted
+permission does not spend again or reassess it against a different place.
+Actions involving these situations must attach this contract; geometry and
+consent are authored facts. `test_phobia_activity` specifies the height boundary,
+exception, consent restriction, rollback, undo and saved replay; it is unrun.
+
+
+## Frightening cues from disturbing voices
+
+`RpgExpandedVoiceFearContext` connects an active, owned severity-two
+`RpgExpandedPhantomVoiceOccurrence` to a specific authored frightening cue.
+Supply `profile`, `voiceOccurrence`, a stable `cue` identity, approval and
+evidence. Create an ordinary owned fear event using that context. An ended,
+non-occurring or differently severe voice episode cannot start this cue.
+Once recorded, the fear event remains replayable after the voices end.
+
+The context supplies evidence for ordinary fear selection; it does not make
+every voice episode frightening. A failed or exactly successful resulting fear
+check still creates the separate mandatory voice follow-up. No new fear event
+is recursively invented from that follow-up: another frightening cue requires
+another explicit author decision. The `expanded-voice-fear.t` fixture and
+`test_voice_fear` cover the retained link, expiry, follow-up, rollback, undo and
+cross-process continuation; assertions remain unrun.

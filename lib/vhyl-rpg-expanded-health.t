@@ -2640,7 +2640,7 @@ class RpgExpandedFearStun: object
                 || !holds(self.boundProfile.fearStunEpisodes,self)) rpgExpandedReject('fear-stun-binding');
             value.status = 'reused'; return value;
         }
-        local assessment = self.context.assess();
+        local assessment = self.context.consequenceAssessment();
         if (assessment.status != 'ready') { value.reason = assessment.reason; return value; }
         if (assessment.immune) { value.reason = 'fear-stun-immune'; return value; }
         local profile = self.context.profile;
@@ -2868,7 +2868,7 @@ class RpgExpandedRetching: object
                 rpgExpandedReject('retching-binding');
             value.status = 'reused'; return value;
         }
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'retching-fear-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
@@ -3362,7 +3362,7 @@ class RpgExpandedFearFaint: object
             if (!holds(self.context.profile.fearFaints,self)) rpgExpandedReject('fear-faint-history');
             value.status = 'reused'; return value;
         }
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'fear-faint-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '')
@@ -4203,6 +4203,7 @@ class RpgExpandedFearRetching: RpgExpandedRetching
     contextAccepted() { return self.context != nil && self.context.ofKind(RpgExpandedFearContext); }
 ;
 class RpgExpandedRetchingContext: object
+    consequenceAssessment() { return self.assess(); }
     profile = nil
     approved = nil
     evidence = nil
@@ -7903,7 +7904,7 @@ class RpgExpandedFearAcuteInjury: object
             value.amount = self.boundWound.amount; value.dice = self.result.dice; return value;
         }
         if (self.recordedAt != nil || self.boundDefinition != nil || self.boundWound != nil || self.boundDice != nil) rpgExpandedReject('fear-acute-uncommitted-state');
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'fear-acute-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-acute-evidence'; return value; }
@@ -7992,7 +7993,7 @@ class RpgExpandedFearPanic: object
         }
         if (self.initialMinutes != nil || self.nextCheckAt != nil || self.completedAt != nil || self.boundDefinition != nil
             || self.recoveries.length() != 0) rpgExpandedReject('fear-panic-uncommitted-state');
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'fear-panic-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '' || self.behavior == nil || self.behavior == '')
@@ -8235,7 +8236,7 @@ class RpgExpandedFearSeizure: object
             value.healthBefore = saved.healthBefore; value.healthAfter = saved.healthAfter; value.healthLost = saved.healthLost; return value;
         }
         if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil) rpgExpandedReject('fear-seizure-uncommitted-state');
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'fear-seizure-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-seizure-evidence'; return value; }
@@ -8342,7 +8343,7 @@ class RpgExpandedFearComa: object
         if (!holds([28,29],self.tableTotal)) rpgExpandedReject('fear-coma-row');
         if (self.nextCheckAt != nil || self.recoveredAt != nil || self.initialSeconds != nil || self.boundDefinition != nil
             || self.recoveries.length() != 0) rpgExpandedReject('fear-coma-uncommitted-state');
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'fear-coma-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-coma-evidence'; return value; }
@@ -8532,7 +8533,7 @@ class RpgExpandedCatatonia: object
         }
         if (self.nextCheckAt != nil || self.initialSeconds != nil || self.recoveredAt != nil || self.boundDefinition != nil
             || self.days.length() != 0 || self.recoveries.length() != 0) rpgExpandedReject('catatonia-uncommitted-state');
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune) { value.reason = 'catatonia-immune'; return value; }
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'catatonia-author-facts'; return value; }
@@ -9574,6 +9575,22 @@ class RpgExpandedFearEventResult: RpgExpandedResult
     tableTotal = nil
     row = nil
 ;
+/** Authored ruling for a prohibited initial roll (B345), not a derived failure margin. */
+class RpgExpandedLowScoreFearDecision: object
+    entry = nil
+    row = nil
+    approved = nil
+    evidence = nil
+    voiceStress = nil
+    facts(owner)
+    {
+        if (self.entry != owner) rpgExpandedReject('fear-low-score-decision-owner');
+        rpgInteger(self.row,4,40);
+        if (self.voiceStress != nil && !holds(['check','none'],self.voiceStress))
+            rpgExpandedReject('fear-low-score-voice-choice');
+        return [self,self.entry,self.row,self.approved,self.evidence,self.voiceStress];
+    }
+;
 /** B360-B361: persist the initial check and selection before authoring a consequence. */
 class RpgExpandedFearEvent: object
     id = nil
@@ -9585,13 +9602,35 @@ class RpgExpandedFearEvent: object
     boundOutcome = nil
     consequence = nil
     boundConsequence = nil
+    lowScoreDecision = nil
     initialAssessment() { return self.context.assess(); }
+    eventAssessment()
+    {
+        local value = self.initialAssessment();
+        if (value.score != nil && value.score < 3 && holds(['fear-score-unavailable',
+            'phobia-control-unavailable','postbattle-self-control-unavailable'],value.reason))
+        {
+            if (self.lowScoreDecision == nil || !self.lowScoreDecision.approved
+                || self.lowScoreDecision.evidence == nil || self.lowScoreDecision.evidence == '')
+            { value.reason = 'fear-low-score-author-decision-required'; return value; }
+            value.status = 'ready'; value.reason = nil; return value;
+        }
+        if (value.status == 'ready' && self.lowScoreDecision != nil)
+        { value.status = 'blocked'; value.reason = 'fear-low-score-decision-inapplicable'; }
+        return value;
+    }
     stressFollowupRequired(check) { return !check.achieved || check.margin == 0; }
     definition()
     {
         if (self.id == nil || self.id == '' || self.occurrence == nil || self.context == nil
             || !self.context.ofKind(RpgExpandedFearContext)) rpgExpandedReject('fear-event-definition');
-        return [self.id,self.occurrence,self.context] + self.context.eventFacts();
+        local decision = [nil];
+        if (self.lowScoreDecision != nil)
+        {
+            if (!self.lowScoreDecision.ofKind(RpgExpandedLowScoreFearDecision)) rpgExpandedReject('fear-low-score-decision-type');
+            decision = self.lowScoreDecision.facts(self);
+        }
+        return [self.id,self.occurrence,self.context] + self.context.eventFacts() + decision;
     }
     outcomeFacts()
     {
@@ -9628,12 +9667,18 @@ class RpgExpandedFearEvent: object
             { value.reason = 'fear-event-unresolved-consequence'; return value; }
         }
         if (profile.dead || profile.unconscious) { value.reason = 'fear-event-observer-unavailable'; return value; }
-        local prepared = self.initialAssessment();
+        local prepared = self.eventAssessment();
         if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
         /* Preflight the specific stress follow-up before consuming the initial roll. */
         if (!prepared.immune)
         {
             value.stressFollowup = profile.newFearStressFollowup(self);
+            if (value.stressFollowup != nil && prepared.score < 3)
+            {
+                if (self.lowScoreDecision.voiceStress == nil)
+                { value.reason = 'fear-low-score-voice-decision-required'; return value; }
+                if (self.lowScoreDecision.voiceStress == 'none') value.stressFollowup = nil;
+            }
             if (value.stressFollowup != nil)
             {
                 local stress = value.stressFollowup.assess();
@@ -9648,7 +9693,11 @@ class RpgExpandedFearEvent: object
         local value = self.assess(); if (value.status == 'reused') return self.result;
         if (value.status != 'ready') return value;
         local facts = self.definition();
-        if (!value.immune)
+        if (!value.immune && value.score < 3)
+        {
+            value.row = self.lowScoreDecision.row; value.reason = 'author-selected-low-score';
+        }
+        else if (!value.immune)
         {
             value.check = rpgCheck(value.score,rpgRandom.roll());
             if (!value.check.achieved)
@@ -9659,7 +9708,8 @@ class RpgExpandedFearEvent: object
         }
         if (value.stressFollowup != nil)
         {
-            if (value.check != nil && self.stressFollowupRequired(value.check))
+            if (value.check != nil && self.stressFollowupRequired(value.check)
+                || value.check == nil && value.reason == 'author-selected-low-score' && self.lowScoreDecision.voiceStress == 'check')
             {
                 local stress = value.stressFollowup.resolve();
                 if (stress.status != 'resolved') rpgExpandedReject('fear-event-stress-changed');
@@ -9700,7 +9750,7 @@ class RpgExpandedFearEvent: object
             value.status = 'reused'; return value;
         }
         if (self.recordedAt != rpgLedger.seconds) { value.reason = 'fear-event-consequence-delayed'; return value; }
-        local prepared = self.initialAssessment();
+        local prepared = self.eventAssessment();
         if (prepared.status != 'ready' || prepared.immune || prepared.score != self.result.score || prepared.modifier != self.result.modifier)
         { value.reason = 'fear-event-context-changed'; return value; }
         value = request.assess();
@@ -9908,14 +9958,13 @@ class RpgExpandedPostbattleFearEvent: RpgExpandedFearEvent
         local value = new RpgExpandedFearAssessment();
         if (!self.battleEnded || !self.context.approved || self.context.evidence == nil || self.context.evidence == '')
         { value.reason = 'postbattle-ending-evidence'; return value; }
-        value.score = self.context.profile.postbattleFearScore(self.trait,self.dangerPenalty);
-        if (value.score == nil || value.score < 3 || value.score > 1000)
-        { value.reason = 'postbattle-self-control-unavailable'; return value; }
         if (!self.context.ofKind(RpgExpandedPostbattleFearContext) || self.context.trait != self.trait
             || self.context.dangerPenalty != self.dangerPenalty) rpgExpandedReject('postbattle-recovery-context');
-        local recovery = self.context.assess();
-        if (recovery.status != 'ready') { value.reason = recovery.reason; return value; }
-        value.modifier = recovery.modifier; value.status = 'ready'; return value;
+        value.score = self.context.profile.postbattleFearScore(self.trait,self.dangerPenalty);
+        if (value.score != nil) value.modifier = value.score-self.trait.selfControlNumber();
+        if (value.score == nil || value.score < 3 || value.score > 1000)
+        { value.reason = 'postbattle-self-control-unavailable'; return value; }
+        value.status = 'ready'; return value;
     }
     stressFollowupRequired(check) { return !check.achieved; }
 ;
@@ -9989,7 +10038,8 @@ class RpgExpandedPhobiaExposure: object
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.cause == nil)
             rpgExpandedReject('phobia-exposure-definition');
-        return [self.id,self.profile,self.trait,self.cause,self.approved,self.evidence] + self.profile.phobiaFacts(self.trait);
+        return [self.id,self.profile,self.trait,self.cause,self.approved,self.evidence,
+            self.profile.phobiaOverlapPolicy,self.profile.phobiaOverlapEvidence] + self.profile.phobiaFacts(self.trait);
     }
     nextCheckAt() { return self.checks.length() == 0 ? self.startedAt : self.checks[self.checks.length()].recordedAt+600; }
     assess()
@@ -10026,12 +10076,16 @@ class RpgExpandedPhobiaExposure: object
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'phobia-stimulus-evidence'; return value; }
         if (self.awarenessPauses.length() != 0 || self.checks.length() != 0 || self.endedAt != nil || self.boundDefinition != nil || self.boundStartedAt != nil || self.boundEnding != nil || self.endingEvidence != nil)
             rpgExpandedReject('phobia-uncommitted');
+        self.profile.phobiaOverlapConfigured();
         if (self.profile.phobiaScore(self.trait,0) == nil) { value.reason = 'phobia-trait-unavailable'; return value; }
         foreach (local prior in self.profile.phobiaExposures)
         {
             prior.assess();
-            if (prior.id == self.id || prior.cause == self.cause) rpgExpandedReject('phobia-duplicate-exposure');
-            if (prior.endedAt == nil) { value.reason = 'phobia-overlap-unsupported'; return value; }
+            if (prior.id == self.id || prior.endedAt == nil && prior.cause == self.cause
+                && self.profile.phobiaCurrentTrait(prior.trait) == self.profile.phobiaCurrentTrait(self.trait))
+                rpgExpandedReject('phobia-duplicate-exposure');
+            if (prior.endedAt == nil && !self.profile.phobiaOverlapConfigured())
+            { value.reason = 'phobia-overlap-policy-required'; return value; }
         }
         value.status = 'ready'; return value;
     }
@@ -10051,7 +10105,9 @@ class RpgExpandedPhobiaExposure: object
     penalty()
     {
         self.assess();
-        if (self.endedAt != nil || self.awarenessPaused() || self.checks.length() == 0 || !self.checks[self.checks.length()].result.check.achieved) return 0;
+        if (self.endedAt != nil || self.awarenessPaused() || self.checks.length() == 0) return 0;
+        local check = self.checks[self.checks.length()].result.check;
+        if (check == nil || !check.achieved) return 0;
         return -(18-self.profile.phobiaControlNumber(self.trait))/3;
     }
 ;
@@ -10080,8 +10136,9 @@ class RpgExpandedPhobiaContext: RpgExpandedFearContext
         self.eventFacts(); local value = new RpgExpandedFearAssessment();
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'phobia-context-evidence'; return value; }
         value.score = self.profile.phobiaScore(self.exposure.trait,self.stimulusModifier());
+        if (value.score != nil) value.modifier = value.score-self.profile.phobiaControlNumber(self.exposure.trait);
         if (value.score == nil || value.score < 3 || value.score > 1000) { value.reason = 'phobia-control-unavailable'; return value; }
-        value.modifier = value.score-self.profile.phobiaControlNumber(self.exposure.trait); value.status = 'ready'; return value;
+        value.status = 'ready'; return value;
     }
     assess()
     {
@@ -10121,12 +10178,26 @@ class RpgExpandedPhobiaCheck: RpgExpandedFearEvent
 ;
 modify RpgExpandedProfile
     phobiaExposures = []
+    phobiaOverlapPolicy = nil
+    phobiaOverlapEvidence = nil
+    phobiaOverlapConfigured()
+    {
+        if (self.phobiaOverlapPolicy == nil && self.phobiaOverlapEvidence == nil) return nil;
+        if (!holds(['sum','worst'],self.phobiaOverlapPolicy) || self.phobiaOverlapEvidence == nil || self.phobiaOverlapEvidence == '')
+            rpgExpandedReject('phobia-overlap-policy');
+        return true;
+    }
     healthAttributeModifier(context)
     {
-        local value = inherited(context);
+        local value = inherited(context); self.phobiaOverlapConfigured(); local penalty = 0;
         if (context.skill != nil || holds([rpgDX,rpgIQ],context.controllingAttribute()))
-            foreach (local exposure in self.phobiaExposures) value += exposure.penalty();
-        return value;
+            foreach (local exposure in self.phobiaExposures)
+            {
+                local current = exposure.penalty();
+                if (self.phobiaOverlapPolicy == 'worst') { if (current < penalty) penalty = current; }
+                else penalty += current;
+            }
+        return value+penalty;
     }
 ;
 modify rpgLedger
@@ -10221,7 +10292,7 @@ class RpgExpandedExtremePanic: RpgExpandedFearTraitConsequence
             || self.completedAt != nil || self.reactions.length() != 0 || self.settlingReaction != nil)
             rpgExpandedReject('extreme-panic-uncommitted');
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'extreme-panic-evidence'; return value; }
-        local scene = self.context.assess();
+        local scene = self.context.consequenceAssessment();
         if (scene.status != 'ready') { value.reason = scene.reason; return value; }
         if (scene.immune || profile.dead || profile.unconscious || profile.extremePanic != nil || profile.activeFearPanic())
         { value.reason = 'extreme-panic-unavailable'; return value; }
@@ -10249,6 +10320,11 @@ class RpgExpandedExtremePanicReaction: object
     approved = nil
     seconds = 1
     wound = nil
+    actor = nil
+    origin = nil
+    destination = nil
+    distanceYards = 0
+    routeEvidence = nil
     dropDestination = nil
     result = nil
     startedAt = nil
@@ -10257,7 +10333,8 @@ class RpgExpandedExtremePanicReaction: object
     boundDefinition = nil
     boundOutcome = nil
     definition()
-    { return [self.id,self.episode,self.severity,self.kind,self.description,self.approved,self.seconds,self.wound,self.dropDestination]; }
+    { return [self.id,self.episode,self.severity,self.kind,self.description,self.approved,self.seconds,self.wound,self.dropDestination,
+        self.actor,self.origin,self.destination,self.distanceYards,self.routeEvidence]; }
     outcomeFacts()
     {
         local check = self.result.check;
@@ -10296,9 +10373,28 @@ class RpgExpandedExtremePanicReaction: object
         rpgInteger(self.severity,3,18); rpgInteger(self.seconds,1,86400); rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds);
         if (self.severity != self.episode.pendingSeverity) rpgExpandedReject('panic-reaction-severity');
         if (!self.approved || self.description == nil || self.description == '') { value.reason = 'panic-reaction-author-choice'; return value; }
-        if (!holds(['freeze','cry','collapse'],self.kind)) rpgExpandedReject('panic-reaction-kind-unsupported');
+        if (!holds(['freeze','cry','collapse','flight'],self.kind)) rpgExpandedReject('panic-reaction-kind-unsupported');
         local profile = self.episode.context.profile;
         if (profile.dead) { value.reason = 'panic-reaction-dead'; return value; }
+        if (self.kind == 'flight')
+        {
+            if (self.actor == nil || !self.actor.ofKind(Actor) || self.actor.rpgProfile != profile
+                || self.origin == nil || !self.origin.ofKind(Room) || self.destination == nil || !self.destination.ofKind(Room)
+                || self.origin == self.destination) rpgExpandedReject('panic-flight-world-facts');
+            rpgInteger(self.distanceYards,1,1000000);
+            if (self.routeEvidence == nil || self.routeEvidence == '') { value.reason = 'panic-flight-route-evidence'; return value; }
+            if (location.get(self.actor) != self.origin) { value.reason = 'panic-flight-origin-changed'; return value; }
+            if (profile.unconscious || !holds(['standing','crouching'],profile.posture) || profile.fatigue >= profile.maxEnergy)
+            { value.reason = 'panic-flight-mobility-unavailable'; return value; }
+            value.reason = profile.panicRelocationReason(); if (value.reason != nil) return value;
+            for (local battle = firstObj(RpgLiteBattle); battle != nil; battle = nextObj(battle,RpgLiteBattle))
+                if (battle.active)
+                    foreach (local fighter in battle.fighters)
+                        if (fighter.profile == profile) { value.reason = 'panic-flight-combat-route-required'; return value; }
+            if (self.distanceYards > profile.move()*self.seconds) { value.reason = 'panic-flight-distance'; return value; }
+        }
+        else if (self.actor != nil || self.origin != nil || self.destination != nil || self.distanceYards != 0 || self.routeEvidence != nil)
+            rpgExpandedReject('panic-reaction-unused-route');
         foreach (local prior in self.episode.reactions)
             if (prior.id == self.id) rpgExpandedReject('panic-reaction-duplicate');
         if (profile.attributeScore(rpgWill) < 3) { value.reason = 'panic-reaction-will-unavailable'; return value; }
@@ -10324,6 +10420,13 @@ class RpgExpandedExtremePanicReaction: object
         local profile = self.episode.context.profile; local facts = self.definition(); local start = rpgLedger.seconds;
         self.episode.settlingReaction = self; rpgSpendTime(self.seconds); self.episode.settlingReaction = nil;
         if (profile.dead) rpgExpandedReject('panic-reaction-time-changed');
+        if (self.kind == 'flight')
+        {
+            if (location.get(self.actor) != self.origin || profile.unconscious || profile.fatigue >= profile.maxEnergy
+                || !holds(['standing','crouching'],profile.posture) || self.distanceYards > profile.move()*self.seconds
+                || profile.panicRelocationReason() != nil) rpgExpandedReject('panic-flight-state-changed');
+            relocateActor(self.actor,self.destination);
+        }
         if (value.dropPlan != nil) value.dropPlan.commit();
         if (self.wound != nil && self.wound.apply().status != 'resolved') rpgExpandedReject('panic-reaction-injury-changed');
         if (self.kind == 'collapse') profile.posture = 'lying';
@@ -10500,6 +10603,8 @@ class RpgExpandedFearAdjudication: object
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-adjudication-author-reason'; return value; }
         if (self.entry.assess().status != 'reused' || self.entry.result.row == nil || self.entry.consequence != nil
             || self.entry.recordedAt != rpgLedger.seconds) { value.reason = 'fear-adjudication-pending-event'; return value; }
+        if (self.mode == 'reroll' && self.entry.result.check == nil)
+        { value.reason = 'fear-adjudication-no-rolled-margin'; return value; }
         foreach (local prior in self.entry.adjudications)
             if (prior.id == self.id) rpgExpandedReject('fear-adjudication-duplicate');
         value.status = 'ready'; return value;
@@ -10540,5 +10645,107 @@ modify RpgExpandedFearEvent
     {
         if (self.result == nil && (self.adjudications.length() != 0 || self.adjudicationCount != 0)) rpgExpandedReject('fear-adjudication-without-event');
         local value = inherited(); if (self.result != nil) self.selectedRow(); return value;
+    }
+;
+
+/** One owner-authorized operation shared by parser, structured and dialogue routes. */
+class RpgExpandedFearAction: Action
+    entry = nil
+    consequence = nil
+    operation = 'resolve'
+    perform(actor)
+    {
+        if (self.entry == nil || !self.entry.ofKind(RpgExpandedFearEvent) || self.entry.context == nil
+            || !holds(['preview','resolve','preview-consequence','consequence'],self.operation))
+            rpgExpandedReject('fear-action-definition');
+        local value = new RpgExpandedResult();
+        if (actor == nil || !actor.ofKind(Thing) || actor.rpgProfile == nil || actor.rpgProfile != self.entry.context.profile)
+            value.reason = 'fear-action-owner-required';
+        else if (self.operation == 'preview') value = self.entry.assess();
+        else if (self.operation == 'resolve') value = self.entry.resolve();
+        else if (self.operation == 'preview-consequence') value = self.entry.assessConsequence(self.consequence);
+        else value = self.entry.applyConsequence(self.consequence);
+        event('rpg.expanded.fear'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
+        return value;
+    }
+    exec(context) { return self.perform(context.actor); }
+;
+
+/** The action retains the world facts used by its voluntary phobia permission. */
+modify RpgExpandedEffort
+    phobiaActivity = nil
+    boundPhobiaActivityFacts = nil
+    phobiaActivityFacts()
+    {
+        if (self.phobiaActivity == nil) return [nil];
+        if (!self.phobiaActivity.ofKind(RpgExpandedPhobiaActivityContract) || self.phobiaActivity.profile != self.profile
+            || !holds(['action','talk'],self.purpose)) rpgExpandedReject('effort-phobia-activity-owner');
+        return [self.phobiaActivity] + self.phobiaActivity.activityFacts();
+    }
+    assess()
+    {
+        local facts = self.phobiaActivityFacts();
+        if (self.result != nil)
+        {
+            if (self.boundPhobiaActivityFacts == nil || facts.length() != self.boundPhobiaActivityFacts.length())
+                rpgExpandedReject('effort-phobia-activity-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundPhobiaActivityFacts[i]) rpgExpandedReject('effort-phobia-activity-binding');
+        }
+        else
+        {
+            if (self.boundPhobiaActivityFacts != nil) rpgExpandedReject('effort-phobia-activity-uncommitted');
+            if (self.phobiaActivity != nil)
+            {
+                local permission = self.phobiaActivity.assess();
+                if (permission.status != 'ready') { local value = new RpgExpandedEffortResult(); value.reason = permission.reason; return value; }
+            }
+        }
+        return inherited();
+    }
+    apply()
+    {
+        local replay = self.result != nil; local facts = self.phobiaActivityFacts(); local value = inherited();
+        if (!replay && value.status == 'resolved') self.boundPhobiaActivityFacts = facts;
+        return value;
+    }
+;
+
+/** B148: an explicitly frightening cue from an owned disturbing-voice episode. */
+class RpgExpandedVoiceFearContext: RpgExpandedFearContext
+    voiceOccurrence = nil
+    cue = nil
+    eventFacts()
+    {
+        if (self.cue == nil) rpgExpandedReject('voice-fear-cue');
+        return inherited() + [self.cue] + self.profile.voiceFearFacts(self.voiceOccurrence);
+    }
+    assess()
+    {
+        self.eventFacts(); local reason = self.profile.voiceFearReason(self.voiceOccurrence);
+        if (reason != nil) { local value = new RpgExpandedFearAssessment(); value.reason = reason; return value; }
+        return inherited();
+    }
+;
+
+/** A retained low-score decision authorizes its consequence, never an initial roll. */
+modify RpgExpandedFearContext
+    consequenceAssessment()
+    {
+        local value = self.assess();
+        if (value.status == 'ready') return value;
+        if (value.score == nil || value.score >= 3 || !holds(['fear-score-unavailable',
+            'phobia-control-unavailable','postbattle-self-control-unavailable'],value.reason)) return value;
+        foreach (local entry in self.profile.fearEvents)
+        {
+            if (entry.context == self && entry.result != nil && entry.result.reason == 'author-selected-low-score'
+                && entry.consequence == nil && entry.recordedAt == rpgLedger.seconds)
+            {
+                entry.assess(); local initial = entry.eventAssessment();
+                if (initial.status == 'ready' && initial.score == entry.result.score && initial.modifier == entry.result.modifier)
+                { value.status = 'ready'; value.reason = nil; return value; }
+            }
+        }
+        return value;
     }
 ;

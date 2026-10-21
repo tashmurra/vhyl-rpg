@@ -73,7 +73,7 @@ reconciliation remain open; reading a chapter is not proof of complete coverage.
 | `full-2008` | B324–B328 | [Condensed combat appendix](condensed-combat.json) | Procedures inventoried; critical-hit variant and detailed-rule precedence recorded; execution pending |
 | `full-2008` | B343–B349 | [Task resolution](task-resolution.json) | Roll procedures, equipment modifiers, timing, projects and contests enumerated |
 | `full-2008` | B349–B357 | [Physical activities](physical-activities.json) | Activity procedures, gravity, numeric tables and effort options enumerated |
-| `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated by row; full fear dispatch remains pending |
+| `full-2008` | B358–B361 | [Senses, influence and fear](senses-influence-fear.json) | Hearing and fear tables enumerated; owned fear dispatch, recovery and typed consequences implemented in part; validation paused |
 | `full-2008` | B362–B368 | [Combat turns and maneuvers](combat-turns.json) | Timing, defenses, interruption, maneuver variants and basic movement enumerated; detailed combat integration pending |
 | `full-2008` | B369–B377 | [Attacks, restraints and defenses](attacks-defenses.json) | Grapples, collisions, projectile attacks, rapid-fire bands and defense reactions enumerated; detailed exceptions and integration pending |
 | `full-2008` | B378–B383 | [Damage and readiness](damage-readiness.json) | Damage ordering, critical exceptions and timed actions enumerated; low-health formula conflict and integration pending |

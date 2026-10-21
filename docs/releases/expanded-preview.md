@@ -1926,3 +1926,25 @@ Machinery and magic phobias now constrain the shared skill-learning gate through
 explicit subject classifications. Aging, other physical/mental selections,
 additional panic reactions and voluntary-activity permissions remain incomplete.
 All new fixtures remain unrun while checks are paused.
+
+
+Fear events now have an owner-authorized shared action adapter for parser,
+structured and dialogue routes. Echo Vault is an original playable integration
+with explicit confusion adjudication and recovery. Concurrent phobia exposures
+retain independent histories under an explicitly authored penalty-aggregation
+ruling. Height and voluntary power-consent prohibitions participate in action
+permission through bound world facts. Fixtures and example remain unrun while
+implementation continues and build checks are paused.
+
+
+Prohibited initial fear and self-control rolls now require a recorded author
+selection, without fabricated dice or failure margins. Active phantom voices
+require an explicit author choice for the stress follow-up in this case.
+Disturbing voices can also supply a specific owned frightening cue to ordinary
+fear resolution. New lifecycle fixtures are authored but unrun; checks remain
+paused and the complete fear suite is not yet verified.
+
+Extreme-panic flight now moves the owning actor along an authored unobstructed
+room route, with Move/distance limits and one shared time charge. Tactical and
+combat routes reject explicitly. Movement, replay and persistence fixtures are
+authored but unrun. Falling and attack reactions remain incomplete.

@@ -2,7 +2,7 @@
   "schema": 1,
   "source": "full-2008",
   "pages": "B358-B361",
-  "review": "Sense, influence, will and full fear-table text reviewed. Hearing and fear rows are individually enumerated. Lite fear implementation was inspected and uses a different procedure; expanded fear requires explicit dispatch with unchanged Lite defaults. Independent numeric and temporal validation remains pending.",
+  "review": "Supplied B358-B361 text reviewed. Individual fear rows have owned dispatch and typed consequences with explicit remaining limitations below. Initial scores below three use a recorded author ruling, not an invented source procedure. Source fixtures, parity, replay and persistence assertions are authored but unrun while checks are paused.",
   "enumeration_complete": false,
   "entries": [
     {
@@ -579,9 +579,12 @@
       "status": "partial",
       "acceptance": "An authored fear event identifies why it is extraordinary for this actor, with background and setting considered; ordinary threatening events need not trigger fear checks.",
       "tests": [
-        "tests/expanded.py::test_fear_event"
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": " Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-immunity",
@@ -593,9 +596,12 @@
       "acceptance": "An unflappable actor does not make fear checks; do not consume random dice before deciding immunity.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_event"
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-cap",
@@ -607,9 +613,12 @@
       "acceptance": "After modifiers cap fear-check will at thirteen, so fourteen or higher fails; do not apply this cap to ordinary will or later recovery checks.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_event"
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-table-roll",
@@ -621,9 +630,12 @@
       "acceptance": "On failure roll three further dice, add failure magnitude and select the full outcome table; do not substitute Lite stun/faint duration formulas.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_event"
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Pure capped-check and full-table consequence specifications authored; fixtures unrun. Owned consequence execution, table rolling and recovery remain pending. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-trait-award",
@@ -637,7 +649,7 @@
         "tests/expanded.py::test_fear_quirks",
         "tests/expanded.py::test_fear_event"
       ],
-      "validation_note": "Owned behavioral mental-quirk acquisition and explicit scene portrayal records authored. Character value decreases without granting spendable points; a receipt supplies the creation-limit exception. Other fear traits, compound outcomes and advancement sanctions remain incomplete. Fixtures unrun. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned quirks, fixed beliefs, phobias, supported physical bundles and related-phobia worsening update character accounting without awarding spendable points. Compound faint/coma outcomes use matching typed acquisitions. Other trait selections remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "fear-inappropriate-result",
@@ -650,7 +662,7 @@
       "tests": [
         "tests/expanded.py::test_fear_adjudication"
       ],
-      "validation_note": "Explicit owned author replacement or table reroll for inappropriate, awe or confusion reactions. Original check/table result retained; dispatcher uses selectedRow and adjudication is forbidden after consequence commitment. Fixtures authored, unrun."
+      "validation_note": "Owned author replacement or reroll retains the original result and dispatches the selected row. Reroll requires an original rolled margin; author-selected low-score outcomes permit replacement only. Fixtures authored, unrun."
     },
     {
       "id": "fear-owned-recovery",
@@ -666,9 +678,12 @@
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat",
         "tests/expanded.py::test_fear_event",
-        "tests/expanded.py::test_fear_stress"
+        "tests/expanded.py::test_fear_stress",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused. Full fear events now retain mandatory voice follow-ups on failure or exact success, independently of selected consequences. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-fear-traits",
@@ -679,9 +694,12 @@
       "status": "partial",
       "acceptance": "Apply the fearlessness bonus or fearfulness penalty.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-reflexes",
@@ -692,9 +710,12 @@
       "status": "partial",
       "acceptance": "Combat reflexes grants +2.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-paralysis",
@@ -705,9 +726,12 @@
       "status": "partial",
       "acceptance": "Combat paralysis imposes -2.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-cowardice",
@@ -718,9 +742,12 @@
       "status": "partial",
       "acceptance": "Cowardice imposes -1 through -4 when physical safety is threatened.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-daring",
@@ -731,9 +758,12 @@
       "status": "partial",
       "acceptance": "Daring grants +1 while charging into a frightening situation.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-purpose",
@@ -744,9 +774,12 @@
       "status": "partial",
       "acceptance": "A higher purpose grants +1 when opposing its sworn threats.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-alien-interest",
@@ -757,9 +790,12 @@
       "status": "partial",
       "acceptance": "Interest in alien beings grants +1 through +4 against monsters as its trait permits.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-prepared-body",
@@ -770,9 +806,12 @@
       "status": "partial",
       "acceptance": "A peaceful body prepared for burial grants +6.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-nonviolent-body",
@@ -783,9 +822,12 @@
       "status": "partial",
       "acceptance": "A body without signs of violence grants +2.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-violent-body",
@@ -796,9 +838,12 @@
       "status": "partial",
       "acceptance": "An ordinary violence victim gives no body-condition modifier.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-mutilation",
@@ -809,9 +854,12 @@
       "status": "partial",
       "acceptance": "Grisly mutilation imposes -1 through -3.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-dependent-victim",
@@ -822,9 +870,12 @@
       "status": "partial",
       "acceptance": "A dependent victim imposes an additional -6.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-battle",
@@ -835,9 +886,12 @@
       "status": "partial",
       "acceptance": "Being in combat when the event occurs or is first noticed grants +5.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-monster",
@@ -848,9 +902,12 @@
       "status": "partial",
       "acceptance": "An authored monster fear severity can impose -1 through -10.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-horde-five",
@@ -861,9 +918,12 @@
       "status": "partial",
       "acceptance": "Five monsters impose -1.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-horde-ten",
@@ -874,9 +934,12 @@
       "status": "partial",
       "acceptance": "Ten monsters impose -2.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-horde-twenty",
@@ -887,9 +950,12 @@
       "status": "partial",
       "acceptance": "Twenty monsters impose -3.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-horde-fifty",
@@ -900,9 +966,12 @@
       "status": "partial",
       "acceptance": "Fifty monsters impose -4.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-horde-hundred",
@@ -913,9 +982,12 @@
       "status": "partial",
       "acceptance": "One hundred or more monsters impose -5.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-touch",
@@ -926,9 +998,12 @@
       "status": "partial",
       "acceptance": "Contact with the fear source imposes -1.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-distance",
@@ -939,9 +1014,12 @@
       "status": "partial",
       "acceptance": "Witnessing from at least one hundred yards grants +1.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-remote",
@@ -952,9 +1030,12 @@
       "status": "partial",
       "acceptance": "Remote viewing grants +3.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-isolation",
@@ -965,9 +1046,12 @@
       "status": "partial",
       "acceptance": "Physical isolation imposes -1.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-darkness",
@@ -978,9 +1062,12 @@
       "status": "partial",
       "acceptance": "Night/darkness imposes -1, or daylight for a nocturnal actor.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-alone",
@@ -991,9 +1078,12 @@
       "status": "partial",
       "acceptance": "Being or believing oneself alone imposes -2.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-experience",
@@ -1004,9 +1094,12 @@
       "status": "partial",
       "acceptance": "Previous personal experience of this threat type grants +1.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-repeated",
@@ -1017,9 +1110,12 @@
       "status": "partial",
       "acceptance": "Each exposure to this particular threat in twenty-four hours grants +1, based on recorded exposure history.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-modifier-briefing",
@@ -1030,9 +1126,12 @@
       "status": "partial",
       "acceptance": "Prior detailed information grants +1 through +3 according to an authored report-quality assessment.",
       "tests": [
-        "tests/expanded.py::test_fear_context"
+        "tests/expanded.py::test_fear_context",
+        "tests/expanded.py::test_fear_low_score",
+        "tests/expanded.py::test_fear_actions",
+        "tests/expanded.py::test_voice_fear"
       ],
-      "validation_note": "Explicit scene modifier assessment and owned trait contributions authored; fixtures unrun. Encounter history, complete fear execution and recovery remain pending."
+      "validation_note": "Owned fear events retain the capped initial check, independent failure-table roll, mandatory voice follow-up on failed/exact-success checks, and typed consequence dispatch. Duplicate occurrences and unresolved-consequence time advancement are rejected. Prohibited initial rolls require an explicit recorded author outcome without a fabricated roll or margin. Parser, structured-action and dialogue routes share the owned action; an original playable example demonstrates recovery. Remaining consequence limitations are recorded by row. Fixtures authored, unrun; checks paused."
     },
     {
       "id": "fear-outcome-4-5",
@@ -1152,7 +1251,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_quirks"
       ],
-      "validation_note": "Owned behavioral mental-quirk acquisition and explicit scene portrayal records authored. Character value decreases without granting spendable points; a receipt supplies the creation-limit exception. Other fear traits, compound outcomes and advancement sanctions remain incomplete. Fixtures unrun."
+      "validation_note": "Owned behavioral mental-quirk acquisition and authored portrayal records adjust character value without spendable points. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-14-15",
@@ -1268,7 +1367,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fixed_beliefs"
       ],
-      "validation_note": "Owned fixed-belief acquisition validates exact -10/-15 severity, records event identity, adjusts character-value allowance and increments development revision without spendable-point income. Catalog reaction/portrayal integration, full fear selection and compound rows remain pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "Owned fixed-belief acquisition enforces exact cost, event identity and character accounting without spendable points. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-23",
@@ -1282,7 +1381,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-24",
@@ -1296,7 +1395,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical"
       ],
-      "validation_note": "Exact-cost owned bundles of pain sensitivity, persistent wound and speech limitation apply existing effects without spendable points. Aging and other physical transformations remain unsupported. Cost, speech, replay, rollback, undo and continuation fixtures authored, unrun."
+      "validation_note": "Owned exact-cost bundles of pain sensitivity, persistent wound and speech limitation. Aging and other physical transformations remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-25",
@@ -1310,7 +1409,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_worsening"
       ],
-      "validation_note": "Phobia-specific one-step purchase replacement preserves previous check/exposure facts and redirects future control scoring; SC6 or no related phobia uses a fresh ten-point acquisition. No spendable point award. Other mental-disadvantage transitions pending. Fixtures authored, unrun."
+      "validation_note": "Owned related-phobia replacement worsens self-control one step and redirects future exposure scoring. SC6 or no related phobia uses a fresh ten-point acquisition. Other mental-disadvantage transitions remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-26",
@@ -1324,7 +1423,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_compound"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Owned fixed-belief-plus-row-18 faint compound implemented with shared accounting and atomic component preflight. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
+      "validation_note": "Owned row-18 faint plus exact-cost fixed-belief acquisition with component preflight and shared accounting. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-27",
@@ -1338,7 +1437,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned row-18 faint plus exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-28",
@@ -1352,7 +1451,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_coma"
       ],
-      "validation_note": "Owned coma executes half-hour checks for row 28 or repeated 1d-hour intervals for row 29, with HT recovery and six-hour -2 shared-scoring aftermath. Ownership excludes independent unconsciousness causes; overlap and independent-incapacity recovery explicitly block pending integration. Timeline binds recovery receipts. Initial fear selection and higher trait-bearing coma rows remain pending; fixtures authored, unrun."
+      "validation_note": "Owned half-hour coma recovery checks and six-hour scoring aftermath. Independent unconsciousness overlap remains unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-29",
@@ -1366,7 +1465,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_coma"
       ],
-      "validation_note": "Owned coma executes half-hour checks for row 28 or repeated 1d-hour intervals for row 29, with HT recovery and six-hour -2 shared-scoring aftermath. Ownership excludes independent unconsciousness causes; overlap and independent-incapacity recovery explicitly block pending integration. Timeline binds recovery receipts. Initial fear selection and higher trait-bearing coma rows remain pending; fixtures authored, unrun."
+      "validation_note": "Owned repeated one-die-hour coma intervals, HT recovery and six-hour scoring aftermath. Independent unconsciousness overlap remains unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-30",
@@ -1380,7 +1479,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_catatonia"
       ],
-      "validation_note": "Owned one-die-day catatonia with shared-clock daily care receipts, escalating direct injury under absent care, HT recovery/repeated delays and equal-duration -2 scoring aftermath. Common purposeful-action gates block during the episode. Supports continuous or absent care; changing care regime, independent incapacitation and full fear selection remain pending. Receipt timelines validated; fixtures authored, unrun."
+      "validation_note": "Owned catatonia, daily care receipts, escalating absent-care injury, repeated HT recovery and equal-duration scoring aftermath. Changes of care regime and independent incapacitation remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-31",
@@ -1394,7 +1493,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_seizure"
       ],
-      "validation_note": "Owned row executor links a 1d-minute generic seizure, immediate HT check, conditional 1d shared-wound injury and critical-failure permanent HT loss. Generic B429 seizure finish owns the single 1d FP payment. Collapse/drop effects are deduplicated and all immediate injury amounts preflighted. Initial fear selection and minimum-HT boundary remain pending; lifecycle fixtures authored, unrun."
+      "validation_note": "Owned timed seizure, immediate HT check, conditional injury and permanent HT loss, with one fatigue payment at finish. Minimum-HT boundary remains unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-32",
@@ -1408,7 +1507,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_acute"
       ],
-      "validation_note": "Pure row specification plus owned RpgExpandedFearAcuteInjury execution: preflight all 2d outcomes, one shared wound, unconditional lying posture and single held-item drop/knockdown notification. Requires an authored selected table outcome; initial fear/table-roll orchestration remains pending. Lifecycle and equipment fixtures authored, unrun."
+      "validation_note": "Owned two-die injury through the common wound ledger, lying posture and deduplicated held-item drop. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-33",
@@ -1420,9 +1519,10 @@
       "acceptance": "Author a panic reaction informed by a three-die severity roll; if the actor survives, check will. Failure triggers another severity roll and reaction until recovery.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_extreme_panic"
+        "tests/expanded.py::test_extreme_panic",
+        "tests/expanded.py::test_panic_flight"
       ],
-      "validation_note": "Owned severity/reaction/survivor-Will/repeat sequence with actual shared time, freeze/cry/collapse and optional owned collapse injury. Other world-action reactions need concrete adapters and are rejected. Replay, rollback, undo and saved-loop fixtures authored, unrun."
+      "validation_note": "Owned severity/reaction/survivor-Will/repeat sequence. Freeze, cry, collapse with optional injury, and bounded noncombat flight with actual room relocation execute. Tactical/interrupted routes, attacks and falling reactions remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-34",
@@ -1436,7 +1536,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fixed_beliefs"
       ],
-      "validation_note": "Owned fixed-belief acquisition validates exact -10/-15 severity, records event identity, adjusts character-value allowance and increments development revision without spendable-point income. Catalog reaction/portrayal integration, full fear selection and compound rows remain pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "Owned exact-cost fixed-belief acquisition and character accounting without spendable points. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-35",
@@ -1450,7 +1550,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-36",
@@ -1464,7 +1564,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical"
       ],
-      "validation_note": "Exact-cost owned bundles of pain sensitivity, persistent wound and speech limitation apply existing effects without spendable points. Aging and other physical transformations remain unsupported. Cost, speech, replay, rollback, undo and continuation fixtures authored, unrun."
+      "validation_note": "Owned exact-cost physical trait bundles; aging and other physical transformations remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-37",
@@ -1478,7 +1578,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical"
       ],
-      "validation_note": "Exact-cost owned bundles of pain sensitivity, persistent wound and speech limitation apply existing effects without spendable points. Aging and other physical transformations remain unsupported. Cost, speech, replay, rollback, undo and continuation fixtures authored, unrun."
+      "validation_note": "Owned exact-cost physical trait bundles; aging and other physical transformations remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-38",
@@ -1492,7 +1592,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_compound"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Owned fixed-belief-plus-row-29 coma compound implemented with shared accounting and atomic component preflight. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
+      "validation_note": "Owned row-29 coma plus exact-cost fixed-belief acquisition with atomic component preflight. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-39",
@@ -1506,7 +1606,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-40-plus",
@@ -1520,7 +1620,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia or fixed-belief acquisition and permanent IQ loss. Other mental-disadvantage choices and the minimum-IQ boundary remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     }
   ],
   "exclusions": [

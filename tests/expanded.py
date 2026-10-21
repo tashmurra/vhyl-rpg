@@ -9765,12 +9765,22 @@ def test(build):
     test_fear_stun(Session,fear)
     fear_event = build.build('expanded-fear-event',ROOT / 'tests/fixtures/expanded-fear-event.t')
     test_fear_event(Session,fear_event,build.out)
+    fear_actions = build.build('expanded-fear-actions',ROOT / 'tests/fixtures/expanded-fear-actions.t')
+    test_fear_actions(Session,fear_actions,build.out)
     fear_adjudication = build.build('expanded-fear-adjudication',ROOT / 'tests/fixtures/expanded-fear-adjudication.t')
     test_fear_adjudication(Session,fear_adjudication,build.out)
     fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
     test_fear_event_traits(Session,fear_event_traits)
     fear_stress = build.build('expanded-fear-stress',ROOT / 'tests/fixtures/expanded-fear-stress.t')
     test_fear_stress(Session,fear_stress,build.out)
+    voice_fear = build.build('expanded-voice-fear',ROOT / 'tests/fixtures/expanded-voice-fear.t')
+    test_voice_fear(Session,voice_fear,build.out)
+    fear_low_score = build.build('expanded-fear-low-score',ROOT / 'tests/fixtures/expanded-fear-low-score.t')
+    test_fear_low_score(Session,fear_low_score,build.out)
+    phobia_low_score = build.build('expanded-phobia-low-score',ROOT / 'tests/fixtures/expanded-phobia-low-score.t')
+    test_low_control_fear(Session,phobia_low_score,build.out,'phobia')
+    battle_low_score = build.build('expanded-postbattle-low-score',ROOT / 'tests/fixtures/expanded-postbattle-low-score.t')
+    test_low_control_fear(Session,battle_low_score,build.out,'battle')
     fear_compound = build.build('expanded-fear-compound',ROOT / 'tests/fixtures/expanded-fear-compound.t')
     test_fear_compound(Session,fear_compound,build.out)
     fear_aura = build.build('expanded-fear-aura',ROOT / 'tests/fixtures/expanded-fear-aura.t')
@@ -9779,6 +9789,10 @@ def test(build):
     test_postbattle_fear(Session,postbattle_fear)
     phobia = build.build('expanded-phobia',ROOT / 'tests/fixtures/expanded-phobia.t')
     test_phobia(Session,phobia,build.out)
+    phobia_overlap = build.build('expanded-phobia-overlap',ROOT / 'tests/fixtures/expanded-phobia-overlap.t')
+    test_phobia_overlap(Session,phobia_overlap,build.out)
+    phobia_activity = build.build('expanded-phobia-activity',ROOT / 'tests/fixtures/expanded-phobia-activity.t')
+    test_phobia_activity(Session,phobia_activity,build.out)
     phobia_awareness = build.build('expanded-phobia-awareness',ROOT / 'tests/fixtures/expanded-phobia-awareness.t')
     test_phobia_awareness(Session,phobia_awareness,build.out)
     phobia_learning = build.build('expanded-phobia-learning',ROOT / 'tests/fixtures/expanded-phobia-learning.t')
@@ -9789,6 +9803,8 @@ def test(build):
     test_fear_shock_faint(Session,fear_shock_faint,build.out)
     extreme_panic = build.build('expanded-extreme-panic',ROOT / 'tests/fixtures/expanded-extreme-panic.t')
     test_extreme_panic(Session,extreme_panic,build.out)
+    panic_flight = build.build('expanded-panic-flight',ROOT / 'tests/fixtures/expanded-panic-flight.t')
+    test_panic_flight(Session,panic_flight,build.out)
     fear_physical = build.build('expanded-fear-physical',ROOT / 'tests/fixtures/expanded-fear-physical.t')
     test_fear_physical(Session,fear_physical,build.out)
     fear_phobia_worsening = build.build('expanded-fear-phobia-worsening',ROOT / 'tests/fixtures/expanded-fear-phobia-worsening.t')
@@ -9917,6 +9933,8 @@ def test(build):
     test_tactical_position_persistence(Session, positions, build.out)
     example = build.build('expanded-example',ROOT / 'examples/expanded/main.t')
     test_example(Session,example)
+    echo_vault = build.build('echo-vault',ROOT / 'examples/echo-vault/main.t')
+    test_echo_vault(Session,echo_vault,build.out)
     print('  expanded example parser/action/dialogue parity: passed',flush=True)
 
 
@@ -28048,3 +28066,274 @@ def test_phobia_learning(Session,bundle):
         do(s,491); do(s,496); assert reason(s)==['phobia-magic-learning',0]
         do(s,497); assert reason(s)==[None,0]
     finally: s.close()
+
+
+
+def test_fear_actions(Session,bundle,out):
+    """One owner-authorized fear flow across parser, structured and dialogue routes; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(s,operation):
+            if route == 'parser':
+                s.command({'preview':'assess fear','resolve':'face fear','consequence':'resolve reaction'}[operation])
+            elif route == 'structured':
+                s.action({'preview':28710,'resolve':28711,'consequence':28712}[operation])
+            else:
+                s.action(80,'fear-actions'); s.select(operation)
+        def state(s):
+            s.action(2250,305,4)
+            return last(s,'test.fear-event')
+        s=Session(bundle)
+        path=out/f'fear-actions-{route}.zsave'
+        try:
+            perform(s,'preview')
+            assert last(s,'rpg.expanded.fear')==['preview','ready',None]
+            assert state(s)==[0,None,None,None,None,0,0,0,0]
+            perform(s,'resolve'); s.command('undo')
+            assert state(s)==[0,None,None,None,None,0,0,0,0]
+            perform(s,'resolve'); perform(s,'resolve')
+            assert state(s)==[1,10,11,4,4,0,0,6,0]
+            perform(s,'consequence'); perform(s,'consequence')
+            assert state(s)==[1,10,11,4,4,1,1,6,0]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); perform(s,'consequence')
+            assert state(s)==[1,10,11,4,4,1,1,6,0]
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.action(2250,510,4)
+            for operation in ('preview','resolve','consequence'):
+                perform(s,operation)
+                assert last(s,'rpg.expanded.fear')==[operation,'blocked','fear-action-owner-required']
+                assert state(s)==[0,None,None,None,None,0,0,0,0]
+        finally: s.close()
+
+
+
+def test_phobia_overlap(Session,bundle,out):
+    """Independent exposure histories with an explicit campaign aggregation ruling; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,526)
+        return last(s,'test.phobia-overlap')
+    for setup,score in ((520,6),(521,8)):
+        s=Session(bundle)
+        path=out/f'phobia-overlap-{setup}.zsave'
+        try:
+            do(s,setup); do(s,381); do(s,382); do(s,523)
+            do(s,525); assert state(s)==[2,8,3,0]
+            do(s,524); s.command('undo'); assert state(s)==[2,8,3,0]
+            do(s,524); do(s,524); assert state(s)==[2,score,6,0]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,524)
+            assert state(s)==[2,score,6,0]
+            do(s,387); assert state(s)==[2,8,6,0]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,522); do(s,381); do(s,382); do(s,523)
+        assert state(s)==[1,8,3,0]
+    finally: s.close()
+
+
+
+def test_phobia_activity(Session,bundle,out):
+    """Source voluntary height and power-consent restrictions use the real action gate; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def assessment(s):
+        do(s,534)
+        return last(s,'test.phobia-activity')
+    s=Session(bundle)
+    path=out/'phobia-activity.zsave'
+    try:
+        do(s,530); assert assessment(s)==['ready',None,0,0]
+        do(s,531); assert assessment(s)==['blocked','phobia-voluntary-height',0,0]
+        do(s,535); do(s,537); assert last(s,'test.phobia-effort')==[0]
+        do(s,532); assert assessment(s)==['ready',None,0,0]
+        do(s,536); do(s,537); assert last(s,'test.phobia-effort')==[0]
+        do(s,535); s.command('undo'); do(s,537); assert last(s,'test.phobia-effort')==[0]
+        do(s,535); do(s,535); do(s,537); assert last(s,'test.phobia-effort')==[1]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,535); do(s,537)
+        assert last(s,'test.phobia-effort')==[1]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,533); assert assessment(s)==['blocked','phobia-power-consent',0,0]
+    finally: s.close()
+
+
+
+def test_echo_vault(Session,bundle,out):
+    """Original playable fear vignette: route parity, recovery, deduplication and saved ending; unrun."""
+    for route in ('parser','structured','dialogue'):
+        def perform(s,operation):
+            if route == 'parser':
+                s.command({'guide':'call guide','face':'face reflection','breathe':'breathe','read':'read inscription'}[operation])
+            elif route == 'structured':
+                s.action({'guide':1401,'face':1402,'breathe':1403,'read':1404}[operation])
+            else:
+                s.action(80,'vault-plan'); s.select(operation)
+        def state(s):
+            s.action(1400)
+            return last(s,'vault.state')
+        s=Session(bundle)
+        path=out/f'echo-vault-{route}.zsave'
+        try:
+            perform(s,'read'); assert state(s)==[0,0,0,0]
+            perform(s,'guide'); perform(s,'face'); s.command('undo')
+            assert state(s)==[0,0,0,0]
+            perform(s,'face'); first=state(s)
+            perform(s,'face'); assert state(s)==first
+            perform(s,'breathe'); perform(s,'read'); perform(s,'read')
+            assert state(s)==[1,0,1,2]
+            s.command(f':save {path}')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}'); perform(s,'face'); perform(s,'read')
+            assert state(s)==[1,0,1,2]
+        finally: s.close()
+
+
+
+def test_voice_fear(Session,bundle,out):
+    """Authored startling cue follows an active disturbing voice episode; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,543)
+        return last(s,'test.voice-fear')
+    path=out/'voice-fear.zsave'
+    s=Session(bundle)
+    try:
+        do(s,540); do(s,541); assert state(s)==[1,0,None,3]
+        do(s,545); assert state(s)==[1,0,None,3]
+        do(s,542); s.command('undo'); assert state(s)==[1,0,None,3]
+        do(s,542); assert state(s)==[2,1,12,12]
+        do(s,542); assert state(s)==[2,1,12,12]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,544); do(s,542)
+        assert state(s)==[2,1,12,12]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,540); do(s,541); do(s,544); do(s,542)
+        assert state(s)==[1,0,None,3]
+    finally: s.close()
+
+
+
+def test_fear_low_score(Session,bundle,out):
+    """User-approved ruling for prohibited rolls has no fabricated roll or margin; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,556)
+        return last(s,'test.low-score')
+    path=out/'fear-low-score.zsave'
+    s=Session(bundle)
+    try:
+        do(s,550); do(s,302)
+        assert last(s,'test.fear-event-preview')==['blocked','fear-low-score-author-decision-required']
+        do(s,551); do(s,302); assert last(s,'test.fear-event-preview')==['ready',None]
+        assert state(s)==[None,0,None,None,None,0,0]
+        do(s,301); assert state(s)==[None,0,None,None,None,0,0]
+        do(s,300); s.command('undo'); assert state(s)==[None,0,None,None,None,0,0]
+        do(s,300); expected=['author-selected-low-score',0,None,None,4,0,0]
+        assert state(s)==expected
+        do(s,554); assert state(s)==expected
+        do(s,555); assert last(s,'test.low-reroll')==['blocked','fear-adjudication-no-rolled-margin']
+        do(s,303); do(s,305)
+        assert last(s,'test.fear-event')==[1,2,None,None,4,1,1,0,0]
+        do(s,300); do(s,303); assert state(s)==expected
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,300); do(s,303); assert state(s)==expected
+    finally: s.close()
+    for choice,draws,occurrences in ((552,0,0),(553,3,1)):
+        s=Session(bundle)
+        try:
+            do(s,550); do(s,551); do(s,330); do(s,302)
+            assert last(s,'test.fear-event-preview')==['blocked','fear-low-score-voice-decision-required']
+            do(s,choice); do(s,300)
+            assert state(s)==['author-selected-low-score',0,None,None,4,draws,occurrences]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,551); do(s,302)
+        assert last(s,'test.fear-event-preview')==['blocked','fear-low-score-decision-inapplicable']
+        assert state(s)==[None,0,None,None,None,0,0]
+    finally: s.close()
+
+
+
+def test_low_control_fear(Session,bundle,out,kind):
+    """The same recorded ruling covers forbidden self-control rolls; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    resolve,commit,query=(382,389,384) if kind=='phobia' else (372,375,374)
+    def state(s):
+        do(s,query)
+        return last(s,'test.phobia' if kind=='phobia' else 'test.postbattle-fear')
+    expected=[1,0,10,0,0] if kind=='phobia' else [2,4,0,0,0]
+    path=out/f'{kind}-low-score.zsave'
+    s=Session(bundle)
+    try:
+        do(s,560)
+        if kind=='phobia': do(s,381)
+        do(s,562); assert last(s,'test.low-control')==['blocked','fear-low-score-author-decision-required']
+        do(s,561); do(s,562); assert last(s,'test.low-control')==['ready',None]
+        do(s,resolve); assert state(s)==expected
+        do(s,commit); do(s,resolve); do(s,commit)
+        # Active stun changes physical skill availability, so query the receipt on restore.
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,resolve); do(s,commit); do(s,562)
+        assert last(s,'test.low-control')==['reused',None]
+    finally: s.close()
+
+
+
+def test_panic_flight(Session,bundle,out):
+    """Extreme panic flight commits actual room movement and one shared time charge; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,571)
+        return last(s,'test.panic-flight')
+    path=out/'panic-flight.zsave'
+    s=Session(bundle)
+    try:
+        do(s,440); do(s,570)
+        assert last(s,'test.panic-flight-preview')==['ready',None]
+        assert state(s)==[0,0,0,3]
+        do(s,443); assert state(s)==[0,0,0,3]
+        do(s,442); s.command('undo'); assert state(s)==[0,0,0,3]
+        do(s,442); assert state(s)==[1,1,1,9]
+        do(s,442); assert state(s)==[1,1,1,9]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,442); assert state(s)==[1,1,1,9]
+        do(s,444); assert state(s)==[1,2,2,12]
+    finally: s.close()
+    for code,reason in ((572,'panic-flight-distance'),(573,'panic-flight-route-evidence')):
+        s=Session(bundle)
+        try:
+            do(s,440); do(s,code); do(s,570)
+            assert last(s,'test.panic-flight-preview')==['blocked',reason]
+            assert state(s)==[0,0,0,3]
+        finally: s.close()

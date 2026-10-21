@@ -3557,7 +3557,8 @@ processing under the existing condition contract.
 `test_fear_seizure` specify successful/failed/critical HT checks, permanent loss
 without repeated charges, episode timing, the single fatigue payment, missing
 drop-destination preflight, preview, replay, rollback, undo and cross-process save
-continuation. Assertions remain unrun; full fear orchestration is still pending.
+continuation. Assertions remain unrun. Owned fear events now dispatch this
+consequence; the minimum-HT boundary remains explicitly unsupported.
 
 
 ## Fear coma and its aftereffect
@@ -3644,7 +3645,7 @@ recovery history, deadlines and completion before using stored results.
 Changing care regimes is currently rejected with
 `catatonia-changing-care-unimplemented`; the supplied paragraph does not resolve
 how escalation changes with intermittent care. This limitation, independent
-incapacitation and full fear selection keep the row partial.
+incapacitation keep the row partial. Owned fear events now dispatch this row.
 
 [`expanded-catatonia.t`](../../tests/fixtures/expanded-catatonia.t) and
 `test_catatonia` specify daily injury versus continuous care, care-before-recovery
@@ -4245,7 +4246,8 @@ replay, rollback, undo and saved continuation; it is unrun.
 
 An author supplies `RpgExpandedExtremePanicReaction` with a unique `id`, the
 `episode`, exact retained `severity`, approval, a concrete `description`, and
-actual `seconds`. Supported `kind` values are `freeze`, `cry` and `collapse`.
+actual `seconds`. Supported `kind` values are `freeze`, `cry`, `collapse` and
+`flight` (the bounded room-route adapter described below).
 All spend the shared clock once. Collapse commits the equipment drop and lying
 posture; it may additionally own a fresh `RpgExpandedWound` for that profile,
 with a matching drop destination. Injury uses the existing injury ledger.
@@ -4259,8 +4261,8 @@ reaction ends the episode without another Will or severity roll. Ordinary effort
 maneuvers and unaccounted clock advances cannot bypass the pending reaction.
 Each reaction is replayable without repeating its time, injury or random draws.
 
-Flight routes, attacks, item destruction and arbitrary world changes do not yet
-have reaction adapters and are rejected. A callback alone is not accepted as
+Tactical/interrupted flight routes, attacks, item destruction and arbitrary world
+changes do not yet have reaction adapters and are rejected. A callback alone is not accepted as
 completion. `test_extreme_panic` specifies two successive reactions, rollback,
 undo, invalid selection and cross-process continuation; fixtures remain unrun.
 
@@ -4281,3 +4283,79 @@ consequence is committed, another decision cannot replace or undo its effects.
 Replaying any decision never rolls again. `test_fear_adjudication` specifies
 original-result retention, both modes, consequence dispatch, rollback, undo and
 saved continuation; fixtures remain unrun.
+
+
+## Player routes for fear events
+
+`RpgExpandedFearAction` binds an authored `entry`, optional `consequence`, and
+`operation`: `preview`, `resolve`, `preview-consequence` or `consequence`.
+Bind its `exec(context)` to a parser grammar and structured verb. A dialogue
+choice calls `perform(context.asker)` on that same action. Only an actor whose
+`rpgProfile` is the event's profile may perform the operation. Returned
+`rpg.expanded.fear` events contain operation, status and reason; private dice and
+author evidence are not automatically disclosed.
+
+`test_fear_actions` specifies ownership, preview purity, route parity, undo,
+repeated operations and cross-process continuation; fixtures are unrun. The
+original [Echo Vault example](../../examples/echo-vault/README.md) demonstrates
+a complete small encounter using the shared resolver and explicit confusion
+adjudication, short-stun recovery, and a health-gated follow-up action.
+
+## Author rulings when an initial roll is prohibited
+
+The supplied printing prohibits attempting an initial check below effective
+score 3 (`full-2008`, B345), but supplies no fear-table failure margin for that
+case. This library requires a recorded author-selected outcome. This is an
+explicit campaign ruling, not a new source rule.
+
+Attach `RpgExpandedLowScoreFearDecision` to an event's `lowScoreDecision`.
+Set `entry` to that event, `row` to 4–40, `approved = true` and `evidence` to the
+reason for that particular outcome. The same interface supports ordinary fear,
+phobia self-control and postbattle self-control. Missing decisions block before
+randomness, time or resource changes. Supplying one for a permitted roll also
+blocks, preventing this exception from bypassing ordinary checks.
+
+The result records `reason = 'author-selected-low-score'`, the actual effective
+score and the selected row. `check`, `tableRoll` and `tableTotal` remain `nil`:
+there is no fabricated roll, failure margin or table total. Apply the matching
+typed consequence normally; its own duration, injury, fatigue and recovery
+procedures still apply. The decision and evidence are bound into the retained
+event. Replaying or restoring cannot select another outcome or charge it again.
+An inappropriate result may be replaced through the existing adjudication
+interface, but cannot be rerolled without an original rolled failure margin.
+
+With an active phantom-voice trait, the author must also set `voiceStress` to
+`'check'` or `'none'`. The source's failed-roll trigger cannot decide this case
+because no roll occurred. `'check'` executes and retains the normal independent
+voice-occurrence check; `'none'` records the author's choice not to trigger it.
+This exception applies to initial selection only; it does not invent recovery
+rules for unsupported attribute boundaries.
+
+`expanded-fear-low-score.t`, `expanded-phobia-low-score.t` and
+`expanded-postbattle-low-score.t` provide fixtures for missing decisions,
+inapplicable decisions, pure previews, receipt binding, voice choices, typed
+consequence dispatch, rollback, undo and save continuation. Their assertions
+remain **unrun** while build checks are paused.
+
+### Extreme-panic flight through the authored world
+
+`RpgExpandedExtremePanicReaction.kind = 'flight'` now commits actual movement
+between rooms. Set `actor`, `origin`, `destination`, positive `distanceYards` and
+`routeEvidence` establishing an unobstructed route without unresolved hazards
+or reactions. The actor must own the episode's profile. The declared distance
+must fit the character's current Move over the reaction's `seconds`.
+
+This adapter supports standing/crouching, conscious characters with available
+fatigue capacity, outside active combat and tactical placement. Those restrictions
+are explicit: it cannot silently leave a tactical figure behind, teleport through
+a barrier, or resolve a fall as harmless movement. Routes needing tactical
+execution, interrupted travel, attacks or falling consequences still require
+separate concrete adapters.
+
+Commit charges the reaction's shared time once, rechecks mobility and origin,
+uses the engine's actor relocation operation, then performs the existing survivor
+Will check and repeat procedure. The receipt binds the route and resulting loop
+state. Replay does not move the actor back if subsequent play changes location.
+`expanded-panic-flight.t` and `test_panic_flight` specify preview, distance/evidence
+rejection, movement, one time charge, replay, rollback, undo and continuation.
+These fixtures remain unrun.

@@ -4081,3 +4081,53 @@ modify RpgExpandedPhobia
 modify RpgExpandedPostbattleStress
     validateDirectControl() { rpgExpandedReject('postbattle-owned-event-required'); }
 ;
+
+/** B149-B150 explicit voluntary height and power-consent prohibitions. */
+class RpgExpandedPhobiaActivity: RpgExpandedPhobiaActivityContract
+    kind = nil
+    approved = nil
+    evidence = nil
+    heightFeet = 0
+    insideBuilding = nil
+    awayFromWindows = nil
+    activityFacts()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || !holds(['height','power-consent'],self.kind))
+            rpgExpandedReject('phobia-activity-definition');
+        rpgInteger(self.heightFeet,0,1000000);
+        if (self.kind != 'height' && (self.heightFeet != 0 || self.insideBuilding || self.awayFromWindows)
+            || self.awayFromWindows && !self.insideBuilding) rpgExpandedReject('phobia-activity-unused-facts');
+        return [self.profile,self.kind,self.approved,self.evidence,self.heightFeet,self.insideBuilding,self.awayFromWindows];
+    }
+    assess()
+    {
+        self.activityFacts(); local value = new RpgExpandedResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'phobia-activity-evidence'; return value; }
+        foreach (local trait in self.profile.traits)
+            if (trait.ofKind(RpgExpandedPhobia) && trait.active && !trait.mitigated)
+            {
+                trait.creationCost();
+                if (self.kind == 'height' && trait.scope == 'heights' && self.heightFeet > 15
+                    && !(self.insideBuilding && self.awayFromWindows))
+                { value.reason = 'phobia-voluntary-height'; return value; }
+                if (self.kind == 'power-consent' && trait.scope == 'psi')
+                { value.reason = 'phobia-power-consent'; return value; }
+            }
+        value.status = 'ready'; return value;
+    }
+;
+modify RpgExpandedProfile
+    voiceFearFacts(occurrence)
+    {
+        if (occurrence == nil || !occurrence.ofKind(RpgExpandedPhantomVoiceOccurrence) || occurrence.profile != self)
+            rpgExpandedReject('voice-fear-occurrence-owner');
+        occurrence.validateReceipt();
+        if (!occurrence.result.occurred || occurrence.result.severity != 2) rpgExpandedReject('voice-fear-disturbing-occurrence');
+        return [occurrence,occurrence.recordedAt,occurrence.result.severity];
+    }
+    voiceFearReason(occurrence)
+    {
+        self.voiceFearFacts(occurrence);
+        return !occurrence.active() || self.phantomVoiceSeverity() != 2 ? 'voice-fear-occurrence-inactive' : nil;
+    }
+;
