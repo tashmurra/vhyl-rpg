@@ -9866,6 +9866,8 @@ def test(build):
     test_control_choice_mitigation(Session,sacrifice,'test.sacrifice')
     replay = build.build('expanded-intrusive-replay',ROOT / 'tests/fixtures/expanded-intrusive-replay.t')
     test_intrusive_replay(Session,replay,build.out)
+    replay_control = build.build('expanded-replay-self-control',ROOT / 'tests/fixtures/expanded-replay-self-control.t')
+    test_replay_self_control(Session,replay_control,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30351,4 +30353,36 @@ def test_intrusive_replay(Session,bundle,out):
     try:
         for code in (1010,1013,1014,1014): do(s,code)
         assert state(s) == [1,0,0,0,None,3,0]
+    finally: s.close()
+
+
+def test_replay_self_control(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1023)
+        return last(s,'test.replay-control')
+    cases = ((None,[1,1,0,1,7,0]),(1024,[1,0,0,0,3,0]),
+             (1025,[1,1,1,1,10,0]),(1026,[1,0,0,1,3,0]),
+             (1028,[1,0,0,1,0,0]),(1029,[1,0,0,0,0,0]))
+    for setup,expected in cases:
+        s = Session(bundle)
+        path = out/f'replay-control-{setup}.zsave'
+        try:
+            do(s,1020)
+            if setup is not None: do(s,setup)
+            do(s,1022); assert state(s) == [0,0,0,0,0,0]
+            do(s,1021); s.command('undo'); assert state(s) == [0,0,0,0,0,0]
+            do(s,1021); do(s,1021); assert state(s) == expected
+            if setup == 1029:
+                do(s,1030); assert last(s,'test.replay-control-points') == [9,6]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1021); assert state(s) == expected
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (1020,1027,1021): do(s,code)
+        assert state(s) == [0,0,0,0,0,0]
     finally: s.close()

@@ -374,12 +374,22 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
     result = nil
     boundDefinition = nil
     stressRelation = nil
+    intrusiveReplayContent = nil
+    intrusiveReplayOccurrence = nil
+    boundIntrusiveReplayOccurrence = nil
     phantomVoiceOccurrence = nil
     boundPhantomVoiceOccurrence = nil
-    definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence,self.buySuccess,self.stressRelation]; }
+    definition() { return [self.id,self.profile,self.trait,self.trigger,self.modifier,self.giveIn,self.evidence,self.buySuccess,self.stressRelation,self.intrusiveReplayContent]; }
     effectiveModifier() { return self.modifier; }
     newResult() { return new RpgExpandedResult(); }
     afterControlResolution(value) { return nil; }
+    intrusiveReplayRequest()
+    {
+        local occurrence = new RpgExpandedIntrusiveReplayOccurrence();
+        occurrence.id = 'self-control:' + self.id; occurrence.profile = self.profile; occurrence.stressor = self;
+        occurrence.approved = true; occurrence.evidence = self.evidence; occurrence.content = self.intrusiveReplayContent;
+        return occurrence;
+    }
     phantomVoiceRequest()
     {
         local occurrence = new RpgExpandedPhantomVoiceOccurrence();
@@ -405,6 +415,13 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
                 self.profile.validatePhantomVoiceOccurrence(self.phantomVoiceOccurrence);
                 if (self.phantomVoiceOccurrence.stressor != self) rpgExpandedReject('self-control-voices-binding');
             }
+            if (self.intrusiveReplayOccurrence != self.boundIntrusiveReplayOccurrence) rpgExpandedReject('self-control-replay-binding');
+            if (self.intrusiveReplayOccurrence != nil)
+            {
+                self.intrusiveReplayOccurrence.validateReceipt();
+                if (self.intrusiveReplayOccurrence.profile != self.profile || self.intrusiveReplayOccurrence.stressor != self)
+                    rpgExpandedReject('self-control-replay-owner');
+            }
             value.status = 'reused'; value.check = self.check; value.points = self.result.points; return value;
         }
         if (!holds(self.profile.traits,self.trait) || !self.trait.controlled || !self.trait.active)
@@ -415,7 +432,7 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
         foreach (local prior in self.profile.selfControlTriggers)
             if (prior.id == self.id || prior.trait == self.trait && prior.trigger == self.trigger)
                 rpgExpandedReject('self-control-trigger-duplicate');
-        if (self.profile.phantomVoiceSeverity() > 0 && !self.giveIn && !self.buySuccess
+        if ((self.profile.phantomVoiceSeverity() > 0 || self.profile.intrusiveReplayTrait() != nil) && !self.giveIn && !self.buySuccess
             && !holds(['stress-related','unrelated'],self.stressRelation))
         { value.reason = 'self-control-stress-classification'; return value; }
         rpgInteger(self.modifier,-100,100);
@@ -441,6 +458,13 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
             local voices = self.phantomVoiceRequest().assess();
             if (voices.status != 'ready') { value.reason = voices.reason; return value; }
         }
+        if (self.stressRelation == 'stress-related' && !self.giveIn && !self.buySuccess && self.profile.intrusiveReplayTrait() != nil)
+        {
+            local replay = self.intrusiveReplayRequest().assess();
+            if (replay.status != 'ready') { value.reason = replay.reason; return value; }
+        }
+        if (self.intrusiveReplayOccurrence != nil || self.boundIntrusiveReplayOccurrence != nil)
+            rpgExpandedReject('self-control-replay-uncommitted');
         value.status = 'ready'; return value;
     }
     resolve()
@@ -464,6 +488,13 @@ class RpgExpandedSelfControlTrigger: RpgLiteObligation
             local voices = occurrence.resolve();
             if (voices.status != 'resolved') rpgExpandedReject('self-control-phantom-voices-changed');
             self.phantomVoiceOccurrence = occurrence; self.boundPhantomVoiceOccurrence = occurrence;
+        }
+        if (self.stressRelation == 'stress-related' && value.check.roll != nil && !value.check.achieved
+            && self.profile.intrusiveReplayTrait() != nil)
+        {
+            local occurrence = self.intrusiveReplayRequest(); local replay = occurrence.resolve();
+            if (replay.status != 'resolved') rpgExpandedReject('self-control-replay-changed');
+            self.intrusiveReplayOccurrence = occurrence; self.boundIntrusiveReplayOccurrence = occurrence;
         }
         return value;
     }
@@ -5618,14 +5649,5 @@ modify RpgExpandedProfile
     {
         if (!giveIn && self.intrusiveReplayTrait() != nil) rpgExpandedReject('intrusive-replay-control-dispatch-required');
         return inherited(giveIn);
-    }
-;
-modify RpgExpandedSelfControlTrigger
-    assess()
-    {
-        if (self.result == nil && self.profile != nil && self.profile.ofKind(RpgExpandedProfile)
-            && self.profile.intrusiveReplayTrait() != nil && !self.giveIn && !self.buySuccess)
-            rpgExpandedReject('intrusive-replay-control-dispatch-required');
-        return inherited();
     }
 ;

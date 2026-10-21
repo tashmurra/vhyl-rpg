@@ -144,9 +144,10 @@
       "status": "partial",
       "acceptance": "Stress flashbacks trigger on a three-die result of six or less. Authored stress may prompt checks; failed or exactly successful fear checks and failed stress-related self-control checks specifically prompt them. Apply flashback in addition to the originating result and preserve event identity against duplicate dispatch.",
       "tests": [
-        "tests/expanded.py::test_intrusive_replay"
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Automatic fear/self-control dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Automatic fear dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-flashback-mild",
@@ -157,9 +158,10 @@
       "status": "partial",
       "acceptance": "Stress flashback severity mild costs -5, lasts two dice seconds, and causes -2 to all skill rolls, with awareness that the experience is unreal. Author supplies episode content; persist expiry and restrict information/action channels accordingly.",
       "tests": [
-        "tests/expanded.py::test_intrusive_replay"
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Automatic fear/self-control dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Automatic fear dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-flashback-severe",
@@ -170,9 +172,10 @@
       "status": "partial",
       "acceptance": "Stress flashback severity severe costs -10, lasts one die minutes, and causes -5 to all skill rolls, with the experience perceived as real. Author supplies episode content; persist expiry and restrict information/action channels accordingly.",
       "tests": [
-        "tests/expanded.py::test_intrusive_replay"
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Automatic fear/self-control dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Automatic fear dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-flashback-incapacitating",
@@ -183,9 +186,10 @@
       "status": "partial",
       "acceptance": "Stress flashback severity incapacitating costs -20, lasts three dice minutes, and causes no skill use or real-world sensory input. Author supplies episode content; persist expiry and restrict information/action channels accordingly.",
       "tests": [
-        "tests/expanded.py::test_intrusive_replay"
+        "tests/expanded.py::test_intrusive_replay",
+        "tests/expanded.py::test_replay_self_control"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Automatic fear/self-control dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Automatic fear dispatch, overlapping episodes and complete sensory blocking remain incomplete; known automatic routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-brittle-body",

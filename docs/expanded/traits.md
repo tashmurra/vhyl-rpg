@@ -2856,11 +2856,26 @@ Level three rejects skill use through the common health check gate. These effect
 belong to the committed episode; they are not recalculated from later purchase
 edits. Raw attribute checks do not receive the skill penalty.
 
-**Incomplete:** automatic fear and failed stress-related self-control follow-ups,
-concurrent-episode policy and complete external-sensory blocking are pending.
-Known automatic trigger routes reject explicitly while the purchase is active;
+**Incomplete:** automatic fear follow-ups, concurrent-episode policy and complete
+external-sensory blocking are pending. The unintegrated fear and direct
+self-control routes reject explicitly while the purchase is active;
 a new occurrence overlapping an active one also rejects before randomness.
 Do not enable this purchase in a finished campaign yet. `test_intrusive_replay`
 specifies exact prices, onset boundaries, durations, skill effects, expiry,
 rollback, undo, receipt mutation and saved continuation. It is registered but
 unrun, and does not establish complete integration.
+
+
+Owned self-control triggers now support intrusive-replay follow-ups. When an
+active purchase is present, classify the occasion as `stress-related` or
+`unrelated`. For a potentially rolled stress-related check, supply
+`intrusiveReplayContent` on the trigger; the content and required episode are
+preflighted before the control roll. A failed rolled check resolves one retained
+replay occurrence. Success, including exact success, does not; voluntary giving
+in and point-funded success do not fabricate a failed roll. The follow-up spends
+no additional time. With phantom voices also installed, the voice check resolves
+first and the replay check second, each once, in the same transaction. Existing
+voice-only dice order is unchanged. Replay of the control result validates the
+owned follow-up and does not re-roll. `test_replay_self_control` specifies these
+branches, missing-content rejection, rollback, undo and cross-process continuation;
+it remains unrun.

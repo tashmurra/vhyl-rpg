@@ -367,8 +367,19 @@ zero-attribute transitions are still outside the implemented procedure.
 The B136 stress-triggered replay gap now has a typed purchase, retained onset
 roll and source durations, immutable authored content, timed skill penalties and
 the severe skill-use prohibition. Its direct occurrence fixtures specify onset,
-expiry, rollback, undo and save continuation but remain unrun. Automatic fear and
-self-control dispatch, overlapping episodes and complete sensory blocking still
-require implementation; known automatic routes explicitly reject until that
-work is present. The purchase is deliberately not yet accepted as a fear
+expiry, rollback, undo and save continuation but remain unrun. Automatic fear dispatch, overlapping episodes and complete sensory blocking still
+require implementation. Owned self-control dispatch is described below; the
+unintegrated fear and direct-control routes still reject explicitly. The purchase is deliberately not yet accepted as a fear
 selection. This is an implementation increment, not completion of this trait.
+
+
+## Intrusive replay after failed self-control
+
+Owned self-control now preflights authored episode content and resolves a replay
+check after an actual failed stress-related roll. It preserves the independent
+phantom-voice follow-up, ordered before replay, and retains both receipts.
+Exact success, unrelated checks, giving in and funded success do not fabricate
+failed-roll triggers. New fixtures specify roll counts, atomic rollback, undo,
+missing-content rejection and saved replay. They remain unrun. Automatic fear
+dispatch, episode overlap and full sensory incapacity are the next integration
+gaps for this trait.
