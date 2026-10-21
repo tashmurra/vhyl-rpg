@@ -9,10 +9,10 @@ modify FearTestAction
     {
         local code = fearInput.code;
         if (code == 1400) { stressState.configure(); return nil; }
-        if (code == 1401 || code == 1402)
+        if (code == 1401 || code == 1402 || code == 1420 || code == 1421)
         {
             local gain = new RpgExpandedStressGain(); gain.id = 'gain-' + toString(fearInput.row); gain.cause = 'cause-' + toString(fearInput.row);
-            gain.state = stressState; gain.severity = 'severe'; gain.evidence = 'A distinct authored disturbing event';
+            gain.state = stressState; gain.severity = code == 1420 ? 'mild' : code == 1421 ? 'moderate' : 'severe'; gain.evidence = 'A distinct authored disturbing event';
             gain.apply(); if (code == 1402) throw new RpgError(); return nil;
         }
         if (code == 1403 || code == 1404)

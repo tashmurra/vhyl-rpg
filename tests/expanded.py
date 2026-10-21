@@ -9909,6 +9909,7 @@ def test(build):
     test_stress_pending(Session,stress,build.out)
     test_stress_refresh(Session,stress,build.out)
     test_stress_midnight(Session,stress,build.out)
+    test_stress_severity(Session,stress,build.out)
     stress_panic = build.build('expanded-stress-panic',ROOT / 'tests/fixtures/expanded-stress-panic.t')
     test_stress_panic(Session,stress_panic,build.out)
     frenzy_acquisition = build.build('expanded-frenzy-acquisition',ROOT / 'tests/fixtures/expanded-frenzy-acquisition.t')
@@ -31570,4 +31571,19 @@ def test_stress_midnight(Session,bundle,out):
         do(s,1405)
         assert last(s,'test.stress')[0:5] == [2,1,2,1,4]
         assert last(s,'test.stress')[7] == 104399
+    finally: s.close()
+
+
+def test_stress_severity(Session,bundle,out):
+    def do(s,c,row=4): s.action(2250,c,row)
+    s=Session(bundle)
+    try:
+        do(s,1400); do(s,1420,100); do(s,1405)
+        assert last(s,'test.stress')[0] == 1
+        do(s,1421,101); do(s,1405)
+        assert last(s,'test.stress')[0] == 3
+        do(s,1421,102)
+        for cause in (1,2,3): do(s,1401,cause)
+        do(s,1405); assert last(s,'test.stress')[0] == 12
+        do(s,1418); assert last(s,'test.stress-gain') == [3,1,2]
     finally: s.close()
