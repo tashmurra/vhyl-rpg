@@ -4518,10 +4518,16 @@ same owned wound. The strike binds both consequence inputs and the retained
 result, rejecting pre-used or mismatched consequences. Direct consequence
 execution outside its owning strike rejects.
 
-A Dodge failure for an actor with tactical placement currently rejects with
-`strike-defense-tactical-fall-required`; the adapter cannot silently change
-posture while leaving an invalid map footprint. Airborne falls and critical
-Parry failures also require further adapters. Author legality evidence remains
+A Dodge failure for an actor with tactical placement requires a
+`RpgExpandedDefenseFallPosition` in the consequence's `position` field. Bind its
+`owner` to the consequence and `figure` to the actual defender, with approval and
+evidence. If the defender is not already prone, provide a fresh
+`RpgExpandedFootprintChange` in `footprint`, selecting an adjacent clear upper-body
+hex. The complete footprint is assessed before the attack spends resources;
+posture and geometry then commit together without additional time. An already
+prone defender uses `footprint = nil` and retains its existing occupied hexes.
+Missing, occupied or invalid footprints reject before execution. Airborne falls
+and critical Parry failures still require further adapters. Author legality evidence remains
 necessary: this feature does not make an otherwise illegal Block possible.
 
 `expanded-panic-attack.t` / `test_panic_attack` specify hit, miss, defense,
@@ -4530,7 +4536,10 @@ exception rollback, undo, receipt mutation and saved continuation. These fixture
 are authored and unrun while checks are paused. The additional
 `expanded-panic-defense.t` / `test_panic_defense` specifies critical Dodge/Block
 failure integration, no duplicate dice or ammunition, immutable consequence
-records, rollback, undo and cross-process continuation. It is also unrun.
+records, rollback, undo and cross-process continuation. The additional
+`expanded-panic-defense-position.t` / `test_panic_defense_position` covers actual
+map occupancy, already-prone behavior, invalid footprints and saved continuation.
+Both fixtures remain unrun.
 
 ## Declared Wait responses
 

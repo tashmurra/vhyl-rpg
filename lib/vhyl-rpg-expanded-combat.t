@@ -795,6 +795,8 @@ modify RpgExpandedProfile
 class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
     owner = nil
     failure = nil
+    position = nil
+    committingPosition = nil
     boundFacts = nil
     boundOutcome = nil
     facts(strike)
@@ -803,8 +805,14 @@ class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
             || self.failure.fighter != strike.defender || self.failure.kind != strike.defenseKind
             || self.failure.score != strike.defenseScore || self.failure.roll != strike.defenseRoll)
             rpgExpandedReject('strike-defense-failure-owner');
-        return [self,self.owner,self.failure,self.failure.id,self.failure.fighter,self.failure.fighter.profile,
-            self.failure.kind,self.failure.score,self.failure.roll,self.failure.mobility,self.failure.evidence];
+        local facts = [self,self.owner,self.failure,self.failure.id,self.failure.fighter,self.failure.fighter.profile,
+            self.failure.kind,self.failure.score,self.failure.roll,self.failure.mobility,self.failure.evidence,self.position];
+        if (self.position != nil)
+        {
+            if (!self.position.ofKind(RpgExpandedStrikeDefensePosition)) rpgExpandedReject('strike-defense-position-type');
+            facts = facts + self.position.facts(self);
+        }
+        return facts;
     }
     outcomeFacts()
     {
@@ -820,7 +828,12 @@ class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
         if (value.status == 'reused') { value.status = 'blocked'; value.reason = 'strike-defense-failure-already-used'; return value; }
         if (value.status != 'ready') return value;
         if (self.failure.kind == 'dodge' && self.failure.fighter.profile.jumpPositionRequired())
-        { value.status = 'blocked'; value.reason = 'strike-defense-tactical-fall-required'; }
+        {
+            if (self.position == nil) { value.status = 'blocked'; value.reason = 'strike-defense-tactical-fall-required'; return value; }
+            local geometry = self.position.assess(self);
+            if (geometry.status != 'ready') return geometry;
+        }
+        else if (self.position != nil) rpgExpandedReject('strike-defense-unused-position');
         return value;
     }
     apply(strike)
@@ -829,6 +842,13 @@ class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
         local value = self.assess(strike); if (value.status != 'ready') return value;
         self.boundFacts = self.facts(strike); value = self.failure.apply();
         if (value.status != 'resolved') rpgExpandedReject('strike-defense-failure-changed');
+        if (self.position != nil)
+        {
+            self.committingPosition = true;
+            try { self.position.apply(self); }
+            catch (RpgError error) { self.committingPosition = nil; throw error; }
+            self.committingPosition = nil;
+        }
         self.boundOutcome = self.outcomeFacts(); return value;
     }
     validate(strike)
@@ -838,6 +858,7 @@ class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
             || self.failure.assess().status != 'reused') rpgExpandedReject('strike-defense-failure-history');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundFacts[i]) rpgExpandedReject('strike-defense-failure-binding');
+        if (self.position != nil) self.position.validate(self);
         facts = self.outcomeFacts();
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('strike-defense-failure-outcome');

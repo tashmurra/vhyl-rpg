@@ -2047,3 +2047,9 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   defense roll or turn. Tactical/airborne falls, critical Parry failures and
   melee critical-defense successes still reject pending their adapters. New
   lifecycle fixtures are authored and unrun; checks remain paused.
+
+- Connected critical Dodge failures to owned tactical prone footprints. The
+  adapter preflights the adjacent clear hex and commits posture and geometry in
+  one transaction; already-prone defenders retain their current footprint. It
+  spends no additional turn or movement allowance. Airborne and shared-cell
+  falls remain unsupported. New lifecycle fixtures are authored and unrun.

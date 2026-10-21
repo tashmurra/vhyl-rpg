@@ -1370,3 +1370,68 @@ class RpgExpandedPathWaitInterruption: RpgExpandedPathInjuryInterruption
         return self.result;
     }
 ;
+
+/** Grounded critical Dodge failure changes posture and footprint in one transaction. */
+class RpgExpandedDefenseFallPosition: RpgExpandedStrikeDefensePosition
+    owner = nil
+    figure = nil
+    footprint = nil
+    approved = nil
+    evidence = nil
+    boundFacts = nil
+    alreadyProne = nil
+    facts(consequence)
+    {
+        if (self.owner != consequence || self.figure == nil || !self.figure.ofKind(RpgExpandedTacticalFigure)
+            || self.figure.profile != consequence.failure.fighter.profile || consequence.failure.kind != 'dodge')
+            rpgExpandedReject('defense-fall-position-owner');
+        local facts = [self,self.owner,self.figure,self.figure.profile,self.figure.map,self.approved,self.evidence,self.footprint];
+        if (self.footprint != nil)
+        {
+            if (!self.footprint.ofKind(RpgExpandedFootprintChange) || self.footprint.figure != self.figure
+                || self.footprint.posture != 'lying' || self.footprint.selected == nil
+                || !self.footprint.selected.ofKind(RpgExpandedHex)) rpgExpandedReject('defense-fall-footprint-owner');
+            facts = facts + self.footprint.definition();
+        }
+        return facts;
+    }
+    assess(consequence)
+    {
+        self.facts(consequence); local value = new RpgExpandedResult();
+        if (self.boundFacts != nil) { self.validate(consequence); value.status = 'reused'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'defense-fall-position-evidence'; return value; }
+        if (self.figure.map == nil || self.figure.profile.tacticalFigure != self.figure)
+        { value.reason = 'defense-fall-figure-unplaced'; return value; }
+        self.figure.map.validate(); value.reason = self.figure.footprintReason(); if (value.reason != nil) return value;
+        if (self.figure.profile.posture == 'lying')
+        {
+            if (self.footprint != nil) rpgExpandedReject('defense-fall-already-prone-footprint');
+            value.status = 'ready'; return value;
+        }
+        if (self.footprint == nil) { value.reason = 'defense-fall-footprint-required'; return value; }
+        value = self.footprint.assessTransition();
+        if (value.status == 'reused') { value.status = 'blocked'; value.reason = 'defense-fall-footprint-used'; }
+        return value;
+    }
+    apply(consequence)
+    {
+        if (self.owner != consequence || !consequence.committingPosition || consequence.failure.result == nil
+            || self.figure.profile.posture != 'lying' || self.boundFacts != nil)
+            rpgExpandedReject('defense-fall-execution-owner');
+        self.boundFacts = self.facts(consequence); self.alreadyProne = self.footprint == nil;
+        if (self.footprint != nil && self.footprint.apply().status != 'resolved') rpgExpandedReject('defense-fall-footprint-changed');
+        if (self.figure.footprintReason() != nil) rpgExpandedReject('defense-fall-geometry');
+        return nil;
+    }
+    validate(consequence)
+    {
+        local facts = self.facts(consequence);
+        if (self.boundFacts == nil || facts.length() != self.boundFacts.length()
+            || self.alreadyProne != (self.footprint == nil)) rpgExpandedReject('defense-fall-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('defense-fall-binding');
+        if (self.footprint != nil && self.footprint.assess().status != 'reused') rpgExpandedReject('defense-fall-footprint-history');
+        return nil;
+    }
+;

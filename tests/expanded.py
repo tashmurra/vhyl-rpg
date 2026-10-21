@@ -9783,6 +9783,8 @@ def test(build):
     test_overstimulation(Session,overstimulation,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
+    panic_defense_position = build.build('expanded-panic-defense-position',ROOT / 'tests/fixtures/expanded-panic-defense-position.t')
+    test_panic_defense_position(Session,panic_defense_position,build.out)
     panic_defense = build.build('expanded-panic-defense',ROOT / 'tests/fixtures/expanded-panic-defense.t')
     test_panic_defense(Session,panic_defense,build.out)
     panic_attack = build.build('expanded-panic-attack',ROOT / 'tests/fixtures/expanded-panic-attack.t')
@@ -29096,4 +29098,37 @@ def test_panic_defense(Session,bundle,out):
         try:
             do(s,670); do(s,760); do(s,change); do(s,442)
             assert state(s)==['standing',1,0,0,2,0,3,0]
+        finally: s.close()
+
+
+def test_panic_defense_position(Session,bundle,out):
+    """Critical Dodge commits a real prone footprint, with no duplicate turn/dice. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,771)
+        return last(s,'test.defense-position')
+    for prone in (False,True):
+        path=out/f'panic-defense-position-{prone}.zsave'
+        initial=['lying' if prone else 'standing',1 if prone else None,int(prone),0,0,2,0,3]
+        expected=['lying',1,1,1,1,1,0,9]
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,760); do(s,770)
+            if prone: do(s,777)
+            do(s,671); assert last(s,'test.panic-attack-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,772); do(s,443); assert state(s)==initial
+            do(s,442); s.command('undo'); assert state(s)==initial
+            do(s,442); do(s,442); do(s,778); do(s,779); assert state(s)==expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,442); do(s,779); assert state(s)==expected
+        finally: s.close()
+    for code in (773,774,775,776):
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,760); do(s,770); do(s,code); do(s,442)
+            assert state(s)==['standing',None,0,0,0,2,0,3]
         finally: s.close()

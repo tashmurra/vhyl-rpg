@@ -1216,3 +1216,11 @@ class RpgExpandedStrikeDefenseConsequence: object
     apply(strike) { rpgExpandedReject('strike-defense-combat-required'); }
     validate(strike) { rpgExpandedReject('strike-defense-combat-required'); }
 ;
+
+/** Optional geometry commit belonging to one critical-defense consequence. */
+class RpgExpandedStrikeDefensePosition: object
+    facts(consequence) { rpgExpandedReject('strike-defense-tactical-required'); }
+    assess(consequence) { rpgExpandedReject('strike-defense-tactical-required'); }
+    apply(consequence) { rpgExpandedReject('strike-defense-tactical-required'); }
+    validate(consequence) { rpgExpandedReject('strike-defense-tactical-required'); }
+;

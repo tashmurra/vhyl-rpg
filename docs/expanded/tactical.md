@@ -577,3 +577,29 @@ The [Wait fixture](../../tests/fixtures/expanded-panic-wait.t) and
 one start-of-turn permission check. Assertions remain unrun. See the
 [health guide](health.md#declared-wait-responses) for the explicit stationary,
 ordinary-attack subset and remaining unsupported conversions.
+
+## Critical defensive falls
+
+`RpgExpandedDefenseFallPosition` connects a critical Dodge failure to the
+existing owned footprint transition. Attach it to the recorded strike's
+`RpgExpandedStrikeDefenseFailure.position`. The combat library supplies the
+consequence; the tactical library supplies this concrete geometry adapter.
+
+Provide the matching `owner`, defender `figure`, approval and evidence. For a
+standing or other single-hex upright-human figure, provide a fresh `footprint`
+whose posture is `lying` and whose selected adjacent hex is clear. Assessment
+checks the map, figure ownership, terrain and all occupied cells before the
+strike spends ammunition or commits injury. The critical failure changes posture;
+the position adapter then commits the footprint in the same action transaction.
+It spends neither movement allowance nor another turn. Invalid geometry rejects.
+
+An already-prone defender requires no new footprint: leave `footprint` nil and
+retain its two occupied hexes. Replays validate the recorded transition without
+reapplying it. Calling the position adapter outside its owning consequence is
+rejected. Other body forms, airborne falls and shared-cell falling procedures
+remain unsupported.
+
+`expanded-panic-defense-position.t` and `test_panic_defense_position` specify
+preview purity, normal/already-prone resolution, occupied and invalid landing
+hexes, direct-call rejection, rollback, undo and cross-process continuation.
+These fixtures are authored and unrun while build checks remain paused.
