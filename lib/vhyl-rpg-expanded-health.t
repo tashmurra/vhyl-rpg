@@ -9672,7 +9672,7 @@ class RpgExpandedFearEvent: object
     }
     matchesConsequence(request)
     {
-        local row = self.result.row;
+        local row = self.selectedRow();
         if (request.ofKind(RpgExpandedFearTraitConsequence)) return request.fearEventMatches(self);
         if (request.ofKind(RpgExpandedFearStun)) return request.tableTotal == row && (row <= 11 || (row >= 14 && row <= 16));
         if (request.ofKind(RpgExpandedFearRetching)) return row == 12;
@@ -9788,7 +9788,7 @@ class RpgExpandedFearTraitCompound: RpgExpandedFearTraitConsequence
     fearEventMatches(entry)
     {
         self.definition();
-        return entry.id == self.id && entry.context == self.context && entry.result.row == self.tableTotal;
+        return entry.id == self.id && entry.context == self.context && entry.selectedRow() == self.tableTotal;
     }
     assess()
     {
@@ -10237,7 +10237,7 @@ class RpgExpandedExtremePanic: RpgExpandedFearTraitConsequence
         self.context.profile.extremePanicHistory = self.context.profile.extremePanicHistory + [self];
         self.context.profile.extremePanic = self; value.status = 'resolved'; return value;
     }
-    fearEventMatches(entry) { return entry.result.row == 33 && entry.id == self.id && entry.context == self.context; }
+    fearEventMatches(entry) { return entry.selectedRow() == 33 && entry.id == self.id && entry.context == self.context; }
 ;
 /** Explicit supported reactions, with real shared time/drop/injury effects. No generic completion callback. */
 class RpgExpandedExtremePanicReaction: object
@@ -10452,4 +10452,93 @@ modify RpgExpandedPhobiaExposure
         return due;
     }
     nextCheckAt() { return self.checkDueAfter(self.checks.length()); }
+;
+
+/** B360: explicit author replacement/reroll of an inappropriate retained result. */
+class RpgExpandedFearAdjudication: object
+    id = nil
+    entry = nil
+    mode = 'replace'
+    row = nil
+    reason = 'inappropriate'
+    approved = nil
+    evidence = nil
+    result = nil
+    selected = nil
+    tableRoll = nil
+    recordedAt = nil
+    boundDefinition = nil
+    boundOutcome = nil
+    definition() { return [self.id,self.entry,self.mode,self.row,self.reason,self.approved,self.evidence]; }
+    validateReceipt()
+    {
+        if (self.result == nil || self.boundDefinition == nil || self.boundOutcome == nil) rpgExpandedReject('fear-adjudication-receipt');
+        local facts = self.definition();
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-adjudication-binding');
+        if (self.selected != self.boundOutcome[1] || self.tableRoll != self.boundOutcome[2]
+            || self.recordedAt != self.boundOutcome[3] || self.result != self.boundOutcome[4]) rpgExpandedReject('fear-adjudication-outcome');
+        return nil;
+    }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.entry == nil || !self.entry.ofKind(RpgExpandedFearEvent))
+            rpgExpandedReject('fear-adjudication-definition');
+        if (self.result != nil)
+        {
+            self.validateReceipt();
+            if (!holds(self.entry.adjudications,self)) rpgExpandedReject('fear-adjudication-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.selected != nil || self.tableRoll != nil || self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil)
+            rpgExpandedReject('fear-adjudication-uncommitted');
+        if (!holds(['replace','reroll'],self.mode) || !holds(['inappropriate','awe','confusion'],self.reason))
+            rpgExpandedReject('fear-adjudication-choice');
+        if (self.mode == 'replace') rpgInteger(self.row,4,40);
+        else if (self.row != nil) rpgExpandedReject('fear-adjudication-reroll-row');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'fear-adjudication-author-reason'; return value; }
+        if (self.entry.assess().status != 'reused' || self.entry.result.row == nil || self.entry.consequence != nil
+            || self.entry.recordedAt != rpgLedger.seconds) { value.reason = 'fear-adjudication-pending-event'; return value; }
+        foreach (local prior in self.entry.adjudications)
+            if (prior.id == self.id) rpgExpandedReject('fear-adjudication-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition();
+        if (self.mode == 'replace') self.selected = self.row;
+        else
+        {
+            self.tableRoll = rpgRandom.roll();
+            self.selected = rpgExpandedFearTable(self.tableRoll-self.entry.result.check.margin).row;
+        }
+        self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = [self.selected,self.tableRoll,self.recordedAt,self.result];
+        self.entry.adjudications = self.entry.adjudications + [self]; self.entry.adjudicationCount += 1; return value;
+    }
+;
+modify RpgExpandedFearEvent
+    adjudications = []
+    adjudicationCount = 0
+    selectedRow()
+    {
+        if (self.result == nil) return nil;
+        local row = self.result.row; local ids = [];
+        if (self.adjudicationCount != self.adjudications.length()) rpgExpandedReject('fear-adjudication-count');
+        foreach (local decision in self.adjudications)
+        {
+            decision.validateReceipt();
+            if (decision.entry != self || decision.recordedAt != self.recordedAt || holds(ids,decision.id))
+                rpgExpandedReject('fear-adjudication-event-history');
+            ids = ids + [decision.id]; row = decision.selected;
+        }
+        return row;
+    }
+    assess()
+    {
+        if (self.result == nil && (self.adjudications.length() != 0 || self.adjudicationCount != 0)) rpgExpandedReject('fear-adjudication-without-event');
+        local value = inherited(); if (self.result != nil) self.selectedRow(); return value;
+    }
 ;

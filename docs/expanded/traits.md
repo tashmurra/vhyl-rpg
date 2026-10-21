@@ -2115,3 +2115,47 @@ ends the exposure with evidence that the stimulus is no longer perceived.
 This is an explicit perception decision, not an automatic source rule for
 unconsciousness. `test_phobia_awareness` specifies a twelve-minute faint,
 recovery, resumption, replay, rollback, undo and saved continuation; it is unrun.
+
+
+## Physical effects acquired from fear
+
+`RpgExpandedFearPhysicalAcquisition` implements concrete choices for full-2008
+B361 rows 24, 36 and 37. Supply `id`, `eventId`, `profile`, `tableTotal`, approval,
+evidence describing the actual change, and fresh `purchases`. Supported purchase
+types are `RpgExpandedPainSensitivity`, `RpgExpandedPersistentWound` and
+`RpgExpandedSpeechLimitation`. Their combined cost must be exactly -15, -20 or
+-30 respectively. Include the health library for their health effects.
+
+The acquisition adds the actual traits, preserving their existing speech, pain
+and wound effects. A persistent wound purchase does not subtract HP at acquisition.
+Duplicate effects, already-owned purchases, unsupported types and speech
+conflicts are rejected before committing. Development revision increments once;
+there is no earned-point or spendable-point reward. Aging, appearance changes and
+other physical transformations still need specific adapters. Approval of a price
+alone cannot satisfy this interface. `test_fear_physical` specifies all three
+required totals, speech blocking, accounting, rollback, undo and saved replay;
+fixtures are unrun.
+
+`RpgExpandedFixedBeliefAcquisition` also accepts rows 23 and 35 as an authored
+choice of another mental disadvantage. Those rows require the exact actual cost,
+not a reduced credit allocation. They compose with faint row 27 and coma rows
+39/40 through `RpgExpandedFearTraitCompound`, using acquisition rows 23/35.
+The distinct mandated-belief rows 22/34 and compounds 26/38 retain their behavior.
+The compound fixture includes both alternatives; it remains unrun.
+
+## Phobia learning restrictions
+
+Machinery and magic phobias participate in the skills library's shared
+`skillLearningReason` gate (full-2008 B149), including study paths that use that
+gate. While either phobia is active, skill definitions require an explicit
+`phobiaLearningKinds` list and `phobiaLearningEvidence`. Supported classifications
+are `machine-repair`, `complex-machine-use`, `simple-machine-use`, `magic` and
+`other`; use multiple classifications when appropriate. No classification is
+inferred from a skill's name.
+
+Machinery phobia blocks repair learning and complex-machine operation learning,
+while permitting explicitly classified simple-machine use. Magic phobia blocks
+learning magic. Missing classification blocks learning before time, points or
+dice are spent. These gates do not erase previously acquired training.
+`test_phobia_learning` specifies the shared gate and no-randomness behavior; it
+is unrun. Broader voluntary-activity permissions remain pending.

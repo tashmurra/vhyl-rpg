@@ -4151,15 +4151,18 @@ After commitment, the existing episode governs recovery and action restrictions.
 Reapplying the same consequence returns reused status. Rolling the event and
 committing its consequence may also be enclosed in one transaction by an author.
 
-Rows 24 and 36–37 still need physical-effect executors. Row 25 currently supports
-phobias only; row 33 rejects reaction kinds outside its concrete adapters. Rows 23/35 and
-their compound forms support phobia selection; other mental-disadvantage choices
-remain unsupported.
+Rows 24 and 36–37 support the specific physical acquisition bundles documented
+in the traits guide; aging and other physical transformations remain pending.
+Row 25 currently supports phobias only; row 33 rejects reaction kinds outside
+its concrete adapters. Rows 23/35 and
+their compound forms support phobia or fixed-belief selection; other
+mental-disadvantage choices remain unsupported.
 Unsupported results remain pending, never converted to an abridged result or
 rerolled automatically. Do not enable this event flow in a campaign expecting
 uninterrupted coverage of the entire table yet. Owned events now connect mandatory phantom-voice follow-ups and source-specific
-fear-aura histories. General exposure-history automation, inappropriate-result
-adjudication and some phobia combinations remain incomplete. The traits guide
+fear-aura histories. Explicit inappropriate-result adjudication is described
+below. General exposure-history automation and some phobia combinations remain
+incomplete. The traits guide
 now documents owned phobia checks and their repeat schedule. Postbattle stress uses the
 owned self-control event described in the traits guide.
 
@@ -4260,3 +4263,21 @@ Flight routes, attacks, item destruction and arbitrary world changes do not yet
 have reaction adapters and are rejected. A callback alone is not accepted as
 completion. `test_extreme_panic` specifies two successive reactions, rollback,
 undo, invalid selection and cross-process continuation; fixtures remain unrun.
+
+
+## Replacing an inappropriate reaction
+
+For the explicit author choice in full-2008 B360, create
+`RpgExpandedFearAdjudication` with the pending `entry`, unique `id`, approval,
+and evidence explaining the inappropriate reaction. `reason` is `inappropriate`,
+`awe` or `confusion`. `mode = 'replace'` requires `row` from 4 through 40;
+`mode = 'reroll'` requires no row and rolls the table again with the original
+failed-check margin. Neither repeats the initial fear check or its stress trigger.
+
+`apply()` retains a decision receipt. `entry.result.row` remains the original
+rolled row; `entry.selectedRow()` is the current selection used by consequence
+dispatch. Further explicit decisions are allowed before commitment. Once a
+consequence is committed, another decision cannot replace or undo its effects.
+Replaying any decision never rolls again. `test_fear_adjudication` specifies
+original-result retention, both modes, consequence dispatch, rollback, undo and
+saved continuation; fixtures remain unrun.

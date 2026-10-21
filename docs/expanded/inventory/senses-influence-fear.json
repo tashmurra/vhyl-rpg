@@ -645,9 +645,12 @@
       "pages": "B360-B361",
       "module": "health",
       "kind": "author-decision",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A specific authored alternative or reroll can replace an implausible result, including awe or confusion variants; record the reason, selected outcome and any extra randomness.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_adjudication"
+      ],
+      "validation_note": "Explicit owned author replacement or table reroll for inappropriate, awe or confusion reactions. Original check/table result retained; dispatcher uses selectedRow and adjudication is forbidden after consequence commitment. Fixtures authored, unrun."
     },
     {
       "id": "fear-owned-recovery",
@@ -1279,7 +1282,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
+      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-24",
@@ -1290,9 +1293,10 @@
       "status": "partial",
       "acceptance": "An authored physical effect adds negative fifteen points of physical disadvantages; each year of event-induced aging counts as negative three points for this selection.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_physical"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Exact-cost owned bundles of pain sensitivity, persistent wound and speech limitation apply existing effects without spendable points. Aging and other physical transformations remain unsupported. Cost, speech, replay, rollback, undo and continuation fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-25",
@@ -1334,7 +1338,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
+      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-28",
@@ -1446,7 +1450,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
+      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-36",
@@ -1457,9 +1461,10 @@
       "status": "partial",
       "acceptance": "Apply an authored physical effect worth negative twenty points using the row-twenty-four selection policy.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_physical"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Exact-cost owned bundles of pain sensitivity, persistent wound and speech limitation apply existing effects without spendable points. Aging and other physical transformations remain unsupported. Cost, speech, replay, rollback, undo and continuation fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-37",
@@ -1470,9 +1475,10 @@
       "status": "partial",
       "acceptance": "Apply an authored physical effect worth negative thirty points using the row-twenty-four selection policy.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_physical"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Exact-cost owned bundles of pain sensitivity, persistent wound and speech limitation apply existing effects without spendable points. Aging and other physical transformations remain unsupported. Cost, speech, replay, rollback, undo and continuation fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-38",
@@ -1500,7 +1506,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
+      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-40-plus",
@@ -1514,7 +1520,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
+      "validation_note": "Owned phobia or fixed-belief acquisitions and matching faint/coma compounds, including permanent IQ loss for row 40+, without spendable points. Other mental-disadvantage selections and low-initial-score resolution remain pending. Fixtures authored, unrun."
     }
   ],
   "exclusions": [

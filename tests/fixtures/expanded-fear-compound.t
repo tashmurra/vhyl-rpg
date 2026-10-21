@@ -19,6 +19,14 @@ modify FearTestAction
               eventBeliefAward.tableTotal = 34; eventBelief.level = 3; }
             return nil;
         }
+        if (code == 478 || code == 479)
+        {
+            fearProfile.creationComplete = true; fearProfile.disadvantageLimit = 0;
+            fearProfile.earnedPoints = 9; fearProfile.unspentPoints = 7;
+            if (code == 478) { compoundFear.tableTotal = 27; eventBeliefAward.tableTotal = 23; }
+            else { compoundFear.tableTotal = 39; compoundFear.episode = compoundComa; eventBeliefAward.tableTotal = 35; eventBelief.level = 3; }
+            return nil;
+        }
         if (code == 342 || code == 343)
         { compoundFear.apply(); if (code == 343) throw new RpgError(); return nil; }
         if (code == 344)

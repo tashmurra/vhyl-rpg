@@ -596,9 +596,12 @@
       "pages": "B150",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Machinery fear costs base -5 at technology level four or lower, -15 at five or higher. Prohibit learning any machine repair and operation beyond simple mechanical transport/weapons. High-technology surroundings trigger, robots/computers give -3, hostile intelligent machines -6.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phobia_learning"
+      ],
+      "validation_note": "Typed conditional purchase cost, exposure modifiers and explicit subject-classification gate for prohibited learning through shared skill eligibility. Broader activity/reaction orchestration pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-phobia-magic",
@@ -606,9 +609,12 @@
       "pages": "B150",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Magic fear costs base -15/-10/-5 when magic is common/uncommon/essentially unknown. It prevents learning magic; perceived magic triggers, friendly targeting gives -3 and hostile targeting -6. Belief in the effect is sufficient even when no magic exists; do not leak actual supernatural validity.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phobia_learning"
+      ],
+      "validation_note": "Typed conditional purchase cost, exposure modifiers and explicit subject-classification gate for prohibited learning through shared skill eligibility. Broader activity/reaction orchestration pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-phobia-psi",

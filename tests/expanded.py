@@ -9765,6 +9765,8 @@ def test(build):
     test_fear_stun(Session,fear)
     fear_event = build.build('expanded-fear-event',ROOT / 'tests/fixtures/expanded-fear-event.t')
     test_fear_event(Session,fear_event,build.out)
+    fear_adjudication = build.build('expanded-fear-adjudication',ROOT / 'tests/fixtures/expanded-fear-adjudication.t')
+    test_fear_adjudication(Session,fear_adjudication,build.out)
     fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
     test_fear_event_traits(Session,fear_event_traits)
     fear_stress = build.build('expanded-fear-stress',ROOT / 'tests/fixtures/expanded-fear-stress.t')
@@ -9779,12 +9781,16 @@ def test(build):
     test_phobia(Session,phobia,build.out)
     phobia_awareness = build.build('expanded-phobia-awareness',ROOT / 'tests/fixtures/expanded-phobia-awareness.t')
     test_phobia_awareness(Session,phobia_awareness,build.out)
+    phobia_learning = build.build('expanded-phobia-learning',ROOT / 'tests/fixtures/expanded-phobia-learning.t')
+    test_phobia_learning(Session,phobia_learning)
     fear_phobia_acquisition = build.build('expanded-fear-phobia-acquisition',ROOT / 'tests/fixtures/expanded-fear-phobia-acquisition.t')
     test_fear_phobia_acquisition(Session,fear_phobia_acquisition,build.out)
     fear_shock_faint = build.build('expanded-fear-shock-faint',ROOT / 'tests/fixtures/expanded-fear-shock-faint.t')
     test_fear_shock_faint(Session,fear_shock_faint,build.out)
     extreme_panic = build.build('expanded-extreme-panic',ROOT / 'tests/fixtures/expanded-extreme-panic.t')
     test_extreme_panic(Session,extreme_panic,build.out)
+    fear_physical = build.build('expanded-fear-physical',ROOT / 'tests/fixtures/expanded-fear-physical.t')
+    test_fear_physical(Session,fear_physical,build.out)
     fear_phobia_worsening = build.build('expanded-fear-phobia-worsening',ROOT / 'tests/fixtures/expanded-fear-phobia-worsening.t')
     test_fear_phobia_worsening(Session,fear_phobia_worsening,build.out)
     test_fear_fatigue(Session,fear)
@@ -27680,7 +27686,7 @@ def test_fear_compound(Session,bundle,out):
     def state(s):
         do(s,344)
         return last(s,'test.fear-compound')
-    for setup,draws,injury in ((340,4,1),(341,1,0)):
+    for setup,draws,injury in ((340,4,1),(341,1,0),(478,4,1),(479,1,0)):
         s=Session(bundle)
         try:
             do(s,setup)
@@ -27961,4 +27967,79 @@ def test_phobia_awareness(Session,bundle,out):
         do(s,467); assert state(s)==[1,None,1,0,11,720]
         do(s,466); do(s,466); do(s,386)
         assert state(s)==[0,1320,2,0,14,720]
+    finally: s.close()
+
+
+
+def test_fear_physical(Session,bundle,out):
+    """B361 physical bundles own existing executable traits, not price-only effects; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,475)
+        return last(s,'test.fear-physical')
+    for setup,count,cost in ((470,1,15),(471,2,20),(472,3,30)):
+        s=Session(bundle)
+        path=out/f'fear-physical-{setup}.zsave'
+        try:
+            do(s,setup); do(s,474); assert state(s)==[0,0,0,0,0,9,7,0]
+            do(s,473); s.command('undo'); assert state(s)==[0,0,0,0,0,9,7,0]
+            do(s,473); do(s,473); assert state(s)==[count,cost,1,0,1,9,7,0]
+            do(s,477); assert last(s,'test.fear-physical-speech')==['articulated-speech-unavailable']
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,473)
+            assert state(s)==[count,cost,1,0,1,9,7,0]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,470); do(s,476); assert state(s)==[0,0,0,0,0,9,7,0]
+    finally: s.close()
+
+
+
+def test_fear_adjudication(Session,bundle,out):
+    """B360 explicit replacement/reroll retains original evidence and never redoes initial fear; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,483)
+        return last(s,'test.fear-adjudication')
+    s=Session(bundle)
+    path=out/'fear-adjudication.zsave'
+    try:
+        do(s,300); do(s,481); assert state(s)==[4,4,0,6]
+        do(s,480); s.command('undo'); assert state(s)==[4,4,0,6]
+        do(s,480); do(s,480); assert state(s)==[4,10,1,6]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,480); assert state(s)==[4,10,1,6]
+        do(s,482); do(s,482); assert state(s)==[4,4,2,9]
+        do(s,303); do(s,480); assert state(s)==[4,4,2,9]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,300); do(s,480); do(s,485)
+        do(s,482); assert state(s)[:3]==[4,10,1]
+    finally: s.close()
+
+
+
+def test_phobia_learning(Session,bundle):
+    """B149 learning restrictions are actual shared eligibility gates; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def reason(s):
+        do(s,492)
+        return last(s,'test.phobia-learning')
+    s=Session(bundle)
+    try:
+        do(s,490); assert reason(s)==['phobia-learning-classification-required',0]
+        do(s,493); assert reason(s)==['phobia-machine-learning',0]
+        do(s,494); assert reason(s)==['phobia-machine-learning',0]
+        do(s,495); assert reason(s)==[None,0]
+        do(s,497); assert reason(s)==[None,0]
+        do(s,491); do(s,496); assert reason(s)==['phobia-magic-learning',0]
+        do(s,497); assert reason(s)==[None,0]
     finally: s.close()

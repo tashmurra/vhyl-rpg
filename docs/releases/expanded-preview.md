@@ -1916,3 +1916,13 @@ remain explicit gaps. Earlier entries describing all fear orchestration or
 mandatory fear stress triggers as pending are superseded by this update.
 The complete suite is not yet finished. New integration fixtures are authored
 but unrun; build, test, documentation and packaging checks remain paused.
+
+
+Physical fear outcomes now accept exact-cost bundles of supported executable
+traits. Fixed beliefs can also satisfy the optional mental-disadvantage outcomes.
+Owned author decisions can replace or reroll inappropriate fear-table results
+without overwriting the initial result or repeating its stress follow-up.
+Machinery and magic phobias now constrain the shared skill-learning gate through
+explicit subject classifications. Aging, other physical/mental selections,
+additional panic reactions and voluntary-activity permissions remain incomplete.
+All new fixtures remain unrun while checks are paused.

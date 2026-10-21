@@ -280,6 +280,7 @@ modify RpgExpandedProfile
     skillLearningReason(skill)
     {
         rpgExpandedValidateSkill(skill);
+        local phobiaReason = self.phobiaSkillLearningReason(skill); if (phobiaReason != nil) return phobiaReason;
         local physiologyReason = self.physiologySkillLearningReason(skill); if (physiologyReason != nil) return physiologyReason;
         local socialReason = self.socialSkillLearningReason(skill); if (socialReason != nil) return socialReason;
         if (skill.ofKind(RpgExpandedSkill) && skill.wildcard && !self.rules.wildcardSkills)

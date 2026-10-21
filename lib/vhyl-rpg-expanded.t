@@ -1127,3 +1127,11 @@ modify RpgExpandedProfile
     phobiaScore(trait,modifier) { rpgExpandedReject('phobia-traits-required'); }
     phobiaControlNumber(trait) { rpgExpandedReject('phobia-traits-required'); }
 ;
+
+modify RpgSkill
+    phobiaLearningKinds = []
+    phobiaLearningEvidence = nil
+;
+modify RpgExpandedProfile
+    phobiaSkillLearningReason(skill) { return nil; }
+;
