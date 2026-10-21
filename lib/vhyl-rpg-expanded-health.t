@@ -11044,6 +11044,13 @@ rpgExpandedFearRecoveryCheck(owner,profile,context)
 /** Explicit panic authorization travels with the request; preview never changes profile state. */
 class RpgExpandedPanicActionGate: RpgExpandedActionGate
     panicReaction = nil
+    apply()
+    {
+        if (self.result == nil && (self.panicReaction == nil
+            || self.panicReaction.episode.settlingReaction != self.panicReaction))
+            rpgExpandedReject('panic-gate-reaction-owner');
+        return inherited();
+    }
     healthPermissionReason()
     {
         if (!self.profile.panicAuthorization(self)) return 'panic-permission-owner';
@@ -11384,6 +11391,7 @@ class RpgExpandedPanicAttackOperation: RpgExpandedPanicOperation
     apply(owner)
     {
         local value = self.assess(owner); if (value.status != 'ready') return value;
+        if (owner.episode.settlingReaction != owner) rpgExpandedReject('panic-attack-reaction-owner');
         self.boundFacts = self.facts(owner); self.battleSecond = self.battle.seconds; self.ledgerSecond = rpgLedger.seconds;
         value = self.battle.step(self.maneuver.strike.attacker,self.maneuver);
         if (value.status != 'resolved') rpgExpandedReject('panic-attack-turn-changed');

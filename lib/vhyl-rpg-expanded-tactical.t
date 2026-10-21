@@ -1102,6 +1102,7 @@ class RpgExpandedPanicPathOperation: RpgExpandedPanicOperation
     apply(owner)
     {
         local value = self.assess(owner); if (value.status != 'ready') return value;
+        if (owner.episode.settlingReaction != owner) rpgExpandedReject('panic-path-reaction-owner');
         self.boundFacts = self.facts(owner); self.battleSecond = self.move.battle.seconds; self.ledgerSecond = rpgLedger.seconds;
         value = self.move.battle.step(self.move.fighter,self.maneuver);
         if (value.status != 'resolved') rpgExpandedReject('panic-path-turn-changed');

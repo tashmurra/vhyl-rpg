@@ -4737,3 +4737,14 @@ receipts without requiring the character to remain at a former destination.
 `test_panic_crying` and `test_timed_panic_path` specify changed definitions,
 removed history, changed outcomes and changed permissions rejecting before a
 new time charge. These additional cases remain unrun while checks are paused.
+
+
+### Panic execution ownership
+
+`RpgExpandedPanicActionGate.apply()` executes only while its `panicReaction` is
+being committed. Preview remains pure and available beforehand. Invoke the owned
+reaction to perform a tactical panic attack or path move; directly invoking its
+gate, operation or battle maneuver is rejected before an action can escape the
+reaction's retained history. Completed receipts can still be replayed without
+spending again. `test_panic_attack` and `test_panic_path` specify direct-call
+rejection alongside ordinary execution; these cases remain unrun.

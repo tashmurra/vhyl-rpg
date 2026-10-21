@@ -36,6 +36,9 @@ modify PositionTestAction
         if (code == 210) { pathBattle.order = [pathFighter]; return nil; }
         if (code == 211) { positionHero.stunned = true; return nil; }
         if (code == 209) { pathPanicOperation.battleSecond = 9; pathPanicReaction.assess(); return nil; }
+        if (code == 212) { panicPathGate.apply(); return nil; }
+        if (code == 213) { pathPanicOperation.apply(pathPanicReaction); return nil; }
+        if (code == 214) { pathBattle.step(pathFighter,panicPathManeuver); return nil; }
         return inherited(context);
     }
 ;

@@ -52,6 +52,9 @@ modify FearTestAction
         if (code == 684) { fearProfile.injury = fearProfile.maxHP; return nil; }
         if (code == 685) { event('test.panic-attack-incapacity'); eventValue(fearProfile.unconscious ? 1 : 0);
             eventValue(fearProfile.extremePanic == nil ? 0 : 1); return nil; }
+        if (code == 686) { attackGate.apply(); return nil; }
+        if (code == 687) { attackOperation.apply(extremeFirst); return nil; }
+        if (code == 688) { attackBattle.step(attackFighter,attackManeuver); return nil; }
         return inherited(context);
     }
 ;

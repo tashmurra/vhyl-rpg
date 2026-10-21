@@ -204,3 +204,14 @@ ownership. Existing computer-destruction fixtures inherit the same permission.
 The object fixture adds paralysis, direct-call rejection, failed consciousness,
 rollback, undo and saved continuation. These cases remain unrun; broader artifact
 rules and remaining catalogue selections are still outstanding.
+
+
+## Tactical panic execution ownership
+
+Panic attack and path operations now require their owning reaction to be settling
+before they can execute. The shared panic health gate enforces the same boundary,
+including calls through a battle maneuver. Preview remains available outside
+execution. Direct gate, operation and battle calls are specified to leave injury,
+ammunition, position, turn order, clock, dice and reaction history unchanged.
+The attack/path fixtures include these cases and remain unrun; normal reaction
+execution retains the existing rollback, undo and continuation specifications.

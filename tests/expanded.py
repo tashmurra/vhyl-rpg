@@ -28807,6 +28807,8 @@ def test_panic_path(Session,bundle,out):
         do(s,200); do(s,201)
         assert last(s,'test.panic-path-preview')==['ready',None]
         assert state(s)==initial
+        for direct in (212,213,214):
+            do(s,direct); assert state(s)==initial
         do(s,206); do(s,207); assert state(s)==initial
         do(s,203); assert state(s)==initial
         do(s,202); s.command('undo'); assert state(s)==initial
@@ -29061,7 +29063,8 @@ def test_panic_attack(Session,bundle,out):
             if choice is not None: do(s,choice)
             do(s,671); assert last(s,'test.panic-attack-preview')==['ready',None]
             assert state(s)==initial
-            do(s,681); assert state(s)==initial
+            for direct in (681,686,687,688):
+                do(s,direct); assert state(s)==initial
             do(s,443); assert state(s)==initial
             do(s,442); s.command('undo'); assert state(s)==initial
             do(s,442); do(s,442); assert state(s)==expected
