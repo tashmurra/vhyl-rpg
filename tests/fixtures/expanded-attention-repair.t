@@ -19,7 +19,7 @@ modify rpgRandom
         if (attentionRepairInput.rolls == 1) return attentionRepairInput.major ? 18 : 13;
         return attentionRepairInput.rolls == 2 ? attentionInput.controlRoll : 7;
     }
-    die(sides) { self.draws += 1; return 2; }
+    die() { self.draws += 1; return 2; }
 ;
 modify FearTestAction
     exec(context)

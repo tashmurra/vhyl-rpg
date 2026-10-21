@@ -3129,9 +3129,9 @@ A mitigated purchase blocks this attention operation; ordinary task resolution
 remains available. Historical resolved failures remain historical after mitigation.
 
 The contextual operation handles a task resolved by one check. The study adapter
-below also handles an authored study segment. Craft and other multi-stage work
-still need concrete interruption adapters before this trait can be offered as a
-general fear-acquired selection; it is not yet on that selection whitelist. `expanded-attention-task.t` and `test_attention_task` specify
+below handles an authored study segment; the owned task lifecycle below covers
+other authored multi-step work. Short attention is now an eligible exact-cost
+fear selection and supports one-step worsening. `expanded-attention-task.t` and `test_attention_task` specify
 preview purity, failure/success dice consumption, rollback, undo, receipt
 mutation rejection and cross-process continuation. These fixtures are unrun.
 
@@ -3216,5 +3216,45 @@ trigger applies. Mitigation restores ordinary execution. Internal
 `test_attention_concept` specifies both ordinary and rapid attempts, success and
 failure, daily limits, pure preview, unavailable proposals, rollback, undo,
 receipt mutation and cross-process continuation. These fixtures are unrun.
-Prototype construction/completion and other ongoing work remain separate gaps;
-concept support alone does not make this a general fear-acquired selection.
+Prototype failure uses the terminal contract below. Other authored work must use
+the owned lifecycle; extending every peripheral subsystem is outside this milestone.
+
+#### Owned multi-step tasks and terminal prototype failure
+
+`RpgExpandedAttentionWork` owns an authored task's identity, subject, profile,
+required step count and approval evidence. `begin()` registers it in the profile's
+history. `RpgExpandedAttentionWorkStep` owns one concrete segment, its time and
+money costs, its evidence and, when attention is challenged, its
+`RpgExpandedAttentionWorkControl`. A brief undistracted segment must explicitly
+say so; an active purchase otherwise requires the owned control operation.
+
+`step.assess()` previews without changing state. `step.apply()` resolves control
+and commits the actual segment in one action transaction. Failed control moves
+the task to `failed`; success increments completed steps and the final successful
+step moves it to `completed`. Both terminal states reject further progress.
+The failed segment retains its costs, while previous steps and other tasks are
+unchanged. Repeated receipts do not re-spend time or money. Mitigation does not
+reopen a historically failed task. A retry is a new owned task identity.
+
+Authors must make task success and continuation depend on this lifecycle, not
+merely call a notification callback. Each segment identifies concrete work and
+charges through the existing money and time ledgers. If time or materials were
+already committed by another owned operation, use a zero-cost attention segment
+and retain that operation as the task's subject; do not charge it again.
+
+For prototype attempts, bind `work.subject` to the actual
+`RpgExpandedPrototypeStart`. A failed bound task immediately blocks further
+prototype work and completion. `RpgExpandedAttentionPrototypeFailure` verifies
+that failure, records the attempt's spent money and worked time, marks a terminal
+failure and releases the project's active-attempt slot without refund or delivery.
+For rapid attempts it releases the component reservation while retaining the
+components, matching an ordinary noncritical failed attempt. No invented damage,
+critical result, material destruction or new invention mechanics are added.
+
+The multi-step cipher fixture demonstrates real progress, costs and terminal
+failure. The prototype fixture demonstrates previous expenditure and work,
+blocked delivery, terminal settlement and mitigation. The acquisition fixture
+covers exact-cost purchase, one-step worsening and actual failed work after
+save/restore. `test_attention_work`, `test_attention_prototype` and
+`test_attention_acquisition` are authored but unrun. `test_attention_rapid_prototype` also specifies retaining purchased components
+and money while releasing the failed attempt's reservation. It is unrun.

@@ -1292,4 +1292,6 @@ modify RpgExpandedProfile incuriosityActive() { return nil; };
 modify RpgLiteProfile
     repairAttentionReason(repair) { return nil; }
     conceptAttentionReason(concept) { return nil; }
+    attentionWorkReason(subject) { return nil; }
+    validateAttentionFailure(work,subject) { rpgExpandedReject('attention-failure-traits-required'); }
 ;

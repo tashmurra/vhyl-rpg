@@ -22,7 +22,7 @@ attentionConceptControl: RpgExpandedAttentionConcept id = 'concept-focus' profil
 attentionConceptInput: object rolls = 0;
 modify rpgRandom
     roll() { self.draws += 3; attentionConceptInput.rolls += 1; return attentionConceptInput.rolls == 1 ? attentionInput.controlRoll : 7; }
-    die(sides) { self.draws += 1; return 2; }
+    die() { self.draws += 1; return 2; }
 ;
 modify FearTestAction
     exec(context)

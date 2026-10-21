@@ -4229,7 +4229,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision) || trait.ofKind(RpgExpandedCredulity)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision) || trait.ofKind(RpgExpandedCredulity) || trait.ofKind(RpgExpandedShortAttention)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -6588,5 +6588,230 @@ modify RpgExpandedProfile
             || !control.settlingConcept || control.conceptStarted || control.result == nil || control.check == nil
             || !holds(self.selfControlTriggers,control)) return 'attention-concept-control-ownership';
         return nil;
+    }
+;
+
+/** Internal immutable-fact comparison for owned attention work. */
+rpgExpandedAttentionBinding(current,bound,reason)
+{
+    if (bound == nil || current.length() != bound.length()) rpgExpandedReject(reason);
+    for (local i = 1; i <= current.length(); i += 1)
+        if (current[i] != bound[i]) rpgExpandedReject(reason);
+    return nil;
+}
+/** Concrete authored task lifecycle; earlier completed tasks are independent. */
+class RpgExpandedAttentionWork: object
+    id = nil
+    profile = nil
+    subject = nil
+    requiredSteps = 1
+    approved = nil
+    evidence = nil
+    state = 'new'
+    completedSteps = 0
+    committedSeconds = 0
+    committedMoney = 0
+    failedBy = nil
+    steps = []
+    boundDefinition = nil
+    boundState = nil
+    definition() { return [self.id,self.profile,self.subject,self.requiredSteps,self.approved,self.evidence]; }
+    stateFacts() { return [self.state,self.completedSteps,self.committedSeconds,self.committedMoney,self.failedBy] + self.steps; }
+    validateState()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || !holds(self.profile.attentionWorks,self))
+            rpgExpandedReject('attention-work-history');
+        rpgExpandedAttentionBinding(self.definition(),self.boundDefinition,'attention-work-definition');
+        rpgExpandedAttentionBinding(self.stateFacts(),self.boundState,'attention-work-state');
+        foreach (local step in self.steps) step.validateReceipt();
+        return nil;
+    }
+    begin()
+    {
+        local value = new RpgExpandedResult();
+        if (self.boundDefinition != nil) { self.validateState(); value.status = 'reused'; return value; }
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.subject == nil || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('attention-work-definition');
+        rpgInteger(self.requiredSteps,1,1000000);
+        if (self.state != 'new' || self.completedSteps != 0 || self.committedSeconds != 0 || self.committedMoney != 0
+            || self.failedBy != nil || self.steps.length() != 0 || self.boundState != nil) rpgExpandedReject('attention-work-uncommitted');
+        foreach (local prior in self.profile.attentionWorks)
+        {
+            prior.validateState();
+            if (prior.id == self.id || prior.subject == self.subject && prior.state == 'running')
+                rpgExpandedReject('attention-work-duplicate');
+        }
+        self.state = 'running'; self.boundDefinition = self.definition(); self.boundState = self.stateFacts();
+        self.profile.attentionWorks = self.profile.attentionWorks + [self]; value.status = 'resolved'; return value;
+    }
+;
+class RpgExpandedAttentionWorkStep: object
+    id = nil
+    work = nil
+    seconds = 0
+    money = 0
+    control = nil
+    briefUndistracted = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    succeeded = nil
+    startedAt = nil
+    endedAt = nil
+    boundReceipt = nil
+    definition() { return [self.id,self.work,self.seconds,self.money,self.control,self.briefUndistracted,self.approved,self.evidence]; }
+    receiptFacts() { return self.definition() + [self.result,self.result.status,self.result.reason,self.result.seconds,
+        self.succeeded,self.startedAt,self.endedAt]; }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.work.steps,self)) rpgExpandedReject('attention-step-history');
+        rpgExpandedAttentionBinding(self.receiptFacts(),self.boundReceipt,'attention-step-receipt'); return nil;
+    }
+    assessBase()
+    {
+        if (self.work == nil || !self.work.ofKind(RpgExpandedAttentionWork)) rpgExpandedReject('attention-step-work');
+        self.work.validateState(); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.work.state != 'running') { value.reason = 'attention-work-terminal'; return value; }
+        if (self.id == nil || self.id == '' || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('attention-step-definition');
+        if (self.boundReceipt != nil || self.startedAt != nil || self.endedAt != nil || self.succeeded != nil)
+            rpgExpandedReject('attention-step-uncommitted');
+        foreach (local prior in self.work.steps) if (prior.id == self.id) rpgExpandedReject('attention-step-duplicate');
+        rpgInteger(self.seconds,0,86400); rpgInteger(self.money,0,100000000);
+        rpgInteger(self.work.committedSeconds,0,2147483647-self.seconds);
+        rpgInteger(self.work.committedMoney,0,2147483647-self.money);
+        rpgInteger(rpgLedger.seconds,0,2147483647-self.seconds);
+        rpgInteger(self.work.profile.money,0,2147483647);
+        rpgLedger.validateAdvance(self.seconds);
+        if (self.work.profile.money < self.money) { value.reason = 'attention-step-funds'; return value; }
+        value.reason = self.work.profile.healthEffortReason('attention-work',true,nil,nil);
+        if (value.reason != nil) return value;
+        if (self.work.profile.dead || self.work.profile.unconscious) { value.reason = 'attention-step-unavailable'; return value; }
+        value.status = 'ready'; value.seconds = self.seconds; return value;
+    }
+    assess()
+    {
+        local value = self.assessBase(); if (value.status != 'ready') return value;
+        if (self.control != nil)
+        {
+            if (!self.control.ofKind(RpgExpandedAttentionWorkControl) || self.control.step != self)
+                rpgExpandedReject('attention-step-control');
+            local focus = self.control.assess();
+            if (focus.status != 'ready') { value.status = 'blocked'; value.reason = focus.reason; }
+        }
+        else if (self.work.profile.shortAttentionActive() && !self.briefUndistracted)
+        { value.status = 'blocked'; value.reason = 'attention-step-control-required'; }
+        return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (self.control == nil) return self.settle(true,nil);
+        value = self.control.resolve();
+        return value.status == 'resolved' ? self.result : value;
+    }
+    applyControl(control)
+    {
+        if (self.control != control || !control.settlingStep || control.check == nil
+            || !holds(self.work.profile.selfControlTriggers,control) || self.result != nil)
+            rpgExpandedReject('attention-step-control-ownership');
+        return self.settle(control.check.achieved,control);
+    }
+    /* Internal settlement; neither author code nor another operation may call it directly. */
+    settle(succeeded,control)
+    {
+        if (control != nil && (control != self.control || !control.settlingStep || control.check == nil
+            || succeeded != control.check.achieved || !holds(self.work.profile.selfControlTriggers,control)))
+            rpgExpandedReject('attention-step-settlement-owner');
+        if (control == nil && (self.control != nil || !succeeded
+            || self.work.profile.shortAttentionActive() && !self.briefUndistracted))
+            rpgExpandedReject('attention-step-settlement-owner');
+        local value = self.assessBase(); if (value.status != 'ready') return value;
+        local facts = self.definition(); local before = self.work.stateFacts();
+        local cash = self.work.profile.money; local start = rpgLedger.seconds;
+        if (self.seconds > 0) rpgSpendTime(self.seconds);
+        rpgExpandedAttentionBinding(self.definition(),facts,'attention-step-changed');
+        rpgExpandedAttentionBinding(self.work.stateFacts(),before,'attention-work-changed');
+        if (rpgLedger.seconds != start+self.seconds || self.work.profile.money != cash)
+            rpgExpandedReject('attention-step-cost-changed');
+        if (self.work.profile.dead || self.work.profile.unconscious
+            || self.work.profile.healthEffortReason('attention-work',true,nil,nil) != nil)
+            rpgExpandedReject('attention-step-conditions-changed');
+        self.work.profile.money -= self.money; self.work.committedMoney += self.money;
+        self.work.committedSeconds += self.seconds; self.succeeded = succeeded;
+        if (succeeded)
+        {
+            self.work.completedSteps += 1;
+            if (self.work.completedSteps == self.work.requiredSteps) self.work.state = 'completed';
+        }
+        else { self.work.state = 'failed'; self.work.failedBy = control; value.reason = 'short-attention-task-failure'; }
+        self.startedAt = start; self.endedAt = rpgLedger.seconds;
+        value.status = 'resolved'; self.result = value; self.boundReceipt = self.receiptFacts();
+        self.work.steps = self.work.steps + [self]; self.work.boundState = self.work.stateFacts(); return value;
+    }
+;
+class RpgExpandedAttentionWorkControl: RpgExpandedSelfControlTrigger
+    step = nil
+    occasion = nil
+    crucialEvidence = nil
+    settlingStep = nil
+    boundCheck = nil
+    definition() { return inherited() + [self.step,self.occasion,self.crucialEvidence]; }
+    checkFacts() { return [self.check,self.check.status,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical]; }
+    assess()
+    {
+        if (self.step == nil || !self.step.ofKind(RpgExpandedAttentionWorkStep) || self.step.control != self
+            || self.step.work == nil || self.step.work.profile != self.profile
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedShortAttention)
+            || !holds(['extended-focus','distraction'],self.occasion)) rpgExpandedReject('attention-work-control-definition');
+        if (self.modifier < 0 || self.modifier > 0 && (self.crucialEvidence == nil || self.crucialEvidence == ''))
+            rpgExpandedReject('attention-work-bonus-evidence');
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.settlingStep || self.active != !self.check.achieved) rpgExpandedReject('attention-work-control-state');
+            rpgExpandedAttentionBinding(self.checkFacts(),self.boundCheck,'attention-work-control-receipt');
+            self.step.work.validateState(); self.step.validateReceipt();
+        }
+        else
+        {
+            if (self.boundCheck != nil || self.settlingStep) rpgExpandedReject('attention-work-control-uncommitted');
+            if (value.status == 'ready' && self.trait.mitigated)
+            { value.status = 'blocked'; value.reason = 'attention-work-control-mitigated'; }
+            if (value.status == 'ready')
+            {
+                local task = self.step.assessBase();
+                if (task.status != 'ready') { value.status = 'blocked'; value.reason = task.reason; }
+            }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.settlingStep = true;
+        if (self.step.applyControl(self).status != 'resolved') rpgExpandedReject('attention-work-settlement-changed');
+        self.settlingStep = nil; self.boundCheck = self.checkFacts(); return nil;
+    }
+;
+modify RpgExpandedProfile
+    attentionWorks = []
+    attentionWorkReason(subject)
+    {
+        foreach (local work in self.attentionWorks)
+        {
+            work.validateState();
+            if (work.subject == subject && work.state == 'failed') return 'attention-work-failed';
+        }
+        return nil;
+    }
+    validateAttentionFailure(work,subject)
+    {
+        if (work == nil || !work.ofKind(RpgExpandedAttentionWork) || work.profile != self || work.subject != subject)
+            rpgExpandedReject('attention-failure-owner');
+        work.validateState();
+        if (work.state != 'failed' || work.failedBy == nil) rpgExpandedReject('attention-failure-not-failed');
+        work.failedBy.assess(); return nil;
     }
 ;

@@ -1900,6 +1900,9 @@ modify RpgExpandedPrototypeStart
     {
         if (self.result == nil) return 'prototype-not-started';
         self.assess();
+        if (self.attentionFailure != nil) return 'prototype-attention-failed';
+        local attention = self.project.proposal.inventor.attentionWorkReason(self);
+        if (attention != nil) return attention;
         local permission = self.project.proposal.prototypeExecutionReason();
         if (permission != nil) return permission;
         if (self.project.activePrototype != self) return 'prototype-not-active';
@@ -3350,6 +3353,9 @@ class RpgExpandedRapidPrototypeStart: RpgExpandedPrototypeStart
     {
         if (self.result == nil) return 'prototype-not-started';
         self.assess();
+        if (self.attentionFailure != nil) return 'prototype-attention-failed';
+        local attention = self.project.proposal.inventor.attentionWorkReason(self);
+        if (attention != nil) return attention;
         if (self.project.activePrototype != self) return 'prototype-not-active';
         local reason = self.project.proposal.rapidPrototypeReason(); if (reason != nil) return reason;
         reason = self.componentReason(); if (reason != nil) return reason;
@@ -3961,5 +3967,59 @@ modify RpgExpandedProfile
             || !concept.project.proposal.ofKind(RpgExpandedInventionProposal) || concept.project.proposal.inventor != self)
             rpgExpandedReject('attention-concept-ownership');
         return nil;
+    }
+;
+
+modify RpgExpandedPrototypeStart
+    attentionFailure = nil
+;
+class RpgExpandedAttentionPrototypeFailure: object
+    attempt = nil
+    work = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    retainedMoney = nil
+    retainedWork = nil
+    boundReceipt = nil
+    facts() { return [self.attempt,self.work,self.approved,self.evidence,self.result,self.result.status,
+        self.retainedMoney,self.retainedWork]; }
+    assess()
+    {
+        if (self.attempt == nil || !self.attempt.ofKind(RpgExpandedPrototypeStart) || self.attempt.result == nil)
+            rpgExpandedReject('attention-prototype-attempt');
+        self.attempt.assess();
+        self.attempt.project.proposal.inventor.validateAttentionFailure(self.work,self.attempt);
+        local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.attempt.attentionFailure != self) rpgExpandedReject('attention-prototype-history');
+            local current = self.facts();
+            if (self.boundReceipt == nil || current.length() != self.boundReceipt.length()) rpgExpandedReject('attention-prototype-receipt');
+            for (local i = 1; i <= current.length(); i += 1)
+                if (current[i] != self.boundReceipt[i]) rpgExpandedReject('attention-prototype-receipt');
+            value.status = 'reused'; return value;
+        }
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'attention-prototype-author-evidence'; return value; }
+        if (self.boundReceipt != nil || self.retainedMoney != nil || self.retainedWork != nil)
+            rpgExpandedReject('attention-prototype-uncommitted');
+        if (self.attempt.attentionFailure != nil || self.attempt.completion != nil || self.attempt.project.activePrototype != self.attempt)
+        { value.reason = 'attention-prototype-not-active'; return value; }
+        if (self.attempt.ofKind(RpgExpandedRapidPrototypeStart))
+        {
+            if (self.attempt.materialSettlement != nil || self.attempt.components.item.rapidPrototypeReservation != self.attempt)
+            { value.reason = 'attention-prototype-material-history'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.retainedMoney = self.attempt.result.money; self.retainedWork = self.attempt.workedSeconds;
+        if (self.attempt.ofKind(RpgExpandedRapidPrototypeStart))
+            self.attempt.components.item.rapidPrototypeReservation = nil;
+        self.attempt.attentionFailure = self; self.attempt.project.activePrototype = nil;
+        value.status = 'resolved'; self.result = value; self.boundReceipt = self.facts(); return value;
     }
 ;

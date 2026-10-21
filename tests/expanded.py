@@ -9891,6 +9891,14 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    attention_acquisition = build.build('expanded-attention-acquisition',ROOT / 'tests/fixtures/expanded-attention-acquisition.t')
+    test_attention_acquisition(Session,attention_acquisition,build.out)
+    attention_work = build.build('expanded-attention-work',ROOT / 'tests/fixtures/expanded-attention-work.t')
+    test_attention_work(Session,attention_work,build.out)
+    attention_rapid_prototype = build.build('expanded-attention-rapid-prototype',ROOT / 'tests/fixtures/expanded-attention-rapid-prototype.t')
+    test_attention_rapid_prototype(Session,attention_rapid_prototype,build.out)
+    attention_prototype = build.build('expanded-attention-prototype',ROOT / 'tests/fixtures/expanded-attention-prototype.t')
+    test_attention_prototype(Session,attention_prototype,build.out)
     attention_concept = build.build('expanded-attention-concept',ROOT / 'tests/fixtures/expanded-attention-concept.t')
     test_attention_concept(Session,attention_concept,build.out)
     attention_repair = build.build('expanded-attention-repair',ROOT / 'tests/fixtures/expanded-attention-repair.t')
@@ -31033,4 +31041,105 @@ def test_fear_compound_preflight(Session,bundle,out):
     s = Session(bundle)
     try:
         do(s,340); do(s,347); assert state(s) == empty
+    finally: s.close()
+
+
+def test_attention_work(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1274)
+        return last(s,'test.attention-work')
+    for success in (False,True):
+        s = Session(bundle)
+        path = out/f'attention-work-{success}.zsave'
+        first = ['running',1,1,60,2,98,60,0]
+        final = ['completed' if success else 'failed',2,2 if success else 1,180,5,95,180,3]
+        try:
+            do(s,1270); do(s,1271); assert state(s) == first
+            if success: do(s,1203)
+            do(s,1277); do(s,1278); assert state(s) == first
+            do(s,1273); assert state(s) == first
+            do(s,1272); s.command('undo'); assert state(s) == first
+            do(s,1272); do(s,1272); assert state(s) == final
+            do(s,1275); do(s,1276); assert state(s) == final
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1272); do(s,1279); do(s,1275); assert state(s) == final
+        finally: s.close()
+
+
+def test_attention_prototype(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1283)
+        return last(s,'test.attention-prototype')
+    s = Session(bundle)
+    path = out/'attention-prototype.zsave'
+    before = [1,0,60,49000,60,4,None,None]
+    after = [0,1,60,49000,60,4,1000,60]
+    try:
+        do(s,1280); do(s,1272); assert state(s) == before
+        do(s,1284); assert last(s,'test.attention-prototype-gates') == ['attention-work-failed','attention-work-failed']
+        do(s,1282); assert state(s) == before
+        do(s,1281); s.command('undo'); assert state(s) == before
+        do(s,1281); do(s,1281); assert state(s) == after
+        do(s,1279); do(s,1284)
+        assert last(s,'test.attention-prototype-gates') == ['prototype-attention-failed','prototype-attention-failed']
+        assert state(s) == after
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1281); do(s,1284); assert state(s) == after
+    finally: s.close()
+
+
+def test_attention_acquisition(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1293)
+        return last(s,'test.attention-acquisition')
+    s = Session(bundle)
+    path = out/'attention-acquisition.zsave'
+    try:
+        do(s,1290); do(s,582); assert state(s) == [0,0,9,7,0]
+        do(s,581); s.command('undo'); assert state(s) == [0,0,9,7,0]
+        do(s,581); do(s,581); assert state(s) == [1,10,9,7,0]
+        do(s,1292); assert state(s) == [1,10,9,7,0]
+        do(s,1291); s.command('undo'); assert state(s) == [1,10,9,7,0]
+        do(s,1291); do(s,1291); assert state(s) == [1,15,9,7,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,581); do(s,1291); assert state(s) == [1,15,9,7,0]
+        do(s,1294); do(s,1271); do(s,1272); do(s,1274)
+        assert last(s,'test.attention-work') == ['failed',2,1,180,5,95,180,3]
+        assert state(s) == [1,15,9,7,3]
+    finally: s.close()
+
+
+def test_attention_rapid_prototype(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1301)
+        return last(s,'test.attention-rapid')
+    s = Session(bundle)
+    path = out/'attention-rapid-prototype.zsave'
+    try:
+        do(s,1300); initial = state(s); cash = initial[0]
+        assert cash < 100000 and initial[1:] == [60,2,1,1,None,1]
+        do(s,1272); before = [cash,60,5,1,1,None,1]; assert state(s) == before
+        do(s,1302); assert last(s,'test.attention-rapid-work') == ['attention-work-failed']
+        do(s,1282); assert state(s) == before
+        do(s,1281); s.command('undo'); assert state(s) == before
+        do(s,1281); do(s,1281); after = [cash,60,5,1,0,None,0]; assert state(s) == after
+        do(s,1302); assert last(s,'test.attention-rapid-work') == ['prototype-attention-failed']
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1281); assert state(s) == after
     finally: s.close()
