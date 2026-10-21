@@ -629,9 +629,12 @@
       "pages": "B150",
       "module": "combat",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Postbattle stress costs base -5. At the authored end of each battle, check self-control with possible danger/gruesomeness penalty; failure rolls three dice plus failure margin on the full fear table. Mark encounter end once so repeated end notifications do not produce extra checks.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_postbattle_fear"
+      ],
+      "validation_note": " Typed purchase and owned battle-end self-control event select full fear consequences on failure; mandatory failed-stress voice follow-ups, duplicate battle prevention and original recovery modifiers integrated. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
     },
     {
       "id": "disadvantages-f-fire-setting",

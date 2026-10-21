@@ -9767,6 +9767,14 @@ def test(build):
     test_fear_event(Session,fear_event,build.out)
     fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
     test_fear_event_traits(Session,fear_event_traits)
+    fear_stress = build.build('expanded-fear-stress',ROOT / 'tests/fixtures/expanded-fear-stress.t')
+    test_fear_stress(Session,fear_stress,build.out)
+    fear_compound = build.build('expanded-fear-compound',ROOT / 'tests/fixtures/expanded-fear-compound.t')
+    test_fear_compound(Session,fear_compound,build.out)
+    fear_aura = build.build('expanded-fear-aura',ROOT / 'tests/fixtures/expanded-fear-aura.t')
+    test_fear_aura(Session,fear_aura,build.out)
+    postbattle_fear = build.build('expanded-postbattle-fear',ROOT / 'tests/fixtures/expanded-postbattle-fear.t')
+    test_postbattle_fear(Session,postbattle_fear)
     test_fear_fatigue(Session,fear)
     test_fear_faint(Session,fear,build.out)
     test_fear_faint_injury(Session,fear,build.out)
@@ -27622,3 +27630,120 @@ def test_fear_event_traits(Session, bundle):
             assert last(s,'test.fear-event-traits') == [1,9,7,1,allowance,6]
         finally:
             s.close()
+
+
+def test_fear_stress(Session,bundle,out):
+    """B148 voices follow failure or exact success, independently of consequences; unrun."""
+    def do(s,code):
+        s.action(2250,code,4)
+    def state(s):
+        do(s,333)
+        return last(s,'test.fear-stress')
+    for setup,expected in (((),[1,9,0,1]),((306,),[1,6,0,1]),((331,),[0,3,0,0]),((332,),[0,0,0,0])):
+        s=Session(bundle)
+        try:
+            do(s,330)
+            for code in setup: do(s,code)
+            do(s,302); assert state(s)==[0,0,0,0]
+            do(s,301); assert state(s)==[0,0,0,0]
+            do(s,300); s.command('undo'); assert state(s)==[0,0,0,0]
+            do(s,300); do(s,300); assert state(s)==expected
+            if expected[0]: do(s,334); assert state(s)==expected
+        finally: s.close()
+    path=out/'fear-stress.zsave'
+    s=Session(bundle)
+    try:
+        do(s,330); do(s,300); s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,300); do(s,303)
+        assert state(s)==[1,9,0,1]
+    finally: s.close()
+
+
+def test_fear_compound(Session,bundle,out):
+    """B361 rows 26/38 own both receipts, with one lasting purchase; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,344)
+        return last(s,'test.fear-compound')
+    for setup,draws,injury in ((340,4,1),(341,1,0)):
+        s=Session(bundle)
+        try:
+            do(s,setup)
+            do(s,343); assert state(s)==[0,0,0,0,0,9,7,0]
+            do(s,342); s.command('undo'); assert state(s)==[0,0,0,0,0,9,7,0]
+            do(s,342); do(s,342)
+            assert state(s)==[1,1,1,injury,1,9,7,draws]
+        finally: s.close()
+    path=out/'fear-compound.zsave'
+    s=Session(bundle)
+    try:
+        do(s,340); do(s,300); do(s,345); do(s,345)
+        assert state(s)==[1,1,1,1,1,9,7,10]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,345)
+        assert state(s)==[1,1,1,1,1,9,7,10]
+    finally: s.close()
+
+
+def test_fear_aura(Session,bundle,out):
+    """B93 source/victim histories, exact immunity and exposure boundaries; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def assessment(s):
+        do(s,351)
+        return last(s,'test.fear-aura')
+    s=Session(bundle)
+    path=out/'fear-aura.zsave'
+    try:
+        do(s,350); do(s,300)
+        assert assessment(s)==['ready',None,1,None,0,3]
+        do(s,352); do(s,354)
+        assert assessment(s)==['ready',None,1,None,0,3]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,3)
+        assert assessment(s)==['ready',None,0,11,1,3]
+        do(s,354) # The earlier immune receipt is reused, not rerolled after expiry.
+        assert assessment(s)==['ready',None,0,11,1,3]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,350); do(s,300); do(s,353)
+        assert assessment(s)==['ready',None,0,10,0,3]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,357); assert assessment(s)[1]=='fear-aura-exposure-required'
+        do(s,359); assert assessment(s)==['ready',None,0,10,0,0]
+        do(s,355); do(s,356); assert last(s,'test.aura-price')==[25]
+        assert assessment(s)[1]=='fear-aura-exposure-required'
+        do(s,358); assert assessment(s)==['ready',None,0,7,-3,0]
+    finally: s.close()
+
+
+def test_postbattle_fear(Session,bundle):
+    """B150 uses purchased self-control, not Will, with failed-stress follow-up; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,374)
+        return last(s,'test.postbattle-fear')
+    for setup,expected in ((370,[12,4,1,9,0]),(371,[12,None,0,3,0])):
+        s=Session(bundle)
+        try:
+            do(s,setup); do(s,376); do(s,373); assert state(s)==[None,None,0,0,0]
+            do(s,372); s.command('undo'); assert state(s)==[None,None,0,0,0]
+            do(s,372); do(s,372); assert state(s)==expected
+            if setup==370:
+                do(s,375); do(s,375); assert state(s)==expected
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,370); do(s,377); do(s,372); assert state(s)==[None,None,0,0,0]
+    finally: s.close()

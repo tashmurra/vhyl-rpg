@@ -3552,3 +3552,117 @@ modify RpgExpandedFixedBeliefAcquisition
             && self.profile == entry.context.profile && self.eventId == entry.id;
     }
 ;
+
+/** B148 mandatory voice check after failed or exactly successful full fear. */
+modify RpgExpandedProfile
+    newFearStressFollowup(entry)
+    {
+        if (self.phantomVoiceSeverity() == 0) return nil;
+        local occurrence = new RpgExpandedPhantomVoiceOccurrence(); occurrence.id = 'fear:' + entry.id;
+        occurrence.profile = self; occurrence.stressor = entry; occurrence.approved = true;
+        occurrence.evidence = entry.context.evidence; return occurrence;
+    }
+    validateFearStressFollowup(entry,followup)
+    {
+        self.validatePhantomVoiceOccurrence(followup);
+        if (followup.stressor != entry) rpgExpandedReject('fear-stress-event-owner');
+        return nil;
+    }
+;
+
+modify RpgExpandedFixedBeliefAcquisition
+    fearCompoundMatches(owner,event,row)
+    {
+        return self.profile == owner && self.eventId == event
+            && ((row == 26 && self.tableTotal == 22) || (row == 38 && self.tableTotal == 34));
+    }
+;
+
+/** B93/B112: sight or hearing aura, with explicit always-on/contact choices. */
+class RpgExpandedFearAura: RpgExpandedFearAuraContract
+    id = 'fear-aura'
+    points = 30
+    level = 1
+    sense = 'sight'
+    penalty = 0
+    alwaysOn = nil
+    touchOnly = nil
+    approved = nil
+    templatePurchaseKind = 'expanded-fear-aura'
+    creationCost()
+    {
+        rpgInteger(self.penalty,0,100);
+        if (!self.approved || self.id != 'fear-aura' || self.points != 30 || self.level != 1
+            || !holds(['sight','hearing'],self.sense) || self.scope != nil || self.controlled || self.skills.length() != 0)
+            rpgExpandedReject('fear-aura-definition');
+        local modifiers = [];
+        if (self.alwaysOn) modifiers = modifiers + [-20];
+        if (self.touchOnly) modifiers = modifiers + [-30];
+        return rpgExpandedModifiedCost(30+10*self.penalty,modifiers);
+    }
+    auraFacts()
+    {
+        self.creationCost();
+        return [self.id,self.sense,self.penalty,self.alwaysOn,self.touchOnly,self.approved];
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'fear-aura') rpgExpandedReject('fear-aura-authored-definition-required');
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedFearAura)) return inherited(trait);
+        trait.creationCost(); local value = new RpgExpandedFearAura();
+        value.sense = trait.sense; value.penalty = trait.penalty; value.alwaysOn = trait.alwaysOn;
+        value.touchOnly = trait.touchOnly; value.approved = true; value.creationCost(); return value;
+    }
+;
+
+/** B150 self-control after an authored battle ending. */
+class RpgExpandedPostbattleStress: RpgExpandedDisadvantage
+    id = 'postbattle-stress'
+    points = -5
+    controlled = true
+    level = 1
+    templatePurchaseKind = 'expanded-postbattle-stress'
+    creationCost()
+    {
+        if (self.id != 'postbattle-stress' || self.points != -5 || self.level != 1 || !self.controlled
+            || self.scope != nil || self.percentages.length() != 0 || self.skills.length() != 0)
+            rpgExpandedReject('postbattle-trait-definition');
+        self.selfControlNumber(); return inherited();
+    }
+;
+modify RpgExpandedProfile
+    postbattleFearFacts(trait)
+    {
+        if (trait == nil || !trait.ofKind(RpgExpandedPostbattleStress)) rpgExpandedReject('postbattle-trait-required');
+        trait.creationCost(); return [trait,trait.id,trait.points,trait.level,trait.selfControlNumber()];
+    }
+    postbattleFearScore(trait,modifier)
+    {
+        self.postbattleFearFacts(trait);
+        if (!holds(self.traits,trait) || !trait.active || trait.mitigated) return nil;
+        return trait.selfControlNumber()+modifier-(self.sleepPenalty ? 2 : 0)+self.healthSelfControlModifier(trait);
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'postbattle-stress')
+        {
+            if (level != 1 || scope != nil) rpgExpandedReject('postbattle-template-definition');
+            local value = new RpgExpandedPostbattleStress(); value.approved = true; return value;
+        }
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedPostbattleStress)) return inherited(trait);
+        trait.creationCost(); local value = new RpgExpandedPostbattleStress(); value.approved = true;
+        value.selfControlRating = trait.selfControlRating; value.creationCost(); return value;
+    }
+;

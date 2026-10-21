@@ -518,9 +518,12 @@
       "pages": "B93",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fear-inducing presence costs thirty plus ten per additional -1 fear-check penalty. Choose sight or hearing at purchase; activation prompts immediate fear checks for eligible perceivers using normal fear modifiers. Each later check within 24 hours gains +1; success grants immunity to that source for one hour. Maintain per-subject/source history.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_aura"
+      ],
+      "validation_note": " Typed sight/hearing aura purchase and source/victim event history implement extra penalties, one-hour success immunity and 24-hour repeated-check bonuses. Perception and activation are explicit author facts. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
     },
     {
       "id": "traits-l-fear-aura-modifiers",
@@ -528,9 +531,12 @@
       "pages": "B93",
       "module": "traits",
       "kind": "modifier",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Touch-only fear uses the melee limitation. Always-active fear is -20% and cannot be disabled for social situations. It does not automatically confer an appearance trait.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_fear_aura"
+      ],
+      "validation_note": " Always-on and close-contact-only choices implement -20% and B112 reach-C -30% pricing and exposure eligibility. Other melee reaches and modifier combinations remain unsupported. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
     },
     {
       "id": "traits-l-advanced-martial-training",

@@ -4149,13 +4149,13 @@ After commitment, the existing episode governs recovery and action restrictions.
 Reapplying the same consequence returns reused status. Rolling the event and
 committing its consequence may also be enclosed in one transaction by an author.
 
-Rows 20, 23–27, 33 and 35–40+ still need dedicated or compound executors.
+Rows 20, 23–25, 27, 33, 35–37 and 39–40+ still need dedicated or compound executors.
 Unsupported results remain pending, never converted to an abridged result or
 rerolled automatically. Do not enable this event flow in a campaign expecting
-uninterrupted coverage of the entire table yet. Active phantom-voice combinations
-remain rejected by the existing guard until their table-triggered follow-ups are
-connected. Exposure-history automation, inappropriate-result adjudication,
-phobias, postbattle stress and fear auras also remain incomplete.
+uninterrupted coverage of the entire table yet. Owned events now connect mandatory phantom-voice follow-ups and source-specific
+fear-aura histories. General exposure-history automation, inappropriate-result
+adjudication and phobias remain incomplete. Postbattle stress now uses the
+owned self-control event described in the traits guide.
 
 `expanded-fear-event.t` / `test_fear_event` specify initial success, immunity,
 independent table selection, exact dice counts, duplicate prevention, pending
@@ -4167,3 +4167,25 @@ rolled quirk and fixed-belief selection, acquisition rollback/undo, replay and
 unchanged earned/unspent points. These assertions also remain unrun. The current
 assessment's score-below-three restriction is still an explicit limitation; it
 must be reconciled before claiming complete extreme-fear table reachability.
+
+
+## Compound faint/coma and lasting beliefs
+
+`RpgExpandedFearBeliefCompound` joins the existing handlers for B361 rows 26 and
+38. Supply the event `id`, exact fear `context`, `tableTotal`, a fresh
+`RpgExpandedFixedBeliefAcquisition` as `acquisition`, and an unstarted `episode`.
+For row 26, the acquisition uses row 22 and the episode is a
+`RpgExpandedFearFaint` with row 18. For row 38, use acquisition row 34 and
+`RpgExpandedFearComa` row 29. All owners and event IDs must match.
+
+`assess()` preflights both components before spending anything. `apply()` records
+the lasting belief, then starts the faint/coma, in one engine transaction. The
+lasting trait remains even if collapse injury proves fatal. The component
+receipts own their original costs, health checks and recovery schedules; the
+compound does not add another fatigue/injury payment or alter those schedules.
+It reuses the same character accounting and grants no earned or spendable points.
+Use `event.applyConsequence(compound)` to bind it to a rolled selection.
+
+`test_fear_compound` specifies both combinations, duplicate prevention, atomic
+rollback, undo and saved replay after rolled row 26. Fixtures remain unrun.
+Other compound rows are not silently mapped to these belief outcomes.

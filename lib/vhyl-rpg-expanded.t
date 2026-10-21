@@ -150,6 +150,7 @@ modify RpgExpandedProfile
 /** Optional traits adapter for specific permanent fear consequences. */
 class RpgExpandedFearTraitConsequence: object
     fearEventMatches(entry) { return nil; }
+    fearCompoundMatches(profile,eventId,row) { return nil; }
 ;
 
 class RpgExpandedFearQuirkContract: RpgExpandedFearTraitConsequence
@@ -1105,4 +1106,18 @@ class RpgExpandedMarchStepGroupReceipt: object
     shadowingProfiles() { rpgExpandedReject('shadowing-movement-health-required'); }
     shadowingFacts() { rpgExpandedReject('shadowing-movement-health-required'); }
     shadowingSeconds() { rpgExpandedReject('shadowing-movement-health-required'); }
+;
+
+modify RpgExpandedProfile
+    newFearStressFollowup(entry) { self.validateDirectFright(); return nil; }
+    validateFearStressFollowup(entry,followup) { rpgExpandedReject('fear-stress-traits-required'); }
+;
+
+class RpgExpandedFearAuraContract: RpgLiteTrait
+    auraFacts() { rpgExpandedReject('fear-aura-traits-required'); }
+;
+
+modify RpgExpandedProfile
+    postbattleFearFacts(trait) { rpgExpandedReject('postbattle-traits-required'); }
+    postbattleFearScore(trait,modifier) { rpgExpandedReject('postbattle-traits-required'); }
 ;

@@ -9550,6 +9550,7 @@ modify RpgExpandedFearContext
     }
 ;
 class RpgExpandedFearEventResult: RpgExpandedResult
+    stressFollowup = nil
     immune = nil
     score = nil
     tableRoll = nil
@@ -9567,6 +9568,8 @@ class RpgExpandedFearEvent: object
     boundOutcome = nil
     consequence = nil
     boundConsequence = nil
+    initialAssessment() { return self.context.assess(); }
+    stressFollowupRequired(check) { return !check.achieved || check.margin == 0; }
     definition()
     {
         if (self.id == nil || self.id == '' || self.occurrence == nil || self.context == nil
@@ -9576,7 +9579,7 @@ class RpgExpandedFearEvent: object
     outcomeFacts()
     {
         local v = self.result;
-        local facts = [v,v.status,v.reason,v.immune,v.score,v.modifier,v.tableRoll,v.tableTotal,v.row,self.recordedAt,v.check];
+        local facts = [v,v.status,v.reason,v.immune,v.score,v.modifier,v.tableRoll,v.tableTotal,v.row,self.recordedAt,v.check,v.stressFollowup];
         if (v.check != nil) facts = facts + [v.check.score,v.check.roll,v.check.margin,v.check.achieved,v.check.critical];
         return facts;
     }
@@ -9595,6 +9598,7 @@ class RpgExpandedFearEvent: object
             for (local i = 1; i <= outcome.length(); i += 1)
                 if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('fear-event-outcome');
             if (self.consequence != self.boundConsequence || self.recordedAt > rpgLedger.seconds) rpgExpandedReject('fear-event-consequence-binding');
+            if (self.result.stressFollowup != nil) profile.validateFearStressFollowup(self,self.result.stressFollowup);
             value.status = 'reused'; return value;
         }
         if (self.recordedAt != nil || self.boundDefinition != nil || self.boundOutcome != nil || self.consequence != nil
@@ -9607,10 +9611,18 @@ class RpgExpandedFearEvent: object
             { value.reason = 'fear-event-unresolved-consequence'; return value; }
         }
         if (profile.dead || profile.unconscious) { value.reason = 'fear-event-observer-unavailable'; return value; }
-        local prepared = self.context.assess();
+        local prepared = self.initialAssessment();
         if (prepared.status != 'ready') { value.reason = prepared.reason; return value; }
-        /* Preserve existing trait guards until their full-table follow-ups are installed. */
-        if (!prepared.immune) profile.validateDirectFright();
+        /* Preflight the specific stress follow-up before consuming the initial roll. */
+        if (!prepared.immune)
+        {
+            value.stressFollowup = profile.newFearStressFollowup(self);
+            if (value.stressFollowup != nil)
+            {
+                local stress = value.stressFollowup.assess();
+                if (stress.status != 'ready') { value.reason = stress.reason; return value; }
+            }
+        }
         value.immune = prepared.immune; value.score = prepared.score; value.modifier = prepared.modifier;
         value.status = 'ready'; return value;
     }
@@ -9627,6 +9639,15 @@ class RpgExpandedFearEvent: object
                 value.tableRoll = rpgRandom.roll(); value.tableTotal = value.tableRoll-value.check.margin;
                 value.row = rpgExpandedFearTable(value.tableTotal).row;
             }
+        }
+        if (value.stressFollowup != nil)
+        {
+            if (value.check != nil && self.stressFollowupRequired(value.check))
+            {
+                local stress = value.stressFollowup.resolve();
+                if (stress.status != 'resolved') rpgExpandedReject('fear-event-stress-changed');
+            }
+            else value.stressFollowup = nil;
         }
         value.status = 'resolved'; self.recordedAt = rpgLedger.seconds; self.result = value;
         self.boundDefinition = facts; self.boundOutcome = self.outcomeFacts();
@@ -9662,7 +9683,7 @@ class RpgExpandedFearEvent: object
             value.status = 'reused'; return value;
         }
         if (self.recordedAt != rpgLedger.seconds) { value.reason = 'fear-event-consequence-delayed'; return value; }
-        local prepared = self.context.assess();
+        local prepared = self.initialAssessment();
         if (prepared.status != 'ready' || prepared.immune || prepared.score != self.result.score || prepared.modifier != self.result.modifier)
         { value.reason = 'fear-event-context-changed'; return value; }
         value = request.assess();
@@ -9722,5 +9743,167 @@ modify rpgLedger
                 if (entry.result != nil && entry.result.row != nil && entry.consequence == nil)
                 { entry.assess(); rpgExpandedReject('fear-event-unresolved-consequence'); }
         return nil;
+    }
+;
+
+
+/** B361 rows 26/38 combine a lasting belief with the specified faint/coma. */
+class RpgExpandedFearBeliefCompound: RpgExpandedFearTraitConsequence
+    id = nil
+    context = nil
+    tableTotal = 26
+    acquisition = nil
+    episode = nil
+    result = nil
+    boundDefinition = nil
+    boundResult = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.context == nil || !self.context.ofKind(RpgExpandedFearContext)
+            || !holds([26,38],self.tableTotal) || self.acquisition == nil
+            || !self.acquisition.ofKind(RpgExpandedFearTraitConsequence) || self.episode == nil)
+            rpgExpandedReject('fear-belief-compound-definition');
+        return [self.id,self.context,self.context.profile,self.tableTotal,self.acquisition,self.episode];
+    }
+    fearEventMatches(entry)
+    {
+        self.definition();
+        return entry.id == self.id && entry.context == self.context && entry.result.row == self.tableTotal;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedResult();
+        if (!self.acquisition.fearCompoundMatches(self.context.profile,self.id,self.tableTotal))
+            rpgExpandedReject('fear-belief-compound-acquisition');
+        if ((self.tableTotal == 26 && (!self.episode.ofKind(RpgExpandedFearFaint) || self.episode.tableTotal != 18))
+            || (self.tableTotal == 38 && (!self.episode.ofKind(RpgExpandedFearComa) || self.episode.tableTotal != 29))
+            || self.episode.context != self.context || self.episode.id != self.id)
+            rpgExpandedReject('fear-belief-compound-episode');
+        if (self.result != nil)
+        {
+            if (self.boundDefinition == nil || !holds(self.context.profile.fearBeliefCompounds,self)
+                || self.result != self.boundResult) rpgExpandedReject('fear-belief-compound-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-belief-compound-binding');
+            if (self.acquisition.assess().status != 'reused' || self.episode.assess().status != 'reused')
+                rpgExpandedReject('fear-belief-compound-receipts');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.boundResult != nil) rpgExpandedReject('fear-belief-compound-uncommitted');
+        foreach (local prior in self.context.profile.fearBeliefCompounds)
+            if (prior.id == self.id) rpgExpandedReject('fear-belief-compound-duplicate');
+        local trait = self.acquisition.assess();
+        if (trait.status == 'reused') rpgExpandedReject('fear-belief-compound-used-acquisition');
+        if (trait.status != 'ready') { value.reason = trait.reason; return value; }
+        local health = self.episode.assess();
+        if (health.status == 'reused') rpgExpandedReject('fear-belief-compound-used-episode');
+        if (health.status != 'ready') { value.reason = health.reason; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.definition();
+        if (self.acquisition.apply().status != 'resolved') rpgExpandedReject('fear-belief-compound-acquisition-changed');
+        if (self.episode.apply().status != 'resolved') rpgExpandedReject('fear-belief-compound-episode-changed');
+        value.status = 'resolved'; self.result = value; self.boundResult = value; self.boundDefinition = facts;
+        self.context.profile.fearBeliefCompounds = self.context.profile.fearBeliefCompounds + [self]; return value;
+    }
+;
+modify RpgExpandedProfile
+    fearBeliefCompounds = []
+;
+
+/** B93: an authored perceiver of an aura uses the ordinary owned fear flow. */
+class RpgExpandedFearAuraContext: RpgExpandedFearContext
+    auraOwner = nil
+    aura = nil
+    perceived = nil
+    activated = nil
+    contactEstablished = nil
+    eventFacts()
+    {
+        if (self.auraOwner == nil || !self.auraOwner.ofKind(RpgExpandedProfile) || self.aura == nil
+            || !self.aura.ofKind(RpgExpandedFearAuraContract)) rpgExpandedReject('fear-aura-context');
+        return inherited() + [self.auraOwner,self.aura,self.perceived,self.activated,self.contactEstablished] + self.aura.auraFacts();
+    }
+    assess()
+    {
+        self.eventFacts(); local value = new RpgExpandedFearAssessment();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-aura-victim');
+        if (self.priorExposures24h != 0) rpgExpandedReject('fear-aura-owned-history-required');
+        if ((self.contactEstablished ? 1 : 0) != (self.touching ? 1 : 0)) rpgExpandedReject('fear-aura-contact-modifier');
+        if (!holds(self.auraOwner.traits,self.aura) || !self.aura.active || self.aura.mitigated)
+        { value.reason = 'fear-aura-not-active'; return value; }
+        if (!self.aura.alwaysOn && (self.auraOwner.dead || self.auraOwner.unconscious))
+        { value.reason = 'fear-aura-owner-unavailable'; return value; }
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            if (owner != self.auraOwner && holds(owner.traits,self.aura)) rpgExpandedReject('fear-aura-shared-purchase');
+        if (!self.perceived || (!self.aura.alwaysOn && !self.activated) || (self.aura.touchOnly && !self.contactEstablished))
+        { value.reason = 'fear-aura-exposure-required'; return value; }
+        local count = 0; local protected = nil;
+        foreach (local entry in self.profile.fearEvents)
+            if (entry.context != self && entry.context.ofKind(RpgExpandedFearAuraContext)
+                && entry.context.auraOwner == self.auraOwner && entry.context.aura == self.aura)
+            {
+                entry.assess();
+                if (entry.result.check != nil && rpgLedger.seconds-entry.recordedAt < 86400) count += 1;
+                if (entry.result.check != nil && entry.result.check.achieved && rpgLedger.seconds-entry.recordedAt < 3600) protected = true;
+            }
+        local scene = inherited();
+        if (scene.status != 'ready') return scene;
+        if (scene.immune || protected)
+        { scene.immune = true; scene.score = nil; return scene; }
+        local modifier = scene.modifier-self.aura.penalty+count;
+        value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),modifier,nil);
+        value.modifier = modifier; return value;
+    }
+;
+
+/** The battle identity is the occurrence; author approval establishes its actual end. */
+class RpgExpandedPostbattleFearEvent: RpgExpandedFearEvent
+    trait = nil
+    battleEnded = nil
+    dangerPenalty = 0
+    definition()
+    {
+        rpgInteger(self.dangerPenalty,-100,0);
+        return inherited() + [self.trait,self.battleEnded,self.dangerPenalty] + self.context.profile.postbattleFearFacts(self.trait);
+    }
+    initialAssessment()
+    {
+        local value = new RpgExpandedFearAssessment();
+        if (!self.battleEnded || !self.context.approved || self.context.evidence == nil || self.context.evidence == '')
+        { value.reason = 'postbattle-ending-evidence'; return value; }
+        value.score = self.context.profile.postbattleFearScore(self.trait,self.dangerPenalty);
+        if (value.score == nil || value.score < 3 || value.score > 1000)
+        { value.reason = 'postbattle-self-control-unavailable'; return value; }
+        if (!self.context.ofKind(RpgExpandedPostbattleFearContext) || self.context.trait != self.trait
+            || self.context.dangerPenalty != self.dangerPenalty) rpgExpandedReject('postbattle-recovery-context');
+        local recovery = self.context.assess();
+        if (recovery.status != 'ready') { value.reason = recovery.reason; return value; }
+        value.modifier = recovery.modifier; value.status = 'ready'; return value;
+    }
+    stressFollowupRequired(check) { return !check.achieved; }
+;
+
+class RpgExpandedPostbattleFearContext: RpgExpandedFearContext
+    trait = nil
+    dangerPenalty = 0
+    eventFacts()
+    {
+        rpgInteger(self.dangerPenalty,-100,0);
+        return inherited() + [self.trait,self.dangerPenalty] + self.profile.postbattleFearFacts(self.trait);
+    }
+    assess()
+    {
+        self.eventFacts(); local value = new RpgExpandedFearAssessment();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'postbattle-context-evidence'; return value; }
+        local score = self.profile.postbattleFearScore(self.trait,self.dangerPenalty);
+        if (score == nil) { value.reason = 'postbattle-trait-unavailable'; return value; }
+        local modifier = score-self.trait.selfControlNumber();
+        value = rpgExpandedAssessFear(self.profile.attributeScore(rpgWill),modifier,nil);
+        value.modifier = modifier; return value;
     }
 ;

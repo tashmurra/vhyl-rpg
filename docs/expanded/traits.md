@@ -1351,7 +1351,8 @@ end another. Existing fear, injury and other consequences are not replaced.
 These records contain private author information, not automatically player-visible
 explanations of the character's experiences.
 
-Mandatory checks after relevant full fear results remain pending. Direct rolled
+Owned full fear events now execute the mandatory check after failure or exact
+success, as documented below. Direct rolled
 self-control and abridged fear calls reject active phantom-voice combinations
 before randomness; owned self-control triggers integrate as described below.
 Episode-induced fear and broader treatment procedures remain incomplete.
@@ -1392,7 +1393,8 @@ Use the owned trigger interface for this combination. Direct low-level
 available without a roll. `rpgLiteFright` rejects the active-trait combination
 with `phantom-voices-full-fear-integration-required`, because abridged fear cannot
 supply the required full procedure. Mitigated or absent phantom voices preserve
-existing behavior. These guards do not complete the pending full fear procedure.
+existing behavior. Full fear events use their own preflighted stress follow-up;
+the direct abridged call remains guarded.
 
 The shared `rpgLiteSelfControlCore` function is internal arithmetic used after
 owned-trigger preflight. Author integrations must use the public direct function
@@ -1930,3 +1932,76 @@ history and retry deadline.
 for hearing and smell, ownership denial, preview purity, rollback, undo, repeated
 execution and saved continuation of a failed-attempt retry barrier. These
 fixtures are unrun while validation remains paused.
+
+
+### Full fear and phantom-voice follow-ups
+
+`RpgExpandedFearEvent` preflights an owned voice occurrence before rolling when
+this trait is active (full-2008 B148). On failure, it first retains the separate
+consequence-table roll, then resolves one voice check. An exact success also
+resolves one voice check; success by a positive margin and immunity do not.
+The occurrence is stored in `result.stressFollowup`, with the fear event as its
+stressor and `fear:` plus the event ID as its ID. Reserve this prefix.
+
+Both the selected fear consequence and any voice episode persist. Replaying the
+event validates the linked receipt without another check. The original event,
+its table selection and the voice receipt share the engine transaction for
+rollback, undo and saved continuation. `test_fear_stress` specifies these cases;
+assertions remain unrun while build checks are paused.
+
+## Fear auras
+
+`RpgExpandedFearAura` supplies the B93 purchase and source-specific fear effect.
+Choose `sense = 'sight'` or `'hearing'`, `penalty` (additional negative points on
+the fear check), `alwaysOn`, `touchOnly`, and `approved = true`. Base cost is 30
+plus 10 per penalty point. Always-on applies -20%; close-contact-only applies
+B112's -30% reach-C limitation. The shared positive-cost rounding and limitation
+floor apply. Custom extra modifiers and alternative melee reaches are not part
+of this interface. Template copying preserves these choices in a fresh purchase.
+
+Install the trait on the source profile. For each affected perceiver, author a
+`RpgExpandedFearAuraContext` with `auraOwner`, `aura`, `perceived`, `activated`,
+and the ordinary approved scene evidence. `perceived` means the chosen sense
+actually received the stimulus; it does not grant sight or hearing. Voluntary
+activation requires an available conscious source; always-on ignores the
+activation choice. Contact-only requires `contactEstablished` and the ordinary
+`touching` modifier, preventing omission of the contact fear penalty.
+
+Resolve that context through an owned fear event. History belongs to each
+victim/source/purchase combination. Every earlier actual check within the last
+86,400 seconds grants +1; immune observations do not count as checks. Success
+protects that victim from the same source for 3,600 seconds. Both boundaries are
+exclusive at expiry. History is derived from retained events, so authored
+`priorExposures24h` must remain zero. Existing ordinary scene modifiers still
+apply. Authors enumerate the affected observers and identify each activation;
+this interface does not discover world visibility or broadcast hidden results.
+
+`test_fear_aura` specifies costs, contact and activation eligibility, exact
+one-hour immunity and 24-hour exposure boundaries, immune-event replay and saved
+continuation. Fixtures are authored but unrun. Other aura modifier combinations,
+automatic perception routing and the remaining full fear outcomes remain open.
+
+
+## Postbattle stress
+
+`RpgExpandedPostbattleStress` implements the B150 -5 base purchase with the
+standard independent self-control rating. Template copying preserves the rating.
+Use `RpgExpandedPostbattleFearContext` with the owning profile, purchase as
+`trait`, approved ending evidence and a nonpositive authored `dangerPenalty`.
+Use that context in `RpgExpandedPostbattleFearEvent`, with the same trait and
+penalty, `battleEnded = true`, unique event ID and the battle as `occurrence`.
+
+The initial check uses the purchased self-control number, sleep effects and
+existing health self-control modifiers. It does not use Will or the initial fear
+cap. Failure adds its margin to a separate three-die consequence roll and enters
+the same owned consequence workflow. The specialized context retains the
+original modifiers for those consequences that later use modified Will. Ending
+the same battle again cannot produce another check. Author approval establishes
+that the battle really ended and explains any danger/gruesomeness penalty.
+
+A failed check also performs the existing mandatory phantom-voice stress
+follow-up when applicable. Exact self-control success does not trigger it.
+`test_postbattle_fear` specifies independence from Will, exact success versus
+failure, ending eligibility, replay, exception rollback, undo and consequence
+commitment. Assertions remain unrun. Scores outside the supported range and
+unsupported selected consequences remain explicit limitations of the shared flow.

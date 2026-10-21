@@ -662,9 +662,10 @@
         "tests/expanded.py::test_fear_stun_modifiers",
         "tests/expanded.py::test_fear_stun_persistence",
         "tests/expanded.py::test_fear_combat",
-        "tests/expanded.py::test_fear_event"
+        "tests/expanded.py::test_fear_event",
+        "tests/expanded.py::test_fear_stress"
       ],
-      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned short-stun outcomes 4 through 11, standalone timed Will recovery and an explicit Do Nothing combat adapter are authored. Both routes prevent same-second duplicate attempts; combat uses the existing scheduler time charge. Rollback, undo, continuation and combat fixtures remain unrun. Full-table selection and remaining outcomes are incomplete. Owned event now retains the capped initial check and independent failure-table roll, prevents duplicate occurrences and pending-consequence time advancement, and dispatches supported typed health/trait consequences. Remaining table rows, exposure history and stress-trait follow-ups are incomplete. Fixtures authored but unrun while checks are paused. Full fear events now retain mandatory voice follow-ups on failure or exact success, independently of selected consequences. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
     },
     {
       "id": "fear-modifier-fear-traits",
@@ -1313,9 +1314,10 @@
       "status": "partial",
       "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point delusion.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_compound"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Owned fixed-belief-plus-row-18 faint compound implemented with shared accounting and atomic component preflight. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
     },
     {
       "id": "fear-outcome-27",
@@ -1475,9 +1477,10 @@
       "status": "partial",
       "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point delusion.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_compound"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Owned fixed-belief-plus-row-29 coma compound implemented with shared accounting and atomic component preflight. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
     },
     {
       "id": "fear-outcome-39",
