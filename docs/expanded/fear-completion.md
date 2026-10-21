@@ -215,3 +215,14 @@ execution. Direct gate, operation and battle calls are specified to leave injury
 ammunition, position, turn order, clock, dice and reaction history unchanged.
 The attack/path fixtures include these cases and remain unrun; normal reaction
 execution retains the existing rollback, undo and continuation specifications.
+
+
+## Volatile-temper selection
+
+A typed B124 volatile-temper selection now owns the stressful occurrence, specific
+stressor, self-control result and completed hostile or restrained scene action.
+Exact ten- and fifteen-point fear selections and rated template copies are
+supported. Failed stressful checks retain the existing phantom-voice follow-up.
+The separate uncontrolled-rage interaction remains explicitly blocked pending
+its own behavior; the catalogue is therefore still incomplete. Registered
+pricing, action, stress and lifecycle fixtures are unrun.

@@ -4198,7 +4198,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4823,6 +4823,114 @@ modify rpgExpandedTemplateTraits
     copy(trait)
     {
         if (!trait.ofKind(RpgExpandedImpulsiveAction)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+/** B124: an authored hostile response to the specific cause of stress. */
+class RpgExpandedVolatileTemper: RpgExpandedDisadvantage
+    id = 'bad-temper'
+    labelId = 'bad-temper'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-volatile-temper'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'bad-temper' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('volatile-temper-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedVolatileTemperTrigger: RpgExpandedSelfControlTrigger
+    stressful = nil
+    stressor = nil
+    stressRelation = 'stress-related'
+    hostileActions = []
+    restrainedActions = []
+    completedAction = nil
+    completedAt = nil
+    completionEvidence = nil
+    boundCompletion = nil
+    boundCheck = nil
+    definition()
+    { return inherited() + [self.stressful,self.stressor,self.hostileActions.length(),self.restrainedActions.length()]
+        + self.hostileActions + self.restrainedActions; }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedVolatileTemper)) rpgExpandedReject('volatile-temper-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (self.boundCheck == nil || self.active != (!self.check.achieved && self.completedAt == nil))
+                rpgExpandedReject('volatile-temper-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('volatile-temper-check-binding');
+            if (self.completedAt != nil)
+            {
+                if (self.boundCompletion == nil || self.completedAction != self.boundCompletion[1]
+                    || self.completedAt != self.boundCompletion[2] || self.completionEvidence != self.boundCompletion[3])
+                    rpgExpandedReject('volatile-temper-completion-binding');
+            }
+            else if (self.completedAction != nil || self.completionEvidence != nil || self.boundCompletion != nil)
+                rpgExpandedReject('volatile-temper-uncommitted-completion');
+            return value;
+        }
+        if (self.completedAction != nil || self.completedAt != nil || self.completionEvidence != nil
+            || self.boundCompletion != nil || self.boundCheck != nil)
+            rpgExpandedReject('volatile-temper-uncommitted-completion');
+        if (value.status != 'ready') return value;
+        foreach (local purchase in self.profile.traits)
+            if (purchase.active && !purchase.mitigated && holds(['uncontrolled-rage','berserk'],purchase.id))
+            { value.status = 'blocked'; value.reason = 'volatile-temper-rage-adapter-required'; return value; }
+        if (!self.stressful || self.stressor == nil || self.stressRelation != 'stress-related' || self.hostileActions.length() == 0 || self.restrainedActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'volatile-temper-alternatives'; return value; }
+        local seen = [];
+        foreach (local action in self.hostileActions + self.restrainedActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('volatile-temper-classification');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        if (self.completedAt != nil) return action == self.completedAction;
+        return holds(self.hostileActions,action) || self.check.achieved && holds(self.restrainedActions,action);
+    }
+    recordAction(action,evidence)
+    {
+        if (self.result == nil || evidence == nil || evidence == '' || !self.permits(action))
+            rpgExpandedReject('volatile-temper-execution-required');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            if (self.completedAction != action || self.completionEvidence != evidence) rpgExpandedReject('volatile-temper-completion-binding');
+            value.status = 'reused'; return value;
+        }
+        self.completedAction = action; self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence;
+        self.boundCompletion = [action,self.completedAt,evidence]; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'bad-temper') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedVolatileTemper(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedVolatileTemper)) return inherited(trait);
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
 ;

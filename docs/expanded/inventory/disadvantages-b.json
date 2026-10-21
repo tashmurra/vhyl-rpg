@@ -21,9 +21,10 @@
       "pages": "B124",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Volatile temper is base -10 with self-control. A failed check in a stressful situation requires an authored hostile response toward the stressor. Preserve the specific trigger and player choices among qualifying responses.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_volatile_temper"],
+      "validation_note": "Typed rated fear selection, owned stressor-specific action alternatives, self-control, completion and phantom-voice follow-up implemented. Author must execute the legal selected response and its ordinary costs in the same transaction. Uncontrolled-rage interaction explicitly blocked pending its own behavior. Prices, copies, acquisition, denied restraint, stress deduplication, rollback, undo and saved continuation fixtures authored and unrun."
     },
     {
       "id": "disadvantages-b-rage-trigger",

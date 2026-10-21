@@ -2590,3 +2590,42 @@ including actual world mutation and one shared time charge. Registered
 a denied deliberation action, successful/failed checks, invalid classifications,
 copy pricing, receipt mutation, rollback, replay, undo and cross-process saved
 continuation. All remain unrun while checks are paused.
+
+
+### Volatile temper
+
+`RpgExpandedVolatileTemper` implements full-2008 B124's stress-triggered anger
+procedure. It retains the existing neutral purchase ID `bad-temper`. Set
+`approved = true`; base cost is -10 and normal rated pricing applies. The rated
+template row is `['bad-temper', 1, nil, rating]`. Exact -10 and -15 purchases can
+be selected by fear outcomes without granting spendable points.
+
+For each stressful occurrence, author an `RpgExpandedVolatileTemperTrigger`
+with profile, trait, unique ID, occurrence, evidence, `stressful = true` and the
+specific `stressor`. Supply disjoint, nonempty `hostileActions` and
+`restrainedActions`. Every hostile alternative must act against that stressor;
+insult, attack and other hostile responses are authored alternatives, not an
+automatic choice to attack. Resolve self-control once. Failure permits only
+hostile alternatives; success also permits the listed restrained responses.
+Unresolved or unclassified choices cannot grant permission.
+
+Call `permits(action)` at the normal action boundary, alongside ordinary legality,
+incapacity, turn and resource checks. Execute the chosen scene action and its
+costs, then call `recordAction(action, evidence)` in the same transaction. The
+receipt records completion rather than executing an attack or inventing damage.
+Replay must not repeat the scene effect. The fixture demonstrates a door struck
+in frustration or a restrained wait, with the time charge owned by that action.
+No automatic reaction modifier is added by this trait.
+
+These triggers are always stress-related, so an existing phantom-voice trait
+uses the shared failed-self-control follow-up exactly once. The separate
+uncontrolled-rage interaction is unfinished: active `uncontrolled-rage` or
+`berserk` purchases block resolution with `volatile-temper-rage-adapter-required`.
+Do not bypass that restriction with an ordinary anger response; the source
+requires the separate rage behavior. This is an explicit remaining integration
+gap, not a completed combination.
+
+`test_volatile_temper` specifies prices and copies, both fear-row costs, successful
+and failed control, actual scene choices, receipt mutation, invalid stressors,
+unsupported rage, stress follow-up deduplication, rollback, undo and saved
+continuation. All cases remain unrun while checks are paused.
