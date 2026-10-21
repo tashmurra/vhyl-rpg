@@ -1,7 +1,7 @@
 # Fear and mental-state completion checklist
 
-**Implementation and acceptance fixtures are authored; validation is now in progress.
-No passing validation is claimed until recorded below.**
+**All frozen fear, mental-state and stress acceptance scenarios passed native
+validation. The full repository native regression gate remains in progress.**
 
 This is the authoritative checklist for the approved fear milestone, frozen at
 `c2ba9d0`. The wider expansion conversion remains separate and PR #4 remains draft.
@@ -31,23 +31,23 @@ is not runtime evidence. Rows stay open until their acceptance scope has passed.
 | ID | Source / approved rule | Implementation and acceptance scenario | Tests / missing evidence | Observed validation |
 | --- | --- | --- | --- | --- |
 | F01 | full-2008 B360; B345 ruling | Owned initial fear: modifiers, immunity, cap, outcome selection, no invented below-three dice/margin | `test_fear_event`, `test_fear_context`, `test_fear_low_score`, `test_low_control_fear`; full modifier audit required | Passed focused native acceptance, including initial modifiers, source cap, route parity and prohibited-roll rulings |
-| F02 | full-2008 B360–B361 | Every outcome has matching owned dispatch and concrete effects; see row matrix | Row fixtures below; verify source expectations and dispatch | Row-by-row native evidence is recorded below; remaining panic/trait cases running |
+| F02 | full-2008 B360–B361 | Every outcome has matching owned dispatch and concrete effects; see row matrix | Row fixtures below; verify source expectations and dispatch | Every row passed the mapped independent expectations and native consequence scenarios below |
 | F03 | full-2008 B361 | Compound health + trait + IQ effects preflight atomically, reject either invalid component without side effects | `test_fear_compound`, `test_fear_compound_preflight`, `test_fear_mental_compound`, `test_fear_compound_context`; pure preview, rejected/preused acquisition and episode cases authored | Compound, preflight, context-changing acquisition and mental-compound acceptance passed; final-suite gate pending |
 | F04 | full-2008 B148–B150 | Phobia exposures, awareness, repetition, overlap, activity/learning restrictions and worsening | `test_phobia`, `test_phobia_awareness`, `test_phobia_overlap`, `test_phobia_activity`, `test_phobia_learning`, acquisition/worsening fixtures | Passed acquisition/worsening, activity and learning restrictions, awareness, overlap, repetition and prohibited-roll acceptance |
 | F05 | full-2008 B93 | Source/victim aura ownership, perception, one-hour protection and prior exposure boundary | `test_fear_aura`: exact boundary, reused context, undo and fresh-process restore | Passed focused native acceptance |
-| F06 | full-2008 B136, B148, B156 | Postbattle, voices and intrusive replay preserve trigger distinctions and coexist with original consequences | Fear stress, postbattle, replay-fear and replay-self-control fixtures | Voice occurrence/clock, commands, masking, origins, fear and self-control follow-ups passed; postbattle/replay coverage running |
+| F06 | full-2008 B136, B148, B156 | Postbattle, voices and intrusive replay preserve trigger distinctions and coexist with original consequences | Fear stress, postbattle, replay-fear and replay-self-control fixtures | Passed voices, exact clock/occurrence ownership, postbattle, replay, masking, origins and owned fear/self-control follow-ups |
 | F07 | full-2008 B361, B428 | Owned recovery and incapacity: correct deadlines, overlap, rest/care, no clearing independent conditions | Faint, coma, catatonia, seizure, panic, recovery-ruling and overlap fixtures | Faint, coma, catatonia, seizure, acute injury, recovery rulings and independent incapacity acceptance passed |
 | F08 | full-2008 B361, B444 | Exact acquisition/worsening costs; no spendable point award; aging and minimum-attribute rulings | `test_fear_mental`, `test_fear_aging`, `test_fear_adjudication`, physical and hearing-loss fixtures | Mental and physical accounting, aging, minimum-attribute adjudication, hearing loss and fallback worsening passed |
-| F09 | Frozen trait source entries | Actual actor/observer reactions, mitigation and incapacity boundaries for each eligible selection | Per-trait social fixtures; roster audit required | Unrun; open |
+| F09 | Frozen trait source entries | Actual actor/observer reactions, mitigation and incapacity boundaries for each eligible selection | Per-trait social fixtures and frozen roster mapping below | Passed frozen roster reaction, mitigation and incapacity scenarios |
 | F10 | full-2008 B361 rows 21/33 | Expression, room flight, tactical path, fall, attack and destruction produce actual effects with one time/resource charge | Timed-path, expression, flight, fall, path, attack, defense, object, computer and interruption fixtures | Passed focused native acceptance: expression, crying, room flight, falls, tactical and interrupted paths, Wait, recorded attacks, defense consequences, object destruction and computer damage |
-| F11 | Baseline whitelist + approved scope | Each frozen selection has acquisition, effects, mitigation, worsening where applicable and replay | Per-trait fixtures; exact roster below | Unrun; open |
-| F12 | full-2008 B153 | Short attention fails a concrete owned task; terminal prototype failure retains charges and blocks continuation/delivery; enable acquisition/worsening | Owned task lifecycle, prototype terminal gate and fear whitelist implemented. `test_attention_work`, `test_attention_prototype`, `test_attention_acquisition`, `test_attention_rapid_prototype`, `test_attention_concept`, `test_attention_repair`, `test_attention_task` and `test_attention_study` | Passed focused native acceptance; final-source suite pending |
+| F11 | Baseline whitelist + approved scope | Each frozen selection has acquisition, effects, mitigation, worsening where applicable and replay | Per-trait fixtures; exact roster below | All 26 baseline selections passed mapped native acceptance; short attention and frenzy passed separately |
+| F12 | full-2008 B153 | Short attention fails a concrete owned task; terminal prototype failure retains charges and blocks continuation/delivery; enable acquisition/worsening | Owned task lifecycle, prototype terminal gate and fear whitelist implemented. `test_attention_work`, `test_attention_prototype`, `test_attention_acquisition`, `test_attention_rapid_prototype`, `test_attention_concept`, `test_attention_repair`, `test_attention_task` and `test_attention_study` | Passed focused native acceptance and source validation |
 | F13 | full-2008 B124 plus approved knockdown ruling | Complete frenzy entry, legal action/defense policy, injury effects, target changes and exit | Owned injury entry, effective shock/stun/movement and survival hooks, and wound-bound knockdown rulings authored in `test_frenzy_entry`, `test_frenzy_knockdown` , `test_frenzy_temper` and `test_frenzy_voluntary`. Temper reuses its check; voluntary entry commits Concentrate and Will. Optional battle entry and rating prices authored in `test_frenzy_battle`. Owned recorded turns, ranged reloads, tactical paths, target changes, exit health and acquisition now have `test_frenzy_turn`, `test_frenzy_boundaries` and `test_frenzy_acquisition` fixtures | All eight frenzy entry, injury, battle, turn, acquisition and exit fixture groups passed focused native acceptance |
 | S01 | Original campaign stress rules below | Optional policy/state and explicit unique gains; cap, immutable policy and episode reset | `RpgExpandedStressPolicy`, state/gain receipts; `test_stress` | Passed policy, gains, severity, saturation, deduplication and episode-reset acceptance |
 | S02 | Original campaign stress rules below | Ascending owned threshold decisions, persistence and voluntary-action gate | Owned ordered decisions and shared action/check gates; `test_stress`, `test_stress_fear` | Passed ascending decisions, saved pending state and pre-cost action gating |
 | S03 | Original campaign stress rules below | Timed nonstacking strain, ordinary owned fear or recorded coping; no recursive gains | Owned strain/coping/fear resolutions; `test_stress`, `test_stress_fear` | Passed coping, ordinary fear, panic coexistence, nonstacking strain and exact expiry |
 | S04 | Original campaign stress rules below | Safe-hour recovery, daily cap, interruption, interval ownership and independent aftermath | Owned safe-hour intervals, shared-clock settlement and daily ledger; `test_stress` | Passed owned safe hours, interrupted intervals, daily cap, midnight credit and retained independent consequences |
-| D01 | Approved delivery plan | Neutral docs, catalogue/provenance/API navigation and connected playable fear/stress sequence | Stress guide, catalogue, API inputs and connected Echo Vault scene; `test_echo_aftermath` | Three interface routes and cross-process continuation passed; final-source rerun pending |
+| D01 | Approved delivery plan | Neutral docs, catalogue/provenance/API navigation and connected playable fear/stress sequence | Stress guide, catalogue, API inputs and connected Echo Vault scene; `test_echo_aftermath` | Passed three interface routes, cross-process continuation, source validation and strict docs |
 | V01 | Approved delivery plan | Pure preview, rejection before costs/dice, replay, rollback, undo, separate-process saves for every requirement | Lifecycle fixtures and explicit mapping below | Passed focused lifecycle scenarios; full-suite gate remains V02 |
 | V02 | Approved delivery plan | Minimal/all-module builds, unchanged absent-feature behavior, source/native/docs/packaging checks | Commands and result record below | Running |
 
@@ -59,7 +59,7 @@ phobias and their existing consequence interfaces remain included separately.
 
 | Trait ID | Public type | Acceptance scenarios | Observed validation |
 | --- | --- | --- | --- |
-| `truthfulness` | `RpgExpandedTruthfulness` | `test_truthfulness` | Running; awaiting `test_truthfulness` |
+| `truthfulness` | `RpgExpandedTruthfulness` | `test_truthfulness` | Passed focused native acceptance |
 | `curious` | `RpgExpandedCuriosity` | `test_curiosity` | Passed focused native acceptance |
 | `cowardice` | `RpgExpandedDangerAvoidance` | `test_danger_avoidance`, `test_danger_reaction` | Passed focused native acceptance |
 | `compelled-aid` | `RpgExpandedCompelledAid` | `test_compelled_aid` | Passed focused native acceptance |
@@ -78,7 +78,7 @@ phobias and their existing consequence interfaces remain included separately.
 | `nightmares` | `RpgExpandedNightmares` | `test_nightmares`, `test_nightmare_compound` | Passed focused native acceptance |
 | `overconfidence` | `RpgExpandedOverconfidence` | `test_overconfidence`, `test_overconfidence_social` | Passed focused native acceptance |
 | `solitude` | `RpgExpandedSolitude` | `test_solitude`, `test_solitude_social` | Passed focused native acceptance |
-| `status-sensitivity` | `RpgExpandedStatusSensitivity` | `test_status_sensitivity`, `test_status_sensitivity_social`, `test_status_outburst` | Running; awaiting `test_status_sensitivity_social`, `test_status_outburst` |
+| `status-sensitivity` | `RpgExpandedStatusSensitivity` | `test_status_sensitivity`, `test_status_sensitivity_social`, `test_status_outburst` | Passed focused native acceptance |
 | `self-sacrifice` | `RpgExpandedSelfSacrifice` | `test_self_sacrifice` | Passed focused native acceptance |
 | `intrusive-replay` | `RpgExpandedIntrusiveReplay` | `test_intrusive_replay`, `test_replay_self_control`, `test_replay_fear`, `test_replay_senses`, `test_replay_overlap`, `test_acquired_replay_event` | Passed focused native acceptance |
 | `low-confidence` | `RpgExpandedLowConfidence` | `test_low_confidence` | Passed focused native acceptance |
@@ -121,7 +121,7 @@ where applicable; compound rows also require both component rejection paths.
 | 20 | `fear-outcome-20` | `test_fear_assessments`, `test_fear_shock_faint` | Passed focused native acceptance |
 | 21 | `fear-outcome-21` | `test_fear_assessments`, `test_fear_panic`, `test_panic_crying`, `test_panic_history`, `test_timed_panic_path`, `test_panic_expression_communication` | Passed focused native acceptance |
 | 22 | `fear-outcome-22` | `test_fear_assessments`, `test_fixed_beliefs` | Passed focused native acceptance |
-| 23 | `fear-outcome-23` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound`, `test_fear_selection`, `test_status_sensitivity`, `test_status_outburst`, `test_self_sacrifice`, `test_acquired_replay_event` | Awaiting `test_status_outburst` |
+| 23 | `fear-outcome-23` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound`, `test_fear_selection`, `test_status_sensitivity`, `test_status_outburst`, `test_self_sacrifice`, `test_acquired_replay_event` | Passed focused native acceptance |
 | 24 | `fear-outcome-24` | `test_fear_assessments`, `test_fear_physical`, `test_fear_aging`, `test_fear_selection` | Passed focused native acceptance |
 | 25 | `fear-outcome-25` | `test_fear_assessments`, `test_fear_phobia_worsening`, `test_fear_mental`, `test_fear_selection` | Passed focused native acceptance |
 | 26 | `fear-outcome-26` | `test_fear_assessments`, `test_fear_compound`, `test_fear_compound_preflight` | Passed focused native acceptance |
@@ -200,9 +200,9 @@ This is an explicitly approved campaign design, not a procedure from full-2008.
 | Required command / evidence | Environment / observed result |
 | --- | --- |
 | `python3 tools/test.py --vhyl <pinned-vhyl>` | Passed: 50 tool tests and all 538 source programs with the validation fixes; additional fixture transport repairs passed focused native compilation/execution |
-| `python3 tools/test.py --native --vhyl <pinned-vhyl>` | Core, reporting, resilience and Lite passed. All-module host compilation exceeded the fixed tool deadline; retrying with fewer concurrent builds |
+| `python3 tools/test.py --native --vhyl <pinned-vhyl>` | Core, reporting, resilience and Lite passed. Frozen fear/stress and roster acceptance passed. Full expanded/integration regression is running with exact-source build reuse and explicit host-only fallback |
 | `.tools/docs/bin/python tools/build_docs.py --check` | Passed: strict build, local links and 1,515 declarations |
-| Packaging unit tests; `.tools/docs/bin/python tools/build_release.py --out <fresh-local-directory>`; checksum verification | Unit tests passed; clean snapshot `de1ef98` built and all manifest/archive checksums verified; final-head repeat required; no publishing |
+| Packaging unit tests; `.tools/docs/bin/python tools/build_release.py --out <fresh-local-directory>`; checksum verification | Unit tests passed; clean snapshot `03e8eaa` built and all three manifest/archive checksums verified; no publishing |
 | Minimal/all-module and absent-feature regression coverage | 538 source programs passed; core/resilience/Lite native regressions passed |
 | Parser/structured/dialogue connected example | Passed `test_echo_aftermath`: parser, structured actions, dialogue and cross-process continuation |
 

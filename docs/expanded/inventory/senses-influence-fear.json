@@ -1393,7 +1393,7 @@
         "tests/expanded.py::test_self_sacrifice",
         "tests/expanded.py::test_acquired_replay_event"
       ],
-      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition, test_fear_selection, test_self_sacrifice, test_status_sensitivity. Remaining registered validation: test_status_outburst. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_acquired_replay_event, test_fear_assessments, test_fear_mental, test_fear_mental_compound, test_fear_phobia_acquisition, test_fear_selection, test_self_sacrifice, test_status_outburst, test_status_sensitivity. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "fear-outcome-24",

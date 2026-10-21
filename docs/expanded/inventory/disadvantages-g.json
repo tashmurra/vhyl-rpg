@@ -160,7 +160,7 @@
         "tests/expanded.py::test_status_outburst"
       ],
       "implementation": "Typed purchase, fear selection, owned slight response and both reaction directions implemented. Conditional outburst penalty requires recorded author confirmation and completed hostile action. Solitude composition specified. Fixtures registered but unrun; frenzy combination remains blocked.",
-      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation, test_status_sensitivity. Remaining registered validation: test_status_outburst, test_status_sensitivity_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_control_choice_mitigation, test_status_outburst, test_status_sensitivity, test_status_sensitivity_social. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-g-self-sacrifice",

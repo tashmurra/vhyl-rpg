@@ -300,7 +300,7 @@
         "tests/expanded.py::test_truthfulness",
         "tests/expanded.py::test_statement_delivery"
       ],
-      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Remaining registered validation: test_statement_delivery, test_truthfulness. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
+      "validation_note": "The frozen fear milestone is mapped in fear-completion.md; health.md and traits.md document the owned effects and explicit author contracts. Passing focused native acceptance: test_truthfulness. Remaining registered validation: test_statement_delivery. This entry retains its wider-conversion status; validation of the frozen roster does not complete deferred catalogue choices."
     },
     {
       "id": "disadvantages-h-predatory-appetite",
