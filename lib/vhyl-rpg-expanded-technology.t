@@ -3453,3 +3453,266 @@ class RpgExpandedDeviceAnalysis: object
         value.status = 'resolved'; self.result = value; return value;
     }
 ;
+
+/** Persistent B483-B484 condition of one ordinary, non-sentient solid artifact. */
+class RpgExpandedArtifactCondition: object
+    item = nil
+    capacity = nil
+    health = 12
+    construction = 'homogenous'
+    sentient = nil
+    fragile = nil
+    subsystems = nil
+    approved = nil
+    evidence = nil
+    injury = 0
+    destroyed = nil
+    disabled = nil
+    wounds = []
+    stresses = []
+    facts()
+    {
+        if (self.item == nil || !self.item.ofKind(RpgLiteItem) || self.item.artifactCondition != self
+            || self.item.quantity != 1) rpgExpandedReject('artifact-condition-owner');
+        if (self.construction != 'homogenous' || self.sentient || self.fragile || self.subsystems)
+            rpgExpandedReject('artifact-condition-special-adapter-required');
+        for (local host = firstObj(RpgExpandedComputer); host != nil; host = nextObj(host,RpgExpandedComputer))
+            if (host.item == self.item) rpgExpandedReject('artifact-computer-destruction-adapter-required');
+        rpgInteger(self.capacity,1,1000000); rpgInteger(self.health,3,1000);
+        if (!self.approved || self.evidence == nil || self.evidence == '') rpgExpandedReject('artifact-condition-author-facts');
+        return [self,self.item,self.capacity,self.health,self.approved,self.evidence,self.construction,self.sentient,self.fragile,self.subsystems];
+    }
+    validate()
+    {
+        self.facts(); local injury = 0; local destroyed = nil; local disabled = nil; local ids = [];
+        foreach (local wound in self.wounds)
+        {
+            if (wound == nil || !wound.ofKind(RpgExpandedObjectWound) || wound.condition != self || holds(ids,wound.id)
+                || destroyed || wound.before != injury || wound.recordedAt == nil || wound.recordedAt > rpgLedger.seconds) rpgExpandedReject('artifact-wound-history');
+            wound.validateReceipt(); ids = ids + [wound.id]; injury += wound.amount;
+            destroyed = wound.result.destroyed;
+        }
+        local lastAt = nil; ids = [];
+        foreach (local stress in self.stresses)
+        {
+            if (stress == nil || !stress.ofKind(RpgExpandedArtifactStress) || stress.condition != self
+                || holds(ids,stress.id) || disabled || lastAt != nil && stress.recordedAt <= lastAt)
+                rpgExpandedReject('artifact-stress-history');
+            stress.validateReceipt();
+            rpgInteger(stress.woundCount,1,self.wounds.length()); local priorInjury = 0;
+            for (local i = 1; i <= stress.woundCount; i += 1)
+            {
+                if (self.wounds[i].recordedAt > stress.recordedAt || self.wounds[i].result.destroyed)
+                    rpgExpandedReject('artifact-stress-injury-order');
+                priorInjury += self.wounds[i].amount;
+            }
+            if (priorInjury < self.capacity || stress.recordedAt > rpgLedger.seconds) rpgExpandedReject('artifact-stress-injury-basis');
+            ids = ids + [stress.id]; lastAt = stress.recordedAt;
+            if (!stress.result.check.achieved) disabled = true;
+        }
+        if (injury != self.injury || destroyed != self.destroyed || disabled != self.disabled) rpgExpandedReject('artifact-condition-history');
+        return nil;
+    }
+    usable()
+    {
+        self.validate();
+        if (self.destroyed || self.disabled) return nil;
+        if (self.injury < self.capacity) return true;
+        if (self.stresses.length() == 0) return nil;
+        local stress = self.stresses[self.stresses.length()];
+        return stress.recordedAt == rpgLedger.seconds && stress.result.check.achieved;
+    }
+    notifyUnavailable(cause)
+    {
+        self.item.ready = nil;
+        for (local profile = firstObj(RpgLiteProfile); profile != nil; profile = nextObj(profile,RpgLiteProfile))
+            if (holds(profile.equipment,self.item)) profile.onEquipmentUnavailable(self.item,cause);
+        for (local fighter = firstObj(RpgLiteFighter); fighter != nil; fighter = nextObj(fighter,RpgLiteFighter))
+            if (fighter.aimWeapon == self.item) { fighter.aimSeconds = 0; fighter.aimTarget = nil; fighter.aimWeapon = nil; }
+        return nil;
+    }
+    shockModifier()
+    {
+        self.validate(); local penalty = 0;
+        foreach (local wound in self.wounds)
+            if (rpgLedger.seconds <= wound.recordedAt+1)
+            {
+                local divisor = self.capacity < 20 ? 1 : self.capacity/10;
+                local amount = wound.amount/divisor; if (amount > 4) amount = 4;
+                if (amount > penalty) penalty = amount;
+            }
+        return -penalty;
+    }
+;
+modify RpgLiteItem
+    artifactCondition = nil
+    usableBy(profile)
+    { return (self.artifactCondition == nil || self.artifactCondition.usable()) && inherited(profile); }
+    artifactUseModifier() { return self.artifactCondition == nil ? 0 : self.artifactCondition.shockModifier(); }
+;
+class RpgExpandedObjectWoundResult: RpgExpandedResult
+    checks = []
+    destroyed = nil
+    assessment = nil
+;
+/** Final injury after protection/type effects. The author supplies that resolved injury, not a callback. */
+class RpgExpandedObjectWound: object
+    id = nil
+    condition = nil
+    amount = 0
+    approved = nil
+    evidence = nil
+    result = nil
+    before = nil
+    recordedAt = nil
+    boundFacts = nil
+    boundOutcome = nil
+    facts()
+    {
+        if (self.id == nil || self.id == '' || self.condition == nil || !self.condition.ofKind(RpgExpandedArtifactCondition))
+            rpgExpandedReject('object-wound-definition');
+        rpgInteger(self.amount,0,100000000);
+        return [self,self.id,self.condition,self.amount,self.approved,self.evidence] + self.condition.facts();
+    }
+    outcomeFacts()
+    {
+        local assessment = self.result.assessment;
+        local facts = [self.result,self.result.status,self.result.destroyed,self.before,self.recordedAt,self.result.checks.length(),
+            assessment,assessment.remaining,assessment.automaticDestruction,assessment.stressChecksRequired,
+            assessment.reducedEffectivenessEligible,assessment.majorDamage,assessment.destructionThresholds.length()]
+            + assessment.destructionThresholds;
+        foreach (local check in self.result.checks) facts = facts + [check,check.score,check.roll,check.achieved,check.margin,check.critical];
+        return facts;
+    }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.condition.wounds,self)) rpgExpandedReject('object-wound-receipt');
+        local facts = self.facts();
+        if (self.boundFacts == nil || facts.length() != self.boundFacts.length()) rpgExpandedReject('object-wound-binding');
+        for (local i = 1; i <= facts.length(); i += 1) if (facts[i] != self.boundFacts[i]) rpgExpandedReject('object-wound-binding');
+        facts = self.outcomeFacts();
+        if (self.boundOutcome == nil || facts.length() != self.boundOutcome.length()) rpgExpandedReject('object-wound-outcome');
+        for (local i = 1; i <= facts.length(); i += 1) if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('object-wound-outcome');
+        return nil;
+    }
+    assess()
+    {
+        self.facts(); local value = new RpgExpandedObjectWoundResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.before != nil || self.recordedAt != nil || self.boundFacts != nil || self.boundOutcome != nil)
+            rpgExpandedReject('object-wound-uncommitted');
+        self.condition.validate();
+        if (self.condition.destroyed) { value.reason = 'object-already-destroyed'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'object-injury-evidence'; return value; }
+        foreach (local prior in self.condition.wounds) if (prior.id == self.id) rpgExpandedReject('object-wound-duplicate');
+        rpgInteger(self.amount,0,100000000-self.condition.injury);
+        value.assessment = rpgExpandedObjectInjury(self.condition.capacity,self.condition.injury,self.amount);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.before = self.condition.injury; self.recordedAt = rpgLedger.seconds; self.boundFacts = self.facts();
+        value.destroyed = value.assessment.automaticDestruction;
+        if (!value.destroyed)
+            foreach (local threshold in value.assessment.destructionThresholds)
+            {
+                local check = rpgCheck(self.condition.health,rpgRandom.roll()); value.checks = value.checks + [check];
+                if (!check.achieved) { value.destroyed = true; break; }
+            }
+        self.condition.injury += self.amount; self.condition.destroyed = value.destroyed;
+        self.condition.wounds = self.condition.wounds + [self]; value.status = 'resolved'; self.result = value;
+        self.boundOutcome = self.outcomeFacts();
+        if (value.destroyed) self.condition.notifyUnavailable('destroyed');
+        return value;
+    }
+;
+/** B483: a damaged artifact's actual use requires one retained HT check for this second. */
+class RpgExpandedArtifactStress: object
+    id = nil
+    condition = nil
+    approved = nil
+    evidence = nil
+    recordedAt = nil
+    woundCount = nil
+    result = nil
+    boundFacts = nil
+    facts()
+    { return [self,self.id,self.condition,self.approved,self.evidence,self.recordedAt,self.woundCount] + self.condition.facts(); }
+    validateReceipt()
+    {
+        if (self.result == nil || !holds(self.condition.stresses,self)) rpgExpandedReject('artifact-stress-receipt');
+        local check = self.result.check; local facts = self.facts() + [check,check.score,check.roll,check.achieved,check.margin,check.critical];
+        if (self.boundFacts == nil || facts.length() != self.boundFacts.length()) rpgExpandedReject('artifact-stress-binding');
+        for (local i = 1; i <= facts.length(); i += 1) if (facts[i] != self.boundFacts[i]) rpgExpandedReject('artifact-stress-binding');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.condition == nil || !self.condition.ofKind(RpgExpandedArtifactCondition))
+            rpgExpandedReject('artifact-stress-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.recordedAt != nil || self.woundCount != nil || self.boundFacts != nil) rpgExpandedReject('artifact-stress-uncommitted');
+        self.condition.validate();
+        if (self.condition.injury < self.condition.capacity || self.condition.destroyed || self.condition.disabled)
+        { value.reason = 'artifact-stress-inapplicable'; return value; }
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'artifact-stress-use-evidence'; return value; }
+        foreach (local prior in self.condition.stresses)
+            if (prior.id == self.id || prior.recordedAt == rpgLedger.seconds) rpgExpandedReject('artifact-stress-duplicate');
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        value.check = rpgCheck(self.condition.health,rpgRandom.roll()); self.recordedAt = rpgLedger.seconds;
+        self.woundCount = self.condition.wounds.length();
+        if (!value.check.achieved) self.condition.disabled = true;
+        self.condition.stresses = self.condition.stresses + [self]; value.status = 'resolved'; self.result = value;
+        local check = value.check;
+        self.boundFacts = self.facts() + [check,check.score,check.roll,check.achieved,check.margin,check.critical];
+        if (!check.achieved) self.condition.notifyUnavailable('disabled'); return value;
+    }
+;
+
+/** A B361 authored destructive reaction commits the separately adjudicated object injury. */
+class RpgExpandedPanicObjectOperation: RpgExpandedPanicOperation
+    owner = nil
+    wound = nil
+    targetOwner = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundFacts = nil
+    facts(reaction)
+    {
+        if (self.wound == nil || !self.wound.ofKind(RpgExpandedObjectWound)
+            || self.targetOwner == nil || !self.targetOwner.ofKind(RpgLiteProfile)) rpgExpandedReject('panic-object-definition');
+        return [self,self.profile,reaction,self.wound,self.targetOwner,self.approved,self.evidence] + self.wound.facts();
+    }
+    validateReceipt(reaction)
+    {
+        local facts = self.facts(reaction);
+        if (self.owner != reaction || self.result == nil || self.result != self.wound.result
+            || self.boundFacts == nil || facts.length() != self.boundFacts.length()) rpgExpandedReject('panic-object-receipt');
+        for (local i = 1; i <= facts.length(); i += 1) if (facts[i] != self.boundFacts[i]) rpgExpandedReject('panic-object-binding');
+        self.wound.validateReceipt(); return nil;
+    }
+    assess(reaction)
+    {
+        local facts = self.facts(reaction); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(reaction); value.status = 'reused'; return value; }
+        if (self.owner != nil || self.boundFacts != nil) rpgExpandedReject('panic-object-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'panic-object-target-adjudication'; return value; }
+        if (!holds(self.targetOwner.equipment,self.wound.condition.item)) { value.reason = 'panic-object-target-owner'; return value; }
+        if (self.wound.assess().status == 'reused') rpgExpandedReject('panic-object-used-injury');
+        return self.wound.assess();
+    }
+    apply(reaction)
+    {
+        local value = self.assess(reaction); if (value.status != 'ready') return value;
+        self.owner = reaction; self.boundFacts = self.facts(reaction);
+        value = self.wound.apply(); if (value.status != 'resolved') rpgExpandedReject('panic-object-injury-changed');
+        self.result = value; return value;
+    }
+;

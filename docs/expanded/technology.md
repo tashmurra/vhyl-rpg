@@ -1555,3 +1555,62 @@ interruption, permission/access gates, retargeting rejection, revision-preservin
 replay and absence of unrelated inventory/theory/currency changes. Fixtures remain
 unrun. Functional modification remains a separate pending procedure.
 Source: `full-2008`, B477.
+
+## Owned solid-artifact injury and destruction
+
+`RpgExpandedArtifactCondition` attaches to one `RpgLiteItem` through the item's
+`artifactCondition`. Supply `item`, positive `capacity`, `health` (3–1000), approval
+and evidence establishing the object's statistics and ordinary solid construction.
+The current executor supports one non-sentient, non-fragile, homogeneous object
+without subsystems. It rejects stacks, computer hosts, other construction and
+special artifact flags instead of omitting their special damage procedures.
+
+`RpgExpandedObjectWound` supplies a unique `id`, the `condition`, final injury
+`amount`, approval and evidence explaining how protection and damage-type effects
+were resolved. This is the same separation as character wounds: the wound commits
+resolved injury, not the attack that caused it. Injury accumulates in one retained
+condition ledger. Each newly crossed -HP through -4×HP boundary requires the
+object's HT check, stopping on destruction; -5×HP destroys automatically without
+unneeded checks. Source: full-2008 B483–B484. Replaying the wound does not add
+injury, repeat checks or notify equipment loss twice.
+
+Destruction makes the item unusable, clears readiness and aim, and notifies existing
+equipment-loss hooks. It does not erase the physical item, inventory quantity or
+weight. Destroyed matter is still present until authored world actions remove it.
+The receipt retains checks, injury thresholds and before/after condition facts.
+Computer data loss, sentient machines, subsystem failures, fragile artifacts and
+broken-weapon salvage require separate adapters and remain outside this executor.
+
+At zero HP or below, `usableBy` requires a successful owned
+`RpgExpandedArtifactStress` for the current second. Supply its unique `id`, matching
+`condition`, approval and evidence of actual use under stress. Failure disables
+normal use and notifies equipment-loss hooks; success permits that second's use.
+Repeated execution returns the retained result. An idle object does not roll.
+The stress receipt names the wound-history prefix on which its check depended.
+The caller owns elapsed time and must request a new stress check for later use.
+
+`artifactUseModifier()` exposes the retained injury shock modifier for authored
+object-use checks. Custom operation adapters must apply that modifier; this
+increment does not wire every tool, vehicle and computer operation. Discretionary
+reduced effectiveness below one-third HP, special disabled-weapon forms and repair
+of this condition remain unfinished. Do not substitute the environmental-breakdown
+repair interface for these physical damage records.
+
+## Destructive panic consequences
+
+A reaction with `kind = 'world-operation'` can use
+`RpgExpandedPanicObjectOperation`. Supply the acting `profile`, the object's
+`targetOwner`, a fresh `RpgExpandedObjectWound`, approval and evidence confirming
+the target is reachable and that the destructive interaction has been adjudicated.
+The target must be in that owner's actual equipment list. The wound evidence
+records final injury after protection and material effects. This is a concrete
+author-adjudicated consequence interface; it does not invent an attack roll,
+automatically win an opposed interaction or derive damage from panic severity.
+
+The reaction owns time once. The operation commits the actual object wound and
+retains its receipt, after which the normal survivor-Will procedure continues.
+A destruction outcome is not guaranteed: the object may survive its threshold
+checks. `expanded-panic-object.t` / `test_panic_object` specify this distinction,
+automatic destruction, item usability, preserved quantity, stress checks, pure
+preview, rollback, undo and cross-process continuation. Fixtures are authored and
+unrun while implementation checks are paused.

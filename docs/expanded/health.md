@@ -4457,3 +4457,9 @@ permission rejection, clock ownership, failed Will follow-up, replay, mutation
 rejection, rollback, undo and cross-process continuation. They are authored and
 unrun. Interrupted paths still require an explicit supported interruption adapter;
 this operation accepts the existing path mover's verified uninterrupted route.
+
+The technology library now supplies `RpgExpandedPanicObjectOperation` for an
+[adjudicated destructive consequence](technology.md#destructive-panic-consequences).
+It commits real object injury and destruction receipts while the reaction owns
+time. It requires explicit target/protection/material adjudication and does not
+stand in for the unfinished attack-resolution adapter.

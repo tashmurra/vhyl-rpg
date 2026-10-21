@@ -9773,6 +9773,8 @@ def test(build):
     test_fear_aging(Session,fear_aging,build.out)
     recovery_ruling = build.build('expanded-fear-recovery-ruling',ROOT / 'tests/fixtures/expanded-fear-recovery-ruling.t')
     test_fear_recovery_ruling(Session,recovery_ruling,build.out)
+    panic_object = build.build('expanded-panic-object',ROOT / 'tests/fixtures/expanded-panic-object.t')
+    test_panic_object(Session,panic_object,build.out)
     panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
     test_panic_path(Session,panic_path,build.out)
     panic_fall = build.build('expanded-panic-fall',ROOT / 'tests/fixtures/expanded-panic-fall.t')
@@ -28586,4 +28588,41 @@ def test_panic_path(Session,bundle,out):
         do(s,200); do(s,211); do(s,201)
         assert last(s,'test.panic-path-preview')==['blocked','effort-other-incapacity']
         assert state(s)==initial
+    finally: s.close()
+
+
+def test_panic_object(Session,bundle,out):
+    """B483-B484 thresholds, real equipment unavailability and replayable B361 destruction. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,631)
+        return last(s,'test.panic-object')
+    for amount in (20,60):
+        path=out/f'panic-object-{amount}.zsave'
+        s=Session(bundle)
+        try:
+            if amount==20: do(s,632)
+            do(s,440); do(s,630)
+            assert last(s,'test.panic-object-preview')==['ready',None]
+            assert state(s)==[0,0,0,1,0,0,1,1,0,3]
+            do(s,443); assert state(s)==[0,0,0,1,0,0,1,1,0,3]
+            do(s,442); s.command('undo'); assert state(s)==[0,0,0,1,0,0,1,1,0,3]
+            do(s,442); do(s,442); do(s,638)
+            assert state(s)==[amount,1,0,0,1,0,1,1,1,9]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,442)
+            assert state(s)==[amount,1,0,0,1,0,1,1,1,9]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,634); do(s,633)
+        assert state(s)==[10,0,0,0,1,0,1,1,0,0]
+        do(s,636); assert state(s)==[10,0,0,0,1,0,1,1,0,0]
+        do(s,635); do(s,635)
+        assert state(s)==[10,0,0,1,1,1,1,1,0,3]
+        do(s,637)
+        assert state(s)==[10,0,1,0,1,2,1,1,1,6]
     finally: s.close()

@@ -1972,3 +1972,11 @@ and allows the corresponding round advance without charging a second interval.
 Request-aware permission dispatch preserves normal public hooks and keeps preview
 pure. Interrupted routes, attack/destruction adapters and remaining trait selections
 are still pending. The new tactical fixture is unrun; checks remain paused.
+
+Panic reactions can now commit an adjudicated destructive interaction through
+owned solid-artifact injury. Destruction thresholds, automatic destruction,
+equipment unavailability and per-second stress checks retain actual receipts;
+replay does not duplicate injury or randomness. The physical item retains its
+inventory weight. Special artifacts, complete attack resolution and remaining
+trait choices are still pending. New lifecycle fixtures are authored and unrun;
+build checks remain paused.
