@@ -28,7 +28,8 @@ modify FearTestAction
         if (code == 1230)
         {
             fearProfile.traits = [attentionTrait]; fearProfile.skills = [attentionRepairTraining]; fearProfile.money = 1000;
-            attentionFault.apply(); if (attentionRepairInput.major) attentionParts.purchase(); return nil;
+            attentionFault.apply();
+            if (attentionRepairInput.major) { attentionParts.quote(); attentionParts.purchase(); } return nil;
         }
         if (code == 1231 || code == 1232)
         { attentionRepairControl.resolve(); if (code == 1232) throw new RpgError(); return nil; }

@@ -18,7 +18,7 @@ modify FearTestAction
             eventValue(attentionTask.taskCheck == nil ? nil : attentionTask.taskCheck.status);
             eventValue(attentionTask.taskCheck == nil ? nil : attentionTask.taskCheck.achieved);
             eventValue(attentionTask.taskCheck == nil ? nil : attentionTask.taskCheck.roll);
-            eventValue(rpgRandom.draws); eventValue(fearProfile.ledgerSeconds); return nil;
+            eventValue(rpgRandom.draws); eventValue(rpgLedger.seconds); return nil;
         }
         if (code == 1205) { attentionTask.modifier = 1; attentionTask.assess(); return nil; }
         if (code == 1206) { attentionTask.taskCheck.achieved = !attentionTask.taskCheck.achieved; attentionTask.assess(); return nil; }
