@@ -1948,3 +1948,8 @@ Extreme-panic flight now moves the owning actor along an authored unobstructed
 room route, with Move/distance limits and one shared time charge. Tactical and
 combat routes reject explicitly. Movement, replay and persistence fixtures are
 authored but unrun. Falling and attack reactions remain incomplete.
+
+Lasting mental outcomes now accept eight additional typed trait families with
+existing executable effects. They share compound faint/coma and permanent-IQ
+accounting. Controlled purchases can worsen one self-control step with retained
+history; fallback also accepts a fixed belief. New fixtures remain unrun.

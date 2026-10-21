@@ -3747,11 +3747,13 @@ class RpgExpandedFearPhobiaAcquisition: RpgExpandedFearTraitConsequence
     evidence = nil
     result = nil
     boundDefinition = nil
+    purchaseFacts() { return self.profile.phobiaFacts(self.trait); }
+    purchaseConflict(purchase) { return purchase.ofKind(RpgExpandedPhobia) && purchase.scope == self.trait.scope; }
     definition()
     {
         if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == '' || self.profile == nil
             || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-phobia-definition');
-        return [self.id,self.eventId,self.profile,self.trait,self.tableTotal,self.approved,self.evidence] + self.profile.phobiaFacts(self.trait);
+        return [self.id,self.eventId,self.profile,self.trait,self.tableTotal,self.approved,self.evidence] + self.purchaseFacts();
     }
     assess()
     {
@@ -3768,11 +3770,12 @@ class RpgExpandedFearPhobiaAcquisition: RpgExpandedFearTraitConsequence
             rpgExpandedReject('fear-phobia-value');
         if (!self.profile.creationComplete || !self.approved || self.evidence == nil || self.evidence == '')
         { value.reason = 'fear-phobia-authored-acquisition'; return value; }
+        if (!self.trait.active || self.trait.mitigated) { value.reason = 'fear-acquisition-inactive-purchase'; return value; }
         if (self.profile.dead || self.trait.fearAcquisition != nil) { value.reason = 'fear-phobia-unavailable'; return value; }
         for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
             if (holds(owner.traits,self.trait)) rpgExpandedReject('fear-phobia-owned-purchase');
         foreach (local purchase in self.profile.traits)
-            if (purchase.ofKind(RpgExpandedPhobia) && purchase.scope == self.trait.scope) rpgExpandedReject('fear-phobia-duplicate-scope');
+            if (self.purchaseConflict(purchase)) rpgExpandedReject('fear-phobia-duplicate-scope');
         foreach (local prior in self.profile.fearPhobiaAcquisitions)
             if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fear-phobia-duplicate-event');
         rpgExpandedValidate(self.profile); rpgInteger(self.profile.developmentRevision,0,2147483646);
@@ -3820,13 +3823,14 @@ class RpgExpandedFearPhobiaWorsening: RpgExpandedFearTraitConsequence
     boundDefinition = nil
     delta = 0
     boundDelta = nil
+    purchaseFacts(trait) { return self.profile.phobiaFacts(trait); }
     definition()
     {
         if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == '' || self.profile == nil
             || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-worsening-definition');
         local facts = [self.id,self.eventId,self.profile,self.previous,self.replacement,self.fallback,self.related,self.approved,self.evidence];
-        if (self.previous != nil) facts = facts + self.profile.phobiaFacts(self.previous);
-        if (self.replacement != nil) facts = facts + self.profile.phobiaFacts(self.replacement);
+        if (self.previous != nil) facts = facts + self.purchaseFacts(self.previous);
+        if (self.replacement != nil) facts = facts + self.purchaseFacts(self.replacement);
         return facts;
     }
     assess()
@@ -3853,7 +3857,7 @@ class RpgExpandedFearPhobiaWorsening: RpgExpandedFearTraitConsequence
         if (self.related && self.previous != nil && self.previous.selfControlNumber() > 6)
         {
             if (self.fallback != nil || self.replacement == nil) rpgExpandedReject('fear-worsening-replacement-required');
-            local before = self.profile.phobiaFacts(self.previous); local after = self.profile.phobiaFacts(self.replacement);
+            local before = self.purchaseFacts(self.previous); local after = self.purchaseFacts(self.replacement);
             if (after[4] != before[4]-3 || after[2] != before[2] || after[3] != before[3]
                 || after[5] != before[5] || after[6] != before[6] || !self.replacement.active || self.replacement.mitigated)
                 rpgExpandedReject('fear-worsening-one-step');
@@ -3862,7 +3866,7 @@ class RpgExpandedFearPhobiaWorsening: RpgExpandedFearTraitConsequence
         }
         else
         {
-            if (self.replacement != nil || self.fallback == nil || !self.fallback.ofKind(RpgExpandedFearPhobiaAcquisition)
+            if (self.replacement != nil || self.fallback == nil || !(self.fallback.ofKind(RpgExpandedFearPhobiaAcquisition) || self.fallback.ofKind(RpgExpandedFixedBeliefAcquisition))
                 || self.fallback.tableTotal != 23 || self.fallback.profile != self.profile || self.fallback.eventId != self.eventId)
                 rpgExpandedReject('fear-worsening-fallback-required');
             local acquired = self.fallback.assess();
@@ -4129,5 +4133,35 @@ modify RpgExpandedProfile
     {
         self.voiceFearFacts(occurrence);
         return !occurrence.active() || self.phantomVoiceSeverity() != 2 ? 'voice-fear-occurrence-inactive' : nil;
+    }
+;
+
+
+/** Explicit supported mental purchases with existing executable consequences. */
+rpgExpandedFearMentalFacts(trait)
+{
+    if (trait == nil || !(trait.ofKind(RpgExpandedTruthfulness) || trait.ofKind(RpgExpandedCuriosity)
+        || trait.ofKind(RpgExpandedDangerAvoidance) || trait.ofKind(RpgExpandedCompelledAid)
+        || trait.ofKind(RpgExpandedLowMotivation) || trait.ofKind(RpgExpandedPostbattleStress)
+        || trait.ofKind(RpgExpandedPleasureLoss) || trait.ofKind(RpgExpandedPhantomVoices)))
+        rpgExpandedReject('fear-mental-purchase-unsupported');
+    trait.creationCost();
+    if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
+    return [trait,trait.id,trait.points,trait.controlled ? trait.selfControlNumber() : nil,
+        trait.level,trait.scope,trait.approved,trait.controlled];
+}
+/** B361 rows 23/35 and matching compounds: retain the concrete typed trait. */
+class RpgExpandedFearMentalAcquisition: RpgExpandedFearPhobiaAcquisition
+    purchaseFacts() { return rpgExpandedFearMentalFacts(self.trait); }
+    purchaseConflict(purchase) { return purchase.id == self.trait.id; }
+;
+/** Preserve the old phobia interface and receipt list while admitting typed mental controls. */
+class RpgExpandedFearMentalWorsening: RpgExpandedFearPhobiaWorsening
+    purchaseFacts(trait)
+    {
+        if (trait.ofKind(RpgExpandedPhobia)) return inherited(trait);
+        local facts = rpgExpandedFearMentalFacts(trait);
+        if (!trait.controlled) rpgExpandedReject('fear-worsening-self-control-required');
+        return facts;
     }
 ;

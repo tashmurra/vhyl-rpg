@@ -9805,6 +9805,10 @@ def test(build):
     test_extreme_panic(Session,extreme_panic,build.out)
     panic_flight = build.build('expanded-panic-flight',ROOT / 'tests/fixtures/expanded-panic-flight.t')
     test_panic_flight(Session,panic_flight,build.out)
+    fear_mental = build.build('expanded-fear-mental',ROOT / 'tests/fixtures/expanded-fear-mental.t')
+    test_fear_mental(Session,fear_mental,build.out)
+    mental_compound = build.build('expanded-fear-mental-compound',ROOT / 'tests/fixtures/expanded-fear-mental-compound.t')
+    test_fear_mental_compound(Session,mental_compound,build.out)
     fear_physical = build.build('expanded-fear-physical',ROOT / 'tests/fixtures/expanded-fear-physical.t')
     test_fear_physical(Session,fear_physical,build.out)
     fear_phobia_worsening = build.build('expanded-fear-phobia-worsening',ROOT / 'tests/fixtures/expanded-fear-phobia-worsening.t')
@@ -28336,4 +28340,69 @@ def test_panic_flight(Session,bundle,out):
             do(s,440); do(s,code); do(s,570)
             assert last(s,'test.panic-flight-preview')==['blocked',reason]
             assert state(s)==[0,0,0,3]
+        finally: s.close()
+
+
+
+def test_fear_mental(Session,bundle,out):
+    """Exact-cost typed mental acquisitions preserve real effects and point accounting; unrun."""
+    def do(s,code,choice=1): s.action(2250,code,choice)
+    def state(s):
+        do(s,583)
+        return last(s,'test.fear-mental')
+    for choice in range(1,10):
+        s=Session(bundle)
+        path=out/f'fear-mental-{choice}.zsave'
+        points=15 if choice in (2,4,7,8) else 10
+        expected=[1,points,2 if choice==1 else 3 if choice==2 else 0,
+                  int(choice==4),2 if choice==3 else 0,1,9,7,0]
+        zero=[0,0,0,0,0,0,9,7,0]
+        try:
+            do(s,580,choice); do(s,588)
+            assert last(s,'test.fear-mental-preview')==['ready',None]
+            assert state(s)==zero
+            do(s,582); assert state(s)==zero
+            do(s,581); s.command('undo'); assert state(s)==zero
+            do(s,581); do(s,581); do(s,584); assert state(s)==expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,581); do(s,584); assert state(s)==expected
+            if choice==3:
+                do(s,586); assert state(s)==expected
+                do(s,585); s.command('undo'); assert state(s)==expected
+                do(s,585); do(s,585); do(s,584)
+                assert state(s)==[1,15,0,0,3,2,9,7,0]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,580); do(s,587); do(s,588)
+        assert last(s,'test.fear-mental-preview')==['blocked','fear-acquisition-inactive-purchase']
+        assert state(s)==[0,0,0,0,0,0,9,7,0]
+    finally: s.close()
+
+
+
+def test_fear_mental_compound(Session,bundle,out):
+    """Non-phobia mental purchases share compound accounting and consciousness episodes; unrun."""
+    def do(s,code,row=27): s.action(2250,code,row)
+    def state(s):
+        do(s,591)
+        return last(s,'test.mental-compound')
+    for row in (27,39,40):
+        s=Session(bundle)
+        path=out/f'mental-compound-{row}.zsave'
+        expected=[2 if row==27 else 3,9 if row==40 else 10,10 if row==27 else 35 if row==40 else 15]
+        try:
+            do(s,590,row); do(s,343); assert state(s)==[0,10,0]
+            do(s,342); s.command('undo'); assert state(s)==[0,10,0]
+            do(s,342); do(s,342); assert state(s)==expected
+            do(s,344); result=last(s,'test.fear-compound')
+            assert result[:3]==[1,1,1] and result[5:7]==[9,7]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,342); assert state(s)==expected
         finally: s.close()

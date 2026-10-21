@@ -2094,7 +2094,8 @@ and event ID. It must introduce a distinct phobia worth exactly ten points.
 A transition or fallback increments development revision once and never grants
 earned or unspent points. The additional disadvantage allowance follows owned
 receipts, including later transitions from fear-acquired purchases.
-Other mental-disadvantage types still need specific transition adapters.
+The typed mental-purchase transition adapter below covers additional controlled
+traits. Other catalogue entries still need specific transition adapters.
 `test_fear_phobia_worsening` specifies current-exposure continuity, exact step
 validation, fallback, rollback, undo and save continuation. It is unrun.
 
@@ -2221,3 +2222,38 @@ is recursively invented from that follow-up: another frightening cue requires
 another explicit author decision. The `expanded-voice-fear.t` fixture and
 `test_voice_fear` cover the retained link, expiry, follow-up, rollback, undo and
 cross-process continuation; assertions remain unrun.
+
+## Other lasting mental outcomes and worsening
+
+`RpgExpandedFearMentalAcquisition` uses the same retained acquisition and
+character-accounting path as phobias for B361 rows 23 and 35. It accepts concrete
+purchases whose existing effects and author interfaces are implemented:
+truthfulness, curiosity, danger avoidance, compelled aid, low motivation,
+postbattle stress, pleasure loss and phantom voices. Select an actual typed
+purchase with exact adjusted cost -10 or -15, respectively. Generic price-only
+traits are rejected, as are inactive, mitigated, already-owned or duplicate
+purchases. No spendable points are awarded.
+
+The same acquisition fits `RpgExpandedFearTraitCompound` for rows 27, 39 and 40.
+It supplies the lasting trait while the existing faint/coma episode supplies
+unconsciousness, and row 40 owns the permanent IQ reduction. Acquiring phantom
+voices does not retroactively add a stress check to the already-resolved initial
+fear event; subsequent qualifying occurrences use the new trait normally.
+
+`RpgExpandedFearMentalWorsening` supports row 25 for the controlled purchases in
+that list and for phobias. Supply logically related `previous` and fresh
+`replacement` purchases of the same kind with self-control exactly one step
+worse. Historical receipts keep the old purchase; subsequent new triggers use
+the replacement. Continuous phobia exposures follow the existing successor
+lookup. Uncontrolled purchases cannot be worsened through a self-control
+interface. At the minimum rating, or without a related purchase, select a fresh
+ten-point phobia, supported mental purchase or fixed belief through `fallback`.
+
+The existing `RpgExpandedFearPhobiaAcquisition` and
+`RpgExpandedFearPhobiaWorsening` interfaces remain available. All these paths
+share their existing receipt lists, point allowance and development revision.
+Fixtures `expanded-fear-mental.t` and `expanded-fear-mental-compound.t` cover
+prices, actual trait effects, worsening, compound outcomes, preview, duplicate
+prevention, rollback, undo and saved continuation. Assertions are unrun. Other
+catalogue traits still require concrete acquisition adapters; this is not a
+claim that every mental trait or treatment procedure is complete.

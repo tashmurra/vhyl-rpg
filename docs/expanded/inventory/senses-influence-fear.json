@@ -1379,9 +1379,11 @@
       "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative ten points.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_phobia_acquisition"
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-24",
@@ -1407,9 +1409,10 @@
       "acceptance": "Worsen a logically related mental disadvantage's self-control by one step; if none applies or it is already six, add a new negative-ten-point mental disadvantage instead.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_phobia_worsening"
+        "tests/expanded.py::test_fear_phobia_worsening",
+        "tests/expanded.py::test_fear_mental"
       ],
-      "validation_note": "Owned related-phobia replacement worsens self-control one step and redirects future exposure scoring. SC6 or no related phobia uses a fresh ten-point acquisition. Other mental-disadvantage transitions remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned one-step worsening for related phobias and supported controlled mental purchases preserves old receipts and applies new purchase costs without spendable points. Minimum-rating/no-related-trait fallback accepts a fresh exact ten-point phobia, supported mental trait or fixed belief. Other catalogue traits remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-26",
@@ -1435,9 +1438,11 @@
       "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point mental disadvantage.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_phobia_acquisition"
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned row-18 faint plus exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-28",
@@ -1548,9 +1553,11 @@
       "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative fifteen points.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_phobia_acquisition"
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-36",
@@ -1604,9 +1611,11 @@
       "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point phobia or other mental disadvantage.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_phobia_acquisition"
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia or fixed-belief acquisition. Other mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     },
     {
       "id": "fear-outcome-40-plus",
@@ -1618,9 +1627,11 @@
       "acceptance": "Apply row thirty-nine and permanently reduce intelligence by one, updating all intelligence-based skills and spells without refunding their investment.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_phobia_acquisition"
+        "tests/expanded.py::test_fear_phobia_acquisition",
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_mental_compound"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia or fixed-belief acquisition and permanent IQ loss. Other mental-disadvantage choices and the minimum-IQ boundary remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition and permanent IQ loss. Other catalogue mental-disadvantage choices and the minimum-IQ boundary remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
     }
   ],
   "exclusions": [

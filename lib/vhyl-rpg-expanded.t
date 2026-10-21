@@ -1152,3 +1152,6 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile
     panicRelocationReason() { return nil; }
 ;
+
+/** Lasting fear acquisitions retain their source receipt after later buyoff. */
+modify RpgLiteTrait fearAcquisition = nil;
