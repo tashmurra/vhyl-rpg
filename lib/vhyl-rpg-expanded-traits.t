@@ -3854,7 +3854,7 @@ class RpgExpandedFearPhobiaWorsening: RpgExpandedFearTraitConsequence
             if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fear-worsening-duplicate');
         if (self.previous != nil && (!holds(self.profile.traits,self.previous) || !self.previous.active || self.previous.mitigated))
         { value.reason = 'fear-worsening-current-purchase'; return value; }
-        if (self.related && self.previous != nil && self.previous.selfControlNumber() > 6)
+        if (self.related && self.previous != nil && self.previous.controlled && self.previous.selfControlNumber() > 6)
         {
             if (self.fallback != nil || self.replacement == nil) rpgExpandedReject('fear-worsening-replacement-required');
             local before = self.purchaseFacts(self.previous); local after = self.purchaseFacts(self.replacement);
@@ -3961,11 +3961,21 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
     purchaseFacts(trait)
     {
         if (trait == nil || !(trait.ofKind(RpgExpandedPainSensitivity) || trait.ofKind(RpgExpandedPersistentWound)
-            || trait.ofKind(RpgExpandedSpeechLimitation))) rpgExpandedReject('fear-physical-effect-unsupported');
-        trait.creationCost();
-        if (trait.skills.length() != 0) rpgExpandedReject('fear-physical-effect-fields');
-        return [trait,trait.id,trait.level,trait.points,trait.scope,trait.approved,
+            || trait.ofKind(RpgExpandedSpeechLimitation) || trait.ofKind(RpgExpandedAppearance)
+            || trait.ofKind(RpgExpandedDistinctiveFeatures) || trait.ofKind(RpgExpandedRecurrentPain)
+            || trait.ofKind(RpgExpandedHearingImpairment)))
+            rpgExpandedReject('fear-physical-effect-unsupported');
+        local cost = trait.creationCost();
+        if (trait.skills.length() != 0 || trait.scope != nil || cost >= 0) rpgExpandedReject('fear-physical-effect-fields');
+        local facts = [trait,trait.id,trait.level,trait.points,trait.scope,trait.approved,cost,
             trait.ofKind(RpgExpandedSpeechLimitation) ? trait.total : nil];
+        if (trait.ofKind(RpgExpandedAppearance))
+            facts = facts + [trait.tier,trait.presentation,trait.universal,trait.standardized];
+        if (trait.ofKind(RpgExpandedDistinctiveFeatures))
+            facts = facts + [trait.species,trait.description,trait.origin];
+        if (trait.ofKind(RpgExpandedRecurrentPain))
+            facts = facts + [trait.severity,trait.intervalHours,trait.frequency];
+        return facts;
     }
     definition()
     {
@@ -4012,8 +4022,13 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
             for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
                 if (holds(owner.traits,trait)) rpgExpandedReject('fear-physical-purchase-owned');
             foreach (local existing in self.profile.traits)
-                if (existing.id == trait.id || trait.ofKind(RpgExpandedPainSensitivity) && existing.id == 'high-pain-threshold')
+                if (existing.id == trait.id || trait.ofKind(RpgExpandedPainSensitivity) && existing.id == 'high-pain-threshold'
+                    || trait.ofKind(RpgExpandedHearingImpairment) && holds(['acute-hearing','deaf'],existing.id))
                     rpgExpandedReject('fear-physical-existing-effect');
+            if (trait.ofKind(RpgExpandedAppearance))
+                foreach (local existing in self.profile.traits)
+                    if (holds(['hideous','ugly','unattractive','attractive','handsome','very-handsome'],existing.id))
+                        rpgExpandedReject('fear-appearance-existing-tier');
             if (trait.ofKind(RpgExpandedSpeechLimitation)) speech = trait;
         }
         if (speech != nil)
@@ -4158,7 +4173,9 @@ rpgExpandedFearMentalFacts(trait)
     if (trait == nil || !(trait.ofKind(RpgExpandedTruthfulness) || trait.ofKind(RpgExpandedCuriosity)
         || trait.ofKind(RpgExpandedDangerAvoidance) || trait.ofKind(RpgExpandedCompelledAid)
         || trait.ofKind(RpgExpandedLowMotivation) || trait.ofKind(RpgExpandedPostbattleStress)
-        || trait.ofKind(RpgExpandedPleasureLoss) || trait.ofKind(RpgExpandedPhantomVoices)))
+        || trait.ofKind(RpgExpandedPleasureLoss) || trait.ofKind(RpgExpandedPhantomVoices)
+        || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
+        || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4175,8 +4192,21 @@ class RpgExpandedFearMentalWorsening: RpgExpandedFearPhobiaWorsening
     purchaseFacts(trait)
     {
         if (trait.ofKind(RpgExpandedPhobia)) return inherited(trait);
-        local facts = rpgExpandedFearMentalFacts(trait);
-        if (!trait.controlled) rpgExpandedReject('fear-worsening-self-control-required');
-        return facts;
+        return rpgExpandedFearMentalFacts(trait);
+    }
+;
+
+
+/** B138 hearing loss uses the shared -4 hearing/speech-comprehension scoring path. */
+class RpgExpandedHearingImpairment: RpgLiteTrait
+    id = 'hard-of-hearing'
+    points = -10
+    approved = nil
+    creationCost()
+    {
+        if (!self.approved || self.id != 'hard-of-hearing' || self.points != -10 || self.level != 1
+            || self.controlled || self.scope != nil || self.skills.length() != 0)
+            rpgExpandedReject('hearing-impairment-definition');
+        return -10;
     }
 ;

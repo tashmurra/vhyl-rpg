@@ -1980,3 +1980,11 @@ replay does not duplicate injury or randomness. The physical item retains its
 inventory weight. Special artifacts, complete attack resolution and remaining
 trait choices are still pending. New lifecycle fixtures are authored and unrun;
 build checks remain paused.
+
+Fear acquisition now admits existing humorlessness, pervasive distrust, social
+inhibition and companionship implementations at their actual eligible costs.
+Fixed traits without self-control use an explicitly authored fresh-trait fallback.
+Physical selections now include negative appearance, distinctive features,
+recurrent pain and the fixed hearing-impairment purchase. Receipts bind each
+selection's settings and retain the existing executable effects. Compound,
+accounting and lifecycle fixtures are authored but unrun; checks remain paused.

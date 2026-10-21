@@ -2122,8 +2122,10 @@ recovery, resumption, replay, rollback, undo and saved continuation; it is unrun
 `RpgExpandedFearPhysicalAcquisition` implements concrete choices for full-2008
 B361 rows 24, 36 and 37. Supply `id`, `eventId`, `profile`, `tableTotal`, approval,
 evidence describing the actual change, and fresh `purchases`. Supported purchase
-types are `RpgExpandedPainSensitivity`, `RpgExpandedPersistentWound` and
-`RpgExpandedSpeechLimitation`. Their combined cost must be exactly -15, -20 or
+types include `RpgExpandedPainSensitivity`, `RpgExpandedPersistentWound`,
+`RpgExpandedSpeechLimitation`, negative `RpgExpandedAppearance`,
+`RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
+`RpgExpandedHearingImpairment`. Their combined cost must be exactly -15, -20 or
 -30 respectively. Include the health library for their health effects.
 
 The acquisition adds the actual traits, preserving their existing speech, pain
@@ -2131,7 +2133,7 @@ and wound effects. A persistent wound purchase does not subtract HP at acquisiti
 Duplicate effects, already-owned purchases, unsupported types and speech
 conflicts are rejected before committing. Development revision increments once;
 there is no earned-point or spendable-point reward. Forced aging is available
-through the hazards adapter below. Appearance changes and other physical
+through the hazards adapter below. Conversion of an existing appearance purchase and other physical
 transformations still need specific adapters. Approval of a price
 alone cannot satisfy this interface. `test_fear_physical` specifies all three
 required totals, speech blocking, accounting, rollback, undo and saved replay;
@@ -2288,3 +2290,49 @@ an undefined decision. Ordinary rollable boundaries keep their four existing rol
 `expanded-fear-aging.t` / `test_fear_aging` specify selection accounting, crossed
 boundaries, ordinary losses, no-dice author losses, rejuvenation, receipt mutation,
 rollback, undo and saved continuation. These assertions are authored and unrun.
+
+## Additional fear-acquired trait selections
+
+The mental acquisition interface now also accepts `RpgExpandedHumorlessness`,
+`RpgExpandedPervasiveDistrust`, `RpgExpandedSocialInhibition` and
+`RpgExpandedCompanionship`. Their existing behavior remains active: reaction and
+observer modifiers, social skill penalties, and the requirement for an authored
+company context on relevant IQ-based skills. The current -10-point selections are
+humorlessness, pervasive distrust, level-two social inhibition and level-two
+companionship. They can satisfy row 23 and the mental component of row 27.
+They cannot be repriced to satisfy a -15-point outcome.
+
+A supported fixed trait without a self-control rating cannot have a rating
+reduced. `RpgExpandedFearMentalWorsening` accepts it as the retained `previous`
+trait only with a concrete fresh -10-point `fallback` and author approval/evidence
+for that selection. It preserves the existing fixed trait. The normal one-step
+procedure still applies to supported controlled traits with a rating above six;
+no self-control number is fabricated for fixed traits.
+
+Physical acquisitions additionally accept negative `RpgExpandedAppearance`,
+`RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
+`RpgExpandedHearingImpairment` purchases. Appearance observer modifiers,
+distinctive-feature recognition effects, owned recurrent-pain days and hearing
+penalties use their existing scoring and condition interfaces. Acquisition does
+not itself start a pain bout or inflict additional injury.
+
+`RpgExpandedHearingImpairment` is the approved, fixed -10-point hearing-loss
+purchase from full-2008 B138. It uses the shared -4 modifier for hearing checks
+and skills requiring spoken comprehension. It conflicts with acute hearing and
+complete deafness. Complete deafness and its communication/study rules need a
+separate adapter; this purchase does not approximate them.
+
+Physical bundles must still total exactly -15, -20 or -30, including any selected
+forced-aging value. Only negative appearance tiers are accepted. Existing
+appearance purchases and legacy appearance tiers are rejected rather than
+silently replaced; conversion of existing appearance requires its own accounting
+contract. Recurrent pain retains severity, duration and frequency in the acquisition
+receipt. Appearance retains its tier and presentation/modifier choices; distinctive
+features retain species, description and origin. Later edits to these acquisition
+facts invalidate replay instead of changing a historical point allowance.
+
+`expanded-fear-selection.t` / `test_fear_selection` cover these costs and actual
+skill/hearing/appearance/pain effects, fixed-trait fallback, faint compounds,
+rollback, undo, duplicate execution, option mutation and saved continuation.
+Assertions are authored and unrun. Remaining catalogue selections are still
+explicitly unsupported; this extension does not complete the full trait catalogue.

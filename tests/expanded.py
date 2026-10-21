@@ -9773,6 +9773,8 @@ def test(build):
     test_fear_aging(Session,fear_aging,build.out)
     recovery_ruling = build.build('expanded-fear-recovery-ruling',ROOT / 'tests/fixtures/expanded-fear-recovery-ruling.t')
     test_fear_recovery_ruling(Session,recovery_ruling,build.out)
+    fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
+    test_fear_selection(Session,fear_selection,build.out)
     panic_object = build.build('expanded-panic-object',ROOT / 'tests/fixtures/expanded-panic-object.t')
     test_panic_object(Session,panic_object,build.out)
     panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
@@ -28625,4 +28627,70 @@ def test_panic_object(Session,bundle,out):
         assert state(s)==[10,0,0,1,1,1,1,1,0,3]
         do(s,637)
         assert state(s)==[10,0,1,0,1,2,1,1,1,6]
+    finally: s.close()
+
+
+def test_fear_selection(Session,bundle,out):
+    """Existing executable trait selections retain real costs, penalties and immutable options. Unrun."""
+    def do(s,c,choice=1): s.action(2250,c,choice)
+    def state(s):
+        do(s,654)
+        return last(s,'test.fear-selection')
+    empty=[0,0,0,0,0,0,0,0]
+    for choice in range(1,5):
+        path=out/f'fear-selection-mental-{choice}.zsave'
+        expected=[1,10,int(choice==1),int(choice==2),2 if choice==3 else 0,2 if choice==4 else 0,1,0]
+        s=Session(bundle)
+        try:
+            do(s,650,choice); do(s,588)
+            assert last(s,'test.fear-mental-preview')==['ready',None]
+            assert state(s)==empty
+            do(s,582); assert state(s)==empty
+            do(s,581); s.command('undo'); assert state(s)==empty
+            do(s,581); do(s,581); do(s,584); assert state(s)==expected
+            do(s,658); assert last(s,'test.fear-selection-skill')==[8 if choice in (3,4) else 10]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,581); assert state(s)==expected
+        finally: s.close()
+    for choice,cost,count,effect in ((1,20,1,[-5,0,0]),(2,30,1,[-6,0,0]),
+                                   (3,15,2,[0,5,0]),(4,15,1,[0,0,-6]),(5,15,2,[0,0,0])):
+        path=out/f'fear-selection-physical-{choice}.zsave'
+        expected=[count,cost,0,0,0,0,1,0]
+        s=Session(bundle)
+        try:
+            do(s,651,choice); do(s,653); assert state(s)==empty
+            do(s,652); s.command('undo'); assert state(s)==empty
+            do(s,652); do(s,652); do(s,584); assert state(s)==expected
+            do(s,655); assert last(s,'test.fear-selection-effect')==effect
+            if choice<=2: do(s,656); assert state(s)==expected
+            if choice==4: do(s,657); assert state(s)==expected
+            if choice==5:
+                do(s,661); assert last(s,'test.fear-selection-hearing')==[6]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,652); assert state(s)==expected
+            if choice==4:
+                do(s,659); do(s,659); do(s,660)
+                assert last(s,'test.fear-selection-pain')==[-6,3]
+        finally: s.close()
+
+    for choice in range(1,5):
+        s=Session(bundle)
+        try:
+            do(s,650,choice); do(s,663); assert state(s)==empty
+            do(s,662); do(s,662); do(s,664)
+            assert last(s,'test.fear-selection-compound')==[1,1]
+            assert state(s)[:2]==[1,10]
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,650,1); do(s,581); do(s,666)
+        assert state(s)[:4]==[1,10,1,0]
+        do(s,665); do(s,665); do(s,584)
+        assert state(s)==[2,20,1,1,0,0,2,0]
     finally: s.close()

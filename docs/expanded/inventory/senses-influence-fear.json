@@ -1381,9 +1381,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition",
         "tests/expanded.py::test_fear_mental",
-        "tests/expanded.py::test_fear_mental_compound"
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects."
     },
     {
       "id": "fear-outcome-24",
@@ -1396,9 +1397,10 @@
       "tests": [
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical",
-        "tests/expanded.py::test_fear_aging"
+        "tests/expanded.py::test_fear_aging",
+        "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
     },
     {
       "id": "fear-outcome-25",
@@ -1411,9 +1413,10 @@
       "tests": [
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_worsening",
-        "tests/expanded.py::test_fear_mental"
+        "tests/expanded.py::test_fear_mental",
+        "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Owned one-step worsening for related phobias and supported controlled mental purchases preserves old receipts and applies new purchase costs without spendable points. Minimum-rating/no-related-trait fallback accepts a fresh exact ten-point phobia, supported mental trait or fixed belief. Other catalogue traits remain unsupported. Fixtures authored, unrun."
+      "validation_note": "Owned one-step worsening for related phobias and supported controlled mental purchases preserves old receipts and applies new purchase costs without spendable points. Minimum-rating/no-related-trait fallback accepts a fresh exact ten-point phobia, supported mental trait or fixed belief. Other catalogue traits remain unsupported. Fixtures authored, unrun. Fixed mental traits require an explicitly authored fresh-trait fallback because they have no self-control rating."
     },
     {
       "id": "fear-outcome-26",
@@ -1441,9 +1444,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition",
         "tests/expanded.py::test_fear_mental",
-        "tests/expanded.py::test_fear_mental_compound"
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects."
     },
     {
       "id": "fear-outcome-28",
@@ -1575,9 +1579,10 @@
       "tests": [
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical",
-        "tests/expanded.py::test_fear_aging"
+        "tests/expanded.py::test_fear_aging",
+        "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
     },
     {
       "id": "fear-outcome-37",
@@ -1590,9 +1595,10 @@
       "tests": [
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical",
-        "tests/expanded.py::test_fear_aging"
+        "tests/expanded.py::test_fear_aging",
+        "tests/expanded.py::test_fear_selection"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
     },
     {
       "id": "fear-outcome-38",
