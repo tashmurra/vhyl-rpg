@@ -29,7 +29,7 @@ modify BleedTestAction
         if (code == 10204)
         {
             event('test.voice-command-state'); eventValue(voiceOccurrence.commands.length());
-            eventValue(bleedProfile.timeElapsed); eventValue(rpgRandom.draws); return nil;
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 10205) { bleedInput.forcedRoll = 11; return nil; }
         if (code == 10206) { voiceCommand.underStress = nil; return nil; }

@@ -8006,7 +8006,7 @@ class RpgExpandedFearAcuteInjury: object
         if (value.dropPlan != nil && value.wound.droppedEquipment == nil) value.dropPlan.commit();
         profile.posture = 'lying';
         if (!value.wound.health.knockedDown) profile.onKnockdown();
-        self.recordedAt = profile.timeElapsed; self.boundDefinition = self.definition(); self.boundWound = value.wound; self.boundDice = [first,second];
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition(); self.boundWound = value.wound; self.boundDice = [first,second];
         profile.fearAcuteInjuries = profile.fearAcuteInjuries + [self]; value.status = 'resolved'; self.result = value; return value;
     }
 ;
@@ -8414,7 +8414,7 @@ class RpgExpandedFearSeizure: object
         if (value.wound == nil || !value.wound.health.knockedDown) profile.onKnockdown();
         value.healthLost = value.check.critical == 'failure';
         if (value.healthLost) { profile.ht -= 1; profile.developmentRevision += 1; }
-        value.healthAfter = profile.ht; self.recordedAt = profile.timeElapsed; self.boundDefinition = self.definition();
+        value.healthAfter = profile.ht; self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.boundOutcome = [value.seizure,value.wound,value.check,value.check.roll,value.check.score,value.check.achieved,
             value.check.critical,value.healthBefore,value.healthAfter,value.healthLost];
         profile.fearSeizureOutcomes = profile.fearSeizureOutcomes + [self]; value.status = 'resolved'; self.result = value; return value;

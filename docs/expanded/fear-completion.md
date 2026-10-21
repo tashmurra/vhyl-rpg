@@ -30,18 +30,18 @@ is not runtime evidence. Rows stay open until their acceptance scope has passed.
 
 | ID | Source / approved rule | Implementation and acceptance scenario | Tests / missing evidence | Observed validation |
 | --- | --- | --- | --- | --- |
-| F01 | full-2008 B360; B345 ruling | Owned initial fear: modifiers, immunity, cap, outcome selection, no invented below-three dice/margin | `test_fear_event`, `test_fear_context`, `test_fear_low_score`, `test_low_control_fear`; full modifier audit required | Unrun; open |
+| F01 | full-2008 B360; B345 ruling | Owned initial fear: modifiers, immunity, cap, outcome selection, no invented below-three dice/margin | `test_fear_event`, `test_fear_context`, `test_fear_low_score`, `test_low_control_fear`; full modifier audit required | Owned event and three-route action parity passed; remaining modifier/boundary cases running |
 | F02 | full-2008 B360–B361 | Every outcome has matching owned dispatch and concrete effects; see row matrix | Row fixtures below; verify source expectations and dispatch | Unrun; open |
-| F03 | full-2008 B361 | Compound health + trait + IQ effects preflight atomically, reject either invalid component without side effects | `test_fear_compound`, `test_fear_compound_preflight`, `test_fear_mental_compound`, `test_fear_compound_context`; pure preview, rejected/preused acquisition and episode cases authored | Context-changing acquisition passed after ordering fix; remaining compound matrix running |
+| F03 | full-2008 B361 | Compound health + trait + IQ effects preflight atomically, reject either invalid component without side effects | `test_fear_compound`, `test_fear_compound_preflight`, `test_fear_mental_compound`, `test_fear_compound_context`; pure preview, rejected/preused acquisition and episode cases authored | Compound, preflight and context-changing acquisition passed; mental-compound matrix running |
 | F04 | full-2008 B148–B150 | Phobia exposures, awareness, repetition, overlap, activity/learning restrictions and worsening | `test_phobia`, `test_phobia_awareness`, `test_phobia_overlap`, `test_phobia_activity`, `test_phobia_learning`, acquisition/worsening fixtures | Unrun; open |
-| F05 | full-2008 B93 | Source/victim aura ownership, perception, one-hour protection and prior exposure boundary | `test_fear_aura`; recheck exact boundary and reused context cases | Unrun; open |
+| F05 | full-2008 B93 | Source/victim aura ownership, perception, one-hour protection and prior exposure boundary | `test_fear_aura`: exact boundary, reused context, undo and fresh-process restore | Passed focused native acceptance |
 | F06 | full-2008 B136, B148, B156 | Postbattle, voices and intrusive replay preserve trigger distinctions and coexist with original consequences | Fear stress, postbattle, replay-fear and replay-self-control fixtures | Unrun; open |
 | F07 | full-2008 B361, B428 | Owned recovery and incapacity: correct deadlines, overlap, rest/care, no clearing independent conditions | Faint, coma, catatonia, seizure, panic, recovery-ruling and overlap fixtures | Unrun; open |
 | F08 | full-2008 B361, B444 | Exact acquisition/worsening costs; no spendable point award; aging and minimum-attribute rulings | `test_fear_mental`, `test_fear_aging`, `test_fear_adjudication`, physical and hearing-loss fixtures | Unrun; open |
 | F09 | Frozen trait source entries | Actual actor/observer reactions, mitigation and incapacity boundaries for each eligible selection | Per-trait social fixtures; roster audit required | Unrun; open |
 | F10 | full-2008 B361 rows 21/33 | Expression, room flight, tactical path, fall, attack and destruction produce actual effects with one time/resource charge | Timed-path, expression, flight, fall, path, attack, defense, object, computer and interruption fixtures | Unrun; open |
 | F11 | Baseline whitelist + approved scope | Each frozen selection has acquisition, effects, mitigation, worsening where applicable and replay | Per-trait fixtures; exact roster below | Unrun; open |
-| F12 | full-2008 B153 | Short attention fails a concrete owned task; terminal prototype failure retains charges and blocks continuation/delivery; enable acquisition/worsening | Owned task lifecycle, prototype terminal gate and fear whitelist implemented. `test_attention_work`, `test_attention_prototype`, `test_attention_acquisition`, `test_attention_rapid_prototype`, `test_attention_concept` and `test_attention_repair` passed. Task/study reruns verify the corrected shared-clock fixture field | Partial pass; task/study reruns pending |
+| F12 | full-2008 B153 | Short attention fails a concrete owned task; terminal prototype failure retains charges and blocks continuation/delivery; enable acquisition/worsening | Owned task lifecycle, prototype terminal gate and fear whitelist implemented. `test_attention_work`, `test_attention_prototype`, `test_attention_acquisition`, `test_attention_rapid_prototype`, `test_attention_concept`, `test_attention_repair`, `test_attention_task` and `test_attention_study` | Passed focused native acceptance; final-source suite pending |
 | F13 | full-2008 B124 plus approved knockdown ruling | Complete frenzy entry, legal action/defense policy, injury effects, target changes and exit | Owned injury entry, effective shock/stun/movement and survival hooks, and wound-bound knockdown rulings authored in `test_frenzy_entry`, `test_frenzy_knockdown` , `test_frenzy_temper` and `test_frenzy_voluntary`. Temper reuses its check; voluntary entry commits Concentrate and Will. Optional battle entry and rating prices authored in `test_frenzy_battle`. Owned recorded turns, ranged reloads, tactical paths, target changes, exit health and acquisition now have `test_frenzy_turn`, `test_frenzy_boundaries` and `test_frenzy_acquisition` fixtures | Implemented; unrun |
 | S01 | Original campaign stress rules below | Optional policy/state and explicit unique gains; cap, immutable policy and episode reset | `RpgExpandedStressPolicy`, state/gain receipts; `test_stress` | Implemented; unrun |
 | S02 | Original campaign stress rules below | Ascending owned threshold decisions, persistence and voluntary-action gate | Owned ordered decisions and shared action/check gates; `test_stress`, `test_stress_fear` | Implemented; unrun |
@@ -130,7 +130,7 @@ where applicable; compound rows also require both component rejection paths.
 | 29 | `fear-outcome-29` | `test_fear_assessments`, `test_fear_coma` | Unrun; audit open |
 | 30 | `fear-outcome-30` | `test_fear_assessments`, `test_catatonia` | Unrun; audit open |
 | 31 | `fear-outcome-31` | `test_fear_assessments`, `test_fear_seizure`, `test_fear_adjudication` | Unrun; audit open |
-| 32 | `fear-outcome-32` | `test_fear_assessments`, `test_fear_acute` | Unrun; audit open |
+| 32 | `fear-outcome-32` | `test_fear_assessments`, `test_fear_acute` | Acute injury lifecycle passed with shared-clock receipt; table assessment rerun pending |
 | 33 | `fear-outcome-33` | `test_fear_assessments`, `test_extreme_panic`, `test_panic_flight`, `test_panic_fall`, `test_fear_recovery_ruling`, `test_panic_path`, `test_panic_object`, `test_panic_attack`, `test_panic_interrupted_path`, `test_panic_wait`, `test_panic_computer` | Unrun; audit open |
 | 34 | `fear-outcome-34` | `test_fear_assessments`, `test_fixed_beliefs` | Unrun; audit open |
 | 35 | `fear-outcome-35` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound` | Unrun; audit open |
@@ -177,11 +177,11 @@ This is an explicitly approved campaign design, not a procedure from full-2008.
 
 | Required command / evidence | Environment / observed result |
 | --- | --- |
-| `python3 tools/test.py --vhyl <pinned-vhyl>` | Passed: 48 tool tests and 537 source programs; final-head rerun required after validation fixes |
-| `python3 tools/test.py --native --vhyl <pinned-vhyl>` | Running: core, reporting, resilience and Lite passed; expanded suite running |
+| `python3 tools/test.py --vhyl <pinned-vhyl>` | Passed: 50 tool tests and 538 source programs; final-head rerun required after validation fixes |
+| `python3 tools/test.py --native --vhyl <pinned-vhyl>` | Core, reporting, resilience and Lite passed. All-module host compilation exceeded the fixed tool deadline; retrying with fewer concurrent builds |
 | `.tools/docs/bin/python tools/build_docs.py --check` | Passed: strict build, local links and 1,515 declarations |
 | Packaging unit tests; `.tools/docs/bin/python tools/build_release.py --out <fresh-local-directory>`; checksum verification | Unit tests passed; clean snapshot `de1ef98` built and all manifest/archive checksums verified; final-head repeat required; no publishing |
-| Minimal/all-module and absent-feature regression coverage | 537 source programs passed; core/resilience/Lite native regressions passed |
+| Minimal/all-module and absent-feature regression coverage | 538 source programs passed; core/resilience/Lite native regressions passed |
 | Parser/structured/dialogue connected example | Passed `test_echo_aftermath`: parser, structured actions, dialogue and cross-process continuation |
 
 Push reviewable commits to PR #4; retain draft status for the wider conversion.
@@ -215,3 +215,8 @@ Focused native results observed during the current validation run:
 - Echo Vault structured sequence reaches compound faint/recovery, lasting curiosity, panic/recovery, all three stress choices and safe rest. `test_echo_aftermath` now passes all three routes and cross-process saved continuation.
 
 - `test_fear_compound_context`: failed before the commit-order fix and passed afterward, including rollback and fresh-process replay. Physical consequences use the original event context before acquiring a trait that changes later fear scores.
+
+The F06 timestamp audit replaced undefined per-character time reads with the shared
+clock for voice occurrences, commands, masking, origins and cures. F02 acute and
+seizure receipts use that same clock. `test_fear_acute` passed after this correction;
+voice lifecycle reruns include explicit onset/ending timestamps and inactive endings.

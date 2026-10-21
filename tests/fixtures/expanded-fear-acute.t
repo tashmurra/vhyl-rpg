@@ -31,7 +31,7 @@ modify BleedTestAction
         {
             event('test.fear-acute-state'); eventValue(bleedProfile.injury); eventValue(bleedProfile.posture);
             eventValue(bleedProfile.expandedWounds.length()); eventValue(acuteHeld.storageLocation == bleedRoom ? 1 : 0);
-            eventValue(acuteInput.drops); eventValue(acuteInput.knockdowns); eventValue(bleedProfile.timeElapsed); eventValue(rpgRandom.draws); return nil;
+            eventValue(acuteInput.drops); eventValue(acuteInput.knockdowns); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 10505) { acuteInput.die = 6; return nil; }
         if (code == 10506) { acuteEvent.dropDestination = nil; return nil; }

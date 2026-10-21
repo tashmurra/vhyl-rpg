@@ -28,7 +28,8 @@ modify BleedTestAction
         if (code == 10004)
         {
             event('test.voice-state'); eventValue(bleedProfile.phantomVoiceOccurrences.length());
-            eventValue(bleedProfile.timeElapsed); eventValue(rpgRandom.draws); return nil;
+            eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws);
+            event('test.voice-times'); eventValue(voiceOccurrence.recordedAt); eventValue(voiceOccurrence.endedAt); return nil;
         }
         if (code == 10005)
         {
@@ -50,6 +51,7 @@ modify BleedTestAction
         if (code == 10009) { bleedInput.forcedRoll = 7; return nil; }
         if (code == 10010) { voiceTrait.level = 2; voiceTrait.points = -10; return nil; }
         if (code == 10011) { voiceTrait.level = 3; voiceTrait.points = -15; return nil; }
+        if (code == 10012) { rpgSpendTime(7); return nil; }
         return inherited(context);
     }
 ;

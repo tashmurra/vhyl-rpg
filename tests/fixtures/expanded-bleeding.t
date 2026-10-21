@@ -10,6 +10,7 @@
 bleedRoom: Room 'Infirmary';
 modify gameMain initialRoom = bleedRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
+turn(tokens) { return rpgDispatchTurn(tokens); }
 bleedRules: RpgExpandedRules scaledInjuryShock = true bleeding = true;
 bleedProfile: RpgExpandedProfile rules = bleedRules;
 bleedWound: RpgExpandedWound id = 'cut' profile = bleedProfile amount = 2;

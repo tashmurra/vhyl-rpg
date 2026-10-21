@@ -86,7 +86,10 @@ fearVerb: Verb code = 2250 action = fearAction label = 'fear operation';
 modify gameMain initialRoom = fearRoom;
 startup() { rpgRandom.seed(1); return vhylStart(); }
 turn(tokens) { return rpgDispatchTurn(tokens); }
-act(verb,args)
+#ifndef FEAR_ACT_EXPORT
+#define FEAR_ACT_EXPORT act
+#endif
+FEAR_ACT_EXPORT(verb,args)
 {
     if (verb == 2250) { fearInput.code = args[1]; fearInput.row = args[2]; return rpgDispatchAction(verb,[]); }
     if (verb == 2251)

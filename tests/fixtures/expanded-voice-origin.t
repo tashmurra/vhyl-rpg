@@ -29,7 +29,7 @@ modify BleedTestAction
         if (code == 10404)
         {
             event('test.voice-cure-state'); eventValue(bleedProfile.traits.length()); eventValue(bleedProfile.unspentPoints);
-            eventValue(voiceOccurrence.active() ? 1 : 0); eventValue(bleedProfile.timeElapsed); eventValue(rpgRandom.draws); return nil;
+            eventValue(voiceOccurrence.active() ? 1 : 0); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 10405) { bleedProfile.unspentPoints = 4; return nil; }
         if (code == 10406) { bleedProfile.developmentOpen = nil; return nil; }

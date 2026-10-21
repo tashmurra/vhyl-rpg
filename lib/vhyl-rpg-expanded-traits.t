@@ -2071,7 +2071,7 @@ class RpgExpandedPhantomVoiceOccurrence: object
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         value.roll = rpgRandom.roll(); value.occurred = value.roll <= 6; value.status = 'resolved';
-        self.recordedAt = self.profile.timeElapsed; self.boundDefinition = self.definition(); self.result = value;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition(); self.result = value;
         self.boundResult = [value.roll,value.severity,value.occurred];
         self.profile.phantomVoiceOccurrences = self.profile.phantomVoiceOccurrences + [self]; return value;
     }
@@ -2085,7 +2085,7 @@ class RpgExpandedPhantomVoiceOccurrence: object
         if (!self.result.occurred) { value.reason = 'phantom-voices-no-episode'; return value; }
         if (self.endedAt != nil) { value.status = 'reused'; return value; }
         if (!confirmed || evidence == nil || evidence == '') { value.reason = 'phantom-voices-ending-facts'; return value; }
-        self.endedAt = self.profile.timeElapsed; self.endEvidence = evidence; self.boundEnding = [self.endedAt,evidence];
+        self.endedAt = rpgLedger.seconds; self.endEvidence = evidence; self.boundEnding = [self.endedAt,evidence];
         value.status = 'resolved'; return value;
     }
 ;
@@ -2187,7 +2187,7 @@ class RpgExpandedVoiceCommand: object
         value.check = rpgLiteCheck(self.occurrence.profile,self.context());
         if (value.check.status != 'resolved') rpgExpandedReject('voice-command-check-changed');
         value.resisted = value.check.achieved; value.status = 'resolved';
-        self.recordedAt = self.occurrence.profile.timeElapsed; self.boundDefinition = self.definition();
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.boundCheck = [value.check,value.check.score,value.check.roll,value.check.achieved,value.check.critical,value.check.margin];
         self.result = value; self.occurrence.commands = self.occurrence.commands + [self]; return value;
     }
@@ -2242,7 +2242,7 @@ class RpgExpandedVoiceSoundMask: object
     begin()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.startedAt = self.occurrence.profile.timeElapsed; self.boundDefinition = self.definition();
+        self.startedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.occurrence.soundMasks = self.occurrence.soundMasks + [self]; value.status = 'resolved'; return value;
     }
     active()
@@ -2255,7 +2255,7 @@ class RpgExpandedVoiceSoundMask: object
         self.validateReceipt(); local value = new RpgExpandedResult();
         if (self.endedAt != nil) { value.status = 'reused'; return value; }
         if (!confirmed || evidence == nil || evidence == '') { value.reason = 'voice-mask-ending-facts'; return value; }
-        self.endedAt = self.occurrence.profile.timeElapsed; self.endEvidence = evidence;
+        self.endedAt = rpgLedger.seconds; self.endEvidence = evidence;
         self.boundEnding = [self.endedAt,evidence]; value.status = 'resolved'; return value;
     }
 ;
@@ -2325,7 +2325,7 @@ class RpgExpandedVoiceOrigin: object
     record()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.recordedAt = self.profile.timeElapsed; self.boundDefinition = self.definition();
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.profile.voiceOrigins = self.profile.voiceOrigins + [self]; value.status = 'resolved'; return value;
     }
     assessPsychotherapy()
@@ -2381,7 +2381,7 @@ class RpgExpandedVoiceExorcism: object
         foreach (local occurrence in profile.phantomVoiceOccurrences)
             if (occurrence.result.occurred && occurrence.endedAt == nil)
                 occurrence.end(true,self.evidence);
-        self.recordedAt = profile.timeElapsed; self.boundDefinition = self.definition(); self.chargedPoints = value.points;
+        self.recordedAt = rpgLedger.seconds; self.boundDefinition = self.definition(); self.chargedPoints = value.points;
         self.origin.cure = self; value.status = 'resolved'; self.result = value; return value;
     }
 ;

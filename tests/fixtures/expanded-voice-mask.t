@@ -27,7 +27,7 @@ modify BleedTestAction
         if (code == 10304)
         {
             event('test.voice-mask-state'); eventValue(voiceOccurrence.soundMasks.length());
-            eventValue(bleedProfile.voiceSoundMasked() ? 1 : 0); eventValue(bleedProfile.timeElapsed); eventValue(rpgRandom.draws); return nil;
+            eventValue(bleedProfile.voiceSoundMasked() ? 1 : 0); eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 10305)
         {

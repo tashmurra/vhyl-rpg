@@ -20504,6 +20504,15 @@ def test_phantom_voices(Session, bundle, out):
         assert last(s, 'test.voice-result') == ['reused', 6, 1, 1, 3]
         assert last(s, 'test.voice-ending') == ['reused', 0]
         assert last(s, 'test.voice-state') == [1, 0, 3]
+        assert last(s, 'test.voice-times') == [0, 0]
+    finally:
+        s.close()
+    s = Session(bundle)
+    try:
+        for code in (10000, 10008, 10012, 10002, 10012, 10006, 10004):
+            s.action(2285, code)
+        assert last(s, 'test.voice-times') == [7, 14]
+        assert last(s, 'test.voice-ending') == ['resolved', 0]
     finally:
         s.close()
     for setting, cost, severity in ((10010, -10, 2), (10011, -15, 3)):
@@ -28446,9 +28455,10 @@ def test_fear_adjudication(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251')
             do(s,999); assert lifecycle() == [4,1,1,0,1,0,0,ht,iq]
+            do(s,3); s.command('undo')
+            assert lifecycle() == [4,1,1,0,1,0,0,ht,iq]
             do(s,3); assert lifecycle() == [4,1,0,1,1,0,1,ht,iq]
-            s.command('undo'); assert lifecycle() == [4,1,1,0,1,0,0,ht,iq]
-            do(s,3); do(s,999)
+            do(s,999)
             assert lifecycle() == [4,1,0,1,1,0,1,ht,iq]
         finally: s.close()
 

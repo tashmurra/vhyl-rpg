@@ -1,5 +1,13 @@
+#define FEAR_ACT_EXPORT fearFixtureAct
 #include "expanded-fear-event.t"
+#undef FEAR_ACT_EXPORT
 #include <vhyl-dialogue.t>
+act(verb,args)
+{
+    if (verb == 2250 || verb == 2251 || verb == 2263 || verb == 2266 || verb == 2267)
+        return fearFixtureAct(verb,args);
+    return rpgDispatchAction(verb,args);
+}
 modify player rpgProfile = fearProfile;
 fearPreviewAction: RpgExpandedFearAction entry = ownedFearEvent operation = 'preview';
 fearResolveAction: RpgExpandedFearAction entry = ownedFearEvent;
