@@ -11,7 +11,7 @@ modify BleedTestAction
     {
         local code = bleedInput.code;
         if (code == 11100) { bleedInput.forcedRoll = 11; catEpisode.apply(); return nil; }
-        if (code == 11101) { rpgSpendTime(86400); return nil; }
+        if (code == 11101) { rpgSpendTime(catEpisode.nextCheckAt - rpgLedger.seconds); return nil; }
         if (code == 11102 || code == 11103 || code == 11104)
         {
             if (code == 11103) catSecondDay.apply(); else catDay.apply();
@@ -41,11 +41,12 @@ modify BleedTestAction
         }
         if (code == 11114) { bleedProfile.unconscious = true; return nil; }
         if (code == 11115) { event('test.cat-unconscious'); eventValue(bleedProfile.unconscious ? 1 : 0); return nil; }
-        if (code == 11110) { rpgSpendTime(172800); return nil; }
+        if (code == 11110) { rpgSpendTime(86400); rpgSpendTime(86400); return nil; }
+        if (code == 11116) { rpgSpendTime(1); return nil; }
         if (code == 11111)
         {
             event('test.cat-clock');
-            try { rpgSpendTime(86401); eventValue('accepted'); }
+            try { rpgSpendTime(86400); eventValue('accepted'); }
             catch (RpgExpandedError error) { eventValue(error.reason); }
             eventValue(rpgLedger.seconds); eventValue(rpgRandom.draws); return nil;
         }

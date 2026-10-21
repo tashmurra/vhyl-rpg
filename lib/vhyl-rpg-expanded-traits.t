@@ -6272,7 +6272,7 @@ modify RpgExpandedFearMentalWorsening
     assess()
     {
         local value = inherited();
-        if (value.status == 'ready' && self.replacement.ofKind(RpgExpandedCredulity))
+        if (value.status == 'ready' && self.replacement != nil && self.replacement.ofKind(RpgExpandedCredulity))
         {
             local reason = self.profile.credulityPriorTrainingReason();
             if (reason != nil) { value.status = 'blocked'; value.reason = reason; }

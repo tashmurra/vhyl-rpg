@@ -77,6 +77,13 @@ modify FearTestAction
           eventValue(fearProfile.fearBeliefCompounds.length()); return nil; }
         if (code == 665 || code == 666)
         { selectionFallback.apply(); if (code == 666) throw new RpgError(); return nil; }
+        if (code == 667)
+        {
+            event('test.fear-fallback-preview');
+            try { local value = selectionFallback.assess(); eventValue(value.status); eventValue(value.reason); }
+            catch (RpgExpandedError error) { eventValue('invalid'); eventValue(error.reason); }
+            return nil;
+        }
         if (code == 661)
         { event('test.fear-selection-hearing'); eventValue(rpgLiteScore(fearProfile,selectionHearingContext)); return nil; }
         if (code == 658) { event('test.fear-selection-skill'); eventValue(rpgLiteScore(fearProfile,selectionContext)); return nil; }

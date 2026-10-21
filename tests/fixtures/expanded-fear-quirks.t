@@ -10,11 +10,11 @@
 #include <vhyl-rpg-expanded-traits.t>
 quirkRoom: Room 'Threshold';
 quirkRules: RpgExpandedRules;
-quirkOne: RpgLiteTrait id = 'quirk';
-quirkTwo: RpgLiteTrait id = 'quirk';
-quirkThree: RpgLiteTrait id = 'quirk';
-quirkFour: RpgLiteTrait id = 'quirk';
-quirkFive: RpgLiteTrait id = 'quirk';
+quirkOne: RpgLiteTrait id = 'quirk' points = -1;
+quirkTwo: RpgLiteTrait id = 'quirk' points = -1;
+quirkThree: RpgLiteTrait id = 'quirk' points = -1;
+quirkFour: RpgLiteTrait id = 'quirk' points = -1;
+quirkFive: RpgLiteTrait id = 'quirk' points = -1;
 quirkProfile: RpgExpandedProfile rules = quirkRules creationComplete = true pointBudget = 0 disadvantageLimit = 5
     earnedPoints = 10 unspentPoints = 7 traits = [quirkOne,quirkTwo,quirkThree,quirkFour,quirkFive];
 fearQuirk: RpgExpandedMentalQuirk approved = true triggerText = 'Entering an unlit room' responseText = 'Ask a companion to inspect the doorway first';

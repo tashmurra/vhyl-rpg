@@ -112,7 +112,7 @@ def test_employment_wealth_transactions(s):
     assert obligation_state(s) == before
     s.action(1100, 101)
     pending = obligation_state(s)
-    assert pending[:10] == [2000, 5, 'average', 1, 1, 1, 1, 0, 0, 0]
+    assert pending[:10] == [2000, 5, 'average', 1, 1, 1, 1, 0, 0, 5]
     s.command('undo')
     assert obligation_state(s) == before
     s.action(1100, 101)
@@ -123,7 +123,7 @@ def test_employment_wealth_transactions(s):
     assert obligation_state(s) == pending
     s.action(1100, 102)
     paid = obligation_state(s)
-    assert paid[:10] == [2000, 5, 'comfortable', 1, 1, 1, 0, 0, 1, 10]
+    assert paid[:10] == [2000, 5, 'comfortable', 1, 1, 1, 0, 0, 1, 15]
     assert paid[-2:] == before[-2:]
     s.command('undo')
     assert obligation_state(s) == pending
@@ -131,7 +131,7 @@ def test_employment_wealth_transactions(s):
     assert obligation_state(s) == paid
     s.action(1100, 103)
     assert last(s, 'test.obligation-learning') == ['resolved', None]
-    assert obligation_state(s)[:10] == [2000, 4, 'comfortable', 1, 1, 1, 0, 1, 2, 10]
+    assert obligation_state(s)[:10] == [2000, 4, 'comfortable', 1, 1, 1, 0, 1, 2, 15]
 
 
 def test_employment_wealth_persistence(Session, bundle, out):
@@ -158,7 +158,7 @@ def test_employment_wealth_persistence(Session, bundle, out):
                 assert last(second, 'test.obligation-learning') == ['blocked', 'employment-wealth-priority']
             second.action(1100, 102)
             assert last(second, 'test.obligation-payment') == ['reused' if paid else 'resolved', 0 if paid else 10]
-            assert obligation_state(second)[:10] == [2000, 5, 'comfortable', 1, 1, 1, 0, 0, 1, 10]
+            assert obligation_state(second)[:10] == [2000, 5, 'comfortable', 1, 1, 1, 0, 0, 1, 15]
         finally:
             second.close()
 
@@ -176,7 +176,7 @@ def test_employment_wealth_payroll(s):
     s.action(1100, 107)
     assert last(s, 'test.obligation-payroll') == ['resolved', None, 100, 1]
     paid = obligation_state(s)
-    assert paid == [2000, 5, 'average', 1, 0, 0, 1, 0, 0, 0, 100, 3]
+    assert paid == [2000, 5, 'average', 1, 0, 0, 1, 0, 0, 5, 100, 3]
     s.command('undo')
     assert obligation_state(s) == before
     s.action(1100, 107); s.action(1100, 107)
@@ -7225,7 +7225,7 @@ def test_optional_specialties(s):
     s.action(1126)
     assert last(s, 'test.optional-invalid') == [
         'optional-specialty-approval', 'optional-specialty-definition',
-        'optional-specialty-definition', 'skill-prerequisite', 'duplicate-optional-specialty']
+        'core-numeric-boundary', 'skill-prerequisite', 'duplicate-optional-specialty']
     assert state(s) == before, 'optional specialty assessment mutated state'
 
 
@@ -21123,9 +21123,9 @@ def test_catatonia(Session, bundle, out):
         try:
             if care:
                 s.action(2285, 11109)
-            for code in (11100, 11111, 11101, 11105, 11104, 11108):
+            for code in (11100, 11116, 11111, 11101, 11105, 11104, 11108):
                 s.action(2285, code)
-            assert last(s, 'test.cat-clock') == ['catatonia-due-boundary', 0, 1]
+            assert last(s, 'test.cat-clock') == ['catatonia-due-boundary', 1, 1]
             assert last(s, 'test.cat-recovery') == ['blocked', 'catatonia-day-required']
             assert last(s, 'test.cat-state') == [0, 0, 1, 86400, None, 86400, 1, 10]
             s.action(2285, 11102)
@@ -29123,10 +29123,13 @@ def test_fear_selection(Session,bundle,out):
         finally: s.close()
     s=Session(bundle)
     try:
-        do(s,650,1); do(s,581); do(s,666)
+        do(s,650,1); do(s,581); do(s,667)
+        assert last(s,'test.fear-fallback-preview') == ['ready',None]
+        do(s,666)
         assert state(s)[:4]==[1,10,1,0]
         do(s,665); do(s,665); do(s,584)
         assert state(s)==[2,20,1,1,0,0,2,0]
+        do(s,667); assert last(s,'test.fear-fallback-preview') == ['reused',None]
     finally: s.close()
 
     # Existing fixed mental traits have no rating to lower. Keep their effects
@@ -30430,8 +30433,8 @@ def test_intrusive_replay(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,1014); assert state(s) == active
             do(s,1110); assert last(s,'test.replay-type') == ['evacuation memories','evacuation memories']
+            do(s,1017); s.command('undo'); assert state(s) == active
             do(s,1017); assert state(s) == [1,duration,0,0,None,draws,duration]
-            s.command('undo'); assert state(s) == active
         finally: s.close()
     s = Session(bundle)
     try:

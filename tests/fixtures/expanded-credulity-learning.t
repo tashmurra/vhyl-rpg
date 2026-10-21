@@ -3,6 +3,7 @@
 #include <vhyl-rpg-expanded-development.t>
 credulousLearningSkill: RpgExpandedSkill id = 'detect-lies' attribute = rpgPerception difficulty = 2 defaultPenalty = -6;
 credulousTraining: RpgTraining skill = credulousLearningSkill points = 0;
+modify fearProfile skills = [credulousTraining];
 credulousOffer: RpgDevelopment id = 'learn-detection' profile = fearProfile kind = 'skill'
     training = credulousTraining target = 1 unlocked = true available(profile) { return nil; };
 credulousStudy: RpgExpandedStudy profile = fearProfile training = credulousTraining permitted = true;

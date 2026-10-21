@@ -587,6 +587,7 @@ act(verb, args)
     if (verb == 1114)
     {
         local trait = new RpgExpandedDisadvantage(); trait.approved = true;
+        trait.id = 'authored-resistance';
         trait.points = -15; trait.controlled = true; trait.selfControlRating = 9;
         local p = new RpgExpandedProfile(); p.rules = new RpgExpandedRules();
         p.traits = [trait]; p.pointBudget = 1000; p.disadvantageLimit = 20;
@@ -799,6 +800,8 @@ act(verb, args)
         general.attribute = rpgIQ; general.difficulty = 0;
         try { rpgExpandedOptionalSpecialty(general,'narrow','field',true); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
+        /* The derived -1 difficulty reaches the core numeric guard first. */
+        catch (RpgError error) { eventValue('core-numeric-boundary'); }
         general.difficulty = 2;
         local req = new RpgExpandedPrerequisite(); req.skill = new RpgExpandedSkill();
         general.prerequisite = req;
@@ -1311,20 +1314,20 @@ act(verb, args)
         p.contributions = [wealth,status,rank];
         local structure = new RpgExpandedSocialStructure(); structure.culture = 'city'; structure.wealthLinked = true;
         structure.purchasedMaximum = 2;
-        event('test.social-structure'); eventValue(structure.standing(p)); eventValue(rank.amounts(p)[1]);
-        wealth.extraLevels = 2; eventValue(structure.standing(p));
-        wealth.extraLevels = 3; eventValue(structure.standing(p));
-        structure.wealthLinked = nil; eventValue(structure.standing(p));
+        event('test.social-structure'); eventValue(structure.standingFor(p)); eventValue(rank.amounts(p)[1]);
+        wealth.extraLevels = 2; eventValue(structure.standingFor(p));
+        wealth.extraLevels = 3; eventValue(structure.standingFor(p));
+        structure.wealthLinked = nil; eventValue(structure.standingFor(p));
         status.level = 3;
-        try { structure.standing(p); eventValue('unexpected-success'); }
+        try { structure.standingFor(p); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         status.level = 2; structure.replacingInstitution = 'registry'; rank.replacesStatus = true;
-        try { structure.standing(p); eventValue('unexpected-success'); }
+        try { structure.standingFor(p); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         p.contributions = [wealth,rank]; structure.wealthLinked = true;
-        eventValue(structure.standing(p)); eventValue(rank.amounts(p)[1]);
+        eventValue(structure.standingFor(p)); eventValue(rank.amounts(p)[1]);
         rank.replacesStatus = nil;
-        try { structure.standing(p); eventValue('unexpected-success'); }
+        try { structure.standingFor(p); eventValue('unexpected-success'); }
         catch (RpgExpandedError error) { eventValue(error.reason); }
         return nil;
     }
