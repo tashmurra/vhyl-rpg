@@ -3402,7 +3402,8 @@ saved-continuation fixtures are authored but unrun.
 collapse and two dice of injury. Supply a unique `id`, an approved
 `RpgExpandedFearContext` in `context`, `approved = true` and original `evidence`
 recording selection of that row. It is an explicit selected-outcome executor;
-it does not choose a table result or replace the pending full fear procedure.
+it does not choose a table result. `RpgExpandedFearEvent` selects and dispatches
+it as the owned consequence.
 
 `assess()` previews each possible injury amount from two through twelve using
 `RpgExpandedWound` and prepares the held-item drop before randomness. Existing
@@ -3429,8 +3430,9 @@ injury ledger. Execute through an engine action transaction for rollback and und
 `test_fear_acute` specify minimum/maximum dice, successful and failed major-wound
 checks, collapse/drop uniqueness, missing-destination preflight, preview, replay,
 rollback, undo and cross-process save continuation. All assertions remain unrun
-while checks are paused. Full fear-roll orchestration and remaining row executors
-are still incomplete.
+while checks are paused. Initial fear checks and row dispatch are owned by
+`RpgExpandedFearEvent`; see the [completion audit](fear-completion.md) for
+remaining integration and validation work.
 
 
 ## Timed fear panic
@@ -3457,9 +3459,10 @@ later. The caller's shared clock has already charged the elapsed interval, so
 recovery adds no second time charge. Replaying a receipt does not reroll.
 
 The clock rejects advances past an unresolved recovery deadline. Dead actors do
-not hold up the clock. An actor who becomes unconscious cannot take a recovery
-check; interruption/resumption semantics for that combination remain unresolved
-and must not be represented as a supported progression through the deadline.
+not hold up the clock. Independent unconsciousness does not cancel the scheduled
+panic recovery: the check resolves only this episode, and a success leaves
+unconsciousness and physical stun intact. This is condition recovery, not
+permission to act. Failed checks retain the next minute boundary.
 Starting while dead, unconscious or already in a panic episode is rejected.
 
 [`expanded-fear-panic.t`](../../tests/fixtures/expanded-fear-panic.t) and
@@ -3499,8 +3502,9 @@ checks do not themselves authorize an action.
 `test_panic_crying` specify gate behavior before/during/after panic, pure preview,
 recovery boundaries, single time/permission recording, replay, exception rollback,
 undo and save continuation. Assertions remain unrun. Agitated movement, other
-pointless behaviors, battle-specific activity receipts and unconsciousness
-interruptions remain incomplete.
+pointless behaviors and battle-specific activity receipts remain incomplete.
+Independent unconsciousness prevents the crying activity; it does not remove
+the episode's scheduled recovery checks.
 
 
 ### Panic timeline consistency
@@ -3562,7 +3566,9 @@ processing under the existing condition contract.
 without repeated charges, episode timing, the single fatigue payment, missing
 drop-destination preflight, preview, replay, rollback, undo and cross-process save
 continuation. Assertions remain unrun. Owned fear events now dispatch this
-consequence; the minimum-HT boundary remains explicitly unsupported.
+consequence. At the minimum-HT boundary, the event requires an explicit recorded
+`RpgExpandedFearAdjudication` replacement before executing a consequence; it
+does not create an undefined zero-HT character.
 
 
 ## Fear coma and its aftereffect

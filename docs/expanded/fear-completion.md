@@ -79,3 +79,10 @@ rollback, undo and timed expiry. These cases are **unrun**, and this source audi
 is not runtime verification. No additional independent mental-stun producer was
 found in the current libraries; authors directly overwriting the shared flag do
 not create a separately owned condition.
+
+The timed panic executor has a different recovery contract from fear stun:
+its scheduled checks continue during independent unconsciousness, resolving only
+the panic episode. `test_fear_panic` now specifies failed-check scheduling,
+success without waking or clearing physical stun, replay, undo and continuation
+in a new process. The health guide's obsolete claim that this combination blocks
+recovery has been removed. These additional cases remain unrun.

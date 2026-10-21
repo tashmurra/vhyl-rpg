@@ -8,6 +8,12 @@ modify BleedTestAction
     exec(context)
     {
         local code = bleedInput.code;
+        if (code == 10611) { bleedProfile.unconscious = true; bleedProfile.stunned = true; return nil; }
+        if (code == 10612)
+        {
+            event('test.panic-incapacity'); eventValue(bleedProfile.unconscious ? 1 : 0);
+            eventValue(bleedProfile.stunned ? 1 : 0); return nil;
+        }
         if (code == 10600) { bleedInput.forcedRoll = 11; return nil; }
         if (code == 10601) { event('test.panic-preview'); eventValue(panicEpisode.assess().status); eventValue(rpgRandom.draws); return nil; }
         if (code == 10602 || code == 10603) { panicEpisode.apply(); if (code == 10603) throw new RpgError(); return nil; }

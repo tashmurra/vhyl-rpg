@@ -20702,6 +20702,31 @@ def test_fear_panic(Session, bundle, out):
     finally:
         s.close()
 
+    # Recovery resolves only panic even if an independent condition prevents
+    # voluntary activity. Failed checks retain the ordinary minute schedule.
+    path = out / 'expanded-fear-panic-incapacity.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10600,10602,10611,10605,10606,10604,10612):
+            s.action(2285,code)
+        assert last(s,'test.panic-state') == [1,1,120,None,60,4]
+        assert last(s,'test.panic-incapacity') == [1,1]
+        s.command(f':save {path}\n@2286')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10605,10608,10607): s.action(2285,code)
+        s.command('undo')
+        s.action(2285,10604)
+        assert last(s,'test.panic-state') == [1,1,120,None,120,4]
+        for code in (10607,10607,10604,10612): s.action(2285,code)
+        assert last(s,'test.panic-recovery') == ['reused',None,20,1]
+        assert last(s,'test.panic-state') == [1,0,120,120,120,7]
+        assert last(s,'test.panic-incapacity') == [1,1]
+    finally: s.close()
+
 
 def test_panic_crying(Session, bundle, out):
     """Concrete stationary panic activity, shared clock and action gates; unrun."""
