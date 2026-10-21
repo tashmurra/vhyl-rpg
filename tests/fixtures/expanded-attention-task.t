@@ -23,6 +23,7 @@ modify FearTestAction
         if (code == 1205) { attentionTask.modifier = 1; attentionTask.assess(); return nil; }
         if (code == 1206) { attentionTask.taskCheck.achieved = !attentionTask.taskCheck.achieved; attentionTask.assess(); return nil; }
         if (code == 1207) { attentionTask.assess(); return nil; }
+        if (code == 1220) { attentionContext.modifier = -10; return nil; }
         return inherited(context);
     }
 ;

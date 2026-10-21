@@ -6291,7 +6291,7 @@ class RpgExpandedAttentionTask: RpgExpandedSelfControlTrigger
     {
         return [self.check,self.check.status,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical,
             self.taskCheck,self.taskCheck.status,self.taskCheck.reason,self.taskCheck.score,self.taskCheck.roll,
-            self.taskCheck.margin,self.taskCheck.achieved,self.taskCheck.critical];
+            self.taskCheck.margin,self.taskCheck.achieved,self.taskCheck.critical,self.taskCheck.outcome];
     }
     assess()
     {
@@ -6315,8 +6315,12 @@ class RpgExpandedAttentionTask: RpgExpandedSelfControlTrigger
             if (self.taskCheck != nil || self.boundChecks != nil) rpgExpandedReject('attention-task-uncommitted');
             if (value.status == 'ready' && (self.trait.mitigated || self.profile.dead || self.profile.unconscious))
             { value.status = 'blocked'; value.reason = 'attention-task-unavailable'; }
-            if (value.status == 'ready' && rpgLiteScore(self.profile,self.taskContext) == nil)
-            { value.status = 'blocked'; value.reason = 'attention-task-check-unavailable'; }
+            if (value.status == 'ready')
+            {
+                local score = rpgLiteScore(self.profile,self.taskContext);
+                if (score == nil || score < 3)
+                { value.status = 'blocked'; value.reason = 'attention-task-check-unavailable'; }
+            }
         }
         return value;
     }
@@ -6327,7 +6331,9 @@ class RpgExpandedAttentionTask: RpgExpandedSelfControlTrigger
         {
             self.taskCheck = new RpgResult(); self.taskCheck.status = 'resolved';
             self.taskCheck.reason = 'short-attention-task-failure'; self.taskCheck.achieved = nil;
+            self.taskCheck.outcome = 'setback';
         }
+        if (self.taskCheck.status != 'resolved') rpgExpandedReject('attention-task-check-changed');
         self.boundChecks = self.checkFacts(); return nil;
     }
 ;
@@ -6343,5 +6349,91 @@ modify rpgExpandedTemplateTraits
     {
         if (!trait.ofKind(RpgExpandedShortAttention)) return inherited(trait);
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+/** B153 study attempt: failed focus spends the attempted time, grants no new
+ * learning credit and preserves credit and points from earlier attempts. */
+class RpgExpandedAttentionStudy: RpgExpandedSelfControlTrigger
+    study = nil
+    seconds = 0
+    occasion = nil
+    crucialEvidence = nil
+    studyResult = nil
+    boundReceipt = nil
+    settlingStudy = nil
+    studyStarted = nil
+    definition() { return inherited() + [self.study,self.seconds,self.occasion,self.crucialEvidence]; }
+    receiptFacts()
+    {
+        return [self.check,self.check.status,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical,
+            self.studyResult,self.studyResult.status,self.studyResult.reason,self.studyResult.seconds,self.studyResult.points];
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedShortAttention)
+            || !holds(['extended-focus','distraction'],self.occasion)) rpgExpandedReject('attention-study-definition');
+        self.profile.validateAttentionStudy(self.study); rpgInteger(self.seconds,1,57600);
+        if (self.modifier < 0 || self.modifier > 0 && (self.crucialEvidence == nil || self.crucialEvidence == ''))
+            rpgExpandedReject('attention-study-bonus-evidence');
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.studyResult == nil || self.boundReceipt == nil || !self.studyStarted || self.settlingStudy)
+                rpgExpandedReject('attention-study-receipt');
+            local facts = self.receiptFacts();
+            if (facts.length() != self.boundReceipt.length() || self.active != !self.check.achieved)
+                rpgExpandedReject('attention-study-receipt');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundReceipt[i]) rpgExpandedReject('attention-study-receipt');
+        }
+        else
+        {
+            if (self.studyResult != nil || self.boundReceipt != nil || self.studyStarted || self.settlingStudy)
+                rpgExpandedReject('attention-study-uncommitted');
+            if (value.status == 'ready' && self.trait.mitigated)
+            { value.status = 'blocked'; value.reason = 'attention-study-mitigated'; }
+            if (value.status == 'ready')
+            {
+                local session = self.study.assess(self.seconds);
+                if (session.status != 'ready') { value.status = 'blocked'; value.reason = session.reason; }
+            }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.settlingStudy = true;
+        self.studyResult = self.study.advanceAttention(self);
+        if (self.studyResult.status != 'resolved') rpgExpandedReject('attention-study-changed');
+        self.settlingStudy = nil; self.boundReceipt = self.receiptFacts(); return nil;
+    }
+;
+modify RpgExpandedProfile
+    shortAttentionActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'short-attention')
+            {
+                if (found != nil || !trait.ofKind(RpgExpandedShortAttention)) rpgExpandedReject('short-attention-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.shortAttentionActive(); return nil; }
+    studyAttentionReason(study)
+    {
+        local reason = inherited(study); if (reason != nil || !self.shortAttentionActive()) return reason;
+        return study.attentionSituation == 'brief-undistracted' && study.attentionEvidence != nil && study.attentionEvidence != ''
+            ? nil : 'attention-study-owned-control-required';
+    }
+    attentionStudyControlReason(control,study)
+    {
+        if (control == nil || !control.ofKind(RpgExpandedAttentionStudy) || control.profile != self || control.study != study
+            || !control.settlingStudy || control.studyStarted || control.result == nil || control.check == nil
+            || !holds(self.selfControlTriggers,control)) return 'attention-study-control-ownership';
+        return nil;
     }
 ;

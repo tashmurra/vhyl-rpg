@@ -3128,9 +3128,38 @@ the distraction. It must not refund earlier progress or unrelated completed work
 A mitigated purchase blocks this attention operation; ordinary task resolution
 remains available. Historical resolved failures remain historical after mitigation.
 
-Current scope is a task resolved by one contextual check. Ongoing study, craft,
-and other multi-stage work need concrete interruption adapters before this trait
-can be offered as a general fear-acquired selection; it is not yet on that
-selection whitelist. `expanded-attention-task.t` and `test_attention_task` specify
+The contextual operation handles a task resolved by one check. The study adapter
+below also handles an authored study segment. Craft and other multi-stage work
+still need concrete interruption adapters before this trait can be offered as a
+general fear-acquired selection; it is not yet on that selection whitelist. `expanded-attention-task.t` and `test_attention_task` specify
 preview purity, failure/success dice consumption, rollback, undo, receipt
 mutation rejection and cross-process continuation. These fixtures are unrun.
+
+#### Study interruption
+
+With development installed, `RpgExpandedAttentionStudy` owns an attention check
+and one `RpgExpandedStudy` segment. Set `profile`, `trait`, `study`, `seconds`,
+`occasion`, `trigger`, and `evidence`. The author defines which current segment
+is the task being attempted; the duration is not an automatic checking interval.
+`assess()` preflights the study schedule, learning restrictions and control check.
+`resolve()` commits the control check and study settlement in one transaction.
+
+On failed attention, the segment spends its time and daily study allowance once
+but adds no learning credit or skill points. Earlier credit and points remain.
+On success it uses the existing study arithmetic. `studyResult` retains the
+segment's costs and credited points; reuse never repeats the segment. Stress
+follow-ups run through the shared control path after settlement. Direct calls to
+`advanceAttention()` outside that owned settlement reject before spending.
+
+While short attention is active, ordinary `study.advance()` requires either this
+owned operation or an authored `attentionSituation = 'brief-undistracted'` with
+nonempty `attentionEvidence`. That exception identifies a segment to which
+neither source trigger applies; it must not be used for extended focus or an
+offered distraction. Mitigation restores ordinary advancement. No new study
+point bank or time ledger is introduced. The internal `advanceCredit()` method
+is settlement machinery, not an author entry point.
+
+`test_attention_study` specifies the threshold-crossing success and failed
+segment, preservation of previous credit, daily allowance, duplicate rejection,
+preview purity, rollback, undo, save continuation, unavailable study and
+mitigation. These fixtures have not run.

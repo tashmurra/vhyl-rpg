@@ -9891,6 +9891,8 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    attention_study = build.build('expanded-attention-study',ROOT / 'tests/fixtures/expanded-attention-study.t')
+    test_attention_study(Session,attention_study,build.out)
     attention_task = build.build('expanded-attention-task',ROOT / 'tests/fixtures/expanded-attention-task.t')
     test_attention_task(Session,attention_task,build.out)
     credulity_learning = build.build('expanded-credulity-learning',ROOT / 'tests/fixtures/expanded-credulity-learning.t')
@@ -30862,3 +30864,52 @@ def test_attention_task(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,1201); assert state(s) == expected
         finally: s.close()
+
+
+def test_attention_study(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1213)
+        return last(s,'test.attention-study')
+    initial = [0,2,2879900,0,0,0,0,None]
+    for success in (False,True):
+        s = Session(bundle)
+        path = out/f'attention-study-{success}.zsave'
+        expected = [1,3 if success else 2,1100 if success else 2879900,1 if success else 0,
+                    600,600,3,None if success else 'short-attention-task-failure']
+        try:
+            do(s,1210)
+            if success: do(s,1203)
+            do(s,1215); assert state(s) == initial
+            do(s,1214); assert last(s,'test.attention-direct') == ['attention-study-owned-control-required']
+            do(s,1218); assert state(s) == initial
+            do(s,1212); assert state(s) == initial
+            do(s,1211); s.command('undo'); assert state(s) == initial
+            do(s,1211); do(s,1211); assert state(s) == expected
+            do(s,1216); do(s,1218); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1211); assert state(s) == expected
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1210); do(s,1219); do(s,1211); assert state(s) == initial
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1210); do(s,1217); do(s,1214)
+        assert state(s) == [0,3,1100,1,600,600,0,None]
+    finally: s.close()
+
+    s = Session(bundle)
+    try:
+        do(s,1210); do(s,1221); do(s,1214)
+        assert state(s) == [0,3,1100,1,600,600,0,None]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1200); do(s,1220); do(s,1201); do(s,1204)
+        assert last(s,'test.attention-task') == [0,None,None,None,0,0]
+    finally: s.close()

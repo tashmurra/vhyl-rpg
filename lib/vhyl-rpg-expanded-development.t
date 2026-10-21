@@ -11,6 +11,8 @@ class RpgExpandedStudy: object
     profile = nil
     training = nil
     mode = 'self'
+    attentionSituation = nil
+    attentionEvidence = nil
     permitted = nil
     employment = 'none'
     communicationLanguage = nil
@@ -113,10 +115,27 @@ class RpgExpandedStudy: object
     {
         return [self.profile,self.training,self.training.skill,self.training.points,self.mode,self.permitted,
             self.employment,self.teacher,self.teachingScore,self.lavishMaterials,self.communicationMode,self.communicationEvidence,self.communicationLanguage,self.credit,self.awarded,
-            self.creditOwner,self.creditTraining,self.creditSkill,self.profile.studyDay,self.creditThreshold,self.learningThreshold()]
+            self.creditOwner,self.creditTraining,self.creditSkill,self.profile.studyDay,self.creditThreshold,self.learningThreshold(),
+            self.attentionSituation,self.attentionEvidence]
             + self.profile.studyUsed;
     }
     advance(seconds)
+    {
+        self.validateOwnership();
+        local reason = self.profile.studyAttentionReason(self);
+        if (reason != nil) { local value = new RpgExpandedResult(); value.reason = reason; return value; }
+        return self.advanceCredit(seconds,true);
+    }
+    advanceAttention(control)
+    {
+        self.validateOwnership();
+        local reason = self.profile.attentionStudyControlReason(control,self);
+        if (reason != nil) rpgExpandedReject(reason);
+        control.studyStarted = true;
+        return self.advanceCredit(control.seconds,control.check.achieved);
+    }
+    /* Internal settlement shared by ordinary and attention-owned attempts. */
+    advanceCredit(seconds,earnCredit)
     {
         local value = self.assess(seconds);
         if (value.status != 'ready') return value;
@@ -139,8 +158,12 @@ class RpgExpandedStudy: object
         self.creditSkill = self.training.skill;
         self.profile.studyDay = day; self.profile.studyUsed = used;
         local threshold = self.learningThreshold(); self.creditThreshold = threshold;
-        self.credit = (self.credit + seconds * self.factor()) % threshold;
-        self.training.points += value.points; self.awarded += value.points;
+        if (earnCredit)
+        {
+            self.credit = (self.credit + seconds * self.factor()) % threshold;
+            self.training.points += value.points; self.awarded += value.points;
+        }
+        else { value.points = 0; value.reason = 'short-attention-task-failure'; }
         value.status = 'resolved'; return value;
     }
 ;
@@ -212,5 +235,14 @@ modify RpgExpandedProfile
         if (self.studyDay == day)
             foreach (local used in self.studyUsed) if (used > 0) return 'travel-day-study-started';
         return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    validateAttentionStudy(study)
+    {
+        if (study == nil || !study.ofKind(RpgExpandedStudy) || study.profile != self)
+            rpgExpandedReject('attention-study-ownership');
+        study.validateOwnership(); return nil;
     }
 ;

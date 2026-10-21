@@ -538,3 +538,19 @@ rollback, undo, retained receipt integrity and cross-process continuation.
 No checks have run. Multi-stage task interruption adapters and fear-acquisition
 integration remain outstanding; this trait is not yet a supported fear selection.
 The broader mental-state work, including active frenzy, remains incomplete.
+
+## Short-attention study increment
+
+`RpgExpandedAttentionStudy` now settles a concrete study segment. Failure uses
+the existing time and daily allowance while retaining earlier credit and skill
+points; it grants no credit for the failed segment. Success uses the existing
+learning threshold. Direct study with an active purchase requires owned control
+or an evidenced brief, undistracted segment. `test_attention_study` specifies
+actual threshold crossing, failed-credit preservation, duplicate settlement,
+rollback, undo, save continuation and mitigation. Contextual tasks now also
+preflight prohibited task scores before consuming attention dice.
+
+Checks remain paused and these fixtures are unrun. Craft and other multi-stage
+interruption adapters, fear-acquisition integration and active frenzy remain
+outstanding. This is progress on the remaining trait selections, not completion
+of the fear and mental-state suite or a general accumulating stress track.

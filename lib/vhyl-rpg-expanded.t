@@ -27,6 +27,9 @@ class RpgExpandedProfile: RpgLiteProfile
     pressureSupportLevel() { return 0; }
     ancestrySkillModifier(skill) { return 0; }
     studyTimePercent(skill) { return 100; }
+    studyAttentionReason(study) { return nil; }
+    validateAttentionStudy(study) { rpgExpandedReject('attention-study-module-required'); }
+    attentionStudyControlReason(control,study) { return 'attention-study-control-unavailable'; }
     catalogueTalentSkills(id) { return []; }
     catalogueTalentApplies(id,skill)
     { return skill != nil && skill.ofKind(RpgLiteSkill) && holds(self.catalogueTalentSkills(id),skill.studyIdentity()); }
