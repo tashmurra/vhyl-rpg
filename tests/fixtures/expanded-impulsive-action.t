@@ -52,6 +52,9 @@ modify FearTestAction
         if (code == 881)
         { impulsiveTrigger.completedAt = 0; impulsiveTrigger.resolve(); return nil; }
         if (code == 882) { impulsiveTrait.selfControlRating = 9; mentalAward.tableTotal = 35; return nil; }
+        if (code == 890) { impulsiveTrait.mitigated = true; return nil; }
+        if (code == 891) { impulsiveTrait.mitigated = nil; return nil; }
+        if (code == 892) { impulsiveTrait.active = nil; return nil; }
         return inherited(context);
     }
 ;

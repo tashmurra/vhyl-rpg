@@ -303,3 +303,12 @@ ordinary owned reaction procedure, with duplicate-effect prevention. No actual
 skill or attribute increase is granted. Action and social lifecycle fixtures are
 registered but unrun. This adds a concrete selection and reaction adapter; the
 other catalogue and frenzy obligations remain incomplete.
+
+
+## Choice restrictions and mitigation
+
+Impulsive-action, volatile-temper and overconfidence now release unfinished
+choice restrictions while the current purchase is inactive, mitigated or absent.
+Reactivation without completion restores the retained restriction without a new
+roll. Completed choices remain immutable receipts. Shared regression cases cover
+all three fixtures, including actual scene execution and undo; they remain unrun.

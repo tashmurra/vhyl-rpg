@@ -4795,6 +4795,8 @@ class RpgExpandedImpulsiveActionTrigger: RpgExpandedSelfControlTrigger
         if (self.result == nil) return nil;
         self.assess();
         if (self.completedAt != nil) return action == self.completedAction;
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated) return true;
         return holds(self.immediateActions,action) || self.check.achieved && holds(self.deliberativeActions,action);
     }
     recordAction(action,evidence)
@@ -4903,6 +4905,8 @@ class RpgExpandedVolatileTemperTrigger: RpgExpandedSelfControlTrigger
         if (self.result == nil) return nil;
         self.assess();
         if (self.completedAt != nil) return action == self.completedAction;
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated) return true;
         return holds(self.hostileActions,action) || self.check.achieved && holds(self.restrainedActions,action);
     }
     recordAction(action,evidence)
@@ -5153,6 +5157,8 @@ class RpgExpandedOverconfidenceTrigger: RpgExpandedSelfControlTrigger
         if (self.result == nil) return nil;
         self.assess();
         if (self.completedAt != nil) return action == self.completedAction;
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated) return true;
         return holds(self.confidentActions,action) || self.check.achieved && holds(self.cautiousActions,action);
     }
     recordAction(action,evidence)

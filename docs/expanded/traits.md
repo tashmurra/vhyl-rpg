@@ -2712,3 +2712,22 @@ age, experience or naivety.
 scene choices, rollback, undo and saved continuation. The companion social
 fixture specifies both reaction directions, actual reaction totals, duplicate
 rejection and lifecycle behavior. All cases remain unrun while checks are paused.
+
+
+### Action-choice restrictions during mitigation
+
+Impulsive-action, volatile-temper and overconfidence triggers now consult the
+currently owned purchase when answering `permits(action)`. A resolved but
+unfinished trigger does not restrict actions while its purchase is inactive,
+mitigated or no longer owned. Ordinary action legality and costs still apply.
+Temporary mitigation ending before any action is completed restores the retained
+failed-check restriction; it does not grant a new roll.
+
+A completed trigger remains a receipt for its one recorded choice. Suppression
+or later reactivation cannot turn replay into permission to execute a different
+choice. The trigger's `active` field records its unresolved failed check; use
+`permits(action)` for effective permission rather than treating that historical
+flag as proof that a mitigated trait currently restricts the character.
+`test_control_choice_mitigation` runs against each of the three integration
+fixtures and specifies suppression, reactivation, completion, replay and undo.
+These cases are registered but unrun.

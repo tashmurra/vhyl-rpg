@@ -51,6 +51,9 @@ modify FearTestAction
         if (code == 880) { confidenceTrigger.completedAction = confidencePlan; confidenceTrigger.assess(); return nil; }
         if (code == 881)
         { confidenceTrigger.completedAt = 0; confidenceTrigger.resolve(); return nil; }
+        if (code == 890) { confidenceTrait.mitigated = true; return nil; }
+        if (code == 891) { confidenceTrait.mitigated = nil; return nil; }
+        if (code == 892) { confidenceTrait.active = nil; return nil; }
         return inherited(context);
     }
 ;

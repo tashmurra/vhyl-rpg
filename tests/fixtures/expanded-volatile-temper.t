@@ -61,6 +61,9 @@ modify FearTestAction
         if (code == 887)
         { event('test.temper-voices'); eventValue(fearProfile.phantomVoiceOccurrences.length());
           eventValue(rpgRandom.draws); return nil; }
+        if (code == 890) { temperTrait.mitigated = true; return nil; }
+        if (code == 891) { temperTrait.mitigated = nil; return nil; }
+        if (code == 892) { temperTrait.active = nil; return nil; }
         return inherited(context);
     }
 ;

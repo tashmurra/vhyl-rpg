@@ -9829,8 +9829,10 @@ def test(build):
     test_goal_fixation(Session,goal_fixation,build.out)
     impulsive_action = build.build('expanded-impulsive-action',ROOT / 'tests/fixtures/expanded-impulsive-action.t')
     test_impulsive_action(Session,impulsive_action,build.out)
+    test_control_choice_mitigation(Session,impulsive_action,'test.impulsive')
     volatile_temper = build.build('expanded-volatile-temper',ROOT / 'tests/fixtures/expanded-volatile-temper.t')
     test_volatile_temper(Session,volatile_temper,build.out)
+    test_control_choice_mitigation(Session,volatile_temper,'test.temper')
     rage_window = build.build('expanded-rage-injury-window',ROOT / 'tests/fixtures/expanded-rage-injury-window.t')
     test_rage_injury_window(Session,rage_window,build.out)
     rage_ranged = build.build('expanded-rage-ranged',ROOT / 'tests/fixtures/expanded-rage-ranged.t')
@@ -9845,6 +9847,7 @@ def test(build):
     test_nightmare_compound(Session,nightmare_compound,build.out)
     confidence = build.build('expanded-overconfidence',ROOT / 'tests/fixtures/expanded-overconfidence.t')
     test_overconfidence(Session,confidence,build.out)
+    test_control_choice_mitigation(Session,confidence,'test.confidence')
     confidence_social = build.build('expanded-overconfidence-social',ROOT / 'tests/fixtures/expanded-overconfidence-social.t')
     test_overconfidence_social(Session,confidence_social,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
@@ -30031,3 +30034,30 @@ def test_overconfidence_social(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,982); assert state(s) == [modifier,1,3]
         finally: s.close()
+
+
+def test_control_choice_mitigation(Session,bundle,event):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,876)
+        return last(s,event)
+    for suppress in (890,892):
+        s = Session(bundle)
+        try:
+            for code in (870,581,877,871): do(s,code)
+            do(s,874); assert state(s) == [1,0,0,None,0,3,0]
+            do(s,suppress)
+            # A suppressed trait permits ordinary action choices without a reroll.
+            assert state(s) == [1,0,0,None,0,3,1]
+            do(s,874); s.command('undo'); assert state(s) == [1,0,0,None,0,3,1]
+            do(s,874); do(s,874); do(s,873)
+            assert state(s) == [0,0,1,1,1,3,0]
+            if suppress == 890:
+                do(s,891); do(s,873)
+                assert state(s) == [0,0,1,1,1,3,0]
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (870,581,877,871,890,891): do(s,code)
+        do(s,874); assert state(s) == [1,0,0,None,0,3,0]
+    finally: s.close()
