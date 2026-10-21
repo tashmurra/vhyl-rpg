@@ -3427,8 +3427,8 @@ injury ledger. Execute through an engine action transaction for rollback and und
 [`expanded-fear-acute.t`](../../tests/fixtures/expanded-fear-acute.t) and
 `test_fear_acute` specify minimum/maximum dice, successful and failed major-wound
 checks, collapse/drop uniqueness, missing-destination preflight, preview, replay,
-rollback, undo and cross-process save continuation. All assertions remain unrun
-pending recorded validation. Initial fear checks and row dispatch are owned by
+rollback, undo and cross-process save continuation. This focused native acceptance
+passed. Initial fear checks and row dispatch are owned by
 `RpgExpandedFearEvent`; see the [completion audit](fear-completion.md) for
 remaining integration and validation work.
 

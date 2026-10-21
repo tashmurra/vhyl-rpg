@@ -1362,7 +1362,9 @@ as the complete disadvantage.
 [`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
 specifies costs, copies, the six/seven trigger boundary, preview, duplicate
 occurrences, replay, explicit ending, rollback, undo and save continuation.
-The fixture and `test_phantom_voices` remain unrun pending recorded validation.
+`test_phantom_voices` passed native lifecycle validation, including onset and
+ending timestamps on the shared clock. See the [completion checklist](fear-completion.md)
+for the final-suite gate.
 
 
 ### Stress-related self-control integration
@@ -1440,8 +1442,9 @@ author data unless deliberately revealed by the game.
 [`expanded-voice-command.t`](../../tests/fixtures/expanded-voice-command.t)
 and `test_voice_command` specify stress and intoxication eligibility, exact Will
 success and failure, duplicate rejection, inactive episodes, mitigation, preview,
-replay, rollback, undo and cross-process save continuation. Assertions remain
-unrun pending recorded validation. Automatic command/action routing remains pending.
+replay, rollback, undo and cross-process save continuation. This focused native
+acceptance passed. Automatic command/action routing remains deferred; authored
+commands use the retained resistance result.
 
 
 ### Sound masking
@@ -1476,7 +1479,7 @@ the supplied entry.
 [`expanded-voice-mask.t`](../../tests/fixtures/expanded-voice-mask.t) and
 `test_voice_mask` specify hearing, speech, writing, alternate channels, absence of
 extra dice/time, preview, replay, overlapping episodes, mitigation, rollback, undo
-and cross-process save continuation. These assertions remain unrun. Startling
+and cross-process save continuation. This focused native acceptance passed. Startling
 voices use the owned fear-cue interface below.
 
 
@@ -1518,7 +1521,7 @@ discovery remain unfinished.
 [`expanded-voice-origin.t`](../../tests/fixtures/expanded-voice-origin.t) and
 `test_voice_origin` specify origin exclusions, historical cost, affordability,
 downtime and approval gates, preview, single charging, episode closure, replay,
-rollback, undo and cross-process save continuation. Assertions remain unrun.
+rollback, undo and cross-process save continuation. This focused native acceptance passed.
 
 
 ## Fixed beliefs and fear acquisition
@@ -2225,7 +2228,7 @@ check still creates the separate mandatory voice follow-up. No new fear event
 is recursively invented from that follow-up: another frightening cue requires
 another explicit author decision. The `expanded-voice-fear.t` fixture and
 `test_voice_fear` cover the retained link, expiry, follow-up, rollback, undo and
-cross-process continuation; assertions remain unrun.
+cross-process continuation; this focused native acceptance passed.
 
 ## Other lasting mental outcomes and worsening
 
@@ -2290,7 +2293,7 @@ an undefined decision. Ordinary rollable boundaries keep their four existing rol
 
 `expanded-fear-aging.t` / `test_fear_aging` specify selection accounting, crossed
 boundaries, ordinary losses, no-dice author losses, rejuvenation, receipt mutation,
-rollback, undo and saved continuation. These assertions are authored and unrun.
+rollback, undo and saved continuation. This focused native acceptance passed.
 
 ## Additional fear-acquired trait selections
 

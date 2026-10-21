@@ -32,12 +32,12 @@ is not runtime evidence. Rows stay open until their acceptance scope has passed.
 | --- | --- | --- | --- | --- |
 | F01 | full-2008 B360; B345 ruling | Owned initial fear: modifiers, immunity, cap, outcome selection, no invented below-three dice/margin | `test_fear_event`, `test_fear_context`, `test_fear_low_score`, `test_low_control_fear`; full modifier audit required | Owned event and three-route action parity passed; remaining modifier/boundary cases running |
 | F02 | full-2008 B360–B361 | Every outcome has matching owned dispatch and concrete effects; see row matrix | Row fixtures below; verify source expectations and dispatch | Unrun; open |
-| F03 | full-2008 B361 | Compound health + trait + IQ effects preflight atomically, reject either invalid component without side effects | `test_fear_compound`, `test_fear_compound_preflight`, `test_fear_mental_compound`, `test_fear_compound_context`; pure preview, rejected/preused acquisition and episode cases authored | Compound, preflight and context-changing acquisition passed; mental-compound matrix running |
+| F03 | full-2008 B361 | Compound health + trait + IQ effects preflight atomically, reject either invalid component without side effects | `test_fear_compound`, `test_fear_compound_preflight`, `test_fear_mental_compound`, `test_fear_compound_context`; pure preview, rejected/preused acquisition and episode cases authored | Compound, preflight, context-changing acquisition and mental-compound acceptance passed; final-suite gate pending |
 | F04 | full-2008 B148–B150 | Phobia exposures, awareness, repetition, overlap, activity/learning restrictions and worsening | `test_phobia`, `test_phobia_awareness`, `test_phobia_overlap`, `test_phobia_activity`, `test_phobia_learning`, acquisition/worsening fixtures | Unrun; open |
 | F05 | full-2008 B93 | Source/victim aura ownership, perception, one-hour protection and prior exposure boundary | `test_fear_aura`: exact boundary, reused context, undo and fresh-process restore | Passed focused native acceptance |
-| F06 | full-2008 B136, B148, B156 | Postbattle, voices and intrusive replay preserve trigger distinctions and coexist with original consequences | Fear stress, postbattle, replay-fear and replay-self-control fixtures | Unrun; open |
+| F06 | full-2008 B136, B148, B156 | Postbattle, voices and intrusive replay preserve trigger distinctions and coexist with original consequences | Fear stress, postbattle, replay-fear and replay-self-control fixtures | Voice occurrence/clock, commands, masking, origins, fear and self-control follow-ups passed; postbattle/replay coverage running |
 | F07 | full-2008 B361, B428 | Owned recovery and incapacity: correct deadlines, overlap, rest/care, no clearing independent conditions | Faint, coma, catatonia, seizure, panic, recovery-ruling and overlap fixtures | Unrun; open |
-| F08 | full-2008 B361, B444 | Exact acquisition/worsening costs; no spendable point award; aging and minimum-attribute rulings | `test_fear_mental`, `test_fear_aging`, `test_fear_adjudication`, physical and hearing-loss fixtures | Unrun; open |
+| F08 | full-2008 B361, B444 | Exact acquisition/worsening costs; no spendable point award; aging and minimum-attribute rulings | `test_fear_mental`, `test_fear_aging`, `test_fear_adjudication`, physical and hearing-loss fixtures | Mental accounting, aging, minimum-attribute adjudication and hearing-loss acceptance passed; physical-bundle/final-suite gate pending |
 | F09 | Frozen trait source entries | Actual actor/observer reactions, mitigation and incapacity boundaries for each eligible selection | Per-trait social fixtures; roster audit required | Unrun; open |
 | F10 | full-2008 B361 rows 21/33 | Expression, room flight, tactical path, fall, attack and destruction produce actual effects with one time/resource charge | Timed-path, expression, flight, fall, path, attack, defense, object, computer and interruption fixtures | Unrun; open |
 | F11 | Baseline whitelist + approved scope | Each frozen selection has acquisition, effects, mitigation, worsening where applicable and replay | Per-trait fixtures; exact roster below | Unrun; open |
@@ -220,3 +220,10 @@ The F06 timestamp audit replaced undefined per-character time reads with the sha
 clock for voice occurrences, commands, masking, origins and cures. F02 acute and
 seizure receipts use that same clock. `test_fear_acute` passed after this correction;
 voice lifecycle reruns include explicit onset/ending timestamps and inactive endings.
+
+The all-module native fixture exceeded the compiler’s fixed 120-second external-tool
+deadline even with reduced concurrency. Its unchanged pinned-compiler LLVM was
+linked with LLVM 22.1.8 using the compiler’s host flags and a 900-second outer
+deadline. That x86-64 host bundle completed; the failed universal output was
+retained separately. The full assertions are rerunning against the host bundle.
+This is host-native evidence, not an ARM or universal-build pass.

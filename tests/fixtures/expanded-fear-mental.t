@@ -31,7 +31,8 @@ modify FearTestAction
         {
             event('test.fear-mental'); eventValue(fearProfile.traits.length()); eventValue(fearProfile.postCreationDisadvantageAllowance());
             eventValue(fearProfile.phantomVoiceSeverity()); eventValue(fearProfile.pleasureLossActive() ? 1 : 0);
-            eventValue(fearProfile.physicalDangerFearPenalty()); eventValue(fearProfile.developmentRevision);
+            local dangerPenalty = fearProfile.physicalDangerFearPenalty();
+            eventValue(dangerPenalty == nil ? 0 : dangerPenalty); eventValue(fearProfile.developmentRevision);
             eventValue(fearProfile.earnedPoints); eventValue(fearProfile.unspentPoints); eventValue(rpgRandom.draws); return nil;
         }
         if (code == 584) { fearProfile.validateFeatures(); return nil; }
