@@ -1387,7 +1387,10 @@
         "tests/expanded.py::test_fear_phobia_acquisition",
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_mental_compound",
-        "tests/expanded.py::test_fear_selection"
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_status_sensitivity",
+        "tests/expanded.py::test_status_outburst",
+        "tests/expanded.py::test_self_sacrifice"
       ],
       "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects."
     },
@@ -1507,9 +1510,10 @@
       "acceptance": "A seizure lasts one die of minutes and costs one die of fatigue; a health failure causes one die of injury and critical failure also permanently reduces health by one.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_seizure"
+        "tests/expanded.py::test_fear_seizure",
+        "tests/expanded.py::test_fear_adjudication"
       ],
-      "validation_note": "Owned timed seizure, immediate HT check, conditional injury and permanent HT loss, with one fatigue payment at finish. Minimum-HT boundary remains unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned timed seizure, immediate HT check, conditional injury and permanent HT loss, with one fatigue payment at finish. Minimum HT and prohibited HT checks require a retained author replacement; the direct zero-attribute procedure is not implemented. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Boundary fixtures now specify actual replacement execution, fixed stun expiry, rollback, undo and cross-process continuation with unchanged attributes and no invented rolls. These cases remain unrun."
     },
     {
       "id": "fear-outcome-32",
@@ -1654,9 +1658,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition",
         "tests/expanded.py::test_fear_mental",
-        "tests/expanded.py::test_fear_mental_compound"
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_adjudication"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition and permanent IQ loss. Other catalogue mental-disadvantage choices remain unsupported; minimum IQ requires a retained author replacement instead of an unsupported zero-attribute transition. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition and permanent IQ loss. Other catalogue mental-disadvantage choices remain unsupported; minimum IQ requires a retained author replacement instead of an unsupported zero-attribute transition. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Boundary fixtures now specify actual replacement execution, fixed stun expiry, rollback, undo and cross-process continuation with unchanged attributes and no invented rolls. These cases remain unrun."
     }
   ],
   "exclusions": [

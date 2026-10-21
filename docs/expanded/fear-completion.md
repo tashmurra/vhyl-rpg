@@ -347,3 +347,16 @@ other-first actions; successful control also permits self-first actions.
 Completion records actual authored execution in the same transaction, with no
 implicit resource transfer. Lifecycle and mitigation fixtures are registered
 but unrun. Remaining traits and frenzy still prevent an overall completion claim.
+
+
+## Replacement execution at minimum attributes
+
+The consequence boundary audit confirmed that row 31 at minimum HT or a
+prohibited HT-check score, and row 40 at minimum IQ, expose explicit replacement
+reasons. The existing adjudication fixture previously stopped after replacing
+the selected row. It now also specifies committing a fixed-duration stun,
+retaining the original event, expiring the replacement, preserving the original
+attributes, avoiding invented rolls, rollback, undo and cross-process save
+continuation. The inventory now links this contract and no longer describes the
+minimum-HT case as having no replacement route. These cases remain unrun; direct
+zero-attribute transitions are still outside the implemented procedure.

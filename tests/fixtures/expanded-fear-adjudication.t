@@ -9,6 +9,18 @@ modify FearTestAction
     exec(context)
     {
         local code = fearInput.code;
+        if (code == 998) { fearDecision.row = 4; fearDecision.apply(); return nil; }
+        if (code == 999 || code == 1000)
+        { fearEpisode.tableTotal = 4; ownedFearEvent.applyConsequence(fearEpisode);
+          if (code == 1000) throw new RpgError(); return nil; }
+        if (code == 1001)
+        {
+            event('test.boundary-lifecycle'); eventValue(ownedFearEvent.selectedRow());
+            eventValue(ownedFearEvent.consequence == nil ? 0 : 1);
+            eventValue(fearProfile.mentalStun ? 1 : 0); eventValue(fearEpisode.completed ? 1 : 0);
+            eventValue(fearProfile.fearStunEpisodes.length()); eventValue(rpgRandom.draws);
+            eventValue(rpgLedger.seconds); eventValue(fearProfile.ht); eventValue(fearProfile.iq); return nil;
+        }
         if (code == 480 || code == 481) { fearDecision.apply(); if (code == 481) throw new RpgError(); return nil; }
         if (code == 482) { fearReroll.apply(); return nil; }
         if (code == 483)

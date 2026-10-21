@@ -28350,6 +28350,35 @@ def test_fear_adjudication(Session,bundle,out):
         finally: s.close()
 
 
+    # Retain the original unrollable result, then actually execute and finish
+    # the author's replacement rather than merely clearing its boundary reason.
+    for setup,ht,iq in ((486,1,10),(487,2,10),(488,2,1)):
+        s = Session(bundle)
+        path = out/f'fear-boundary-completion-{setup}.zsave'
+        def lifecycle():
+            do(s,1001)
+            return last(s,'test.boundary-lifecycle')
+        try:
+            do(s,setup); do(s,998)
+            empty = [4,0,0,0,0,0,0,ht,iq]
+            assert lifecycle() == empty
+            do(s,1000); assert lifecycle() == empty
+            do(s,999); s.command('undo'); assert lifecycle() == empty
+            do(s,999); do(s,999)
+            assert lifecycle() == [4,1,1,0,1,0,0,ht,iq]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251')
+            do(s,999); assert lifecycle() == [4,1,1,0,1,0,0,ht,iq]
+            do(s,3); assert lifecycle() == [4,1,0,1,1,0,1,ht,iq]
+            s.command('undo'); assert lifecycle() == [4,1,1,0,1,0,0,ht,iq]
+            do(s,3); do(s,999)
+            assert lifecycle() == [4,1,0,1,1,0,1,ht,iq]
+        finally: s.close()
+
+
 def test_phobia_learning(Session,bundle):
     """B149 learning restrictions are actual shared eligibility gates; unrun."""
     def do(s,code): s.action(2250,code,4)
