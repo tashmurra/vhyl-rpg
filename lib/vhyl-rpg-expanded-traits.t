@@ -6114,3 +6114,116 @@ class RpgExpandedDecisionConfusion: RpgExpandedOverstimulationTrigger
         return inherited();
     }
 ;
+
+/** full-2008 B137: story acceptance is distinct from the story's truth. */
+class RpgExpandedCredulity: RpgExpandedDisadvantage
+    id = 'credulity'
+    labelId = 'credulity'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-credulity'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'credulity' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('credulity-definition');
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedCredulityTrigger: RpgExpandedSelfControlTrigger
+    story = nil
+    plausibility = nil
+    boundCheck = nil
+    definition() { return inherited() + [self.story,self.plausibility]; }
+    effectiveModifier()
+    {
+        if (self.plausibility == 'convincing-or-unfamiliar') return -6;
+        if (self.plausibility == 'familiar') return -3;
+        if (self.plausibility == 'outlandish') return 0;
+        rpgExpandedReject('credulity-plausibility');
+    }
+    assess()
+    {
+        if (self.trait == nil || !self.trait.ofKind(RpgExpandedCredulity) || self.modifier != 0 || self.story == nil || self.story == '')
+            rpgExpandedReject('credulity-story-definition');
+        self.effectiveModifier(); local value = inherited();
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical];
+            if (self.boundCheck == nil || facts.length() != self.boundCheck.length() || self.active != !self.check.achieved)
+                rpgExpandedReject('credulity-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('credulity-check-binding');
+        }
+        else
+        {
+            if (self.boundCheck != nil) rpgExpandedReject('credulity-uncommitted-check');
+            if (value.status == 'ready' && (self.trait.mitigated || self.profile.dead || self.profile.unconscious))
+            { value.status = 'blocked'; value.reason = 'credulity-observer-unavailable'; }
+            if (value.status == 'ready' && self.profile.externalInputReason() != nil)
+            { value.status = 'blocked'; value.reason = self.profile.externalInputReason(); }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical]; return nil; }
+    acceptedStory()
+    {
+        if (self.result == nil) return nil;
+        self.assess(); return self.check.achieved ? nil : self.story;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'credulity') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedCredulity(); trait.approved = true; trait.level = level; trait.scope = scope;
+        trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedCredulity)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+modify RpgLiteContext
+    credulityExploited = nil
+    credulityEvidence = nil
+    credulityFacts() { return [self.credulityExploited,self.credulityEvidence]; }
+;
+modify RpgExpandedProfile
+    credulityActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'credulity')
+            {
+                if (found != nil || !trait.ofKind(RpgExpandedCredulity)) rpgExpandedReject('credulity-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.credulityActive(); return nil; }
+    socialSkillLearningReason(skill)
+    {
+        local reason = inherited(skill); if (reason != nil) return reason;
+        return self.credulityActive() && skill.id == 'detect-lies' ? 'credulity-learning-prohibited' : nil;
+    }
+    healthCheckReason(context)
+    {
+        local reason = inherited(context); if (reason != nil) return reason;
+        if (self.credulityActive() && context.credulityExploited
+            && (context.credulityEvidence == nil || context.credulityEvidence == '')) return 'credulity-exploitation-evidence';
+        return nil;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if (!self.credulityActive()) return value;
+        if (context.credulityExploited && (context.credulityEvidence == nil || context.credulityEvidence == ''))
+            rpgExpandedReject('credulity-exploitation-evidence');
+        return value - (context.credulityExploited || context.skill != nil && context.skill.id == 'merchant' ? 3 : 0);
+    }
+;

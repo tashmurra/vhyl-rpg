@@ -9889,6 +9889,8 @@ def test(build):
     test_indecision_confusion(Session,indecision_confusion,build.out)
     indecision_turns = build.build('expanded-indecision-turns',ROOT / 'tests/fixtures/expanded-indecision-turns.t')
     test_indecision_turns(Session,indecision_turns,build.out)
+    credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
+    test_credulity(Session,credulity,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30762,4 +30764,37 @@ def test_indecision_turns(Session,bundle,out):
         do(s,1161); assert last(s,'test.indecision-turn-result') == ['resolved',None]
         assert state(s) == [2,'move',2,2,6,2,0]
         s.command('undo'); assert state(s) == [1,'nothing',1,1,6,2,0]
+    finally: s.close()
+
+
+def test_credulity(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1175)
+        return last(s,'test.credulity')
+    for setup,score,story in ((None,6,'The bridge is safe'),(1173,9,None),(1174,12,None)):
+        s = Session(bundle)
+        path = out/f'credulity-{score}.zsave'
+        try:
+            do(s,1170)
+            if setup is not None: do(s,setup)
+            do(s,1172); assert state(s) == [0,None,None,0]
+            do(s,1171); s.command('undo'); assert state(s) == [0,None,None,0]
+            do(s,1171); do(s,1171); assert state(s) == [1,story,score,3]
+            do(s,1176); assert state(s) == [1,story,score,3]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1171); assert state(s) == [1,story,score,3]
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1170); do(s,1177)
+        assert last(s,'test.credulity-effects') == [9,10,'credulity-learning-prohibited',0]
+        do(s,1178); do(s,1177)
+        assert last(s,'test.credulity-effects') == [9,7,'credulity-learning-prohibited',0]
+        do(s,1180); do(s,1171); assert state(s) == [0,None,None,0]
+        do(s,1179); do(s,1177)
+        assert last(s,'test.credulity-effects') == [12,10,None,0]
     finally: s.close()

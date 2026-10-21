@@ -506,3 +506,13 @@ specifies failed indecision followed by denied Move, a real Do Nothing turn, a
 due retry without duplicate time, and a subsequently permitted maneuver. It
 covers thrown actions, undo and cross-process continuation. This is authored
 battle-level coverage, not an observed passing result; checks remain paused.
+
+
+## Credulity implementation increment
+
+The B137 purchase now resolves owned story presentations with source plausibility
+modifiers and retained acceptance outcomes. Shared scoring applies the Merchant
+or authored-exploitation penalty once, and shared learning eligibility rejects
+new lie-detection training. Fixtures specify these effects and lifecycle behavior
+but remain unrun. Fear acquisition is not enabled yet: prior learned skills and
+actual advancement transactions require further integration.

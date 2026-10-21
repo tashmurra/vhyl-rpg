@@ -313,9 +313,12 @@
       "pages": "B137",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Credulity is base -10 with self-control for lies or unlikely truths. A convincing unfamiliar story gives -6, familiar subject gives -3, and wildly implausible story uses no modifier. Failure accepts the claim. Apply -3 to merchant and other tasks exploiting credulity; prohibit learning lie detection. Believed claims must not overwrite world truth.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_credulity"
+      ],
+      "implementation_note": "Owned story acceptance with source plausibility modifiers, Merchant/exploitation scoring and shared lie-detection learning rejection. Prior-training acquisition boundary and concrete advancement coverage remain pending. Fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-poor-fine-motor",

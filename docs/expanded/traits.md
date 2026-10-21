@@ -3060,3 +3060,35 @@ battle time and shared time; Do Nothing advances one second; and the now-due
 retry changes neither clock before a permitted next maneuver. Throw/undo and
 cross-process continuation cover the blocked turn, waiting turn, retry and
 subsequent maneuver. This registered fixture is unrun.
+
+
+### Credulity — story and skill effects
+
+`RpgExpandedCredulity` implements the full-2008 B137 rated purchase at base -10.
+`RpgExpandedCredulityTrigger` owns one presentation of a `story`, its normal
+control-trigger identity/evidence and `plausibility`: `convincing-or-unfamiliar`
+applies -6, `familiar` applies -3, and `outlandish` applies zero. Keep the generic
+`modifier` at zero; the category supplies the adjustment. Below-three scores
+reject before rolling. A mitigated purchase, unavailable listener or blocked
+external input also prevents a new presentation check.
+
+After resolution, `acceptedStory()` returns the presented story on failure and
+nil on success. This is the retained outcome of that presentation, not evidence
+that the story is true and not an automatic disclosure of hidden facts. Use it
+when authoring the listener's response. Do not edit the retained story or check
+to represent later discoveries; those belong to subsequent authored events.
+Replayed resolution does not roll again.
+
+An active purchase gives -3 to Merchant checks. Other checks may declare
+`credulityExploited = true` with `credulityEvidence`; this also gives -3, including
+appropriate raw-attribute judgments. Merchant plus explicit exploitation still
+applies only one penalty. Custom owned actions can retain `credulityFacts()` with
+their other context facts. The shared social-learning hook rejects new
+`detect-lies` training while the purchase is active. Mitigation releases these
+scoring and learning restrictions.
+
+Fear acquisition remains disabled pending treatment of previously learned
+lie-detection training and concrete advancement coverage. `test_credulity`
+specifies the three plausibility modifiers, accepted-story receipts, no-dice
+boundaries, scoring composition, learning eligibility, mitigation, rollback,
+undo and save continuation. It is registered but unrun.
