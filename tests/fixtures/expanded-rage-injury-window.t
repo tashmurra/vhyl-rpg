@@ -2,6 +2,9 @@
 rageFirst: RpgExpandedWound id = 'rage-first' profile = fearProfile amount = 1;
 rageSecond: RpgExpandedWound id = 'rage-second' profile = fearProfile amount = 2;
 rageWindow: RpgExpandedRageInjuryWindow profile = fearProfile second = 0;
+rageReceipt: RpgExpandedRageInjuryReceipt id = 'first-second' window = rageWindow;
+rageDuplicate: RpgExpandedRageInjuryReceipt id = 'same-second' window = rageWindow;
+rageThird: RpgExpandedWound id = 'rage-third' profile = fearProfile amount = 1;
 modify FearTestAction
     exec(context)
     {
@@ -22,6 +25,16 @@ modify FearTestAction
               eventValue(rpgExpandedRageInjuryThreshold(pair[1],pair[2]) ? 1 : 0);
           return nil; }
         if (code == 906) { rpgLiteWound(fearProfile,1); return nil; }
+        if (code == 907 || code == 908)
+        { rageReceipt.record(); if (code == 908) throw new RpgError(); return nil; }
+        if (code == 909) { rageThird.apply(); return nil; }
+        if (code == 910)
+        { local v = rageDuplicate.record(); event('test.rage-duplicate'); eventValue(v.status); eventValue(v.reason); return nil; }
+        if (code == 911)
+        { if (rageReceipt.result != nil) rageReceipt.validateReceipt();
+          event('test.rage-receipt'); eventValue(fearProfile.rageInjuryReceipts.length());
+          eventValue(rageReceipt.injury); eventValue(rageReceipt.wounds.length()); eventValue(rpgRandom.draws); return nil; }
+        if (code == 912) { rageReceipt.injury = 99; rageReceipt.validateReceipt(); return nil; }
         return inherited(context);
     }
 ;

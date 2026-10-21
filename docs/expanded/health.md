@@ -4774,3 +4774,19 @@ anger escalation, combat behavior and exit checks remain unimplemented.
 `test_rage_injury_window` specifies exact thresholds, multiple-hit aggregation,
 time separation, purity, replay, rollback, undo and saved continuation. It is
 registered but unrun while checks remain paused.
+
+
+`RpgExpandedRageInjuryReceipt` retains a qualifying snapshot for the future entry
+adapter. Supply a unique `id` and `window`; `record()` succeeds only above the
+threshold and permits one receipt per profile/second. It stores health capacity,
+actual injury and the contributing wound identities. Later hits in that second
+do not change the retained total or permit another receipt. Replaying the same
+receipt after the clock advances returns its original snapshot; it does not
+reinterpret the window's current second. Modified snapshot fields reject.
+
+Recording is transactional and consumes no time or randomness. It does not itself
+perform or authorize a self-control roll: the entry adapter must own consumption
+of the receipt together with the resulting episode. This remaining dependency
+is not satisfied by the snapshot alone. The injury-window fixture now specifies
+nonqualifying rejection, duplicate prevention, later hits, mutation rejection,
+rollback, undo and saved continuation for receipts; these cases are unrun.

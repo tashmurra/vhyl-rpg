@@ -29814,3 +29814,25 @@ def test_rage_injury_window(Session,bundle,out):
         do(s,906)
         assert state(s) == ['blocked','rage-window-unrecorded-injury',0,0,0,1,0,0]
     finally: s.close()
+
+    # A qualifying snapshot cannot generate another trigger for the same second.
+    path = out/'rage-injury-receipt.zsave'
+    s = Session(bundle)
+    try:
+        for code in (900,907,911): do(s,code)
+        assert last(s,'test.rage-receipt') == [0,None,0,0]
+        do(s,901); do(s,908); do(s,911)
+        assert last(s,'test.rage-receipt') == [0,None,0,0]
+        do(s,907); s.command('undo'); do(s,911)
+        assert last(s,'test.rage-receipt') == [0,None,0,0]
+        do(s,907); do(s,909); do(s,907); do(s,910)
+        assert last(s,'test.rage-duplicate') == ['blocked','rage-injury-trigger-already-recorded']
+        do(s,912); do(s,911)
+        assert last(s,'test.rage-receipt') == [1,3,2,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,904); do(s,907); do(s,911)
+        assert last(s,'test.rage-receipt') == [1,3,2,0]
+    finally: s.close()

@@ -11814,3 +11814,75 @@ class RpgExpandedRageInjuryWindow: object
         value.status = 'ready'; return value;
     }
 ;
+
+modify RpgExpandedProfile rageInjuryReceipts = [];
+/** One retained qualifying injury trigger per profile/second, for the entry adapter. */
+class RpgExpandedRageInjuryReceipt: object
+    id = nil
+    window = nil
+    result = nil
+    boundWindow = nil
+    profile = nil
+    second = nil
+    capacity = nil
+    injury = nil
+    wounds = []
+    boundFacts = nil
+    facts()
+    {
+        local value = [self.id,self.window,self.profile,self.second,self.capacity,self.injury,self.wounds.length()];
+        foreach (local wound in self.wounds)
+            value = value + [wound,wound.id,wound.profile,wound.committedAt,wound.committedSerial,wound.health,wound.health.injury];
+        return value;
+    }
+    validateReceipt()
+    {
+        if (self.result == nil || self.window != self.boundWindow || self.profile == nil
+            || !holds(self.profile.rageInjuryReceipts,self) || self.boundFacts == nil)
+            rpgExpandedReject('rage-injury-receipt-history');
+        local current = self.facts();
+        if (current.length() != self.boundFacts.length()) rpgExpandedReject('rage-injury-receipt-binding');
+        for (local i = 1; i <= current.length(); i += 1)
+            if (current[i] != self.boundFacts[i]) rpgExpandedReject('rage-injury-receipt-binding');
+        rpgInteger(self.second,0,rpgLedger.seconds);
+        local total = 0;
+        foreach (local wound in self.wounds)
+        {
+            if (wound.profile != self.profile || wound.committedAt != self.second
+                || wound.assess().status != 'reused') rpgExpandedReject('rage-injury-receipt-wound');
+            total += wound.health.injury;
+        }
+        if (total != self.injury || !rpgExpandedRageInjuryThreshold(self.capacity,total))
+            rpgExpandedReject('rage-injury-receipt-threshold');
+        return nil;
+    }
+    assess()
+    {
+        if (self.id == nil || self.id == '' || self.window == nil || !self.window.ofKind(RpgExpandedRageInjuryWindow))
+            rpgExpandedReject('rage-injury-receipt-definition');
+        local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundWindow != nil || self.profile != nil || self.second != nil || self.capacity != nil
+            || self.injury != nil || self.wounds.length() != 0 || self.boundFacts != nil)
+            rpgExpandedReject('rage-injury-receipt-uncommitted');
+        local assessment = self.window.assess();
+        if (assessment.status != 'ready') return assessment;
+        if (!assessment.triggered) { value.reason = 'rage-injury-threshold-not-met'; return value; }
+        foreach (local prior in self.window.profile.rageInjuryReceipts)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.second == self.window.second)
+            { value.reason = 'rage-injury-trigger-already-recorded'; return value; }
+        }
+        value.status = 'ready'; return value;
+    }
+    record()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local assessment = self.window.assess();
+        self.boundWindow = self.window; self.profile = self.window.profile; self.second = self.window.second;
+        self.capacity = assessment.capacity; self.injury = assessment.injury; self.wounds = assessment.wounds;
+        self.boundFacts = self.facts(); value.status = 'resolved'; self.result = value;
+        self.profile.rageInjuryReceipts = self.profile.rageInjuryReceipts + [self]; return value;
+    }
+;
