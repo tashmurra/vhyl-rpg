@@ -2970,3 +2970,32 @@ refund, missing-judgment rejection without dice, ordinary/adverse scoring,
 modifier composition, raw-attribute preservation, mitigation, rollback, undo and
 cross-process save continuation. It is registered but unrun; broader integration
 validation remains outstanding.
+
+
+### Incuriosity and novelty
+
+`RpgExpandedIncuriosity` implements full-2008 B140 at base -5 with standard
+self-control pricing. Rated templates use `['incuriosity', 1, nil, rating]`;
+rating six is an exact ten-point fear selection. An owned
+`RpgExpandedIncuriosityTrigger` binds the strange occurrence in `novelty`,
+`strangeConfirmed = true`, evidence and disjoint nonempty `ignoreActions` and
+`investigationActions`. Classify its stress relationship when another installed
+trait requires that information.
+
+Failed control permits only the listed ignore actions. Success also permits
+investigation. Execute an allowed, ordinarily legal scene action and record it
+with `recordAction` in the same transaction. Investigation does not automatically
+reveal hidden information; use the ordinary observation or search procedure.
+Ignoring does not undo information already received. The owned completion,
+mitigation and replay behavior follows the other controlled-choice interfaces.
+
+`RpgExpandedIncuriosityReactionContext` applies the independent -1 reaction to
+new things. Its `observer` owns the trait; its `subject` is being reacted to.
+Supply approval, evidence and `newToObserver`. Familiar subjects receive no
+modifier, and the subject's own incuriosity does not penalize the observer's
+reaction. This flat penalty does not vary with self-control rating.
+
+`test_incuriosity`, the shared mitigation cases and `test_incuriosity_social`
+specify pricing, fear acquisition, concrete ignored/investigated choices,
+invalid novelty facts, reaction direction, actual reaction totals, rollback,
+undo and save continuation. These fixtures are registered but unrun.

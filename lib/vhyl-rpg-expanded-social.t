@@ -4285,3 +4285,17 @@ class RpgExpandedStatusOutburstObservation: RpgExpandedSocialObservation
         return self.badReactionApplies ? -3 : 0;
     }
 ;
+
+/** B140: the trait owner's reaction to something new, with novelty authored. */
+class RpgExpandedIncuriosityReactionContext: RpgExpandedObservedReactionContext
+    newToObserver = nil
+    approved = nil
+    evidence = nil
+    observationFacts() { return inherited() + [self.newToObserver,self.approved,self.evidence]; }
+    observerReactionModifier(profile)
+    {
+        if (self.observer == nil || !self.observer.ofKind(RpgExpandedProfile) || !self.approved
+            || self.evidence == nil || self.evidence == '') rpgExpandedReject('incuriosity-reaction-facts');
+        return inherited(profile) - (self.newToObserver && self.observer.incuriosityActive() ? 1 : 0);
+    }
+;

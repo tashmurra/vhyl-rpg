@@ -443,3 +443,13 @@ ordinary situational modifiers compose. Registered cases specify cost/accounting
 mitigation, actual checks, rollback, undo and save continuation, but remain unrun.
 This closes another selection implementation gap without claiming the remaining
 trait catalogue or full fear suite is complete.
+
+
+## Incuriosity selection and novelty reactions
+
+The B140 incuriosity selection now has an owned strange-event decision with
+recorded scene execution and a separate observer-side novelty reaction adapter.
+Failure restricts investigation, while the flat -1 novelty reaction preserves
+who reacts to whom. Acquisition, mitigation, choices and social lifecycle
+fixtures are registered but unrun. Remaining mental selections and frenzy still
+prevent overall completion.

@@ -4229,7 +4229,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -5771,4 +5771,128 @@ modify rpgExpandedTemplateTraits
         if (!trait.ofKind(RpgExpandedLowConfidence)) return inherited(trait);
         trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
+;
+
+/** full-2008 B140: responding to an authored strange occurrence. */
+class RpgExpandedIncuriosity: RpgExpandedDisadvantage
+    id = 'incuriosity'
+    labelId = 'incuriosity'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-incuriosity'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'incuriosity' || self.points != -5 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('incuriosity-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedIncuriosityTrigger: RpgExpandedSelfControlTrigger
+    novelty = nil
+    strangeConfirmed = nil
+    ignoreActions = []
+    investigationActions = []
+    completedAction = nil
+    completedAt = nil
+    completionEvidence = nil
+    boundCompletion = nil
+    boundCheck = nil
+    definition()
+    { return inherited() + [self.novelty,self.strangeConfirmed,self.ignoreActions.length(),self.investigationActions.length()]
+        + self.ignoreActions + self.investigationActions; }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedIncuriosity)) rpgExpandedReject('incuriosity-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (self.boundCheck == nil || self.active != (!self.check.achieved && self.completedAt == nil))
+                rpgExpandedReject('incuriosity-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('incuriosity-check-binding');
+            if (self.completedAt != nil)
+            {
+                if (self.boundCompletion == nil || self.completedAction != self.boundCompletion[1]
+                    || self.completedAt != self.boundCompletion[2] || self.completionEvidence != self.boundCompletion[3])
+                    rpgExpandedReject('incuriosity-completion-binding');
+            }
+            else if (self.completedAction != nil || self.completionEvidence != nil || self.boundCompletion != nil)
+                rpgExpandedReject('incuriosity-uncommitted-completion');
+            return value;
+        }
+        if (self.completedAction != nil || self.completedAt != nil || self.completionEvidence != nil
+            || self.boundCompletion != nil || self.boundCheck != nil)
+            rpgExpandedReject('incuriosity-uncommitted-completion');
+        if (value.status != 'ready') return value;
+        if (self.novelty == nil
+            || !self.strangeConfirmed || self.ignoreActions.length() == 0 || self.investigationActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'incuriosity-alternatives'; return value; }
+        local seen = [];
+        foreach (local action in self.ignoreActions + self.investigationActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('incuriosity-classification');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        if (self.completedAt != nil) return action == self.completedAction;
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated) return true;
+        return holds(self.ignoreActions,action) || self.check.achieved && holds(self.investigationActions,action);
+    }
+    recordAction(action,evidence)
+    {
+        if (self.result == nil || evidence == nil || evidence == '' || !self.permits(action))
+            rpgExpandedReject('incuriosity-execution-required');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            if (self.completedAction != action || self.completionEvidence != evidence) rpgExpandedReject('incuriosity-completion-binding');
+            value.status = 'reused'; return value;
+        }
+        self.completedAction = action; self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence;
+        self.boundCompletion = [action,self.completedAt,evidence]; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'incuriosity') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedIncuriosity(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedIncuriosity)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+
+
+modify RpgExpandedProfile
+    incuriosityActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'incuriosity')
+            {
+                if (found != nil || !trait.ofKind(RpgExpandedIncuriosity)) rpgExpandedReject('incuriosity-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.incuriosityActive(); return nil; }
 ;

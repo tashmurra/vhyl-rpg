@@ -9878,6 +9878,11 @@ def test(build):
     test_acquired_replay_event(Session,acquired_replay,build.out)
     low_confidence = build.build('expanded-low-confidence',ROOT / 'tests/fixtures/expanded-low-confidence.t')
     test_low_confidence(Session,low_confidence,build.out)
+    incuriosity = build.build('expanded-incuriosity',ROOT / 'tests/fixtures/expanded-incuriosity.t')
+    test_incuriosity(Session,incuriosity,build.out)
+    test_control_choice_mitigation(Session,incuriosity,'test.incurious')
+    incuriosity_social = build.build('expanded-incuriosity-social',ROOT / 'tests/fixtures/expanded-incuriosity-social.t')
+    test_incuriosity_social(Session,incuriosity_social,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30565,3 +30570,69 @@ def test_low_confidence(Session,bundle,out):
         do(s,1103); assert last(s,'test.confidence-check') == [7,None,3]
         do(s,1106); assert state(s) == [1,10,9,7,10,10,3]
     finally: s.close()
+
+def test_incuriosity(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,876)
+        return last(s,'test.incurious')
+    for failed in (False,True):
+        s = Session(bundle)
+        path = out/f'incuriosity-{failed}.zsave'
+        try:
+            do(s,878); assert last(s,'test.incurious-prices') == [-10,1,-7,1,-5,1,-2,1]
+            do(s,870); do(s,581)
+            if failed: do(s,877)
+            do(s,872); assert state(s) == [0,0,0,None,0,0,0]
+            do(s,871); do(s,871)
+            assert state(s) == [int(failed),0,0,None,0,3,0]
+            if failed:
+                do(s,874); assert state(s) == [1,0,0,None,0,3,0]
+                do(s,875); assert state(s) == [1,0,0,None,0,3,0]
+            action = 873 if failed else 874
+            do(s,action); s.command('undo'); assert state(s) == [int(failed),0,0,None,0,3,0]
+            do(s,action); do(s,action)
+            expected = [0,int(failed),int(not failed),1,1,3,0]
+            assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,action); assert state(s) == expected
+        finally: s.close()
+
+
+    s = Session(bundle)
+    try:
+        for code in (870,581,882,885): do(s,code)
+        assert last(s,'test.incurious-preview') == ['blocked','incuriosity-alternatives']
+        do(s,871); assert state(s) == [0,0,0,None,0,0,0]
+    finally: s.close()
+
+
+
+
+def test_incuriosity_social(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,984)
+        return last(s,'test.incurious-social')
+    for npc,modifier in ((True,-1),(False,0)):
+        s = Session(bundle)
+        path = out/f'incurious-social-{npc}.zsave'
+        try:
+            do(s,989); assert last(s,'test.incurious-table') == [-1,-1,-1,-1]
+            for code in (870,581,980,987): do(s,code)
+            if not npc: do(s,981)
+            assert state(s) == [modifier,0,0]
+            do(s,983); assert state(s) == [modifier,0,0]
+            do(s,982); s.command('undo'); assert state(s) == [modifier,0,0]
+            do(s,982); do(s,982); assert state(s) == [modifier,1,3]
+            assert last(s,'test.incurious-reaction') == [3+modifier]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,982); assert state(s) == [modifier,1,3]
+        finally: s.close()
+

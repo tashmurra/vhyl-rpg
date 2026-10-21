@@ -1279,3 +1279,5 @@ modify RpgExpandedProfile
 /** Author-defined input requirements for checks outside built-in sense contexts. */
 modify RpgLiteContext externalInput = 'auto';
 modify RpgExpandedProfile externalInputReason() { return nil; };
+
+modify RpgExpandedProfile incuriosityActive() { return nil; };

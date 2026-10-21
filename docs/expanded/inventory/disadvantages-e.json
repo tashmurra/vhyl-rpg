@@ -11,9 +11,14 @@
       "pages": "B140",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Low curiosity is base -5 with self-control when confronted by something strange; failure ignores it. Reactions to new things are -1. Author identifies the unfamiliar stimulus without making hidden details public or suppressing explicitly committed observations.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_incuriosity",
+        "tests/expanded.py::test_control_choice_mitigation",
+        "tests/expanded.py::test_incuriosity_social"
+      ],
+      "implementation_note": "Typed rated purchase and fear selection, owned ignore/investigate choices with completion receipts and observer-side -1 novelty reactions. Lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-e-indecision",
