@@ -336,3 +336,14 @@ Registered fixtures cover those directions, composition, action execution,
 mitigation, pricing, rollback, undo and saved continuation. They remain unrun.
 This increment does not complete frenzy, the full remaining trait catalogue or
 a general accumulating stress/sanity track.
+
+
+## Self-sacrifice selection
+
+The full-2008 B153 self-sacrifice purchase now supports rated templates and exact
+fear acquisition. Its owned conflict trigger binds the other person, competing
+needs and classified scene actions. Failed control restricts the choice to
+other-first actions; successful control also permits self-first actions.
+Completion records actual authored execution in the same transaction, with no
+implicit resource transfer. Lifecycle and mitigation fixtures are registered
+but unrun. Remaining traits and frenzy still prevent an overall completion claim.

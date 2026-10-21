@@ -2802,3 +2802,34 @@ self-control check, duplicates the hostile action or changes advancement points.
 and `test_status_outburst` specify purchases, invalid slight facts, actual scene
 choices, both reaction directions, all rating penalties, composed solitude,
 rollback, undo and save continuation. These tests are registered but unrun.
+
+
+### Self-sacrifice and competing needs
+
+`RpgExpandedSelfSacrifice` implements the full-2008 B153 purchase at base -5,
+with standard self-control pricing and rated template form
+`['self-sacrifice', 1, nil, rating]`. Rating six supplies an exact ten-point fear
+selection without spending advancement points.
+
+For each authored conflict, own an `RpgExpandedSelfSacrificeTrigger` on the
+character. Supply its ID, trait, occasion and evidence through the ordinary
+self-control interface, the other person's profile as `person`, and
+`competingNeeds = true`. Classify concrete available actions into nonempty,
+disjoint `otherFirstActions` and `selfFirstActions`. The person must differ from
+the actor. Classify the occasion's stress relationship explicitly when required
+by other installed mental-state features.
+
+Resolve once. Failure permits only the other-first actions; success also permits
+self-first choices. Check `permits(action)`, validate and execute the ordinary
+world action, and call `recordAction(action, evidence)` in the same transaction.
+Recording does not spend time, move possessions or rescue anyone by itself.
+The retained completion prevents another action from being recorded for that
+occasion. Inactive, removed or mitigated purchases release an unfinished
+restriction; reactivation restores it without another roll. Completed receipts
+remain immutable.
+
+`test_self_sacrifice` and the shared mitigation cases specify all four prices,
+copying, fear acquisition, successful and failed decisions, concrete shelter
+choices, invalid participants, rollback, undo and save continuation. The fixtures
+are registered but unrun; this selection does not imply that the remaining
+mental-trait catalogue is complete.

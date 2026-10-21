@@ -4198,7 +4198,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -5343,3 +5343,111 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** full-2008 B153: choosing between another person's needs and one's own. */
+class RpgExpandedSelfSacrifice: RpgExpandedDisadvantage
+    id = 'self-sacrifice'
+    labelId = 'self-sacrifice'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-self-sacrifice'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'self-sacrifice' || self.points != -5 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('self-sacrifice-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedSelfSacrificeTrigger: RpgExpandedSelfControlTrigger
+    person = nil
+    competingNeeds = nil
+    otherFirstActions = []
+    selfFirstActions = []
+    completedAction = nil
+    completedAt = nil
+    completionEvidence = nil
+    boundCompletion = nil
+    boundCheck = nil
+    definition()
+    { return inherited() + [self.person,self.competingNeeds,self.otherFirstActions.length(),self.selfFirstActions.length()]
+        + self.otherFirstActions + self.selfFirstActions; }
+    afterControlResolution(value)
+    { self.boundCheck = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; return nil; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedSelfSacrifice)) rpgExpandedReject('self-sacrifice-trigger-trait');
+        if (value.status == 'reused')
+        {
+            local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (self.boundCheck == nil || self.active != (!self.check.achieved && self.completedAt == nil))
+                rpgExpandedReject('self-sacrifice-check-binding');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('self-sacrifice-check-binding');
+            if (self.completedAt != nil)
+            {
+                if (self.boundCompletion == nil || self.completedAction != self.boundCompletion[1]
+                    || self.completedAt != self.boundCompletion[2] || self.completionEvidence != self.boundCompletion[3])
+                    rpgExpandedReject('self-sacrifice-completion-binding');
+            }
+            else if (self.completedAction != nil || self.completionEvidence != nil || self.boundCompletion != nil)
+                rpgExpandedReject('self-sacrifice-uncommitted-completion');
+            return value;
+        }
+        if (self.completedAction != nil || self.completedAt != nil || self.completionEvidence != nil
+            || self.boundCompletion != nil || self.boundCheck != nil)
+            rpgExpandedReject('self-sacrifice-uncommitted-completion');
+        if (value.status != 'ready') return value;
+        if (self.person == nil || !self.person.ofKind(RpgLiteProfile) || self.person == self.profile
+            || !self.competingNeeds || self.otherFirstActions.length() == 0 || self.selfFirstActions.length() == 0)
+        { value.status = 'blocked'; value.reason = 'self-sacrifice-alternatives'; return value; }
+        local seen = [];
+        foreach (local action in self.otherFirstActions + self.selfFirstActions)
+        {
+            if (action == nil || holds(seen,action)) rpgExpandedReject('self-sacrifice-classification');
+            seen = seen + [action];
+        }
+        return value;
+    }
+    permits(action)
+    {
+        if (self.result == nil) return nil;
+        self.assess();
+        if (self.completedAt != nil) return action == self.completedAction;
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        if (!holds(self.profile.traits,current) || !current.active || current.mitigated) return true;
+        return holds(self.otherFirstActions,action) || self.check.achieved && holds(self.selfFirstActions,action);
+    }
+    recordAction(action,evidence)
+    {
+        if (self.result == nil || evidence == nil || evidence == '' || !self.permits(action))
+            rpgExpandedReject('self-sacrifice-execution-required');
+        local value = new RpgExpandedResult();
+        if (self.completedAt != nil)
+        {
+            if (self.completedAction != action || self.completionEvidence != evidence) rpgExpandedReject('self-sacrifice-completion-binding');
+            value.status = 'reused'; return value;
+        }
+        self.completedAction = action; self.completedAt = rpgLedger.seconds; self.completionEvidence = evidence;
+        self.boundCompletion = [action,self.completedAt,evidence]; self.active = nil;
+        value.status = 'resolved'; return value;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'self-sacrifice') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedSelfSacrifice(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedSelfSacrifice)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+

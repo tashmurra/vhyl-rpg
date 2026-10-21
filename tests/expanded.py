@@ -9861,6 +9861,9 @@ def test(build):
     sensitivity_social = build.build('expanded-status-sensitivity-social',ROOT / 'tests/fixtures/expanded-status-sensitivity-social.t')
     test_status_sensitivity_social(Session,sensitivity_social,build.out)
     test_status_outburst(Session,sensitivity_social,build.out)
+    sacrifice = build.build('expanded-self-sacrifice',ROOT / 'tests/fixtures/expanded-self-sacrifice.t')
+    test_self_sacrifice(Session,sacrifice,build.out)
+    test_control_choice_mitigation(Session,sacrifice,'test.sacrifice')
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30246,3 +30249,42 @@ def test_status_outburst(Session,bundle,out):
         do(s,981); do(s,984)
         assert last(s,'test.sensitivity-social') == [0,0,0]
     finally: s.close()
+
+def test_self_sacrifice(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,876)
+        return last(s,'test.sacrifice')
+    for failed in (False,True):
+        s = Session(bundle)
+        path = out/f'self-sacrifice-{failed}.zsave'
+        try:
+            do(s,878); assert last(s,'test.sacrifice-prices') == [-10,1,-7,1,-5,1,-2,1]
+            do(s,870); do(s,581)
+            if failed: do(s,877)
+            do(s,872); assert state(s) == [0,0,0,None,0,0,0]
+            do(s,871); do(s,871)
+            assert state(s) == [int(failed),0,0,None,0,3,0]
+            if failed:
+                do(s,874); assert state(s) == [1,0,0,None,0,3,0]
+                do(s,875); assert state(s) == [1,0,0,None,0,3,0]
+            action = 873 if failed else 874
+            do(s,action); s.command('undo'); assert state(s) == [int(failed),0,0,None,0,3,0]
+            do(s,action); do(s,action)
+            expected = [0,int(failed),int(not failed),1,1,3,0]
+            assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,action); assert state(s) == expected
+        finally: s.close()
+
+
+    s = Session(bundle)
+    try:
+        for code in (870,581,882,885): do(s,code)
+        assert last(s,'test.sacrifice-preview') == ['blocked','self-sacrifice-alternatives']
+        do(s,871); assert state(s) == [0,0,0,None,0,0,0]
+    finally: s.close()
+

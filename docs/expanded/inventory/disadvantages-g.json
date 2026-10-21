@@ -162,9 +162,10 @@
       "pages": "B153",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Self-sacrifice is base -5 and requires self-control to put personal needs, including survival, before another person. Author identifies the competing needs and available actions; it does not automatically transfer possessions or authorize impossible rescue.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_self_sacrifice", "tests/expanded.py::test_control_choice_mitigation"],
+      "implementation": "Typed rated purchase and fear selection with an owned competing-needs trigger, explicit other-first/self-first action contract and immutable completion. Lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-g-semi-upright",
