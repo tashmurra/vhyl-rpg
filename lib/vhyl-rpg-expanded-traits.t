@@ -4508,6 +4508,9 @@ modify RpgExpandedProfile
 /** B146: an authored overriding goal, with ordinary self-control pricing. */
 class RpgExpandedGoalFixation: RpgExpandedDisadvantage
     id = 'goal-fixation'
+    labelId = 'goal-fixation'
+    templatePurchaseKind = 'expanded-goal-fixation'
+    templatePurchaseOptions() { return [self.term,self.initialGoal,self.selfControlNumber()]; }
     points = -10
     controlled = true
     term = 'long-term'
@@ -4688,5 +4691,34 @@ class RpgExpandedFixationActionPermission: object
             if (!self.deviation.permits(self.action)) { value.reason = 'fixation-action-pursuit-required'; return value; }
         }
         value.status = 'ready'; return value;
+    }
+;
+
+modify rpgExpandedTemplateTraits
+    configured(id,level,scope,options)
+    {
+        if (id != 'goal-fixation') return inherited(id,level,scope,options);
+        if (scope != nil || options.length() != 3) rpgExpandedReject('goal-fixation-template-options');
+        local trait = new RpgExpandedGoalFixation(); trait.approved = true; trait.level = level;
+        trait.term = options[1]; trait.initialGoal = options[2]; trait.selfControlRating = options[3];
+        if (!holds([6,9,12,15],trait.selfControlRating)) rpgExpandedReject('self-control-rating');
+        trait.points = trait.term == 'short-term' ? -5 : -10; trait.creationCost(); return trait;
+    }
+    plain(id,level,scope)
+    {
+        if (id == 'goal-fixation') rpgExpandedReject('goal-fixation-template-options');
+        return inherited(id,level,scope);
+    }
+    rated(id,level,scope,rating)
+    {
+        if (id == 'goal-fixation') rpgExpandedReject('goal-fixation-template-options');
+        return inherited(id,level,scope,rating);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedGoalFixation)) return inherited(trait);
+        trait.creationCost();
+        if (trait.labelId != trait.id) rpgExpandedReject('goal-fixation-template-definition');
+        return self.configured(trait.id,trait.level,trait.scope,trait.templatePurchaseOptions());
     }
 ;

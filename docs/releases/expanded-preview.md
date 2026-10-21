@@ -4,6 +4,14 @@ This branch implements an incomplete experimental suite. It is not a stable
 release and does not claim full-reference coverage. VERSION follows the merged
 main prerelease; no new tag or release publication is part of this work.
 
+Fear outcomes now include overriding-goal mental traits with owned self-control
+occurrences, concrete action permission, versioned goal replacement and funded
+buyoff. Configured templates preserve the original goal and rating without
+sharing fulfillment history. Recent timed-panic work adds room and tactical
+movement, stationary expression and retained activity-history validation.
+These additions and their regression fixtures remain unvalidated while checks
+are paused; the fear completion audit still lists outstanding work.
+
 Exploration now exposes a pure climbing assessment for all nine printed surfaces,
 with exact rates, explicit feet/rung units, encumbrance, check boundaries and
 combat fatigue. Owned climbing and falling integration remain pending. The new

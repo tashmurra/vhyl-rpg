@@ -2522,12 +2522,31 @@ goal grants no points. Replay cannot replace the goal or charge again.
 Fulfillment history retains goal versions independently of wording. Triggers for
 an earlier goal cease restricting actions after fulfillment, even if a later goal
 reuses the same words. Queries validate the bound history; old acquisition
-receipts continue to refer to the original goal. Authors must construct goal
-purchases explicitly; generic template copying of authored goals is not supplied.
+receipts continue to refer to the original goal. Template purchases use the configured row described below. Copies preserve the
+initial authored goal and never inherit another character's fulfillment history.
 
 `test_goal_fixation` specifies all eight prices, fear acquisition, denied concrete
 deviation, permitted pursuit, recorded replacement, zero-award and paid buyoff,
 insufficient funding, altered receipt rejection, replay, rollback, undo and saved
-continuation. These fixtures are unrun while checks remain paused. Broader
-character-template integration and additional mental catalogue entries remain
-outside this implementation increment.
+continuation. These fixtures are unrun while checks remain paused. Additional mental catalogue entries remain outside this implementation increment.
+
+
+### Overriding goals in templates
+
+Use `['goal-fixation', 1, nil, nil, [term, initialGoal, rating]]` in a template's
+`traitRows`. Both term and goal must be explicit, and rating must be 6, 9, 12 or
+15. The factory derives the matching base cost from the term and validates the
+purchase. Plain or rated rows without authored goal options reject.
+
+Every construction and `rpgExpandedCopyTemplateTrait()` call creates a fresh
+`RpgExpandedGoalFixation` purchase. Its purchase options retain term, initial goal
+and rating for template composition and receipt comparisons. Copying is purchase
+reconstruction: a character's completed goals, active obligations and fear
+acquisition history remain with that character. A copy does not inherit them or
+substitute the character's latest goal for the authored template goal.
+
+`test_goal_template` specifies two independently constructed characters, goal
+replacement affecting only one, copy fidelity, invalid configuration rejection,
+rollback, undo and saved continuation. `test_goal_fixation` also specifies actual
+successful and failed self-control rolls, with a denied or permitted scene action
+and no reroll on receipt replay. All cases remain unrun.

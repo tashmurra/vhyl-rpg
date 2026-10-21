@@ -9827,6 +9827,8 @@ def test(build):
     test_fear_selection(Session,fear_selection,build.out)
     goal_fixation = build.build('expanded-goal-fixation',ROOT / 'tests/fixtures/expanded-goal-fixation.t')
     test_goal_fixation(Session,goal_fixation,build.out)
+    goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
+    test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
     test_panic_critical_hit(Session,panic_critical_hit,build.out)
     panic_defense_position = build.build('expanded-panic-defense-position',ROOT / 'tests/fixtures/expanded-panic-defense-position.t')
@@ -29541,4 +29543,42 @@ def test_goal_fixation(Session,bundle,out):
         assert last(s,'test.fixation-buyoff') == ['blocked','rpg.insufficient-points']
         do(s,854); do(s,849); do(s,849)
         assert state(s) == [None,0,2,5,0,0,None]
+    finally: s.close()
+
+    for fail in (False,True):
+        s = Session(bundle)
+        try:
+            do(s,840); do(s,581)
+            if fail: do(s,858)
+            do(s,842); assert state(s) == ['Recover the lost survey',1,0,7,0,0,None]
+            do(s,841); do(s,841); do(s,843)
+            assert last(s,'test.fixation-permission') == (
+                ['blocked','fixation-action-pursuit-required'] if fail else ['ready',None])
+            assert state(s) == ['Recover the lost survey',1,0,7,int(not fail),3,1]
+        finally: s.close()
+
+
+def test_goal_template(Session,bundle,out):
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,862)
+        return last(s,'test.fixation-template')
+    initial = [1,'Recover the lost survey','Recover the lost survey',0,0,-10,-10]
+    fulfilled = [1,'Map the uncharted valley','Recover the lost survey',1,0,-10,-10]
+    path = out/'goal-template.zsave'
+    s = Session(bundle)
+    try:
+        do(s,860); do(s,864); assert state(s) == initial
+        do(s,861); s.command('undo'); assert state(s) == initial
+        do(s,861); do(s,861); assert state(s) == fulfilled
+        do(s,863)
+        assert last(s,'test.fixation-copy') == [1,'Recover the lost survey',12,-10,None]
+        for code,reason in [(865,'goal-fixation-template-options'),(866,'self-control-rating')]:
+            do(s,code); assert last(s,'test.fixation-template-invalid') == [reason]
+        s.command(f':save {path}\n@2251')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,861); assert state(s) == fulfilled
     finally: s.close()

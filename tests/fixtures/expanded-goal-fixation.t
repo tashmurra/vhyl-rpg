@@ -44,6 +44,7 @@ modify FearTestAction
         if (code == 849 || code == 850)
         { fixationSecondComplete.apply(); if (code == 850) throw new RpgError(); return nil; }
         if (code == 851) { fixationComplete.nextGoal = 'Changed receipt'; fixationComplete.assess(); return nil; }
+        if (code == 858) { fearEventInput.initialRoll = 13; return nil; }
         if (code == 853)
         { fearProfile.traits = [fixationTrait]; fearProfile.earnedPoints = 9; fearProfile.unspentPoints = 7;
           fixationBasis.originalBonus = 10; return nil; }

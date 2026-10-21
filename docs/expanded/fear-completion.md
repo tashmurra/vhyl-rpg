@@ -155,6 +155,7 @@ specific author interface classifies concrete actions, resolves wise deviation,
 retains pursuit obligations and records goal fulfillment through replacement or
 funded buyoff. Goal versions prevent old obligations from reactivating through
 reused wording. Registered fixtures cover pricing, a denied world action,
-replacement, accounting, undo and save continuation; they remain unrun. Generic
-authored-goal template copying and the remaining mental catalogue still require
+replacement, accounting, undo and save continuation; they remain unrun. Configured goal templates now create independent purchases while preserving
+authored term, goal and rating. Copy, isolation and actual self-control roll
+cases are registered but unrun. The remaining mental catalogue still requires
 work. This increment adds actual selection behavior rather than only a price.
