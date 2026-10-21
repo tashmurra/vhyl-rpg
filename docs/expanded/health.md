@@ -4507,3 +4507,43 @@ automatic expanded attack resolver is still outstanding.
 ammunition and weapon hooks, preview purity, blocked critical results, incapacity,
 exception rollback, undo, receipt mutation and saved continuation. These fixtures
 are authored and unrun while checks are paused.
+
+## Declared Wait responses
+
+`RpgExpandedWaitDeclaration` records a stationary ordinary Attack response to a
+specific character entering a specific hex (full-2008 B366, B385). Supply `id`,
+`fighter`, `battle`, the already readied `weapon` and `mode`, `targetProfile`,
+`triggerHex`, approval and evidence. Both characters must belong to the encounter.
+Use a `RpgExpandedWaitManeuver` with the declaration and a fresh owned action gate.
+It has `kind = 'wait'` and zero movement. Passing it to `battle.step` spends the
+waiting fighter's turn and records the declaration only if the permission gate
+allows it. A bare abridged maneuver with `kind = 'wait'` rejects because it lacks
+this declaration contract.
+
+`RpgLiteFighter.turnSerial` advances once for each accepted turn, including a
+turn lost to failed physical permission. Invalid preflights do not advance it.
+A declaration is valid only while that serial is unchanged and the fighter still
+has the Wait maneuver. This establishes expiry at the next turn without rounding
+clock timestamps or granting an additional turn. The serial adds persistent state;
+it does not draw randomness or alter ordinary attack resolution.
+
+The tactical library's `RpgExpandedPathWaitInterruption` connects the declaration
+to the matching path stage and a `RpgExpandedAdjudicatedStrike`. It checks the
+waiting fighter's current physical availability, reuses the declaration's owned
+permission, and commits the recorded attack without calling `battle.step` again.
+The declaration becomes used and the fighter's maneuver becomes Attack. It does
+not repeat a start-of-turn consciousness check. The mover then resumes or stops
+through the existing staged path machinery. Actual damage, ammunition and weapon
+hooks use the same recorded-strike contract described above.
+
+This subset does not implement a step as part of the response, other converted
+maneuvers, stop-thrust bonuses, general opportunity fire, nested interrupts or
+automatic attack dice/critical effects. An expired or currently incapacitated
+waiting fighter is rejected during path preflight; the author must remove that
+unavailable interrupt from the chosen route. No conditional fallback is silently
+selected. These limitations keep the broader Wait procedure partial.
+
+`expanded-panic-wait.t` / `test_panic_wait` specify declaration, trigger matching,
+expiry, hit and miss consequences, one clock advance, no duplicate consciousness
+roll, receipt mutation, rollback, undo and cross-process continuation. All new
+assertions are authored and unrun while checks remain paused.

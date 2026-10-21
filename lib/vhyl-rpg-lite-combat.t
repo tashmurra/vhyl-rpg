@@ -8,6 +8,7 @@ class RpgLiteFighter: object
     shield = nil
     shieldSkill = nil
     unarmedSkill = nil
+    turnSerial = 0
     maneuver = 'nothing'
     defenseOption = 'dodge'
     blocks = 0
@@ -58,7 +59,7 @@ class RpgLiteManeuver: object
     someLight = true
     defense = 'dodge'
     secondDefense = 'parry'
-    available(fighter) { return nil; }
+    available(fighter) { return self.kind == 'wait' ? 'wait-adapter-required' : nil; }
     /* Optional health adapters assess before any permission roll. */
     expandedHealthPermission = nil
     healthAvailable(fighter) { return nil; }
@@ -433,7 +434,7 @@ class RpgLiteBattle: object
         local result = new RpgLiteCombatResult();
         if (fighter != self.current()) { result.reason = 'not-your-turn'; return result; }
         if (!holds(['nothing','move','posture','aim','attack','all-out-attack','move-attack',
-            'all-out-defense','concentrate','ready'], request.kind)) throw new RpgError();
+            'all-out-defense','concentrate','ready','wait'], request.kind)) throw new RpgError();
         local limit = holds(['move','move-attack','all-out-defense'], request.kind) ? fighter.profile.move()
             : request.kind == 'all-out-attack' ? fighter.profile.move() / 2 : 1;
         if (request.movement < 0 || request.movement > limit
@@ -473,6 +474,7 @@ class RpgLiteBattle: object
         }
         result.reason = request.healthAvailable(fighter);
         if (result.reason != nil) { result.status = 'blocked'; return result; }
+        rpgInteger(fighter.turnSerial,0,2147483646); fighter.turnSerial += 1;
         if (!request.canAct(fighter))
         { result.status = 'resolved'; result.outcome = 'incapacitated'; self.advance(); return result; }
         fighter.blocks = 0; fighter.parries = 0; fighter.offParries = 0; fighter.attacked = nil;

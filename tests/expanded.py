@@ -9779,6 +9779,8 @@ def test(build):
     test_panic_attack(Session,panic_attack,build.out)
     panic_object = build.build('expanded-panic-object',ROOT / 'tests/fixtures/expanded-panic-object.t')
     test_panic_object(Session,panic_object,build.out)
+    panic_wait = build.build('expanded-panic-wait',ROOT / 'tests/fixtures/expanded-panic-wait.t')
+    test_panic_wait(Session,panic_wait,build.out)
     interrupted_path = build.build('expanded-panic-interrupted-path',ROOT / 'tests/fixtures/expanded-panic-interrupted-path.t')
     test_panic_interrupted_path(Session,interrupted_path,build.out)
     panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
@@ -28796,3 +28798,40 @@ def test_panic_interrupted_path(Session,bundle,out):
             do(s,200); do(s,code); do(s,202)
             assert state(s)==[0,0,None,0,0,0,None,0,0,0,3]
         finally: s.close()
+
+
+def test_panic_wait(Session,bundle,out):
+    """A declared Wait spends its own turn; triggering never grants an extra clock tick. Unrun."""
+    def do(s,c): s.action(2278,c)
+    def state(s):
+        do(s,231)
+        return last(s,'test.panic-wait')
+    for setup,choice,injury,draws in ((230,None,1,9),(230,236,0,9),(235,None,1,12)):
+        path=out/f'panic-wait-{setup}-{choice}.zsave'
+        initial=[0,0,2,1,0,0,1,1,0,2,0,0,6 if setup==235 else 3]
+        expected=[2,injury,1,1,1,1,1,1,1,1,1,1,draws]
+        s=Session(bundle)
+        try:
+            do(s,setup)
+            if choice is not None: do(s,choice)
+            do(s,201); assert last(s,'test.panic-path-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,234); assert state(s)==initial
+            do(s,203); assert state(s)==initial
+            do(s,202); s.command('undo'); assert state(s)==initial
+            do(s,202); do(s,202); assert state(s)==expected
+            do(s,232); do(s,237); do(s,238); assert state(s)==expected
+            s.command(f':save {path}\n@2279')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2279'); do(s,202)
+            assert state(s)==expected
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,233); do(s,201)
+        assert last(s,'test.panic-path-preview')==['blocked','wait-response-expired']
+        expected=[0,0,2,1,0,0,1,2,1,2,1,1,3]
+        do(s,202); assert state(s)==expected
+    finally: s.close()

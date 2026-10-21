@@ -618,3 +618,9 @@ for required externally adjudicated scores, rolls, legality, final injury and
 replay evidence. This adapter commits actual resources and effects, but does not
 complete automatic expanded combat or its critical consequence dispatch. The
 compatibility and lifecycle assertions remain unrun.
+
+The same recorded-strike executor also accepts a currently executing
+`RpgExpandedPathWaitInterruption` whose declaration still owns its original turn.
+It uses that declaration's permission receipt and spends ammunition only at the
+actual trigger. This adds a concrete stationary Wait-attack route; it does not
+broaden the supported strike outcomes or complete other Wait conversions.

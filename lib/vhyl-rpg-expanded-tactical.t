@@ -1121,6 +1121,7 @@ class RpgExpandedPathInjuryInterruption: object
     injuryEvidence = nil
     result = nil
     boundFacts = nil
+    uniqueEffect() { return self.wound; }
     facts()
     {
         if (self.move == nil || !self.move.ofKind(RpgExpandedInterruptedPathMove)
@@ -1155,6 +1156,14 @@ class RpgExpandedPathInjuryInterruption: object
         { value.reason = 'path-interruption-author-facts'; return value; }
         if (self.wound.bodyPart != nil)
         { value.reason = 'path-interruption-body-part-adapter-required'; return value; }
+        local geometry = self.assessGeometry(stage); if (geometry.status != 'ready') return geometry;
+        local injury = self.wound.assess();
+        if (injury.status == 'reused') rpgExpandedReject('path-interruption-used-wound');
+        return injury;
+    }
+    assessGeometry(stage)
+    {
+        local value = new RpgExpandedResult();
         local landing = rpgExpandedHex(stage[1],stage[2]);
         if (rpgExpandedHexDistance(landing,self.fallUpper) != 1)
             rpgExpandedReject('path-interruption-fall-footprint');
@@ -1166,9 +1175,7 @@ class RpgExpandedPathInjuryInterruption: object
         if (occupancy.status != 'ready') return occupancy;
         foreach (local figure in occupancy.occupants)
             if (figure != self.move.path.figure) { value.reason = 'path-interruption-fall-occupied'; return value; }
-        local injury = self.wound.assess();
-        if (injury.status == 'reused') rpgExpandedReject('path-interruption-used-wound');
-        return injury;
+        value.status = 'ready'; return value;
     }
     apply(stage)
     {
@@ -1243,9 +1250,9 @@ class RpgExpandedInterruptedPathMove: RpgExpandedPathMove
         local last = 0; local wounds = [];
         foreach (local interruption in self.interruptions)
         {
-            if (interruption.afterLeg <= last || holds(wounds,interruption.wound))
+            if (interruption.afterLeg <= last || holds(wounds,interruption.uniqueEffect()))
                 rpgExpandedReject('interrupted-path-order');
-            last = interruption.afterLeg; wounds = wounds + [interruption.wound];
+            last = interruption.afterLeg; wounds = wounds + [interruption.uniqueEffect()];
             local consequence = interruption.assess(value.pathResult.stages[last]);
             if (consequence.status != 'ready') { value.status = 'blocked'; value.reason = consequence.reason; return value; }
         }
@@ -1290,5 +1297,76 @@ class RpgExpandedInterruptedPathMove: RpgExpandedPathMove
         self.boundDefinition = value.definition; self.result = value; value.status = 'resolved';
         self.fighter.profile.pathMoves = self.fighter.profile.pathMoves + [self]; self.boundOutcome = self.outcomeFacts();
         return value;
+    }
+;
+
+/** B366/B385: a declared stationary attack interrupts a path at its trigger hex. */
+class RpgExpandedPathWaitInterruption: RpgExpandedPathInjuryInterruption
+    declaration = nil
+    strike = nil
+    executingStrike = nil
+    uniqueEffect() { return self.strike; }
+    facts()
+    {
+        if (self.move == nil || !self.move.ofKind(RpgExpandedInterruptedPathMove)
+            || self.declaration == nil || !self.declaration.ofKind(RpgExpandedWaitDeclaration)
+            || self.strike == nil || !self.strike.ofKind(RpgExpandedAdjudicatedStrike)
+            || self.strike.attacker != self.declaration.fighter || self.strike.defender != self.move.fighter
+            || self.strike.weapon != self.declaration.weapon || self.strike.mode != self.declaration.mode
+            || self.declaration.battle != self.move.battle || self.declaration.targetProfile != self.move.fighter.profile
+            || self.fallUpper == nil || !self.fallUpper.ofKind(RpgExpandedHex) || self.wound != nil)
+            rpgExpandedReject('path-wait-definition');
+        rpgInteger(self.afterLeg,1,self.move.path.legs.length()); self.fallUpper.validate();
+        return [self,self.move,self.afterLeg,self.declaration,self.strike,self.fallUpper.q,self.fallUpper.r,
+            self.approved,self.triggerEvidence] + self.declaration.facts() + self.strike.facts();
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.result == nil || self.boundFacts == nil || facts.length() != self.boundFacts.length()
+            || self.executingStrike || self.declaration.triggeredBy != self || self.strike.result != self.result
+            || self.move.result == nil || self.move.result.completedLegs < self.afterLeg)
+            rpgExpandedReject('path-wait-receipt');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('path-wait-binding');
+        self.declaration.validateReceipt(); self.strike.validateReceipt(); return nil;
+    }
+    assess(stage)
+    {
+        self.facts(); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.boundFacts != nil) rpgExpandedReject('path-wait-uncommitted');
+        if (!self.approved || self.triggerEvidence == nil || self.triggerEvidence == '')
+        { value.reason = 'path-wait-trigger-evidence'; return value; }
+        if (self.declaration.declaredAt == nil) { value.reason = 'path-wait-not-declared'; return value; }
+        value.reason = self.declaration.responseReason(); if (value.reason != nil) return value;
+        if (stage[1] != self.declaration.triggerHex.q || stage[2] != self.declaration.triggerHex.r)
+        { value.reason = 'path-wait-trigger-position'; return value; }
+        if (self.strike.wound != nil && self.strike.wound.bodyPart != nil)
+        { value.reason = 'path-wait-body-part-adapter-required'; return value; }
+        local geometry = self.assessGeometry(stage); if (geometry.status != 'ready') return geometry;
+        value = self.strike.assess();
+        if (value.status == 'reused') rpgExpandedReject('path-wait-used-strike');
+        return value;
+    }
+    permitsStrike(strike)
+    {
+        return strike == self.strike && self.executingStrike && self.move.executing
+            && self.move.executingLeg == self.afterLeg && self.move.result == nil
+            && self.declaration.triggeredBy == nil && self.declaration.responseReason() == nil;
+    }
+    apply(stage)
+    {
+        if (!self.move.executing || self.move.result != nil || self.move.executingLeg != self.afterLeg)
+            rpgExpandedReject('path-wait-execution-owner');
+        local value = self.assess(stage); if (value.status != 'ready') rpgExpandedReject('path-wait-changed');
+        self.boundFacts = self.facts(); self.executingStrike = true;
+        self.result = self.strike.apply(self);
+        if (self.result.status != 'resolved') rpgExpandedReject('path-wait-strike-changed');
+        self.executingStrike = nil; self.declaration.triggeredBy = self; self.declaration.boundTrigger = self;
+        self.declaration.fighter.maneuver = 'attack';
+        if (self.move.fighter.profile.posture == 'lying')
+            self.move.path.figure.upperCoordinate = rpgExpandedHex(self.fallUpper.q,self.fallUpper.r);
+        return self.result;
     }
 ;

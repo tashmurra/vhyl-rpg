@@ -551,7 +551,29 @@ The [interrupted panic fixture](../../tests/fixtures/expanded-panic-interrupted-
 and `test_panic_interrupted_path` specify two-trigger continuation, collapse at the
 first trigger, an unspent later injury, reduced-allowance stopping, preview purity,
 mutation rejection and persistence. Assertions are authored and unrun.
-Wait declaration, opportunity-fire attacks, nested interrupts and automatic
-attack resolution remain outstanding. B366 permits a mover to resume after a
-Wait interrupt; the injury executor supplies staged movement but does not itself
-implement that attack procedure.
+A stationary declared Wait attack is connected by the adapter below. General
+opportunity fire, nested interrupts and automatic attack resolution remain
+outstanding. B366 permits a mover to resume after a Wait interrupt; the staged
+executor retains the remaining path for the supported response.
+
+### A declared stationary Wait attack
+
+Place `RpgExpandedPathWaitInterruption` in the staged move's `interruptions` list.
+It inherits `move`, `afterLeg`, `fallUpper`, approval and trigger evidence. Supply
+`declaration` (an already committed `RpgExpandedWaitDeclaration`) and `strike`
+(a fresh `RpgExpandedAdjudicatedStrike`). Leave the inherited `wound` field empty:
+the strike owns its optional hit wound, so misses and successful defenses do not
+create injury. Attacker, defender, battle, weapon, mode and the reached trigger
+hex must match the declaration exactly.
+
+The waiting fighter spends a turn when declaring, not when the route triggers
+it. The interrupt commits the recorded attack at the reached hex without another
+clock tick. A surviving mover continues; a knocked-down mover retains the actual
+prone footprint and an unreached later trigger remains unspent. One declaration
+cannot trigger twice or remain live into its fighter's next turn.
+
+The [Wait fixture](../../tests/fixtures/expanded-panic-wait.t) and
+`test_panic_wait` specify hit/miss, expiry, rollback, undo, save continuation and
+one start-of-turn permission check. Assertions remain unrun. See the
+[health guide](health.md#declared-wait-responses) for the explicit stationary,
+ordinary-attack subset and remaining unsupported conversions.

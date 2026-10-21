@@ -99,7 +99,7 @@
         "tests/expanded.py::test_path_move",
         "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while full Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-back-side",
@@ -115,7 +115,7 @@
         "tests/expanded.py::test_path_move",
         "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while full Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-front-sidestep",
@@ -144,7 +144,7 @@
         "tests/expanded.py::test_path_move",
         "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while full Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-final-facing",
@@ -160,7 +160,7 @@
         "tests/expanded.py::test_path_move",
         "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while full Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-step",
@@ -185,7 +185,7 @@
         "tests/expanded.py::test_path_move",
         "tests/expanded.py::test_panic_interrupted_path"
       ],
-      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while Wait attack integration remains pending. Fixtures unrun."
+      "implementation_note": "Ordered single-hex path assessment composes costs, headings, occupancy and budget; owned Move execution and staged injury interruptions are implemented, while full Wait attack integration remains pending. Fixtures unrun."
     },
     {
       "id": "tactical-wait-intercept",
@@ -193,10 +193,12 @@
       "pages": "B385",
       "module": "tactical",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A declared wait can interrupt a path between hex entries. An actor who has not moved can take the allowed step and strike; a surviving mover resumes with remaining budget and updated state.",
-      "tests": [],
-      "implementation_note": "Staged injury interruption infrastructure now retains prefix movement, applies owned wounds and resumes or stops with actual geometry. Wait declaration and attack execution are still pending; this does not complete the procedure."
+      "tests": [
+        "tests/expanded.py::test_panic_wait"
+      ],
+      "implementation_note": "Owned stationary ordinary-attack Wait declarations expire at the next accepted turn. Matching staged routes execute recorded strikes once without advancing the clock again, then resume or stop. Other conversions, response steps, general opportunity fire and automatic attack/critical resolution remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "tactical-reach",

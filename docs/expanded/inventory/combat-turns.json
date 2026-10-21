@@ -441,9 +441,12 @@
       "pages": "B366",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Wait stores a precise trigger and response before events occur. Eligible conversions are attack, feint, committed attack or ready, with committed option specified before acting. A reflex outside these cases needs author approval of a single-motion response.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_panic_wait"
+      ],
+      "implementation_note": "Owned stationary ordinary-attack Wait declarations expire at the next accepted turn. Matching staged routes execute recorded strikes once without advancing the clock again, then resume or stop. Other conversions, response steps, general opportunity fire and automatic attack/critical resolution remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "combat-turn-wait-expiry",
@@ -451,9 +454,12 @@
       "pages": "B366",
       "module": "combat",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A wait triggers only before the actor\u2019s next turn and interrupts another actor, who resumes afterward. Preserve suspended operation state and prevent a second trigger from spending the same wait.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_panic_wait"
+      ],
+      "implementation_note": "Owned stationary ordinary-attack Wait declarations expire at the next accepted turn. Matching staged routes execute recorded strikes once without advancing the clock again, then resume or stop. Other conversions, response steps, general opportunity fire and automatic attack/critical resolution remain unsupported. Fixtures authored, unrun."
     },
     {
       "id": "combat-turn-wait-cover",

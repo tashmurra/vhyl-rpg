@@ -2003,3 +2003,10 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   uses an explicit authored stop policy. The battle still owns the sole round
   clock. Wait attacks and other interrupt procedures remain incomplete; lifecycle
   fixtures are authored and unrun while checks remain paused.
+
+- Connected a declared stationary Wait attack to staged panic routes. The waiting
+  fighter spends the declaration turn, expires at its next accepted turn, and
+  commits a matching recorded strike without another clock tick or repeated
+  start-of-turn consciousness roll. Misses resume movement; injuries can stop it.
+  Broader Wait conversions and automatic attack resolution remain partial. New
+  lifecycle fixtures are authored and unrun; checks remain paused.
