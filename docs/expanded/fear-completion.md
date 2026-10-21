@@ -92,6 +92,18 @@ recovery has been removed. These additional cases remain unrun.
 Row 21 now has a concrete world movement activity and an owned active-action
 health gate. It relocates the actor, retains failed health attempts, checks Move
 and the recovery deadline, and rejects active-combat/tactical routes. The existing
-crying fixture now specifies its lifecycle. Tactical row-21 routing and other
-pointless activities remain outstanding; row-33 tactical routes are separate.
+crying fixture now specifies its lifecycle. Tactical row-21 routing now uses `RpgExpandedTimedPanicPath`, with an owned
+Move maneuver and health gate. Its registered fixture specifies actual hex
+movement, shared-round timing and failed exertion. Other pointless activities
+remain outstanding; row-33 tactical routes are separate.
 No builds or tests have run for this increment.
+
+## Stress terminology
+
+There is no implemented general accumulating stress/sanity track: no persistent
+stress balance, accumulation schedule, threshold progression or stress-recovery
+ledger. References to stress in the current fear implementation mean specific
+postbattle or phantom-voice triggers and their owned follow-up events. They must
+not be presented as evidence that a general track exists. Such a track needs an
+identified source procedure or an explicitly selected campaign design; no point
+values, thresholds or recovery rates are invented by this conversion.

@@ -9841,6 +9841,8 @@ def test(build):
     test_panic_interrupted_path(Session,interrupted_path,build.out)
     panic_path = build.build('expanded-panic-path',ROOT / 'tests/fixtures/expanded-panic-path.t')
     test_panic_path(Session,panic_path,build.out)
+    timed_panic_path = build.build('expanded-timed-panic-path',ROOT / 'tests/fixtures/expanded-timed-panic-path.t')
+    test_timed_panic_path(Session,timed_panic_path,build.out)
     panic_fall = build.build('expanded-panic-fall',ROOT / 'tests/fixtures/expanded-panic-fall.t')
     test_panic_fall(Session,panic_fall,build.out)
     fear_event_traits = build.build('expanded-fear-event-traits',ROOT / 'tests/fixtures/expanded-fear-event-traits.t')
@@ -29293,3 +29295,51 @@ def test_panic_critical_hit(Session,bundle,out):
         try:
             do(s,670); do(s,780); do(s,code); do(s,442); assert state(s)==initial
         finally: s.close()
+
+
+def test_timed_panic_path(Session,bundle,out):
+    """Row 21 tactical Move uses one health permission and the round clock. Unrun."""
+    def do(s,code): s.action(2278,code)
+    def state(s):
+        do(s,804)
+        return last(s,'test.timed-panic-path')
+    initial = [0,0,0,0,0,1,0,1]
+    moved = [2,0,1,1,1,2,0,1]
+    path = out/'timed-panic-path.zsave'
+    s = Session(bundle)
+    try:
+        do(s,800)
+        for code in (801,803,805,807):
+            do(s,code)
+            assert state(s) == initial
+        do(s,802); s.command('undo'); assert state(s) == initial
+        do(s,802); do(s,802); assert state(s) == moved
+        s.command(f':save {path}\n@2279')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2279')
+        do(s,802); assert state(s) == moved
+        do(s,103); assert state(s) == [2,0,1,1,1,1,1,1]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,800); do(s,806); do(s,802)
+        assert state(s) == [2,0,1,1,1,1,1,1]
+    finally: s.close()
+    for change,reason in [(808,'timed-panic-path-inactive-or-due'),(809,'timed-panic-path-evidence'),
+                          (106,'path-move-interruption-facts')]:
+        s = Session(bundle)
+        try:
+            do(s,800); do(s,change); before = state(s)
+            do(s,801); do(s,802)
+            assert last(s,'test.timed-panic-path-result') == ['blocked',reason]
+            assert state(s) == before
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,800); do(s,109); do(s,802)
+        assert state(s) == [0,0,0,1,1,2,0,4]
+        do(s,802); assert state(s) == [0,0,0,1,1,2,0,4]
+    finally: s.close()

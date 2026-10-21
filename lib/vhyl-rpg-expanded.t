@@ -1230,3 +1230,8 @@ class RpgExpandedStrikeCriticalHit: object
     facts(strike) { rpgExpandedReject('strike-critical-combat-required'); }
     assess(strike) { rpgExpandedReject('strike-critical-combat-required'); }
 ;
+
+/** Optional tactical timed-panic permission hook. */
+modify RpgExpandedProfile
+    timedPanicAuthorization(request) { return nil; }
+;

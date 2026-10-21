@@ -1435,3 +1435,120 @@ class RpgExpandedDefenseFallPosition: RpgExpandedStrikeDefensePosition
         return nil;
     }
 ;
+
+/** One row-21 Move turn; the battle owns elapsed time, not the panic activity. */
+class RpgExpandedTimedPanicPath: object
+    id = nil
+    episode = nil
+    move = nil
+    maneuver = nil
+    approved = nil
+    evidence = nil
+    executing = nil
+    result = nil
+    boundFacts = nil
+    boundOutcome = nil
+    startedAt = nil
+    completedAt = nil
+    facts()
+    {
+        if (self.id == nil || self.id == '' || self.episode == nil || !self.episode.ofKind(RpgExpandedFearPanic)
+            || self.move == nil || !self.move.ofKind(RpgExpandedPathMove)
+            || self.move.fighter.profile != self.episode.context.profile
+            || self.maneuver == nil || !self.maneuver.ofKind(RpgExpandedTimedPanicPathManeuver)
+            || self.maneuver.operation != self.move || self.maneuver.timedPanicActivity != self
+            || self.maneuver.healthGate == nil || !self.maneuver.healthGate.ofKind(RpgExpandedTimedPanicPathGate)
+            || self.maneuver.healthGate.timedPanicActivity != self)
+            rpgExpandedReject('timed-panic-path-definition');
+        return [self.id,self.episode,self.move,self.maneuver,self.maneuver.healthGate,self.approved,self.evidence]
+            + self.move.definition();
+    }
+    permits(request)
+    {
+        return self.result == nil && self.approved && self.evidence != nil && self.evidence != ''
+            && self.episode != nil && self.episode.startedAt != nil && self.episode.completedAt == nil
+            && self.episode.context.profile.fearPanic == self.episode && self.episode.behaviorKind == 'agitated-motion'
+            && rpgLedger.seconds < self.episode.nextCheckAt && self.maneuver != nil
+            && (request == self.maneuver || request == self.maneuver.healthGate);
+    }
+    assess()
+    {
+        local facts = self.facts(); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (self.boundFacts == nil || facts.length() != self.boundFacts.length()
+                || !holds(self.episode.activities,self)) rpgExpandedReject('timed-panic-path-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundFacts[i]) rpgExpandedReject('timed-panic-path-binding');
+            if (self.boundOutcome == nil || self.result != self.boundOutcome[1]
+                || self.result.status != self.boundOutcome[2] || self.result.outcome != self.boundOutcome[3]
+                || self.startedAt != self.boundOutcome[4] || self.completedAt != self.boundOutcome[5])
+                rpgExpandedReject('timed-panic-path-outcome');
+            self.episode.assess();
+            if (self.maneuver.healthGate.assess().status != 'reused') rpgExpandedReject('timed-panic-path-gate-history');
+            if (self.result.outcome == 'incapacitated')
+            {
+                if (self.move.result != nil || self.maneuver.healthGate.result.allowed) rpgExpandedReject('timed-panic-path-incapacity');
+            }
+            else if (self.move.assess().status != 'reused') rpgExpandedReject('timed-panic-path-move-history');
+            value.status = 'reused'; value.seconds = self.completedAt-self.startedAt; return value;
+        }
+        if (self.boundFacts != nil || self.boundOutcome != nil || self.startedAt != nil || self.completedAt != nil)
+            rpgExpandedReject('timed-panic-path-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'timed-panic-path-evidence'; return value; }
+        if (self.episode.startedAt == nil) { value.reason = 'timed-panic-path-episode'; return value; }
+        self.episode.assess();
+        if (!self.permits(self.maneuver)) { value.reason = 'timed-panic-path-inactive-or-due'; return value; }
+        foreach (local prior in self.episode.activities)
+            if (prior.id == self.id) rpgExpandedReject('timed-panic-path-duplicate');
+        value.reason = self.maneuver.available(self.move.fighter); if (value.reason != nil) return value;
+        value.reason = self.move.fighter.profile.healthManeuverReasonFor('move',self.maneuver);
+        if (value.reason != nil) return value;
+        value.reason = self.maneuver.healthAvailable(self.move.fighter); if (value.reason != nil) return value;
+        value.seconds = self.move.battle.index == self.move.battle.order.length() ? 1 : 0;
+        if (value.seconds > 0) rpgLedger.validateAdvance(value.seconds);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.facts(); local start = rpgLedger.seconds; local seconds = value.seconds;
+        self.executing = true; value = self.move.battle.step(self.move.fighter,self.maneuver); self.executing = nil;
+        if (value.status != 'resolved' || rpgLedger.seconds != start+seconds) rpgExpandedReject('timed-panic-path-turn-changed');
+        local current = self.facts();
+        if (current.length() != facts.length()) rpgExpandedReject('timed-panic-path-changed');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != current[i]) rpgExpandedReject('timed-panic-path-changed');
+        self.boundFacts = facts; self.startedAt = start; self.completedAt = rpgLedger.seconds; self.result = value;
+        self.boundOutcome = [value,value.status,value.outcome,self.startedAt,self.completedAt];
+        self.episode.activities = self.episode.activities + [self]; return value;
+    }
+;
+class RpgExpandedTimedPanicPathManeuver: RpgExpandedPathMoveManeuver
+    timedPanicActivity = nil
+;
+class RpgExpandedTimedPanicPathGate: RpgExpandedActionGate
+    timedPanicActivity = nil
+    requiresMovement = true
+    healthPermissionReason()
+    {
+        if (!self.profile.timedPanicAuthorization(self)) return 'timed-panic-path-permission';
+        return self.profile.healthEffortReasonFor(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement,self);
+    }
+    apply()
+    {
+        if (self.result == nil && (self.timedPanicActivity == nil || !self.timedPanicActivity.executing))
+            rpgExpandedReject('timed-panic-path-gate-owner');
+        return inherited();
+    }
+;
+modify RpgExpandedProfile
+    timedPanicAuthorization(request)
+    {
+        if (request == nil || !(request.ofKind(RpgExpandedTimedPanicPathManeuver)
+            || request.ofKind(RpgExpandedTimedPanicPathGate))) return inherited(request);
+        local activity = request.timedPanicActivity;
+        return activity != nil && activity.ofKind(RpgExpandedTimedPanicPath)
+            && activity.episode != nil && activity.episode.context.profile == self && activity.permits(request);
+    }
+;

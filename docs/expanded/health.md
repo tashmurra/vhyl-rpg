@@ -3443,8 +3443,8 @@ B361). Set a unique `id`, ready `RpgExpandedFearContext`, `approved = true`,
 `behavior` text. Kinds are `cry`, `agitated-motion` or `other-pointless`; the
 author describes the actual pointless behavior. The record does not invent a
 route, move the character, choose targets or charge an action. Stationary crying and authored non-tactical movement have concrete activities
-below. Other pointless behaviors and tactical timed-panic movement remain
-incomplete.
+below. Other pointless behaviors remain incomplete. Tactical movement uses the
+owned Move-turn adapter described below.
 
 `assess()` is pure. `apply()` rolls one die and records an initial deadline that
 many minutes after the shared clock, without immediately advancing time. The
@@ -4641,3 +4641,35 @@ transaction. This adapter does not supply tactical movement or hazard resolution
 evidence rejection, failed consciousness, replay, rollback, undo and separate
 process save continuation. All cases are authored and unrun while checks remain
 paused.
+
+
+### Tactical movement during timed panic
+
+With the tactical module installed, `RpgExpandedTimedPanicPath` executes one
+actual Move turn for row 21. Supply a unique `id`, active `episode` whose
+`behaviorKind` is `agitated-motion`, `move` (`RpgExpandedPathMove`), `maneuver`,
+`approved` and original `evidence` explaining the selected pointless route.
+Use `RpgExpandedTimedPanicPathManeuver` with `operation = move` and a fresh
+`RpgExpandedTimedPanicPathGate`; both point back through `timedPanicActivity`.
+The gate belongs to the moving profile and requires ordinary permission evidence.
+The path owns its geometry and interruption facts through the existing tactical
+interfaces. This activity does not select a destination or invent hazards.
+
+Call the activity's `assess()` or `apply()`, rather than stepping the maneuver or
+executing its gate directly. Assessment validates the live episode, path, current
+fighter, independent health restrictions and the next recovery boundary. A due
+panic check must resolve before another Move can begin. Execution spends one
+battle turn and one health permission. The shared clock advances only when the
+battle round ends; the activity adds no second or extra recovery roll. Failed
+exertion records an incapacitated turn without installing a path movement receipt.
+
+The retained activity binds the path definition, permission and outcome to the
+episode. Repeating it validates those receipts and does not move or charge again.
+Use a fresh activity, maneuver, path and gate for the next Move turn. Interrupted
+paths retain their existing concrete interruption contracts. Other pointless
+activities still require implementation; this does not authorize arbitrary
+purposeful actions during panic.
+
+`test_timed_panic_path` specifies preview, direct-execution rejection, actual hex
+movement, failed exertion, deadline rejection, shared-round timing, rollback, undo
+and cross-process continuation. These fixtures are unrun while checks are paused.

@@ -8146,14 +8146,16 @@ modify RpgExpandedProfile
     {
         local reason = inherited(purpose,mentalAbility,speech,movement,authorization); if (reason != nil) return reason;
         if (self.activeFearPanic() && !holds(['rest','do-nothing'],purpose)
-            && !(authorization != nil && authorization.ofKind(RpgExpandedPanicMovementGate)
-                && authorization.permits(self,purpose,movement))) return 'fear-panic-purposeful-action';
+            && !((authorization != nil && authorization.ofKind(RpgExpandedPanicMovementGate)
+                && authorization.permits(self,purpose,movement))
+                || self.timedPanicAuthorization(authorization))) return 'fear-panic-purposeful-action';
         return nil;
     }
     healthManeuverReasonFor(kind,request)
     {
         local reason = inherited(kind,request); if (reason != nil) return reason;
-        return self.activeFearPanic() && kind != 'nothing' ? 'fear-panic-purposeful-maneuver' : nil;
+        return self.activeFearPanic() && kind != 'nothing' && !self.timedPanicAuthorization(request)
+            ? 'fear-panic-purposeful-maneuver' : nil;
     }
 ;
 /** Concrete stationary crying interval; author text supplies presentation only. */
@@ -11611,5 +11613,18 @@ class RpgExpandedPanicMovementGate: RpgExpandedActionGate
         if (self.result == nil && (self.activity == nil || !self.activity.executing))
             rpgExpandedReject('panic-movement-gate-owner');
         return inherited();
+    }
+;
+
+/** Tactical module supplies the concrete timed-panic path authorization. */
+modify RpgExpandedProfile
+    healthManeuverRequestReason(request)
+    {
+        if (self.timedPanicAuthorization(request))
+        {
+            if (!request.timedPanicActivity.executing) return 'timed-panic-path-owner';
+            return self.healthManeuverReasonFor(request.kind,request);
+        }
+        return inherited(request);
     }
 ;
