@@ -911,3 +911,60 @@ class RpgExpandedRecordedCriticalHit: RpgExpandedStrikeCriticalHit
         value.status = 'ready'; return value;
     }
 ;
+
+/** B124 ranged/reload constraints. This assesses a choice; it never performs a turn. */
+class RpgExpandedRageRangedChoice: object
+    fighter = nil
+    target = nil
+    distanceYards = nil
+    action = nil
+    firearm = nil
+    shots = 0
+    quickDrawConfirmed = nil
+    reloadSeconds = nil
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        if (self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter) || self.fighter.profile == nil
+            || self.fighter.weapon == nil || !self.fighter.weapon.ofKind(RpgLiteWeapon))
+            rpgExpandedReject('rage-ranged-fighter');
+        local weapon = self.fighter.weapon; local mode = self.fighter.mode();
+        local value = new RpgExpandedRapidFireResult();
+        rpgInteger(self.distanceYards,0,1000000); rpgInteger(self.shots,0,1000000);
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'rage-ranged-author-facts'; return value; }
+        if (!holds(self.fighter.profile.equipment,weapon) || !weapon.usableBy(self.fighter.profile)
+            || !mode.ranged || mode.thrown)
+        { value.reason = 'rage-ranged-weapon'; return value; }
+        if (self.action == 'aim') { value.reason = 'rage-no-aim'; return value; }
+        if (self.action == 'reload')
+        {
+            if (!self.firearm || self.shots != 0 || self.target != nil)
+            { value.reason = 'rage-reload-definition'; return value; }
+            local ordinary = rpgLiteReloadSeconds(self.fighter.profile,weapon,mode);
+            if (ordinary == nil) { value.reason = 'rage-reload-unavailable'; return value; }
+            /* The author supplies the actual quick-draw procedure, not a free speed bonus. */
+            if (!self.quickDrawConfirmed || self.reloadSeconds == nil)
+            { value.reason = 'rage-reload-quick-draw-required'; return value; }
+            rpgInteger(self.reloadSeconds,1,1000000);
+            if (self.reloadSeconds > 1) { value.reason = 'rage-reload-too-slow'; return value; }
+            value.seconds = self.reloadSeconds; value.status = 'ready'; return value;
+        }
+        if (self.action != 'attack') { value.reason = 'rage-ranged-choice-unsupported'; return value; }
+        if (self.target == nil || !self.target.ofKind(RpgLiteFighter) || self.target == self.fighter)
+            rpgExpandedReject('rage-ranged-target');
+        if (self.distanceYards <= 20) { value.reason = 'rage-ranged-distance'; return value; }
+        if (!weapon.ready) { value.reason = 'rage-ranged-not-ready'; return value; }
+        rpgInteger(weapon.ammunition,0,1000000); rpgInteger(mode.rof,1,1000000);
+        if (weapon.ammunition == 0) { value.reason = 'rage-empty-draw-or-charge'; return value; }
+        local required = weapon.ammunition < mode.rof ? weapon.ammunition : mode.rof;
+        if (self.firearm && self.shots != required)
+        { value.reason = 'rage-maximum-fire-required'; value.shots = required; return value; }
+        if (self.shots < 1 || self.shots > mode.rof || self.shots > weapon.ammunition)
+        { value.reason = 'rage-ranged-shots'; return value; }
+        if (self.quickDrawConfirmed || self.reloadSeconds != nil)
+        { value.reason = 'rage-ranged-unused-reload'; return value; }
+        value.shots = self.shots; value.status = 'ready'; return value;
+    }
+;

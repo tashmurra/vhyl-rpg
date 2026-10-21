@@ -643,3 +643,30 @@ appearance effects must not disappear into an ordinary damage approximation.
 Final injury remains an explicitly evidenced author calculation. This is partial
 attack coverage; automatic damage rolls and the full critical-miss tables are
 still unfinished. All new integration fixtures are authored and unrun.
+
+
+### Ranged-choice prerequisite for uncontrolled rage
+
+`RpgExpandedRageRangedChoice` assesses the full-2008 B124 ranged and reload
+restrictions without executing a turn. Supply `fighter`, a non-thrown ranged
+weapon in that fighter's actual equipment, `action`, approval and evidence.
+For an attack, supply the target fighter, actual `distanceYards`, `firearm`
+classification and `shots`. The mode's `rof` and the weapon's actual ammunition
+bound the assessment. A firearm must fire the lesser of its maximum rate and
+remaining ammunition. Attacks at twenty yards or closer reject; twenty-one yards
+qualifies. Aiming rejects, and an empty weapon requires a draw-or-charge choice.
+
+For `action = 'reload'`, omit the target and set shots to zero. The ordinary
+reload eligibility must succeed. Supply `quickDrawConfirmed` and the actual
+`reloadSeconds` from the separately resolved weapon/quick-draw procedure. The
+assessment requires at most one second; it does not invent a skill bonus or
+convert an ordinary reload into a faster one. Its evidence must establish those
+facts. Assessment never changes ammunition, reserves, time or randomness.
+
+This prerequisite does not implement the full rage combat policy. It excludes
+thrown weapons and does not establish visibility, hostility, tactical reach,
+turn ownership, attack legality or injury. The later episode/maneuver adapter
+must establish those facts and commit the actual operation. Melee requirements,
+moving attacks, drawing another weapon, activation and exit remain unfinished.
+`test_rage_ranged` specifies range, ammunition, firing-rate and reload boundaries
+and repeated-preview purity; the fixture is registered and unrun.

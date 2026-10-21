@@ -53,9 +53,10 @@
       "pages": "B124",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A foe more than twenty yards away permits a ranged attack without aim. Firearms use maximum firing rate until empty; reloading is allowed only when the weapon and quick-draw capability permit completion in at most one second. Otherwise draw another weapon or charge. Preserve ammunition and actual reach/distance.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_rage_ranged"],
+      "validation_note": "Pure non-thrown ranged assessment uses actual owned weapon ammunition/rof, strict distance greater than twenty, no aiming and explicitly evidenced quick-draw reload duration at most one second. Boundary and purity fixtures authored and unrun. No turn, attack, reload, draw-or-charge execution or rage episode activation is implemented by this assessment."
     },
     {
       "id": "disadvantages-b-rage-injury",

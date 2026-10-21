@@ -245,3 +245,11 @@ and replay retains the original contributing wounds after time advances.
 Mutation, rollback, undo and save cases are registered but unrun. No immunity
 switches or incomplete rage activation were introduced; entry must still consume
 the receipt atomically with a complete episode, combat policy and exit procedure.
+
+
+The ranged-choice prerequisite now assesses actual owned weapon ammunition and
+rate of fire, the strict beyond-twenty-yards exception, the aim prohibition and
+recorded quick-draw reload eligibility. Its boundary fixtures are unrun. It does
+not execute a combat turn or activate rage; melee/closing choices, injury rules
+and exit procedures remain outstanding. This assessment alone is not evidence
+of completed frenzy behavior.

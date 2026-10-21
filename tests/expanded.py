@@ -9833,6 +9833,8 @@ def test(build):
     test_volatile_temper(Session,volatile_temper,build.out)
     rage_window = build.build('expanded-rage-injury-window',ROOT / 'tests/fixtures/expanded-rage-injury-window.t')
     test_rage_injury_window(Session,rage_window,build.out)
+    rage_ranged = build.build('expanded-rage-ranged',ROOT / 'tests/fixtures/expanded-rage-ranged.t')
+    test_rage_ranged(Session,rage_ranged,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29836,3 +29838,22 @@ def test_rage_injury_window(Session,bundle,out):
         s.command(f':restore {path}\n@2251'); do(s,904); do(s,907); do(s,911)
         assert last(s,'test.rage-receipt') == [1,3,2,0]
     finally: s.close()
+
+
+def test_rage_ranged(Session,bundle,out):
+    cases = [([],['ready',None,2,2,6,0,0]),
+             ([921],['blocked','rage-ranged-distance',0,2,6,0,0]),
+             ([922],['blocked','rage-no-aim',0,2,6,0,0]),
+             ([923],['blocked','rage-maximum-fire-required',2,2,6,0,0]),
+             ([924],['blocked','rage-empty-draw-or-charge',0,0,6,0,0]),
+             ([925],['ready',None,3,6,6,0,0]),
+             ([926],['blocked','rage-reload-quick-draw-required',0,2,6,0,0]),
+             ([926,927],['ready',None,0,2,6,0,0]),
+             ([926,927,928],['blocked','rage-reload-too-slow',0,2,6,0,0])]
+    for codes,expected in cases:
+        s = Session(bundle)
+        try:
+            for code in codes: s.action(2250,code,4)
+            for _ in range(2):
+                s.action(2250,920,4); assert last(s,'test.rage-ranged') == expected
+        finally: s.close()
