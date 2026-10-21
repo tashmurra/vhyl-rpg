@@ -2856,8 +2856,8 @@ Level three rejects skill use through the common health check gate. These effect
 belong to the committed episode; they are not recalculated from later purchase
 edits. Raw attribute checks do not receive the skill penalty.
 
-**Incomplete:** concurrent-episode policy and complete external-sensory blocking
-are pending. The direct abridged fear and direct self-control routes reject
+**Incomplete:** concurrent-episode policy is pending; sensory integration is
+described below. The direct abridged fear and direct self-control routes reject
 explicitly while the purchase is active;
 a new occurrence overlapping an active one also rejects before randomness.
 Do not enable this purchase in a finished campaign yet. `test_intrusive_replay`
@@ -2895,3 +2895,26 @@ invent an initial roll or failure margin. Missing content or a missing low-score
 decision blocks before randomness. `test_replay_fear` specifies ordinary failure,
 exact/better success, both follow-ups, low-score choices, preflight rejection,
 rollback, undo and saved replay. It remains unrun.
+
+
+Severe episodes expose `profile.externalInputReason()` as the author interface
+for sensory disclosure outside a mechanical check. A non-nil reason means the
+actor receives no new external information: do not reveal the room, dialogue,
+warning or other sensory content. This does not erase prior knowledge or prevent
+an internal recollection. Custom narration must use this gate; the rules library
+cannot intercept arbitrary authored prose.
+
+Shared checks automatically require external input for Perception, the built-in
+vision/hearing/taste-smell/touch/nature-observation kinds and reading or speech
+comprehension. Custom contexts may declare `externalInput = 'required'` or
+`'none'` (default `'auto'`). `none` cannot bypass a known sensory check or the
+separate all-skill prohibition. Fear auras also consult the input gate. New owned
+fear events bind `stimulusInput` on their context: default `'external'` blocks
+unperceived stimuli; `'internal'` is an authored memory or internal experience.
+Postbattle and phantom-voice contexts use internal input by default. This gate
+applies before a new event; it does not invalidate or erase an already committed
+fear consequence when its follow-up subsequently blocks sensory input.
+
+`test_replay_senses` specifies no-dice sensory denial, attempted classification
+bypass, the author disclosure hook, aura gate, new external fear denial,
+independent skill blocking, expiry and saved continuation. It remains unrun.

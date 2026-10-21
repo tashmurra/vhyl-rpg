@@ -1275,3 +1275,7 @@ modify RpgExpandedProfile
     newFearReplayFollowup(entry) { return nil; }
     validateFearReplayFollowup(entry,followup) { rpgExpandedReject('fear-replay-traits-required'); }
 ;
+
+/** Author-defined input requirements for checks outside built-in sense contexts. */
+modify RpgLiteContext externalInput = 'auto';
+modify RpgExpandedProfile externalInputReason() { return nil; };

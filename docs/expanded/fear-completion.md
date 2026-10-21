@@ -395,3 +395,15 @@ voice ruling. Fixtures specify roll order/counts, omitted-content rejection,
 rollback, undo and save continuation, but remain unrun. Concurrent episodes and
 complete sensory incapacity remain outstanding before this trait can become an
 accepted fear acquisition.
+
+
+## Intrusive replay sensory boundary
+
+Severe replay episodes now gate shared sensory and Perception checks, explicitly
+external custom checks, fear-aura perception and new external fear events.
+`externalInputReason()` gives authors a concrete disclosure gate for narration
+outside checks; internal recollection remains distinct from new sensory input.
+Committed fear consequences remain valid when their follow-up creates sensory
+incapacity. Registered cases specify no-dice denial, classification bypass
+rejection, expiry and persistence, but are unrun. Episode overlap remains the
+next unresolved integration before enabling fear acquisition.

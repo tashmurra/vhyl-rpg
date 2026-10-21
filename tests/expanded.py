@@ -9870,6 +9870,8 @@ def test(build):
     test_replay_self_control(Session,replay_control,build.out)
     replay_fear = build.build('expanded-replay-fear',ROOT / 'tests/fixtures/expanded-replay-fear.t')
     test_replay_fear(Session,replay_fear,build.out)
+    replay_senses = build.build('expanded-replay-senses',ROOT / 'tests/fixtures/expanded-replay-senses.t')
+    test_replay_senses(Session,replay_senses,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30420,3 +30422,29 @@ def test_replay_fear(Session,bundle,out):
             for code in setup: do(s,code)
             do(s,1048); assert state(s) == [0,0,0,0,0,None]
         finally: s.close()
+
+
+def test_replay_senses(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    blocked = 'intrusive-replay-external-input-unavailable'
+    expected = [blocked,blocked,blocked,blocked,None,6]
+    s = Session(bundle)
+    path = out/'replay-senses.zsave'
+    try:
+        do(s,1012); do(s,1014); do(s,1060)
+        assert last(s,'test.replay-senses') == expected
+        do(s,1061); do(s,1060)
+        assert last(s,'test.replay-senses') == expected
+        do(s,1062); assert last(s,'test.replay-external-fear') == [blocked,6]
+        do(s,1063); do(s,1060)
+        assert last(s,'test.replay-senses') == expected[:4]+['intrusive-replay-skill-unavailable',6]
+        s.command('undo')
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1060)
+        assert last(s,'test.replay-senses') == expected
+        do(s,1017); do(s,1060)
+        assert last(s,'test.replay-senses') == [None,None,None,None,None,12]
+    finally: s.close()

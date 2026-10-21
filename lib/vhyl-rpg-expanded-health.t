@@ -9684,12 +9684,13 @@ modify RpgExpandedMarchStepGroup
 
 modify RpgExpandedFearContext
     intrusiveReplayContent = nil
+    stimulusInput = 'external'
     eventFacts()
     {
         return [self.profile,self.approved,self.evidence,self.physicalRisk,self.cowardicePenalty,self.charging,
             self.purposeThreat,self.monsters,self.xenophiliaBonus,self.body,self.mutilationPenalty,self.dependentVictim,
             self.inCombat,self.monsterPenalty,self.hordeBand,self.touching,self.distance,self.remote,self.isolated,
-            self.adverseLighting,self.believesAlone,self.priorExperience,self.priorExposures24h,self.briefingBonus,self.intrusiveReplayContent];
+            self.adverseLighting,self.believesAlone,self.priorExperience,self.priorExposures24h,self.briefingBonus,self.intrusiveReplayContent,self.stimulusInput];
     }
 ;
 class RpgExpandedFearEventResult: RpgExpandedResult
@@ -9735,6 +9736,12 @@ class RpgExpandedFearEvent: object
     initialAssessment() { return self.context.assess(); }
     eventAssessment()
     {
+        if (!holds(['external','internal'],self.context.stimulusInput)) rpgExpandedReject('fear-stimulus-input');
+        if (self.result == nil && self.context.stimulusInput == 'external')
+        {
+            local reason = self.context.profile.externalInputReason();
+            if (reason != nil) { local blocked = new RpgExpandedFearAssessment(); blocked.reason = reason; return blocked; }
+        }
         local value = self.initialAssessment();
         if (value.score != nil && value.score < 3 && holds(['fear-score-unavailable',
             'phobia-control-unavailable','postbattle-self-control-unavailable'],value.reason))
@@ -10126,6 +10133,7 @@ class RpgExpandedPostbattleFearEvent: RpgExpandedFearEvent
 ;
 
 class RpgExpandedPostbattleFearContext: RpgExpandedFearContext
+    stimulusInput = 'internal'
     trait = nil
     dangerPenalty = 0
     eventFacts()
@@ -10911,6 +10919,7 @@ modify RpgExpandedEffort
 
 /** B148: an explicitly frightening cue from an owned disturbing-voice episode. */
 class RpgExpandedVoiceFearContext: RpgExpandedFearContext
+    stimulusInput = 'internal'
     voiceOccurrence = nil
     cue = nil
     eventFacts()

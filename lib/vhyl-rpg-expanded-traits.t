@@ -5660,3 +5660,22 @@ modify RpgExpandedProfile
         return inherited(giveIn);
     }
 ;
+
+modify RpgExpandedProfile
+    externalInputReason()
+    { return self.intrusiveReplaySeverity() == 3 ? 'intrusive-replay-external-input-unavailable' : inherited(); }
+    healthCheckReason(context)
+    {
+        local reason = inherited(context); if (reason != nil) return reason;
+        if (!holds(['auto','required','none'],context.externalInput)) rpgExpandedReject('external-input-classification');
+        local required = context.externalInput == 'required' || context.controllingAttribute() == rpgPerception
+            || holds(['vision','hearing','taste-smell','touch','nature-observation'],context.kind)
+            || context.understandsSpeech || context.written;
+        return required ? self.externalInputReason() : nil;
+    }
+    fearAuraPerceptionReason(aura)
+    {
+        local reason = self.externalInputReason();
+        return reason == nil ? inherited(aura) : reason;
+    }
+;
