@@ -1785,6 +1785,46 @@ def test_fear_quirk_stun(Session,bundle,out):
         assert state(second) == ([44,6,10,7,1,1,0,4,3],[0,2,1,1,0])
     finally: second.close()
 
+    # A fear recovery releases only its owned mental stun, never physical stun.
+    def incapacity(s):
+        s.action(2265)
+        return last(s,'test.quirk-incapacity')
+    s = Session(bundle)
+    try:
+        for code in [20,23,27,30]: s.action(2264,code)
+        overlap = [1,0,1,1,0,1,2]
+        assert incapacity(s) == overlap
+        s.action(2264,33)  # The ordinary recovery route cannot clear owned fear.
+        assert incapacity(s) == overlap
+        s.action(2264,25)  # Exception rolls back both recovery and its time/dice.
+        assert incapacity(s) == overlap
+        s.action(2264,24)
+        assert incapacity(s) == [1,0,0,0,1,4,3]
+        s.command('undo')
+        assert incapacity(s) == overlap
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in [20,23,31]: s.action(2264,code)
+        before_recovery = incapacity(s)
+        for code in [26,24,33]:
+            s.action(2264,code)
+            if code != 33:
+                assert last(s,'test.quirk-stun-recovery') == ['blocked','fear-recovery-observer-unavailable']
+            assert incapacity(s) == before_recovery
+    finally: s.close()
+    # A fixed-duration fear stun expires even while an independent cause keeps
+    # the patient unconscious and physically stunned; neither cause is cleared.
+    s = Session(bundle)
+    try:
+        for code in [32,20,30,31]: s.action(2264,code)
+        assert incapacity(s) == [1,1,1,1,0,0,0]
+        s.action(2264,23)
+        assert incapacity(s) == [1,1,0,0,1,0,2]
+        s.command('undo')
+        assert incapacity(s) == [1,1,1,1,0,0,0]
+    finally: s.close()
+
 
 def test_fear_faint(Session,bundle,out):
     def state(s):

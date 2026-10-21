@@ -65,3 +65,17 @@ backlog. Repeat this check when new dependencies or scope questions arise.
    this audit with observed results and push the final state to the existing PR.
 
 No completion claim or release follows from this audit alone.
+
+## Recovery ownership audit
+
+Source inspection found that fear-stun completion releases its owned mental-stun
+flag and episode pointer, leaving physical stun and unconsciousness unchanged.
+The ordinary stun-recovery entry point defers to an active owned fear episode.
+Checked recovery rejects an unconscious patient before time or dice are spent;
+fixed-duration rows still expire without curing the independent incapacity.
+
+`test_fear_quirk_stun` now specifies those overlapping conditions, recovery
+rollback, undo and timed expiry. These cases are **unrun**, and this source audit
+is not runtime verification. No additional independent mental-stun producer was
+found in the current libraries; authors directly overwriting the shared flag do
+not create a separately owned condition.

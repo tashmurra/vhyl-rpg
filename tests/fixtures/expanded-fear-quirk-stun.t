@@ -10,6 +10,10 @@ modify QuirkTestAction
     {
         local code = quirkInput.code;
         if (code < 20) return inherited(context);
+        if (code == 30) { quirkProfile.stunned = true; return nil; }
+        if (code == 31) { quirkProfile.unconscious = true; return nil; }
+        if (code == 32) { quirkStun.tableTotal = 4; quirkStun.quirkAcquisition = nil; return nil; }
+        if (code == 33) { rpgLiteRecoverStun(quirkProfile); return nil; }
         if (code == 23) { rpgSpendTime(2); return nil; }
         if (code == 27) { quirkProfile.willAdjustment = 10; return nil; }
         if (code == 28) { quirkStun.quirkAcquisition = nil; return nil; }
@@ -28,6 +32,11 @@ modify QuirkTestAction
 modify quirkInput
     reportExtraState()
     {
+        event('test.quirk-incapacity'); eventValue(quirkProfile.stunned ? 1 : 0);
+        eventValue(quirkProfile.unconscious ? 1 : 0); eventValue(quirkProfile.mentalStun ? 1 : 0);
+        eventValue(quirkProfile.expandedFearStun == quirkStun ? 1 : 0);
+        eventValue(quirkStun.completed ? 1 : 0); eventValue(rpgRandom.draws);
+        eventValue(rpgLedger.seconds);
         event('test.quirk-stun-state'); eventValue(quirkProfile.mentalStun ? 1 : 0);
         eventValue(quirkStun.initialEnd); eventValue(quirkStun.completed ? 1 : 0);
         eventValue(quirkStun.recoveries.length()); eventValue(quirkProfile.fatigue); return nil;
