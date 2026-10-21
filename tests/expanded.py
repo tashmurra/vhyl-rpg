@@ -9885,6 +9885,8 @@ def test(build):
     test_incuriosity_social(Session,incuriosity_social,build.out)
     indecision = build.build('expanded-indecision',ROOT / 'tests/fixtures/expanded-indecision.t')
     test_indecision(Session,indecision,build.out)
+    indecision_confusion = build.build('expanded-indecision-confusion',ROOT / 'tests/fixtures/expanded-indecision-confusion.t')
+    test_indecision_confusion(Session,indecision_confusion,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30677,3 +30679,49 @@ def test_indecision(Session,bundle,out):
             s.command(f':restore {path}\n@2251'); do(s,1121); do(s,1123)
             assert state(s) == [2,0,6,due,None,10]
         finally: s.close()
+
+
+    s = Session(bundle)
+    try:
+        do(s,1150); do(s,582); do(s,1151)
+        assert last(s,'test.indecision-acquisition') == [0,0,9,7,0]
+        do(s,581); do(s,581); do(s,1121); do(s,1151)
+        assert last(s,'test.indecision-acquisition') == [1,10,9,7,3]
+        assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
+    finally: s.close()
+
+def test_indecision_confusion(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1143)
+        return last(s,'test.decision-confusion')
+    for succeed in (False,True):
+        s = Session(bundle)
+        path = out/f'indecision-confusion-{succeed}.zsave'
+        reason = None if succeed else 'overstimulation-do-nothing'
+        expected = [2,3,1,int(not succeed),9,60,reason]
+        try:
+            do(s,1140)
+            if succeed: do(s,1142)
+            do(s,1141); assert state(s) == [0,0,0,0,0,0,None]
+            do(s,1121); do(s,1141)
+            assert state(s) == [1,1,0,0,3,0,'indecision-do-nothing']
+            do(s,1127); do(s,1128); do(s,1124)
+            assert state(s) == [1,1,0,0,3,60,'indecision-do-nothing']
+            do(s,1123); s.command('undo')
+            assert state(s) == [1,1,0,0,3,60,'indecision-do-nothing']
+            do(s,1123); do(s,1123); do(s,1141); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1123); assert state(s) == expected
+            if not succeed:
+                do(s,1144); assert state(s) == [2,3,1,0,9,60,None]
+                s.command('undo'); assert state(s) == expected
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (1140,1145,1121): do(s,code)
+        assert state(s) == [0,0,0,0,0,0,None]
+    finally: s.close()

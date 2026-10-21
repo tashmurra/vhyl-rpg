@@ -4229,7 +4229,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence) || trait.ofKind(RpgExpandedIncuriosity) || trait.ofKind(RpgExpandedIndecision)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4376,6 +4376,7 @@ class RpgExpandedOverstimulation: RpgExpandedDisadvantage
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
 class RpgExpandedOverstimulationTrigger: RpgExpandedSelfControlTrigger
+    stimulusAllowed() { return holds(['unfamiliar-place','commotion'],self.situation); }
     situation = nil
     approved = nil
     endedAt = nil
@@ -4408,7 +4409,7 @@ class RpgExpandedOverstimulationTrigger: RpgExpandedSelfControlTrigger
             return value;
         }
         if (value.status != 'ready') return value;
-        if (!self.approved || !holds(['unfamiliar-place','commotion'],self.situation))
+        if (!self.approved || !self.stimulusAllowed())
         { value.status = 'blocked'; value.reason = 'overstimulation-stimulus-facts'; return value; }
         if (self.trait.mitigated || self.profile.dead || self.profile.unconscious)
         { value.status = 'blocked'; value.reason = 'overstimulation-unavailable'; return value; }
@@ -5937,9 +5938,10 @@ class RpgExpandedIndecisionEpisode: object
     highStress = nil
     approved = nil
     evidence = nil
+    confusion = nil
     attempts = []
     boundFacts = nil
-    facts() { return [self.id,self.profile,self.trait,self.highStress,self.approved,self.evidence,self.choices.length()] + self.choices; }
+    facts() { return [self.id,self.profile,self.trait,self.highStress,self.approved,self.evidence,self.confusion,self.choices.length()] + self.choices; }
     validate()
     {
         if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
@@ -5978,6 +5980,7 @@ class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
     episode = nil
     recordedAt = nil
     boundCheck = nil
+    boundConfusion = nil
     definition() { return inherited() + [self.episode]; }
     effectiveModifier() { return -self.episode.choices.length(); }
     assess()
@@ -5993,15 +5996,35 @@ class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
             local facts = [self.recordedAt,self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundCheck[i]) rpgExpandedReject('indecision-check-binding');
+            if (self.boundConfusion != nil)
+            {
+                if (self.episode.confusion != self.boundConfusion || self.boundConfusion.result == nil || !self.check.achieved)
+                    rpgExpandedReject('indecision-confusion-binding');
+                self.boundConfusion.assess();
+            }
             return value;
         }
-        if (self.recordedAt != nil || self.boundCheck != nil) rpgExpandedReject('indecision-check-uncommitted');
+        if (self.recordedAt != nil || self.boundCheck != nil || self.boundConfusion != nil) rpgExpandedReject('indecision-check-uncommitted');
         if (value.status != 'ready') return value;
         if (self.profile.dead || self.profile.unconscious || self.trait.mitigated)
         { value.reason = 'indecision-observer-unavailable'; value.status = 'blocked'; return value; }
+        local confusionTrait = nil;
         foreach (local purchase in self.profile.traits)
             if (purchase.active && !purchase.mitigated && purchase.id == 'overstimulation')
-            { value.reason = 'indecision-confusion-adapter-required'; value.status = 'blocked'; return value; }
+            {
+                if (confusionTrait != nil || !purchase.ofKind(RpgExpandedOverstimulation)) rpgExpandedReject('indecision-confusion-purchase');
+                confusionTrait = purchase;
+            }
+        if (confusionTrait != nil)
+        {
+            local confusion = self.episode.confusion;
+            if (confusion == nil || !confusion.ofKind(RpgExpandedDecisionConfusion)
+                || confusion.decisionEpisode != self.episode || confusion.profile != self.profile || confusion.trait != confusionTrait)
+            { value.reason = 'indecision-confusion-request-required'; value.status = 'blocked'; return value; }
+            local prepared = confusion.assess();
+            if (prepared.status != 'ready') { value.reason = prepared.reason; value.status = 'blocked'; return value; }
+        }
+        else if (self.episode.confusion != nil) rpgExpandedReject('indecision-unused-confusion-request');
         foreach (local prior in self.profile.indecisionEpisodes)
             if (prior != self.episode && (prior.id == self.episode.id || prior.active()))
                 rpgExpandedReject('indecision-concurrent-decision');
@@ -6011,6 +6034,17 @@ class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
             if (prior.check.achieved) { value.reason = 'indecision-already-decided'; value.status = 'blocked'; return value; }
             if (rpgLedger.seconds < prior.recordedAt + (self.episode.highStress ? 1 : 60))
             { value.reason = 'indecision-retry-not-due'; value.status = 'blocked'; return value; }
+        }
+        return value;
+    }
+    resolve()
+    {
+        local value = inherited();
+        if (value.status == 'resolved' && self.check.achieved && self.episode.confusion != nil)
+        {
+            local confusion = self.episode.confusion.resolve();
+            if (confusion.status != 'resolved') rpgExpandedReject('indecision-confusion-changed');
+            self.boundConfusion = self.episode.confusion;
         }
         return value;
     }
@@ -6048,5 +6082,27 @@ modify RpgExpandedProfile
         local reason = inherited(kind,request);
         if (reason == nil && self.activeIndecision() != nil && kind != 'nothing') return 'indecision-do-nothing';
         return reason;
+    }
+;
+
+/** B140: prepare with the decision; execution requires its successful check. */
+class RpgExpandedDecisionConfusion: RpgExpandedOverstimulationTrigger
+    decisionEpisode = nil
+    situation = 'decision'
+    stimulusAllowed() { return self.situation == 'decision'; }
+    definition() { return inherited() + [self.decisionEpisode]; }
+    resolve()
+    {
+        if (self.result == nil)
+        {
+            if (self.decisionEpisode == nil || !self.decisionEpisode.ofKind(RpgExpandedIndecisionEpisode)
+                || self.decisionEpisode.confusion != self || self.decisionEpisode.profile != self.profile)
+                rpgExpandedReject('decision-confusion-owner');
+            self.decisionEpisode.validate();
+            if (self.decisionEpisode.attempts.length() == 0
+                || !self.decisionEpisode.attempts[self.decisionEpisode.attempts.length()].check.achieved)
+                rpgExpandedReject('decision-confusion-success-required');
+        }
+        return inherited();
     }
 ;

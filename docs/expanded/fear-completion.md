@@ -474,3 +474,15 @@ one-second boundaries without another time charge. Fixtures specify release on
 success, mitigation, mutation rejection, rollback, undo and saved continuation.
 They remain unrun. The additional confusion check is still an explicit blocker
 for the combined purchase, and fear acquisition is not yet enabled.
+
+
+## Indecision followed by confusion
+
+The combined B140 procedure now preflights a concrete owned confusion request
+and runs it only after indecision succeeds. Both checks and their follow-ups
+commit atomically, without another time charge; failure produces the existing
+confusion state and success allows normal action subject to other conditions.
+The rated indecision purchase is enabled for exact-cost fear acquisition.
+Fixtures specify both outcomes, premature execution rejection, missing request,
+accounting, rollback, undo and saved continuation. They remain unrun; the wider
+fear completion audit is still open.

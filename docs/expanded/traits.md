@@ -3026,8 +3026,26 @@ immutable receipts, including their check results and timestamps. Mitigation
 releases an unfinished restriction without manufacturing success; ending it
 restores the restriction and its existing retry schedule.
 
-The combined B140 confusion procedure remains incomplete and rejects explicitly
-when an active overstimulation purchase is present. This purchase is not yet
-enabled as a fear selection. `test_indecision` specifies the initial failure,
+The rated purchase is now available to exact-cost fear selections. An active
+overstimulation purchase requires the combined procedure described below. `test_indecision` specifies the initial failure,
 exact retry boundaries, shared action gate, success, mitigation, immutable
 choices, rollback, undo and saved continuation. It is registered but unrun.
+
+
+For combined indecision and confusion, attach an owned
+`RpgExpandedDecisionConfusion` in `episode.confusion`. Supply the same profile,
+the overstimulation trait, `decisionEpisode`, a unique control-trigger ID/token,
+approval, evidence, stimulus modifier and applicable stress-follow-up content.
+Its `situation` is `decision`. The request is preflighted before the indecision
+roll, but `resolve()` rejects execution until that episode has a successful
+indecision check. A successful indecision attempt automatically resolves it in
+the same transaction. Failed indecision does not roll confusion; replay does not
+roll either check again. No second time charge is introduced.
+
+A failed confusion check produces the existing owned overstimulation state,
+including do-nothing/planning restrictions, normal defensive responses and its
+explicit ending procedure. A successful check permits ordinary action, subject
+to other independently active conditions. `test_indecision_confusion` specifies
+both outcomes, blocked premature resolution, missing request, rollback, undo and
+saved continuation. `test_indecision` also specifies ten-point fear acquisition
+and subsequent restrictions without advancement refunds. These cases are unrun.

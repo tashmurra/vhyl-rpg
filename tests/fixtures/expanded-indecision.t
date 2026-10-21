@@ -35,6 +35,13 @@ modify FearTestAction
         if (code == 1129) { indecisionEpisode.choices = [indecisionLeft]; indecisionFirst.assess(); return nil; }
         if (code == 1130) { indecisionTrait.mitigated = true; return nil; }
         if (code == 1131) { indecisionTrait.mitigated = nil; return nil; }
+        if (code == 1150)
+        { mentalAward.trait = indecisionTrait; mentalAward.tableTotal = 23; fearProfile.creationComplete = true;
+          fearProfile.earnedPoints = 9; fearProfile.unspentPoints = 7; return nil; }
+        if (code == 1151)
+        { event('test.indecision-acquisition'); eventValue(fearProfile.traits.length());
+          eventValue(fearProfile.postCreationDisadvantageAllowance()); eventValue(fearProfile.earnedPoints);
+          eventValue(fearProfile.unspentPoints); eventValue(rpgRandom.draws); return nil; }
         return inherited(context);
     }
 ;
