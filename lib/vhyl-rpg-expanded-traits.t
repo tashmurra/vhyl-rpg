@@ -4463,3 +4463,9 @@ modify rpgExpandedTemplateTraits
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
 ;
+
+/** Complete muteness blocks panic sounds; loss of articulated speech does not. */
+modify RpgExpandedProfile
+    panicVocalizationReason()
+    { return self.speechLimitationLevel() == 2 ? 'panic-vocalization-unavailable' : inherited(); }
+;

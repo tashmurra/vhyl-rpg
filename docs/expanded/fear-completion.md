@@ -109,3 +109,13 @@ postbattle or phantom-voice triggers and their owned follow-up events. They must
 not be presented as evidence that a general track exists. Such a track needs an
 identified source procedure or an explicitly selected campaign design; no point
 values, thresholds or recovery rates are invented by this conversion.
+
+## Acquired speech-loss integration
+
+The stationary panic-expression adapter now distinguishes vocal sound from
+articulated speech, matching full-2008 B125. Its new communication fixture starts
+with a row-24 physical acquisition: loss of articulated speech still permits
+noncommunicative vocal panic, while total muteness rejects it without a time or
+randomness charge. Nonvocal gestures remain available subject to other health
+restrictions. This closes an integration gap in an already supported physical
+selection; it does not complete the remaining trait catalogue. Fixtures are unrun.

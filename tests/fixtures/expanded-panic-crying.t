@@ -65,7 +65,7 @@ modify BleedTestAction
 ;
 
 expressionGate: RpgExpandedPanicExpressionGate id = 'panic-expression-health' profile = bleedProfile
-    activity = expressionActivity purpose = 'action' requiresSpeech = true evidence = 'Incoherent vocalization during panic';
+    activity = expressionActivity purpose = 'action' evidence = 'Incoherent vocalization during panic';
 expressionActivity: RpgExpandedFearPanicExpression id = 'panic-expression' episode = panicEpisode seconds = 60
     healthGate = expressionGate mode = 'vocalization' approved = true
     portrayal = 'Repeats a meaningless syllable without addressing anyone'
@@ -84,7 +84,7 @@ modify BleedTestAction
         if (code == 10724) { expressionActivity.portrayal = nil; return nil; }
         if (code == 10725) { expressionActivity.seconds = 61; return nil; }
         if (code == 10726) { expressionGate.apply(); return nil; }
-        if (code == 10727) { expressionGate.requiresSpeech = nil; return nil; }
+        if (code == 10727) { expressionGate.requiresSpeech = true; return nil; }
         return inherited(context);
     }
 ;

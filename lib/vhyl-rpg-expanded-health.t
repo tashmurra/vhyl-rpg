@@ -11639,7 +11639,7 @@ class RpgExpandedFearPanicExpression: RpgExpandedFearPanicCrying
     evidence = nil
     behaviorKind() { return 'other-pointless'; }
     gatePurpose() { return self.mode == 'still' ? 'do-nothing' : 'action'; }
-    needsSpeech() { return holds(['vocalization','gesture-and-vocalization'],self.mode); }
+    needsVocalization() { return holds(['vocalization','gesture-and-vocalization'],self.mode); }
     needsMovement() { return holds(['gesture','gesture-and-vocalization'],self.mode); }
     retainFailedGate() { return true; }
     definition()
@@ -11650,13 +11650,14 @@ class RpgExpandedFearPanicExpression: RpgExpandedFearPanicCrying
         if (!holds(['still','gesture','vocalization','gesture-and-vocalization'],self.mode)
             || self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedPanicExpressionGate)
             || self.healthGate.activity != self || self.healthGate.mentalAbility
-            || self.healthGate.requiresSpeech != self.needsSpeech()
+            || self.healthGate.requiresSpeech
             || self.healthGate.requiresMovement != self.needsMovement())
             rpgExpandedReject('panic-expression-definition');
         if (!self.approved || self.evidence == nil || self.evidence == '' || self.portrayal == nil || self.portrayal == '')
             return 'panic-expression-author-facts';
         local profile = self.episode.context.profile;
         if (self.needsMovement() && profile.voluntaryMovementUnavailable()) return 'panic-expression-movement-unavailable';
+        if (self.needsVocalization()) return profile.panicVocalizationReason();
         return nil;
     }
     commitActivity()
@@ -11671,7 +11672,7 @@ class RpgExpandedPanicExpressionGate: RpgExpandedActionGate
     {
         return self.activity != nil && self.activity.ofKind(RpgExpandedFearPanicExpression)
             && self.activity.healthGate == self && self.profile == profile
-            && purpose == self.activity.gatePurpose() && speech == self.activity.needsSpeech()
+            && purpose == self.activity.gatePurpose() && !speech
             && movement == self.activity.needsMovement() && self.activity.episode != nil
             && self.activity.episode.context.profile == profile && profile.fearPanic == self.activity.episode
             && self.activity.episode.completedAt == nil;

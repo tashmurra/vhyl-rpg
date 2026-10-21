@@ -1235,3 +1235,8 @@ class RpgExpandedStrikeCriticalHit: object
 modify RpgExpandedProfile
     timedPanicAuthorization(request) { return nil; }
 ;
+
+/** Traits may prohibit noncommunicative vocal expression independently of speech. */
+modify RpgExpandedProfile
+    panicVocalizationReason() { return nil; }
+;

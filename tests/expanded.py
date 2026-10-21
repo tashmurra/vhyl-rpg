@@ -9236,6 +9236,8 @@ def test(build):
     test_fear_panic(Session, fear_panic, build.out)
     panic_crying = build.build('expanded-panic-crying',ROOT / 'tests/fixtures/expanded-panic-crying.t')
     test_panic_crying(Session, panic_crying, build.out)
+    panic_expression_communication = build.build('expanded-panic-expression-communication',ROOT / 'tests/fixtures/expanded-panic-expression-communication.t')
+    test_panic_expression_communication(Session,panic_expression_communication,build.out)
     panic_history = build.build('expanded-panic-history',ROOT / 'tests/fixtures/expanded-panic-history.t')
     test_panic_history(Session, panic_history)
     fear_seizure = build.build('expanded-fear-seizure',ROOT / 'tests/fixtures/expanded-fear-seizure.t')
@@ -29377,4 +29379,35 @@ def test_timed_panic_path(Session,bundle,out):
         do(s,800); do(s,109); do(s,802)
         assert state(s) == [0,0,0,1,1,2,0,4]
         do(s,802); assert state(s) == [0,0,0,1,1,2,0,4]
+    finally: s.close()
+
+
+def test_panic_expression_communication(Session,bundle,out):
+    """Fear-acquired speech loss preserves sounds; total muteness does not. Unrun."""
+    path = out/'panic-expression-communication.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10730,10732,10720,10602,10721): s.action(2285,code)
+        assert last(s,'test.expression-communication') == [1,1,'articulated-speech-unavailable']
+        assert last(s,'test.panic-expression') == ['ready',None]
+        s.command(f':save {path}\n@2286')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        s.action(2285,10722)
+        assert last(s,'rpg.expanded.panic-expression') == [
+            'panic-expression','vocalization','Repeats a meaningless syllable without addressing anyone']
+        s.command('undo'); s.action(2285,10703)
+        assert last(s,'test.crying-state') == [0,0,0,1]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (10731,10720,10602,10721,10722,10703): s.action(2285,code)
+        assert last(s,'test.panic-expression') == ['blocked','panic-vocalization-unavailable']
+        assert last(s,'test.crying-state') == [0,0,0,1]
+        for code in (10733,10721,10722,10703): s.action(2285,code)
+        assert last(s,'test.panic-expression') == ['resolved',None]
+        assert last(s,'test.crying-state') == [1,1,60,1]
     finally: s.close()

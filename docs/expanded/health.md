@@ -4687,8 +4687,11 @@ infer these world facts from the portrayal text.
 
 Use `RpgExpandedPanicExpressionGate` pointing back through `activity`. Its profile
 must match the episode. Set `purpose = 'do-nothing'` for `still`, otherwise
-`'action'`; set `requiresMovement` for gesture modes and `requiresSpeech` for
-vocal modes. Mismatched flags reject rather than bypassing physical restrictions.
+`'action'`; set `requiresMovement` for gesture modes and leave `requiresSpeech`
+unset. Vocal modes use `panicVocalizationReason()` rather than requesting
+articulated speech. Partial speech loss permits noncommunicative sounds; total
+muteness blocks them (full-2008, B125). Mismatched flags reject rather than
+bypassing physical restrictions.
 The gate retains ordinary health checks and cannot execute outside this activity.
 
 A successful interval emits `rpg.expanded.panic-expression` with activity ID,
@@ -4704,3 +4707,10 @@ contract; run execution inside an action transaction for rollback and undo.
 `test_panic_crying` includes this contract's authored cases for portrayal events,
 missing facts, incorrect capability flags, recovery boundaries, direct gate
 rejection, rollback, undo, replay and saved continuation. These cases are unrun.
+
+
+`test_panic_expression_communication` additionally specifies a row-24 acquired
+speech limitation followed by vocal panic, complete muteness rejecting vocal
+expression before spending, and continued eligibility for nonvocal gestures.
+It includes undo and separate-process save continuation. These fixtures remain
+unrun; their presence does not establish validated coverage.
