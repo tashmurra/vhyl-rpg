@@ -10002,6 +10002,7 @@ class RpgExpandedFearAuraContext: RpgExpandedFearContext
             if (owner != self.auraOwner && holds(owner.traits,self.aura)) rpgExpandedReject('fear-aura-shared-purchase');
         if (!self.perceived || (!self.aura.alwaysOn && !self.activated) || (self.aura.touchOnly && !self.contactEstablished))
         { value.reason = 'fear-aura-exposure-required'; return value; }
+        value.reason = self.profile.fearAuraPerceptionReason(self.aura); if (value.reason != nil) return value;
         local count = 0; local protected = nil;
         foreach (local entry in self.profile.fearEvents)
             if (entry.context != self && entry.context.ofKind(RpgExpandedFearAuraContext)

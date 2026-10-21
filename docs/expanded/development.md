@@ -173,3 +173,32 @@ credit. Education and intensive study also check an expanded teacher's travel
 schedule. This implements the no-study constraint of full-2008 B351 when the game
 uses [`RpgExpandedTravelDay`](exploration.md#reserving-a-full-travel-day). Ordinary
 pace previews do not automatically reserve a day.
+
+## Communication credit per participant
+
+A completed communication receipt exposes `studySeconds(profile)` and
+`studyCredit(profile)`. `RpgExpandedCommunicationStudy` grants full-value credit
+only for that participant's retained eligible interval and blocks a second award
+for the same participant. Two eligible participants may each study the skills
+they used without advancing the shared clock again. The relevant-skill approval
+and ordinary learning restrictions still apply.
+
+`creditedStudies` retains `[profile, credit]` pairs. The existing `creditedStudy`
+field remains a compatibility view of the first award. Applications should use
+`studyCredit(profile)` to find a participant's award; changing the compatibility
+field or retargeting a retained credit invalidates the history.
+
+Gesture receipts retain independent sender and recipient eligibility. Total
+speech limitation enables the existing sender credit; complete hearing loss can
+enable either participant's credit (full-2008 B125, B129). Eligibility is bound at
+the time of communication and does not change when a condition is later mitigated.
+`test_hearing_loss` specifies independent awards, duplicate rejection, point
+boundaries, no extra elapsed time, rollback, undo and saved continuation. The
+assertions are authored and unrun.
+
+A learner with complete hearing loss must supply accessible communication for
+`education` or `intensive` sessions: `communicationMode`,
+`communicationEvidence`, and a shared `communicationLanguage` for `written` or
+`signed` modes. These facts are part of the session binding. The `visual` mode
+requires an authored viable demonstration and does not grant language knowledge.
+Self-study and job-learning keep their existing permission requirements.

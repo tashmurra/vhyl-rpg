@@ -193,9 +193,12 @@
       "pages": "B358",
       "module": "exploration",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Directional amplification and subsonic/ultrasonic senses alter available signals according to their traits; deafness prevents ordinary hearing.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing_loss"
+      ],
+      "implementation_note": "Complete hearing loss denies ordinary hearing before randomness. Directional and special-frequency hearing remain incomplete. Fixtures authored, unrun."
     },
     {
       "id": "senses-hearing-speech",
@@ -1583,9 +1586,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical",
         "tests/expanded.py::test_fear_aging",
-        "tests/expanded.py::test_fear_selection"
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
     },
     {
       "id": "fear-outcome-37",
@@ -1599,9 +1603,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_physical",
         "tests/expanded.py::test_fear_aging",
-        "tests/expanded.py::test_fear_selection"
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_fear_hearing_loss"
       ],
-      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported."
+      "validation_note": "Exact-cost physical purchases and forced aging use executable trait effects and the existing aging-loss ledger. Aging value is selection-only; calendar boundaries, rejuvenation and recorded author-selected losses below score three retain owned history. Other physical catalogue selections remain unsupported. Fixtures authored, unrun; coverage is not complete. Negative appearance, distinctive features, recurrent pain and partial hearing loss retain actual effects and bound acquisition settings; existing appearance conversion remains unsupported. Complete hearing loss is now an executable twenty-point selection, with no-dice hearing denial and audible-aura rejection. Its communication integration is partial and fixtures remain unrun."
     },
     {
       "id": "fear-outcome-38",

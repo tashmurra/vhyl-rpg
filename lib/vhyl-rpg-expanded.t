@@ -529,10 +529,34 @@ modify RpgLiteTrait
 /** Completed communication adapters expose time already charged to the ledger. */
 class RpgExpandedCommunicationReceipt: object
     creditedStudy = nil
+    creditedStudies = []
     studySeconds(profile) { return 0; }
+    studyCredit(profile)
+    {
+        if (self.creditedStudy != (self.creditedStudies.length() == 0 ? nil : self.creditedStudies[1][2]))
+            rpgExpandedReject('communication-study-credit-history');
+        local found = nil; local seen = [];
+        foreach (local row in self.creditedStudies)
+        {
+            if (row.length() != 2 || row[1] == nil || row[2] == nil || row[2].source != self
+                || row[2].study.profile != row[1] || holds(seen,row[1])) rpgExpandedReject('communication-study-credit-history');
+            seen = seen + [row[1]]; if (row[1] == profile) found = row[2];
+        }
+        return found;
+    }
+    recordStudyCredit(profile,credit)
+    {
+        if (credit == nil || credit.source != self || credit.study.profile != profile || self.studyCredit(profile) != nil)
+            rpgExpandedReject('communication-study-duplicate-credit');
+        if (self.creditedStudies.length() == 0) self.creditedStudy = credit;
+        self.creditedStudies = self.creditedStudies + [[profile,credit]]; return nil;
+    }
 ;
 modify RpgExpandedProfile
     communicationStudyEligible() { return nil; }
+    receivedCommunicationStudyEligible() { return nil; }
+    fearAuraPerceptionReason(aura) { return nil; }
+    studyCommunicationReason(study) { return nil; }
 ;
 
 modify RpgLiteTrait

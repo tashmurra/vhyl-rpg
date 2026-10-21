@@ -558,9 +558,13 @@
       "pages": "B129",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Deafness is -20, excludes auditory information and allows writing/signing or other viable channels. Communication time counts fully toward applicable skill study, through the single time ledger. Reconcile sound-dependent powers individually and do not remove nonauditory perception.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_hearing_loss",
+        "tests/expanded.py::test_fear_hearing_loss"
+      ],
+      "implementation_note": "Typed fixed-cost purchase, physical fear acquisition and template copying now block hearing/spoken-comprehension checks without dice, preserve nonauditory checks, reject hearing auras and grant independent gesture-study credit to eligible senders/recipients. Taught study requires an accessible channel and shared language where applicable. Complete written/signing/lip-reading exchange procedures and individual power/skill exceptions remain pending. Fixtures authored, unrun."
     }
   ]
 }

@@ -1834,6 +1834,7 @@ modify RpgExpandedProfile
 ;
 class RpgExpandedGestureResult: RpgExpandedResult
     studyEligible = nil
+    recipientStudyEligible = nil
     intendedMeaning = nil
     interpretedMeaning = nil
     interpretation = nil
@@ -1857,6 +1858,7 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
     startedAt = nil
     completedAt = nil
     boundDefinition = nil
+    boundOutcome = nil
     result = nil
     definition()
     {
@@ -1864,6 +1866,9 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
             self.gesture,self.intendedMeaning,self.interpretedMeaning,self.interpretation,self.observed,
             self.requiresMovement,self.approved,self.evidence,self.seconds];
     }
+    outcomeFacts()
+    { return [self.result,self.result.seconds,self.result.studyEligible,self.result.recipientStudyEligible,
+        self.result.intendedMeaning,self.result.interpretedMeaning,self.result.interpretation,self.startedAt,self.completedAt]; }
     assess()
     {
         if (self.id == nil || self.id == '' || self.sender == nil || !self.sender.ofKind(RpgExpandedProfile)
@@ -1877,6 +1882,10 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
                 if (current[i] != self.boundDefinition[i]) rpgExpandedReject('gesture-exchange-binding');
             if (!holds(self.sender.gestureExchanges,self) || !holds(self.recipient.gestureExchanges,self)
                 || self.completedAt != self.startedAt + self.seconds) rpgExpandedReject('gesture-exchange-history');
+            local outcome = self.outcomeFacts();
+            if (self.boundOutcome == nil || outcome.length() != self.boundOutcome.length()) rpgExpandedReject('gesture-exchange-outcome');
+            for (local i = 1; i <= outcome.length(); i += 1)
+                if (outcome[i] != self.boundOutcome[i]) rpgExpandedReject('gesture-exchange-outcome');
             value.status = 'reused'; return value;
         }
         rpgInteger(self.seconds,0,86400);
@@ -1899,9 +1908,9 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
     }
     studySeconds(profile)
     {
-        if (self.result == nil || profile != self.sender) return 0;
+        if (self.result == nil || profile != self.sender && profile != self.recipient) return 0;
         self.assess();
-        return self.result.studyEligible ? self.result.seconds : 0;
+        return (profile == self.sender ? self.result.studyEligible : self.result.recipientStudyEligible) ? self.result.seconds : 0;
     }
     conditionsReason()
     {
@@ -1915,6 +1924,7 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
         if (value.status != 'ready') return value;
         local definition = self.definition(); local start = rpgLedger.seconds;
         local studyEligible = self.sender.communicationStudyEligible();
+        local recipientStudyEligible = self.recipient.receivedCommunicationStudyEligible();
         local sent = self.sender.gestureExchanges.length(); local received = self.recipient.gestureExchanges.length();
         rpgSpendTime(self.seconds);
         local current = self.definition();
@@ -1922,15 +1932,16 @@ class RpgExpandedGestureExchange: RpgExpandedCommunicationReceipt
             if (current[i] != definition[i]) rpgExpandedReject('gesture-exchange-interrupted');
         if (rpgLedger.seconds != start + value.seconds || self.sender.gestureExchanges.length() != sent
             || self.recipient.gestureExchanges.length() != received) rpgExpandedReject('gesture-exchange-interrupted');
-        if (self.conditionsReason() != nil || self.sender.communicationStudyEligible() != studyEligible)
+        if (self.conditionsReason() != nil || self.sender.communicationStudyEligible() != studyEligible
+            || self.recipient.receivedCommunicationStudyEligible() != recipientStudyEligible)
             rpgExpandedReject('gesture-exchange-conditions-changed');
         self.boundDefinition = definition; self.startedAt = start; self.completedAt = rpgLedger.seconds;
-        value.studyEligible = studyEligible;
+        value.studyEligible = studyEligible; value.recipientStudyEligible = recipientStudyEligible;
         value.intendedMeaning = self.intendedMeaning; value.interpretedMeaning = self.interpretedMeaning;
         value.interpretation = self.interpretation;
         self.sender.gestureExchanges = self.sender.gestureExchanges + [self];
         self.recipient.gestureExchanges = self.recipient.gestureExchanges + [self];
-        value.status = 'resolved'; self.result = value; return value;
+        value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeFacts(); return value;
     }
 ;
 

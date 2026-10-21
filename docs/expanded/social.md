@@ -1823,3 +1823,12 @@ meaning after success; failure does not reveal or invent an interpretation.
 `test_gesture_actions` specifies parser, structured and dialogue parity for both
 skill directions, actor ownership, preview purity, rollback, undo, replay and
 cross-process save continuation. Fixtures remain unrun while checks are paused.
+
+Gesture exchange receipts now retain separate sender and recipient study
+eligibility. Complete hearing loss can qualify either participant, while total
+speech limitation retains its existing sender rule. Each participant can claim
+one full-value credit for the skills used; the exchange consumes elapsed time
+once. The result's interpretation, times and eligibility flags are bound against
+later edits. See [communication credit](development.md#communication-credit-per-participant).
+This extends the existing player-authored gesture contract; complete owned
+writing, sign-language and lip-reading procedures remain separate unfinished work.

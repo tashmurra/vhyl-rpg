@@ -2010,3 +2010,11 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   start-of-turn consciousness roll. Misses resume movement; injuries can stop it.
   Broader Wait conversions and automatic attack resolution remain partial. New
   lifecycle fixtures are authored and unrun; checks remain paused.
+
+- Added a typed complete-hearing-loss selection for lasting physical fear
+  outcomes, with shared hearing denial, audible-aura rejection and accessible
+  taught-study requirements. Gesture study now credits eligible senders and
+  recipients independently without spending time twice, retaining the original
+  first-credit compatibility field. Full written/signing/lip-reading procedures
+  and specific sound-dependent exceptions remain incomplete. New lifecycle and
+  fear-acquisition fixtures are authored and unrun; checks remain paused.

@@ -13,6 +13,9 @@ class RpgExpandedStudy: object
     mode = 'self'
     permitted = nil
     employment = 'none'
+    communicationLanguage = nil
+    communicationMode = nil
+    communicationEvidence = nil
     teacher = nil
     teachingScore = 0
     lavishMaterials = nil
@@ -65,6 +68,7 @@ class RpgExpandedStudy: object
         value.reason = profile.skillLearningWithTeacherReason(training.skill,
             self.mode == 'education' || self.mode == 'intensive' ? self.teacher : nil);
         if (value.reason != nil) return value;
+        value.reason = self.profile.studyCommunicationReason(self); if (value.reason != nil) return value;
         if (profile.dead || profile.unconscious) { value.reason = 'cannot-study'; return value; }
         local index = self.modeIndex(); local limit = self.dailyLimit();
         local day = rpgLedger.seconds / 86400;
@@ -108,7 +112,7 @@ class RpgExpandedStudy: object
     sessionDefinition()
     {
         return [self.profile,self.training,self.training.skill,self.training.points,self.mode,self.permitted,
-            self.employment,self.teacher,self.teachingScore,self.lavishMaterials,self.credit,self.awarded,
+            self.employment,self.teacher,self.teachingScore,self.lavishMaterials,self.communicationMode,self.communicationEvidence,self.communicationLanguage,self.credit,self.awarded,
             self.creditOwner,self.creditTraining,self.creditSkill,self.profile.studyDay,self.creditThreshold,self.learningThreshold()]
             + self.profile.studyUsed;
     }
@@ -165,13 +169,13 @@ class RpgExpandedCommunicationStudy: object
             local current = self.definition();
             for (local i = 1; i <= current.length(); i += 1)
                 if (current[i] != self.boundDefinition[i]) rpgExpandedReject('communication-study-binding');
-            if (self.source.creditedStudy != self || self.source.studySeconds(self.study.profile) != self.result.seconds)
+            if (self.source.studyCredit(self.study.profile) != self || self.source.studySeconds(self.study.profile) != self.result.seconds)
                 rpgExpandedReject('communication-study-history');
             value.status = 'reused'; return value;
         }
         if (!self.approved || self.evidence == nil || self.evidence == '' || !self.study.permitted)
         { value.reason = 'communication-study-related-skill-required'; return value; }
-        if (self.source.creditedStudy != nil) { value.reason = 'communication-study-already-credited'; return value; }
+        if (self.source.studyCredit(self.study.profile) != nil) { value.reason = 'communication-study-already-credited'; return value; }
         value.seconds = self.source.studySeconds(self.study.profile);
         if (value.seconds <= 0) { value.reason = 'communication-study-no-eligible-time'; return value; }
         rpgInteger(value.seconds,1,86400);
@@ -197,7 +201,7 @@ class RpgExpandedCommunicationStudy: object
         local threshold = self.study.learningThreshold(); self.study.creditThreshold = threshold;
         self.study.credit = (self.study.credit + value.seconds * 4) % threshold;
         self.study.training.points += value.points; self.study.awarded += value.points;
-        self.source.creditedStudy = self; value.status = 'resolved'; self.result = value; return value;
+        self.source.recordStudyCredit(self.study.profile,self); value.status = 'resolved'; self.result = value; return value;
     }
 ;
 

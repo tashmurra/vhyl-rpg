@@ -3963,7 +3963,7 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
         if (trait == nil || !(trait.ofKind(RpgExpandedPainSensitivity) || trait.ofKind(RpgExpandedPersistentWound)
             || trait.ofKind(RpgExpandedSpeechLimitation) || trait.ofKind(RpgExpandedAppearance)
             || trait.ofKind(RpgExpandedDistinctiveFeatures) || trait.ofKind(RpgExpandedRecurrentPain)
-            || trait.ofKind(RpgExpandedHearingImpairment)))
+            || trait.ofKind(RpgExpandedHearingImpairment) || trait.ofKind(RpgExpandedHearingLoss)))
             rpgExpandedReject('fear-physical-effect-unsupported');
         local cost = trait.creationCost();
         if (trait.skills.length() != 0 || trait.scope != nil || cost >= 0) rpgExpandedReject('fear-physical-effect-fields');
@@ -4023,7 +4023,8 @@ class RpgExpandedFearPhysicalAcquisition: RpgExpandedFearTraitConsequence
                 if (holds(owner.traits,trait)) rpgExpandedReject('fear-physical-purchase-owned');
             foreach (local existing in self.profile.traits)
                 if (existing.id == trait.id || trait.ofKind(RpgExpandedPainSensitivity) && existing.id == 'high-pain-threshold'
-                    || trait.ofKind(RpgExpandedHearingImpairment) && holds(['acute-hearing','deaf'],existing.id))
+                    || trait.ofKind(RpgExpandedHearingImpairment) && holds(['acute-hearing','deaf'],existing.id)
+                    || trait.ofKind(RpgExpandedHearingLoss) && holds(['acute-hearing','hard-of-hearing','fine-hearing'],existing.id))
                     rpgExpandedReject('fear-physical-existing-effect');
             if (trait.ofKind(RpgExpandedAppearance))
                 foreach (local existing in self.profile.traits)
@@ -4208,5 +4209,80 @@ class RpgExpandedHearingImpairment: RpgLiteTrait
             || self.controlled || self.scope != nil || self.skills.length() != 0)
             rpgExpandedReject('hearing-impairment-definition');
         return -10;
+    }
+;
+
+/** B129 complete hearing loss; alternative communication remains available. */
+class RpgExpandedHearingLoss: RpgLiteTrait
+    id = 'deaf'
+    points = -20
+    approved = nil
+    templatePurchaseKind = 'expanded-hearing-loss'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'deaf' || self.points != -20 || self.level != 1
+            || self.controlled || self.scope != nil || self.skills.length() != 0)
+            rpgExpandedReject('hearing-loss-definition');
+        return -20;
+    }
+;
+modify RpgExpandedProfile
+    completeHearingLoss()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'deaf')
+            {
+                if (!trait.ofKind(RpgExpandedHearingLoss) || found != nil) rpgExpandedReject('hearing-loss-purchase');
+                trait.creationCost(); found = trait;
+            }
+        if (found != nil)
+            foreach (local trait in self.traits)
+                if (holds(['acute-hearing','hard-of-hearing','fine-hearing'],trait.id))
+                    rpgExpandedReject('hearing-loss-conflicting-purchase');
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.completeHearingLoss(); return nil; }
+    healthCheckReason(context)
+    {
+        if (self.completeHearingLoss() && (context.kind == 'hearing' || context.auditoryInput == 'required'
+            || context.understandsSpeech && !context.written)) return 'complete-hearing-loss';
+        return inherited(context);
+    }
+    fearAuraPerceptionReason(aura)
+    {
+        if (self.completeHearingLoss() && aura.sense == 'hearing') return 'fear-aura-hearing-unavailable';
+        return inherited(aura);
+    }
+    communicationStudyEligible() { return self.completeHearingLoss() || inherited(); }
+    receivedCommunicationStudyEligible() { return self.completeHearingLoss() || inherited(); }
+    studyCommunicationReason(study)
+    {
+        local reason = inherited(study); if (reason != nil) return reason;
+        if (!self.completeHearingLoss() || !holds(['education','intensive'],study.mode)) return nil;
+        if (!holds(['written','signed','visual'],study.communicationMode)
+            || study.communicationEvidence == nil || study.communicationEvidence == '') return 'study-accessible-communication-required';
+        if (study.communicationMode != 'visual')
+        {
+            if (study.communicationLanguage == nil || study.teacher == nil || !study.teacher.ofKind(RpgLiteProfile))
+                return 'study-accessible-language-required';
+            local written = study.communicationMode == 'written';
+            if (self.language(study.communicationLanguage,written) == 0
+                || study.teacher.language(study.communicationLanguage,written) == 0) return 'study-accessible-language-required';
+        }
+        return nil;
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'deaf') return inherited(id,level,scope);
+        local trait = new RpgExpandedHearingLoss(); trait.level = level; trait.scope = scope; trait.approved = true;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedHearingLoss)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;

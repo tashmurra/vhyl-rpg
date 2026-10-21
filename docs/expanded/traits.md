@@ -2319,8 +2319,9 @@ not itself start a pain bout or inflict additional injury.
 `RpgExpandedHearingImpairment` is the approved, fixed -10-point hearing-loss
 purchase from full-2008 B138. It uses the shared -4 modifier for hearing checks
 and skills requiring spoken comprehension. It conflicts with acute hearing and
-complete deafness. Complete deafness and its communication/study rules need a
-separate adapter; this purchase does not approximate them.
+complete hearing loss. The separate `RpgExpandedHearingLoss` adapter below
+implements hearing denial and gesture-study eligibility; this partial-loss
+purchase does not approximate that condition.
 
 Physical bundles must still total exactly -15, -20 or -30, including any selected
 forced-aging value. Only negative appearance tiers are accepted. Existing
@@ -2336,3 +2337,41 @@ skill/hearing/appearance/pain effects, fixed-trait fallback, faint compounds,
 rollback, undo, duplicate execution, option mutation and saved continuation.
 Assertions are authored and unrun. Remaining catalogue selections are still
 explicitly unsupported; this extension does not complete the full trait catalogue.
+
+## Complete hearing loss
+
+`RpgExpandedHearingLoss` is the fixed -20-point purchase from full-2008 B129.
+It requires approval, uses `id = 'deaf'`, and is accepted by physical fear
+acquisitions and template copying. It can satisfy the twenty-point physical
+outcome alone. A purchase cannot stack with acute hearing, partial hearing loss
+or fine hearing in this implementation; those restoration/conditional-purchase
+combinations need a separate accounting contract.
+
+The shared check interface returns `complete-hearing-loss` before rolling for
+ordinary hearing, spoken-comprehension contexts and contexts marked
+`auditoryInput = 'required'`. Written and other nonauditory contexts keep their
+normal scoring and language requirements. This also covers ordinary combat's
+hearing check for detecting an unseen attack. It does not remove the actor's
+ability to speak. Hearing-based fear auras reject with
+`fear-aura-hearing-unavailable`; sight-based auras remain eligible. An author's
+`perceived = true` cannot override an unavailable hearing channel.
+
+Active complete hearing loss makes both sending and receiving a supported
+visual gesture exchange eligible for full-value study of the relevant skill.
+Eligibility is retained from the actual exchange, so later mitigation does not
+rewrite its learning history. Each eligible participant may receive credit once;
+the exchange still charges elapsed time only once. See the
+[development guide](development.md#communication-credit-per-participant).
+
+Taught study requires a recorded accessible channel: `communicationMode` is
+`written`, `signed` or `visual`, with `communicationEvidence` describing the
+lesson. Written and signed lessons also require `communicationLanguage`, known
+by both teacher and learner in the appropriate channel. Visual instruction is an
+authored demonstration contract; it does not assert that all subjects can be
+taught visually. Study's existing permission and subject requirements still apply.
+
+The ordinary hearing/aura and gesture-study paths are implemented, with unrun
+fixtures in `expanded-hearing-loss.t` and `expanded-fear-hearing-loss.t`. Complete
+owned written/sign-language/lip-reading exchange procedures and individual
+sound-dependent powers/skill exceptions remain unfinished. This is partial
+catalogue coverage, not a claim that every hearing-related rule is complete.

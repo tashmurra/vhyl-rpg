@@ -9773,6 +9773,10 @@ def test(build):
     test_fear_aging(Session,fear_aging,build.out)
     recovery_ruling = build.build('expanded-fear-recovery-ruling',ROOT / 'tests/fixtures/expanded-fear-recovery-ruling.t')
     test_fear_recovery_ruling(Session,recovery_ruling,build.out)
+    hearing_loss = build.build('expanded-hearing-loss',ROOT / 'tests/fixtures/expanded-hearing-loss.t')
+    test_hearing_loss(Session,hearing_loss,build.out)
+    fear_hearing_loss = build.build('expanded-fear-hearing-loss',ROOT / 'tests/fixtures/expanded-fear-hearing-loss.t')
+    test_fear_hearing_loss(Session,fear_hearing_loss,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
     panic_attack = build.build('expanded-panic-attack',ROOT / 'tests/fixtures/expanded-panic-attack.t')
@@ -28834,4 +28838,67 @@ def test_panic_wait(Session,bundle,out):
         assert last(s,'test.panic-path-preview')==['blocked','wait-response-expired']
         expected=[0,0,2,1,0,0,1,2,1,2,1,1,3]
         do(s,202); assert state(s)==expected
+    finally: s.close()
+
+
+def test_hearing_loss(Session,bundle,out):
+    """No hearing roll; eligible sender and recipient each receive the same time once. Unrun."""
+    def do(s,c): s.action(2285,c)
+    def state(s):
+        do(s,4053)
+        return last(s,'test.hearing-credit-state')
+    path=out/'hearing-loss-communication.zsave'
+    s=Session(bundle)
+    try:
+        do(s,4050); assert last(s,'test.hearing-loss')==[-20,'complete-hearing-loss',None,10,0]
+        do(s,3901); do(s,4055); do(s,4001)
+        assert state(s)==[40,0,1,1,1,10,0]
+        do(s,4052); assert state(s)==[40,0,1,1,1,10,0]
+        do(s,4051); s.command('undo'); assert state(s)==[40,0,1,1,1,10,0]
+        do(s,4051); do(s,4051); do(s,4061); do(s,4062)
+        assert state(s)==[40,40,1,1,2,10,0]
+        assert last(s,'test.hearing-credit')==['blocked','communication-study-already-credited']
+        s.command(f':save {path}\n@2286')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286'); do(s,4056); do(s,4051); do(s,4001)
+        assert state(s)==[40,40,1,1,2,10,0]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,4054); do(s,3901); do(s,4051); do(s,4001)
+        assert state(s)==[0,0,2,2,2,10,0]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,4057); assert last(s,'test.hearing-study')==['blocked','study-accessible-communication-required']
+        do(s,4058); do(s,4057); assert last(s,'test.hearing-study')==['ready',None]
+        do(s,4059); do(s,4057); assert last(s,'test.hearing-study')==['blocked','study-accessible-language-required']
+        do(s,4060); do(s,4057); assert last(s,'test.hearing-study')==['ready',None]
+    finally: s.close()
+
+
+def test_fear_hearing_loss(Session,bundle,out):
+    """The acquired physical outcome changes sensing and aura eligibility without fabricated dice. Unrun."""
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,693)
+        return last(s,'test.fear-hearing-loss')
+    path=out/'fear-hearing-loss.zsave'
+    s=Session(bundle)
+    try:
+        do(s,690); do(s,692); assert state(s)==[0,0,10,0,0]
+        do(s,691); s.command('undo'); assert state(s)==[0,0,10,0,0]
+        do(s,691); do(s,691); assert state(s)==[1,20,None,0,0]
+        do(s,351); assert last(s,'test.fear-aura')[:2]==['blocked','fear-aura-hearing-unavailable']
+        assert state(s)==[1,20,None,0,0]
+        do(s,695); do(s,351); assert last(s,'test.fear-aura')[:2]==['ready',None]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,691)
+        assert state(s)==[1,20,None,0,0]
+        do(s,694); assert state(s)==[1,20,10,0,0]
     finally: s.close()
