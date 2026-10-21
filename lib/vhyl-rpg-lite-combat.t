@@ -214,7 +214,7 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     if (fighter.shield != nil && fighter.shield.ready && request.shieldSide) score += fighter.shield.passiveDefenseBonus(profile);
     score += rpgLitePostureModifier(profile.posture, true);
     local conditionPenalty = profile.healthDefensePenalty();
-    if ((profile.stunned || profile.mentalStun) && conditionPenalty < 4) conditionPenalty = 4;
+    if (profile.combatStunned() && conditionPenalty < 4) conditionPenalty = 4;
     score -= conditionPenalty;
     if (fighter.maneuver == 'all-out-defense' && (fighter.defenseOption == kind
         || kind == 'parry-other' && fighter.defenseOption == 'parry')) score += 2;
@@ -252,7 +252,7 @@ rpgLiteResolveStrike(attacker, defender, request)
     profile.validateCombatVision(); defender.profile.validateCombatVision();
     local mode = attacker.mode(); result.attackMode = mode; weapon.validateStrike(attacker,mode);
     local hands = weapon.attackHandCount(profile,request.hands);
-    if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
+    if (profile.combatStunned() || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }
     if (!mode.ranged && !request.inReach) { result.reason = 'out-of-reach'; return result; }
     if (request.deadly && !request.targetThreatens && profile.level('cannot-harm-innocents') > 0)
@@ -445,7 +445,7 @@ class RpgLiteBattle: object
         result.reason = fighter.profile.healthManeuverRequestReason(request);
         if (result.reason != nil) return result;
         if (request.target != nil && !holds(self.fighters, request.target)) throw new RpgError();
-        if ((fighter.profile.stunned || fighter.profile.mentalStun) && request.kind != 'nothing')
+        if (fighter.profile.combatStunned() && request.kind != 'nothing')
         { result.reason = 'stunned'; return result; }
         if (request.kind == 'posture' && (request.posture == nil
             || fighter.profile.posture == 'lying' && request.posture == 'standing'))
@@ -487,7 +487,7 @@ class RpgLiteBattle: object
             if (result.status != 'resolved') return result;
             if (request.kind == 'all-out-attack' && request.option == 'double' && !fighter.mode().ranged
                 && (fighter.weapon.ready || fighter.offWeapon != nil && fighter.offWeapon.ready)
-                && !fighter.profile.stunned && !fighter.profile.unconscious && !request.target.profile.dead)
+                && !fighter.profile.physicalStunned() && !fighter.profile.unconscious && !request.target.profile.dead)
             {
                 local primary = fighter.weapon; local modeIndex = fighter.modeIndex; local offHand = request.offHand;
                 if (fighter.offWeapon != nil && fighter.offWeapon.ready)

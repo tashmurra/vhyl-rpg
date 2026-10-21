@@ -100,6 +100,13 @@ class RpgLiteProfile: RpgProfile
     naturalRecoveryNeeded() { return true; }
     validateNaturalRecovery(seconds, food, allowed) { return nil; }
     shock = 0
+    /* Effective penalties leave the underlying injury/condition ledger intact. */
+    effectiveShock() { return self.shock; }
+    injuryReducesMove() { return self.hp() * 3 < self.maxHP; }
+    combatStunned() { return self.stunned || self.mentalStun; }
+    physicalStunned() { return self.stunned; }
+    survivalAppearanceThreshold() { return self.ht; }
+    validateInjuryKnockdownCommit(modifier) { return nil; }
     /* Pure injury extension; the default preserves the abridged penalty. */
     shockFromInjury(amount) { return amount; }
     shockLimit() { return 4; }
@@ -192,7 +199,7 @@ class RpgLiteProfile: RpgProfile
         if (load == 5 || self.unconscious || self.dead) return 0;
         local amount = self.groundMoveBase() * (5 - load) / 5;
         if (amount < 1) amount = 1;
-        if (self.hp() * 3 < self.maxHP) amount = (amount + 1) / 2;
+        if (self.injuryReducesMove()) amount = (amount + 1) / 2;
         if (self.fp() * 3 < self.maxEnergy) amount = (amount + 1) / 2;
         return amount;
     }
@@ -294,7 +301,7 @@ rpgLiteScore(profile, context)
     if (context.someLight) darkness -= profile.level('night-vision');
     if (darkness > 0) adjustment -= darkness;
     if (profile.level('high-pain-threshold') == 0 && context.kind != 'defense' && (attribute == rpgDX || attribute == rpgIQ))
-        adjustment -= profile.shock;
+        adjustment -= profile.effectiveShock();
     if (profile.sleepPenalty && (attribute == rpgDX || attribute == rpgIQ)) adjustment -= 2;
     if (attribute == rpgDX && context.kind != 'extinguish') adjustment -= profile.burningPenalty;
     if (context.phobiaPresent && (attribute == rpgIQ || attribute == rpgDX || context.skill != nil))

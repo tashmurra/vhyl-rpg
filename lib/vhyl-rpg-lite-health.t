@@ -25,6 +25,7 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
     local result = new RpgLiteHealthResult();
     if (amount == 0) return result;
     if (profile.dead) return profile.postmortemInjury(amount);
+    if (knockdown && !profile.unconscious) profile.validateInjuryKnockdownCommit(modifier);
     profile.validateInjury(amount);
     local shock = profile.shockFromInjury(amount);
     local oldHP = profile.hp(); profile.injury += amount; result.injury = amount;
@@ -44,7 +45,7 @@ rpgLiteWoundWithKnockdown(profile, amount, knockdown, modifier)
                 if (profile.mortal || result.check.margin < -2) profile.dead = true;
                 else { profile.mortal = true; profile.becomeUnconscious(); }
             }
-            else if (result.check.roll > profile.ht)
+            else if (result.check.roll > profile.survivalAppearanceThreshold())
             { profile.apparentDeath = true; profile.becomeUnconscious(); }
         }
     if (profile.hp() <= -5 * profile.maxHP) profile.dead = true;

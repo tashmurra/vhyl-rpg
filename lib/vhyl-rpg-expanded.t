@@ -1295,3 +1295,11 @@ modify RpgLiteProfile
     attentionWorkReason(subject) { return nil; }
     validateAttentionFailure(work,subject) { rpgExpandedReject('attention-failure-traits-required'); }
 ;
+
+modify RpgExpandedProfile
+    validateFrenzyInjury(receipt,witnessed,lovedOne) { rpgExpandedReject('frenzy-health-module-required'); }
+    frenzyActive() { return nil; }
+    injuryKnockdownRequestReason(wound,modifier) { return self.injuryKnockdownReason(modifier); }
+    applyFrenzyKnockdown(result,modifier) { rpgExpandedReject('frenzy-health-module-required'); }
+    validateFrenzyKnockdown(modifier) { rpgExpandedReject('frenzy-health-module-required'); }
+;

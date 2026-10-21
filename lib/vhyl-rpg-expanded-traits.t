@@ -6815,3 +6815,369 @@ modify RpgExpandedProfile
         work.failedBy.assess(); return nil;
     }
 ;
+
+/** B124: priced controlled frenzy. Battle-entry pricing remains explicitly
+ * unavailable until its modifier composition has source-verified support. */
+class RpgExpandedFrenzy: RpgExpandedDisadvantage
+    id = 'frenzy'
+    labelId = 'frenzy'
+    points = -10
+    controlled = true
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'frenzy' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('frenzy-definition');
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+
+/** Owned active state. Entry is committed only by the bound trigger, after its
+ * complete preflight. Mitigating a purchase does not end an existing episode. */
+class RpgExpandedFrenzyEpisode: object
+    id = nil
+    profile = nil
+    trait = nil
+    entry = nil
+    approved = nil
+    evidence = nil
+    state = 'new'
+    startedAt = nil
+    boundDefinition = nil
+    boundState = nil
+    definition() { return [self.id,self.profile,self.trait,self.entry,self.approved,self.evidence]; }
+    stateFacts() { return [self.state,self.startedAt]; }
+    validateReceipt()
+    {
+        if (self.boundDefinition == nil || self.boundState == nil || !holds(self.profile.frenzyEpisodes,self))
+            rpgExpandedReject('frenzy-episode-history');
+        rpgExpandedAttentionBinding(self.definition(),self.boundDefinition,'frenzy-episode-binding');
+        rpgExpandedAttentionBinding(self.stateFacts(),self.boundState,'frenzy-episode-state');
+        rpgExpandedAttentionBinding(self.entry.checkFacts(),self.entry.boundCheck,'frenzy-entry-check-binding');
+        rpgExpandedAttentionBinding(self.entry.definition(),self.entry.boundDefinition,'frenzy-entry-definition-binding');
+        if (self.state == 'active' && self.profile.frenzyEpisode != self)
+            rpgExpandedReject('frenzy-episode-owner');
+        return nil;
+    }
+    assessEntry()
+    {
+        local value = new RpgExpandedResult();
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile) || self.trait == nil
+            || !self.trait.ofKind(RpgExpandedFrenzy) || self.entry == nil || self.entry.episode != self
+            || self.entry.profile != self.profile || self.entry.trait != self.trait || self.id == nil || self.id == '')
+            rpgExpandedReject('frenzy-episode-definition');
+        if (self.state != 'new') { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.startedAt != nil || self.boundDefinition != nil || self.boundState != nil)
+            rpgExpandedReject('frenzy-episode-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'frenzy-episode-evidence'; return value; }
+        self.trait.validateDefinition();
+        if (!holds(self.profile.traits,self.trait) || !self.trait.active || self.trait.mitigated)
+        { value.reason = 'frenzy-trait-inactive'; return value; }
+        if (self.profile.frenzyActive()) { value.reason = 'frenzy-already-active'; return value; }
+        if (self.profile.dead || self.profile.unconscious)
+        { value.reason = 'frenzy-entry-incapacity'; return value; }
+        foreach (local prior in self.profile.frenzyEpisodes)
+            if (prior.id == self.id) rpgExpandedReject('frenzy-episode-duplicate');
+        value.status = 'ready'; return value;
+    }
+    enter(trigger)
+    {
+        if (trigger != self.entry || !trigger.settlingEpisode || trigger.result == nil || !trigger.causesEntry())
+            rpgExpandedReject('frenzy-owned-entry-required');
+        local value = self.assessEntry(); if (value.status != 'ready') return value;
+        self.state = 'active'; self.startedAt = rpgLedger.seconds;
+        self.boundDefinition = self.definition(); self.boundState = self.stateFacts();
+        self.profile.frenzyEpisodes = self.profile.frenzyEpisodes + [self]; self.profile.frenzyEpisode = self;
+        value.status = 'resolved'; return value;
+    }
+;
+
+/** Qualifying own/witnessed injury uses an actual health receipt. The author
+ * supplies perception and relationship facts, never a substitute damage roll. */
+class RpgExpandedFrenzyInjuryTrigger: RpgExpandedSelfControlTrigger
+    causesEntry() { return self.check != nil && !self.check.achieved; }
+    episode = nil
+    injuryReceipt = nil
+    witnessed = nil
+    lovedOne = nil
+    settlingEpisode = nil
+    boundCheck = nil
+    definition() { return inherited() + [self.episode,self.injuryReceipt,self.witnessed,self.lovedOne]; }
+    checkFacts() { return [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; }
+    assess()
+    {
+        local value = inherited();
+        if (!self.trait.ofKind(RpgExpandedFrenzy) || self.episode == nil || !self.episode.ofKind(RpgExpandedFrenzyEpisode)
+            || self.episode.entry != self || self.trigger != self.injuryReceipt || self.modifier != 0)
+            rpgExpandedReject('frenzy-injury-trigger-definition');
+        if (value.status == 'reused')
+        {
+            rpgExpandedAttentionBinding(self.checkFacts(),self.boundCheck,'frenzy-check-binding');
+            if (!self.check.achieved) self.episode.validateReceipt();
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        self.profile.validateFrenzyInjury(self.injuryReceipt,self.witnessed,self.lovedOne);
+        if (self.injuryReceipt.second != rpgLedger.seconds)
+        { value.status = 'blocked'; value.reason = 'frenzy-injury-current-event-required'; return value; }
+        local episode = self.episode.assessEntry();
+        if (episode.status != 'ready') { value.status = 'blocked'; value.reason = episode.reason; }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.boundCheck = self.checkFacts();
+        if (!self.check.achieved)
+        {
+            self.settlingEpisode = true;
+            if (self.episode.enter(self).status != 'resolved') rpgExpandedReject('frenzy-entry-changed');
+            self.settlingEpisode = nil;
+        }
+        return nil;
+    }
+;
+modify RpgExpandedProfile
+    frenzyEpisodes = []
+    frenzyEpisode = nil
+    frenzyActive()
+    {
+        if (self.frenzyEpisode == nil) return nil;
+        self.frenzyEpisode.validateReceipt(); return self.frenzyEpisode.state == 'active';
+    }
+    effectiveShock() { return self.frenzyActive() ? 0 : inherited(); }
+    injuryReducesMove() { return self.frenzyActive() ? nil : inherited(); }
+    combatStunned() { return self.frenzyActive() ? nil : inherited(); }
+    physicalStunned() { return self.frenzyActive() ? nil : inherited(); }
+    survivalAppearanceThreshold() { return inherited() + (self.frenzyActive() ? 4 : 0); }
+    healthAttributeModifier(context)
+    { return inherited(context) + (self.frenzyActive() && context.attribute == rpgHT
+        && holds(['death','consciousness'],context.kind) ? 4 : 0); }
+    healthBlocksDefense() { return self.frenzyActive() || inherited(); }
+    healthManeuverRequestReason(request)
+    {
+        local reason = inherited(request); if (reason != nil) return reason;
+        return self.frenzyActive() ? 'frenzy-owned-action-required' : nil;
+    }
+    injuryKnockdownReason(modifier)
+    { return self.frenzyActive() ? 'frenzy-knockdown-ruling-required' : inherited(modifier); }
+    applyInjuryKnockdown(result,modifier)
+    {
+        if (self.frenzyActive()) return self.applyFrenzyKnockdown(result,modifier);
+        return inherited(result,modifier);
+    }
+    validateInjuryKnockdownCommit(modifier)
+    {
+        if (self.frenzyActive()) return self.validateFrenzyKnockdown(modifier);
+        return inherited(modifier);
+    }
+;
+
+/** B124 temper entry shares the actual temper check. It never draws a second
+ * self-control roll or creates a synthetic failure. */
+class RpgExpandedFrenzyTemperEntry: object
+    causesEntry() { return self.check != nil && !self.check.achieved; }
+    profile = nil
+    trait = nil
+    temper = nil
+    episode = nil
+    result = nil
+    check = nil
+    settlingEpisode = nil
+    boundCheck = nil
+    boundDefinition = nil
+    definition() { return [self.profile,self.trait,self.temper,self.episode]; }
+    checkFacts() { return [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.temper == nil || !self.temper.ofKind(RpgExpandedVolatileTemperTrigger)
+            || self.temper.frenzyEntry != self || self.temper.profile != self.profile
+            || self.episode == nil || !self.episode.ofKind(RpgExpandedFrenzyEpisode) || self.episode.entry != self)
+            rpgExpandedReject('frenzy-temper-entry-owner');
+        if (self.result != nil)
+        {
+            rpgExpandedAttentionBinding(self.definition(),self.boundDefinition,'frenzy-temper-entry-binding');
+            rpgExpandedAttentionBinding(self.checkFacts(),self.boundCheck,'frenzy-temper-check-binding');
+            if (self.check != self.temper.check) rpgExpandedReject('frenzy-temper-check-owner');
+            if (!self.check.achieved) self.episode.validateReceipt();
+            value.status = 'reused'; return value;
+        }
+        if (self.check != nil || self.boundCheck != nil || self.boundDefinition != nil)
+            rpgExpandedReject('frenzy-temper-uncommitted');
+        return self.episode.assessEntry();
+    }
+    commit(trigger)
+    {
+        if (trigger != self.temper || trigger.result == nil || !trigger.settlingFrenzyEntry)
+            rpgExpandedReject('frenzy-temper-owned-check-required');
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.check = trigger.check; self.boundCheck = self.checkFacts(); self.boundDefinition = self.definition();
+        value.status = 'resolved'; self.result = value;
+        if (!self.check.achieved)
+        {
+            self.settlingEpisode = true;
+            if (self.episode.enter(self).status != 'resolved') rpgExpandedReject('frenzy-temper-entry-changed');
+            self.settlingEpisode = nil;
+        }
+        return value;
+    }
+;
+modify RpgExpandedVolatileTemperTrigger
+    frenzyEntry = nil
+    settlingFrenzyEntry = nil
+    definition() { return inherited() + [self.frenzyEntry]; }
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.frenzyEntry != nil) self.frenzyEntry.assess();
+            return value;
+        }
+        if (value.status != 'ready') return value;
+        local selected = nil;
+        foreach (local purchase in self.profile.traits)
+            if (purchase.ofKind(RpgExpandedFrenzy) && purchase.active && !purchase.mitigated)
+            {
+                if (selected != nil) rpgExpandedReject('frenzy-temper-duplicate-traits');
+                selected = purchase;
+            }
+        if (selected != nil && !self.profile.frenzyActive())
+        {
+            if (self.frenzyEntry == nil || !self.frenzyEntry.ofKind(RpgExpandedFrenzyTemperEntry)
+                || self.frenzyEntry.trait != selected)
+            { value.status = 'blocked'; value.reason = 'frenzy-temper-entry-required'; return value; }
+            local entry = self.frenzyEntry.assess();
+            if (entry.status != 'ready') { value.status = 'blocked'; value.reason = entry.reason; }
+        }
+        else if (self.frenzyEntry != nil)
+        { value.status = 'blocked'; value.reason = 'frenzy-temper-entry-unused'; }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        inherited(value);
+        if (self.frenzyEntry != nil)
+        {
+            self.settlingFrenzyEntry = true;
+            if (self.frenzyEntry.commit(self).status != 'resolved') rpgExpandedReject('frenzy-temper-settlement-changed');
+            self.settlingFrenzyEntry = nil;
+        }
+        return nil;
+    }
+;
+
+/** A real Concentrate maneuver owns voluntary entry and its Will check. */
+class RpgExpandedFrenzyConcentrate: RpgLiteManeuver
+    kind = 'concentrate'
+    entry = nil
+    available(fighter)
+    {
+        if (self.entry == nil || !self.entry.ofKind(RpgExpandedFrenzyVoluntaryEntry)
+            || self.entry.maneuver != self || self.entry.fighter != fighter || !self.entry.executing)
+            return 'frenzy-concentration-owner';
+        return inherited(fighter);
+    }
+    apply(fighter,result)
+    {
+        if (self.available(fighter) != nil || result.outcome != 'concentrate')
+            rpgExpandedReject('frenzy-concentration-commit');
+        self.entry.completeConcentration(result); return nil;
+    }
+;
+class RpgExpandedFrenzyVoluntaryEntry: object
+    id = nil
+    profile = nil
+    trait = nil
+    episode = nil
+    battle = nil
+    fighter = nil
+    maneuver = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    check = nil
+    boundCheck = nil
+    boundDefinition = nil
+    executing = nil
+    settlingEpisode = nil
+    turnSerial = nil
+    causesEntry() { return self.check != nil && self.check.achieved; }
+    definition()
+    { return [self.id,self.profile,self.trait,self.episode,self.battle,self.fighter,self.maneuver,self.approved,self.evidence,
+        self.maneuver.kind,self.maneuver.movement,self.maneuver.target,self.maneuver.entry]; }
+    checkFacts()
+    { return self.check == nil ? [nil] : [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical]; }
+    context()
+    { local value = new RpgLiteContext(); value.attribute = rpgWill; value.kind = 'frenzy-voluntary'; return value; }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.id == nil || self.id == '' || self.profile == nil || self.episode == nil
+            || !self.episode.ofKind(RpgExpandedFrenzyEpisode) || self.episode.entry != self
+            || self.battle == nil || !self.battle.ofKind(RpgLiteBattle) || self.fighter == nil
+            || !self.fighter.ofKind(RpgLiteFighter) || self.fighter.profile != self.profile
+            || self.maneuver == nil || !self.maneuver.ofKind(RpgExpandedFrenzyConcentrate)
+            || self.maneuver.entry != self || self.maneuver.kind != 'concentrate'
+            || self.maneuver.movement != 0 || self.maneuver.target != nil)
+            rpgExpandedReject('frenzy-voluntary-definition');
+        if (self.result != nil)
+        {
+            rpgExpandedAttentionBinding(self.definition(),self.boundDefinition,'frenzy-voluntary-binding');
+            rpgExpandedAttentionBinding(self.checkFacts(),self.boundCheck,'frenzy-voluntary-check-binding');
+            if (!holds(self.profile.frenzyVoluntaryEntries,self)) rpgExpandedReject('frenzy-voluntary-history');
+            if (self.causesEntry()) self.episode.validateReceipt();
+            value.status = 'reused'; return value;
+        }
+        if (self.check != nil || self.boundCheck != nil || self.boundDefinition != nil || self.turnSerial != nil)
+            rpgExpandedReject('frenzy-voluntary-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'frenzy-voluntary-evidence'; return value; }
+        foreach (local prior in self.profile.frenzyVoluntaryEntries)
+            if (prior.id == self.id) rpgExpandedReject('frenzy-voluntary-duplicate');
+        if (self.battle.current() != self.fighter || !holds(self.battle.fighters,self.fighter))
+        { value.reason = 'frenzy-voluntary-turn'; return value; }
+        if (self.profile.combatStunned()) { value.reason = 'frenzy-voluntary-stunned'; return value; }
+        local entry = self.episode.assessEntry(); if (entry.status != 'ready') return entry;
+        value.reason = self.profile.healthManeuverRequestReason(self.maneuver); if (value.reason != nil) return value;
+        value.reason = self.maneuver.healthAvailable(self.fighter); if (value.reason != nil) return value;
+        local score = rpgLiteScore(self.profile,self.context());
+        if (score == nil || score < 3) { value.reason = 'frenzy-voluntary-score'; return value; }
+        value.status = 'ready'; return value;
+    }
+    completeConcentration(combat)
+    {
+        if (!self.executing || self.check != nil || self.result != nil || self.fighter.concentration < 1
+            || self.fighter.maneuver != 'concentrate' || combat.outcome != 'concentrate')
+            rpgExpandedReject('frenzy-voluntary-concentration-required');
+        self.check = rpgLiteCheck(self.profile,self.context());
+        if (self.check.status != 'resolved') rpgExpandedReject('frenzy-voluntary-check-changed');
+        self.boundCheck = self.checkFacts(); self.boundDefinition = self.definition(); self.result = combat;
+        if (self.causesEntry())
+        {
+            self.settlingEpisode = true;
+            if (self.episode.enter(self).status != 'resolved') rpgExpandedReject('frenzy-voluntary-entry-changed');
+            self.settlingEpisode = nil;
+        }
+        return nil;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.executing = true;
+        local combat = self.battle.step(self.fighter,self.maneuver);
+        self.executing = nil;
+        if (combat.status != 'resolved') rpgExpandedReject('frenzy-voluntary-maneuver-changed');
+        if (self.result == nil)
+        {
+            if (combat.outcome != 'incapacitated') rpgExpandedReject('frenzy-voluntary-missing-check');
+            self.result = combat; self.boundDefinition = self.definition(); self.boundCheck = self.checkFacts();
+        }
+        self.turnSerial = self.fighter.turnSerial;
+        self.profile.frenzyVoluntaryEntries = self.profile.frenzyVoluntaryEntries + [self];
+        value.status = 'resolved'; value.check = self.check; return value;
+    }
+;
+modify RpgExpandedProfile frenzyVoluntaryEntries = [];

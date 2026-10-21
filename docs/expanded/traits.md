@@ -3258,3 +3258,42 @@ covers exact-cost purchase, one-step worsening and actual failed work after
 save/restore. `test_attention_work`, `test_attention_prototype` and
 `test_attention_acquisition` are authored but unrun. `test_attention_rapid_prototype` also specifies retaining purchased components
 and money while releasing the failed attempt's reservation. It is unrun.
+
+### Frenzy implementation boundary
+
+`RpgExpandedFrenzy` and `RpgExpandedFrenzyEpisode` currently provide owned
+injury-triggered entry. `RpgExpandedFrenzyInjuryTrigger` requires an actual
+`RpgExpandedRageInjuryReceipt`; witnessed injury additionally requires authored
+perception and loved-one facts. An episode retains its originating trigger and
+remains active if the purchase is subsequently mitigated.
+
+Active episodes suppress effective combat stun, shock and injury-based Move
+reduction without deleting those underlying conditions. Survival and
+consciousness checks receive the source-defined adjustment. Active defenses
+are unavailable. A major wound requires an approved
+`RpgExpandedFrenzyKnockdownRuling`, linked through the wound's `frenzyRuling`.
+The ruling records knockdown and consciousness choices and evidence; the
+ordinary wound still applies its injury. It creates no fictional check or
+margin and does not inflict stun. This is the approved author-ruling boundary
+for the supplied printing's combined procedure.
+
+This is **not yet a complete or fear-selectable trait**. Maneuvers reject with
+`frenzy-owned-action-required` until committed action adapters are implemented.
+Optional entry, target changes and exit handling remain
+open in F13 of the [completion checklist](fear-completion.md). Entry and ruling
+fixtures are authored but unrun while implementation checks remain paused.
+
+A `RpgExpandedVolatileTemperTrigger` with an active frenzy purchase requires a
+`RpgExpandedFrenzyTemperEntry` in its `frenzyEntry` field before rolling. Bind
+that adapter to the same character, the frenzy purchase, the temper trigger
+and its episode. A failed temper check starts that episode automatically; it
+does not roll again. A successful temper check retains the adapter receipt
+without starting an episode. `test_frenzy_temper` covers this path and remains
+unrun.
+
+Voluntary entry uses `RpgExpandedFrenzyVoluntaryEntry` with a bound
+`RpgExpandedFrenzyConcentrate` maneuver, fighter and battle. Calling `apply()`
+preflights the episode, turn and Will score, then commits the actual maneuver.
+The maneuver callback checks Will and starts the episode only on success.
+Incapacity before concentration prevents the Will check; replay does not repeat
+the turn or roll. `test_frenzy_voluntary` is authored and unrun.

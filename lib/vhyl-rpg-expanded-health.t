@@ -204,7 +204,7 @@ class RpgExpandedWound: object
             value.dropPlan = self.profile.prepareKnockdownDrop(self.dropDestination);
             if (value.dropPlan != nil && value.dropPlan.status != 'ready')
             { value.reason = value.dropPlan.reason; return value; }
-            value.reason = self.profile.injuryKnockdownReason(value.assessment.modifier);
+            value.reason = self.profile.injuryKnockdownRequestReason(self,value.assessment.modifier);
             if (value.reason != nil) return value;
         }
         if (value.healthLoss > 0 && self.profile.ht < 3 && self.profile.hp() - value.healthLoss <= -self.profile.maxHP)
@@ -216,8 +216,7 @@ class RpgExpandedWound: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
-        self.health = rpgLiteWoundWithKnockdown(self.profile,value.healthLoss,
-            value.assessment.required,value.assessment.modifier);
+        self.health = self.commitHealth(value);
         if (self.health.knockedDown && value.dropPlan != nil)
         { value.dropPlan.commit(); self.droppedEquipment = value.dropPlan; }
         if (value.crippling != nil && value.crippling.crippled)
@@ -247,6 +246,11 @@ class RpgExpandedWound: object
             self.profile.onBodySupportLost(self.bodyPart);
         }
         value.health = self.health; value.status = 'resolved'; return value;
+    }
+    commitHealth(value)
+    {
+        return rpgLiteWoundWithKnockdown(self.profile,value.healthLoss,
+            value.assessment.required,value.assessment.modifier);
     }
 ;
 
@@ -11935,4 +11939,127 @@ class RpgExpandedNightmareFatigueLoss: RpgExpandedFearFatigueLoss
 modify RpgExpandedProfile
     nightmareFatigueLosses = []
     newNightmareFatigueLoss() { return new RpgExpandedNightmareFatigueLoss(); }
+;
+
+/** Validate actual injury evidence for a frenzy entry; relationship/perception
+ * are explicit authored facts on the owning trigger. */
+modify RpgExpandedProfile
+    validateFrenzyInjury(receipt,witnessed,lovedOne)
+    {
+        if (receipt == nil || !receipt.ofKind(RpgExpandedRageInjuryReceipt))
+            rpgExpandedReject('frenzy-injury-receipt-required');
+        receipt.validateReceipt();
+        if (receipt.profile == self)
+        {
+            if (witnessed || lovedOne) rpgExpandedReject('frenzy-own-injury-facts');
+        }
+        else if (!witnessed || !lovedOne) rpgExpandedReject('frenzy-witnessed-loved-one-required');
+        return nil;
+    }
+;
+
+/** Approved B124 boundary ruling: select knockdown and consciousness explicitly.
+ * No synthetic check, margin or modifier is created. Injury is committed by the
+ * ordinary wound; this receipt owns only the ambiguous combined consequence. */
+class RpgExpandedFrenzyKnockdownRuling: object
+    wound = nil
+    episode = nil
+    approved = nil
+    evidence = nil
+    knockdown = nil
+    unconscious = nil
+    result = nil
+    boundDefinition = nil
+    definition() { return [self.wound,self.episode,self.approved,self.evidence,self.knockdown,self.unconscious]; }
+    assess()
+    {
+        local value = new RpgExpandedResult();
+        if (self.wound == nil || !self.wound.ofKind(RpgExpandedWound) || self.wound.frenzyRuling != self
+            || self.episode == nil || self.episode.profile != self.wound.profile)
+            rpgExpandedReject('frenzy-knockdown-ruling-owner');
+        self.episode.validateReceipt();
+        if (self.result != nil)
+        {
+            if (self.boundDefinition == nil) rpgExpandedReject('frenzy-knockdown-ruling-history');
+            local facts = self.definition();
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('frenzy-knockdown-ruling-binding');
+            if (self.wound.health != self.result) rpgExpandedReject('frenzy-knockdown-ruling-result');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.wound.health != nil) rpgExpandedReject('frenzy-knockdown-ruling-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'frenzy-knockdown-ruling-evidence'; return value; }
+        if (!self.wound.profile.frenzyActive() || self.wound.profile.frenzyEpisode != self.episode)
+        { value.reason = 'frenzy-knockdown-ruling-inactive'; return value; }
+        value.status = 'ready'; return value;
+    }
+    apply(result)
+    {
+        if (self.wound.profile.committingFrenzyWound != self.wound || self.assess().status != 'ready')
+            rpgExpandedReject('frenzy-knockdown-ruling-commit');
+        local profile = self.wound.profile;
+        if (self.knockdown)
+        {
+            result.knockedDown = true; profile.posture = 'lying'; profile.onKnockdown();
+            foreach (local item in profile.equipment) if (!item.worn) item.ready = nil;
+        }
+        if (self.unconscious) profile.becomeUnconscious();
+        self.boundDefinition = self.definition(); self.result = result; return nil;
+    }
+;
+modify RpgExpandedWound
+    frenzyRuling = nil
+    boundFrenzyRuling = nil
+    assess()
+    {
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.frenzyRuling != self.boundFrenzyRuling) rpgExpandedReject('frenzy-wound-ruling-binding');
+            if (self.frenzyRuling != nil) self.frenzyRuling.assess();
+        }
+        else if (self.boundFrenzyRuling != nil) rpgExpandedReject('frenzy-wound-ruling-uncommitted');
+        else if (self.frenzyRuling != nil && value.status == 'ready'
+            && (!self.profile.frenzyActive() || !value.assessment.required || self.profile.unconscious))
+        { value.status = 'blocked'; value.reason = 'frenzy-wound-ruling-unused'; }
+        return value;
+    }
+    commitHealth(value)
+    {
+        if (!self.profile.frenzyActive())
+        {
+            if (self.frenzyRuling != nil) rpgExpandedReject('frenzy-wound-ruling-unused');
+            return inherited(value);
+        }
+        if (self.frenzyRuling != nil && (!value.assessment.required || self.profile.unconscious))
+            rpgExpandedReject('frenzy-wound-ruling-unused');
+        if (self.profile.committingFrenzyWound != nil) rpgExpandedReject('frenzy-wound-nested');
+        self.profile.committingFrenzyWound = self;
+        local result = inherited(value);
+        self.profile.committingFrenzyWound = nil; self.boundFrenzyRuling = self.frenzyRuling; return result;
+    }
+;
+modify RpgExpandedProfile
+    committingFrenzyWound = nil
+    injuryKnockdownRequestReason(wound,modifier)
+    {
+        if (!self.frenzyActive()) return inherited(wound,modifier);
+        if (wound.frenzyRuling == nil || !wound.frenzyRuling.ofKind(RpgExpandedFrenzyKnockdownRuling))
+            return 'frenzy-knockdown-ruling-required';
+        local value = wound.frenzyRuling.assess();
+        return value.status == 'ready' ? nil : value.reason;
+    }
+    validateFrenzyKnockdown(modifier)
+    {
+        if (self.committingFrenzyWound == nil
+            || self.injuryKnockdownRequestReason(self.committingFrenzyWound,modifier) != nil)
+            rpgExpandedReject('frenzy-knockdown-ruling-required');
+        return nil;
+    }
+    applyFrenzyKnockdown(result,modifier)
+    {
+        self.validateFrenzyKnockdown(modifier);
+        return self.committingFrenzyWound.frenzyRuling.apply(result);
+    }
 ;

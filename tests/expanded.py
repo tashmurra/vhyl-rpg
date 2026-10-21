@@ -9891,6 +9891,14 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    frenzy_knockdown = build.build('expanded-frenzy-knockdown',ROOT / 'tests/fixtures/expanded-frenzy-knockdown.t')
+    test_frenzy_knockdown(Session,frenzy_knockdown,build.out)
+    frenzy_temper = build.build('expanded-frenzy-temper',ROOT / 'tests/fixtures/expanded-frenzy-temper.t')
+    test_frenzy_temper(Session,frenzy_temper,build.out)
+    frenzy_voluntary = build.build('expanded-frenzy-voluntary',ROOT / 'tests/fixtures/expanded-frenzy-voluntary.t')
+    test_frenzy_voluntary(Session,frenzy_voluntary,build.out)
+    frenzy_entry = build.build('expanded-frenzy-entry',ROOT / 'tests/fixtures/expanded-frenzy-entry.t')
+    test_frenzy_entry(Session,frenzy_entry,build.out)
     attention_acquisition = build.build('expanded-attention-acquisition',ROOT / 'tests/fixtures/expanded-attention-acquisition.t')
     test_attention_acquisition(Session,attention_acquisition,build.out)
     attention_work = build.build('expanded-attention-work',ROOT / 'tests/fixtures/expanded-attention-work.t')
@@ -31142,4 +31150,116 @@ def test_attention_rapid_prototype(Session,bundle,out):
     s = Session(bundle)
     try:
         s.command(f':restore {path}\n@2251'); do(s,1281); assert state(s) == after
+    finally: s.close()
+
+
+def test_frenzy_entry(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1314)
+        return last(s,'test.frenzy-entry')
+    for success in (False,True):
+        s = Session(bundle)
+        path = out/f'frenzy-entry-{success}.zsave'
+        before = ['new',0,3,3,3,0,0,0]
+        after = ['new' if success else 'active',0 if success else 1,3,3,3 if success else 0,0 if success else 1,3,0]
+        try:
+            do(s,1310)
+            if success: do(s,1315)
+            do(s,1313); do(s,1316); assert state(s) == before
+            do(s,1312); assert state(s) == before
+            do(s,1311); s.command('undo'); assert state(s) == before
+            do(s,1311); do(s,1311); assert state(s) == after
+            do(s,1317); do(s,1319); assert state(s) == after
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1311); assert state(s) == after
+            do(s,1318); assert state(s) == after
+            do(s,1320)
+            assert last(s,'test.frenzy-effects') == ([3,1,1,1,4,10,10] if success else [5,0,0,1,0,14,14])
+        finally: s.close()
+
+
+def test_frenzy_knockdown(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1334)
+        return last(s,'test.frenzy-knockdown')
+    for collapse in (False,True):
+        s = Session(bundle)
+        path = out/f'frenzy-knockdown-{collapse}.zsave'
+        before = [3,0,0,'standing',0,3,0]
+        after = [9,0,int(collapse),'lying' if collapse else 'standing',1,3,0]
+        try:
+            do(s,1310); do(s,1311)
+            do(s,1331); do(s,1336); assert state(s) == before
+            do(s,1330)
+            if collapse: do(s,1335)
+            do(s,1333); assert state(s) == before
+            do(s,1332); assert state(s) == before
+            do(s,1331); s.command('undo'); assert state(s) == before
+            do(s,1331); do(s,1331); assert state(s) == after
+            do(s,1337); do(s,1338); assert state(s) == after
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1331); assert state(s) == after
+        finally: s.close()
+
+
+def test_frenzy_temper(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1342)
+        return last(s,'test.frenzy-temper')
+    s = Session(bundle)
+    path = out/'frenzy-temper.zsave'
+    before = ['new',0,0,0,0]
+    after = ['active',1,1,3,0]
+    try:
+        do(s,1340); do(s,877); do(s,871); assert state(s) == before
+        do(s,1341); do(s,885); do(s,1343); assert state(s) == before
+        do(s,872); assert state(s) == before
+        do(s,871); s.command('undo'); assert state(s) == before
+        do(s,871); do(s,871); assert state(s) == after
+        do(s,1344); assert state(s) == after
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,871); assert state(s) == after
+    finally: s.close()
+
+
+def test_frenzy_voluntary(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1354)
+        return last(s,'test.frenzy-voluntary')
+    for success in (False,True):
+        s = Session(bundle)
+        path = out/f'frenzy-voluntary-{success}.zsave'
+        before = ['new',0,0,0,0,0]
+        after = ['active' if success else 'new',1,1,1,3,1]
+        try:
+            do(s,1350)
+            if success: do(s,1315)
+            do(s,1353); do(s,1355); assert state(s) == before
+            do(s,1352); assert state(s) == before
+            do(s,1351); s.command('undo'); assert state(s) == before
+            do(s,1351); do(s,1351); assert state(s) == after
+            do(s,1356); assert state(s) == after
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1351); assert state(s) == after
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1350); do(s,1357); do(s,1351)
+        assert state(s) == before
     finally: s.close()
