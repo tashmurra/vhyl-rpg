@@ -26,9 +26,12 @@
       "pages": "B140",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Indecision is base -10. A choice prompts self-control with a penalty equal to perceived alternatives, such as -2 for two and -3 for three. Failure prevents action; retry each minute, or each second under combat-like stress. Success persists until a new decision; do not reroll the same decision on each parser query.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_indecision"
+      ],
+      "implementation_note": "Owned visible-choice episode, count penalty, retained retries and shared do-nothing action gates. Exact ordinary/high-stress retry boundaries and lifecycle fixtures registered but unrun. Combined confusion procedure and fear acquisition remain pending."
     },
     {
       "id": "disadvantages-e-indecision-confusion",

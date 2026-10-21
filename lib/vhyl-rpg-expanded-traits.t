@@ -5898,3 +5898,155 @@ modify RpgExpandedProfile
     }
     validateFeatures() { inherited(); self.incuriosityActive(); return nil; }
 ;
+
+/** full-2008 B140: visible alternatives and clocked retries belong to one decision. */
+class RpgExpandedIndecision: RpgExpandedDisadvantage
+    id = 'indecision'
+    labelId = 'indecision'
+    points = -10
+    controlled = true
+    templatePurchaseKind = 'expanded-indecision'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'indecision' || self.points != -10 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('indecision-definition');
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'indecision') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedIndecision(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedIndecision)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+class RpgExpandedIndecisionEpisode: object
+    id = nil
+    profile = nil
+    trait = nil
+    choices = []
+    highStress = nil
+    approved = nil
+    evidence = nil
+    attempts = []
+    boundFacts = nil
+    facts() { return [self.id,self.profile,self.trait,self.highStress,self.approved,self.evidence,self.choices.length()] + self.choices; }
+    validate()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedIndecision)) rpgExpandedReject('indecision-episode-definition');
+        self.trait.creationCost();
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.choices.length() < 2)
+            rpgExpandedReject('indecision-decision-facts');
+        local seen = [];
+        foreach (local choice in self.choices)
+        {
+            if (choice == nil || holds(seen,choice)) rpgExpandedReject('indecision-distinct-choices');
+            seen = seen + [choice];
+        }
+        if (self.boundFacts != nil)
+        {
+            local facts = self.facts();
+            if (facts.length() != self.boundFacts.length() || !holds(self.profile.indecisionEpisodes,self))
+                rpgExpandedReject('indecision-episode-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundFacts[i]) rpgExpandedReject('indecision-episode-binding');
+        }
+        else if (self.attempts.length() != 0) rpgExpandedReject('indecision-uncommitted-attempts');
+        return nil;
+    }
+    active()
+    {
+        self.validate();
+        foreach (local attempt in self.attempts) attempt.assess();
+        if (self.attempts.length() == 0) return nil;
+        local current = self.profile.phobiaCurrentTrait(self.trait);
+        return holds(self.profile.traits,current) && current.active && !current.mitigated
+            && !self.attempts[self.attempts.length()].check.achieved;
+    }
+;
+class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
+    episode = nil
+    recordedAt = nil
+    boundCheck = nil
+    definition() { return inherited() + [self.episode]; }
+    effectiveModifier() { return -self.episode.choices.length(); }
+    assess()
+    {
+        if (self.episode == nil || !self.episode.ofKind(RpgExpandedIndecisionEpisode)) rpgExpandedReject('indecision-check-episode');
+        self.episode.validate();
+        if (self.profile != self.episode.profile || self.trait != self.episode.trait || self.modifier != 0)
+            rpgExpandedReject('indecision-check-owner');
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (!holds(self.episode.attempts,self) || self.boundCheck == nil) rpgExpandedReject('indecision-check-history');
+            local facts = [self.recordedAt,self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundCheck[i]) rpgExpandedReject('indecision-check-binding');
+            return value;
+        }
+        if (self.recordedAt != nil || self.boundCheck != nil) rpgExpandedReject('indecision-check-uncommitted');
+        if (value.status != 'ready') return value;
+        if (self.profile.dead || self.profile.unconscious || self.trait.mitigated)
+        { value.reason = 'indecision-observer-unavailable'; value.status = 'blocked'; return value; }
+        foreach (local purchase in self.profile.traits)
+            if (purchase.active && !purchase.mitigated && purchase.id == 'overstimulation')
+            { value.reason = 'indecision-confusion-adapter-required'; value.status = 'blocked'; return value; }
+        foreach (local prior in self.profile.indecisionEpisodes)
+            if (prior != self.episode && (prior.id == self.episode.id || prior.active()))
+                rpgExpandedReject('indecision-concurrent-decision');
+        if (self.episode.attempts.length() != 0)
+        {
+            local prior = self.episode.attempts[self.episode.attempts.length()]; prior.assess();
+            if (prior.check.achieved) { value.reason = 'indecision-already-decided'; value.status = 'blocked'; return value; }
+            if (rpgLedger.seconds < prior.recordedAt + (self.episode.highStress ? 1 : 60))
+            { value.reason = 'indecision-retry-not-due'; value.status = 'blocked'; return value; }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.recordedAt = rpgLedger.seconds;
+        self.boundCheck = [self.recordedAt,self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+        if (self.episode.boundFacts == nil)
+        { self.episode.boundFacts = self.episode.facts(); self.profile.indecisionEpisodes = self.profile.indecisionEpisodes + [self.episode]; }
+        self.episode.attempts = self.episode.attempts + [self]; return nil;
+    }
+;
+modify RpgExpandedProfile
+    indecisionEpisodes = []
+    activeIndecision()
+    {
+        local found = nil;
+        foreach (local episode in self.indecisionEpisodes)
+            if (episode.active())
+            {
+                if (found != nil) rpgExpandedReject('indecision-concurrent-decision');
+                found = episode;
+            }
+        return found;
+    }
+    healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
+    {
+        local reason = inherited(purpose,mentalAbility,speech,movement,authorization);
+        if (reason == nil && self.activeIndecision() != nil && !holds(['rest','do-nothing'],purpose))
+            return 'indecision-do-nothing';
+        return reason;
+    }
+    healthManeuverReasonFor(kind,request)
+    {
+        local reason = inherited(kind,request);
+        if (reason == nil && self.activeIndecision() != nil && kind != 'nothing') return 'indecision-do-nothing';
+        return reason;
+    }
+;

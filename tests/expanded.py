@@ -9883,6 +9883,8 @@ def test(build):
     test_control_choice_mitigation(Session,incuriosity,'test.incurious')
     incuriosity_social = build.build('expanded-incuriosity-social',ROOT / 'tests/fixtures/expanded-incuriosity-social.t')
     test_incuriosity_social(Session,incuriosity_social,build.out)
+    indecision = build.build('expanded-indecision',ROOT / 'tests/fixtures/expanded-indecision.t')
+    test_indecision(Session,indecision,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30640,3 +30642,38 @@ def test_incuriosity_social(Session,bundle,out):
             s.command(f':restore {path}\n@2251'); do(s,982); assert state(s) == [modifier,1,3]
         finally: s.close()
 
+
+
+def test_indecision(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1125)
+        return last(s,'test.indecision')
+    for high in (False,True):
+        s = Session(bundle)
+        path = out/f'indecision-{high}.zsave'
+        due = 1 if high else 60
+        try:
+            do(s,1120)
+            if high: do(s,1126)
+            do(s,1122); assert state(s) == [0,0,0,0,None,None]
+            do(s,1121); s.command('undo'); assert state(s) == [0,0,0,0,None,None]
+            do(s,1121); do(s,1121); do(s,1123)
+            assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
+            do(s,1129); assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
+            do(s,1130); assert state(s) == [1,0,3,0,None,10]
+            do(s,1131); assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
+            do(s,1127)
+            if not high:
+                do(s,1123); assert state(s) == [1,1,3,59,'indecision-do-nothing',10]
+                do(s,1128)
+            do(s,1124); assert state(s) == [1,1,3,due,'indecision-do-nothing',10]
+            do(s,1123); s.command('undo'); assert state(s) == [1,1,3,due,'indecision-do-nothing',10]
+            do(s,1123); do(s,1123); assert state(s) == [2,0,6,due,None,10]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1121); do(s,1123)
+            assert state(s) == [2,0,6,due,None,10]
+        finally: s.close()

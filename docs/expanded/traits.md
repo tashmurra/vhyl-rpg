@@ -3001,3 +3001,33 @@ reaction. This flat penalty does not vary with self-control rating.
 specify pricing, fear acquisition, concrete ignored/investigated choices,
 invalid novelty facts, reaction direction, actual reaction totals, rollback,
 undo and save continuation. These fixtures are registered but unrun.
+
+
+### Indecision — decision and retry procedure
+
+`RpgExpandedIndecision` implements the full-2008 B140 rated purchase at base -10.
+Create an `RpgExpandedIndecisionEpisode` for an actual decision, with its profile,
+trait, unique ID, approval/evidence and distinct visible `choices` (at least two).
+Set `highStress` for combat or an authored equivalent; otherwise retries use the
+ordinary interval. One visible path does not require this procedure.
+
+Each attempt is an owned `RpgExpandedIndecisionCheck`, with the same episode,
+profile and trait, its own ID and occurrence token in `trigger`, evidence and
+any required stress classification. The check subtracts the number of visible
+alternatives from self-control. Its generic `modifier` must remain zero to avoid
+charging that penalty twice. After failure, the shared effort and maneuver gates
+permit only rest/do-nothing; retry is unavailable before 60 seconds, or one
+second when `highStress` is set. The world or battle clock owns that elapsed time:
+resolving a due retry does not charge it again. Success releases the restriction
+for this decision. A later distinct decision needs a new episode.
+
+The episode retains its choices and timing classification. Prior attempts remain
+immutable receipts, including their check results and timestamps. Mitigation
+releases an unfinished restriction without manufacturing success; ending it
+restores the restriction and its existing retry schedule.
+
+The combined B140 confusion procedure remains incomplete and rejects explicitly
+when an active overstimulation purchase is present. This purchase is not yet
+enabled as a fear selection. `test_indecision` specifies the initial failure,
+exact retry boundaries, shared action gate, success, mitigation, immutable
+choices, rollback, undo and saved continuation. It is registered but unrun.

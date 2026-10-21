@@ -463,3 +463,14 @@ without the selected replay type. Low confidence now rejects that invalid field;
 replay receipts bind their selected type independently of future purchase edits.
 Added fixture assertions cover rejected mutation, rollback and saved type
 continuation. These cases remain unrun while checks are paused.
+
+
+## Indecision decision timing
+
+The B140 decision procedure now binds visible alternatives, applies their count
+as the self-control penalty and retains clocked attempts. Failed decisions feed
+the shared do-nothing action gates; retries use 60-second or authored high-stress
+one-second boundaries without another time charge. Fixtures specify release on
+success, mitigation, mutation rejection, rollback, undo and saved continuation.
+They remain unrun. The additional confusion check is still an explicit blocker
+for the combined purchase, and fear acquisition is not yet enabled.
