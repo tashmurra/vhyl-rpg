@@ -339,9 +339,13 @@
       "pages": "B148-B149",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Fear of a specific stimulus uses self-control on exposure. Failure rolls three dice plus failure margin on the full fear table, immediately applying its result. Success still gives -4/-3/-2/-1 to dexterity/intelligence/skills at self-control six/nine/twelve/fifteen while exposure persists. Recheck every ten minutes.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phobia",
+        "tests/expanded.py::test_phobia_awareness"
+      ],
+      "validation_note": "Typed phobia purchases and exact self-control tier pricing, persistent exposure checks, ten-minute repeat boundaries, shaken DX/IQ/skill penalties and failed-check stress follow-ups. Explicit owned perception pause permits unconscious recovery and an immediate check on resumed perception. Distinct phobia purchases may coexist, but simultaneous exposure stacking and catalogue activity restrictions remain pending. Fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-phobia-threat",
@@ -349,9 +353,12 @@
       "pages": "B149",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "A mere threat of the feared stimulus uses self-control at +4; actual exposure uses the unmodified procedure. Panic does not automatically reveal information under coercion. Failed fear resistance can also trigger other stress traits; identify a single causal event and apply each relevant trigger once.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_phobia"
+      ],
+      "validation_note": "Owned exposure and self-control checks now retain ten-minute deadlines, rating-based DX/IQ/skill penalties, threat +4, full-table failure selection, stress follow-ups and explicit cessation. Overlap/incapacity combinations, catalogue activity restrictions and remaining consequence rows are incomplete. Fixtures authored but unrun while checks are paused."
     },
     {
       "id": "disadvantages-f-phobia-isolation",

@@ -9775,6 +9775,18 @@ def test(build):
     test_fear_aura(Session,fear_aura,build.out)
     postbattle_fear = build.build('expanded-postbattle-fear',ROOT / 'tests/fixtures/expanded-postbattle-fear.t')
     test_postbattle_fear(Session,postbattle_fear)
+    phobia = build.build('expanded-phobia',ROOT / 'tests/fixtures/expanded-phobia.t')
+    test_phobia(Session,phobia,build.out)
+    phobia_awareness = build.build('expanded-phobia-awareness',ROOT / 'tests/fixtures/expanded-phobia-awareness.t')
+    test_phobia_awareness(Session,phobia_awareness,build.out)
+    fear_phobia_acquisition = build.build('expanded-fear-phobia-acquisition',ROOT / 'tests/fixtures/expanded-fear-phobia-acquisition.t')
+    test_fear_phobia_acquisition(Session,fear_phobia_acquisition,build.out)
+    fear_shock_faint = build.build('expanded-fear-shock-faint',ROOT / 'tests/fixtures/expanded-fear-shock-faint.t')
+    test_fear_shock_faint(Session,fear_shock_faint,build.out)
+    extreme_panic = build.build('expanded-extreme-panic',ROOT / 'tests/fixtures/expanded-extreme-panic.t')
+    test_extreme_panic(Session,extreme_panic,build.out)
+    fear_phobia_worsening = build.build('expanded-fear-phobia-worsening',ROOT / 'tests/fixtures/expanded-fear-phobia-worsening.t')
+    test_fear_phobia_worsening(Session,fear_phobia_worsening,build.out)
     test_fear_fatigue(Session,fear)
     test_fear_faint(Session,fear,build.out)
     test_fear_faint_injury(Session,fear,build.out)
@@ -27746,4 +27758,207 @@ def test_postbattle_fear(Session,bundle):
     s=Session(bundle)
     try:
         do(s,370); do(s,377); do(s,372); assert state(s)==[None,None,0,0,0]
+    finally: s.close()
+
+
+def test_phobia(Session,bundle,out):
+    """B149 immediate/repeated self-control, persistent penalties and full consequences; unrun."""
+    def do(s,code,row=4): s.action(2250,code,row)
+    def state(s):
+        do(s,384)
+        return last(s,'test.phobia')
+    s=Session(bundle)
+    try:
+        do(s,400)
+        assert last(s,'test.phobia-tables')==[-5,-15,-15,-10,-15,-10,-5,0,0,-1,-1,-2,-2,-3,-3,-4,-4,-6,-5,-5,-3,-4]
+    finally: s.close()
+    path=out/'phobia.zsave'
+    s=Session(bundle)
+    try:
+        do(s,380); do(s,381); do(s,385); assert state(s)==[0,0,10,0,0]
+        do(s,383); assert state(s)==[0,0,10,0,0]
+        do(s,382); s.command('undo'); assert state(s)==[0,0,10,0,0]
+        do(s,382); do(s,382); assert state(s)==[1,-2,8,3,0]
+        do(s,386); do(s,392); assert state(s)==[1,-2,8,3,0]
+        do(s,385); assert state(s)==[1,-2,8,3,600]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,386); do(s,386)
+        assert state(s)==[2,-2,8,6,600]
+        do(s,387); do(s,387); assert state(s)==[2,0,10,6,600]
+        do(s,385); assert state(s)==[2,0,10,6,1200]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,380); do(s,390); do(s,381); do(s,382)
+        assert state(s)==[1,-2,8,3,0] # Threat score 16 succeeds on 14: no initial fear cap.
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,380); do(s,388); do(s,381); do(s,382); do(s,389); do(s,389)
+        assert state(s)[0:2]==[1,0] and state(s)[3:]==[9,0]
+        do(s,3); assert state(s)==[1,0,10,9,1]
+    finally: s.close()
+
+
+def test_fear_phobia_acquisition(Session,bundle,out):
+    """B361 phobia acquisition and compound rows preserve accounting and IQ loss; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def account(s):
+        do(s,413)
+        return last(s,'test.fear-phobia-account')
+    for setup,expected in ((410,[10,10,9,7,1]),(411,[10,15,9,7,1]),(412,[9,35,9,7,2])):
+        s=Session(bundle)
+        try:
+            do(s,setup); do(s,343); assert account(s)==[10,0,9,7,0]
+            do(s,342); s.command('undo'); assert account(s)==[10,0,9,7,0]
+            do(s,342); do(s,342); assert account(s)==expected
+        finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,410); do(s,416); assert account(s)==[10,0,9,7,0]
+        do(s,415); do(s,415); assert account(s)==[10,10,9,7,1]
+    finally: s.close()
+    path=out/'fear-iq-loss.zsave'
+    s=Session(bundle)
+    try:
+        do(s,412); do(s,342); s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,342); assert account(s)==[9,35,9,7,2]
+    finally: s.close()
+
+
+
+def test_fear_shock_faint(Session,bundle,out):
+    """B361 row 20: four duration dice, one fatigue die and explicit recovery; unrun."""
+    def do(s,code,row=4): s.action(2250,code,row)
+    def state(s):
+        do(s,423)
+        return last(s,'test.shock-faint')
+    for setup in (420,421):
+        s=Session(bundle)
+        try:
+            do(s,setup); do(s,424)
+            assert state(s)==[0,0,0,0,None,None,0,0]
+            do(s,setup); do(s,32)
+            assert state(s)==[0,0,0,0,None,None,0,0]
+            do(s,30); s.command('undo')
+            assert state(s)==[0,0,0,0,None,None,0,0]
+            do(s,30); do(s,30)
+            assert state(s)==[1,1,0,1,240,None,5,0]
+            do(s,33,241); assert state(s)==[1,1,0,1,240,None,5,0]
+            do(s,33,240); do(s,36); do(s,36)
+            if setup == 420: assert state(s)==[1,1,0,0,240,240,5,240]
+            else: assert state(s)==[1,1,0,1,300,None,8,240]
+        finally: s.close()
+    path=out/'fear-shock-faint.zsave'
+    s=Session(bundle)
+    try:
+        do(s,420); do(s,300); do(s,422)
+        assert state(s)==[1,1,0,1,240,None,11,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,422); do(s,33,240); do(s,36)
+        assert state(s)==[1,1,0,0,240,240,11,240]
+    finally: s.close()
+
+
+def test_fear_phobia_worsening(Session,bundle,out):
+    """B361 row 25: history-preserving purchase transition and SC6 fallback; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,433)
+        return last(s,'test.phobia-worsening')
+    s=Session(bundle)
+    path=out/'fear-phobia-worsening.zsave'
+    try:
+        do(s,430); do(s,381); do(s,382)
+        do(s,432); assert state(s)==[12,1,0,0,9,7,3]
+        do(s,431); s.command('undo'); assert state(s)==[12,1,0,0,9,7,3]
+        do(s,431); do(s,431); do(s,436)
+        assert state(s)==[9,1,5,1,9,7,3]
+        do(s,384); assert last(s,'test.phobia')==[1,-3,7,3,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,431); do(s,436)
+        assert state(s)==[9,1,5,1,9,7,3]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,430); do(s,434); do(s,431); do(s,431)
+        assert state(s)==[6,2,10,1,9,7,0]
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        do(s,430); do(s,435)
+        assert state(s)==[12,1,0,0,9,7,0]
+    finally: s.close()
+
+
+
+def test_extreme_panic(Session,bundle,out):
+    """B361 row 33: severity -> real authored reaction -> Will -> repeat; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,445)
+        return last(s,'test.extreme-panic')
+    s=Session(bundle)
+    path=out/'extreme-panic.zsave'
+    try:
+        do(s,441); assert state(s)==[None,0,None,0,0,0]
+        do(s,440); do(s,440); assert state(s)==[18,0,None,1,3,0]
+        do(s,3); assert state(s)==[18,0,None,1,3,0]
+        do(s,443); assert state(s)==[18,0,None,1,3,0]
+        do(s,442); s.command('undo'); assert state(s)==[18,0,None,1,3,0]
+        do(s,442); do(s,442); do(s,448)
+        assert state(s)==[7,1,None,1,9,1]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,442); do(s,444); do(s,444); do(s,448)
+        assert state(s)==[None,2,2,0,12,2]
+        do(s,3); assert state(s)==[None,2,2,0,12,3]
+    finally: s.close()
+    for invalid in (446,447):
+        s=Session(bundle)
+        try:
+            do(s,440); do(s,invalid); assert state(s)==[18,0,None,1,3,0]
+        finally: s.close()
+
+
+
+def test_phobia_awareness(Session,bundle,out):
+    """Explicit perception interruption spans a faint and requires a fresh check on waking; unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,468)
+        return last(s,'test.phobia-awareness')
+    s=Session(bundle)
+    path=out/'phobia-awareness.zsave'
+    try:
+        do(s,380); do(s,381); do(s,460); do(s,382); do(s,461)
+        assert state(s)==[0,600,1,1,8,0]
+        do(s,464); assert state(s)==[0,600,1,1,8,0]
+        do(s,463); assert state(s)==[0,600,1,1,8,0]
+        do(s,462); s.command('undo'); assert state(s)==[0,600,1,1,8,0]
+        do(s,462); do(s,462); do(s,464)
+        assert state(s)==[1,None,1,1,8,720]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,465); do(s,3)
+        assert state(s)==[1,None,1,0,11,720]
+        do(s,467); assert state(s)==[1,None,1,0,11,720]
+        do(s,466); do(s,466); do(s,386)
+        assert state(s)==[0,1320,2,0,14,720]
     finally: s.close()

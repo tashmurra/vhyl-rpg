@@ -1121,3 +1121,9 @@ modify RpgExpandedProfile
     postbattleFearFacts(trait) { rpgExpandedReject('postbattle-traits-required'); }
     postbattleFearScore(trait,modifier) { rpgExpandedReject('postbattle-traits-required'); }
 ;
+
+modify RpgExpandedProfile
+    phobiaFacts(trait) { rpgExpandedReject('phobia-traits-required'); }
+    phobiaScore(trait,modifier) { rpgExpandedReject('phobia-traits-required'); }
+    phobiaControlNumber(trait) { rpgExpandedReject('phobia-traits-required'); }
+;

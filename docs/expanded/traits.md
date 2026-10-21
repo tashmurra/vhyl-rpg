@@ -2005,3 +2005,113 @@ follow-up when applicable. Exact self-control success does not trigger it.
 failure, ending eligibility, replay, exception rollback, undo and consequence
 commitment. Assertions remain unrun. Scores outside the supported range and
 unsupported selected consequences remain explicit limitations of the shared flow.
+
+## Phobia purchases and exposures
+
+`RpgExpandedPhobia` prices the B149–B150 catalogue through a neutral `scope`:
+`isolation`, `blood`, `cats`, `crowds`, `darkness`, `dead`, `dirt`, `canines`,
+`enclosure`, `fire`, `heights`, `insects`, `loud-noise`, `machinery`, `magic`,
+`monsters`, `number-thirteen`, `large-water`, `open-space`, `psi`, `reptiles`,
+`sexual-contact`, `sharp`, `spiders`, `unfamiliar`, `sunlight` or `weapons`.
+Set `points` to the matching base price, `approved = true`, and the independent
+`selfControlRating`. Machinery/sharp-object prices use the authored `technology`;
+magic/psionic prices use `prevalence` (`common`, `uncommon`, `unknown`).
+`rpgExpandedPhobiaBase` supplies those prices before self-control adjustment.
+Template copying preserves the settings and rating.
+
+Start a `RpgExpandedPhobiaExposure` with a unique `id`, owning `profile`, purchased
+`trait`, `cause` identity, approval and evidence explaining the perceived stimulus.
+The initial check is due immediately. Create a `RpgExpandedPhobiaContext` with
+that exposure, the same profile and approved stimulus evidence, then resolve a
+`RpgExpandedPhobiaCheck` with its own unique ID and occurrence. Success applies
+-4/-3/-2/-1 to DX, IQ and all skill checks at ratings 6/9/12/15 respectively,
+while that cause persists. The initial roll uses self-control, not Will, and
+is not capped at thirteen. Failure selects the full fear table and uses the
+same committed consequence interfaces and failed-stress follow-ups.
+
+With `threatOnly = true`, the check gets +4 and no actual-stimulus condition or
+crowd count may be supplied. Otherwise `condition = 'ordinary'` selects no extra
+modifier. Named conditions implement known/animated bodies, unfamiliar food,
+fall risk, large/poisonous/numerous creatures, robots and hostile machines,
+friendly/hostile magic targeting, Friday, weapon use/threat and unfamiliar
+nonhuman company. Monster severity is selected explicitly from `severity-one`
+through `severity-four`. Crowds require `crowdCount` and apply the printed
+25/100/1,000-and-later boundaries. Approval establishes that the situation
+actually triggers this character's purchased fear; imagined supernatural causes
+are not treated as proof of real supernatural activity.
+
+Every check schedules the next one 600 seconds later. The shared clock cannot
+skip that boundary. Use a fresh context/check and occurrence at the boundary;
+repeating an old check returns its old result. `exposure.end(true, evidence)`
+records that the perceived cause has ceased, removes the ongoing penalty and
+cancels future checks. It cannot skip the initial check or cancel an unresolved
+fear consequence. Histories bind purchases, checks, start and ending records.
+Use the engine transaction boundary for starting, checking and ending exposure.
+
+`test_phobia` specifies initial and repeat timing, threat-only success above the
+ordinary fear cap, DX penalties, failure-to-consequence execution, stress
+follow-ups, replay, rollback, undo and saved continuation. Fixtures remain unrun.
+
+This does not yet complete every catalogue entry: learning prohibitions and
+voluntary activity restrictions still need their author/action adapters.
+Simultaneous exposures are rejected rather than inventing a stacking rule.
+If independent incapacity prevents a scheduled check, that interaction remains
+unsupported; do not silently skip the check. Scores below the existing supported
+minimum and unsupported consequence rows retain their explicit limitations.
+
+
+### Fear-induced phobia acquisition
+
+`RpgExpandedFearPhobiaAcquisition` implements a specific phobia choice for B361
+rows 23 and 35. Supply a new unowned `RpgExpandedPhobia`, completed-creation
+`profile`, unique `id`, source `eventId`, `tableTotal`, approval and evidence
+connecting this new fear to that event. The fully adjusted purchase must cost
+exactly -10 or -15 respectively. An already-owned phobia of the same scope is
+rejected; worsening an existing purchase is a separate, still-pending procedure.
+
+`assess()` is pure; `apply()` installs the purchase once, records ownership and
+increments the existing development revision. Earned and unspent points remain
+unchanged. The purchase receives a post-creation disadvantage allowance, without
+changing the ordinary creation limit. The owned fear event accepts the matching
+acquisition for a direct result, or the health module can combine it with the
+specified faint/coma and permanent IQ consequence. Non-phobia mental traits are
+not accepted as substitutes by this specific interface.
+
+
+## Worsening an existing phobia
+
+`RpgExpandedFearPhobiaWorsening` implements the phobia branch of full-2008 B361
+row 25. Author `id`, `eventId`, `profile`, the `previous` owned purchase,
+`related`, approval and evidence connecting the incident to the existing fear.
+When related and above self-control 6, supply a fresh `replacement` with the same
+scope, base price, technology and prevalence, and a self-control rating exactly
+one step lower. The replacement takes the old purchase's place; existing
+exposures retain their original facts and follow the owned transition for future
+checks and shaken penalties. Historical check results are never rewritten.
+
+If no related purchase exists, or its rating is already 6, supply `fallback`
+as a fresh `RpgExpandedFearPhobiaAcquisition` for row 23 and the same profile
+and event ID. It must introduce a distinct phobia worth exactly ten points.
+A transition or fallback increments development revision once and never grants
+earned or unspent points. The additional disadvantage allowance follows owned
+receipts, including later transitions from fear-acquired purchases.
+Other mental-disadvantage types still need specific transition adapters.
+`test_fear_phobia_worsening` specifies current-exposure continuity, exact step
+validation, fallback, rollback, undo and save continuation. It is unrun.
+
+## Phobia perception during unconsciousness
+
+`RpgExpandedPhobiaAwarenessPause` provides an explicit author contract for a
+faint or coma that interrupts perception of a persistent stimulus. Set a unique
+`id`, the `exposure`, approval and evidence, then call `begin()` while the
+profile is actually unconscious. This suspends that exposure's ten-minute check
+boundary and shaken penalty; it neither ends the stimulus nor skips health
+recovery checks. A conscious profile cannot begin this pause.
+
+After waking, call `resume(true,evidence)` when the stimulus is perceived again.
+The next phobia check is due immediately; subsequent checks resume the ten-minute
+schedule. Time cannot advance past waking until the author resumes perception or
+ends the exposure with evidence that the stimulus is no longer perceived.
+This is an explicit perception decision, not an automatic source rule for
+unconsciousness. `test_phobia_awareness` specifies a twelve-minute faint,
+recovery, resumption, replay, rollback, undo and saved continuation; it is unrun.

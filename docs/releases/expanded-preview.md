@@ -1898,3 +1898,21 @@ Quality-specific kits now adopt the reference's approximate basic/good/fine pric
 multipliers and connect the purchased item to its task bonus. Best-quality pricing
 requires explicit author input. Consumables, upgrades and kit catalogues remain
 pending. Fixtures are authored but unrun.
+
+
+Fear integration now connects owned checks, source-specific aura histories and
+mandatory phantom-voice follow-ups. Postbattle stress uses its self-control
+procedure. Phobias have typed purchases, stimulus modifiers, ten-minute exposure
+checks and shaken penalties, including explicit perception suspension during a
+faint or coma. Owned acquisitions and purchase transitions preserve point
+accounting without awarding spendable points. Compound phobia outcomes cover
+fainting, coma and permanent IQ loss.
+
+Row 20 now owns four duration dice and one fatigue die with an explicit authored
+recovery choice, because that boundary is unspecified in the supplied paragraph.
+Row 33 retains severity, commits supported authored reactions, checks survivor
+Will and repeats on failure. Unsupported reactions and physical-effect outcomes
+remain explicit gaps. Earlier entries describing all fear orchestration or
+mandatory fear stress triggers as pending are superseded by this update.
+The complete suite is not yet finished. New integration fixtures are authored
+but unrun; build, test, documentation and packaging checks remain paused.

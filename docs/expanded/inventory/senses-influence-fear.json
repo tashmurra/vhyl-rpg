@@ -1232,9 +1232,10 @@
       "status": "partial",
       "acceptance": "Faint for four dice of minutes and lose one die of fatigue; preserve both separately rolled quantities.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_shock_faint"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned four-die-minute faint and separately rolled fatigue debit, dispatch, minute boundaries and explicit author-selected recovery policy. The source paragraph does not specify the recovery boundary; no default is invented. Fixtures for rollback, undo, replay and continuation are authored, unrun."
     },
     {
       "id": "fear-outcome-21",
@@ -1275,9 +1276,10 @@
       "status": "partial",
       "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative ten points.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
     },
     {
       "id": "fear-outcome-24",
@@ -1301,9 +1303,10 @@
       "status": "partial",
       "acceptance": "Worsen a logically related mental disadvantage's self-control by one step; if none applies or it is already six, add a new negative-ten-point mental disadvantage instead.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_worsening"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Phobia-specific one-step purchase replacement preserves previous check/exposure facts and redirects future control scoring; SC6 or no related phobia uses a fresh ten-point acquisition. No spendable point award. Other mental-disadvantage transitions pending. Fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-26",
@@ -1328,9 +1331,10 @@
       "status": "partial",
       "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point mental disadvantage.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
     },
     {
       "id": "fear-outcome-28",
@@ -1411,9 +1415,10 @@
       "status": "partial",
       "acceptance": "Author a panic reaction informed by a three-die severity roll; if the actor survives, check will. Failure triggers another severity roll and reaction until recovery.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_extreme_panic"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Owned severity/reaction/survivor-Will/repeat sequence with actual shared time, freeze/cry/collapse and optional owned collapse injury. Other world-action reactions need concrete adapters and are rejected. Replay, rollback, undo and saved-loop fixtures authored, unrun."
     },
     {
       "id": "fear-outcome-34",
@@ -1438,9 +1443,10 @@
       "status": "partial",
       "acceptance": "Acquire an event-related phobia or other mental disadvantage worth negative fifteen points.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
     },
     {
       "id": "fear-outcome-36",
@@ -1491,9 +1497,10 @@
       "status": "partial",
       "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point phobia or other mental disadvantage.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
     },
     {
       "id": "fear-outcome-40-plus",
@@ -1504,9 +1511,10 @@
       "status": "partial",
       "acceptance": "Apply row thirty-nine and permanently reduce intelligence by one, updating all intelligence-based skills and spells without refunding their investment.",
       "tests": [
-        "tests/expanded.py::test_fear_assessments"
+        "tests/expanded.py::test_fear_assessments",
+        "tests/expanded.py::test_fear_phobia_acquisition"
       ],
-      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending."
+      "validation_note": "Pure consequence specification authored; primary row fixture unrun. Conditional resource details, owned execution, authored consequences and recovery remain pending. Specific phobia acquisition and faint/coma compounds now share persistent receipts and character accounting; row 40 retains one permanent IQ loss without point awards. Other mental-trait choices and unsupported characteristic/condition combinations remain open. Fixtures authored but unrun."
     }
   ],
   "exclusions": [

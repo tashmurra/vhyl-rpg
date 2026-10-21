@@ -4132,8 +4132,10 @@ new request object. Replay does not reroll or spend time.
 
 On failure, author a matching consequence and call `assessConsequence(request)`
 then `applyConsequence(request)` within the engine's transaction boundary. Health
-handlers must share the exact context and event ID. Supported rows are 4–19,
-21–22, 28–32 and 34: their existing handlers own durations, costs and recovery.
+handlers must share the exact context and event ID. Rows 4–22 and 28–32 have
+owned health handlers; row 20 requires the explicit recovery choice below.
+Rows 23/25/27/35/39/40 have phobia-specific handlers, rows 26/38 have belief
+compounds, and row 33 supports the concrete reaction kinds below.
 Row 13 uses the traits library's `RpgExpandedFearQuirkAcquisition`; rows 22 and 34
 use `RpgExpandedFixedBeliefAcquisition`. Those acquisitions must name this event
 through `eventId`, match the profile and satisfy their specific relation and
@@ -4149,12 +4151,16 @@ After commitment, the existing episode governs recovery and action restrictions.
 Reapplying the same consequence returns reused status. Rolling the event and
 committing its consequence may also be enclosed in one transaction by an author.
 
-Rows 20, 23–25, 27, 33, 35–37 and 39–40+ still need dedicated or compound executors.
+Rows 24 and 36–37 still need physical-effect executors. Row 25 currently supports
+phobias only; row 33 rejects reaction kinds outside its concrete adapters. Rows 23/35 and
+their compound forms support phobia selection; other mental-disadvantage choices
+remain unsupported.
 Unsupported results remain pending, never converted to an abridged result or
 rerolled automatically. Do not enable this event flow in a campaign expecting
 uninterrupted coverage of the entire table yet. Owned events now connect mandatory phantom-voice follow-ups and source-specific
 fear-aura histories. General exposure-history automation, inappropriate-result
-adjudication and phobias remain incomplete. Postbattle stress now uses the
+adjudication and some phobia combinations remain incomplete. The traits guide
+now documents owned phobia checks and their repeat schedule. Postbattle stress uses the
 owned self-control event described in the traits guide.
 
 `expanded-fear-event.t` / `test_fear_event` specify initial success, immunity,
@@ -4188,4 +4194,69 @@ Use `event.applyConsequence(compound)` to bind it to a rolled selection.
 
 `test_fear_compound` specifies both combinations, duplicate prevention, atomic
 rollback, undo and saved replay after rolled row 26. Fixtures remain unrun.
-Other compound rows are not silently mapped to these belief outcomes.
+The generalized trait compound below also supports the specific phobia outcomes;
+other disadvantage types are not silently mapped to beliefs.
+
+
+### Phobia compounds and permanent IQ loss
+
+`RpgExpandedFearTraitCompound` generalizes the compound interface; the existing
+`RpgExpandedFearBeliefCompound` identifier remains available. Rows 26/38 retain
+the belief combinations above. Row 27 accepts a `RpgExpandedFearPhobiaAcquisition`
+using acquisition row 23 and faint row 18. Rows 39/40 accept acquisition row 35
+and coma row 29. Both components must have the same owner and event ID.
+
+Row 40 additionally reduces the shared IQ characteristic by one after the two
+components commit, retaining `iqBefore` and `iqAfter`. This increments the existing
+development revision without awarding points. Derived scores use the shared IQ;
+no parallel skill ledger is changed. The creation disadvantage allowance covers
+recorded involuntary loss below IQ 10, capped by the character's current deficit.
+Replaying the compound cannot remove another IQ point. IQ already at one remains
+explicitly unsupported rather than producing an invalid characteristic.
+
+`test_fear_phobia_acquisition` specifies direct acquisition, compound rows 27/39/40,
+accounting, rollback, undo and saved replay of IQ loss. Assertions remain unrun.
+
+
+## Long faint with fatigue
+
+`RpgExpandedFearFaint` now accepts `tableTotal = 20`. Its onset rolls four
+separate duration dice in minutes and one fatigue die, debiting the existing
+fatigue ledger. It does not add the injury prescribed by rows 18/19. Fatigue
+exhaustion can still cause injury through the shared health rules.
+
+The supplied full-2008 B361 paragraph does not specify what follows its four-die
+duration. Authors must set `recoveryPolicy` to `automatic` or `health-minute`
+and explain their decision in `evidence`. Neither is silently asserted as the
+printed rule. At the deadline, use `RpgExpandedFearFaintRecovery`: the automatic
+choice consumes no roll; the other choice uses HT and schedules another minute
+on failure. Independent incapacitation still prevents waking. Other rows reject
+a recovery-policy override. `test_fear_shock_faint` covers costs, boundaries,
+replay, rollback, undo and saved continuation; it is unrun.
+
+## Extreme panic reactions
+
+`RpgExpandedExtremePanic` owns row 33 (full-2008 B361). Supply the event's exact
+`id` and `context`, approval and evidence. Applying it retains a three-die
+`pendingSeverity`; it does not invent an action from that number.
+
+An author supplies `RpgExpandedExtremePanicReaction` with a unique `id`, the
+`episode`, exact retained `severity`, approval, a concrete `description`, and
+actual `seconds`. Supported `kind` values are `freeze`, `cry` and `collapse`.
+All spend the shared clock once. Collapse commits the equipment drop and lying
+posture; it may additionally own a fresh `RpgExpandedWound` for that profile,
+with a matching drop destination. Injury uses the existing injury ledger.
+Severity informs the author's choice; there is no invented severity-to-injury
+conversion. Authored duration is not a fixed source-table duration.
+
+After the reaction, a surviving character makes an uncapped, unmodified Will
+check. Success ends this panic without clearing unrelated incapacitation. Failure
+retains a new three-die severity for another authored reaction. Death from the
+reaction ends the episode without another Will or severity roll. Ordinary effort,
+maneuvers and unaccounted clock advances cannot bypass the pending reaction.
+Each reaction is replayable without repeating its time, injury or random draws.
+
+Flight routes, attacks, item destruction and arbitrary world changes do not yet
+have reaction adapters and are rejected. A callback alone is not accepted as
+completion. `test_extreme_panic` specifies two successive reactions, rollback,
+undo, invalid selection and cross-process continuation; fixtures remain unrun.

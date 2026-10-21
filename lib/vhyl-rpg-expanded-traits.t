@@ -3666,3 +3666,274 @@ modify rpgExpandedTemplateTraits
         value.selfControlRating = trait.selfControlRating; value.creationCost(); return value;
     }
 ;
+
+/** B149-B150 catalogue prices; conditional setting choices remain explicit. */
+rpgExpandedPhobiaBase(kind,technology,prevalence)
+{
+    foreach (local row in [['isolation',-15],['blood',-10],['cats',-5],['crowds',-15],['darkness',-15],
+        ['dead',-10],['dirt',-10],['canines',-5],['enclosure',-15],['fire',-5],['heights',-10],['insects',-10],
+        ['loud-noise',-10],['monsters',-15],['number-thirteen',-5],['large-water',-10],['open-space',-10],
+        ['reptiles',-10],['sexual-contact',-10],['spiders',-5],['unfamiliar',-15],['sunlight',-15],['weapons',-20]])
+        if (row[1] == kind) return row[2];
+    if (kind == 'machinery' || kind == 'sharp')
+    {
+        rpgInteger(technology,0,12);
+        return kind == 'machinery' ? (technology <= 4 ? -5 : -15) : (technology <= 5 ? -15 : -10);
+    }
+    if (kind == 'magic' || kind == 'psi')
+    {
+        if (!holds(['common','uncommon','unknown'],prevalence)) rpgExpandedReject('phobia-prevalence');
+        return prevalence == 'common' ? -15 : prevalence == 'uncommon' ? -10 : -5;
+    }
+    rpgExpandedReject('phobia-catalogue-kind');
+}
+class RpgExpandedPhobia: RpgExpandedDisadvantage
+    id = 'phobia'
+    scope = 'blood'
+    points = -10
+    controlled = true
+    level = 1
+    technology = 0
+    prevalence = 'unknown'
+    templatePurchaseKind = 'expanded-phobia'
+    creationCost()
+    {
+        if (self.id != 'phobia' || self.level != 1 || !self.controlled || self.skills.length() != 0
+            || self.percentages.length() != 0 || self.points != rpgExpandedPhobiaBase(self.scope,self.technology,self.prevalence))
+            rpgExpandedReject('phobia-definition');
+        self.selfControlNumber(); return inherited();
+    }
+;
+modify RpgExpandedProfile
+    phobiaFacts(trait)
+    {
+        if (trait == nil || !trait.ofKind(RpgExpandedPhobia)) rpgExpandedReject('phobia-purchase-required');
+        trait.creationCost(); return [trait,trait.scope,trait.points,trait.selfControlNumber(),trait.technology,trait.prevalence];
+    }
+    phobiaScore(trait,modifier)
+    {
+        self.phobiaFacts(trait);
+        if (!holds(self.traits,trait) || !trait.active || trait.mitigated) return nil;
+        return trait.selfControlNumber()+modifier-(self.sleepPenalty ? 2 : 0)+self.healthSelfControlModifier(trait);
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id == 'phobia') rpgExpandedReject('phobia-authored-definition-required');
+        return inherited(id,level,scope);
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedPhobia)) return inherited(trait);
+        trait.creationCost(); local value = new RpgExpandedPhobia(); value.scope = trait.scope; value.points = trait.points;
+        value.selfControlRating = trait.selfControlRating; value.technology = trait.technology; value.prevalence = trait.prevalence;
+        value.approved = true; value.creationCost(); return value;
+    }
+;
+
+/** B361 rows 23/35: a specific new purchased phobia, with no point award. */
+class RpgExpandedFearPhobiaAcquisition: RpgExpandedFearTraitConsequence
+    id = nil
+    eventId = nil
+    profile = nil
+    trait = nil
+    tableTotal = 23
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == '' || self.profile == nil
+            || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-phobia-definition');
+        return [self.id,self.eventId,self.profile,self.trait,self.tableTotal,self.approved,self.evidence] + self.profile.phobiaFacts(self.trait);
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedResult(); value.points = self.trait.creationCost();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.fearPhobiaAcquisitions,self) || self.trait.fearAcquisition != self || self.boundDefinition == nil)
+                rpgExpandedReject('fear-phobia-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-phobia-binding');
+            value.status = 'reused'; return value;
+        }
+        if (!holds([23,35],self.tableTotal) || value.points != (self.tableTotal == 23 ? -10 : -15))
+            rpgExpandedReject('fear-phobia-value');
+        if (!self.profile.creationComplete || !self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'fear-phobia-authored-acquisition'; return value; }
+        if (self.profile.dead || self.trait.fearAcquisition != nil) { value.reason = 'fear-phobia-unavailable'; return value; }
+        for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+            if (holds(owner.traits,self.trait)) rpgExpandedReject('fear-phobia-owned-purchase');
+        foreach (local purchase in self.profile.traits)
+            if (purchase.ofKind(RpgExpandedPhobia) && purchase.scope == self.trait.scope) rpgExpandedReject('fear-phobia-duplicate-scope');
+        foreach (local prior in self.profile.fearPhobiaAcquisitions)
+            if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fear-phobia-duplicate-event');
+        rpgExpandedValidate(self.profile); rpgInteger(self.profile.developmentRevision,0,2147483646);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition(); self.trait.fearAcquisition = self;
+        self.profile.traits = self.profile.traits + [self.trait]; self.profile.fearPhobiaAcquisitions = self.profile.fearPhobiaAcquisitions + [self];
+        self.profile.developmentRevision += 1; value.status = 'resolved'; self.result = value; return value;
+    }
+    fearEventMatches(entry)
+    { return holds([23,35],entry.result.row) && entry.result.row == self.tableTotal && entry.context.profile == self.profile && entry.id == self.eventId; }
+    fearCompoundMatches(owner,event,row)
+    { return owner == self.profile && event == self.eventId && ((row == 27 && self.tableTotal == 23) || (holds([39,40],row) && self.tableTotal == 35)); }
+;
+modify RpgExpandedPhobia fearAcquisition = nil;
+modify RpgExpandedProfile
+    fearPhobiaAcquisitions = []
+    postCreationDisadvantageAllowance()
+    {
+        local value = inherited();
+        foreach (local award in self.fearPhobiaAcquisitions)
+        {
+            award.assess();
+            if (self.creationComplete && holds(self.traits,self.phobiaCurrentTrait(award.trait))) value -= award.trait.creationCost();
+        }
+        return value;
+    }
+;
+
+/** B361 row 25. Replace a purchase, preserving historical exposure/check facts. */
+class RpgExpandedFearPhobiaWorsening: RpgExpandedFearTraitConsequence
+    id = nil
+    eventId = nil
+    profile = nil
+    previous = nil
+    replacement = nil
+    fallback = nil
+    related = nil
+    approved = nil
+    evidence = nil
+    result = nil
+    boundDefinition = nil
+    delta = 0
+    boundDelta = nil
+    definition()
+    {
+        if (self.id == nil || self.id == '' || self.eventId == nil || self.eventId == '' || self.profile == nil
+            || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('fear-worsening-definition');
+        local facts = [self.id,self.eventId,self.profile,self.previous,self.replacement,self.fallback,self.related,self.approved,self.evidence];
+        if (self.previous != nil) facts = facts + self.profile.phobiaFacts(self.previous);
+        if (self.replacement != nil) facts = facts + self.profile.phobiaFacts(self.replacement);
+        return facts;
+    }
+    assess()
+    {
+        local facts = self.definition(); local value = new RpgExpandedResult();
+        if (self.result != nil)
+        {
+            if (!holds(self.profile.fearPhobiaWorsenings,self) || self.boundDefinition == nil
+                || facts.length() != self.boundDefinition.length() || self.delta != self.boundDelta)
+                rpgExpandedReject('fear-worsening-history');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('fear-worsening-binding');
+            if (self.fallback != nil && self.fallback.assess().status != 'reused') rpgExpandedReject('fear-worsening-fallback-history');
+            value.status = 'reused'; return value;
+        }
+        if (self.boundDefinition != nil || self.boundDelta != nil || self.delta != 0) rpgExpandedReject('fear-worsening-uncommitted');
+        if (!self.approved || self.evidence == nil || self.evidence == '' || !self.profile.creationComplete)
+        { value.reason = 'fear-worsening-authored-relation'; return value; }
+        if (self.profile.dead) { value.reason = 'fear-worsening-dead'; return value; }
+        foreach (local prior in self.profile.fearPhobiaWorsenings)
+            if (prior.id == self.id || prior.eventId == self.eventId) rpgExpandedReject('fear-worsening-duplicate');
+        if (self.previous != nil && (!holds(self.profile.traits,self.previous) || !self.previous.active || self.previous.mitigated))
+        { value.reason = 'fear-worsening-current-purchase'; return value; }
+        if (self.related && self.previous != nil && self.previous.selfControlNumber() > 6)
+        {
+            if (self.fallback != nil || self.replacement == nil) rpgExpandedReject('fear-worsening-replacement-required');
+            local before = self.profile.phobiaFacts(self.previous); local after = self.profile.phobiaFacts(self.replacement);
+            if (after[4] != before[4]-3 || after[2] != before[2] || after[3] != before[3]
+                || after[5] != before[5] || after[6] != before[6] || !self.replacement.active || self.replacement.mitigated)
+                rpgExpandedReject('fear-worsening-one-step');
+            for (local owner = firstObj(RpgLiteProfile); owner != nil; owner = nextObj(owner,RpgLiteProfile))
+                if (holds(owner.traits,self.replacement)) rpgExpandedReject('fear-worsening-owned-replacement');
+        }
+        else
+        {
+            if (self.replacement != nil || self.fallback == nil || !self.fallback.ofKind(RpgExpandedFearPhobiaAcquisition)
+                || self.fallback.tableTotal != 23 || self.fallback.profile != self.profile || self.fallback.eventId != self.eventId)
+                rpgExpandedReject('fear-worsening-fallback-required');
+            local acquired = self.fallback.assess();
+            if (acquired.status == 'reused') rpgExpandedReject('fear-worsening-used-fallback');
+            if (acquired.status != 'ready') { value.reason = acquired.reason; return value; }
+        }
+        rpgExpandedValidate(self.profile); rpgInteger(self.profile.developmentRevision,0,2147483646);
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        self.boundDefinition = self.definition();
+        if (self.fallback != nil)
+        {
+            if (self.fallback.apply().status != 'resolved') rpgExpandedReject('fear-worsening-fallback-changed');
+        }
+        else
+        {
+            local purchases = [];
+            foreach (local purchase in self.profile.traits) purchases = purchases + [purchase == self.previous ? self.replacement : purchase];
+            self.delta = self.previous.creationCost()-self.replacement.creationCost();
+            self.profile.traits = purchases; self.profile.developmentRevision += 1;
+        }
+        self.boundDelta = self.delta; self.profile.fearPhobiaWorsenings = self.profile.fearPhobiaWorsenings + [self];
+        value.status = 'resolved'; self.result = value; return value;
+    }
+    fearEventMatches(entry)
+    { return entry.result.row == 25 && entry.context.profile == self.profile && entry.id == self.eventId; }
+;
+modify RpgExpandedProfile
+    fearPhobiaWorsenings = []
+    phobiaCurrentTrait(trait)
+    {
+        local current = trait;
+        foreach (local change in self.fearPhobiaWorsenings)
+        {
+            change.assess();
+            if (change.previous == current && change.replacement != nil) current = change.replacement;
+        }
+        return current;
+    }
+    phobiaControlNumber(trait) { return self.phobiaCurrentTrait(trait).selfControlNumber(); }
+    phobiaScore(trait,modifier) { return inherited(self.phobiaCurrentTrait(trait),modifier); }
+    postCreationDisadvantageAllowance()
+    {
+        local value = inherited();
+        foreach (local change in self.fearPhobiaWorsenings)
+        {
+            change.assess();
+            if (change.replacement != nil && holds(self.traits,self.phobiaCurrentTrait(change.replacement))) value += change.delta;
+        }
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    traitMayRepeat(trait) { return trait.ofKind(RpgExpandedPhobia) || inherited(trait); }
+    validateFeatures()
+    {
+        inherited(); local scopes = [];
+        foreach (local trait in self.traits)
+            if (trait.ofKind(RpgExpandedPhobia))
+            {
+                trait.creationCost();
+                if (holds(scopes,trait.scope)) rpgExpandedReject('phobia-duplicate-scope');
+                scopes = scopes + [trait.scope];
+            }
+        local ids = []; local events = [];
+        foreach (local change in self.fearPhobiaWorsenings)
+        {
+            if (change == nil || !change.ofKind(RpgExpandedFearPhobiaWorsening) || change.profile != self
+                || holds(ids,change.id) || holds(events,change.eventId) || change.assess().status != 'reused')
+                rpgExpandedReject('fear-worsening-profile-history');
+            ids = ids + [change.id]; events = events + [change.eventId];
+        }
+        return nil;
+    }
+;
