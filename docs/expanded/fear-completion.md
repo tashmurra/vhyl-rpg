@@ -94,8 +94,10 @@ health gate. It relocates the actor, retains failed health attempts, checks Move
 and the recovery deadline, and rejects active-combat/tactical routes. The existing
 crying fixture now specifies its lifecycle. Tactical row-21 routing now uses `RpgExpandedTimedPanicPath`, with an owned
 Move maneuver and health gate. Its registered fixture specifies actual hex
-movement, shared-round timing and failed exertion. Other pointless activities
-remain outstanding; row-33 tactical routes are separate.
+movement, shared-round timing and failed exertion. Stationary pointless
+expression now has a mode-specific author contract with physical/speech gates,
+observable portrayal events and no task benefits; row-33 tactical routes remain
+separate. These implementations still require validation.
 No builds or tests have run for this increment.
 
 ## Stress terminology

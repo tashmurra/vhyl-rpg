@@ -3443,8 +3443,8 @@ B361). Set a unique `id`, ready `RpgExpandedFearContext`, `approved = true`,
 `behavior` text. Kinds are `cry`, `agitated-motion` or `other-pointless`; the
 author describes the actual pointless behavior. The record does not invent a
 route, move the character, choose targets or charge an action. Stationary crying and authored non-tactical movement have concrete activities
-below. Other pointless behaviors remain incomplete. Tactical movement uses the
-owned Move-turn adapter described below.
+below. Stationary noncommunicative expression uses the specific author contract
+described below; tactical movement uses an owned Move-turn adapter.
 
 `assess()` is pure. `apply()` rolls one die and records an initial deadline that
 many minutes after the shared clock, without immediately advancing time. The
@@ -3501,8 +3501,8 @@ checks do not themselves authorize an action.
 [`expanded-panic-crying.t`](../../tests/fixtures/expanded-panic-crying.t) and
 `test_panic_crying` specify gate behavior before/during/after panic, pure preview,
 recovery boundaries, single time/permission recording, replay, exception rollback,
-undo and save continuation. Assertions remain unrun. Other pointless behaviors and battle-specific activity
-receipts remain incomplete.
+undo and save continuation. Assertions remain unrun. Stationary expression and tactical movement have
+separate adapters below.
 Independent unconsciousness prevents the crying activity; it does not remove
 the episode's scheduled recovery checks.
 
@@ -4666,10 +4666,41 @@ exertion records an incapacitated turn without installing a path movement receip
 The retained activity binds the path definition, permission and outcome to the
 episode. Repeating it validates those receipts and does not move or charge again.
 Use a fresh activity, maneuver, path and gate for the next Move turn. Interrupted
-paths retain their existing concrete interruption contracts. Other pointless
-activities still require implementation; this does not authorize arbitrary
+paths retain their existing concrete interruption contracts. Stationary
+expression has a separate contract below; neither adapter authorizes arbitrary
 purposeful actions during panic.
 
 `test_timed_panic_path` specifies preview, direct-execution rejection, actual hex
 movement, failed exertion, deadline rejection, shared-round timing, rollback, undo
 and cross-process continuation. These fixtures are unrun while checks are paused.
+
+
+### Stationary pointless expression
+
+`RpgExpandedFearPanicExpression` supplies a specific author-adjudication contract
+for row 21's `other-pointless` behavior. The author selects `mode` (`still`,
+`gesture`, `vocalization` or `gesture-and-vocalization`), original `portrayal`,
+`approved` and `evidence` that the behavior is stationary, noncommunicative,
+without object contact or purposeful progress. Supply the ordinary activity
+`id`, active `episode`, `seconds` and owned `healthGate`. The engine does not
+infer these world facts from the portrayal text.
+
+Use `RpgExpandedPanicExpressionGate` pointing back through `activity`. Its profile
+must match the episode. Set `purpose = 'do-nothing'` for `still`, otherwise
+`'action'`; set `requiresMovement` for gesture modes and `requiresSpeech` for
+vocal modes. Mismatched flags reject rather than bypassing physical restrictions.
+The gate retains ordinary health checks and cannot execute outside this activity.
+
+A successful interval emits `rpg.expanded.panic-expression` with activity ID,
+mode and portrayal. It records the actual interval and permission in the episode
+history. It does not move the actor, manipulate items, address a social target,
+award learning or perform a check for task progress. Movement, attacks and object
+interactions must use their concrete adapters; author text cannot execute them.
+Failed health permission retains its consequence and spent interval without
+emitting the portrayal event. Replay returns the retained outcome without another
+event or time payment. Preview and recovery deadlines use the shared activity
+contract; run execution inside an action transaction for rollback and undo.
+
+`test_panic_crying` includes this contract's authored cases for portrayal events,
+missing facts, incorrect capability flags, recovery boundaries, direct gate
+rejection, rollback, undo, replay and saved continuation. These cases are unrun.

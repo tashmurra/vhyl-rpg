@@ -63,3 +63,28 @@ modify BleedTestAction
         return inherited(context);
     }
 ;
+
+expressionGate: RpgExpandedPanicExpressionGate id = 'panic-expression-health' profile = bleedProfile
+    activity = expressionActivity purpose = 'action' requiresSpeech = true evidence = 'Incoherent vocalization during panic';
+expressionActivity: RpgExpandedFearPanicExpression id = 'panic-expression' episode = panicEpisode seconds = 60
+    healthGate = expressionGate mode = 'vocalization' approved = true
+    portrayal = 'Repeats a meaningless syllable without addressing anyone'
+    evidence = 'Stationary noncommunicative expression, no contact with objects and no purposeful progress';
+modify BleedTestAction
+    exec(context)
+    {
+        local code = bleedInput.code;
+        if (code == 10720) { panicEpisode.behaviorKind = 'other-pointless'; return nil; }
+        if (code == 10721 || code == 10722 || code == 10723)
+        {
+            local value = code == 10721 ? expressionActivity.assess() : expressionActivity.apply();
+            event('test.panic-expression'); eventValue(value.status); eventValue(value.reason);
+            if (code == 10723) throw new RpgError(); return nil;
+        }
+        if (code == 10724) { expressionActivity.portrayal = nil; return nil; }
+        if (code == 10725) { expressionActivity.seconds = 61; return nil; }
+        if (code == 10726) { expressionGate.apply(); return nil; }
+        if (code == 10727) { expressionGate.requiresSpeech = nil; return nil; }
+        return inherited(context);
+    }
+;

@@ -20807,6 +20807,41 @@ def test_panic_crying(Session, bundle, out):
         assert last(s,'test.panic-movement-state') == [0,1,1,1,4]
     finally: s.close()
 
+    path = out / 'expanded-panic-expression.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10720,10602,10721,10723,10726,10703): s.action(2285,code)
+        assert last(s,'test.crying-state') == [0,0,0,1]
+        s.action(2285,10722)
+        assert last(s,'rpg.expanded.panic-expression') == [
+            'panic-expression','vocalization','Repeats a meaningless syllable without addressing anyone']
+        s.command('undo'); s.action(2285,10703)
+        assert last(s,'test.crying-state') == [0,0,0,1]
+        for code in (10722,10722,10703): s.action(2285,code)
+        assert last(s,'test.panic-expression') == ['reused',None]
+        assert last(s,'test.crying-state') == [1,1,60,1]
+        s.command(f':save {path}\n@2286')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10722,10703): s.action(2285,code)
+        assert last(s,'test.crying-state') == [1,1,60,1]
+    finally: s.close()
+    for change,reason in [(10724,'panic-expression-author-facts'),(10725,'panic-crying-recovery-boundary')]:
+        s = Session(bundle)
+        try:
+            for code in (10720,10602,change,10721,10722,10703): s.action(2285,code)
+            assert last(s,'test.panic-expression') == ['blocked',reason]
+            assert last(s,'test.crying-state') == [0,0,0,1]
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (10720,10602,10727,10722,10703): s.action(2285,code)
+        assert last(s,'test.crying-state') == [0,0,0,1]
+    finally: s.close()
+
 
 def test_panic_history(Session, bundle):
     """A changed deadline, receipt or completion cannot bypass a due check; unrun."""

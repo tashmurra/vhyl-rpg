@@ -8148,6 +8148,8 @@ modify RpgExpandedProfile
         if (self.activeFearPanic() && !holds(['rest','do-nothing'],purpose)
             && !((authorization != nil && authorization.ofKind(RpgExpandedPanicMovementGate)
                 && authorization.permits(self,purpose,movement))
+                || (authorization != nil && authorization.ofKind(RpgExpandedPanicExpressionGate)
+                    && authorization.permits(self,purpose,speech,movement))
                 || self.timedPanicAuthorization(authorization))) return 'fear-panic-purposeful-action';
         return nil;
     }
@@ -11626,5 +11628,59 @@ modify RpgExpandedProfile
             return self.healthManeuverReasonFor(request.kind,request);
         }
         return inherited(request);
+    }
+;
+
+/** Row-21 stationary expression: authored portrayal, no task or social benefit. */
+class RpgExpandedFearPanicExpression: RpgExpandedFearPanicCrying
+    mode = nil
+    portrayal = nil
+    approved = nil
+    evidence = nil
+    behaviorKind() { return 'other-pointless'; }
+    gatePurpose() { return self.mode == 'still' ? 'do-nothing' : 'action'; }
+    needsSpeech() { return holds(['vocalization','gesture-and-vocalization'],self.mode); }
+    needsMovement() { return holds(['gesture','gesture-and-vocalization'],self.mode); }
+    retainFailedGate() { return true; }
+    definition()
+    { return inherited() + [self.mode,self.portrayal,self.approved,self.evidence,
+        self.healthGate == nil ? nil : self.healthGate.activity]; }
+    activityReason()
+    {
+        if (!holds(['still','gesture','vocalization','gesture-and-vocalization'],self.mode)
+            || self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedPanicExpressionGate)
+            || self.healthGate.activity != self || self.healthGate.mentalAbility
+            || self.healthGate.requiresSpeech != self.needsSpeech()
+            || self.healthGate.requiresMovement != self.needsMovement())
+            rpgExpandedReject('panic-expression-definition');
+        if (!self.approved || self.evidence == nil || self.evidence == '' || self.portrayal == nil || self.portrayal == '')
+            return 'panic-expression-author-facts';
+        local profile = self.episode.context.profile;
+        if (self.needsMovement() && profile.voluntaryMovementUnavailable()) return 'panic-expression-movement-unavailable';
+        return nil;
+    }
+    commitActivity()
+    {
+        event('rpg.expanded.panic-expression'); eventValue(self.id); eventValue(self.mode); eventValue(self.portrayal);
+        return nil;
+    }
+;
+class RpgExpandedPanicExpressionGate: RpgExpandedActionGate
+    activity = nil
+    permits(profile,purpose,speech,movement)
+    {
+        return self.activity != nil && self.activity.ofKind(RpgExpandedFearPanicExpression)
+            && self.activity.healthGate == self && self.profile == profile
+            && purpose == self.activity.gatePurpose() && speech == self.activity.needsSpeech()
+            && movement == self.activity.needsMovement() && self.activity.episode != nil
+            && self.activity.episode.context.profile == profile && profile.fearPanic == self.activity.episode
+            && self.activity.episode.completedAt == nil;
+    }
+    healthPermissionReason()
+    { return self.profile.healthEffortReasonFor(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement,self); }
+    apply()
+    {
+        if (self.result == nil && (self.activity == nil || !self.activity.executing)) rpgExpandedReject('panic-expression-gate-owner');
+        return inherited();
     }
 ;
