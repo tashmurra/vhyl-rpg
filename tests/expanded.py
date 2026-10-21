@@ -30356,11 +30356,15 @@ def test_intrusive_replay(Session,bundle,out):
             active = [1,duration,level,modifier,reason,draws,0]
             assert state(s) == active
             do(s,1018); assert state(s) == active
+            for mutation in (1111,1112):
+                do(s,mutation); assert state(s) == active
+                do(s,1110); assert last(s,'test.replay-type') == ['evacuation memories','evacuation memories']
             s.command(f':save {path}\n@2251')
         finally: s.close()
         s = Session(bundle)
         try:
             s.command(f':restore {path}\n@2251'); do(s,1014); assert state(s) == active
+            do(s,1110); assert last(s,'test.replay-type') == ['evacuation memories','evacuation memories']
             do(s,1017); assert state(s) == [1,duration,0,0,None,draws,duration]
             s.command('undo'); assert state(s) == active
         finally: s.close()
@@ -30552,7 +30556,7 @@ def test_low_confidence(Session,bundle,out):
     s = Session(bundle)
     path = out/'low-confidence.zsave'
     try:
-        do(s,1108); assert last(s,'test.confidence-copy') == [-10,1]
+        do(s,1109); do(s,1108); assert last(s,'test.confidence-copy') == [-10,1]
         do(s,1100); do(s,582); assert state(s) == [0,0,9,7,12,10,0]
         do(s,581); do(s,581); do(s,1103)
         assert last(s,'test.confidence-check') == [None,'low-confidence-scene-judgment-required',0]

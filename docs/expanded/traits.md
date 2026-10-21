@@ -2850,7 +2850,8 @@ on six or less. Onset alone rolls duration: level one uses two dice of seconds,
 level two one die of minutes and level three three dice of minutes. The shared
 clock advances independently; the episode is active before, but not at, its
 expiry. Replaying resolution does not repeat dice. Receipt facts and outcome
-fields are immutable, including the narrative content supplied by the author.
+fields are immutable, including the narrative content supplied by the author
+and the selected replay type captured from the purchase at onset.
 
 While active, level one imposes -2 on skill rolls and level two imposes -5.
 Level three rejects skill use through the common health check gate. These effects
@@ -2949,7 +2950,8 @@ save continuation across the full chain. It remains unrun.
 ### Low confidence
 
 `RpgExpandedLowConfidence` implements full-2008 B143 at -10 points and is an
-exact ten-point fear selection. Plain templates use `['low-confidence', 1, nil]`.
+exact ten-point fear selection. A self-control rating is invalid for this
+uncontrolled purchase and is rejected rather than silently ignored. Plain templates use `['low-confidence', 1, nil]`.
 The active purchase requires an authored judgment for each skill-check context:
 set `confidenceSituation` to `ordinary` or `adverse`, and supply
 `confidenceEvidence`. Adverse means the actor believes the odds are unfavorable

@@ -27,6 +27,7 @@ modify FearTestAction
         if (code == 1108)
         { local copy = rpgExpandedTemplateTraits.copy(confidencePurchase); event('test.confidence-copy');
           eventValue(copy.creationCost()); eventValue(copy != confidencePurchase ? 1 : 0); return nil; }
+        if (code == 1109) { confidencePurchase.selfControlRating = 6; confidencePurchase.creationCost(); return nil; }
         return inherited(context);
     }
 ;

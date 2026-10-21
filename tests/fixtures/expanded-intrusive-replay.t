@@ -39,6 +39,11 @@ modify FearTestAction
               eventValue(copy != trait ? 1 : 0); eventValue(copy.replayType); }
             return nil;
         }
+        if (code == 1110)
+        { event('test.replay-type'); eventValue(replayOccurrence.replayType);
+          eventValue(replayOccurrence.result == nil ? nil : replayOccurrence.result.replayType); return nil; }
+        if (code == 1111) { replayOccurrence.replayType = 'Changed type'; replayOccurrence.assess(); return nil; }
+        if (code == 1112) { replayOccurrence.result.replayType = 'Changed result type'; replayOccurrence.assess(); return nil; }
         return inherited(context);
     }
 ;

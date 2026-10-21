@@ -453,3 +453,13 @@ Failure restricts investigation, while the flat -1 novelty reaction preserves
 who reacts to whom. Acquisition, mitigation, choices and social lifecycle
 fixtures are registered but unrun. Remaining mental selections and frenzy still
 prevent overall completion.
+
+
+## Purchase and episode receipt audit
+
+Source review found that the uncontrolled low-confidence purchase accepted an
+unused self-control rating, and replay occurrences retained narrative content
+without the selected replay type. Low confidence now rejects that invalid field;
+replay receipts bind their selected type independently of future purchase edits.
+Added fixture assertions cover rejected mutation, rollback and saved type
+continuation. These cases remain unrun while checks are paused.

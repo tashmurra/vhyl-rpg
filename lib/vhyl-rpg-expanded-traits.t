@@ -5576,6 +5576,7 @@ class RpgExpandedIntrusiveReplayResult: RpgExpandedResult
     occurred = nil
     severity = 0
     duration = 0
+    replayType = nil
     overlapPolicy = nil
     overlapEvidence = nil
 ;
@@ -5590,11 +5591,12 @@ class RpgExpandedIntrusiveReplayOccurrence: object
     result = nil
     recordedAt = nil
     expiresAt = nil
+    replayType = nil
     overlapPolicy = nil
     overlapEvidence = nil
     boundDefinition = nil
     boundResult = nil
-    definition() { return [self.id,self.profile,self.stressor,self.approved,self.evidence,self.content,self.recordedAt,self.expiresAt,self.overlapPolicy,self.overlapEvidence]; }
+    definition() { return [self.id,self.profile,self.stressor,self.approved,self.evidence,self.content,self.recordedAt,self.expiresAt,self.replayType,self.overlapPolicy,self.overlapEvidence]; }
     validateReceipt()
     {
         if (self.result == nil || !holds(self.profile.intrusiveReplayOccurrences,self)
@@ -5603,7 +5605,7 @@ class RpgExpandedIntrusiveReplayOccurrence: object
         if (facts.length() != self.boundDefinition.length()) rpgExpandedReject('intrusive-replay-binding');
         for (local i = 1; i <= facts.length(); i += 1)
             if (facts[i] != self.boundDefinition[i]) rpgExpandedReject('intrusive-replay-binding');
-        local outcome = [self.result,self.result.status,self.result.roll,self.result.occurred,self.result.severity,self.result.duration,self.result.overlapPolicy,self.result.overlapEvidence];
+        local outcome = [self.result,self.result.status,self.result.roll,self.result.occurred,self.result.severity,self.result.duration,self.result.replayType,self.result.overlapPolicy,self.result.overlapEvidence];
         if (outcome.length() != self.boundResult.length()) rpgExpandedReject('intrusive-replay-result-binding');
         for (local i = 1; i <= outcome.length(); i += 1)
             if (outcome[i] != self.boundResult[i]) rpgExpandedReject('intrusive-replay-result-binding');
@@ -5617,7 +5619,7 @@ class RpgExpandedIntrusiveReplayOccurrence: object
             rpgExpandedReject('intrusive-replay-occurrence-definition');
         local value = new RpgExpandedIntrusiveReplayResult();
         if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
-        if (self.recordedAt != nil || self.expiresAt != nil || self.boundDefinition != nil || self.boundResult != nil || self.overlapPolicy != nil || self.overlapEvidence != nil)
+        if (self.recordedAt != nil || self.expiresAt != nil || self.boundDefinition != nil || self.boundResult != nil || self.replayType != nil || self.overlapPolicy != nil || self.overlapEvidence != nil)
             rpgExpandedReject('intrusive-replay-uncommitted-state');
         if (!self.approved || self.stressor == nil || self.evidence == nil || self.evidence == ''
             || self.content == nil || self.content == '') { value.reason = 'intrusive-replay-authored-facts'; return value; }
@@ -5640,7 +5642,7 @@ class RpgExpandedIntrusiveReplayOccurrence: object
             }
         }
         rpgInteger(rpgLedger.seconds,0,2147482567);
-        value.severity = trait.level; value.status = 'ready'; return value;
+        value.severity = trait.level; value.replayType = trait.replayType; value.status = 'ready'; return value;
     }
     resolve()
     {
@@ -5653,9 +5655,9 @@ class RpgExpandedIntrusiveReplayOccurrence: object
             if (value.severity != 1) value.duration *= 60;
         }
         self.recordedAt = rpgLedger.seconds; self.expiresAt = self.recordedAt + value.duration;
-        self.overlapPolicy = value.overlapPolicy; self.overlapEvidence = value.overlapEvidence;
+        self.replayType = value.replayType; self.overlapPolicy = value.overlapPolicy; self.overlapEvidence = value.overlapEvidence;
         value.status = 'resolved'; self.result = value; self.boundDefinition = self.definition();
-        self.boundResult = [value,value.status,value.roll,value.occurred,value.severity,value.duration,value.overlapPolicy,value.overlapEvidence];
+        self.boundResult = [value,value.status,value.roll,value.occurred,value.severity,value.duration,value.replayType,value.overlapPolicy,value.overlapEvidence];
         self.profile.intrusiveReplayOccurrences = self.profile.intrusiveReplayOccurrences + [self]; return value;
     }
 ;
@@ -5716,7 +5718,7 @@ class RpgExpandedLowConfidence: RpgExpandedDisadvantage
     creationCost()
     {
         if (!self.approved || self.id != 'low-confidence' || self.points != -10 || self.level != 1
-            || self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            || self.controlled || self.selfControlRating != nil || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
             rpgExpandedReject('low-confidence-definition');
         return -10;
     }
