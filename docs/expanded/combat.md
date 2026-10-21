@@ -670,3 +670,27 @@ must establish those facts and commit the actual operation. Melee requirements,
 moving attacks, drawing another weapon, activation and exit remain unfinished.
 `test_rage_ranged` specifies range, ammunition, firing-rate and reload boundaries
 and repeated-preview purity; the fixture is registered and unrun.
+
+
+`RpgExpandedRageMeleeChoice` supplies the matching pure hand-weapon and approach
+assessment. Set `fighter`, `target`, `action`, `distanceYards`, `reachAssessed`,
+`inReach`, approval and evidence. In reach, the fighter must have an owned, ready,
+usable hand weapon and choose `all-out-attack`; movement cannot exceed half Move.
+This assessment does not apply the resulting defense restriction itself.
+
+Outside reach, provide `movementAssessed`, actual `movement`, `closestDistance`
+and `endingDistance` from the legal tactical route. The ending distance must be
+the closest achievable distance and must reduce separation; movement must fit
+current Move. Explicitly classify `moveAttackPossible` and `slamPossible`. If
+either is possible, the choice must use one of those feasible attacks. Otherwise
+it must be `move`. Evidence must establish feasibility and the closest legal
+approach; these properties are not permission to override obstacles, reach,
+occupied spaces or the battle's movement rules. A blocked route requires a
+separate authored resolution rather than a fictitious successful move.
+
+The assessment does not execute a maneuver, spend a turn or confer rage benefits.
+It excludes the unarmed in-reach case and does not replace the ranged exception.
+The episode adapter must select the applicable assessment and execute the actual
+attack/path with ordinary legality and health handling. `test_rage_melee` covers
+required close attack, moving attack/slam preference, closest approach, missing
+route facts, movement limits and preview purity; the cases remain unrun.

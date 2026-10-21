@@ -43,9 +43,10 @@
       "pages": "B124",
       "module": "traits",
       "kind": "procedure",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "During rage, an in-range foe requires all-out attack with a hand weapon. Otherwise move as close as possible, using move-and-attack or a slam when possible. Enforce maneuver and defense consequences through the normal turn ledger.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_rage_melee"],
+      "validation_note": "Pure hand-weapon/approach assessment enforces all-out choice in reach, actual weapon readiness, current Move, authored closest-route facts and moving attack/slam preference. Preview boundary fixtures authored and unrun. Actual turn execution, defense restrictions, unarmed reach and the full rage episode remain unfinished."
     },
     {
       "id": "disadvantages-b-rage-ranged",

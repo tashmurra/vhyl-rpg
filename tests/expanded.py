@@ -9835,6 +9835,8 @@ def test(build):
     test_rage_injury_window(Session,rage_window,build.out)
     rage_ranged = build.build('expanded-rage-ranged',ROOT / 'tests/fixtures/expanded-rage-ranged.t')
     test_rage_ranged(Session,rage_ranged,build.out)
+    rage_melee = build.build('expanded-rage-melee',ROOT / 'tests/fixtures/expanded-rage-melee.t')
+    test_rage_melee(Session,rage_melee,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29856,4 +29858,19 @@ def test_rage_ranged(Session,bundle,out):
             for code in codes: s.action(2250,code,4)
             for _ in range(2):
                 s.action(2250,920,4); assert last(s,'test.rage-ranged') == expected
+        finally: s.close()
+
+
+def test_rage_melee(Session,bundle,out):
+    for codes,reason in [([],None),([931],'rage-melee-all-out-required'),
+                         ([939],'rage-melee-hand-weapon-required'),([932],None),
+                         ([932,933],'rage-closing-attack-required'),([932,933,934],None),
+                         ([932,935],None),([932,936],'rage-closest-approach-required'),
+                         ([932,937],'rage-closing-route-facts'),([932,938],'rage-closing-movement-limit')]:
+        s = Session(bundle)
+        try:
+            for code in codes: s.action(2250,code,4)
+            for _ in range(2):
+                s.action(2250,930,4)
+                assert last(s,'test.rage-melee') == ['ready' if reason is None else 'blocked',reason,0,2,0,0]
         finally: s.close()

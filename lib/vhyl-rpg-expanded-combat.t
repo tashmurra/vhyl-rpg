@@ -968,3 +968,56 @@ class RpgExpandedRageRangedChoice: object
         value.shots = self.shots; value.status = 'ready'; return value;
     }
 ;
+
+/** B124 hand-weapon/closing choices with explicit authored tactical feasibility. */
+class RpgExpandedRageMeleeChoice: object
+    fighter = nil
+    target = nil
+    action = nil
+    inReach = nil
+    reachAssessed = nil
+    movementAssessed = nil
+    moveAttackPossible = nil
+    slamPossible = nil
+    distanceYards = nil
+    closestDistance = nil
+    endingDistance = nil
+    movement = 0
+    approved = nil
+    evidence = nil
+    assess()
+    {
+        if (self.fighter == nil || !self.fighter.ofKind(RpgLiteFighter) || self.fighter.profile == nil
+            || self.target == nil || !self.target.ofKind(RpgLiteFighter) || self.target == self.fighter)
+            rpgExpandedReject('rage-melee-participants');
+        local value = new RpgExpandedResult();
+        if (!self.approved || !self.reachAssessed || self.evidence == nil || self.evidence == '')
+        { value.reason = 'rage-melee-author-facts'; return value; }
+        rpgInteger(self.distanceYards,0,1000000); rpgInteger(self.movement,0,1000000);
+        if (self.inReach)
+        {
+            local weapon = self.fighter.weapon;
+            if (weapon == nil || !holds(self.fighter.profile.equipment,weapon) || !weapon.ready
+                || !weapon.usableBy(self.fighter.profile) || self.fighter.mode().ranged)
+            { value.reason = 'rage-melee-hand-weapon-required'; return value; }
+            if (self.action != 'all-out-attack') { value.reason = 'rage-melee-all-out-required'; return value; }
+            if (self.movement > self.fighter.profile.move() / 2)
+            { value.reason = 'rage-melee-movement-limit'; return value; }
+            value.status = 'ready'; return value;
+        }
+        if (!self.movementAssessed || self.closestDistance == nil || self.endingDistance == nil)
+        { value.reason = 'rage-closing-route-facts'; return value; }
+        rpgInteger(self.closestDistance,0,self.distanceYards); rpgInteger(self.endingDistance,0,self.distanceYards);
+        if (self.endingDistance != self.closestDistance || self.endingDistance >= self.distanceYards)
+        { value.reason = 'rage-closest-approach-required'; return value; }
+        if (self.movement < 1 || self.movement > self.fighter.profile.move())
+        { value.reason = 'rage-closing-movement-limit'; return value; }
+        if (self.moveAttackPossible || self.slamPossible)
+        {
+            if (!(self.action == 'move-attack' && self.moveAttackPossible || self.action == 'slam' && self.slamPossible))
+            { value.reason = 'rage-closing-attack-required'; return value; }
+        }
+        else if (self.action != 'move') { value.reason = 'rage-closing-move-required'; return value; }
+        value.status = 'ready'; return value;
+    }
+;

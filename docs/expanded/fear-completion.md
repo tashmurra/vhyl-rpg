@@ -253,3 +253,11 @@ recorded quick-draw reload eligibility. Its boundary fixtures are unrun. It does
 not execute a combat turn or activate rage; melee/closing choices, injury rules
 and exit procedures remain outstanding. This assessment alone is not evidence
 of completed frenzy behavior.
+
+
+The hand-weapon/approach assessment now requires an all-out attack in reach and
+an explicitly feasible closest approach otherwise, preferring a moving attack
+or slam when possible. Actual weapon ownership/readiness and current Move bound
+the choice. Boundary fixtures are registered and unrun. These assessments still
+need the owned rage episode and actual turn adapter; they do not themselves
+apply attacks, defense restrictions, injury immunity or recovery checks.
