@@ -486,3 +486,13 @@ The rated indecision purchase is enabled for exact-cost fear acquisition.
 Fixtures specify both outcomes, premature execution rejection, missing request,
 accounting, rollback, undo and saved continuation. They remain unrun; the wider
 fear completion audit is still open.
+
+
+## Indecision history integrity
+
+Source review found that mutable attempt membership could erase the previous
+retry deadline and that clearing a retained confusion link was not explicitly
+rejected. The episode now binds the ordered attempt sequence, and successful
+combined attempts require their confusion receipt. Added mutation cases specify
+preserved timing/restrictions and validation after save restoration. They remain
+unrun; no build or test checks were resumed.

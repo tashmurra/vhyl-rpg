@@ -27,6 +27,7 @@ modify FearTestAction
         }
         if (code == 1144) { decisionConfusion.end('quiet-familiar-place','The actor reaches a quiet familiar shelter'); return nil; }
         if (code == 1145) { indecisionEpisode.confusion = nil; return nil; }
+        if (code == 1146) { indecisionRetry.boundConfusion = nil; indecisionRetry.assess(); return nil; }
         return inherited(context);
     }
 ;

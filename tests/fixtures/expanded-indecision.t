@@ -42,6 +42,9 @@ modify FearTestAction
         { event('test.indecision-acquisition'); eventValue(fearProfile.traits.length());
           eventValue(fearProfile.postCreationDisadvantageAllowance()); eventValue(fearProfile.earnedPoints);
           eventValue(fearProfile.unspentPoints); eventValue(rpgRandom.draws); return nil; }
+        if (code == 1152) { indecisionEpisode.attempts = []; indecisionEpisode.validate(); return nil; }
+        if (code == 1153)
+        { indecisionEpisode.attempts = [indecisionRetry,indecisionFirst]; indecisionEpisode.validate(); return nil; }
         return inherited(context);
     }
 ;

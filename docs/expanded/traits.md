@@ -3021,8 +3021,10 @@ second when `highStress` is set. The world or battle clock owns that elapsed tim
 resolving a due retry does not charge it again. Success releases the restriction
 for this decision. A later distinct decision needs a new episode.
 
-The episode retains its choices and timing classification. Prior attempts remain
-immutable receipts, including their check results and timestamps. Mitigation
+The episode retains its choices, timing classification and ordered attempt
+sequence. Removing or reordering attempts rejects rather than resetting the
+retry deadline. Prior attempts remain immutable receipts, including their check
+results and timestamps. Mitigation
 releases an unfinished restriction without manufacturing success; ending it
 restores the restriction and its existing retry schedule.
 
@@ -3040,7 +3042,8 @@ Its `situation` is `decision`. The request is preflighted before the indecision
 roll, but `resolve()` rejects execution until that episode has a successful
 indecision check. A successful indecision attempt automatically resolves it in
 the same transaction. Failed indecision does not roll confusion; replay does not
-roll either check again. No second time charge is introduced.
+roll either check again. The successful attempt retains the required confusion
+receipt; clearing that link is rejected. No second time charge is introduced.
 
 A failed confusion check produces the existing owned overstimulation state,
 including do-nothing/planning restrictions, normal defensive responses and its

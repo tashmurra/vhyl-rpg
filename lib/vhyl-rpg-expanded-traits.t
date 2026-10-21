@@ -5940,6 +5940,7 @@ class RpgExpandedIndecisionEpisode: object
     evidence = nil
     confusion = nil
     attempts = []
+    boundAttempts = []
     boundFacts = nil
     facts() { return [self.id,self.profile,self.trait,self.highStress,self.approved,self.evidence,self.confusion,self.choices.length()] + self.choices; }
     validate()
@@ -5964,6 +5965,9 @@ class RpgExpandedIndecisionEpisode: object
                 if (facts[i] != self.boundFacts[i]) rpgExpandedReject('indecision-episode-binding');
         }
         else if (self.attempts.length() != 0) rpgExpandedReject('indecision-uncommitted-attempts');
+        if (self.attempts.length() != self.boundAttempts.length()) rpgExpandedReject('indecision-attempt-sequence');
+        for (local i = 1; i <= self.attempts.length(); i += 1)
+            if (self.attempts[i] != self.boundAttempts[i]) rpgExpandedReject('indecision-attempt-sequence');
         return nil;
     }
     active()
@@ -5994,8 +5998,11 @@ class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
         {
             if (!holds(self.episode.attempts,self) || self.boundCheck == nil) rpgExpandedReject('indecision-check-history');
             local facts = [self.recordedAt,self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
+            if (facts.length() != self.boundCheck.length()) rpgExpandedReject('indecision-check-binding');
             for (local i = 1; i <= facts.length(); i += 1)
                 if (facts[i] != self.boundCheck[i]) rpgExpandedReject('indecision-check-binding');
+            if (self.boundConfusion != (self.check.achieved ? self.episode.confusion : nil))
+                rpgExpandedReject('indecision-confusion-binding');
             if (self.boundConfusion != nil)
             {
                 if (self.episode.confusion != self.boundConfusion || self.boundConfusion.result == nil || !self.check.achieved)
@@ -6054,7 +6061,8 @@ class RpgExpandedIndecisionCheck: RpgExpandedSelfControlTrigger
         self.boundCheck = [self.recordedAt,self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
         if (self.episode.boundFacts == nil)
         { self.episode.boundFacts = self.episode.facts(); self.profile.indecisionEpisodes = self.profile.indecisionEpisodes + [self.episode]; }
-        self.episode.attempts = self.episode.attempts + [self]; return nil;
+        self.episode.attempts = self.episode.attempts + [self];
+        self.episode.boundAttempts = self.episode.attempts; return nil;
     }
 ;
 modify RpgExpandedProfile

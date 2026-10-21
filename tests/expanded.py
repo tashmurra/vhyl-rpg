@@ -30663,6 +30663,7 @@ def test_indecision(Session,bundle,out):
             do(s,1121); do(s,1121); do(s,1123)
             assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
             do(s,1129); assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
+            do(s,1152); do(s,1123); assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
             do(s,1130); assert state(s) == [1,0,3,0,None,10]
             do(s,1131); assert state(s) == [1,1,3,0,'indecision-do-nothing',10]
             do(s,1127)
@@ -30678,6 +30679,7 @@ def test_indecision(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,1121); do(s,1123)
             assert state(s) == [2,0,6,due,None,10]
+            do(s,1153); assert state(s) == [2,0,6,due,None,10]
         finally: s.close()
 
 
@@ -30711,11 +30713,13 @@ def test_indecision_confusion(Session,bundle,out):
             do(s,1123); s.command('undo')
             assert state(s) == [1,1,0,0,3,60,'indecision-do-nothing']
             do(s,1123); do(s,1123); do(s,1141); assert state(s) == expected
+            do(s,1146); assert state(s) == expected
             s.command(f':save {path}\n@2251')
         finally: s.close()
         s = Session(bundle)
         try:
             s.command(f':restore {path}\n@2251'); do(s,1123); assert state(s) == expected
+            do(s,1146); do(s,1152); assert state(s) == expected
             if not succeed:
                 do(s,1144); assert state(s) == [2,3,1,0,9,60,None]
                 s.command('undo'); assert state(s) == expected
