@@ -22,7 +22,7 @@ introduced. `test_scaled_injury_shock` provides independent threshold expectatio
 and integrated repeated-wound/resistance cases.
 `test_scaled_shock_turn_boundary` covers ordinary turn expiration, counter-injury
 scaling and rejection before injury or randomness is spent. These cases have not
-run while checks are paused.
+run pending recorded validation.
 
 Critical-hit doubled shock remains assessment-only. The existing battle result
 retains aggregate counter-injury, not per-wound critical effects. Committed support
@@ -55,7 +55,7 @@ lasting-trait acquisitions. The owned event flow below connects initial checks
 to supported handlers, including compound consequences and forced aging with
 recorded losses at otherwise unrollable boundaries. Trait catalogue coverage,
 automatic expanded attacks and some tactical reaction variants remain incomplete;
-none of these fixtures has run while checks are paused. See the
+these fixtures await recorded validation. See the
 [overstimulation adapter](traits.md#overstimulation-and-reactive-action) for
 target-specific reactive permission that preserves independent incapacity.
 
@@ -289,7 +289,7 @@ supported integration.
 
 `test_crippling_thresholds` enumerates exact boundaries, odd capacity, additional
 limbs and extremities, uncapped eyes, and severing distinctions. It is authored
-but unrun while build checks are paused. The inventory entries remain partial.
+but unrun pending recorded validation. The inventory entries remain partial.
 
 
 ## Owned arm and hand state
@@ -368,7 +368,7 @@ state covers every action or supplies an automatic recovery schedule.
 retained/severed shields, overlapping knockdown drops, preview purity, rollback,
 undo and repeat protection. `test_limb_wound_persistence` covers the committed
 part/wound relationship and repeat protection after cross-process restoration.
-Both are authored but unrun while checks remain paused.
+Both are authored but unrun pending recorded validation.
 
 
 ## Unarmed parries after upper-limb injury
@@ -488,7 +488,7 @@ This procedure grants no advancement points. It is not complete injury recovery.
 `test_crippling_months` cover classifications, destroyed-part roll suppression,
 trait bonuses, care reductions, full-health restrictions, active-combat gates,
 duplicate/retargeted requests, rollback, undo and cross-process continuation.
-They are authored but unrun while build checks remain paused.
+They are authored but unrun pending recorded validation.
 
 
 ## Lasting recovery on the campaign calendar
@@ -790,7 +790,7 @@ Do not call a shared healing function directly with these allowances as a
 substitute for those eligibility checks. Existing Lite treatment remains unchanged.
 `test_expanded_first_aid_values` contains independent table-row and outcome
 expectations, including capped bandage credit and critical outcomes. It is
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Owned bandaging
@@ -826,7 +826,7 @@ bandage marker. `test_bandage_transactions` covers preview, exception rollback,
 undo, replay, duplicate requests and changed evidence after completion.
 `test_bandage_persistence` saves before and after treatment, restores in a separate
 process and continues or reuses the same owned request. These are authored
-expectations; all new fixtures remain unrun while checks are paused.
+expectations; all new fixtures remain unrun pending recorded validation.
 
 
 ## Post-bandaging treatment
@@ -863,7 +863,7 @@ outcomes, rollback after mutation, undo, deterministic replay, duplicate request
 and altered receipt evidence. `test_aid_persistence` restores the exact compiled
 game in another process before treatment and after success or critical failure;
 it checks continuation and historical receipt reuse. These fixtures are authored
-but unrun while checks are paused.
+but unrun pending recorded validation.
 
 
 ## Surgical assessment
@@ -900,7 +900,7 @@ These interfaces do not commit damage, time, skill prerequisites, infection,
 stabilization or disability repair. Those inventory entries remain partial or
 pending. `test_surgery_assessments` records expected technology rows, combined
 penalties, field-expedient exceptions, infection triggers and failure damage.
-The fixtures remain unrun while checks are paused.
+The fixtures remain unrun pending recorded validation.
 
 
 The medical roster also records `medicalAdmittedAt` for the current assignment.
@@ -926,8 +926,7 @@ This helper performs no skill check and starts no treatment. It does not establi
 that a victim is revivable, extend a cause-specific deadline or interrupt ongoing
 suffocation. Owned treatment, repeated attempts, lung clearance and deadline
 integration remain incomplete. `test_resuscitation_assessment` records the skill,
-technology, training and cause distinctions and remains unrun while checks are
-paused.
+technology, training and cause distinctions and remains unrun while validation is in progress.
 
 
 ## Cardiac arrest onset and deadline
@@ -959,8 +958,7 @@ without an attack damage roll.
 
 `test_cardiac_condition` records duration, fatigue assignment without overflow,
 repeated onset, early expiry, exact expiry, preserved recovery restrictions,
-immunities and both health-floor formulas. Fixtures remain unrun while checks are
-paused. Interrupted care remains outstanding; opt-in deadline dispatch is described
+immunities and both health-floor formulas. Fixtures remain unrun while validation is in progress. Interrupted care remains outstanding; opt-in deadline dispatch is described
 below. The
 transaction and continuation fixtures below are authored but unrun.
 
@@ -1001,7 +999,7 @@ asphyxiation treatment remain separate incomplete procedures.
 `test_cardiac_resuscitation` records physician and first-aid targets, a retained
 worse injury total, repeat protection, failed-then-successful treatment, unavailable
 technology and a deadline that cannot accommodate an attempt. Fixtures remain
-unrun while checks are paused; the dedicated persistence and rollback fixtures below remain unrun.
+unrun pending recorded validation; the dedicated persistence and rollback fixtures below remain unrun.
 
 
 The dedicated
@@ -1017,7 +1015,7 @@ when the old deadline has passed.
 failed attempt, after revival and after death. Continuation preserves attempted
 care, elapsed time, shared fatigue/injury and random state. Historical successful
 and failed treatment requests must not reroll or recharge time. All fixtures are
-unrun while checks are paused; no passing persistence claim is made.
+unrun pending recorded validation; no passing persistence claim is made.
 
 
 ## Expanded exhaustion assessments
@@ -1052,7 +1050,7 @@ alone are not a replacement for `rpgLiteCanAct`.
 `test_exhaustion_assessments` records positive-fatigue exemptions, ordinary and
 critical effort failures, HT resistance, high-score automatic failure, prevention
 of repeated efforts during collapse, negative-limit unconsciousness and exact
-one-third rounding boundaries. Fixtures remain unrun while checks are paused.
+one-third rounding boundaries. Fixtures remain unrun pending recorded validation.
 
 
 ## Owned effort permissions
@@ -1091,7 +1089,7 @@ replaying an old failure. `test_effort_transactions` covers rollback of all four
 changed-evidence rejection, recovery rollback and historical replay after recovery.
 `test_effort_persistence` saves each branch and continues it in a separate process,
 including the link to its owned cardiac condition. Fixtures remain unrun while
-checks are paused. Broad action-dispatch integration remains outstanding.
+validation is in progress. Broad action-dispatch integration remains outstanding.
 
 ## Owned action health gate
 
@@ -1119,7 +1117,7 @@ this class does not replace their existing health gate.
 `test_action_gate` records the combined-roll order, early stop on exhausted
 collapse or cardiac onset, injury-only checks, the full-negative-HP penalty,
 Do Nothing exemptions, preview purity and historical replay. It is authored but
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Using the health gate for a maneuver
@@ -1148,7 +1146,7 @@ This adapter covers maneuver entry only. Defense checks during Do Nothing,
 journeys, travel abilities and other action adapters remain to be integrated.
 `test_health_maneuver` records successful effort with one roll, failed effort,
 combined injury checks, Do Nothing, invalid movement and rejection of a consumed
-gate on the next turn. Fixtures remain unrun while checks are paused.
+gate on the next turn. Fixtures remain unrun pending recorded validation.
 
 
 The `expanded-maneuver-transactions.t` fixture exercises the adapter inside a real
@@ -1252,7 +1250,7 @@ exception rollback, undo, changed-case rejection, captured scheduling policy and
 repeat protection. `test_cardiac_clock_revival` records cancellation by successful
 treatment. `test_cardiac_clock_persistence` continues saves immediately before and
 after expiry in a separate process. All fixtures are authored but unrun while
-checks remain paused.
+validation is in progress.
 
 
 `test_cardiac_clock_batch` adds two cases with deadlines at 100 and 200 seconds,
@@ -1292,7 +1290,7 @@ knockdown, random draws and the forced drop; rejection of a missing critical
 qualification or drop destination; undo; and rejection of changed historical
 flags or destinations. `test_critical_major_persistence` saves before and after
 the wound, then continues in another process without repeating the check or
-inventory transfer. These fixtures remain unrun while checks are paused.
+inventory transfer. These fixtures remain unrun pending recorded validation.
 
 ## Full-reference fear assessments
 
@@ -1331,7 +1329,7 @@ object-history readings therefore remain blocked.
 `test_fear_assessments` supplies independent expected initial-score boundaries
 and every primary table row. Conditional resource and aftereffect fields still
 need independent validation when their executors are added. The fixture is
-unrun while checks are paused; this is partial source coverage only.
+unrun pending recorded validation; this is partial source coverage only.
 
 ## Fear scene modifiers
 
@@ -1406,7 +1404,7 @@ undo and exact-compiled-game save mechanisms.
 specify duration boundaries, automatic recovery, pure previews, exception
 rollback, original modifier retention, uncapped recovery, undo, failed-attempt
 receipts and cross-process continuation. These fixtures remain unrun while
-checks are paused. Full-table execution, encounter history and fear-triggered
+validation is in progress. Full-table execution, encounter history and fear-triggered
 supernatural reading integration remain incomplete.
 
 
@@ -1496,7 +1494,7 @@ a battle use the adapter below.
 `test_owned_retching` and `test_retching_persistence` specify contextual penalties,
 concentration rejection, duration boundaries, final fatigue, pure preview,
 rollback, undo, replay, unsupported combinations and continuation in a new
-process. They are authored and unrun while checks remain paused.
+process. They are authored and unrun pending recorded validation.
 
 
 Recovery receipts use `RpgExpandedRetchingRecoveryResult`: `fatigueAdded` and
@@ -1592,7 +1590,7 @@ implementations and are not represented by this class.
 `test_retching_remedy` and `test_remedy_persistence` specify the numeric bonus,
 non-stacking behavior, onset and expiry boundaries, combined meal/medicine
 revocation, preview, rollback, undo, replay and cross-process continuation.
-They remain unrun while checks are paused.
+They remain unrun pending recorded validation.
 
 
 ### Fatigue-plus-stun outcomes
@@ -1731,7 +1729,7 @@ not activate bleeding.
 
 `test_bleeding_outcomes` specifies five-HP boundaries, ordinary and critical
 results, three consecutive clear minutes, failure resetting the streak, modifiers
-and blocked scores. The fixture is authored and unrun while checks are paused.
+and blocked scores. The fixture is authored and unrun pending recorded validation.
 
 
 ### Owned bleeding onset and eligibility
@@ -1836,7 +1834,7 @@ owned attempt and a new full minute; broader attempt modifiers remain authored.
 `test_bleeding_aid` specifies early and late successful control, retained prior
 loss, exact due times, failed/interrupted care, cancellation, no duplicate clock
 charge, preview, rollback, undo, replay and saved continuation. These fixtures
-are authored and unrun while checks remain paused.
+are authored and unrun pending recorded validation.
 
 
 ### Bandage credit in the same care interval
@@ -1871,7 +1869,7 @@ reconciliation rather than bypassing the existing serial protection.
 `test_bleeding_bandage` specifies one total care minute, one healing credit,
 preview purity, failure without healing, invalid-eligibility rejection, rollback,
 undo, replay and cross-process preservation of treatment markers. All fixtures
-remain unrun while checks are paused.
+remain unrun pending recorded validation.
 
 
 ### Offset care deadlines
@@ -2237,7 +2235,7 @@ Timed surgery, failure wounds and protected-HP restoration remain unfinished.
 No fixed duration or healing grant is inferred. The fixture
 `expanded-surgical-assessment.t` and `test_surgical_training_assessment` specify
 independent source-derived scores, prerequisites, blocked combinations and repeat
-assessment purity. They are authored and unrun while checks are paused.
+assessment purity. They are authored and unrun pending recorded validation.
 
 ### Owned surgical operations
 
@@ -2279,7 +2277,7 @@ record. Changing bound procedure facts after starting is rejected.
 solely as an integration fixture, not a source duration. `test_surgical_operation`
 specifies preview purity, timing, overlap, failure injury, replay, interruption,
 rollback, undo and cross-process continuation. These fixtures are authored and
-unrun while checks remain paused.
+unrun pending recorded validation.
 
 ### Repairing a lasting crippling injury
 
@@ -2760,7 +2758,7 @@ additional-limb disability/drop handling remain pending. The existing torso impa
 operation therefore still rejects other locations. Do not route this assessment
 through an ordinary capped limb wound and label that a completed fall procedure.
 Fixtures specify threshold boundaries, multi-limb anatomy, uncapped severe injury
-and all six extra-die outcomes. Assertions remain unrun while checks are paused.
+and all six extra-die outcomes. Assertions remain unrun pending recorded validation.
 Source: `full-2008`, B421 and B431.
 
 ### Owned fall hand wounds
@@ -2797,7 +2795,7 @@ automatic random location selection and combined multi-arm equipment cases still
 require implementation or validation; this does not complete falling support.
 Fixtures specify both extra-die branches, no die below the crippling threshold,
 uncapped HP loss, zero extra HP loss, rollback, undo and saved continuation. All
-assertions remain unrun while checks are paused.
+assertions remain unrun pending recorded validation.
 
 The combined arm/equipment fixture now specifies a one-handed tool and a weapon
 held in both hands. On a successful retention check, the shared weapon transfers
@@ -2807,7 +2805,7 @@ drop or grip roll for the same item. Inventory ownership is retained while stora
 location and active grip bindings change. Assertions cover both extra-die branches,
 knockdown precedence, missing drop destination before RNG, replay, rollback, undo
 and separate-process continuation. These are authored expectations, not passing
-validation; checks remain paused.
+validation; validation is in progress.
 
 ### Lower-limb consequence assessment
 
@@ -2830,7 +2828,7 @@ this helper. Multi-legged physiology and loss of all legs need separate handling
 Owned leg/foot anatomy and movement enforcement remain pending, so the wound
 operation still rejects those locations. The new fixtures specify both kinds,
 posture/aid distinctions and half-speed rounding boundaries. Assertions remain
-unrun while checks are paused. Source: `full-2008`, B141 and B421.
+unrun pending recorded validation. Source: `full-2008`, B141 and B421.
 
 ### Owned lower-limb anatomy
 
@@ -2848,7 +2846,7 @@ modifiers and broader locomotion integration remain pending.
 
 Fixtures specify leg/foot falls, forced lying despite a successful health check,
 same-kind secondary disability, movement rejection, sub-threshold injury, replay,
-rollback, undo and saved continuation. Assertions remain unrun while checks are paused.
+rollback, undo and saved continuation. Assertions remain unrun pending recorded validation.
 
 ### Leg-dependent skills
 
@@ -2868,7 +2866,7 @@ and complete catalogue annotations remain pending.
 The score fixture compares intact anatomy, a foot wound and leg wounds, including
 explicit exemption, skill metadata and actual unarmed parry scores. It uses defense
 contexts to separate the persistent skill penalty from temporary shock. Assertions
-remain unrun while checks are paused. Source: `full-2008`, B141 and B421.
+remain unrun pending recorded validation. Source: `full-2008`, B141 and B421.
 
 ### Fitted peg support
 
@@ -2918,7 +2916,7 @@ rounded down, before ordinary movement adjustments. The adapter supports standin
 and walking; leaning/bracing, crawling, multiple impaired lower limbs and complete
 crutch equipment catalogue entries remain unfinished. Fixtures cover the distinct
 limits, reservations, aid loss, hand disability, rollback, undo and save continuation.
-Assertions remain unrun while checks are paused.
+Assertions remain unrun pending recorded validation.
 
 ### Settling after mobility support loss
 
@@ -3144,7 +3142,7 @@ existing scheduler but commits no path, launch or preparation. The gate owns any
 Will check and collapse outcome. The movement operation does not repeat that
 check. `test_physical_maneuver_gates` exercises malformed permission flags,
 preview purity, exhausted denial, exception rollback, undo and saved continuation.
-Assertions remain unrun while checks are paused.
+Assertions remain unrun pending recorded validation.
 
 `RpgExpandedClamberManeuver` uses the same physical permission contract for each
 of the two clamber turns. Automatic clamber success does not bypass exhausted
@@ -3210,7 +3208,7 @@ universal eating duration or cook raw food. It supports ordinary meal units;
 nonhuman nutrition, spoilage, poison ingestion and preparation scheduling remain
 separate integrations. The combined forage-food fixture covers stock collection,
 preparation rejection, consumption, rollback, undo and saved continuation;
-assertions are authored, unrun while checks are paused.
+assertions are authored, unrun pending recorded validation.
 
 Owned marching-hour execution now checks
 [dedicated foraging day reservations](exploration.md#dedicated-foraging-days)
@@ -3271,7 +3269,7 @@ time. The episode and recovery records persist through undo and saves.
 A new daily check while a prior day's episode remains open rejects with an
 explicit unresolved reason. That interaction rule remains pending.
 The fixtures cover onset, early recovery rejection, failed and successful
-intervals, replay, rollback, undo and save continuation; checks remain paused.
+intervals, replay, rollback, undo and save continuation; validation is in progress.
 
 
 For episodes authored with `duringSleep`, use `RpgExpandedPainSleeplessRest`.
@@ -3320,7 +3318,7 @@ fields reject on replay. Call inside an engine action transaction: exceptions,
 including state changes from unconsciousness hooks, roll back the operation.
 This procedure does not infer body destruction or grant a dying action. Preview,
 eligibility, replay, rollback, undo and save-continuation fixtures are authored but
-unrun while checks are paused.
+unrun pending recorded validation.
 
 ## Injury after death
 
@@ -3364,7 +3362,7 @@ medical or supernatural restoration needs its own rules and authored facts.
 
 Apply inside an action transaction. Preview, threshold, conflicting-decision,
 staleness, replay, rollback, undo and saved-continuation fixtures are authored but
-unrun while checks are paused.
+unrun pending recorded validation.
 
 ## Temporary attribute reductions
 
@@ -3430,7 +3428,7 @@ injury ledger. Execute through an engine action transaction for rollback and und
 `test_fear_acute` specify minimum/maximum dice, successful and failed major-wound
 checks, collapse/drop uniqueness, missing-destination preflight, preview, replay,
 rollback, undo and cross-process save continuation. All assertions remain unrun
-while checks are paused. Initial fear checks and row dispatch are owned by
+pending recorded validation. Initial fear checks and row dispatch are owned by
 `RpgExpandedFearEvent`; see the [completion audit](fear-completion.md) for
 remaining integration and validation work.
 
@@ -3613,7 +3611,7 @@ a recovery check. Owned fear events select and dispatch these outcomes.
 [`expanded-fear-coma.t`](../../tests/fixtures/expanded-fear-coma.t) and
 `test_fear_coma` specify both schedules, failures and successful recovery, ownership,
 aftereffect expiry, pure preview, single draws, replay, rollback, undo and
-cross-process save continuation. Assertions remain unrun while checks are paused.
+cross-process save continuation. Assertions remain unrun pending recorded validation.
 
 
 ## Catatonia, care and neglect
@@ -3844,7 +3842,7 @@ and the patient's warmth, comfort, calm and stillness.
 
 `test_first_aid_physiology` specifies penalty arithmetic, knowledge success and
 failure, pure previews, unresolved and machine rejection, transaction rollback,
-undo and duplicate execution. These fixtures remain unrun while checks are paused.
+undo and duplicate execution. These fixtures remain unrun pending recorded validation.
 
 
 ## Physician healing across species
@@ -3871,7 +3869,7 @@ this feature does not establish cross-species supervision eligibility by itself.
 `test_physician_physiology` specifies pure target previews, success/failure of
 knowledge, blocked machine and unresolved cases, shared healing accounting,
 rollback, undo, replay, changed-species rejection and cross-process save
-continuation. The fixture is authored and unrun while checks remain paused.
+continuation. The fixture is authored and unrun pending recorded validation.
 
 
 ## Diagnosis before unusual first aid
@@ -3897,7 +3895,7 @@ This gate currently applies to the owned post-bandaging first-aid treatment.
 Other first-aid operations, including bleeding and resuscitation, still need
 case-specific integration. `test_first_aid_diagnosis` covers missing, unresolved,
 failed and partial findings, consultation, rollback, undo and replay. Fixtures
-remain unrun while checks are paused.
+remain unrun pending recorded validation.
 
 
 ## First-aid equipment assessment
@@ -3946,7 +3944,7 @@ rest and does not establish an hourly conversion.
 `test_march_group` specifies individual fatigue amounts with one shared hour,
 preview purity, denied effort, mid-hour changes, rollback, undo, individual/group
 replay, duplicate combat-fatigue rejection and cross-process continuation. Fixtures
-remain unrun while checks are paused.
+remain unrun pending recorded validation.
 
 
 Grouped marching receipts are also registered in each participant's `marchGroups`.
@@ -4027,7 +4025,7 @@ retain the receipt's existing replay behavior. The event
 `test_bleeding_actions` and `expanded-bleeding-actions.t` specify command, structured
 and dialogue parity, healer authority, pure previews, premature completion,
 shared time, one bandage credit, cancellation, rollback, undo and replay. They
-remain unrun while checks are paused. Neither this action adapter nor the care
+remain unrun pending recorded validation. Neither this action adapter nor the care
 receipt supplies automatic movement, equipment consumption or wound aggregation.
 
 Bleeding episodes now bind onset, next deadline, termination, clear-minute streak
@@ -4350,7 +4348,7 @@ rules for unsupported attribute boundaries.
 `expanded-postbattle-low-score.t` provide fixtures for missing decisions,
 inapplicable decisions, pure previews, receipt binding, voice choices, typed
 consequence dispatch, rollback, undo and save continuation. Their assertions
-remain **unrun** while build checks are paused.
+remain **unrun** pending recorded validation.
 
 ### Extreme-panic flight through the authored world
 
@@ -4563,7 +4561,7 @@ necessary: this feature does not make an otherwise illegal Block possible.
 `expanded-panic-attack.t` / `test_panic_attack` specify hit, miss, defense,
 ammunition and weapon hooks, preview purity, blocked critical results, incapacity,
 exception rollback, undo, receipt mutation and saved continuation. These fixtures
-are authored and unrun while checks are paused. The additional
+are authored and unrun pending recorded validation. The additional
 `expanded-panic-defense.t` / `test_panic_defense` specifies critical Dodge/Block
 failure integration, no duplicate dice or ammunition, immutable consequence
 records, rollback, undo and cross-process continuation. The additional
@@ -4609,7 +4607,7 @@ selected. These limitations keep the broader Wait procedure partial.
 `expanded-panic-wait.t` / `test_panic_wait` specify declaration, trigger matching,
 expiry, hit and miss consequences, one clock advance, no duplicate consciousness
 roll, receipt mutation, rollback, undo and cross-process continuation. All new
-assertions are authored and unrun while checks remain paused.
+assertions are authored and unrun pending recorded validation.
 
 
 ### Movement during timed panic
@@ -4641,8 +4639,7 @@ transaction. This adapter does not supply tactical movement or hazard resolution
 
 `test_panic_crying` also specifies movement preview, actual relocation, range and
 evidence rejection, failed consciousness, replay, rollback, undo and separate
-process save continuation. All cases are authored and unrun while checks remain
-paused.
+process save continuation. All cases are authored and unrun while validation is in progress.
 
 
 ### Tactical movement during timed panic
@@ -4674,7 +4671,7 @@ purposeful actions during panic.
 
 `test_timed_panic_path` specifies preview, direct-execution rejection, actual hex
 movement, failed exertion, deadline rejection, shared-round timing, rollback, undo
-and cross-process continuation. These fixtures are unrun while checks are paused.
+and cross-process continuation. These fixtures are unrun pending recorded validation.
 
 
 ### Stationary pointless expression
@@ -4736,7 +4733,7 @@ receipts without requiring the character to remain at a former destination.
 
 `test_panic_crying` and `test_timed_panic_path` specify changed definitions,
 removed history, changed outcomes and changed permissions rejecting before a
-new time charge. These additional cases remain unrun while checks are paused.
+new time charge. These additional cases remain unrun pending recorded validation.
 
 
 ### Panic execution ownership
@@ -4772,7 +4769,7 @@ The snapshot is consumed by the owned frenzy entry interfaces documented in
 self-control, witnessed relationship facts, active effects and exit handling.
 `test_rage_injury_window` specifies exact thresholds, multiple-hit aggregation,
 time separation, purity, replay, rollback, undo and saved continuation. It is
-registered but unrun while checks remain paused.
+registered but unrun pending recorded validation.
 
 
 `RpgExpandedRageInjuryReceipt` retains a qualifying snapshot for the future entry
@@ -4806,4 +4803,4 @@ The frenzy override uses the approved, recorded knockdown/consciousness ruling.
 episode, retains injury and does not invent a combined-check modifier.
 `test_knockdown_dispatch` specifies default success/failure, one dispatch per
 wound, unchanged random consumption, rollback, undo and saved continuation.
-These regression cases remain unrun while checks are paused.
+These regression cases remain unrun pending recorded validation.

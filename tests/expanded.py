@@ -9907,6 +9907,8 @@ def test(build):
     test_stress(Session,stress,build.out)
     test_stress_fear(Session,stress,build.out)
     test_stress_pending(Session,stress,build.out)
+    test_stress_refresh(Session,stress,build.out)
+    test_stress_midnight(Session,stress,build.out)
     stress_panic = build.build('expanded-stress-panic',ROOT / 'tests/fixtures/expanded-stress-panic.t')
     test_stress_panic(Session,stress_panic,build.out)
     frenzy_acquisition = build.build('expanded-frenzy-acquisition',ROOT / 'tests/fixtures/expanded-frenzy-acquisition.t')
@@ -31451,11 +31453,11 @@ def test_echo_aftermath(Session,bundle,out):
             do(s,1424); do(s,1426); assert state(s)[4:7] == [9,0,-1]
             do(s,1424); do(s,1427); assert state(s)[4:6] == [12,0]
             do(s,1428); assert state(s)[4:7] == [11,0,0]
-            s.command(f':save {path}')
+            s.command(f':save {path}\n@1429')
         finally: s.close()
         s = Session(bundle)
         try:
-            s.command(f':restore {path}'); do(s,1428); assert state(s)[4] == 10
+            s.command(f':restore {path}\n@1429'); do(s,1428); assert state(s)[4] == 10
         finally: s.close()
 
 
@@ -31538,4 +31540,34 @@ def test_stress_pending(Session,bundle,out):
         assert last(s,'test.stress')[0:5] == [5,1,2,1,4]
         do(s,1407); assert last(s,'test.stress-check') == ['blocked','stress-decision-required']
         do(s,1403,3); do(s,1405); assert last(s,'test.stress')[4] == 0
+    finally: s.close()
+
+
+def test_stress_refresh(Session,bundle,out):
+    def do(s,c,row=4): s.action(2250,c,row)
+    s=Session(bundle); path=out/'stress-refresh.zsave'
+    try:
+        do(s,1400); do(s,1401,1); do(s,1401,2); do(s,1403,1)
+        do(s,1409,599); do(s,1401,3); do(s,1403,1); do(s,1409,1)
+        do(s,1405); assert last(s,'test.stress')[5:8] == [2,-1,600]
+        do(s,1417); assert last(s,'test.stress-score') == [9,0,0,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,1409,598); do(s,1405)
+        assert last(s,'test.stress')[6] == -1
+        do(s,1409,1); do(s,1405); assert last(s,'test.stress')[6] == 0
+    finally: s.close()
+
+
+def test_stress_midnight(Session,bundle,out):
+    def do(s,c,row=4): s.action(2250,c,row)
+    s=Session(bundle)
+    try:
+        do(s,1400); do(s,1401,1); do(s,1401,2); do(s,1409,86399)
+        for interval in range(1,6): do(s,1410,interval); do(s,1409,3600)
+        do(s,1405)
+        assert last(s,'test.stress')[0:5] == [2,1,2,1,4]
+        assert last(s,'test.stress')[7] == 104399
     finally: s.close()

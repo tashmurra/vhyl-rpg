@@ -92,7 +92,7 @@ investments under the existing skill identity contract.
 The native cases in `tests/expanded.py::test_template_composition` cover order
 independence, recalculated secondary costs, overlapping skills and traits, fresh
 ownership, conflicting status choices, empty input, and below-average requirements.
-These checks have not run while validation is paused.
+These checks await recorded validation.
 
 ## Technology settings
 
@@ -150,7 +150,7 @@ eligibility from narrative labels.
 `tests/expanded.py::test_template_choices` covers signed prices, exact point limits,
 selection receipts, fresh ownership, unresolved and missing groups, duplicate and
 ineligible options, wrong counts and selected trait conflicts. The cases remain
-unrun while validation is paused.
+unrun pending recorded validation.
 
 ## Attribute options
 
@@ -170,7 +170,7 @@ checks secondary limits, prerequisites, total budget and the disadvantage limit.
 
 `tests/expanded.py::test_template_score_options` covers these independent cost
 examples, derived scores, source-template preservation and an invalid health
-adjustment. The cases remain unrun while checks are paused.
+adjustment. The cases remain unrun pending recorded validation.
 
 
 ## Character/social subset authoring
@@ -236,7 +236,7 @@ ancestry or full catalogue composition requirements.
 Sources: full-2008, B121, B159 and B259. `test_template_composition` specifies the
 four prices, fresh ownership, choice accounting, duplicate purchase handling,
 conflicting definitions, unsupported IDs and disadvantage-limit rejection.
-Assertions are authored and unrun while checks remain paused.
+Assertions are authored and unrun pending recorded validation.
 
 Four-field trait rows now support `compelled-aid` and `low-motivation`:
 `[id, 1, scope, selfControlRating]`, with ratings 6, 9, 12 or 15. The factory
@@ -248,7 +248,7 @@ Templates create new, unfinished profiles. Finalize the assembled profile with
 `RpgExpandedCharacterFinalization` to validate the complete character and record
 its actual original disadvantage costs. The integration fixture covers concrete
 types, independent instances, conflicting purchases and final cost capture; it
-remains unrun while checks are paused.
+remains unrun pending recorded validation.
 
 Composition now reconstructs each supported trait purchase before adding it to
 the output profile. Raising a duplicate trait to a later package's level no
@@ -338,7 +338,7 @@ and mandatory ancestry customization are outside this interface.
 Source: `full-2008`, B258-B259. `test_template_customization` specifies additive
 skill investment, replacement and removal, combined negative limits, excessive
 quirks, permission and invalid-removal rejection, fresh ownership, undo and save
-continuation. Assertions are authored but unrun while checks remain paused.
+continuation. Assertions are authored but unrun pending recorded validation.
 
 ## Zero-cost prohibited purchases
 
@@ -369,7 +369,7 @@ constraints. Each character needs its own contribution instance.
 
 `test_template_taboo` specifies zero cost, creation rejection, learning and
 advancement gates, unchanged resources on rejection, undo, and save continuation.
-Assertions remain unrun while checks are paused.
+Assertions remain unrun pending recorded validation.
 
 Will and Perception prohibitions also apply to the derived increases caused by
 an IQ development offer. Assessment projects both scores with their existing
@@ -430,7 +430,7 @@ Sources: `full-2008`, B261 and B451-B452. `test_ancestry_scores` specifies the t
 printed secondary-score examples, separate personal/ancestry negative costs,
 additive packages, zero baseline, a negative package with zero personal negative
 allowance, personal advancement, binding rejection, undo and save continuation.
-These assertions remain unrun while checks are paused.
+These assertions remain unrun pending recorded validation.
 
 The ancestry fixture additionally specifies nonhuman physical exemptions under
 ordinary campaign rules, rejection of the same human package, retained Will and
@@ -481,7 +481,7 @@ Sources: `full-2008`, B261-B262 and B452. `test_ancestry_traits` specifies rated
 concrete behavior, costs and exemptions, five personal quirks plus an ancestry
 quirk, excessive personal quirks, mandatory-component binding, blocked ordinary
 buyoff, fresh ownership, undo and cross-process save continuation. These fixtures
-are authored but unrun while checks are paused.
+are authored but unrun pending recorded validation.
 
 ## Stacking supported ancestry traits
 
@@ -545,7 +545,7 @@ mandatory ancestry trait. Personal omissions use the separate B262 replacement a
 `test_ancestry_conflicts` specifies retaining either side of a positive/negative
 conflict, retaining one rated purchase, invalid and contradictory decisions,
 unchanged prior characters, receipt binding, undo and save continuation. These
-assertions remain unrun while checks are paused.
+assertions remain unrun pending recorded validation.
 
 ## Package prohibitions and cosmetic notes
 
@@ -643,7 +643,7 @@ remain separate unfinished rules.
 `test_ancestry_training` specifies the printed example, changed personal
 attributes, combined personal investment, ordinary improvements, mandatory and
 shared-slot rejection, overlap rejection, undo and cross-process save continuation.
-The assertions remain unrun while checks are paused.
+The assertions remain unrun pending recorded validation.
 
 ## Single-skill ancestry bonuses
 
@@ -674,7 +674,7 @@ unfinished. Single-skill incompetence is described below.
 `test_ancestry_skill_bonus` specifies this example, untrained defaults, specialties,
 unavailable skills, default-chain separation, floating rolls, the combined cap,
 mandatory contribution ownership, undo and save continuation. The assertions are
-authored but unrun while checks remain paused.
+authored but unrun pending recorded validation.
 
 ## Single-skill ancestry incompetence
 
@@ -703,7 +703,7 @@ this contribution remain unsupported.
 `test_ancestry_incompetence` specifies defaults and specialties, unavailable
 skills, forbidden training, unchanged resources, relevant-skill approval, the
 five-skill boundary, modifier conflicts, ownership, undo and save continuation.
-Assertions remain unrun while checks are paused.
+Assertions remain unrun pending recorded validation.
 
 ## Catalogue talent purchases
 
@@ -718,7 +718,7 @@ composition adds levels of the expanded catalogue purchase kind, rejecting total
 above four. Existing shared-catalogue purchase kinds retain their existing
 composition behavior. See [talent catalogue](traits.md#additional-catalogue-talents)
 for IDs, prices and remaining limitations. Isolation, level-cap, undo and saved
-continuation fixtures are authored but unrun while checks are paused.
+continuation fixtures are authored but unrun pending recorded validation.
 
 ## Native pressure
 
@@ -733,7 +733,7 @@ so changing the profile feature is not an exposure-transition operation.
 
 The foundation validates the supported integer range 1–100,000. Feature accounting,
 choice propagation, conflict, undo and saved-continuation fixtures are authored
-but unrun while checks are paused.
+but unrun pending recorded validation.
 
 An ancestry template may set `nativePressureHundredths` (default `nil`, meaning
 unspecified). A declared ancestry value replaces the personal template's value as
@@ -801,7 +801,7 @@ This adds reusable purchase construction for B131 and B258; contribution-bearing
 package combination remains unsupported.
 `expanded-dependent-templates.t` / `test_dependent_templates` cover fixed and
 selected construction, ownership, accounting, isolation, rollback, undo and saved
-continuation. Fixtures are authored but unrun while checks remain paused.
+continuation. Fixtures are authored but unrun pending recorded validation.
 
 
 `RpgExpandedTemplateOption.contributionDefinitions` also accepts dependent
@@ -879,7 +879,7 @@ definitions and constructs independent training records.
 
 `test_psychology_templates` specifies combined cost and ratings, mixed campaign
 representation rejection, duplicate-discipline rejection and construction
-rollback. Fixtures remain unrun while checks are paused.
+rollback. Fixtures remain unrun pending recorded validation.
 
 ### Appearance and sympathy purchases
 
@@ -929,4 +929,4 @@ pending. Broad adaptation purchases are described in the traits guide.
 
 `test_culture_templates` specifies fresh ownership, selected construction,
 composition costs, duplicate/native conflicts, undo and save continuation. The
-fixtures are authored and unrun while checks are paused.
+fixtures are authored and unrun pending recorded validation.

@@ -20,7 +20,7 @@ correctly. Existing committed work remains available with its documented limits.
 The final delivery must list all areas still outstanding across the broader suite;
 this scope change does not label those areas implemented or remove their inventory.
 
-Checks remain paused under the current implementation instruction. Authored
+validation is in progress under the current implementation instruction. Authored
 fixtures are not evidence of passing behavior. Completion requires the appropriate
 source, native, documentation and packaging checks after implementation, along
 with the required regression and persistence coverage. Keep the existing PR draft
@@ -351,13 +351,13 @@ Dependent session closures now bind authored peril, rescue and harm outcomes to
 the existing milestone award path. Serious harm blocks session points; an
 authored failure-to-rescue judgment can deny bonus awards without removing prior
 earnings. Live rescue routing and permanent-loss settlement remain pending.
-The integration fixtures are authored but unrun while checks remain paused.
+The integration fixtures are authored but unrun pending recorded validation.
 
 
 Fixed and selected templates can now construct fresh owned dependent purchases
 from unowned contribution definitions. Unsupported contribution copying rejects;
 contribution-bearing package composition remains pending. Isolation and save
-fixtures are authored but unrun while checks remain paused.
+fixtures are authored but unrun pending recorded validation.
 
 
 Dependent purchases now participate in selectable template options, including
@@ -368,13 +368,13 @@ validation. Fixtures are authored but unrun; package composition remains pending
 Dependent growth receipts now account for approved whole-point proportional NPC
 build improvements while preserving original relationship costs and the principal
 point bank. Fractional/nonpositive-total growth and automatic NPC profile changes
-remain pending. The new fixtures are authored but unrun while checks are paused.
+remain pending. The new fixtures are authored but unrun pending recorded validation.
 
 
 Skill-only dependent growth can now apply approved point increases to existing
 NPC training slots after shared ownership and learning checks, without charging
 either point bank. Attribute/trait/mixed applications remain pending. Fixtures
-are authored but unrun while checks remain paused.
+are authored but unrun pending recorded validation.
 
 
 Dependent group session records now bind explicit member rosters and individual
@@ -426,7 +426,7 @@ Integration fixtures are authored but unrun.
 Equipment acquisition now accepts exact owned coin tender mixed with existing
 abstract funds. Payment and item transfer commit together without depositing or
 duplicating coin value. Change-making and currency conversion remain pending.
-Fixtures are authored but unrun while checks remain paused.
+Fixtures are authored but unrun pending recorded validation.
 
 
 One-unit copper coins now work through the existing physical-money paths when
@@ -438,7 +438,7 @@ unrun. Change-making and currency conversion remain pending.
 Starting-wealth receipts now bind the approved allocation and original outcomes.
 An integration fixture covers allocation, starting gear prices and issued items
 through one purse, including replay after later wealth changes. Fixtures remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 Inventory-backed equipment assessments now connect task-specific quality to

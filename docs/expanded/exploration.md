@@ -95,7 +95,7 @@ The minimal [`expanded-exploration.t`](../../tests/fixtures/expanded-exploration
 fixture covers independent duration expectations, combined-factor rounding,
 preparation rejection, exact expiry boundaries, duplicate reserves and shared-ledger
 ownership. `test_breath_duration` and `test_breath_reserve` are authored but unrun
-while checks are paused. The dedicated
+pending recorded validation. The dedicated
 [`expanded-breath-transactions.t`](../../tests/fixtures/expanded-breath-transactions.t)
 adds authored transaction fixtures for exceptions after start and air restoration,
 undo and replay, preview purity, rejected bound-field mutation and duplicate
@@ -179,7 +179,7 @@ physiology remain incomplete; the balance-check cadence must not stand in for
 them. `test_swimming_encounter` records failure, recovery, normal cadence, repeat
 protection and leaving. `test_swimming_context` covers untrained caps, trained and
 untrained encumbrance, default availability and explicit unsupported states. These
-fixtures remain unrun while checks are paused; the combined-schedule transaction and continuation fixtures are described below.
+fixtures remain unrun pending recorded validation; the combined-schedule transaction and continuation fixtures are described below.
 
 
 ## Water movement and endurance assessment
@@ -213,7 +213,7 @@ check ordering. Heat surcharges, extra effort and movement changes at fatigue
 thresholds remain incomplete.
 `test_swimming_movement_endurance` records movement boundaries, the printed
 heavy-encumbrance example, adapted movement, HT/skill selection and pace intervals.
-These fixtures remain unrun while checks are paused.
+These fixtures remain unrun pending recorded validation.
 
 
 ## Owned endurance intervals
@@ -415,7 +415,7 @@ workers, carried equipment during dragging, lifting-skill bonuses, consecutive
 Ready maneuvers, unwilling targets and overload execution remain separate pending
 work. `expanded-loads.t` specifies exact limits, immediate boundary values,
 fractional loads, device weight, surface stacking, bracing and zero time/RNG.
-Its assertions remain unrun while checks are paused.
+Its assertions remain unrun pending recorded validation.
 
 The equipment module now commits noncombat stored-item pickups through
 [`RpgExpandedEquipmentLift`](equipment.md#owned-equipment-pickup), sharing these
@@ -451,7 +451,7 @@ does not complete the pickup. The request must implement the foundation's
 The fixture specifies margin-four success, critical success using its actual
 margin, failure, no-default rejection, duplicate-lift rejection, preview purity,
 rollback, undo and cross-process continuation. Carrying state remains unchanged
-in every case. Assertions remain unrun while checks are paused.
+in every case. Assertions remain unrun pending recorded validation.
 
 ### Applying trained capacity to a pickup
 
@@ -491,7 +491,7 @@ New assertions cover this rounding boundary, one-second pickups outside combat,
 and the one-second threshold with a skill-adjusted lifting capacity. The owned
 digging fixture now expects 48 cubic feet per hour at strength 11, using the
 rounded 24-pound base. These corrections come from source/code inspection; all
-assertions remain unrun while checks are paused.
+assertions remain unrun pending recorded validation.
 
 ## Cooperative load assessment
 
@@ -527,7 +527,7 @@ inventory as a substitute.
 `test_cooperative_loads` specifies separately rounded strength values, exact
 capacity and immediate-over-limit cases, wagon/surface modifiers, duplicate
 helpers, missing authorization and an incapacitated helper. Assertions are authored
-and unrun while checks remain paused.
+and unrun pending recorded validation.
 
 ### Assessing individual shares
 
@@ -586,7 +586,7 @@ falling damage and owned progress still require implementation. The existing
 profile's activity behavior is unchanged. `test_climb_assessment` specifies all
 nine rows at both speeds, encumbrance, fractional rates, whole-second rounding,
 five-minute boundaries and combat fatigue. These assertions remain unrun while
-checks are paused. Source: `full-2008`, B349.
+validation is in progress. Source: `full-2008`, B349.
 
 ### Failed climbs and falling velocity
 
@@ -666,7 +666,7 @@ forward to the same fall, using reduced velocity or damage negation as appropria
 the hazards module accepts an explicit landing receipt as described below. The new fixture covers preview,
 rollback, undo, replay, duplicate-occurrence rejection, changed-choice rejection,
 successful and failed dives, and cross-process continuation. Assertions remain
-unrun while checks are paused. Source: `full-2008`, B174, B224, B431 and B550.
+unrun pending recorded validation. Source: `full-2008`, B174, B224, B431 and B550.
 
 
 The hazards module's `RpgExpandedFallInjury` can link to this receipt through its
@@ -1027,7 +1027,7 @@ flight. Neither stage spends maneuver time, resolves critical consequences or
 implements interceptions. An unsettled flight blocks positive time advancement.
 The integration fixture `expanded-catch-attempt.t` covers success, failure,
 preview purity, duplicates, rollback, undo and saved replay. Assertions remain
-unrun while checks are paused; the inventory entry remains partial.
+unrun pending recorded validation; the inventory entry remains partial.
 
 ### Concentration during a catch
 
@@ -1043,7 +1043,7 @@ outcomes, including after a save/restore.
 This integrates the existing fighter concentration counter. Spell-specific
 interruption consequences and other owned activities are not supplied by this
 adapter. The associated preview, success/failure, rollback, undo and saved-replay
-assertions in `test_catch_concentration` remain unrun while checks are paused.
+assertions in `test_catch_concentration` remain unrun pending recorded validation.
 
 ## Assessing ordinary jump distance
 
@@ -1072,7 +1072,7 @@ rolls, landing consequences and actual movement remain pending.
 
 The `expanded-jump-assessment.t` fixture covers the printed examples, run-up
 boundaries, deliberate skill substitution, preparation and all optional load
-factors. Its assertions are authored, unrun while checks are paused.
+factors. Its assertions are authored, unrun pending recorded validation.
 
 The held-throw low-fatigue guard remains in place. B426 halves current strength
 but preserves strength-derived quantities, explicitly including damage. The
@@ -1131,7 +1131,7 @@ Replay retains the recorded protection and does not reevaluate a later trait
 change. Duplicate protection records for one fall are rejected. The fixture
 `expanded-jump-fall.t` covers threshold boundaries, Acrobatics composition,
 inactive traits, rollback, undo and cross-process save continuation. Assertions
-remain unrun while checks are paused.
+remain unrun pending recorded validation.
 
 
 ### Enhanced-jump speed and elapsed time
@@ -1180,7 +1180,7 @@ jump; launch, travel interruption and position changes remain pending. Existing
 manual assessment remains available for authored situations outside this adapter.
 The `expanded-jump-preparation.t` fixture covers consecutive turns, interruption,
 unrelated concentration, rollback, undo and saved continuation. Assertions remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 ### Recording the jump launch
 
@@ -1211,8 +1211,7 @@ health maneuver refuses to execute an already committed launch.
 
 The launch fixture covers range rejection before permission or randomness,
 prepared success, ordinary and critical failure, single consumption, exception
-rollback, undo and save continuation. All assertions remain unrun while checks
-are paused. Destination placement and travel interruption remain explicit implementation gaps.
+rollback, undo and save continuation. All assertions remain unrun pending recorded validation. Destination placement and travel interruption remain explicit implementation gaps.
 
 ### Critical-jump falling damage
 
@@ -1239,7 +1238,7 @@ new reactive landing maneuver during the critical-fall transaction is pending.
 
 `test_jump_launch_fall` covers critical damage, armor, missing-plan rejection,
 rollback, undo and cross-process continuation. These assertions are authored,
-unrun while checks remain paused.
+unrun pending recorded validation.
 
 ### Placing a jump on a tactical map
 
@@ -1291,7 +1290,7 @@ reserve daily attempts or injure anyone. Health supplies the matching pure
 [plant-poison assessment](health.md#foraged-plant-poisoning). Daily scheduling, weapon eligibility, food inventory and preservation remain
 pending; the owned plant-roll adapter below supplies a limited travel-day path. `test_foraging_assessment` covers yields, natural-roll complications,
 scarcity, unavailable resources, hunting penalties and supplied poison dice;
-assertions are authored, unrun while checks remain paused.
+assertions are authored, unrun pending recorded validation.
 
 Health now provides [owned plant-poisoning resolution](health.md#committing-foraged-plant-poisoning)
 for an already recorded natural-17/18 plant check. It commits separate checks and
@@ -1513,7 +1512,7 @@ completed attempt or spend resources again.
 
 `expanded-owned-fishing.t` / `test_owned_fishing` cover owner mismatch, inaccessible
 tools, preview purity, item retargeting, replay, rollback, undo and save continuation.
-These fixtures are authored but unrun while checks are paused.
+These fixtures are authored but unrun pending recorded validation.
 
 
 ## Defaulted small-boat entry
@@ -1686,7 +1685,7 @@ finding are explicit author responsibilities, not inferred from a generic hook.
 
 `test_nature_observation` covers success/failure, biology defaults, pure preview,
 inaccessible evidence, replay, rollback and undo without resource or time changes.
-Fixtures remain unrun while checks are paused.
+Fixtures remain unrun pending recorded validation.
 
 
 ## Receiving a nature finding
@@ -1704,7 +1703,7 @@ learned without forcing later choices. Observation history validation checks
 ownership, unique IDs and occurrence/purpose pairs, bound facts, and the original
 check outcome and finding. `test_nature_disclosure` specifies missing and failed
 findings, rollback, undo, replay, cross-process saves and outcome-tampering
-rejection. Fixtures remain unrun while checks are paused.
+rejection. Fixtures remain unrun pending recorded validation.
 
 
 ## Nature observations through native actions
@@ -1750,7 +1749,7 @@ Include social for the disclosure and action interfaces below.
 `test_paleontology_assessment` specifies preview purity, successful and failed
 findings, duplicate rejection, exception rollback, undo, replay, cross-process save
 continuation, changed-context rejection and blocked access. These fixtures are
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ### Receiving fossil findings through native actions
@@ -1811,7 +1810,7 @@ Changing the bound familiarity identity or penalty rejects reuse.
 
 `test_paleontology_familiarity` specifies preview purity, the initial penalty,
 practice removing the penalty for a new study, old-result replay, rollback, undo,
-save continuation and receipt tampering. It remains unrun while checks are paused.
+save continuation and receipt tampering. It remains unrun pending recorded validation.
 
 
 ## Pack-train expertise
@@ -1889,7 +1888,7 @@ returned result for authored presentation of findings.
 The disclosure and action fixtures demonstrate route planning through parser,
 structured verbs and dialogue, including missing results, failed rolls, wrong
 knowledge owners, rollback, undo, repeated delivery and cross-process saves. They
-remain unrun while checks are paused. These actions resolve the packing check;
+remain unrun pending recorded validation. These actions resolve the packing check;
 single-stack loading uses the equipment adapter; executing caravan travel remains unfinished.
 
 
@@ -2036,7 +2035,7 @@ eligibility assessment. Each participant still owns a separate daily reservation
 one interruption blocks the party's full-day assessment without consuming another
 roll or altering the other participants' reservations. `test_hiking_day_party`
 covers member ownership, interruption, undo, save continuation and altered result
-rejection. These fixtures remain unrun while checks are paused.
+rejection. These fixtures remain unrun pending recorded validation.
 
 ## Reading terrain for a direction
 
@@ -2179,7 +2178,7 @@ the terrain search's visual-observation requirement.
 `test_hearing_observation` specifies preview, failure, unavailable senses,
 rollback, undo, replay and saved continuation. `test_sense_actions` specifies
 command, structured and dialogue parity for both senses and observer authority.
-Fixtures remain unrun while checks are paused. Special senses, danger warnings and concealment/stealth contests remain pending.
+Fixtures remain unrun pending recorded validation. Special senses, danger warnings and concealment/stealth contests remain pending.
 Owned comprehension is described below.
 
 ## Comprehending a noticed event
@@ -2258,7 +2257,7 @@ use the returned result to disclose a successful meaning to the intended
 recipient. The adapter does not infer recipients or automatically broadcast
 private knowledge. `test_comprehension_actions` specifies all three routes,
 ownership rejection, preview purity, missing observation, rollback, undo and
-repeat execution. These fixtures remain unrun while checks are paused.
+repeat execution. These fixtures remain unrun pending recorded validation.
 
 
 ## Ordinary taste and smell
@@ -2445,7 +2444,7 @@ status and reason. It does not broadcast trail identity, target information or
 dice. Authors control recipient-specific feedback using the returned result.
 `test_tracking_actions` specifies parser, structured and dialogue parity for both
 stages, ownership denial, preview purity, rollback, undo and repeated execution.
-Fixtures remain unrun while checks are paused.
+Fixtures remain unrun pending recorded validation.
 
 
 ## Shadowing contest outcomes
@@ -2534,5 +2533,4 @@ pending. These limits are explicit; this is not complete encounter coverage.
 `test_shadowing_round` specifies both intervals, one shared time increment,
 retained awareness and mistaken escape, loss and critical-failure termination,
 health denial, pure preview, replay, exception rollback, undo, outcome binding
-and cross-process save continuation. Fixtures are authored but unrun while checks
-remain paused.
+and cross-process save continuation. Fixtures are authored but unrun pending recorded validation.

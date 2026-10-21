@@ -523,7 +523,7 @@
       "tests": [
         "tests/expanded.py::test_fear_aura"
       ],
-      "validation_note": " Typed sight/hearing aura purchase and source/victim event history implement extra penalties, one-hour success immunity and 24-hour repeated-check bonuses. Perception and activation are explicit author facts. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
+      "validation_note": " Typed sight/hearing aura purchase and source/victim event history implement extra penalties, one-hour success immunity and 24-hour repeated-check bonuses. Perception and activation are explicit author facts. Fixtures authored but unrun pending recorded validation; full-suite completion not claimed."
     },
     {
       "id": "traits-l-fear-aura-modifiers",
@@ -536,7 +536,7 @@
       "tests": [
         "tests/expanded.py::test_fear_aura"
       ],
-      "validation_note": " Always-on and close-contact-only choices implement -20% and B112 reach-C -30% pricing and exposure eligibility. Other melee reaches and modifier combinations remain unsupported. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
+      "validation_note": " Always-on and close-contact-only choices implement -20% and B112 reach-C -30% pricing and exposure eligibility. Other melee reaches and modifier combinations remain unsupported. Fixtures authored but unrun pending recorded validation; full-suite completion not claimed."
     },
     {
       "id": "traits-l-advanced-martial-training",
@@ -549,7 +549,7 @@
       "tests": [
         "tests/expanded.py::test_catch_repeat_parry"
       ],
-      "validation_note": "Fixed thirty-point approved training definition and active repeated-catch-parry benefit implemented. Author records cinematic permission and additional prerequisites. Ordinary/melee rapid strikes, other melee parries and cinematic skill prerequisite integration remain pending. Assertions authored, unrun while checks are paused."
+      "validation_note": "Fixed thirty-point approved training definition and active repeated-catch-parry benefit implemented. Author records cinematic permission and additional prerequisites. Ordinary/melee rapid strikes, other melee parries and cinematic skill prerequisite integration remain pending. Assertions authored, unrun pending recorded validation."
     }
   ]
 }

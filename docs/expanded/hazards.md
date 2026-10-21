@@ -121,8 +121,7 @@ an owned disease history, restrict recovery or apply injury. Those mechanisms
 remain incomplete. The minimal fixture
 [`expanded-hazards.t`](../../tests/fixtures/expanded-hazards.t) exercises the
 library independently; `test_infection_assessments` covers combined modifiers,
-prevention, daily treatment, unsupported cases and preview purity. Checks remain
-paused, so these fixtures are unrun.
+prevention, daily treatment, unsupported cases and preview purity. validation is in progress, so these fixtures are unrun.
 
 
 ## Owned wound exposure
@@ -151,7 +150,7 @@ resistance scores, critical-treatment exceptions, progression, recovery locks,
 reinfection and discovery contracts remain incomplete. Acquisition rollback,
 undo and save expectations are recorded in the transaction fixture below. `test_infection_acquisition`
 covers resistance, infection, prevention, preview purity and repeat protection;
-these authored cases remain unrun while checks are paused.
+these authored cases remain unrun pending recorded validation.
 
 
 ## Typical daily progression
@@ -180,7 +179,7 @@ below. Exceptional infection types, complete immunity, discovery, interruption,
 other disease procedures and verified transaction/save behavior remain incomplete.
 `test_infection_progression` covers an early request, failed daily check, reuse,
 recovery and preservation of a separate disease-injury restriction. The fixture
-is authored but unrun while checks are paused.
+is authored but unrun pending recorded validation.
 
 
 ## Transaction and continuation fixtures
@@ -226,7 +225,7 @@ operation to check that it consumes no additional randomness.
 `test_immunity_persistence` restores separate-process saves for natural three and
 four, before and after a later exposure. It checks the original roll, immunity,
 injury and random draw count, including history validation after restoration.
-These fixtures also remain unrun while checks are paused.
+These fixtures also remain unrun pending recorded validation.
 
 
 ## Physician-supported infection recovery
@@ -252,7 +251,7 @@ certify continuous care by itself: the author must still supply the interval fac
 Automatic care scheduling and interruption remain incomplete.
 `test_infection_supervision` records the combined bonus and no-spending rejection
 expectations for absent continuous care, late admission and an unavailable doctor.
-The fixture remains unrun while checks are paused.
+The fixture remains unrun pending recorded validation.
 
 
 ## Aging calculations
@@ -308,7 +307,7 @@ committed event must also handle invalid derived states and validate interaction
 with capacity-limited traits. No luck or random helper is called by this
 supplied-roll interface. `test_aging_sequence` records independent expected
 losses, point values, derived characteristics, the zero-attribute boundary and
-preview purity. These fixtures remain unrun while checks are paused.
+preview purity. These fixtures remain unrun pending recorded validation.
 
 
 ## Owned aging events
@@ -344,7 +343,7 @@ Automatic calendar scheduling, trait substitutions, rejuvenation, capacity-limit
 trait interactions and verified aging transaction/save behavior remain incomplete.
 `test_aging_events` covers a normal event, a terminal low attribute, unchanged
 advancement balances, pure preview, repeated execution and rejected calendar facts.
-All fixtures remain unrun while checks are paused.
+All fixtures remain unrun pending recorded validation.
 
 
 The dedicated
@@ -359,8 +358,7 @@ are unchanged throughout.
 `test_aging_persistence` restores saves made before and after both ordinary aging
 and natural death in a separate process. It continues or reuses the same event and
 checks attributes, character cost, death state, history, randomness and shared
-time. These fixtures use the exact compiled game and remain unrun while checks
-are paused; they are not a verified compatibility claim.
+time. These fixtures use the exact compiled game and remain unrun pending recorded validation; they are not a verified compatibility claim.
 
 
 ## Restoring recorded youth
@@ -397,7 +395,7 @@ partial-year cutoffs or automatic age tracking. Transaction and save
 fixtures are authored but still require execution. `test_rejuvenation` covers a real attribute advancement
 purchase between aging and rejuvenation, retained point spending, preview purity,
 repeated requests, a second aging/restoration cycle and the ambiguous-year gate.
-The fixture is authored but unrun while checks are paused.
+The fixture is authored but unrun pending recorded validation.
 
 
 `test_rejuvenation_transactions` exercises exception rollback, undo and replay of
@@ -410,7 +408,7 @@ also validate the history and retained advancement spending.
 after restoration and after the next aging event. All routes reach the same base
 score, character value, advancement balances and restoration links without extra
 randomness or time. The fixture uses the existing exact-game save policy. These
-expectations remain unrun while checks are paused.
+expectations remain unrun pending recorded validation.
 
 
 ## Ambient cold assessment
@@ -442,7 +440,7 @@ and injury commits, shelter-dependent recovery and thermal shock remain pending.
 They do not clear another climate episode's recovery restriction. The source and
 integration expectations in `test_cold_assessments` include wind boundaries,
 clothing combinations, subzero increments, comfort thresholds and a character
-whose perception exceeds HT. Fixtures remain unrun while checks are paused.
+whose perception exceeds HT. Fixtures remain unrun pending recorded validation.
 
 
 ## Owned cold intervals
@@ -472,7 +470,7 @@ changing conditions, automatic scheduling,
 and verified cold transaction/save behavior remain incomplete.
 `test_cold_intervals` records expected timing, failure cost, repeated use, history
 validation, missing-heat rejection and preservation of another temperature lock.
-The fixture remains unrun while checks are paused.
+The fixture remains unrun pending recorded validation.
 
 
 At zero fatigue or below, cold-interval assessment prepares a one-point owned
@@ -508,7 +506,7 @@ restrictions while releasing only the tested episode's contributions.
 starts, at the first due boundary, after overflow and after shelter release. Each
 route reaches the same fatigue, injury, restrictions, receipt history, random draw
 count and shared time. Historical interval receipts remain reusable after shelter.
-These fixtures are authored but unrun while checks are paused; the exact compiled
+These fixtures are authored but unrun pending recorded validation; the exact compiled
 game is required for continuation.
 
 
@@ -537,7 +535,7 @@ selected an anchor for this modifier; source clarification or an explicit author
 rule selection is required before that assessment can claim coverage.
 `test_heat_assessments` covers the supplied surcharge bands, shifted comfort
 limits, unsupported high temperatures, ordinary and critical failures and pure
-outcomes. All fixtures remain unrun while checks are paused.
+outcomes. All fixtures remain unrun pending recorded validation.
 
 
 ## Icy immersion assessment
@@ -557,7 +555,7 @@ inventing a minimum or granting fatigue. This remains an unresolved inventory
 case. The assessment neither charges fatigue nor starts an exposure. The owned
 procedure below supports owned fatigue loss and overflow injury; drowning
 integration remains incomplete. `test_thermal_shock_assessments` records the expected outcomes,
-dry-suit routing and purity; it remains unrun while checks are paused.
+dry-suit routing and purity; it remains unrun pending recorded validation.
 
 
 ## Owned immersion and rescue
@@ -617,7 +615,7 @@ covers duplicate climate ownership. The dedicated
 adds preview, exception rollback, undo, replay and cross-process save continuation
 fixtures for exposure, its due boundary, multi-point fatigue and overflow injury,
 exit and warming. All these
-fixtures are authored but unrun while checks are paused. Existing Lite regressions
+fixtures are authored but unrun pending recorded validation. Existing Lite regressions
 must verify the default dispatch hook when checks resume.
 
 
@@ -669,7 +667,7 @@ consciousness rolls, overflow injury, the fatigue floor and repeated operations.
 `test_airless_duration` records the 120/121-second brain-injury boundary and the
 239/240-second death boundary, using an enlarged fatigue capacity to isolate the
 time rule. `test_airless_scheduler_conflict` covers competing suffocation and rest
-operations. All fixtures are authored but unrun while checks are paused. The dedicated
+operations. All fixtures are authored but unrun pending recorded validation. The dedicated
 [`expanded-airless-transactions.t`](../../tests/fixtures/expanded-airless-transactions.t)
 adds rollback after exposure start, consciousness loss and rescue, plus undo and
 replay. It checks preview purity, changed bound evidence, rest rejection without
@@ -1209,7 +1207,7 @@ consumption, price settlement and identification actions remain unfinished; this
 interface does not claim those integrations. Increased dose on other routes is
 rejected. Fractional doses and their author-selected efficacy remain unsupported.
 The fixture includes twofold and fourfold arithmetic, doubled injury, shortened
-cycle deadlines, route rejection and mutation rejection. Checks remain paused.
+cycle deadlines, route rejection and mutation rejection. validation is in progress.
 
 
 ### Agent-specific antidotes
@@ -1271,7 +1269,7 @@ with an antidote is explicitly unsupported until its interaction is defined.
 
 The fixture specifies all three procedures, the medical bonus cap, unsuitable
 care, a deadline too soon to finish, failed care, preview purity, replay, rollback,
-undo and cross-process continuation. Checks remain paused; these scenarios have
+undo and cross-process continuation. validation is in progress; these scenarios have
 not run. Automatic identification actions, harmful exceptions and combinations
 remain unfinished.
 
@@ -1304,7 +1302,7 @@ poison exposure automatically after penetration, attach a poison definition to
 an expanded wound, or cover unusual persistent coatings. Those delivery paths
 remain explicit unfinished work. Fixtures specify inventory, miss/dodge/hit
 hooks, repeated parries, receipt reuse, rollback, undo and saved continuation;
-they remain unrun while checks are paused.
+they remain unrun pending recorded validation.
 
 
 ### Executable poison catalogue entries
@@ -1667,7 +1665,7 @@ multiplier. This function neither rolls nor commits a wound. Do not combine mixe
 innate and worn layers into a single resistance value: their ordering is not
 represented by this interface, and layered fall protection remains pending.
 The authored fixture covers zero damage, zero resistance, five-point boundaries,
-exactly stopped damage, penetration and the innate exception. Checks remain paused.
+exactly stopped damage, penetration and the innate exception. validation is in progress.
 Source: `full-2008`, B379 and B431.
 
 ### Owned torso fall injury
@@ -1692,8 +1690,7 @@ injury, multiple crippled limbs, mixed protection, special anatomy, obstacle dam
 landing maneuvers and automatic linkage from an owned climb remain incomplete.
 This bridge must not be used as a fallback for those rules. The authored fixture
 covers preview, replay, changed-request rejection, rollback, undo, cross-process
-save continuation, armor blunt injury, penetration and innate protection. Checks
-remain paused; none of these new assertions has run.
+save continuation, armor blunt injury, penetration and innate protection. Validation is in progress; none of these new assertions has run.
 
 
 ### Breakable landing obstacles
@@ -1712,7 +1709,7 @@ values become part of the receipt's binding. The obstacle's own damage and any
 subsequent fall remain unimplemented; authors must not treat the receipt as a
 complete resolution of an obstacle breaking. The new fixtures cover exact and
 exceeded caps, absent and incomplete facts, ordering before armor, replay and
-rollback. They remain unrun while checks are paused.
+rollback. They remain unrun pending recorded validation.
 
 ### Elastic landing protection
 
@@ -1756,7 +1753,7 @@ even with a different identifier or without a landing link. Create a distinct
 occurrence for a genuinely subsequent impact. All linkage fields bind on commit.
 Fixtures cover successful/failed dives, reduced velocity, unresolved/mismatched
 receipts, duplicate injury, rollback, undo and cross-process continuation. These
-assertions remain unrun while checks are paused.
+assertions remain unrun pending recorded validation.
 
 
 ### Owned fall impact roll
@@ -1853,7 +1850,7 @@ intervals do not impose pressure deadlines.
 Unrestricted changing-pressure travel and inferred safe decompression schedules remain pending.
 See the authored-stage and illness procedures below for the supported subset. Threshold, size, duplicate,
 missed-deadline, rollback, undo and save-continuation fixtures are authored but
-unrun while checks are paused.
+unrun pending recorded validation.
 
 Pressure exposures now default native pressure from
 `profile.nativePressureHundredths`; an explicit `nativePressure` overrides it.
@@ -1985,7 +1982,7 @@ active plan and simultaneous explosive decompression remain pending. This proced
 claim those combinations. The minimal integration fixture is
 [`expanded-decompression-illness.t`](../../tests/fixtures/expanded-decompression-illness.t).
 Its onset, recovery, preview, replay, rollback, undo and cross-process continuation
-fixtures are authored but unrun while checks remain paused.
+fixtures are authored but unrun pending recorded validation.
 
 
 Illness-owned paralysis persists through the exact hourly boundary until recovery
@@ -2039,7 +2036,7 @@ not counted as implemented. Emergency ascent and multi-stage treatment changes
 also remain pending. See
 [`expanded-recompression.t`](../../tests/fixtures/expanded-recompression.t) for
 minimal integration and authored rollback, undo, replay and persistence fixtures.
-All new fixtures remain unrun while checks are paused.
+All new fixtures remain unrun pending recorded validation.
 
 
 ## Sudden acceleration
@@ -2076,7 +2073,7 @@ Already unconscious patients are also explicitly unsupported. Collision injury f
 described below; the health check must not be used in its place. The minimal fixture is
 [`expanded-acceleration.t`](../../tests/fixtures/expanded-acceleration.t).
 Expected-value, preview, replay, rollback, undo and persistence fixtures are
-written but unrun while checks remain paused.
+written but unrun pending recorded validation.
 
 
 ## Acceleration against a surface
@@ -2154,7 +2151,7 @@ now supplies the spatial-awareness skill bonus. The fixture
 [`expanded-free-fall.t`](../../tests/fixtures/expanded-free-fall.t) covers entry,
 health/default choice, hourly integration, adaptation, return to gravity,
 independent nausea, rollback, undo, replay and save continuation. It is unrun
-while checks remain paused.
+pending recorded validation.
 
 
 ## Sustenance deprivation
@@ -2184,7 +2181,7 @@ cancellation is supplied. Contact-duration metadata alone is not an access recei
 [`expanded-sustenance-injury.t`](../../tests/fixtures/expanded-sustenance-injury.t)
 and `test_sustenance_injury` specify exact boundaries, one-point ticks, replay,
 preview purity, exception rollback, undo and cross-process save continuation.
-These fixtures remain unrun while checks are paused.
+These fixtures remain unrun pending recorded validation.
 
 
 ### Restoring periodic contact
@@ -2650,7 +2647,7 @@ continues under its ordinary recovery procedure. Journey receipts validate the
 current penalty against the latest owned daily result, rejecting edited penalty
 state. `expanded-motion-scores.t` / `test_motion_scores` specify affected and
 unaffected scores, same-cause overlap, journey-end behavior, saved continuation
-and changed-penalty rejection. Fixtures remain unrun while checks are paused.
+and changed-penalty rejection. Fixtures remain unrun pending recorded validation.
 
 
 ## Unconscious swimmer submersion

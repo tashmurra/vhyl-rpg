@@ -30,7 +30,7 @@ policy and independent tests are required before that procedure can be complete.
 
 The subsystem is partially implemented as described below. Individual inventory
 entries retain their remaining gaps; authored fixtures are unrun while build
-checks remain paused.
+validation is in progress.
 
 ## Reaction requirements now inventoried
 
@@ -76,7 +76,7 @@ titles, culture-specific privileges and upkeep remain pending. It performs no ro
 The [minimal fixture](../../tests/fixtures/expanded-social.t) and
 `tests/expanded.py::test_social_status` cover prices, relative differences,
 recognition, friendly and resentful attitudes, negative-standing limits and foreign
-cultures. These cases are authored and remain unrun while checks are paused.
+cultures. These cases are authored and remain unrun pending recorded validation.
 
 
 ## Rank and the social structure
@@ -108,7 +108,7 @@ culture. `standing(profile)` and encounter assessment are pure.
 The authored `test_social_structure` case checks combined standing, the wealth
 bonus ceiling, purchased limits and replacement rejection. The minimal social
 fixture checks rank price and standing-bonus boundaries without the campaign
-module. All cases remain unrun while checks are paused. Full reactions, social
+module. All cases remain unrun pending recorded validation. Full reactions, social
 permissions and institutional prerequisite execution remain incomplete.
 
 
@@ -187,7 +187,7 @@ world consequences. Combat/morale, trade, aid, information and loyalty outcomes
 remain pending. A favorable combat reaction must not be interpreted as friendship.
 `tests/expanded.py::test_reaction_encounter` covers band boundaries, private previews,
 predetermined attitudes, retry gates, nuisance accumulation, rollback and undo.
-All authored cases are unrun while checks are paused.
+All authored cases are unrun pending recorded validation.
 
 
 ## Potential combat and morale
@@ -218,7 +218,7 @@ Combat AI execution, surrender acceptance, possible later ambushes and voluntary
 party membership remain pending. The current interface specifies the table's
 immediate decision, not its complete world consequences. The minimal social
 fixture and `tests/expanded.py::test_combat_reactions` cover the contextual branches
-and modifiers. These cases remain unrun while checks are paused.
+and modifiers. These cases remain unrun pending recorded validation.
 
 
 ## Requests for aid
@@ -291,7 +291,7 @@ relevant world operation. Calendar and income equivalence remain authored facts.
 
 `tests/expanded.py::test_information_reactions` covers response modes, partial
 answers, follow-up requirements and modifier scales. All cases remain unrun while
-checks are paused; the module remains partial.
+validation is in progress; the module remains partial.
 
 
 ## Knowledge-constrained delivery
@@ -328,7 +328,7 @@ pending.
 
 `tests/expanded.py::test_information_delivery` covers bounded knowledge, incomplete
 selection, explicit lies, private previews, receipt reuse, exception rollback and
-undo. These authored cases remain unrun while checks are paused.
+undo. These authored cases remain unrun pending recorded validation.
 
 
 ## Paid information delivery
@@ -435,7 +435,7 @@ The assessment itself neither rolls nor commits an offer or money transfer.
 `tests/expanded.py::test_trade_modifiers` covers both directions, exact and partial
 ten-percent boundaries, fractional thresholds, large prices and skill boundaries.
 `test_trade_persistence` adds a cross-process saved-trade continuation case. Both
-are authored and unrun while checks are paused. Altered counteroffer pricing remains
+are authored and unrun pending recorded validation. Altered counteroffer pricing remains
 blocked as documented above, even when its reaction modifier is calculable.
 
 
@@ -495,7 +495,7 @@ coverage requirements.
 
 `tests/expanded.py::test_loyalty_danger` contains failed exposure, repeat protection,
 rollback, undo, overlap rejection and exact expiry-boundary cases. The cases remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Permanent loyalty changes
@@ -524,7 +524,7 @@ or a character's decision to forgive.
 Authored cases `test_loyalty_performance`, `test_loyalty_botched`,
 `test_loyalty_forgiveness` and `test_loyalty_forgiveness_low` in `tests/expanded.py`
 cover signed changes, duplicate events, the eligibility threshold, zero-change
-receipts, rollback and undo. Checks remain paused and unrun. Rescue, pay and
+receipts, rollback and undo. validation is in progress and unrun. Rescue, pay and
 service-anniversary changes remain pending.
 
 
@@ -550,7 +550,7 @@ Authored cases `test_service_anniversary`, `test_service_failure` and
 `test_service_automatic` in `tests/expanded.py` cover prerequisites, early dates,
 skipped years, success/failure, automatic outcomes, duplicate years, rollback and
 undo. The fixture uses a deliberately short authored calendar interval to exercise
-date behavior without assuming a world calendar. Checks remain paused and unrun.
+date behavior without assuming a world calendar. validation is in progress and unrun.
 Calendar scheduling and rescue/pay integration are still incomplete.
 
 
@@ -580,8 +580,7 @@ loyalty” comparison remain unresolved. When current effective loyalty differs 
 base, this operation returns `rescue-temporary-loyalty-unresolved` before rolling.
 The independent cases `test_rescue_loyalty`, `test_rescue_no_decrease`,
 `test_rescue_ungrateful` and `test_rescue_sacrifice` cover gratitude thresholds,
-retained higher loyalty, optional sacrifice, replay, rollback and undo. Checks
-remain paused and unrun.
+retained higher loyalty, optional sacrifice, replay, rollback and undo. Validation is in progress and unrun.
 
 
 ## Higher pay and its lingering bonus
@@ -613,7 +612,7 @@ salary processing and employment consequences remain separate requirements.
 
 `tests/expanded.py::test_loyalty_pay` covers bonus/base separation, repeated events,
 rollback, undo and exact expiry. Its short fixture date stands in for an authored
-calendar month. All cases remain unrun while checks are paused.
+calendar month. All cases remain unrun pending recorded validation.
 
 
 ## Character/social subset authoring
@@ -696,7 +695,7 @@ intimidation, `rpgLiteInfluence`; the latter rejects a mismatched target before
 rolling. Keep unrelated adjustments in `modifier`, without adding the recurrence
 bonus a second time. See the [health guide](health.md) for fields and limits.
 This adapter does not supply the full interrogation procedure or automatically
-transfer knowledge. Its fixture is authored and unrun while checks are paused.
+transfer knowledge. Its fixture is authored and unrun pending recorded validation.
 
 
 ### Owned interrogation questions
@@ -798,7 +797,7 @@ not an additional published influence mechanic. `expanded-statement-delivery.t`
 and `test_statement_delivery` specify hearing evidence, withheld information,
 truth/lie delivery, ownership, preview purity, replay, duplicate prevention,
 rollback, undo, altered-receipt rejection and cross-process continuation.
-These assertions remain unrun while checks are paused.
+These assertions remain unrun pending recorded validation.
 
 ## Occupational reactions to danger avoidance
 
@@ -921,7 +920,7 @@ and suppress the failure inside an action that then commits partial changes.
 The `expanded-social-interruption.t` fixture injects audience, encounter, price,
 definition-length and provider-capacity changes during time advancement, then
 checks rollback and successful retry after cross-process restore. Assertions are
-authored, unrun while checks remain paused.
+authored, unrun pending recorded validation.
 
 Carousing preparation now also consumes the traits module's
 [social-inhibition penalty](traits.md#social-inhibition) through the shared score
@@ -987,7 +986,7 @@ languages and NPC interpretation need their own communication procedures.
 The development library can credit the sender’s recorded interval through
 `RpgExpandedCommunicationStudy`; other channels remain pending. Authored fixtures cover all three
 interpretations, unavailable observation, interruption, undo and save replay;
-checks remain paused.
+validation is in progress.
 
 Interrogation questions accept the authored `pastVictim` fact (full-2008 B125).
 For an interrogator with active callousness it applies -3, independently of the
@@ -1004,7 +1003,7 @@ a separate facts object for a later scene; changing the original object changes
 the completed request and rejects replay. Membership changes during elapsed time
 reject even when the replacement group has the same size and penalty. The two
 integration fixtures cover scoring, interruption rollback and replay; they are
-unrun while checks are paused.
+unrun pending recorded validation.
 
 ## Demonstrated talent reactions
 
@@ -1072,7 +1071,7 @@ hidden attitudes or rolls directly in player output.
 [`expanded-observed-reactions.t`](../../tests/fixtures/expanded-observed-reactions.t)
 contains cost, evident/unevident behavior, combined modifiers, duplicate rejection,
 immutable evidence, preview, replay, rollback, undo and persistence fixtures. They
-are authored but unrun while checks are paused. Automatic dialogue observation
+are authored but unrun pending recorded validation. Automatic dialogue observation
 and conversion of the remaining situational trait contexts remain pending.
 
 
@@ -1108,7 +1107,7 @@ integrations remain pending.
 [`expanded-distrust-reactions.t`](../../tests/fixtures/expanded-distrust-reactions.t)
 and `test_distrust_reactions` specify costs, both observer roles, separate signs,
 stranger handling, preview, invalid aggregate rejection, replay, rollback, undo
-and save continuation. These fixtures remain unrun while checks are paused.
+and save continuation. These fixtures remain unrun pending recorded validation.
 
 
 ## Witnessed responses to phantom voices
@@ -1221,7 +1220,7 @@ For member-specific group outcomes, use the group-session subclass described bel
 serious-harm classification remains an authored judgment. `expanded-dependent-sessions.t` and
 `test_dependent_sessions` specify closure requirements, serious harm, discretionary
 bonus denial, ordinary objective awards, preview, replay, rollback, undo and saved
-continuation. These fixtures remain unrun while checks are paused.
+continuation. These fixtures remain unrun pending recorded validation.
 
 
 ### Dependent purchases in templates
@@ -1243,7 +1242,7 @@ This adds reusable purchase construction for B131 and B258; contribution-bearing
 package combination remains unsupported.
 `expanded-dependent-templates.t` / `test_dependent_templates` cover fixed and
 selected construction, ownership, accounting, isolation, rollback, undo and saved
-continuation. Fixtures are authored but unrun while checks remain paused.
+continuation. Fixtures are authored but unrun pending recorded validation.
 
 
 `RpgExpandedTemplateOption.contributionDefinitions` also accepts dependent
@@ -1340,7 +1339,7 @@ remain pending. The ordinary session class still accepts an authored aggregate
 judgment when individual members are not modeled.
 `expanded-dependent-groups.t` and `test_dependent_groups` cover safe and harmful
 sessions, summary disagreement, omitted members, receipt binding, rollback, undo,
-replay and save continuation. Fixtures remain unrun while checks are paused.
+replay and save continuation. Fixtures remain unrun pending recorded validation.
 
 
 ### Permanent loss and funded settlement
@@ -1420,7 +1419,7 @@ all currently unretired relationships. The original loss session remains ineligi
 for awards. `expanded-dependent-replacement.t` and `test_dependent_replacement`
 specify credit/identity/approval rejection, unchanged banks, inherited historical
 credit, historical session replay, rollback, undo and saved continuation. Fixtures
-remain unrun while checks are paused.
+remain unrun pending recorded validation.
 
 
 ### Replacing loss with an executable disadvantage
@@ -1447,7 +1446,7 @@ mixed funded settlements remain pending. The foundation alone rejects unsupporte
 trait adapters. `expanded-dependent-trait-replacement.t` and
 `test_dependent_trait_replacement` specify accounting, approval/mismatched credit,
 rollback, undo, replay, saved continuation and later funded buyoff. Fixtures are
-unrun while checks remain paused.
+unrun pending recorded validation.
 
 
 The same disadvantage-replacement interface also supports
@@ -1483,7 +1482,7 @@ Campaign-only integrations can retain the explicitly authored `applicableStatus`
 path. Supplying a structure without the social adapter rejects explicitly.
 `expanded-cultural-wardrobe.t` / `test_cultural_wardrobe` specify rank integration,
 culture and price mismatches, competing inputs and saved historical replay;
-fixtures remain unrun while checks are paused.
+fixtures remain unrun pending recorded validation.
 
 
 ## Private lie detection
@@ -1617,7 +1616,7 @@ another roll or time charge. The operation does not add beliefs or fabrications,
 or inform another character; communicating an inference needs a separate authored
 conversation. `test_psychology_disclosure` covers preview purity, success/failure,
 rollback, undo, replay, save continuation and timestamp tampering. Fixtures remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Predicting a small group
@@ -1822,7 +1821,7 @@ emit the private intended meaning. Authored presentation may reveal the retained
 meaning after success; failure does not reveal or invent an interpretation.
 `test_gesture_actions` specifies parser, structured and dialogue parity for both
 skill directions, actor ownership, preview purity, rollback, undo, replay and
-cross-process save continuation. Fixtures remain unrun while checks are paused.
+cross-process save continuation. Fixtures remain unrun pending recorded validation.
 
 Gesture exchange receipts now retain separate sender and recipient study
 eligibility. Complete hearing loss can qualify either participant, while total

@@ -100,7 +100,7 @@ The [minimal fixture](../../tests/fixtures/expanded-creatures.t) uses only the
 foundation and this module. `test_animal_training_tables` authors all table cells,
 trick times and modifier boundaries. `test_animal_training_plans` authors training
 eligibility, specialty, wild modifier and preview purity. Fixtures are unrun while
-checks are paused. Sources: `full-2008`, B175 and B458–B459.
+validation is in progress. Sources: `full-2008`, B175 and B458–B459.
 
 ## Owned task and calming checks
 
@@ -348,7 +348,7 @@ applied by the damage resolver.
 This assessment does not establish attack legality, choose a target, roll an
 attack or apply an injury. Creature catalogue wiring and combat dispatch remain pending. The authored
 `test_animal_natural_damage` fixture covers the formula branches and the skill
-threshold; it remains unrun while checks are paused.
+threshold; it remains unrun pending recorded validation.
 
 
 ### Strength-based natural attacks
@@ -469,7 +469,7 @@ Direct weapon attacks against swarms still require that integration.
 
 `test_swarm_counterattacks` specifies exact injury thresholds, repeated-receipt
 behavior, per-second limits, invalid flying stomps, pure assessment, rollback,
-undo and diffuse caps. The fixture is authored and unrun while checks are paused.
+undo and diffuse caps. The fixture is authored and unrun pending recorded validation.
 
 The authored `test_swarm_persistence` closes the initial native session, restores
 its exact compiled game in a new process, replays both attack receipts, then

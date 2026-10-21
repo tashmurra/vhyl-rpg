@@ -3454,7 +3454,7 @@ class RpgExpandedPsychologyAction: Action
         event('rpg.expanded.psychology'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** Receive one resolved fossil-study finding without forced belief changes. */
@@ -3542,7 +3542,7 @@ class RpgExpandedPaleontologyAction: Action
         event('rpg.expanded.paleontology'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** Receive one resolved packing finding without forced belief changes. */
@@ -3630,7 +3630,7 @@ class RpgExpandedPackingAction: Action
         event('rpg.expanded.packing'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** Begging result. Carries score, gate, allowed, earned, incident. */
@@ -3767,7 +3767,7 @@ class RpgExpandedBeggingAction: Action
         event('rpg.expanded.begging'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** B22 sympathy applies only to an observer who sees the subject as in need. */
@@ -4104,7 +4104,7 @@ class RpgExpandedMakeupAction: Action
         event('rpg.expanded.makeup'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** Gesture attempt result. Carries score, gate, allowed, meaning. */
@@ -4249,7 +4249,7 @@ class RpgExpandedGestureAction: Action
         event('rpg.expanded.gesture'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 

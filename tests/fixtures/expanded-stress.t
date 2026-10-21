@@ -11,7 +11,7 @@ modify FearTestAction
         if (code == 1400) { stressState.configure(); return nil; }
         if (code == 1401 || code == 1402)
         {
-            local gain = new RpgExpandedStressGain(); gain.id = 'gain-' + fearInput.row; gain.cause = 'cause-' + fearInput.row;
+            local gain = new RpgExpandedStressGain(); gain.id = 'gain-' + toString(fearInput.row); gain.cause = 'cause-' + toString(fearInput.row);
             gain.state = stressState; gain.severity = 'severe'; gain.evidence = 'A distinct authored disturbing event';
             gain.apply(); if (code == 1402) throw new RpgError(); return nil;
         }
@@ -40,7 +40,7 @@ modify FearTestAction
         if (code == 1409) { rpgSpendTime(fearInput.row); return nil; }
         if (code == 1410)
         {
-            local rest = new RpgExpandedStressRecovery(); rest.id = 'rest-' + fearInput.row; rest.state = stressState;
+            local rest = new RpgExpandedStressRecovery(); rest.id = 'rest-' + toString(fearInput.row); rest.state = stressState;
             rest.safe = true; rest.evidence = 'A quiet guarded hour with no interruption'; rest.begin(); stressInput.rest = rest; return nil;
         }
         if (code == 1411) { stressInput.rest.interrupt(); return nil; }

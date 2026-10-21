@@ -16,7 +16,7 @@ vault: Room 'Echo Vault'
     desc { return vaultSay('The archive clock has stopped, but its reflection still ticks. Your guide waits by the stairs. Try call guide, face reflection, breathe, read inscription, or status.'); }
 ;
 vaultGuide: Actor 'guide' location(vault) vocab = 'guide';
-vaultRules: RpgExpandedRules;
+vaultRules: RpgExpandedRules scaledInjuryShock = true;
 vaultProfile: RpgExpandedProfile actor = player rules = vaultRules;
 modify player rpgProfile = vaultProfile;
 vaultOccurrence: object;
@@ -76,7 +76,7 @@ vaultDo(code,actor)
     }
     rpgExpandedReject('vault-action'); return nil;
 }
-class VaultAction: Action code = 1400 exec(context) { return vaultDo(self.code,context.actor); };
+class VaultAction: Action code = 1400 exec(context) { return vaultDo(self.code,player); };
 vaultStatusAction: VaultAction code = 1400;
 vaultGuideAction: VaultAction code = 1401;
 vaultBreatheAction: VaultAction code = 1403;
@@ -112,7 +112,7 @@ act(verb,args) { if (verb == 1429) return vaultAftermathStatus(); if (verb == 14
 
 /* A second connected scene keeps the original reflection vignette intact. */
 vaultCabinetOccurrence: object;
-vaultCabinetContext: RpgExpandedFearContext profile = vaultProfile approved = true monsterPenalty = 10
+vaultCabinetContext: RpgExpandedFearContext profile = vaultProfile approved = true monsters = true monsterPenalty = 10
     evidence = 'Opening the cabinet reveals an impossible archive of the visitor own future';
 vaultCabinetRuling: RpgExpandedLowScoreFearDecision entry = vaultCabinetEvent row = 27 approved = true
     evidence = 'The unrollable initial fear is assigned a faint and lasting curiosity, with no invented roll';
@@ -127,7 +127,7 @@ vaultFaint: RpgExpandedFearFaint id = 'future-cabinet' context = vaultCabinetCon
 vaultCompound: RpgExpandedFearTraitCompound id = 'future-cabinet' context = vaultCabinetContext
     tableTotal = 27 acquisition = vaultAcquisition episode = vaultFaint;
 vaultFootstepOccurrence: object;
-vaultFootstepContext: RpgExpandedFearContext profile = vaultProfile approved = true monsterPenalty = 10
+vaultFootstepContext: RpgExpandedFearContext profile = vaultProfile approved = true monsters = true monsterPenalty = 10
     evidence = 'Footsteps repeat from a sealed passage while the cabinet closes itself';
 vaultFootstepRuling: RpgExpandedLowScoreFearDecision entry = vaultFootstepEvent row = 21 approved = true
     evidence = 'The author records timed panic at the prohibited-roll boundary';
@@ -164,7 +164,7 @@ vaultAftermath(code,actor)
     {
         if (vaultFaint.startedAt == nil || vaultFaint.completedAt != nil) return vaultSay('You are not in the cabinet faint.');
         if (rpgLedger.seconds < vaultFaint.nextCheckAt) rpgSpendTime(vaultFaint.nextCheckAt-rpgLedger.seconds);
-        local recovery = new RpgExpandedFearFaintRecovery(); recovery.id = 'vault-faint-' + rpgLedger.seconds; recovery.episode = vaultFaint;
+        local recovery = new RpgExpandedFearFaintRecovery(); recovery.id = 'vault-faint-' + toString(rpgLedger.seconds); recovery.episode = vaultFaint;
         recovery.apply(); return vaultSay(vaultProfile.unconscious ? 'The guide keeps watch. Try recover again.' : 'You wake, still determined to investigate. Try hear footsteps.');
     }
     if (code == 1422)
@@ -178,12 +178,12 @@ vaultAftermath(code,actor)
         if (vaultPanic.startedAt == nil || vaultPanic.completedAt != nil) return vaultSay('There is no active panic interval.');
         if (rpgLedger.seconds < vaultPanic.nextCheckAt)
         {
-            local gate = new RpgExpandedActionGate(); gate.id = 'vault-cry-gate-' + rpgLedger.seconds;
+            local gate = new RpgExpandedActionGate(); gate.id = 'vault-cry-gate-' + toString(rpgLedger.seconds);
             gate.profile = vaultProfile; gate.purpose = 'do-nothing'; gate.evidence = 'Quiet stationary crying';
-            local cry = new RpgExpandedFearPanicCrying(); cry.id = 'vault-cry-' + rpgLedger.seconds;
+            local cry = new RpgExpandedFearPanicCrying(); cry.id = 'vault-cry-' + toString(rpgLedger.seconds);
             cry.episode = vaultPanic; cry.seconds = vaultPanic.nextCheckAt-rpgLedger.seconds; cry.healthGate = gate; cry.apply();
         }
-        local recovery = new RpgExpandedFearPanicRecovery(); recovery.id = 'vault-panic-' + rpgLedger.seconds;
+        local recovery = new RpgExpandedFearPanicRecovery(); recovery.id = 'vault-panic-' + toString(rpgLedger.seconds);
         recovery.episode = vaultPanic; recovery.apply();
         return vaultSay(vaultPanic.completedAt == nil ? 'The fear persists. Try wait panic again.' : 'Composure returns. Later you may remember an incident, then rest hour.');
     }
@@ -192,7 +192,7 @@ vaultAftermath(code,actor)
         if (vaultPanic.completedAt == nil) return vaultSay('Finish the panic scene first.');
         if (vaultState.memories >= 4) return vaultSay('All four authored reminders have been recorded.');
         vaultStress.configure(); vaultState.memories += 1;
-        local gain = new RpgExpandedStressGain(); gain.state = vaultStress; gain.id = 'reminder-' + vaultState.memories;
+        local gain = new RpgExpandedStressGain(); gain.state = vaultStress; gain.id = 'reminder-' + toString(vaultState.memories);
         gain.cause = gain.id; gain.severity = 'severe';
         gain.evidence = ['The cabinet handwriting recurs on a safe letter','The sealed corridor echoes again',
             'The guide finds another impossible date','The archive bell rings without a mechanism'][vaultState.memories];
@@ -212,11 +212,11 @@ vaultAftermath(code,actor)
         {
             local context = new RpgExpandedFearContext(); context.profile = vaultProfile; context.approved = true;
             context.stimulusInput = 'internal'; context.evidence = 'An unsettling remembered pattern';
-            local fear = new RpgExpandedFearEvent(); fear.id = 'memory-' + vaultState.memories; fear.occurrence = response; fear.context = context;
+            local fear = new RpgExpandedFearEvent(); fear.id = 'memory-' + toString(vaultState.memories); fear.occurrence = response; fear.context = context;
             response.fearEvent = fear; response.apply();
             if (fear.result.row != nil)
             {
-                local ruling = new RpgExpandedFearAdjudication(); ruling.id = 'memory-confusion-' + vaultState.memories;
+                local ruling = new RpgExpandedFearAdjudication(); ruling.id = 'memory-confusion-' + toString(vaultState.memories);
                 ruling.entry = fear; ruling.mode = 'replace'; ruling.row = 4; ruling.reason = 'confusion'; ruling.approved = true;
                 ruling.evidence = 'This authored recollection produces brief confusion rather than fresh physical harm'; ruling.apply();
                 local stun = new RpgExpandedFearStun(); stun.id = fear.id; stun.context = context; stun.tableTotal = 4;
@@ -230,7 +230,7 @@ vaultAftermath(code,actor)
     {
         if (vaultStress.boundPolicy == nil) return vaultSay('The optional stress track has not been configured.');
         vaultState.rest.begin(); rpgSpendTime(vaultStressPolicy.recoverySeconds); vaultState.rest.complete();
-        local rest = new RpgExpandedStressRecovery(); rest.id = 'safe-hour-' + rpgLedger.seconds;
+        local rest = new RpgExpandedStressRecovery(); rest.id = 'safe-hour-' + toString(rpgLedger.seconds);
         rest.state = vaultStress; rest.safe = true; rest.evidence = 'Another guarded uninterrupted safe hour'; vaultState.rest = rest;
         return vaultSay('An uninterrupted safe hour passes. Recovery observes the daily limit and preserves independent aftermath.');
     }

@@ -673,7 +673,7 @@
         "tests/expanded.py::test_overstimulation_strike",
         "tests/fixtures/expanded-overstimulation-strike.t"
       ],
-      "validation_note": "Owned overstimulation triggers retain self-control results, authored stimulus modifiers and explicit evidence for ending the episode. Failed episodes block initiative and planning without stun penalties. Actual physical strike receipts permit stationary ordinary counterattacks only against their attacker, using the ordinary battle turn and health gate. Fear acquisition supports eligible ten/fifteen-point ratings. Resolver selection is explicit; recorded attacks share the owned panic/Wait strike adapter and require current-turn execution permission. Broader reactive maneuvers remain unsupported. Fixtures for replay, purity, rollback, undo and cross-process continuation are authored and unrun; checks remain paused."
+      "validation_note": "Owned overstimulation triggers retain self-control results, authored stimulus modifiers and explicit evidence for ending the episode. Failed episodes block initiative and planning without stun penalties. Actual physical strike receipts permit stationary ordinary counterattacks only against their attacker, using the ordinary battle turn and health gate. Fear acquisition supports eligible ten/fifteen-point ratings. Resolver selection is explicit; recorded attacks share the owned panic/Wait strike adapter and require current-turn execution permission. Broader reactive maneuvers remain unsupported. Fixtures for replay, purity, rollback, undo and cross-process continuation are authored and unrun; validation is in progress."
     },
     {
       "id": "disadvantages-b-cowardice",

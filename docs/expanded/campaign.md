@@ -213,7 +213,7 @@ required modules and demonstrates eligibility without permission. Authored nativ
 cases in `tests/expanded.py::test_legal_access` cover the comparison boundaries,
 registration, exclusions, institutional roles, local exceptions and acquisition
 blocking with unchanged funds. `test_campaign_minimal` covers the minimal include
-set. These checks are unrun while validation is paused.
+set. These checks are unrun pending recorded validation.
 
 ## Uncertain enforcement or legality
 
@@ -283,7 +283,7 @@ unsupported rather than crediting starting funds twice.
 `tests/expanded.py::test_starting_wealth` includes every technology row, wealth
 factors and costs, integer limits, campaign-versus-personal technology, allocation
 approval, preview purity, one-time funding, rollback and undo. These cases are
-authored but unrun while validation is paused.
+authored but unrun pending recorded validation.
 
 
 ## Recurring income and debt
@@ -321,7 +321,7 @@ fractional currency, and obligation buyoff remain pending.
 
 Authored `test_monthly_finance` and `test_monthly_undo` cases in `tests/expanded.py`
 cover costs, amounts, due dates, duplicate receipts, defaults, funds, period gaps,
-preview purity, exception rollback and undo. Checks remain paused and unrun.
+preview purity, exception rollback and undo. validation is in progress and unrun.
 
 
 ## Trading points for money
@@ -351,7 +351,7 @@ that same balance, which can fund ordinary equipment purchases.
 `tests/expanded.py::test_money_exchange` contains independent expected payouts,
 creation-budget accounting, duplicate opportunities, approval/funds rejection,
 preview purity, overflow, exception rollback and undo. The cases are authored and
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Job qualifications and roll selection
@@ -382,7 +382,7 @@ authored economic fact; it belongs to the job's wealth tier, not the worker's.
 Wealth scaling, monthly settlement and earnings-driven wealth advancement remain
 pending. `tests/expanded.py::test_job_qualifications` contains expected table values,
 relative skill thresholds, purchased-skill gates, and fixed/attribute roll cases.
-These authored checks remain unrun while checks are paused.
+These authored checks remain unrun pending recorded validation.
 
 
 ## Monthly earnings assessment
@@ -451,7 +451,7 @@ work-based study, wealth advancement and real employer payments remains pending.
 
 The authored `test_job_month`, `test_job_demotion`, `test_job_dismissal` and
 `test_job_variable_month` cases cover earnings, consequences, clock ownership,
-repeat protection, rollback and undo. They remain unrun while checks are paused.
+repeat protection, rollback and undo. They remain unrun pending recorded validation.
 
 
 ## Living costs and related purchases
@@ -485,7 +485,7 @@ the supported money range are explicitly rejected.
 
 `tests/expanded.py::test_lifestyle_prices` covers the complete monthly table, price
 percentages, weight units, status caps and clothing exceptions. These cases remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Paying household expenses
@@ -513,7 +513,7 @@ supported by this full-period operation. It does not advance the shared clock.
 
 The authored `test_household_payment` and `test_living_persistence` cover independent
 cost totals, preview purity, repeated payment, competing payers, rollback, undo and
-cross-process receipt preservation. These tests remain unrun while checks are paused.
+cross-process receipt preservation. These tests remain unrun pending recorded validation.
 
 
 ## Employment markets and recruitment modifiers
@@ -552,7 +552,7 @@ particular, waiving the illegal-work penalty must not waive those consequences.
 `test_employment_market` independently enumerates employment pay categories,
 population boundaries, advertising thresholds, offered-pay thresholds and risk
 exceptions. The minimal campaign fixture includes these cases. They remain unrun
-while checks are paused.
+pending recorded validation.
 
 
 ## Assessing a job search
@@ -588,7 +588,7 @@ interval on the character.
 `test_job_seeking` covers qualification boundaries, the capped experience bonus,
 scarcity, advertising, simultaneous searches, the disadvantage penalty, author
 bonus evidence, and separation from monthly performance difficulty. The authored
-cases remain unrun while checks are paused.
+cases remain unrun pending recorded validation.
 
 
 ## Executing a weekly job-search batch
@@ -663,7 +663,7 @@ and worker state.
 `test_employment_acceptance` covers discovery, preview purity, copied terms,
 rollback, undo, replay and competing applicants. Its cross-process persistence
 case checks the created employment and vacancy link after save/restore. Both are
-authored and unrun while checks are paused. Automatic schedule planning, injury or
+authored and unrun pending recorded validation. Automatic schedule planning, injury or
 arrest failure effects and a full employer payroll ledger remain unfinished.
 
 
@@ -796,7 +796,7 @@ paths, preview purity, rollback, undo and repeat protection.
 successive point differences, duplicate IDs, retargeting and reuse of an earlier
 receipt after a later increase. `test_wealth_advancement_persistence` saves before
 and after purchase and continues in a new process. These authored cases have not
-run while build checks are paused.
+run pending recorded validation.
 
 ## Higher-wealth employment obligations
 
@@ -881,7 +881,7 @@ bonuses, infer cultural standing or replace prepaid living expenses.
 Those integrations remain outstanding. `expanded-lifestyle-items.t` /
 `test_lifestyle_items` specify physical purchases, exact/minimum weights, invalid
 services, rollback, undo and save continuation. Fixtures remain unrun while
-checks are paused.
+validation is in progress.
 
 
 ## Included starting wardrobe

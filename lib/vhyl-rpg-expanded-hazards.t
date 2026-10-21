@@ -6995,7 +6995,7 @@ class RpgExpandedDrowningCareAction: Action
         event('rpg.expanded.drowning-care'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 

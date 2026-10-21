@@ -100,7 +100,7 @@ There is no generic callback counted as implementing them. The minimal
 [technology fixture](../../tests/fixtures/expanded-technology.t) and
 `test_broken_weapons` record all six die faces for each family, light/missile and
 destroyed exceptions, missing dice, unknown forms, piece modifiers and preview
-purity. Fixtures are authored and unrun while checks are paused.
+purity. Fixtures are authored and unrun pending recorded validation.
 
 ## Equipment operation
 
@@ -307,7 +307,7 @@ Major faults without a quoted parts record return `breakdown-major-parts-unavail
 `test_repair_prices`, `test_breakdown_repair` and
 `test_breakdown_repair_persistence` cover price boundaries, partial-unit rounding,
 preview purity, rollback, undo, failed attempts, retry costs, replay and separate
-process continuation. They are authored and unrun while checks remain paused.
+process continuation. They are authored and unrun pending recorded validation.
 
 
 ## Major-repair parts acquisition and installation
@@ -542,7 +542,7 @@ historical replay and deletion of the delivered record. The clock-failure fixtur
 changes access during elapsed time to exercise rollback rather than merely
 rejecting the initial request. `test_computer_transfer_persistence` resumes before
 transfer, after completion and after delivery removal in separate processes.
-All fixtures are authored and unrun while checks remain paused.
+All fixtures are authored and unrun pending recorded validation.
 
 ## Owned computer recording
 
@@ -576,7 +576,7 @@ capture; the presence of a camera is not permission to observe hidden scenes.
 capacity, previews, rollback, undo, loss of a sensor during clock advancement,
 media choices, historical replay and deletion. `test_computer_recording_persistence`
 continues before recording, after completion and after data removal in separate
-processes. These fixtures are authored and unrun while checks remain paused.
+processes. These fixtures are authored and unrun pending recorded validation.
 
 
 ## A computer acting as a remote terminal
@@ -610,7 +610,7 @@ broader software task integration remain pending.
 or server capability, unavailable links/local hosts, unsupported complexity,
 previews, rollback, undo, access loss during clock advancement, revocation while
 selected, local return and separate-process continuation. Fixtures are authored
-and unrun while checks remain paused.
+and unrun pending recorded validation.
 
 
 ## Software supporting a skill task
@@ -648,7 +648,7 @@ support with an explicitly approved good-quality program. `test_software_task_su
 authors expected values for ordinary and fine equipment, duplicate instances,
 stopped programs, task mismatch, revoked approval, unavailable terminals and
 operators, unchanged learned skill and pure previews. These fixtures are unrun
-while checks remain paused.
+pending recorded validation.
 
 
 ## Required software and effective technology
@@ -722,7 +722,7 @@ software, refunds and media-driven installations remain incomplete.
 preview, insufficient funds, denied permission, duplicate copy, exception rollback,
 undo, replay, two instances for one price, removal and three cross-process save
 stages. `test_software_purchase` and `test_software_purchase_persistence` are
-unrun while checks remain paused.
+unrun pending recorded validation.
 
 
 ## Realistic invention proposals
@@ -755,7 +755,7 @@ Do not charge the returned costs merely for submitting a proposal.
 `test_invention_proposals` authors category boundaries, related-skill selection,
 technology limits, historical reduction, facilities reuse, software complexity,
 approval, training and description-bonus cases in the technology fixture. The
-fixtures are unrun while checks remain paused. Neutral source: `full-2008`, B473–B474.
+fixtures are unrun pending recorded validation. Neutral source: `full-2008`, B473–B474.
 
 
 ## Owned secret concept attempts
@@ -835,7 +835,7 @@ and accident interfaces below for mutations. Future work reservations, broader
 accident effects and the remaining defect lifecycle remain incomplete.
 `test_prototype_assessments` authors duration boundaries, team qualification,
 margin boundaries, odd half-dice, flawed theories and accidents; it is unrun while
-checks remain paused. Neutral source: `full-2008`, B9 and B474.
+validation is in progress. Neutral source: `full-2008`, B9 and B474.
 
 
 ## Owned facilities funding
@@ -867,7 +867,7 @@ pending; attempt funding and work intervals have separate interfaces below.
 `test_invention_facilities` and `test_invention_facilities_persistence` author
 previews, funds and approval gates, rollback, undo, replay, intact-installation
 rejection, destruction/rebuilding and save continuation. They remain unrun while
-checks are paused. Neutral source: `full-2008`, B474.
+validation is in progress. Neutral source: `full-2008`, B474.
 
 
 ## Starting from actual blueprints
@@ -894,7 +894,7 @@ come from the authored world.
 `test_invention_blueprints` and `test_invention_blueprint_persistence` author
 approval/acquisition gates, preview purity, rollback, undo, replay, reference
 binding, preserved daily opportunity, subsequent facilities funding and
-cross-process continuation. They remain unrun while checks are paused. Source:
+cross-process continuation. They remain unrun pending recorded validation. Source:
 `full-2008`, B473.
 
 
@@ -931,7 +931,7 @@ defect creation and cancellation/refunds remain incomplete. Use the separate sec
 `test_prototype_start`, `test_prototype_start_calendar` and
 `test_prototype_start_persistence` author preflight rejection, rollback, undo,
 replay, exact seeded duration, explicit month conversion and save continuation.
-They remain unrun while checks are paused. Source: `full-2008`, B474.
+They remain unrun pending recorded validation. Source: `full-2008`, B474.
 
 
 ## Committed prototype work intervals
@@ -964,8 +964,7 @@ that every elapsed second is strenuous labor or award study credit for it.
 
 `test_prototype_work` and `test_prototype_work_persistence` author preview purity,
 rollback, clock-triggered interruption, facility loss, undo, replay, exact remaining
-work, and cross-process continuation. These fixtures remain unrun while checks
-are paused. Source: `full-2008`, B474.
+work, and cross-process continuation. These fixtures remain unrun pending recorded validation. Source: `full-2008`, B474.
 
 
 ## Owned prototype accident consequences
@@ -1348,7 +1347,7 @@ Missing evidence rejects an attempted waiver.
 and post-start retargeting cases. `test_cinematic_prototype_persistence` authors
 cross-process continuation before and after completion, historical adjusted-price
 reuse for production, and undo of a paid production order. Fixtures remain unrun
-while checks are paused. Source: `full-2008`, B475–B476.
+pending recorded validation. Source: `full-2008`, B475–B476.
 
 ## Rapid concept sessions
 
@@ -1629,7 +1628,7 @@ A destruction outcome is not guaranteed: the object may survive its threshold
 checks. `expanded-panic-object.t` / `test_panic_object` specify this distinction,
 automatic destruction, item usability, preserved quantity, stress checks, pure
 preview, rollback, undo and cross-process continuation. Fixtures are authored and
-unrun while implementation checks are paused.
+unrun while implementation validation is in progress.
 
 ## Destruction of a computer host
 

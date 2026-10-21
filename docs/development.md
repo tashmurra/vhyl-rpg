@@ -185,3 +185,13 @@ The fear fixtures test a failure after committed injury and time, followed by
 successful replay, undo, and save/restore in a separate process. Returning a
 rejected assessment is still preferable to throwing for ordinary illegal player
 choices; exceptions protect broken author contracts and unexpected failures.
+
+For native **host** validation only, `--host-slice-on-timeout` permits a completed
+macOS host slice when the compiler times out building the other architecture.
+It is opt-in. The runner requires the host game, runtime, consumer and completed
+build/dependency records, retains the failed universal build, and creates a
+separate `host-validation` directory whose manifest names only the host target.
+The failure is retained beside that manifest. Missing or incomplete host output
+still fails. This option does not qualify a universal build or execution on the
+other architecture; source/document packages are independent of these local
+native test bundles.

@@ -43,7 +43,7 @@ several doubling boundaries, declaration limits, recoil margins, shot-count caps
 the printed Dodge example, critical and automatic defenses, and preview purity.
 The [minimal integration fixture](../../tests/fixtures/expanded-combat.t) includes
 only the foundation and this module above the common dependencies. These cases
-are authored but unrun while checks are paused.
+are authored but unrun pending recorded validation.
 
 Owned attack execution, ammunition commitment, independently rolled damage for
 each remaining hit, injury transactions and playable encounters remain incomplete.
@@ -162,7 +162,7 @@ unarmed table or category-specific overrides.
 
 `test_weapon_miss_assessments` records all sixteen ordinary rows, attack/parry
 exceptions, cheap breakage, both confirmation branches and a three-roll chain.
-Fixtures are authored but unrun while checks remain paused.
+Fixtures are authored but unrun pending recorded validation.
 
 ## Unarmed critical-miss assessment
 
@@ -493,7 +493,7 @@ attack dispatch remains unfinished. Critical Block failures use the separate def
 
 `test_critical_readiness` uses the equipment integration fixture for both table
 rows, preview purity, rollback, undo, binding rejection and replay after readiness
-restoration. It is authored and unrun while checks are paused.
+restoration. It is authored and unrun pending recorded validation.
 
 
 ## Owned critical defense failures
@@ -562,7 +562,7 @@ route, for healthy and exhausted actors, and compares the final readiness, clock
 random draws and permission receipts. `test_shield_ready_persistence` saves before
 recovery, immediately afterward, and after the other participant's turn; a new
 process continues the same encounter without repeating permission or time costs.
-These additional fixtures are authored and unrun while checks remain paused.
+These additional fixtures are authored and unrun pending recorded validation.
 
 
 ## Owned weapon drops after critical misses
@@ -595,7 +595,7 @@ explicit consequence operation; automatic attack/parry dispatch is still pending
 `test_weapon_miss_drop` and `test_weapon_miss_drop_persistence` cover ordinary and
 conditional drops, pending confirmation, breakage rejection, missing destinations,
 preview purity, rollback, undo, retargeting, pickup replay and separate-process save
-continuation. These fixtures are authored and unrun while checks remain paused.
+continuation. These fixtures are authored and unrun pending recorded validation.
 
 The shared pure `rpgExpandedCombatCheck(kind, score, roll)` is defined in the
 expanded foundation. Combat continues to use it for ranged and defense outcomes;

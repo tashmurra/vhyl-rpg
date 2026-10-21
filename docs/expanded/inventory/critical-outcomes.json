@@ -28,7 +28,7 @@
         "tests/fixtures/expanded-panic-critical-hit.t",
         "tests/expanded.py::test_panic_critical_hit"
       ],
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-success-boundaries",
@@ -67,7 +67,7 @@
         "table": "hit",
         "roll": 3
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-4",
@@ -86,7 +86,7 @@
         "table": "hit",
         "roll": 4
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-5",
@@ -105,7 +105,7 @@
         "table": "hit",
         "roll": 5
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-6",
@@ -124,7 +124,7 @@
         "table": "hit",
         "roll": 6
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-7",
@@ -146,7 +146,7 @@
         "table": "hit",
         "roll": 7
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-8",
@@ -182,7 +182,7 @@
         "table": "hit",
         "roll": 9
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-10",
@@ -201,7 +201,7 @@
         "table": "hit",
         "roll": 10
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-11",
@@ -220,7 +220,7 @@
         "table": "hit",
         "roll": 11
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-12",
@@ -261,7 +261,7 @@
         "table": "hit",
         "roll": 13
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-14",
@@ -283,7 +283,7 @@
         "table": "hit",
         "roll": 14
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-15",
@@ -302,7 +302,7 @@
         "table": "hit",
         "roll": 15
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-16",
@@ -321,7 +321,7 @@
         "table": "hit",
         "roll": 16
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-17",
@@ -340,7 +340,7 @@
         "table": "hit",
         "roll": 17
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-hit-18",
@@ -359,7 +359,7 @@
         "table": "hit",
         "roll": 18
       },
-      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun pending recorded validation."
     },
     {
       "id": "critical-head-3",

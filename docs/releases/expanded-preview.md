@@ -11,22 +11,20 @@ occurrences, concrete action permission, versioned goal replacement and funded
 buyoff. Configured templates preserve the original goal and rating without
 sharing fulfillment history. Recent timed-panic work adds room and tactical
 movement, stationary expression and retained activity-history validation.
-These additions and their regression fixtures remain unvalidated while checks
-are paused; the fear completion audit still lists outstanding work.
+These additions and their regression fixtures remain unvalidated pending recorded validation; the fear completion audit still lists outstanding work.
 
 Exploration now exposes a pure climbing assessment for all nine printed surfaces,
 with exact rates, explicit feet/rung units, encumbrance, check boundaries and
 combat fatigue. Owned climbing and falling integration remain pending. The new
-table and boundary assertions are authored but unrun while checks are paused.
+table and boundary assertions are authored but unrun pending recorded validation.
 
 Shared-load lowering now rejects unresolved support loss detected during its time
 interval, including a carrier who recovers before the interval ends. An authored
-fixture covers rollback of the clock, support event and inventory transfer. Checks
-remain paused, so this behavior has not yet been validated by execution.
+fixture covers rollback of the clock, support event and inventory transfer. Validation is in progress, so this behavior has not yet been validated by execution.
 
-The expanded foundation and convenience umbrella currently include sixteen partial
+The expanded foundation and convenience umbrella currently include seventeen partial
 feature modules: campaign, characters, combat, creatures, development, equipment,
-exploration, hazards, health, psionics, skills, social, tactical, technology, templates
+exploration, hazards, health, psionics, skills, social, stress, tactical, technology, templates
 and traits. Magic and vehicles remain proposed modules without standalone runtime
 libraries. Available include paths are distinguished from proposals in the
 [library catalogue](../libraries.md). Technology currently supplies pure object-capacity,
@@ -40,7 +38,7 @@ structural repair and broader invention options remain unfinished. Supported own
 invention stages cover theories, facilities, funded work, secret physical-prototype
 completion, concrete defects, whole-week testing and bug-free one-copy production.
 Cinematic invention, software prototypes, partial testing and defect propagation
-remain incomplete. New fixtures are authored and unrun while checks are paused.
+remain incomplete. New fixtures are authored and unrun pending recorded validation.
 
 The implemented subsets include secondary purchases and character accounting,
 trait pricing, richer skill/default/technique procedures, template composition,
@@ -83,9 +81,10 @@ artwork are not repository deliverables. The comparison guide, per-module guides
 source inventories and [coverage ledger](../expanded/coverage.json) describe the
 remaining work. Detailed inventory and catalogue enumeration are not complete.
 
-Build checks and CI are paused at the user's request until implementation is
-complete. Recent source/native fixtures, transaction and save-continuation cases,
-and documentation changes are authored but unrun. Older successful checks do
+Local checks resumed after the frozen implementation and acceptance fixtures
+were authored. The current results and remaining validation work are recorded
+in the [fear checklist](../expanded/fear-completion.md). Historical entries below
+describe implementation increments; their unrun notes are not current pass claims. Older successful checks do
 not validate the current head. Required final checks include existing core/Lite
 regressions, independent source-value checks, module dependencies, combined
 examples, input parity, rollback/undo/save continuation, strict documentation,
@@ -108,7 +107,7 @@ prototype defects can be assigned, surfaced by operation failures and discovered
 through complete-week testing. Exact production fractions and line capital funding
 are available. Supported whole-unit production orders fund and deliver bug-free
 physical copies. Fractional ledger amounts, broader defect effects and interrupted
-testing remain incomplete. All newly authored fixtures remain unrun while checks are paused.
+testing remain incomplete. All newly authored fixtures remain unrun pending recorded validation.
 
 The creature library now provides pure general-training and single-trick durations,
 training-plan eligibility and handling modifiers (`full-2008`, B175 and B458–B459).
@@ -157,8 +156,7 @@ timing remains incomplete; new fixtures are unrun.
 
 The branch now includes the main character/social prerelease, its Town Registry
 example and regression fixtures. Original prerelease evidence is retained in its
-own release note; it does not validate the merged expanded suite. Build checks
-remain paused.
+own release note; it does not validate the merged expanded suite. Validation is in progress.
 
 Sixteen feature modules now have partial implementations. Tactical adds pure hex
 distance, adjacent facing and barrier assessments, with a minimal fixture covering
@@ -427,7 +425,7 @@ Cyclic toxic HP exposure now owns individual cycle receipts, checks resistance a
 each exact deadline, ends early on successful resistance and protects outstanding
 poison injury from healing until termination. Replaying the onset cannot trigger
 a later cycle. Added rollback, undo and cross-process continuation fixtures; all
-remain unrun while checks are paused. Fatigue effects, symptoms and treatments
+remain unrun pending recorded validation. Fatigue effects, symptoms and treatments
 remain incomplete. The expansion branch includes the current main branch.
 
 
@@ -487,7 +485,7 @@ Fatigue-damage poison now uses owned FP-loss receipts and expanded overflow
 wounds. Active cyclic FP and HP losses remain protected from rest/healing until
 termination, while unrelated fatigue may recover. A default-zero Lite recovery
 hook preserves the existing behavior when no expansion lock is present. Added
-authored, unrun overflow and persistence fixtures; validation remains paused.
+authored, unrun overflow and persistence fixtures; validation is in progress.
 
 
 Poison identification now owns clue/symptom examination time, skill checks and
@@ -560,8 +558,7 @@ Physical medical procedures now consult the practitioner's movement availability
 before starting care. This closes a conscious-paralysis bypass in bandaging,
 first aid, surgery, resuscitation, bleeding/clotting care, trauma maintenance,
 dressing and poison treatment. Identified-antidote administration also checks
-movement. Added authored, unrun bandaging boundary assertions; checks remain
-paused during implementation.
+movement. Added authored, unrun bandaging boundary assertions; validation is in progress during implementation.
 
 
 Added owned finite seizures with standing falls, physical and mental action
@@ -684,7 +681,7 @@ repairs and other tool uses remain incomplete.
 - Confirmed the expansion branch includes main's character/social merge
   `5935592` through `84c3e5a`. Self-control trait pricing now rejects a rating on
   an uncontrolled disadvantage, including through character accounting. Added
-  regression assertions; checks remain paused and the PR remains draft.
+  regression assertions; validation is in progress and the PR remains draft.
 
 - Templates and choice options now accept explicit truthfulness self-control
   purchases. Fresh instances preserve the rating and concrete effect type;
@@ -699,17 +696,17 @@ repairs and other tool uses remain incomplete.
 - Added rated curiosity occurrences with concrete investigative action choices,
   one-time self-control and owned completion. Added a cabinet-action fixture
   covering normal time charging, rollback, undo and saved pending obligations.
-  Explicit template purchases retain the concrete trait. Checks remain paused.
+  Explicit template purchases retain the concrete trait. validation is in progress.
 
 - Added purchased physical-danger avoidance, death-risk self-control and explicit
   greater-threat permissions. Fear contexts derive the rating penalty once and
   reject inconsistent overrides. Template purchases and persistence fixtures are
-  included; checks remain paused and occupational reaction integration is pending.
+  included; validation is in progress and occupational reaction integration is pending.
 
 - Added informed occupational reactions to purchased danger avoidance. Explicit
   observer and setting facts control applicability; Diplomacy uses the shared
   reaction path, and invalid participants reject before dice. Rating and integration
-  assertions are authored but remain unrun while checks are paused.
+  assertions are authored but remain unrun pending recorded validation.
 
 - Added exact lifting and dragging assessments from full-2008 B353, including
   device weight, surface divisors, combat pickup duration and capacity boundaries.
@@ -727,17 +724,17 @@ repairs and other tool uses remain incomplete.
 - Connected owned lifting-skill results to physical pickups, preserving baseline
   carrying limits and exact capacity comparisons. Request and weight binding prevents
   bonus reuse for a changed lift. Added joint rollback and between-stage save
-  fixtures; checks remain paused and failed physical-attempt timing remains pending.
+  fixtures; validation is in progress and failed physical-attempt timing remains pending.
 
 - Added a combined lifting attempt that records successful pickup or failed
   capacity once. Unsuccessful duration requires explicit author evidence because
   the supplied reference does not specify it. Joint rollback and saved failure
-  continuation fixtures are authored; checks remain paused.
+  continuation fixtures are authored; validation is in progress.
 
 - Corrected B15 pickup timing: a load within Basic Lift takes one second outside
   combat as well. Added strength-rounding and skill-adjusted duration assertions;
   corrected the strength-11 digging expectation to the existing rounded base.
-  No Lite rounding change was needed. Checks remain paused.
+  No Lite rounding change was needed. validation is in progress.
 
 - Added authored cooperative-load assessment by summing individual Basic Lift,
   with duplicate-helper and incapacity rejection. It reuses exact lift/dragging
@@ -760,7 +757,7 @@ repairs and other tool uses remain incomplete.
 - Connected shared carrying to unconsciousness, knockdown and committed limb
   disablement hooks. Pending support loss blocks further time until adjudication,
   survives recovery and save continuation, and clears on emergency release.
-  Notification/rollback fixtures are authored; checks remain paused.
+  Notification/rollback fixtures are authored; validation is in progress.
 
 - Added shared-carry integration fixtures using real limb-wound operations, covering
   bound hands, parent arms, unbound-hand exclusion, combined incapacitation events,
@@ -772,7 +769,7 @@ repairs and other tool uses remain incomplete.
 
 - Connected shared-carry reservations to unarmed parry capacity, including mapped
   free arms and conservative handling of unmapped supports. Added direct defense
-  query assertions; checks remain paused.
+  query assertions; validation is in progress.
 
 Climbing failure assessment now distinguishes rope-limited falls, critical
 failures that bypass rope protection and earlier obstacles. Exploration also
@@ -802,7 +799,7 @@ damage and subsequent impacts remain unfinished; new fixtures are unrun.
 
 Owned torso falls now support evidenced elastic landing protection before armor,
 including its effect on blunt trauma. Fixtures cover partial/complete cushioning,
-cap ordering, replay and rollback, but remain unrun while checks are paused.
+cap ordering, replay and rollback, but remain unrun pending recorded validation.
 
 Controlled-landing assessment now distinguishes acrobatic distance reduction from
 successful fluid dives that negate damage. Dive speed penalties reuse the full
@@ -877,7 +874,7 @@ events. Restoring readiness does not bypass settlement. Rollback, undo, saved
 pending history and real hand-wound fixtures are authored and unrun; other loss
 causes still require integration.
 
-Active mobility aid storage and sales now preserve support-loss occurrences. Authored regression fixtures cover repeated operations, exception rollback, undo and settlement before time advancement. These fixtures have not been run: all requested checks remain paused, and the expanded suite remains incomplete.
+Active mobility aid storage and sales now preserve support-loss occurrences. Authored regression fixtures cover repeated operations, exception rollback, undo and settlement before time advancement. These fixtures have not been run: all requested validation is in progress, and the expanded suite remains incomplete.
 
 Daily hiking now has a pure full-reference terrain and weather assessment,
 including roads, clearance, deep snow, skis and skates. Distance arithmetic
@@ -958,7 +955,7 @@ Throw attempts now use the full ranged critical-miss rule: a failure by ten
 alone no longer blocks ordinary release as a critical failure. Catch assessments
 use active-defense low-score success and critical-failure rules. The shared check
 helper moved to the foundation to avoid a new module dependency. Regression
-fixtures are authored but unrun; checks remain paused.
+fixtures are authored but unrun; validation is in progress.
 
 Deliberate passes now have an owned catch-roll stage connected to released
 inventory and a recipient fighter's hand-parry counter. The stage applies repeated bare-hand parry penalties and checks supported
@@ -981,13 +978,13 @@ Exploration now provides ordinary jump-distance assessment from B352: standing
 and running formulas, independent running caps, half-skill substitution,
 preparation and optional encumbrance. Distances retain tenths of an inch.
 Owned preparation, movement and landing consequences remain pending. Printed
-example and boundary assertions are authored, unrun while checks are paused.
+example and boundary assertions are authored, unrun pending recorded validation.
 
 Profile-backed jump assessment now validates paid skill selection, reads optional
 encumbrance, supports the explicit strength/body-weight option and consumes
 active enhanced-jump levels. Enhanced jumping has ten-point-per-level accounting.
 Movement, jump attacks and fall protection remain pending. New expected-value
-and boundary fixtures are authored, unrun while checks are paused.
+and boundary fixtures are authored, unrun pending recorded validation.
 
 Enhanced jumping now supplies an owned safe-fall receipt connected to collision
 and injury resolution. Prepared maxima consider paid Jumping skill; optional
@@ -1002,7 +999,7 @@ Time commitment and position changes remain pending; new assertions are unrun.
 Combat jump preparation now records consecutive concentration turns through the
 existing battle scheduler and health gates. Combat distance assessment derives
 preparation from that record. Interruption, unrelated concentration, ledger
-drift, rollback and saved continuation have authored coverage; checks remain paused.
+drift, rollback and saved continuation have authored coverage; validation is in progress.
 
 Whole-turn jump launches now preserve prepared distance across the Move
 maneuver's concentration reset and record required DX/Jumping accuracy once.
@@ -1036,7 +1033,7 @@ authored, unrun. Reactions, interrupts and movement attacks remain pending.
 Jump preparation, launch and path movement now require explicitly physical
 health gates. Missing movement requirements and mental-only gates are rejected
 before rolls. Exhausted permission denial has authored rollback, undo and saved
-continuation coverage; assertions remain unrun while checks are paused.
+continuation coverage; assertions remain unrun pending recorded validation.
 
 The two-Move clamber alternative now records consecutive progress and places the
 existing figure on an authored reachable adjacent upper surface without an
@@ -1047,13 +1044,13 @@ Foraging now has pure printed-result assessments for plant, hunting and fishing
 yields, hunting's penalty, authored scarcity and natural-17/18 plant poisoning.
 The companion health assessment distinguishes direct poison injury from damage.
 Daily ownership, food inventory and party injury commitment remain pending.
-Expected-value assertions are authored, unrun while checks remain paused.
+Expected-value assertions are authored, unrun pending recorded validation.
 
 Recorded plant-foraging poison outcomes now have owned self/party resolution,
 independent health checks and direct-injury wounds. All possible injuries are
 preflighted, duplicate exposure is rejected and replay reuses child wounds.
 Special susceptibility remains explicit. Rollback, undo and save fixtures are
-authored, unrun while checks are paused.
+authored, unrun pending recorded validation.
 
 Travel-day plant rolls now have per-character ownership shared across both
 eligible skills and all sites. Physical health permission precedes the roll;
@@ -1273,13 +1270,13 @@ Occupational composition now validates reconstructed duplicate trait purchases
 and rejects conflicting activation, mitigation or skill-scope state. Pending
 trait checks are rejected instead of discarded when creating the combined
 character. Both package orders have regression assertions; these remain unrun
-while validation is paused.
+pending recorded validation.
 
 Occupational composition accepts explicit package selections, resolving option
 counts, eligibility and prices before merging requirements. Combined characters
 retain chosen-option provenance per source template; unused options grant no
 investments. The new fixture covers duplicate pricing, rejected selections,
-undo and save continuation. Checks remain paused.
+undo and save continuation. validation is in progress.
 
 Fresh occupational customization supports explicit trait/skill removals, score
 changes, additional skill points and supported trait replacements. It validates
@@ -1388,7 +1385,7 @@ Boundary and pure repeated-assessment fixtures are authored but unrun.
 
 Catalogue talent purchase validation now runs for the entire expanded profile,
 so an unrelated skill check cannot bypass duplicate-purchase rejection. Optional
-specialty skill and study-rate fixtures were added; checks remain paused.
+specialty skill and study-rate fixtures were added; validation is in progress.
 
 Seven additional catalogue talent groups now have approved purchase factories,
 fixed prices and shared skill/study/reaction membership. Musical group performance
@@ -1477,13 +1474,13 @@ remain pending. Multi-stage lifecycle fixtures are authored but unrun.
 
 Decompression schedules reject repeated-pressure rows to avoid duplicate entry
 checks. New integration fixtures cover crushing checks at stage entry and exact
-hold-end boundaries, including rollback of rejected progress. Checks remain paused.
+hold-end boundaries, including rollback of rejected progress. validation is in progress.
 
 
 Unsafe decompression now has an owned illness record for the unconsciousness
 branch, critical onset outcomes, hourly recovery and failed-recovery injury.
 Hourly agony reuses the existing minute fatigue receipts. New lifecycle fixtures
-are authored but unrun; checks remain paused. Recompression treatment, paralysis
+are authored but unrun; validation is in progress. Recompression treatment, paralysis
 and emergency ascent remain unsupported, and the hazards module remains partial.
 
 
@@ -1667,7 +1664,7 @@ Fixed-belief portrayals now record authored behavior per situation, with bound
 receipts and observer-specific severity reactions. Unnoticed behavior and
 mitigated purchases contribute no modifier. Multiple belief penalties reject
 pending a stacking rule. Fixtures cover preview, replay, rollback, undo and save
-continuation but remain unrun while checks are paused. Coverage remains partial.
+continuation but remain unrun pending recorded validation. Coverage remains partial.
 
 
 Fixed-belief knowledge now separates private truth, character awareness and
@@ -1802,13 +1799,13 @@ Dependent session closures now bind authored peril, rescue and harm outcomes to
 the existing milestone award path. Serious harm blocks session points; an
 authored failure-to-rescue judgment can deny bonus awards without removing prior
 earnings. Live rescue routing and permanent-loss settlement remain pending.
-The integration fixtures are authored but unrun while checks remain paused.
+The integration fixtures are authored but unrun pending recorded validation.
 
 
 Fixed and selected templates can now construct fresh owned dependent purchases
 from unowned contribution definitions. Unsupported contribution copying rejects;
 contribution-bearing package composition remains pending. Isolation and save
-fixtures are authored but unrun while checks remain paused.
+fixtures are authored but unrun pending recorded validation.
 
 
 Dependent purchases now participate in selectable template options, including
@@ -1819,13 +1816,13 @@ validation. Fixtures are authored but unrun; package composition remains pending
 Dependent growth receipts now account for approved whole-point proportional NPC
 build improvements while preserving original relationship costs and the principal
 point bank. Fractional/nonpositive-total growth and automatic NPC profile changes
-remain pending. The new fixtures are authored but unrun while checks are paused.
+remain pending. The new fixtures are authored but unrun pending recorded validation.
 
 
 Skill-only dependent growth can now apply approved point increases to existing
 NPC training slots after shared ownership and learning checks, without charging
 either point bank. Attribute/trait/mixed applications remain pending. Fixtures
-are authored but unrun while checks remain paused.
+are authored but unrun pending recorded validation.
 
 
 Dependent group session records now bind explicit member rosters and individual
@@ -1877,7 +1874,7 @@ Integration fixtures are authored but unrun.
 Equipment acquisition now accepts exact owned coin tender mixed with existing
 abstract funds. Payment and item transfer commit together without depositing or
 duplicating coin value. Change-making and currency conversion remain pending.
-Fixtures are authored but unrun while checks remain paused.
+Fixtures are authored but unrun pending recorded validation.
 
 
 One-unit copper coins now work through the existing physical-money paths when
@@ -1889,7 +1886,7 @@ unrun. Change-making and currency conversion remain pending.
 Starting-wealth receipts now bind the approved allocation and original outcomes.
 An integration fixture covers allocation, starting gear prices and issued items
 through one purse, including replay after later wealth changes. Fixtures remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 Inventory-backed equipment assessments now connect task-specific quality to
@@ -1925,7 +1922,7 @@ Will and repeats on failure. Unsupported reactions and physical-effect outcomes
 remain explicit gaps. Earlier entries describing all fear orchestration or
 mandatory fear stress triggers as pending are superseded by this update.
 The complete suite is not yet finished. New integration fixtures are authored
-but unrun; build, test, documentation and packaging checks remain paused.
+but unrun; build, test, documentation and packaging validation is in progress.
 
 
 Physical fear outcomes now accept exact-cost bundles of supported executable
@@ -1935,7 +1932,7 @@ without overwriting the initial result or repeating its stress follow-up.
 Machinery and magic phobias now constrain the shared skill-learning gate through
 explicit subject classifications. Aging, other physical/mental selections,
 additional panic reactions and voluntary-activity permissions remain incomplete.
-All new fixtures remain unrun while checks are paused.
+All new fixtures remain unrun pending recorded validation.
 
 
 Fear events now have an owner-authorized shared action adapter for parser,
@@ -1944,15 +1941,14 @@ with explicit confusion adjudication and recovery. Concurrent phobia exposures
 retain independent histories under an explicitly authored penalty-aggregation
 ruling. Height and voluntary power-consent prohibitions participate in action
 permission through bound world facts. Fixtures and example remain unrun while
-implementation continues and build checks are paused.
+implementation continues and build validation is in progress.
 
 
 Prohibited initial fear and self-control rolls now require a recorded author
 selection, without fabricated dice or failure margins. Active phantom voices
 require an explicit author choice for the stress follow-up in this case.
 Disturbing voices can also supply a specific owned frightening cue to ordinary
-fear resolution. New lifecycle fixtures are authored but unrun; checks remain
-paused and the complete fear suite is not yet verified.
+fear resolution. New lifecycle fixtures are authored but unrun; validation is in progress and the complete fear suite is not yet verified.
 
 Extreme-panic flight now moves the owning actor along an authored unobstructed
 room route, with Move/distance limits and one shared time charge. Tactical and
@@ -1972,7 +1968,7 @@ Extreme panic can now own real relocation and fall impact through the hazards
 pipeline. Due fear recovery preserves unrelated incapacity; low recovery scores
 have recorded author rulings. Intermittent catatonia care and overlapping
 coma/catatonia aftereffects require explicit, bound author policies. Corresponding
-fixtures are authored, not yet run. Checks remain paused while remaining fear
+fixtures are authored, not yet run. validation is in progress while remaining fear
 integration gaps are addressed; this update does not claim complete coverage.
 
 
@@ -1981,7 +1977,7 @@ physical health permission and battle scheduler. It retains the per-turn receipt
 and allows the corresponding round advance without charging a second interval.
 Request-aware permission dispatch preserves normal public hooks and keeps preview
 pure. Interrupted routes, attack/destruction adapters and remaining trait selections
-are still pending. The new tactical fixture is unrun; checks remain paused.
+are still pending. The new tactical fixture is unrun; validation is in progress.
 
 Panic reactions can now commit an adjudicated destructive interaction through
 owned solid-artifact injury. Destruction thresholds, automatic destruction,
@@ -1989,7 +1985,7 @@ equipment unavailability and per-second stress checks retain actual receipts;
 replay does not duplicate injury or randomness. The physical item retains its
 inventory weight. Special artifacts, complete attack resolution and remaining
 trait choices are still pending. New lifecycle fixtures are authored and unrun;
-build checks remain paused.
+build validation is in progress.
 
 Fear acquisition now admits existing humorlessness, pervasive distrust, social
 inhibition and companionship implementations at their actual eligible costs.
@@ -1997,7 +1993,7 @@ Fixed traits without self-control use an explicitly authored fresh-trait fallbac
 Physical selections now include negative appearance, distinctive features,
 recurrent pain and the fixed hearing-impairment purchase. Receipts bind each
 selection's settings and retain the existing executable effects. Compound,
-accounting and lifecycle fixtures are authored but unrun; checks remain paused.
+accounting and lifecycle fixtures are authored but unrun; validation is in progress.
 
 - Added request-level strike dispatch with the existing resolver as its default,
   and a recorded ordinary panic-attack adapter using actual battle turns,
@@ -2005,21 +2001,21 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   rolls and injury calculations are explicitly labelled author adjudications;
   critical results and unsupported attack combinations reject before spending.
   Automatic expanded attack resolution remains incomplete. New lifecycle fixtures
-  are authored and unrun; checks remain paused.
+  are authored and unrun; validation is in progress.
 
 - Added staged tactical panic movement with owned injury interruptions. Surviving
   movers resume the remaining path; incapacitated movers retain the stopping hex
   and a declared prone footprint, leaving later triggers unspent. Reduced Move
   uses an explicit authored stop policy. The battle still owns the sole round
   clock. Wait attacks and other interrupt procedures remain incomplete; lifecycle
-  fixtures are authored and unrun while checks remain paused.
+  fixtures are authored and unrun pending recorded validation.
 
 - Connected a declared stationary Wait attack to staged panic routes. The waiting
   fighter spends the declaration turn, expires at its next accepted turn, and
   commits a matching recorded strike without another clock tick or repeated
   start-of-turn consciousness roll. Misses resume movement; injuries can stop it.
   Broader Wait conversions and automatic attack resolution remain partial. New
-  lifecycle fixtures are authored and unrun; checks remain paused.
+  lifecycle fixtures are authored and unrun; validation is in progress.
 
 - Added a typed complete-hearing-loss selection for lasting physical fear
   outcomes, with shared hearing denial, audible-aura rejection and accessible
@@ -2027,7 +2023,7 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   recipients independently without spending time twice, retaining the original
   first-credit compatibility field. Full written/signing/lip-reading procedures
   and specific sound-dependent exceptions remain incomplete. New lifecycle and
-  fear-acquisition fixtures are authored and unrun; checks remain paused.
+  fear-acquisition fixtures are authored and unrun; validation is in progress.
 
 - Connected physical artifact failure to non-sentient computer hosts. Disabling
   stops processes but retains data; destruction also erases local software and
@@ -2035,7 +2031,7 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   hardware availability, so restoring power cannot bypass physical failure.
   Special artifacts, sentient machines, repair and automatic attacks remain
   incomplete. New panic/destruction lifecycle fixtures are authored and unrun;
-  checks remain paused.
+  validation is in progress.
 
 - Added owned overstimulation episodes and eligible lasting mental fear
   selections. Failed control prevents initiative and planning without imposing
@@ -2043,20 +2039,20 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   actual attacker on the ordinary turn. Independent incapacity still applies.
   Episode endings require recorded world evidence, with no invented recovery
   timer. Broader reactive maneuvers remain unsupported. Lifecycle fixtures are
-  authored and unrun while build checks remain paused.
+  authored and unrun pending recorded validation.
 
 - Reactive counterattacks now require an explicit abridged/recorded resolver
   choice. Recorded attacks share the owned panic/Wait strike adapter, with
   current-turn execution permission, actual wounds and one health gate. Direct
   calls cannot bypass the battle turn. Hit, miss, defense and lifecycle fixtures
-  are authored but unrun; checks remain paused.
+  are authored but unrun; validation is in progress.
 
 - Recorded attacks now support critical defense success against non-thrown
   ranged attacks and owned critical Dodge/Block failures. Failed defenses commit
   prone posture or shield unreadiness together with the wound, without another
   defense roll or turn. Tactical/airborne falls, critical Parry failures and
   melee critical-defense successes still reject pending their adapters. New
-  lifecycle fixtures are authored and unrun; checks remain paused.
+  lifecycle fixtures are authored and unrun; validation is in progress.
 
 - Connected critical Dodge failures to owned tactical prone footprints. The
   adapter preflights the adjacent clear hex and commits posture and geometry in
@@ -2068,7 +2064,7 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   adjusted armor, penetration and owned critical/major wounds. Critical hits
   forbid active defenses and retain the source table inputs. Fourteen general
   rows have integration fixtures; additional-effect rows reject pending their
-  executors. Final injury remains authored. Checks remain paused; fixtures unrun.
+  executors. Final injury remains authored. validation is in progress; fixtures unrun.
 
 - Fixed aura history when separate occurrences reuse the same scene-context
   object. Successful-check protection and prior-check bonuses now follow the

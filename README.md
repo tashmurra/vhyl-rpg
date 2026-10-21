@@ -46,10 +46,11 @@ Partial [health](docs/expanded/health.md) and [hazards](docs/expanded/hazards.md
 modules add owned injury/recovery, treatment, infection and aging procedures.
 The original [Echo Vault example](examples/echo-vault/README.md) demonstrates
 owned fear, explicit author adjudication, recovery and shared player routes.
-Its implementation and fixtures are authored but unrun.
+Its connected fear/stress sequence passes parser, structured-action and dialogue
+acceptance, including cross-process saved continuation.
 These share character balances and retain explicit unsupported cases; their
 recent transaction and save-continuation fixtures are authored but unrun while
-checks are paused.
+validation is in progress.
 The partial [technology module](docs/expanded/technology.md) assesses disabled and
 destroyed weapon outcomes, including surviving forms and their combat overrides.
 It also includes environmental-fault repair and owned computer processing, storage,
@@ -206,7 +207,7 @@ The optional `vhyl-rpg-expanded-character-social.t` umbrella packages the
 [Town Registry example](examples/bellwether/README.md) demonstrates its shared
 parser, structured-action and dialogue interfaces. See the original
 [prerelease record](docs/releases/v1.1.0-alpha.1.md); the merged expanded suite
-remains incomplete and its checks are paused.
+remains incomplete and its validation is in progress.
 
 The [optional accumulating stress library](docs/expanded/stress.md) implements original campaign
 rules: a 0–12 pool, explicit gains, ordered decisions and safe-hour recovery.

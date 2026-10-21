@@ -9206,7 +9206,7 @@ class RpgExpandedMarchGroupAction: Action
         event('rpg.expanded.march-group'); eventValue(value.status); eventValue(value.reason); eventValue(value.allowed ? 1 : 0);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** B426 combat interruption: settle a party's marching costs without advancing time. */
@@ -9306,7 +9306,7 @@ class RpgExpandedBleedingAidAction: Action
         event('rpg.expanded.bleeding-aid'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** An owned, continuous fixed-condition hour divided into authored travel steps. */
@@ -10941,7 +10941,7 @@ class RpgExpandedFearAction: Action
         event('rpg.expanded.fear'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** The action retains the world facts used by its voluntary phobia permission. */

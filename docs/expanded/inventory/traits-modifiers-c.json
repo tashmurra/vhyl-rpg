@@ -17,7 +17,7 @@
         "tests/expanded.py::test_negative_pricing"
       ],
       "existing_feature": "signed-trait-pricing",
-      "validation_note": "Runtime arithmetic and native fixtures authored; checks remain paused. Full catalogue eligibility and effect integration are not complete."
+      "validation_note": "Runtime arithmetic and native fixtures authored; validation is in progress. Full catalogue eligibility and effect integration are not complete."
     },
     {
       "id": "traits-mod-c-accessibility",

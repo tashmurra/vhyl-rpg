@@ -208,7 +208,7 @@ loss after character creation still require their owning procedures.
 The native cases in `tests/expanded.py::test_learning_requirements` exercise paid
 minimums, trait possession, alternative/conjunctive requirements, cycle rejection,
 and blocked purchases/study with unchanged ledgers. They are authored but unrun
-while validation is paused.
+pending recorded validation.
 
 ## Equipment familiarity
 
@@ -247,7 +247,7 @@ Authored native coverage includes preview purity, initial allowances, duplicate
 rejection, context ownership, the final practice second, refusal of excess time,
 repeat prevention, exception rollback, undo and cross-process save continuation
 (`test_familiarity` and `test_familiarity_persistence` in `tests/expanded.py`).
-These checks have not run while validation is paused.
+These checks await recorded validation.
 
 ## Technology-level use modifiers
 
@@ -301,7 +301,7 @@ metadata remains immutable by author convention after character creation.
 `tests/expanded.py::test_optional_specialties` contains independent rating,
 propagated-default and paid-default cases, invalid-parent and approval cases,
 prerequisite preservation, duplicate identity and preview purity checks. They
-remain unrun while validation is paused.
+remain unrun pending recorded validation.
 
 ## Relative skill checks
 
@@ -562,7 +562,7 @@ Relative-attribute and fixed-base technique contexts are explicitly unsupported.
 Special critical tables, cinematic eligibility and individual technique effects
 still need their owning procedure; the standard success check does not implement
 those effects. Fixtures exercise stacked modifiers, nested defaults, invalid
-contexts and persistence, but remain unrun while checks are paused.
+contexts and persistence, but remain unrun pending recorded validation.
 
 ### Cinematic technique permission (full-2008, B230)
 
@@ -600,7 +600,7 @@ Ancestry single-skill bonuses apply through `ancestrySkillModifier(skill)` after
 trained/default resolution. Paid skill calculations stay unmodified for default
 chains and advancement prices. See [ancestry bonuses](templates.md#single-skill-ancestry-bonuses)
 for ownership, specialty handling and current limitations. New assertions remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 Catalogue talent checks now dispatch through
 `catalogueTalentCheckModifier(skill)`. With expanded traits installed, the three
@@ -627,7 +627,7 @@ talent and ancestry skill modifiers (full-2008, B89, B169, B452). At least one
 purchased point is still mandatory. A better default, equipment, reaction or other
 situational check modifier cannot qualify the character. Checking the prerequisite
 does not spend points or time or roll dice. Boundary and no-training fixtures are
-authored but unrun while checks are paused.
+authored but unrun pending recorded validation.
 
 Expanded profile validation rejects duplicate catalogue talent purchases even
 when the requested skill lies outside the talent's group. Each purchase remains
@@ -707,7 +707,7 @@ untrained access to higher-technology skills still follows the shared restrictio
 specialty pairs against an independently specified expected-score matrix. They
 also cover Bicycling and Battlesuit sources, technology mismatch, an unpaid
 source and altered attribute defaults. These are authored expectations, not
-passing validation results: checks remain paused.
+passing validation results: validation is in progress.
 
 
 ## Owned driving familiarity
@@ -757,7 +757,7 @@ consequences still require integration with their actual world actions.
 
 `expanded-boating.t` / `test_boating` specify the full 16-pair default matrix,
 boarding requirements, ordinary hazard modifiers and the restricted Seamanship
-default. Fixtures remain unrun while checks are paused.
+default. Fixtures remain unrun pending recorded validation.
 
 
 ## Breathing efficiency skill
@@ -793,7 +793,7 @@ body-reading, first-aid, physician-healing and surgery integrations. Existing
 explicitly authored skill objects remain supported. `test_physiology_skill`
 provides independent expectations for each printed default, mismatched technology,
 authored relationships, untrained sources and invalid definitions. These fixtures
-and the updated medical integration fixtures remain unrun while checks are paused.
+and the updated medical integration fixtures remain unrun pending recorded validation.
 
 
 ## Physician and first-aid catalogue skills
@@ -819,7 +819,7 @@ requirement for unusual problems; other first-aid operations still need that
 integration. Drug procedures remain incomplete.
 `test_medical_skills` specifies each default, incompatible technology and the
 low-technology author contract. Medical integration fixtures also use these types.
-All new fixtures remain unrun while checks are paused.
+All new fixtures remain unrun pending recorded validation.
 
 
 ## Biology and native planet types
@@ -909,7 +909,7 @@ or advance care time. Animal treatment must still be connected to owned health
 procedures and their shared ledgers before that part of the catalogue is complete.
 `test_veterinary_skill` specifies each default, absent IQ default, trust,
 unfamiliarity, combined modifiers and optional-specialty scoring. Fixtures remain
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Animal-handling catalogue specialties
@@ -956,7 +956,7 @@ previous behavior.
 Individual inference uses the owned assessment documented in the social guide;
 situational modifiers use the context below. `test_psychology_skill` specifies the one-way
 discipline default, attribute fallback, social-inference default eligibility and
-campaign-approval rejection. Fixtures remain unrun while checks are paused.
+campaign-approval rejection. Fixtures remain unrun pending recorded validation.
 
 
 ## Individual psychology contexts
@@ -979,7 +979,7 @@ in `modifier`. Keep other justified situational adjustments there.
 The context computes and rolls competence through existing skill interfaces.
 It does not choose a character's behavior, grant knowledge or resolve treatment. The social library supplies the owned assessment operation for authored findings. `test_psychology_context` covers each printed
 modifier, combinations, active callousness, its exception and inapplicable empathy
-or discipline rejection. Fixtures remain unrun while checks are paused.
+or discipline rejection. Fixtures remain unrun pending recorded validation.
 
 
 ## Sociology catalogue skill
@@ -999,7 +999,7 @@ This definition supplies skill arithmetic. Large-group cooperation, social
 pressures and contact between societies still require owned authored-finding
 operations and appropriate access/evidence. `test_sociology_skill` specifies the
 printed defaults, the incoming psychology default, optional-source propagation
-and prevention of untrained chains. Fixtures remain unrun while checks are paused.
+and prevention of untrained chains. Fixtures remain unrun pending recorded validation.
 
 
 ## Anthropology catalogue skill
@@ -1046,7 +1046,7 @@ scientific conclusion. Include exploration for owned specimen findings through
 `RpgExpandedPaleontologyAssessment`. The exploration guide also describes
 `laboratoryEquipment` for live ownership and access checks. `test_paleontology_skill` specifies printed defaults,
 inter-specialty transfer, missing-laboratory rejection and age equipment scoring.
-Fixtures remain unrun while checks are paused.
+Fixtures remain unrun pending recorded validation.
 
 
 ## Packing and caravan expertise
@@ -1237,8 +1237,7 @@ being blocked by the diagnostic fallback. Makeup also rejects forbidden height
 changes and unavailable prosthetics/tools during direct scoring.
 `test_task_availability` specifies successful preflight/execution, unchanged Lite
 diagnostics, invalid scope/equipment and no preview resource consumption. Existing
-procedure fixtures cover the other affected paths. All remain unrun while checks
-are paused.
+procedure fixtures cover the other affected paths. All remain unrun pending recorded validation.
 
 ## Cultural facts on existing contexts
 
@@ -1262,7 +1261,7 @@ using the generic interface; automatic context selection remains incomplete.
 `test_cultural_scoring` specifies ordinary and expanded contexts, specialized
 contexts, exactly one penalty, familiar cultures, additive situational modifiers,
 missing evidence, duplicate interfaces and retained makeup request binding.
-These fixtures remain unrun while checks are paused.
+These fixtures remain unrun pending recorded validation.
 
 ## Geography branches and bounded questions
 
@@ -1290,7 +1289,7 @@ that region's scale. This grants a score, not automatic world information.
 Owned research resolution, information delivery, detailed regional scales and
 societal default eligibility remain pending. `test_geography` specifies branch,
 world-type and scientific defaults plus bounded context scoring; fixtures are
-unrun while checks are paused.
+unrun pending recorded validation.
 
 ## Geology and field direction
 

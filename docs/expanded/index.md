@@ -159,7 +159,7 @@ The [hazards module](hazards.md) uses those wound records for private infection
 acquisition and daily progression. It adds disease-specific first-attempt immunity
 and calendar-authored aging events. Broader diseases, environmental hazards,
 automatic scheduling and rejuvenation remain incomplete. Their guides and source
-entries identify unsupported cases and authored test coverage; checks are paused.
+entries identify unsupported cases and authored test coverage; validation is in progress.
 
 
 The [combat module](combat.md) now supplies pure ordinary burst declaration,
@@ -173,7 +173,7 @@ The [subset integration guide](character-social.md) documents the smaller
 `vhyl-rpg-expanded-character-social.t` umbrella imported from main. Include it
 instead of the all-module umbrella, never alongside it: both include foundation
 and shared components. The original prerelease validation record does not certify
-this merged branch; checks remain paused.
+this merged branch; validation is in progress.
 
 The [current completion scope](current-scope.md) identifies the selected modules
 and the remaining acceptance obligations.

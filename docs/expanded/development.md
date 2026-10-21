@@ -73,7 +73,7 @@ requirements. Changed conditions reject the session; propagate the exception to
 the engine transaction boundary to roll back time and hook effects together.
 Sessions ending at midnight retain credit against the day on which they began.
 The interruption fixture covers retargeting, eligibility changes, clock changes,
-rollback, undo and save continuation. It remains unrun while checks are paused.
+rollback, undo and save continuation. It remains unrun pending recorded validation.
 
 ### Credit for nonvocal communication (full-2008, B125, B292)
 
@@ -102,7 +102,7 @@ the same `RpgTraining` object cannot appear twice or belong to another profile.
 This is checked at assessment and again after ordinary study advances time, so
 an elapsed-time hook cannot transfer or share the slot before credit is awarded.
 The ownership fixtures exercise both entry points and interruption rollback;
-they remain unrun while checks are paused.
+they remain unrun pending recorded validation.
 
 Direct `rpgLiteLearn` purchases now consult the same training-ownership and
 `developmentSpendingReason` gates used by advancement offers before changing

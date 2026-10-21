@@ -130,4 +130,4 @@ across authored records; use different IDs only for distinct cultures. Familiari
 does not teach a language, establish citizenship or grant social permission.
 Template copies are described in the templates guide; broad cultural adaptation is described in the traits guide. `test_cultures`
 specifies costs, duplicate rejection, modifiers, undo and saved continuation;
-fixtures remain unrun while checks are paused.
+fixtures remain unrun pending recorded validation.

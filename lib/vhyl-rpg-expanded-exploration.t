@@ -3614,7 +3614,7 @@ class RpgExpandedNatureObservationAction: Action
         event('rpg.expanded.nature-observation'); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** Full-2008 B212: one authored fossil finding per specimen and study task. */
@@ -4425,7 +4425,7 @@ class RpgExpandedSenseObservationAction: Action
         event('rpg.expanded.sense'); eventValue(self.observation.ofKind(RpgExpandedVisionObservation) ? 'vision' : self.observation.ofKind(RpgExpandedHearingObservation) ? 'hearing' : self.observation.context.sense);
         eventValue(self.operation); eventValue(value.status); eventValue(value.reason); return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** B358 interpretation after noticing; ordinary and speech checks use IQ. */
@@ -4688,7 +4688,7 @@ class RpgExpandedSenseComprehensionAction: Action
         event('rpg.expanded.comprehension'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** B358 ordinary flavor/scent detection; specialist recognition needs its own adapter. */
@@ -5212,7 +5212,7 @@ class RpgExpandedTrackingAction: Action
         event('rpg.expanded.tracking'); eventValue(acquisition ? 'acquire' : 'follow');
         eventValue(self.operation); eventValue(value.status); eventValue(value.reason); return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 /** Shadowing outcome. Carries interval, victoryMargin, lost, seen, wrongTarget. */

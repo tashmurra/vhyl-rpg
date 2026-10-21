@@ -453,7 +453,7 @@
       "tests": [
         "tests/expanded.py::test_impulsive_action"
       ],
-      "validation_note": "Typed rated purchase and exact -10/-15 fear selection, owned self-control occurrence, explicit immediate/deliberative action classification and immutable completion receipt implemented. Authors must enforce permission inside normal action validation and commit world effects and costs in the same transaction. Fixture specifies successful/failed rolls, denied deliberation, prices, copies, acquisition accounting, invalid definitions, rollback, replay, undo and saved continuation. All cases unrun while checks remain paused; cross-surface integration remains unverified."
+      "validation_note": "Typed rated purchase and exact -10/-15 fear selection, owned self-control occurrence, explicit immediate/deliberative action classification and immutable completion receipt implemented. Authors must enforce permission inside normal action validation and commit world effects and costs in the same transaction. Fixture specifies successful/failed rolls, denied deliberation, prices, copies, acquisition accounting, invalid definitions, rollback, replay, undo and saved continuation. All cases unrun pending recorded validation; cross-surface integration remains unverified."
     },
     {
       "id": "disadvantages-d-increased-consumption",

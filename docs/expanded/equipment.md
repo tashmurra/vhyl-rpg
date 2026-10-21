@@ -181,7 +181,7 @@ no randomness and does not move the target or spend time.
 
 `tests/expanded.py::test_extended_measurements` contains the printed size boundaries,
 shape examples, speed/range examples and full-ten-point damage progression cases.
-These are authored but unrun while validation is paused.
+These are authored but unrun pending recorded validation.
 
 ## Task equipment quality
 
@@ -214,7 +214,7 @@ specific catalogue exceptions still need their owning equipment procedures.
 Authored cases in `tests/expanded.py::test_equipment_quality` cover each quality,
 technological versus other skills, rounding and minimum best-quality bonuses,
 missing/damaged items, combined contextual modifiers, blocked checks and purity.
-They have not run while validation is paused.
+They await recorded validation.
 
 ## Acquiring an item
 
@@ -244,7 +244,7 @@ retains its original contract; use this acquisition object for the expanded path
 
 `tests/expanded.py::test_acquisition` covers pure previews, affordability and
 permission gates, issue pricing, inventory ownership, one-time charging, undo and
-exception rollback. These authored cases remain unrun while checks are paused.
+exception rollback. These authored cases remain unrun pending recorded validation.
 
 ## Carried and stored possessions
 
@@ -296,7 +296,7 @@ inventory ledgers; the price calculation spends no time or randomness.
 `tests/expanded.py::test_starting_equipment_price` covers the printed five-level
 price example, equal/lower technology, bounded arithmetic, pure assessment,
 creation restrictions, quote ambiguity, personal-level independence and repeated
-acquisition. These cases are authored and unrun while checks are paused.
+acquisition. These cases are authored and unrun pending recorded validation.
 
 
 ## Transfer an agreed trade
@@ -324,7 +324,7 @@ also cover any seller-side restrictions in the authored jurisdiction.
 
 `tests/expanded.py::test_trade_transfer` covers pure preview, consent/access/funds,
 sole ownership, local prohibition, movement and payment, rollback, undo and repeat
-execution. These authored checks remain unrun while checks are paused.
+execution. These authored checks remain unrun pending recorded validation.
 
 
 ## Forced drops from injury
@@ -577,7 +577,7 @@ the same reservation query; no second mutable hand-count ledger is introduced.
 
 `test_shared_hands` now specifies actual defense-score queries for these cases,
 including unchanged scores before and after carrying and zero RNG consumption.
-Assertions remain unrun while checks are paused.
+Assertions remain unrun pending recorded validation.
 
 Storage changes and committed trades call the profile's `onEquipmentUnavailable(item, cause)` hook, with `storage-change` and `transferred` respectively. The default hook does nothing. Health integration records active mobility support loss through this hook; storing or selling an aid does not itself adjudicate a fall. A storage move clears readiness even when retrieving an item, so integrations should settle pending support loss before reactivating an aid.
 
@@ -762,7 +762,7 @@ from the abstract balance until deposited, preventing duplicate purchasing power
 Direct coin tender, change-making, copper weight and currency conversion remain
 pending. `expanded-coins.t` / `test_coins` specify silver/gold value and mass,
 conservation, partial/full deposits, bound convention, rollback, undo and saved
-continuation. Fixtures remain unrun while checks are paused.
+continuation. Fixtures remain unrun pending recorded validation.
 
 
 ## Paying for equipment with coins
@@ -854,7 +854,7 @@ time or randomness. Consumable supplies, borrowed/workshop access and purchasing
 quality-specific kits remain pending.
 `expanded-owned-tools.t` / `test_owned_tools` specify quality/condition arithmetic,
 storage and ownership rejection before rolls, wrong-character rejection, undo and
-saved continuation. Fixtures remain unrun while checks are paused.
+saved continuation. Fixtures remain unrun pending recorded validation.
 
 
 ## Permitted shared tools and fixed facilities
@@ -883,7 +883,7 @@ access before rolling. Consumption, capacity scheduling and automatic native
 movement wiring remain pending. `expanded-equipment-access.t` /
 `test_equipment_access` specify carried and workshop access, expiry, revocation,
 movement/ownership changes, no transfer, rollback, undo and saved continuation.
-Fixtures remain unrun while checks are paused.
+Fixtures remain unrun pending recorded validation.
 
 
 ## Purchasing quality-specific kits
@@ -927,7 +927,7 @@ completed attempt or spend resources again.
 
 `expanded-owned-fishing.t` / `test_owned_fishing` cover owner mismatch, inaccessible
 tools, preview purity, item retargeting, replay, rollback, undo and save continuation.
-These fixtures are authored but unrun while checks are paused.
+These fixtures are authored but unrun pending recorded validation.
 
 
 ## Physical lifestyle packages
@@ -953,7 +953,7 @@ bonuses, infer cultural standing or replace prepaid living expenses.
 Those integrations remain outstanding. `expanded-lifestyle-items.t` /
 `test_lifestyle_items` specify physical purchases, exact/minimum weights, invalid
 services, rollback, undo and save continuation. Fixtures remain unrun while
-checks are paused.
+validation is in progress.
 
 
 ## Included starting wardrobe
@@ -999,7 +999,7 @@ Campaign-only integrations can retain the explicitly authored `applicableStatus`
 path. Supplying a structure without the social adapter rejects explicitly.
 `expanded-cultural-wardrobe.t` / `test_cultural_wardrobe` specify rank integration,
 culture and price mismatches, competing inputs and saved historical replay;
-fixtures remain unrun while checks are paused.
+fixtures remain unrun pending recorded validation.
 
 
 ## Purchased rations and meals
@@ -1194,4 +1194,4 @@ removal consume none. The debit remains bound to that one application after the
 stock is exhausted or transferred. Call application operations rather than the
 adapter's internal `consume` method. `test_makeup_materials` specifies preview,
 insufficient/stored stock, failure, health denial, rollback, undo and save replay.
-These fixtures remain unrun while checks are paused.
+These fixtures remain unrun pending recorded validation.

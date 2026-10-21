@@ -1504,5 +1504,5 @@
     "inventory/trait-summary-c.json",
     "inventory/trait-summary-d.json"
   ],
-  "validation": "Main character/social prerelease evidence is recorded in docs/releases/v1.1.0-alpha.1.md. The merged expanded suite has not been validated; checks remain paused."
+  "validation": "Main character/social prerelease evidence is recorded in docs/releases/v1.1.0-alpha.1.md. The merged expanded suite has not been validated; validation is in progress."
 }

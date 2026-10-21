@@ -2,7 +2,7 @@
 
 ## Pricing interfaces
 
-**Status: partial; new native cases have not been run while checks are paused.**
+**Status: partial; new native cases await recorded validation.**
 
 | Interface | Purpose | Source |
 | --- | --- | --- |
@@ -495,7 +495,7 @@ repair where that technology procedure applies.
 The [minimal price fixture](../../tests/fixtures/expanded-maintenance-price.t) and
 `test_maintenance_prices` record staffing boundaries, full doublings, every
 frequency, fractional negative costs and zero time/randomness. They are authored
-and unrun while checks are paused. Maintenance remains partial in the inventory.
+and unrun pending recorded validation. Maintenance remains partial in the inventory.
 
 
 ## Purchased invention capability
@@ -755,7 +755,7 @@ lookup uses the same eligibility gate. This explicit declaration identifies an
 authored resistance procedure; it does not establish catalogue eligibility or
 implement that procedure's consequences. Pure numeric pricing remains available
 for assessment. Regression assertions cover all three rejection paths and remain
-unrun while checks are paused. Source: full-2008, B121.
+unrun pending recorded validation. Source: full-2008, B121.
 
 The template adapter accepts an explicit truthfulness rating in a fourth trait-row
 field, retaining `RpgExpandedTruthfulness` behavior and fresh ownership. See
@@ -859,7 +859,7 @@ The trait grants no skills automatically. Rapid-strike integration, cinematic
 skill prerequisite integration and other melee-parry adapters remain pending;
 this catalogue entry is partial. `test_catch_repeat_parry` contains expected
 scores for ordinary and trained repeated parries, inactive benefits and independent
-hand counters. These assertions are authored, unrun while checks are paused.
+hand counters. These assertions are authored, unrun pending recorded validation.
 
 ## Enhanced jumping
 
@@ -1005,7 +1005,7 @@ and accepts `pastVictim` and `empathicObserver` facts with approval and evidence
 Either condition gives -1; both together still give -1. Attach it to a reaction
 attempt's `socialContext`. This does not infer observer abilities or histories.
 The minimal fixture covers these contextual calculations and invalid facts;
-checks remain paused, so this entry remains partial and unverified.
+validation is in progress, so this entry remains partial and unverified.
 
 ### Learning bar (full-2008, B125)
 
@@ -1030,7 +1030,7 @@ a callback alone does not complete it.
 Direct assignments to character fields are author operations and must not be
 used to bypass advancement assessment. The fixture covers rejection without
 spending, allowed purchases, mitigation, replay, rollback, undo and save
-continuation; it has not been run while checks are paused.
+continuation; it awaits recorded validation.
 
 ### Speech limitation (full-2008, B125)
 
@@ -1051,7 +1051,7 @@ must describe the actual channel rather than infer it from a skill name.
 Nonshared signing between player characters uses `RpgExpandedGestureExchange`
 in the social library. Its sender can receive full-rate credit through
 `RpgExpandedCommunicationStudy` in development; other channels remain pending. The fixture covers costs, channel distinctions, compatibility
-and rejection without random draws; checks remain paused.
+and rejection without random draws; validation is in progress.
 
 ### Compelled assistance (full-2008, B125)
 
@@ -1072,8 +1072,7 @@ cannot be changed on replay. Authors must route this scene decision through the
 interface; automatic parser/dialogue discovery of aid opportunities is pending.
 
 The fixture covers resistance, surrender, invalid opportunities, required offers,
-replay, rollback, undo and save continuation. It remains unrun while checks are
-paused, so the inventory entry remains partial.
+replay, rollback, undo and save continuation. It remains unrun while validation is in progress, so the inventory entry remains partial.
 
 ### Low motivation (full-2008, B126)
 
@@ -1303,7 +1302,7 @@ contests, combinations with other trait modifiers and ancestry composition remai
 pending. The fixture
 [`expanded-orientation-signal.t`](../../tests/fixtures/expanded-orientation-signal.t)
 covers costs, copying, eligibility, time/frame staleness, preview, replay,
-rollback, undo and save continuation. It remains unrun while checks are paused.
+rollback, undo and save continuation. It remains unrun pending recorded validation.
 
 
 ## Humorlessness
@@ -1363,7 +1362,7 @@ as the complete disadvantage.
 [`expanded-phantom-voices.t`](../../tests/fixtures/expanded-phantom-voices.t)
 specifies costs, copies, the six/seven trigger boundary, preview, duplicate
 occurrences, replay, explicit ending, rollback, undo and save continuation.
-The fixture and `test_phantom_voices` remain unrun while checks are paused.
+The fixture and `test_phantom_voices` remain unrun pending recorded validation.
 
 
 ### Stress-related self-control integration
@@ -1402,7 +1401,7 @@ or the owned trigger, rather than calling the core and bypassing policy.
 [`expanded-voice-self-control.t`](../../tests/fixtures/expanded-voice-self-control.t)
 specifies classification, success/failure boundaries, unrelated rolls, mitigation,
 surrender, purchased success, preview, replay, rollback, undo and save continuation.
-Its assertions remain unrun while checks are paused.
+Its assertions remain unrun pending recorded validation.
 
 
 `test_voice_direct_guards` adds unrun fixtures for rejection before randomness,
@@ -1442,7 +1441,7 @@ author data unless deliberately revealed by the game.
 and `test_voice_command` specify stress and intoxication eligibility, exact Will
 success and failure, duplicate rejection, inactive episodes, mitigation, preview,
 replay, rollback, undo and cross-process save continuation. Assertions remain
-unrun while checks are paused. Automatic command/action routing remains pending.
+unrun pending recorded validation. Automatic command/action routing remains pending.
 
 
 ### Sound masking
@@ -1909,7 +1908,7 @@ availability and interruption events remain pending. Taste sampling remains unfi
 known signatures is documented in the exploration guide. The shared player action interface is described below. `test_sensory_memory` specifies both senses,
 minimum duration, trait suppression, health denial, replay, rollback, undo,
 failed-attempt tampering and saved retry-boundary continuation. Fixtures are
-unrun while checks are paused.
+unrun pending recorded validation.
 
 
 ## Shared sensory memory actions
@@ -1931,7 +1930,7 @@ history and retry deadline.
 `test_sensory_memory_actions` specifies parser, structured and dialogue routes
 for hearing and smell, ownership denial, preview purity, rollback, undo, repeated
 execution and saved continuation of a failed-attempt retry barrier. These
-fixtures are unrun while validation remains paused.
+fixtures are unrun while validation is in progress.
 
 
 ### Full fear and phantom-voice follow-ups
@@ -1947,7 +1946,7 @@ Both the selected fear consequence and any voice episode persist. Replaying the
 event validates the linked receipt without another check. The original event,
 its table selection and the voice receipt share the engine transaction for
 rollback, undo and saved continuation. `test_fear_stress` specifies these cases;
-assertions remain unrun while build checks are paused.
+assertions remain unrun pending recorded validation.
 
 ## Fear auras
 
@@ -2323,7 +2322,7 @@ fifteen-point outcome. Those acquisition constraints remain unchanged.
 `test_fear_selection` specifies all four prior-trait paths, retained mechanical
 effects and costs, one fallback acquisition, unchanged spendable points, preview,
 exception rollback, undo, altered-history rejection and saved continuation.
-These cases are authored and unrun while build checks remain paused.
+These cases are authored and unrun pending recorded validation.
 
 Physical acquisitions additionally accept negative `RpgExpandedAppearance`,
 `RpgExpandedDistinctiveFeatures`, `RpgExpandedRecurrentPain` and
@@ -2439,7 +2438,7 @@ a recovery roll nor a duration. Replaying the same end does not spend resources.
 costs, preview purity, failure/success, ordinary defense penalties, target-specific
 counter permissions, independent unconsciousness, low-score rejection, receipt
 mutation, rollback, undo and cross-process save continuation. These assertions
-are authored and unrun while build checks remain paused. Catalogue status is
+are authored and unrun pending recorded validation. Catalogue status is
 partial until unsupported reactive maneuvers and validation are resolved.
 
 The additional `expanded-overstimulation-strike.t` /
@@ -2528,7 +2527,7 @@ initial authored goal and never inherit another character's fulfillment history.
 `test_goal_fixation` specifies all eight prices, fear acquisition, denied concrete
 deviation, permitted pursuit, recorded replacement, zero-award and paid buyoff,
 insufficient funding, altered receipt rejection, replay, rollback, undo and saved
-continuation. These fixtures are unrun while checks remain paused. Additional mental catalogue entries remain outside this implementation increment.
+continuation. These fixtures are unrun pending recorded validation. Additional mental catalogue entries remain outside this implementation increment.
 
 
 ### Overriding goals in templates
@@ -2589,7 +2588,7 @@ including actual world mutation and one shared time charge. Registered
 `test_impulsive_action` cases specify both fear-row prices, acquisition accounting,
 a denied deliberation action, successful/failed checks, invalid classifications,
 copy pricing, receipt mutation, rollback, replay, undo and cross-process saved
-continuation. All remain unrun while checks are paused.
+continuation. All remain unrun pending recorded validation.
 
 
 ### Volatile temper
@@ -2626,7 +2625,7 @@ requires the separate rage behavior. Use the typed frenzy purchase and owned tem
 `test_volatile_temper` specifies prices and copies, both fear-row costs, successful
 and failed control, actual scene choices, receipt mutation, invalid stressors,
 unsupported rage, stress follow-up deduplication, rollback, undo and saved
-continuation. All cases remain unrun while checks are paused.
+continuation. All cases remain unrun pending recorded validation.
 
 
 ### Nightmares on waking
@@ -2709,7 +2708,7 @@ age, experience or naivety.
 `test_overconfidence` specifies prices, copies, acquisition, permitted/denied
 scene choices, rollback, undo and saved continuation. The companion social
 fixture specifies both reaction directions, actual reaction totals, duplicate
-rejection and lifecycle behavior. All cases remain unrun while checks are paused.
+rejection and lifecycle behavior. All cases remain unrun pending recorded validation.
 
 
 ### Action-choice restrictions during mitigation

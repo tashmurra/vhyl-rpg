@@ -3575,7 +3575,7 @@ class RpgExpandedSensoryMemoryAction: Action
         event('rpg.expanded.sensory-memory'); eventValue(self.operation); eventValue(value.status); eventValue(value.reason);
         return value;
     }
-    exec(context) { return self.perform(context.actor); }
+    exec(context) { return self.perform(player); }
 ;
 
 modify RpgExpandedFearQuirkAcquisition

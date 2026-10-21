@@ -2384,7 +2384,7 @@
         "tests/expanded.py::test_decompression_illness_outcomes",
         "tests/expanded.py::test_decompression_paralysis"
       ],
-      "validation_note": "Owned onset supports unconsciousness or author-selected conscious paralysis with explicit onset balance. Both initial failure branches have hourly recovery and failed-check injury; successful recovery enters agony. Illness-owned conditions persist at the check boundary; agony uses shared minute fatigue receipts. Recompression and emergency ascent remain unsupported. Lifecycle, branch and boundary fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned onset supports unconsciousness or author-selected conscious paralysis with explicit onset balance. Both initial failure branches have hourly recovery and failed-check injury; successful recovery enters agony. Illness-owned conditions persist at the check boundary; agony uses shared minute fatigue receipts. Recompression and emergency ascent remain unsupported. Lifecycle, branch and boundary fixtures authored but unrun pending recorded validation."
     },
     {
       "id": "hazard-bends-unconscious",
@@ -2399,7 +2399,7 @@
         "tests/expanded.py::test_decompression_illness_outcomes",
         "tests/expanded.py::test_decompression_paralysis"
       ],
-      "validation_note": "Owned onset supports unconsciousness or author-selected conscious paralysis with explicit onset balance. Both initial failure branches have hourly recovery and failed-check injury; successful recovery enters agony. Illness-owned conditions persist at the check boundary; agony uses shared minute fatigue receipts. Recompression and emergency ascent remain unsupported. Lifecycle, branch and boundary fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned onset supports unconsciousness or author-selected conscious paralysis with explicit onset balance. Both initial failure branches have hourly recovery and failed-check injury; successful recovery enters agony. Illness-owned conditions persist at the check boundary; agony uses shared minute fatigue receipts. Recompression and emergency ascent remain unsupported. Lifecycle, branch and boundary fixtures authored but unrun pending recorded validation."
     },
     {
       "id": "hazard-recompression",

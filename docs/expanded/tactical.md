@@ -227,7 +227,7 @@ The [position fixture](../../tests/fixtures/expanded-tactical-positions.t),
 `test_tactical_positions` and `test_tactical_position_persistence` specify preview,
 replay, exception rollback, undo, cross-process saves, ownership, occupied cells,
 barriers, missing cells, duplicate map cells and unresolved footprints. All are
-unrun while checks remain paused. Saves still require the exact compiled game;
+unrun pending recorded validation. Saves still require the exact compiled game;
 there is no migration or separate tactical save format.
 
 
@@ -305,8 +305,7 @@ Existing unconsciousness and stun restrictions remain enforced by the battle.
 The [battle fixture](../../tests/fixtures/expanded-tactical-posture.t) and
 `test_tactical_posture_maneuvers` specify pure previews, atomic rollback, undo,
 lying-to-kneeling-to-standing transitions, rejection of a direct rise and one
-shared second per completed combat round. They remain unrun while checks are
-paused. This adapter covers posture only, not a complete tactical combat engine.
+shared second per completed combat round. They remain unrun while validation is in progress. This adapter covers posture only, not a complete tactical combat engine.
 
 
 ### Expanded posture action permission
@@ -406,7 +405,7 @@ an elevation-aware adapter. Enhanced jumps requiring more than one second are
 rejected rather than instantly placed; multi-turn travel remains pending.
 `expanded-jump-placement.t` covers success, prone and critical failure, blocked
 terrain, occupied cells, missing plans, rollback, undo and saved replay. Assertions
-are authored, unrun while checks are paused.
+are authored, unrun pending recorded validation.
 
 ## Small-obstacle jumps in a path
 
@@ -430,8 +429,7 @@ apply. No accuracy roll or separate concentration/launch action is charged.
 This extends pure path assessment; committing the complete path remains separate.
 `test_tactical_small_jumps` covers the exact size boundary, smaller obstacles,
 actor-relative size, significant hazards, Move restriction, approval, crouching,
-deep water and preview purity. Assertions are authored, unrun while checks remain
-paused.
+deep water and preview purity. Assertions are authored, unrun while validation is in progress.
 
 ## Committing an uninterrupted Move path
 
@@ -463,7 +461,7 @@ figure or spend another turn. Use a fresh operation and health gate for another
 turn. Exceptions and undo cover the move, permission, battle state and clock.
 The `expanded-path-move.t` fixture includes small-obstacle movement, crouching,
 preview, invalid inputs, rollback, undo, save continuation and Lite movement
-expected values. Assertions remain unrun while checks are paused.
+expected values. Assertions remain unrun pending recorded validation.
 
 ## Clambering onto an adjacent surface
 
@@ -492,7 +490,7 @@ This adapter supports an ordinary upright figure and an adjacent authored upper
 surface. General three-dimensional movement, changing supports during a maneuver
 and interrupt resolution remain pending. The clamber fixture covers completion,
 skipped turns, invalid reach, occupancy, rollback, undo and saved continuation.
-Assertions remain unrun while checks are paused.
+Assertions remain unrun pending recorded validation.
 
 
 ## Extreme-panic escape turns
@@ -602,4 +600,4 @@ remain unsupported.
 `expanded-panic-defense-position.t` and `test_panic_defense_position` specify
 preview purity, normal/already-prone resolution, occupied and invalid landing
 hexes, direct-call rejection, rollback, undo and cross-process continuation.
-These fixtures are authored and unrun while build checks remain paused.
+These fixtures are authored and unrun pending recorded validation.

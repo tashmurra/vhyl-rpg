@@ -65,7 +65,7 @@ and talent advancement interfaces below perform their respective transactions.
 The [minimal fixture](../../tests/fixtures/expanded-psionics.t) and
 `test_psionic_talents` specify five-point costs, the four-level limit, explicit
 higher-level permission, inactive talent, broad-family pricing and unrelated
-ability rejection. They remain unrun while checks are paused.
+ability rejection. They remain unrun pending recorded validation.
 
 ## Secret danger warning
 
@@ -208,7 +208,7 @@ explicit guard if an external integration bypasses that transition.
 The minimal `expanded-static-ready.t` fixture exercises the actual battle path.
 `test_static_ready` specifies immediate changes, shared round timing, ownership
 and enhancement guards, actor turn restrictions, exception rollback and undo.
-It remains unrun while checks are paused.
+It remains unrun pending recorded validation.
 
 `test_static_health_defaults` adds source-derived collapse and sleeping-rest
 expectations, default-on persistence after waking, undo and exception rollback.

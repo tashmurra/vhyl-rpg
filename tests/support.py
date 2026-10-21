@@ -1,6 +1,8 @@
 """Explicit dependencies and isolated compiler invocations for this project."""
 from pathlib import Path
 import os
+import json
+import platform
 import sys
 import shutil
 import subprocess
@@ -49,9 +51,10 @@ def run(arguments, *, cwd=ROOT, timeout=300, **kwargs):
 
 
 class Build:
-    def __init__(self, compiler, vhyl, out, runtime_cache=None, native_opt='O0'):
+    def __init__(self, compiler, vhyl, out, runtime_cache=None, native_opt='O0', host_slice_on_timeout=False):
         if native_opt not in ('O0', 'O2'):
             raise ValueError('Native optimization must be O0 or O2')
+        self.host_slice_on_timeout = host_slice_on_timeout
         self.native_opt = native_opt
         self.compiler, self.vhyl, self.out = compiler, vhyl, out
         self.runtime_cache = runtime_cache or out / 'runtime-cache'
@@ -69,12 +72,41 @@ class Build:
     def build(self, name, source):
         print(f'Building {name} ({self.native_opt})', flush=True)
         bundle = self.out / name
-        run(self.arguments('build', source) + ['--emit', 'shared', '--opt', self.native_opt,
-            '--out-dir', bundle, '--runtime-cache', self.runtime_cache],
-            cwd=self.out, timeout=900)
+        try:
+            run(self.arguments('build', source) + ['--emit', 'shared', '--opt', self.native_opt,
+                '--out-dir', bundle, '--runtime-cache', self.runtime_cache],
+                cwd=self.out, timeout=900)
+        except RuntimeError as error:
+            if not self.host_slice_on_timeout or sys.platform != 'darwin' or 'tool deadline exceeded' not in str(error):
+                raise
+            bundle = self.completed_host_slice(bundle, str(error))
         if sys.platform == 'darwin':
             self.configure_macos_test_host(bundle)
         return bundle
+
+    def completed_host_slice(self, bundle, failure):
+        """Retain the failed universal build; run only its completed host slice."""
+        arch = platform.machine()
+        if arch not in ('x86_64', 'arm64'):
+            raise RuntimeError('No supported completed host slice')
+        source = bundle / arch
+        manifest = json.loads((bundle / 'manifest.json').read_text())
+        game, runtime = manifest['bundle']['game'], manifest['bundle']['runtime']
+        for name in (game, runtime, 'consumer', 'game-build.txt', 'consumer-build.txt', 'dependencies.txt'):
+            if not (source / name).is_file():
+                raise RuntimeError(f'Host slice did not complete: {source / name}')
+        destination = bundle / 'host-validation'
+        destination.mkdir()
+        for name in (game, runtime):
+            shutil.copy2(source / name, destination / name)
+        shutil.copy2(bundle / 'consumer.c', destination / 'consumer.c')
+        shutil.copy2(bundle / 'zeb_game.h', destination / 'zeb_game.h')
+        manifest['bundle']['targets'] = ['macos-' + arch]
+        manifest['validation_scope'] = 'completed host slice; universal compiler build timed out'
+        (destination / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+        (destination / 'universal-build-failure.txt').write_text(failure + '\n')
+        print(f'  Universal build timed out; validating completed {arch} slice only', flush=True)
+        return destination
 
     def configure_macos_test_host(self, bundle):
         # The compiler's sample host uses the platform default worker stack

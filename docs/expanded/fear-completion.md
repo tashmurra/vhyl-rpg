@@ -177,12 +177,12 @@ Create `vhyl-rpg-expanded-stress.t`; inclusion alone does not activate it.
 
 | Required command / evidence | Environment / observed result |
 | --- | --- |
-| `python tools/test.py` | Not run; paused |
-| `python tools/test.py --native` | Not run; paused |
-| `python tools/build_docs.py --check` | Not run; paused |
-| Packaging unit tests; `python tools/build_release.py --out <fresh-local-directory>`; checksum verification | Not run; paused; no publishing |
-| Minimal/all-module and absent-feature regression coverage | Audit required before execution |
-| Parser/structured/dialogue connected example | Implementation and validation required |
+| `python3 tools/test.py --vhyl <pinned-vhyl>` | Passed: 48 tool tests and 537 source programs; final-head rerun required after validation fixes |
+| `python3 tools/test.py --native --vhyl <pinned-vhyl>` | Running: core, reporting, resilience and Lite passed; expanded suite running |
+| `.tools/docs/bin/python tools/build_docs.py --check` | Passed: strict build, local links and 1,515 declarations |
+| Packaging unit tests; `.tools/docs/bin/python tools/build_release.py --out <fresh-local-directory>`; checksum verification | Unit tests passed; clean snapshot `de1ef98` built and all manifest/archive checksums verified; final-head repeat required; no publishing |
+| Minimal/all-module and absent-feature regression coverage | 537 source programs passed; core/resilience/Lite native regressions passed |
+| Parser/structured/dialogue connected example | Passed `test_echo_aftermath`: parser, structured actions, dialogue and cross-process continuation |
 
 Push reviewable commits to PR #4; retain draft status for the wider conversion.
 Complete this milestone only when every requirement above has observed passing
@@ -203,3 +203,13 @@ conversion work remains deferred.
 - Source suite: 48 tool tests and 537 source programs passed with the verified pinned compiler; rerunning after the host-boundary integration.
 - Native execution remains in progress. `test_frenzy_turn` passed actual injury/time, rejection, exception rollback, undo, deterministic replay and cross-process save continuation. The larger focused and full suites are running. The first optimized build exceeded the compiler tool deadline; validation uses unoptimized games and an explicit 64 MiB macOS test-host worker stack. Numeric fixture parameters now stay outside the object-subject transport. Recoverable mechanics errors use the exported RPG dispatch boundary to release exception ownership before journal rollback.
 - Environment: macOS Intel; Python 3.13.14; pinned vhyl revision `53dbf3b94bb12f269fc447c414bff09fc0b7e46d`; verified official `zebc` v0.1.2 archive (SHA-256 `85a8b0e8112fc744937d89729d488a19f15d07fe70b27e48ae596a9907f12c95`); LLVM 22.1.8 and Rust 1.98.1 selected explicitly. The older compiler on PATH is not used for this evidence.
+
+
+Focused native results observed during the current validation run:
+
+- `test_frenzy_turn`, `test_frenzy_boundaries`, `test_frenzy_acquisition`: passed.
+- `test_stress`, `test_stress_fear`, `test_stress_pending`, `test_stress_panic`: passed.
+- `test_stress_refresh`: passed nonstacking refresh through the exact expiry boundary and cross-process restore.
+- `test_stress_midnight`: passed recovery credit against the day in which the interval ends, preserving a pending decision.
+- Core, reporting, resilience and Lite native regressions, including saved continuation: passed in the full runner. Expanded execution remains in progress.
+- Echo Vault structured sequence reaches compound faint/recovery, lasting curiosity, panic/recovery, all three stress choices and safe rest. `test_echo_aftermath` now passes all three routes and cross-process saved continuation.

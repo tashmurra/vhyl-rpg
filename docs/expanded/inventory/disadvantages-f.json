@@ -360,7 +360,7 @@
       "tests": [
         "tests/expanded.py::test_phobia"
       ],
-      "validation_note": "Owned exposure and self-control checks now retain ten-minute deadlines, rating-based DX/IQ/skill penalties, threat +4, full-table failure selection, stress follow-ups and explicit cessation. Overlap/incapacity combinations, catalogue activity restrictions and remaining consequence rows are incomplete. Fixtures authored but unrun while checks are paused."
+      "validation_note": "Owned exposure and self-control checks now retain ten-minute deadlines, rating-based DX/IQ/skill penalties, threat +4, full-table failure selection, stress follow-ups and explicit cessation. Overlap/incapacity combinations, catalogue activity restrictions and remaining consequence rows are incomplete. Fixtures authored but unrun pending recorded validation."
     },
     {
       "id": "disadvantages-f-phobia-isolation",
@@ -649,7 +649,7 @@
       "tests": [
         "tests/expanded.py::test_postbattle_fear"
       ],
-      "validation_note": " Typed purchase and owned battle-end self-control event select full fear consequences on failure; mandatory failed-stress voice follow-ups, duplicate battle prevention and original recovery modifiers integrated. Fixtures authored but unrun while checks are paused; full-suite completion not claimed."
+      "validation_note": " Typed purchase and owned battle-end self-control event select full fear consequences on failure; mandatory failed-stress voice follow-ups, duplicate battle prevention and original recovery modifiers integrated. Fixtures authored but unrun pending recorded validation; full-suite completion not claimed."
     },
     {
       "id": "disadvantages-f-fire-setting",
