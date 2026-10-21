@@ -321,5 +321,18 @@ explicit unwanted proximity. Its separate NPC reaction context applies the
 rating-dependent penalty from the reacting observer, even when both participants
 own the trait; it does not penalize others' reactions to the subject. Exact
 fear-cost acquisition, action, mitigation, invalid facts and social lifecycle
-fixtures are registered but unrun. Status sensitivity, frenzy and other catalogue
-entries remain unfinished.
+fixtures are registered but unrun. Frenzy and other catalogue entries remain
+unfinished; the status-sensitivity increment is described below.
+
+
+## Status sensitivity and completed outbursts
+
+The full-2008 B153 selection now has a typed rated purchase and an owned
+clear-slight response trigger. The NPC-side reaction context applies the owner's
+rating penalty and composes the independent solitude modifier. The opposite
+reaction direction uses a recorded observation of an actual completed hostile
+response after failed control; its conditional -3 requires author confirmation.
+Registered fixtures cover those directions, composition, action execution,
+mitigation, pricing, rollback, undo and saved continuation. They remain unrun.
+This increment does not complete frenzy, the full remaining trait catalogue or
+a general accumulating stress/sanity track.

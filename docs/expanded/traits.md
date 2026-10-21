@@ -2764,3 +2764,41 @@ who prefers solitude.
 specify exact prices, copy/acquisition behavior, hostile or restrained scene
 choices, invalid proximity facts, both-participant reaction direction, all four
 NPC penalties, rollback, undo and saved continuation. They remain unrun.
+
+
+### Status sensitivity and social slights
+
+`RpgExpandedStatusSensitivity` implements the full-2008 B153 purchase at base
+cost -5 with standard self-control pricing. Rated templates use
+`['status-sensitivity', 1, nil, rating]`; rating six is an exact ten-point fear
+selection. `RpgExpandedStatusSensitivityTrigger` reuses the owned hostile-response
+procedure. Supply `clearSlight = true`, the offending person's profile in both
+`person` and `stressor`, evidence, and concrete `hostileActions` and
+`restrainedActions`. The offending person must differ from the affected character.
+Execute an allowed scene action and call `recordAction` in the same transaction.
+The trigger does not inflict damage or execute a hostile action by itself.
+Mitigation and immutable completed receipts follow the shared response procedure;
+the unfinished frenzy combination remains explicitly blocked.
+
+Two social adapters preserve the direction of the reaction:
+
+- `RpgExpandedStatusSensitivityReactionContext` applies the reacting NPC's own
+  rating-dependent penalty when `perceivedSlight` and `observerIsNpc` are true.
+  Ratings 6/9/12/15 give -5/-4/-3/-2. Supply approval and evidence as for the
+  solitude context it extends. Any independently applicable solitude penalty
+  also contributes; the subject's status-sensitivity purchase contributes nothing.
+- `RpgExpandedStatusOutburstObservation` applies to the offended person's reaction
+  to the character's completed outburst. Set `subject` to the acting character,
+  `observer` to the offended person and `trigger` to the completed failed-control
+  trigger. Supply approval, evidence and `badReactionApplies` to record the
+  author's decision about the source's conditional bad reaction. A confirmed bad
+  reaction contributes -3; otherwise it contributes zero. An unresolved check,
+  successful check or unexecuted hostile response cannot support this observation.
+
+Record the observation through the ordinary owned social-observation interface
+and resolve an observed-reaction attempt. Neither adapter invents another
+self-control check, duplicates the hostile action or changes advancement points.
+`test_status_sensitivity`, shared mitigation cases, `test_status_sensitivity_social`
+and `test_status_outburst` specify purchases, invalid slight facts, actual scene
+choices, both reaction directions, all rating penalties, composed solitude,
+rollback, undo and save continuation. These tests are registered but unrun.

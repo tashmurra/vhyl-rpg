@@ -4198,7 +4198,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -5267,5 +5267,79 @@ modify rpgExpandedTemplateTraits
     {
         if (!trait.ofKind(RpgExpandedSolitude)) return inherited(trait);
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+/** B153: a clear social slight invokes the same owned hostile-response procedure. */
+class RpgExpandedStatusSensitivity: RpgExpandedDisadvantage
+    id = 'status-sensitivity'
+    labelId = 'status-sensitivity'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-status-sensitivity'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'status-sensitivity' || self.points != -5 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('status-sensitivity-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedStatusSensitivityTrigger: RpgExpandedVolatileTemperTrigger
+    stressful = true
+    clearSlight = nil
+    person = nil
+    matchesTrait() { return self.trait.ofKind(RpgExpandedStatusSensitivity); }
+    definition() { return inherited() + [self.clearSlight,self.person]; }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (!self.clearSlight || self.person == nil || !self.person.ofKind(RpgLiteProfile)
+            || self.person == self.profile || self.stressor != self.person)
+        { value.status = 'blocked'; value.reason = 'status-sensitivity-slight-facts'; }
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    statusSensitivityReactionPenalty()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'status-sensitivity')
+            {
+                if (!trait.ofKind(RpgExpandedStatusSensitivity) || found != nil) rpgExpandedReject('status-sensitivity-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? 0 : -(21-found.selfControlNumber()) / 3;
+    }
+    validateFeatures() { inherited(); self.statusSensitivityReactionPenalty(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'status-sensitivity') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedStatusSensitivity(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedStatusSensitivity)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+modify RpgExpandedProfile
+    validateStatusOutburst(trigger,observer)
+    {
+        if (trigger == nil || !trigger.ofKind(RpgExpandedStatusSensitivityTrigger)
+            || trigger.profile != self || trigger.person != observer)
+            rpgExpandedReject('status-outburst-participants');
+        if (trigger.result == nil || trigger.assess().status != 'reused' || trigger.check.achieved
+            || trigger.completedAt == nil || !holds(trigger.hostileActions,trigger.completedAction))
+            rpgExpandedReject('status-outburst-execution-required');
+        return nil;
     }
 ;

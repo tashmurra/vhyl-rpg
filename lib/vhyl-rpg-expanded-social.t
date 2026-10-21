@@ -4264,3 +4264,24 @@ class RpgExpandedSolitudeReactionContext: RpgExpandedObservedReactionContext
         return inherited(profile) + (self.observerIsNpc ? self.observer.solitudeReactionPenalty() : 0);
     }
 ;
+
+
+/** B153: the reacting NPC perceives a slight; solitude's independent effect composes. */
+class RpgExpandedStatusSensitivityReactionContext: RpgExpandedSolitudeReactionContext
+    perceivedSlight = nil
+    observationFacts() { return inherited() + [self.perceivedSlight]; }
+    observerReactionModifier(profile)
+    { return inherited(profile) + (self.observerIsNpc && self.perceivedSlight ? self.observer.statusSensitivityReactionPenalty() : 0); }
+;
+/** The offended target's reaction to a committed outburst, not to the mere trait. */
+class RpgExpandedStatusOutburstObservation: RpgExpandedSocialObservation
+    trigger = nil
+    badReactionApplies = nil
+    kind() { return 'status-outburst'; }
+    definition() { return inherited() + [self.trigger,self.badReactionApplies]; }
+    modifier()
+    {
+        self.subject.validateStatusOutburst(self.trigger,self.observer);
+        return self.badReactionApplies ? -3 : 0;
+    }
+;

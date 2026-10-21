@@ -1264,3 +1264,9 @@ modify RpgExpandedProfile
 modify RpgExpandedProfile overconfidenceActive() { return nil; };
 
 modify RpgExpandedProfile solitudeReactionPenalty() { return 0; };
+
+modify RpgExpandedProfile statusSensitivityReactionPenalty() { return 0; };
+
+modify RpgExpandedProfile
+    validateStatusOutburst(trigger,observer) { rpgExpandedReject('status-outburst-traits-required'); }
+;
