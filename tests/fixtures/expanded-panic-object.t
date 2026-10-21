@@ -6,7 +6,12 @@ panicObjectCondition: RpgExpandedArtifactCondition item = panicObject capacity =
     evidence = 'One ordinary non-fragile solid wooden case without machinery or subsystems';
 panicObjectWound: RpgExpandedObjectWound id = 'case-impact' condition = panicObjectCondition amount = 60 approved = true
     evidence = 'The author has resolved the unopposed impact, protection and material effects to sixty injury';
-panicObjectOperation: RpgExpandedPanicObjectOperation profile = fearProfile targetOwner = fearProfile wound = panicObjectWound
+panicObjectPermission: RpgExpandedPanicObjectPermission gate = panicObjectGate;
+panicObjectGate: RpgExpandedPanicObjectGate id = 'panic-case-impact' profile = fearProfile
+    panicReaction = extremeFirst permission = panicObjectPermission evidence = 'Physical effort to strike the case';
+panicObjectParalysis: RpgExpandedParalysis id = 'case-paralysis' profile = fearProfile durationSeconds = 60
+    positionAssessed = true balanced = true approved = true evidence = 'Conscious paralysis prevents the destructive action';
+panicObjectOperation: RpgExpandedPanicObjectOperation permission = panicObjectPermission profile = fearProfile targetOwner = fearProfile wound = panicObjectWound
     approved = true evidence = 'The case is carried by the panicking actor; the authored destructive impact is reachable and unopposed';
 modify fearProfile equipment = [panicObject];
 modify extremeFirst kind = 'world-operation' operation = panicObjectOperation;
@@ -36,6 +41,14 @@ modify FearTestAction
         if (code == 637) { rpgSpendTime(1); objectStressNext.apply(); return nil; }
         if (code == 638) { panicObjectCondition.injury = 0; panicObjectCondition.validate(); return nil; }
         if (code == 639) { panicObjectCondition.sentient = true; panicObjectWound.assess(); return nil; }
+        if (code == 640) { panicObjectParalysis.apply(); return nil; }
+        if (code == 641) { panicObjectGate.apply(); return nil; }
+        if (code == 642) { fearProfile.injury = fearProfile.maxHP; panicDice.rolls = [18,18,3]; return nil; }
+        if (code == 643)
+        { event('test.panic-object-permission'); eventValue(fearProfile.effortHistory.length());
+          eventValue(fearProfile.unconscious ? 1 : 0); eventValue(panicObjectGate.result == nil ? nil : panicObjectGate.result.allowed);
+          eventValue(extremeEpisode.completedAt); return nil; }
+        if (code == 644) { panicObjectOperation.apply(extremeFirst); return nil; }
         return inherited(context);
     }
 ;

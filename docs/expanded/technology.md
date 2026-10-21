@@ -1603,15 +1603,28 @@ repair interface for these physical damage records.
 
 A reaction with `kind = 'world-operation'` can use
 `RpgExpandedPanicObjectOperation`. Supply the acting `profile`, the object's
-`targetOwner`, a fresh `RpgExpandedObjectWound`, approval and evidence confirming
+`targetOwner`, a fresh `RpgExpandedObjectWound`, an owned `permission`, approval
+and evidence confirming
 the target is reachable and that the destructive interaction has been adjudicated.
 The target must be in that owner's actual equipment list. The wound evidence
 records final injury after protection and material effects. This is a concrete
 author-adjudicated consequence interface; it does not invent an attack roll,
 automatically win an opposed interaction or derive damage from panic severity.
 
-The reaction owns time once. The operation commits the actual object wound and
-retains its receipt, after which the normal survivor-Will procedure continues.
+Set `permission` to an `RpgExpandedPanicObjectPermission` with a fresh
+`RpgExpandedPanicObjectGate` in `gate`. The gate must reference that permission,
+the same acting profile and reaction (`panicReaction`), and have a unique ID and
+evidence. It is a physical action requiring movement; mental-only and speech
+settings reject. The health module implements this contract; without it the
+foundation rejects permission requests explicitly.
+
+The reaction owns time once. Known incapacity blocks during preview. Committed
+execution resolves the health gate once, then commits the object wound only if
+the gate allows it. Failed exertion or consciousness retains the spent attempt
+and its health consequences without damaging the object. The normal survivor-Will
+procedure follows either outcome. Direct gate, permission or operation execution
+outside the owning reaction is rejected. Receipt replay validates the permission
+and outcome without rerolling or charging time again.
 A destruction outcome is not guaranteed: the object may survive its threshold
 checks. `expanded-panic-object.t` / `test_panic_object` specify this distinction,
 automatic destruction, item usability, preserved quantity, stress checks, pure

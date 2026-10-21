@@ -28878,6 +28878,42 @@ def test_panic_object(Session,bundle,out):
     finally: s.close()
 
 
+    for code,reason in ((640,'paralysis-action-unavailable'),):
+        s = Session(bundle)
+        try:
+            do(s,440); do(s,code); do(s,630)
+            assert last(s,'test.panic-object-preview') == ['blocked',reason]
+            do(s,442); assert state(s) == [0,0,0,1,0,0,1,1,0,3]
+            do(s,643); assert last(s,'test.panic-object-permission') == [0,0,None,None]
+        finally: s.close()
+    # Direct gate/operation calls must not execute outside the timed reaction.
+    s = Session(bundle)
+    try:
+        do(s,440)
+        for code in (641,644):
+            do(s,code); assert state(s) == [0,0,0,1,0,0,1,1,0,3]
+            do(s,643); assert last(s,'test.panic-object-permission') == [0,0,None,None]
+    finally: s.close()
+    # Failed consciousness check retains the spent attempt without an object wound.
+    path = out/'panic-object-incapacitated.zsave'
+    s = Session(bundle)
+    try:
+        do(s,642); do(s,440); do(s,443)
+        assert state(s) == [0,0,0,1,0,0,1,1,0,3]
+        do(s,442); s.command('undo'); assert state(s) == [0,0,0,1,0,0,1,1,0,3]
+        do(s,442); do(s,442)
+        assert state(s) == [0,0,0,1,0,0,1,1,1,9]
+        do(s,643); assert last(s,'test.panic-object-permission') == [1,1,None,1]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,442)
+        assert state(s) == [0,0,0,1,0,0,1,1,1,9]
+        do(s,643); assert last(s,'test.panic-object-permission') == [1,1,None,1]
+    finally: s.close()
+
+
 def test_fear_selection(Session,bundle,out):
     """Existing executable trait selections retain real costs, penalties and immutable options. Unrun."""
     def do(s,c,choice=1): s.action(2250,c,choice)

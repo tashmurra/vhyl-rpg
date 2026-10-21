@@ -3697,41 +3697,64 @@ class RpgExpandedArtifactStress: object
 class RpgExpandedPanicObjectOperation: RpgExpandedPanicOperation
     owner = nil
     wound = nil
+    permission = nil
     targetOwner = nil
     approved = nil
     evidence = nil
     result = nil
     boundFacts = nil
+    boundOutcome = nil
     facts(reaction)
     {
         if (self.wound == nil || !self.wound.ofKind(RpgExpandedObjectWound)
-            || self.targetOwner == nil || !self.targetOwner.ofKind(RpgLiteProfile)) rpgExpandedReject('panic-object-definition');
-        return [self,self.profile,reaction,self.wound,self.targetOwner,self.approved,self.evidence] + self.wound.facts();
+            || self.targetOwner == nil || !self.targetOwner.ofKind(RpgLiteProfile)
+            || self.permission == nil || !self.permission.ofKind(RpgExpandedPanicObjectPermission)
+            || reaction.operation != self || self.ownsTime)
+            rpgExpandedReject('panic-object-definition');
+        return [self,self.profile,reaction,self.wound,self.targetOwner,self.approved,self.evidence,self.permission]
+            + self.wound.facts() + self.permission.facts(reaction);
     }
+    permitsAuthorization(request)
+    { return self.result == nil && self.permission != nil && request == self.permission.gate; }
+    outcomeFacts()
+    { return [self.result,self.result.status,self.result.allowed,self.result.reason,
+        self.permission.gate.result,self.permission.gate.result.allowed,self.wound.result]; }
     validateReceipt(reaction)
     {
         local facts = self.facts(reaction);
-        if (self.owner != reaction || self.result == nil || self.result != self.wound.result
+        if (self.owner != reaction || self.result == nil || self.boundOutcome == nil
             || self.boundFacts == nil || facts.length() != self.boundFacts.length()) rpgExpandedReject('panic-object-receipt');
         for (local i = 1; i <= facts.length(); i += 1) if (facts[i] != self.boundFacts[i]) rpgExpandedReject('panic-object-binding');
-        self.wound.validateReceipt(); return nil;
+        self.permission.validateReceipt(reaction); facts = self.outcomeFacts();
+        if (facts.length() != self.boundOutcome.length()) rpgExpandedReject('panic-object-outcome');
+        for (local i = 1; i <= facts.length(); i += 1) if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('panic-object-outcome');
+        if (self.result.allowed) self.wound.validateReceipt();
+        else if (self.wound.result != nil) rpgExpandedReject('panic-object-incapacitated-injury');
+        return nil;
     }
     assess(reaction)
     {
-        local facts = self.facts(reaction); local value = new RpgExpandedResult();
+        self.facts(reaction); local value = new RpgExpandedResult();
         if (self.result != nil) { self.validateReceipt(reaction); value.status = 'reused'; return value; }
-        if (self.owner != nil || self.boundFacts != nil) rpgExpandedReject('panic-object-uncommitted');
+        if (self.owner != nil || self.boundFacts != nil || self.boundOutcome != nil) rpgExpandedReject('panic-object-uncommitted');
         if (!self.approved || self.evidence == nil || self.evidence == '') { value.reason = 'panic-object-target-adjudication'; return value; }
         if (!holds(self.targetOwner.equipment,self.wound.condition.item)) { value.reason = 'panic-object-target-owner'; return value; }
+        local permission = self.permission.assess(reaction);
+        if (permission.status == 'reused') rpgExpandedReject('panic-object-used-permission');
+        if (permission.status != 'ready') return permission;
         if (self.wound.assess().status == 'reused') rpgExpandedReject('panic-object-used-injury');
         return self.wound.assess();
     }
     apply(reaction)
     {
         local value = self.assess(reaction); if (value.status != 'ready') return value;
+        if (reaction.episode.settlingReaction != reaction) rpgExpandedReject('panic-object-reaction-owner');
         self.owner = reaction; self.boundFacts = self.facts(reaction);
-        value = self.wound.apply(); if (value.status != 'resolved') rpgExpandedReject('panic-object-injury-changed');
-        self.result = value; return value;
+        local permission = self.permission.apply(reaction);
+        if (permission.status != 'resolved') rpgExpandedReject('panic-object-permission-changed');
+        value = new RpgExpandedResult(); value.allowed = permission.allowed; value.reason = permission.reason;
+        if (value.allowed && self.wound.apply().status != 'resolved') rpgExpandedReject('panic-object-injury-changed');
+        value.status = 'resolved'; self.result = value; self.boundOutcome = self.outcomeFacts(); return value;
     }
 ;
 

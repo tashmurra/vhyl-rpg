@@ -192,3 +192,15 @@ movement. The existing flight fixture specifies denied preview/execution with
 unchanged position, severity, clock and dice, including saved continuation.
 These cases are authored and unrun. Tactical movement continues to use its own
 owned maneuver health gate; this change addresses the direct room-route gap.
+
+
+## Destructive-action health permission
+
+The object-destruction panic adapter now requires an owned physical action gate.
+Known incapacity blocks before spending; a failed committed exertion or
+consciousness check retains the timed attempt but creates no object wound. The
+survivor check still follows. Direct calls cannot bypass the reaction's time
+ownership. Existing computer-destruction fixtures inherit the same permission.
+The object fixture adds paralysis, direct-call rejection, failed consciousness,
+rollback, undo and saved continuation. These cases remain unrun; broader artifact
+rules and remaining catalogue selections are still outstanding.

@@ -11716,3 +11716,46 @@ class RpgExpandedPanicExpressionGate: RpgExpandedActionGate
         return inherited();
     }
 ;
+
+
+/** The object operation owns this gate; direct gate execution cannot bypass time. */
+class RpgExpandedPanicObjectGate: RpgExpandedPanicActionGate
+    permission = nil
+    requiresMovement = true
+    apply()
+    {
+        if (self.result == nil && (self.permission == nil || !self.permission.executing))
+            rpgExpandedReject('panic-object-gate-owner');
+        return inherited();
+    }
+;
+modify RpgExpandedPanicObjectPermission
+    facts(reaction)
+    {
+        if (self.gate == nil || !self.gate.ofKind(RpgExpandedPanicObjectGate)
+            || self.gate.permission != self || self.gate.panicReaction != reaction
+            || self.gate.profile != reaction.episode.context.profile || self.gate.purpose != 'action'
+            || self.gate.mentalAbility || !self.gate.requiresMovement || self.gate.requiresSpeech)
+            rpgExpandedReject('panic-object-permission-definition');
+        return [self,self.gate,self.gate.id,self.gate.profile,self.gate.panicReaction,
+            self.gate.permission,self.gate.purpose,self.gate.mentalAbility,self.gate.requiresMovement,
+            self.gate.requiresSpeech,self.gate.evidence];
+    }
+    assess(reaction) { self.facts(reaction); return self.gate.assess(); }
+    apply(reaction)
+    {
+        self.facts(reaction);
+        if (reaction.episode.settlingReaction != reaction || reaction.operation == nil
+            || reaction.operation.permission != self) rpgExpandedReject('panic-object-permission-owner');
+        self.executing = true; local value = nil;
+        try { value = self.gate.apply(); }
+        catch (RpgError error) { self.executing = nil; throw error; }
+        self.executing = nil; return value;
+    }
+    validateReceipt(reaction)
+    {
+        self.facts(reaction);
+        if (self.executing || self.gate.assess().status != 'reused') rpgExpandedReject('panic-object-permission-receipt');
+        return nil;
+    }
+;

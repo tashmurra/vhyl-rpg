@@ -1245,3 +1245,14 @@ modify RpgExpandedProfile
 class RpgExpandedPanicActivityReceipt: object
     validateReceipt() { rpgExpandedReject('panic-activity-receipt-implementation'); }
 ;
+
+
+/** Health module supplies concrete permission for a destructive panic action. */
+class RpgExpandedPanicObjectPermission: object
+    gate = nil
+    executing = nil
+    facts(reaction) { rpgExpandedReject('panic-object-health-module-required'); }
+    assess(reaction) { rpgExpandedReject('panic-object-health-module-required'); }
+    apply(reaction) { rpgExpandedReject('panic-object-health-module-required'); }
+    validateReceipt(reaction) { rpgExpandedReject('panic-object-health-module-required'); }
+;
