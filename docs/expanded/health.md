@@ -3442,9 +3442,9 @@ B361). Set a unique `id`, ready `RpgExpandedFearContext`, `approved = true`,
 `evidence` recording that selected table outcome, `behaviorKind` and original
 `behavior` text. Kinds are `cry`, `agitated-motion` or `other-pointless`; the
 author describes the actual pointless behavior. The record does not invent a
-route, move the character, choose targets or charge an action. Stationary crying
-has the concrete activity below; moving and other behaviors remain pending, so
-this is a partial outcome executor.
+route, move the character, choose targets or charge an action. Stationary crying and authored non-tactical movement have concrete activities
+below. Other pointless behaviors and tactical timed-panic movement remain
+incomplete.
 
 `assess()` is pure. `apply()` rolls one die and records an initial deadline that
 many minutes after the shared clock, without immediately advancing time. The
@@ -3501,8 +3501,8 @@ checks do not themselves authorize an action.
 [`expanded-panic-crying.t`](../../tests/fixtures/expanded-panic-crying.t) and
 `test_panic_crying` specify gate behavior before/during/after panic, pure preview,
 recovery boundaries, single time/permission recording, replay, exception rollback,
-undo and save continuation. Assertions remain unrun. Agitated movement, other
-pointless behaviors and battle-specific activity receipts remain incomplete.
+undo and save continuation. Assertions remain unrun. Other pointless behaviors and battle-specific activity
+receipts remain incomplete.
 Independent unconsciousness prevents the crying activity; it does not remove
 the episode's scheduled recovery checks.
 
@@ -4608,3 +4608,36 @@ selected. These limitations keep the broader Wait procedure partial.
 expiry, hit and miss consequences, one clock advance, no duplicate consciousness
 roll, receipt mutation, rollback, undo and cross-process continuation. All new
 assertions are authored and unrun while checks remain paused.
+
+
+### Movement during timed panic
+
+`RpgExpandedFearPanicMovement` executes one non-tactical movement interval for
+row 21 with `behaviorKind = 'agitated-motion'`. Supply `id`, `episode`, `seconds`
+(1–360), `actor`, `origin`, `destination`, positive `distanceYards`, `approved`
+and `routeEvidence` describing an unobstructed route without intervening hazards
+or reactions. Repeated intervals can trace an authored pointless route; neither
+target selection nor pathfinding is invented. The actor must own the episode's
+profile and actually occupy the origin. The distance cannot exceed current Move
+times the interval; posture, independent incapacity, active combat and tactical
+placement can prevent this world-level operation.
+
+Use an owned `RpgExpandedPanicMovementGate` with the same `profile`, its
+`activity` pointing back to this request, and ordinary gate `evidence`. It uses
+`purpose = 'action'` and `requiresMovement = true`. Its narrow permission bypasses
+only the timed-panic prohibition on purposeful action. Ordinary exhaustion,
+consciousness and other health restrictions still apply. Direct gate execution
+outside the owning activity rejects.
+
+Assessment spends nothing and rejects crossing a recovery deadline. Execution
+charges the shared interval once, applies the health gate once, and relocates
+the actor only if permission succeeds. A failed health roll retains its actual
+consequences, time and receipt without movement; replay never retries it.
+`result.allowed` distinguishes a completed movement from a spent failed attempt.
+Changed route facts or interruptions reject within the surrounding action
+transaction. This adapter does not supply tactical movement or hazard resolution.
+
+`test_panic_crying` also specifies movement preview, actual relocation, range and
+evidence rejection, failed consciousness, replay, rollback, undo and separate
+process save continuation. All cases are authored and unrun while checks remain
+paused.

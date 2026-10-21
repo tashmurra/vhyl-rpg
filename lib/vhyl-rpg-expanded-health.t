@@ -8145,7 +8145,9 @@ modify RpgExpandedProfile
     healthEffortReasonFor(purpose,mentalAbility,speech,movement,authorization)
     {
         local reason = inherited(purpose,mentalAbility,speech,movement,authorization); if (reason != nil) return reason;
-        if (self.activeFearPanic() && !holds(['rest','do-nothing'],purpose)) return 'fear-panic-purposeful-action';
+        if (self.activeFearPanic() && !holds(['rest','do-nothing'],purpose)
+            && !(authorization != nil && authorization.ofKind(RpgExpandedPanicMovementGate)
+                && authorization.permits(self,purpose,movement))) return 'fear-panic-purposeful-action';
         return nil;
     }
     healthManeuverReasonFor(kind,request)
@@ -8164,6 +8166,12 @@ class RpgExpandedFearPanicCrying: object
     startedAt = nil
     completedAt = nil
     boundDefinition = nil
+    behaviorKind() { return 'cry'; }
+    gatePurpose() { return 'do-nothing'; }
+    activityReason() { return nil; }
+    commitActivity() { return nil; }
+    retainFailedGate() { return nil; }
+    executing = nil
     definition() { return [self.id,self.episode,self.seconds,self.healthGate,self.startedAt,self.completedAt]; }
     assess()
     {
@@ -8176,23 +8184,25 @@ class RpgExpandedFearPanicCrying: object
             local facts = self.definition();
             for (local index = 1; index <= facts.length(); index += 1)
                 if (facts[index] != self.boundDefinition[index]) rpgExpandedReject('panic-crying-binding');
-            self.episode.assess(); self.healthGate.assess(); value.status = 'reused'; value.seconds = self.seconds; return value;
+            self.episode.assess(); self.healthGate.assess(); value.status = 'reused'; value.seconds = self.seconds;
+            value.allowed = self.result.allowed; value.reason = self.result.reason; return value;
         }
         if (self.startedAt != nil || self.completedAt != nil || self.boundDefinition != nil) rpgExpandedReject('panic-crying-uncommitted-state');
         if (self.episode.startedAt == nil) { value.reason = 'panic-crying-episode-required'; return value; }
         self.episode.assess(); local profile = self.episode.context.profile;
         if (self.episode.completedAt != nil) { value.reason = 'panic-crying-ended'; return value; }
-        if (self.episode.behaviorKind != 'cry') { value.reason = 'panic-crying-behavior'; return value; }
+        if (self.episode.behaviorKind != self.behaviorKind()) { value.reason = 'panic-crying-behavior'; return value; }
         if (profile.dead || profile.unconscious || profile.stunned || profile.mentalStun)
         { value.reason = 'panic-crying-incapacitated'; return value; }
         rpgInteger(self.seconds,1,360);
         if (rpgLedger.seconds + self.seconds > self.episode.nextCheckAt)
         { value.reason = 'panic-crying-recovery-boundary'; return value; }
         if (self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedActionGate)
-            || self.healthGate.profile != profile || self.healthGate.purpose != 'do-nothing') rpgExpandedReject('panic-crying-health-gate');
+            || self.healthGate.profile != profile || self.healthGate.purpose != self.gatePurpose()) rpgExpandedReject('panic-crying-health-gate');
         if (self.healthGate.result != nil) { value.reason = 'panic-crying-health-gate-used'; return value; }
         foreach (local prior in self.episode.activities)
             if (prior.id == self.id) rpgExpandedReject('panic-crying-duplicate');
+        value.reason = self.activityReason(); if (value.reason != nil) return value;
         local gate = self.healthGate.assess();
         if (gate.status != 'ready') { value.reason = gate.reason; return value; }
         rpgLedger.validateAdvance(self.seconds); value.seconds = self.seconds; value.status = 'ready'; return value;
@@ -8209,8 +8219,16 @@ class RpgExpandedFearPanicCrying: object
         if (rpgLedger.seconds != start + self.seconds || self.episode.completedAt != nil
             || profile.dead || profile.unconscious || profile.stunned || profile.mentalStun)
             rpgExpandedReject('panic-crying-interrupted');
+        self.executing = true;
         local gate = self.healthGate.apply();
-        if (gate.status != 'resolved' || !gate.allowed) rpgExpandedReject('panic-crying-health-changed');
+        self.executing = nil;
+        if (gate.status != 'resolved' || !gate.allowed && !self.retainFailedGate()) rpgExpandedReject('panic-crying-health-changed');
+        if (gate.allowed)
+        {
+            if (self.activityReason() != nil) rpgExpandedReject('panic-activity-state-changed');
+            self.commitActivity();
+        }
+        value.allowed = gate.allowed; value.reason = gate.reason;
         self.startedAt = start; self.completedAt = rpgLedger.seconds; self.boundDefinition = self.definition();
         self.episode.activities = self.episode.activities + [self]; value.status = 'resolved'; self.result = value; return value;
     }
@@ -11534,5 +11552,64 @@ modify RpgExpandedProfile
     {
         if (self.activeOverstimulation() != nil) return self.healthManeuverReasonFor(request.kind,request);
         return inherited(request);
+    }
+;
+
+/** Row 21 world movement. The author specifies an unobstructed, non-tactical leg. */
+class RpgExpandedFearPanicMovement: RpgExpandedFearPanicCrying
+    actor = nil
+    origin = nil
+    destination = nil
+    distanceYards = 1
+    approved = nil
+    routeEvidence = nil
+    behaviorKind() { return 'agitated-motion'; }
+    gatePurpose() { return 'action'; }
+    retainFailedGate() { return true; }
+    definition()
+    { return inherited() + [self.actor,self.origin,self.destination,self.distanceYards,self.approved,self.routeEvidence,
+        self.healthGate == nil ? nil : self.healthGate.activity]; }
+    activityReason()
+    {
+        local profile = self.episode.context.profile;
+        if (self.actor == nil || !self.actor.ofKind(Actor) || self.actor.rpgProfile != profile
+            || self.origin == nil || !self.origin.ofKind(Room) || self.destination == nil || !self.destination.ofKind(Room)
+            || self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedPanicMovementGate)
+            || self.healthGate.activity != self || !self.healthGate.requiresMovement || self.healthGate.mentalAbility)
+            rpgExpandedReject('panic-movement-definition');
+        rpgInteger(self.distanceYards,1,1000000);
+        if (!self.approved || self.routeEvidence == nil || self.routeEvidence == '') return 'panic-movement-route-evidence';
+        if (location.get(self.actor) != self.origin) return 'panic-movement-origin-changed';
+        if (!holds(['standing','crouching'],profile.posture) || profile.voluntaryMovementUnavailable())
+            return 'panic-movement-mobility';
+        local reason = profile.panicRelocationReason(); if (reason != nil) return reason;
+        for (local battle = firstObj(RpgLiteBattle); battle != nil; battle = nextObj(battle,RpgLiteBattle))
+            if (battle.active)
+                foreach (local fighter in battle.fighters)
+                    if (fighter.profile == profile) return 'panic-movement-combat-route-required';
+        if (self.distanceYards > profile.move()*self.seconds) return 'panic-movement-distance';
+        return nil;
+    }
+    commitActivity() { relocateActor(self.actor,self.destination); return nil; }
+;
+/** Narrow panic permission; all other effort and consciousness checks still apply. */
+class RpgExpandedPanicMovementGate: RpgExpandedActionGate
+    activity = nil
+    purpose = 'action'
+    requiresMovement = true
+    permits(profile,purpose,movement)
+    {
+        return self.activity != nil && self.activity.ofKind(RpgExpandedFearPanicMovement)
+            && self.activity.healthGate == self && self.profile == profile && purpose == 'action' && movement
+            && self.activity.episode != nil && self.activity.episode.context.profile == profile
+            && profile.fearPanic == self.activity.episode && self.activity.episode.completedAt == nil;
+    }
+    healthPermissionReason()
+    { return self.profile.healthEffortReasonFor(self.purpose,self.mentalAbility,self.requiresSpeech,self.requiresMovement,self); }
+    apply()
+    {
+        if (self.result == nil && (self.activity == nil || !self.activity.executing))
+            rpgExpandedReject('panic-movement-gate-owner');
+        return inherited();
     }
 ;

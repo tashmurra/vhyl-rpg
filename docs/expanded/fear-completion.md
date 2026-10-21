@@ -86,3 +86,12 @@ the panic episode. `test_fear_panic` now specifies failed-check scheduling,
 success without waking or clearing physical stun, replay, undo and continuation
 in a new process. The health guide's obsolete claim that this combination blocks
 recovery has been removed. These additional cases remain unrun.
+
+## Timed-panic movement increment
+
+Row 21 now has a concrete world movement activity and an owned active-action
+health gate. It relocates the actor, retains failed health attempts, checks Move
+and the recovery deadline, and rejects active-combat/tactical routes. The existing
+crying fixture now specifies its lifecycle. Tactical row-21 routing and other
+pointless activities remain outstanding; row-33 tactical routes are separate.
+No builds or tests have run for this increment.

@@ -20770,6 +20770,41 @@ def test_panic_crying(Session, bundle, out):
     finally:
         s.close()
 
+    path = out / 'expanded-panic-movement.zsave'
+    s = Session(bundle)
+    try:
+        for code in (10710,10602,10711,10713,10718,10714): s.action(2285,code)
+        assert last(s,'test.panic-movement-state') == [0,0,0,0,1]
+        s.action(2285,10712)
+        s.command('undo')
+        s.action(2285,10714)
+        assert last(s,'test.panic-movement-state') == [0,0,0,0,1]
+        for code in (10712,10712,10714): s.action(2285,code)
+        assert last(s,'test.panic-movement') == ['reused',None]
+        assert last(s,'test.panic-movement-state') == [1,1,1,1,1]
+        s.command(f':save {path}\n@2286')
+        assert any('[save ok code=0]' in line for line in s.raw_lines)
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2286')
+        for code in (10712,10714): s.action(2285,code)
+        assert last(s,'test.panic-movement-state') == [1,1,1,1,1]
+    finally: s.close()
+    for change,reason in [(10715,'panic-movement-distance'),(10716,'panic-movement-route-evidence')]:
+        s = Session(bundle)
+        try:
+            for code in (10710,10602,change,10711,10712,10714): s.action(2285,code)
+            assert last(s,'test.panic-movement') == ['blocked',reason]
+            assert last(s,'test.panic-movement-state') == [0,0,0,0,1]
+        finally: s.close()
+    s = Session(bundle)
+    try:
+        for code in (10710,10602,10717,10712,10712,10714): s.action(2285,code)
+        assert last(s,'test.panic-movement') == ['reused','action-gate-unconscious']
+        assert last(s,'test.panic-movement-state') == [0,1,1,1,4]
+    finally: s.close()
+
 
 def test_panic_history(Session, bundle):
     """A changed deadline, receipt or completion cannot bypass a due check; unrun."""
