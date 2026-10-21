@@ -1,588 +1,188 @@
-# Fear and mental-state completion audit
-
-**Not complete. Build checks are paused; the current fixtures are unrun.**
-This page separates the fear subsystem's acceptance criteria from the wider
-expanded-library conversion. It does not waive either set of requirements or
-turn unsupported combinations into completed features.
-
-## Responsibilities and evidence
-
-| Requirement | Current implementation evidence | Outstanding acceptance work |
-|---|---|---|
-| Initial fear checks and consequence selection | `RpgExpandedFearEvent`; `test_fear_event`, `test_fear_low_score` | Run source-value, replay and lifecycle cases; audit all context modifiers. Below-three scores use a recorded author-selected outcome. |
-| Every consequence row and compound outcome | Owned health handlers and typed acquisitions; individual `fear-outcome-*` entries in the source inventory | Audit each row's dispatch and component preflight. Minimum-attribute boundaries use explicit replacement contracts; unsupported acquisitions remain visible blockers. |
-| Phobias | Owned exposures, repeated checks, awareness pauses, overlap policy, learning/activity restrictions and worsening | Validate deadlines, simultaneous exposures, restriction removal and compound outcomes. |
-| Fear auras | Victim/source/purchase histories; `test_fear_aura` | Validate both time boundaries, sensory eligibility and reused scene contexts. Context-object identity must not reset prior exposure or successful-check protection. |
-| Stress follow-ups | Postbattle events and owned phantom-voice occurrences | Validate failed/exact-success trigger distinctions, prohibited-roll rulings and absence of duplicate follow-ups. |
-| Recovery and incapacity | Owned faint, coma, catatonia, seizure and recovery requests | Validate independent causes, concurrent aftereffects, care policies and low-score recovery decisions. |
-| Lasting changes and aging | Typed mental/physical acquisitions, compounds and `RpgExpandedFearAgingRuling` | Validate exact costs, immutable receipts, advancement accounting and each supported effect. Remaining requested trait selections still require concrete behavior or specific author contracts. |
-| Social effects | Existing typed reaction contexts for acquired traits | Audit each eligible mental selection against its reaction adapter and ordinary social entry points. |
-| Panic actions | Owned reaction loop, world movement, falls, tactical paths, attacks and artifact operations | Validate actual world/resource effects, interrupted routes, independent incapacity, survivor checks and one time ledger. Unsupported action combinations must reject before spending. |
-| Player interfaces | Shared fear action and Echo Vault example; `test_fear_actions` | Run parser, structured-action and dialogue parity and playable continuation. |
-| Persistence and compatibility | Authored rollback, undo and separate-process save cases | Execute the relevant source/native/dependency/documentation/package checks after implementation is complete; verify unchanged abridged behavior. |
-
-The detailed [fear inventory](inventory/senses-influence-fear.json) remains the
-row-level source checklist. Tests named here are specifications until executed,
-not evidence of passing behavior. An implemented class or a registered fixture
-alone does not establish completion.
-
-## Combat boundary
-
-Fear selects and owns a panic reaction. If that reaction performs an attack,
-the combat adapter owns legality, attack resolution and equipment consequences;
-health owns the resulting injury. All share the existing action transaction and
-time ledger. A rejected attack must leave the fear reaction, resources and
-randomness unchanged so the author can supply a supported concrete reaction.
-
-Recorded attack adapters already accept explicit external scores, dice and injury
-with retained evidence. They are author-adjudication contracts, not a claim of
-complete automatic combat. Existing supported critical and tactical integrations
-remain part of the repository and require validation.
-
-Completing every general critical-hit table, every creature/vehicle attack and
-every artifact rule is part of the wider conversion. Those tasks must not replace
-the direct fear audit above. Conversely, a missing combat effect that prevents a
-required panic scenario from resolving remains an integration gap and must be
-fixed or covered by a specific, tested author contract. A generic callback or a
-silent abridged approximation is insufficient.
-
-## Focus check
-
-Before each implementation increment, identify the fear/mental-state requirement
-it closes and the scenario or source entry that demonstrates the gap. After the
-increment, record what changed and what evidence is still missing. General combat
-work without a demonstrated fear-integration need stays on the wider conversion
-backlog. Repeat this check when new dependencies or scope questions arise.
-
-## Next completion work
-
-1. Audit the retained fear row inventory against actual dispatch, including
-   author decisions, compound effects and minimum-attribute boundaries.
-2. Close remaining mental-selection, reaction and incapacity integration gaps.
-3. Exercise the required panic scenarios through their concrete action adapters;
-   keep broader combat catalogue work separately identified.
-4. Once implementation is complete, resume validation, repair failures, update
-   this audit with observed results and push the final state to the existing PR.
-
-No completion claim or release follows from this audit alone.
-
-## Recovery ownership audit
-
-Source inspection found that fear-stun completion releases its owned mental-stun
-flag and episode pointer, leaving physical stun and unconsciousness unchanged.
-The ordinary stun-recovery entry point defers to an active owned fear episode.
-Checked recovery rejects an unconscious patient before time or dice are spent;
-fixed-duration rows still expire without curing the independent incapacity.
-
-`test_fear_quirk_stun` now specifies those overlapping conditions, recovery
-rollback, undo and timed expiry. These cases are **unrun**, and this source audit
-is not runtime verification. No additional independent mental-stun producer was
-found in the current libraries; authors directly overwriting the shared flag do
-not create a separately owned condition.
-
-The timed panic executor has a different recovery contract from fear stun:
-its scheduled checks continue during independent unconsciousness, resolving only
-the panic episode. `test_fear_panic` now specifies failed-check scheduling,
-success without waking or clearing physical stun, replay, undo and continuation
-in a new process. The health guide's obsolete claim that this combination blocks
-recovery has been removed. These additional cases remain unrun.
-
-## Timed-panic movement increment
-
-Row 21 now has a concrete world movement activity and an owned active-action
-health gate. It relocates the actor, retains failed health attempts, checks Move
-and the recovery deadline, and rejects active-combat/tactical routes. The existing
-crying fixture now specifies its lifecycle. Tactical row-21 routing now uses `RpgExpandedTimedPanicPath`, with an owned
-Move maneuver and health gate. Its registered fixture specifies actual hex
-movement, shared-round timing and failed exertion. Stationary pointless
-expression now has a mode-specific author contract with physical/speech gates,
-observable portrayal events and no task benefits; row-33 tactical routes remain
-separate. These implementations still require validation.
-No builds or tests have run for this increment.
-
-## Stress terminology
-
-There is no implemented general accumulating stress/sanity track: no persistent
-stress balance, accumulation schedule, threshold progression or stress-recovery
-ledger. References to stress in the current fear implementation mean specific
-postbattle or phantom-voice triggers and their owned follow-up events. They must
-not be presented as evidence that a general track exists. Such a track needs an
-identified source procedure or an explicitly selected campaign design; no point
-values, thresholds or recovery rates are invented by this conversion.
-
-## Acquired speech-loss integration
-
-The stationary panic-expression adapter now distinguishes vocal sound from
-articulated speech, matching full-2008 B125. Its new communication fixture starts
-with a row-24 physical acquisition: loss of articulated speech still permits
-noncommunicative vocal panic, while total muteness rejects it without a time or
-randomness charge. Nonvocal gestures remain available subject to other health
-restrictions. This closes an integration gap in an already supported physical
-selection; it does not complete the remaining trait catalogue. Fixtures are unrun.
-
-## Fixed mental-trait fallback increment
-
-Row 25 now recognizes four additional already-implemented fixed mental traits
-as the related prior condition: emotional-understanding deficit, emotional
-obliviousness, callousness and learning bar. Their specific existing behavior
-remains active while the author-selected ten-point fallback is acquired once.
-The selection fixture includes their costs, skill/learning effects and accounting
-across replay, rollback, undo and save continuation. These cases remain unrun;
-this is not a claim that the entire mental-trait catalogue is implemented.
-
-## Susceptibility selections
-
-Physical fear selections now accept motion and free-fall susceptibility, reusing
-the existing trait and hazard mechanics. Acquisition preflights incompatible
-prior training and retains the free-fall campaign restriction; it cannot erase
-training or grant point refunds. The selection fixture specifies both new
-purchases and their learning effects. Lifecycle and composed hazard validation
-remain unrun, and other catalogue selections remain outstanding.
-
-## Activity-history integrity
-
-The timed-panic episode now validates its activity histories, not only recovery
-checks. Non-recursive receipt validation covers crying, world movement,
-expression and tactical movement. Recorded count, unique ownership and interval
-ordering guard the episode history; retained definitions, outcomes and health
-permissions are checked before later clock advancement or action permission.
-Mutation cases are added to the existing fixtures and remain unrun.
-
-## Overriding-goal selection
-
-A new B146 overriding-goal trait is selectable at exact fear-row costs. Its
-specific author interface classifies concrete actions, resolves wise deviation,
-retains pursuit obligations and records goal fulfillment through replacement or
-funded buyoff. Goal versions prevent old obligations from reactivating through
-reused wording. Registered fixtures cover pricing, a denied world action,
-replacement, accounting, undo and save continuation; they remain unrun. Configured goal templates now create independent purchases while preserving
-authored term, goal and rating. Copy, isolation and actual self-control roll
-cases are registered but unrun. The remaining mental catalogue still requires
-work. This increment adds actual selection behavior rather than only a price.
-
-
-## Impulsive-action selection
-
-The B139 impulsive-action trait now has an owned decision interface. Authors
-classify concrete immediate and deliberative alternatives; failed self-control
-blocks deliberation, and the completed choice is retained without a second time
-charge or roll. Exact ten- and fifteen-point fear acquisitions are supported.
-The fixture includes actual scene effects, acquisition accounting and lifecycle
-cases, but remains unrun. This closes another implementation selection gap;
-remaining catalogue work and full validation still prevent a completion claim.
-
-
-## Extreme-panic receipt boundaries
-
-The row-33 episode and reaction now reject retained definition lists with altered
-lengths, and reaction receipts bind the result status as well as the recovery
-check and timing. `test_extreme_panic` specifies these mutations during an active
-reaction chain and after restored continuation has completed it. Rejection must
-roll back the mutation without changing severity, clock or random consumption.
-These cases remain unrun; this closes a receipt-integrity gap, not the remaining
-catalogue or execution-validation work.
-
-
-## Room-flight incapacity boundary
-
-Row-33 room flight now consults the shared voluntary-movement restriction before
-spending time and again before relocation. A conscious, balanced but paralyzed
-character cannot bypass incapacity merely because posture and fatigue permit
-movement. The existing flight fixture specifies denied preview/execution with
-unchanged position, severity, clock and dice, including saved continuation.
-These cases are authored and unrun. Tactical movement continues to use its own
-owned maneuver health gate; this change addresses the direct room-route gap.
-
-
-## Destructive-action health permission
-
-The object-destruction panic adapter now requires an owned physical action gate.
-Known incapacity blocks before spending; a failed committed exertion or
-consciousness check retains the timed attempt but creates no object wound. The
-survivor check still follows. Direct calls cannot bypass the reaction's time
-ownership. Existing computer-destruction fixtures inherit the same permission.
-The object fixture adds paralysis, direct-call rejection, failed consciousness,
-rollback, undo and saved continuation. These cases remain unrun; broader artifact
-rules and remaining catalogue selections are still outstanding.
-
-
-## Tactical panic execution ownership
-
-Panic attack and path operations now require their owning reaction to be settling
-before they can execute. The shared panic health gate enforces the same boundary,
-including calls through a battle maneuver. Preview remains available outside
-execution. Direct gate, operation and battle calls are specified to leave injury,
-ammunition, position, turn order, clock, dice and reaction history unchanged.
-The attack/path fixtures include these cases and remain unrun; normal reaction
-execution retains the existing rollback, undo and continuation specifications.
-
-
-## Volatile-temper selection
-
-A typed B124 volatile-temper selection now owns the stressful occurrence, specific
-stressor, self-control result and completed hostile or restrained scene action.
-Exact ten- and fifteen-point fear selections and rated template copies are
-supported. Failed stressful checks retain the existing phantom-voice follow-up.
-The separate uncontrolled-rage interaction remains explicitly blocked pending
-its own behavior; the catalogue is therefore still incomplete. Registered
-pricing, action, stress and lifecycle fixtures are unrun.
-
-
-## Rage-entry injury prerequisite
-
-The next missing anger interaction requires whole-second injury aggregation.
-`RpgExpandedRageInjuryWindow` now assesses actual recorded health loss in the
-current second, using a strict greater-than-quarter-capacity threshold. Missing
-injury ledger coverage blocks rather than silently losing hits. Registered
-boundary and lifecycle fixtures remain unrun. This assessment does not activate
-rage: entry and observation ownership, voluntary entry, combat restrictions,
-injury overrides and exit checks remain the next implementation obligations.
-
-
-The rage injury prerequisite now includes a retained qualifying snapshot, unique
-per profile/second. Later hits cannot produce a second receipt for that second,
-and replay retains the original contributing wounds after time advances.
-Mutation, rollback, undo and save cases are registered but unrun. No immunity
-switches or incomplete rage activation were introduced; entry must still consume
-the receipt atomically with a complete episode, combat policy and exit procedure.
-
-
-The ranged-choice prerequisite now assesses actual owned weapon ammunition and
-rate of fire, the strict beyond-twenty-yards exception, the aim prohibition and
-recorded quick-draw reload eligibility. Its boundary fixtures are unrun. It does
-not execute a combat turn or activate rage; melee/closing choices, injury rules
-and exit procedures remain outstanding. This assessment alone is not evidence
-of completed frenzy behavior.
-
-
-The hand-weapon/approach assessment now requires an all-out attack in reach and
-an explicitly feasible closest approach otherwise, preferring a moving attack
-or slam when possible. Actual weapon ownership/readiness and current Move bound
-the choice. Boundary fixtures are registered and unrun. These assessments still
-need the owned rage episode and actual turn adapter; they do not themselves
-apply attacks, defense restrictions, injury immunity or recovery checks.
-
-
-## Combined knockdown policy boundary
-
-Source review of B124 and B420 found an unresolved interaction between frenzy
-stun immunity, the bonus for remaining conscious and the combined
-knockdown/stun/unconsciousness roll. A recorded-author-policy versus explicit
-blocking decision has been requested; no answer is assumed. Independent work
-extracted the existing combined procedure into default-preserving profile hooks
-so an eventual policy can share the wound ledger. No frenzy benefit is enabled.
-Default success/failure and persistence fixtures are registered but unrun.
-
-
-## Nightmare waking selection
-
-Nightmares now have a typed rated purchase and concrete morning-waking event.
-Failure charges one sleep-restricted fatigue point through the common ledger;
-raw 17/18 also applies the day-long skill/Perception penalty. Authored day
-boundaries, duplicate checks, overflow injury and immutable receipts are handled
-explicitly. The ten-point rated purchase is selectable by fear. Registered
-recovery, expiry and lifecycle cases remain unrun. The separate playable-dream
-campaign procedure is still pending, as are the other remaining trait and frenzy
-obligations. The frenzy knockdown-policy question is still unanswered.
-
-
-Nightmare compound coverage now includes row-27 acquisition during fainting,
-blocked waking while unconscious, recovery without an automatic nightmare check,
-and the later explicitly recorded morning after sleep. The fixture retains
-character accounting and tests repeated compound/waking execution, rollback,
-undo and saved continuation. These are authored expectations, not observed passes.
-
-
-## Overconfidence selection and reactions
-
-The B148 overconfidence selection now retains self-control and explicit confident
-versus cautious scene actions. Its exact ten-point rated purchase is eligible
-for fear acquisition. Participant-specific social records apply +2 for a
-classified young/naive observer or -2 for an experienced observer through the
-ordinary owned reaction procedure, with duplicate-effect prevention. No actual
-skill or attribute increase is granted. Action and social lifecycle fixtures are
-registered but unrun. This adds a concrete selection and reaction adapter; the
-other catalogue and frenzy obligations remain incomplete.
-
-
-## Choice restrictions and mitigation
-
-Impulsive-action, volatile-temper and overconfidence now release unfinished
-choice restrictions while the current purchase is inactive, mitigated or absent.
-Reactivation without completion restores the retained restriction without a new
-roll. Completed choices remain immutable receipts. Shared regression cases cover
-all three fixtures, including actual scene execution and undo; they remain unrun.
-
-
-## Solitude selection and reaction direction
-
-The B142 solitude selection now reuses the owned hostile-response procedure for
-explicit unwanted proximity. Its separate NPC reaction context applies the
-rating-dependent penalty from the reacting observer, even when both participants
-own the trait; it does not penalize others' reactions to the subject. Exact
-fear-cost acquisition, action, mitigation, invalid facts and social lifecycle
-fixtures are registered but unrun. Frenzy and other catalogue entries remain
-unfinished; the status-sensitivity increment is described below.
-
-
-## Status sensitivity and completed outbursts
-
-The full-2008 B153 selection now has a typed rated purchase and an owned
-clear-slight response trigger. The NPC-side reaction context applies the owner's
-rating penalty and composes the independent solitude modifier. The opposite
-reaction direction uses a recorded observation of an actual completed hostile
-response after failed control; its conditional -3 requires author confirmation.
-Registered fixtures cover those directions, composition, action execution,
-mitigation, pricing, rollback, undo and saved continuation. They remain unrun.
-This increment does not complete frenzy, the full remaining trait catalogue or
-a general accumulating stress/sanity track.
-
-
-## Self-sacrifice selection
-
-The full-2008 B153 self-sacrifice purchase now supports rated templates and exact
-fear acquisition. Its owned conflict trigger binds the other person, competing
-needs and classified scene actions. Failed control restricts the choice to
-other-first actions; successful control also permits self-first actions.
-Completion records actual authored execution in the same transaction, with no
-implicit resource transfer. Lifecycle and mitigation fixtures are registered
-but unrun. Remaining traits and frenzy still prevent an overall completion claim.
-
-
-## Replacement execution at minimum attributes
-
-The consequence boundary audit confirmed that row 31 at minimum HT or a
-prohibited HT-check score, and row 40 at minimum IQ, expose explicit replacement
-reasons. The existing adjudication fixture previously stopped after replacing
-the selected row. It now also specifies committing a fixed-duration stun,
-retaining the original event, expiring the replacement, preserving the original
-attributes, avoiding invented rolls, rollback, undo and cross-process save
-continuation. The inventory now links this contract and no longer describes the
-minimum-HT case as having no replacement route. These cases remain unrun; direct
-zero-attribute transitions are still outside the implemented procedure.
-
-
-## Intrusive replay episode implementation
-
-The B136 stress-triggered replay gap now has a typed purchase, retained onset
-roll and source durations, immutable authored content, timed skill penalties and
-the severe skill-use prohibition. Its direct occurrence fixtures specify onset,
-expiry, rollback, undo and save continuation but remain unrun. Automatic fear dispatch, overlapping episodes and complete sensory blocking still
-require implementation. Owned self-control dispatch is described below; the
-unintegrated fear and direct-control routes still reject explicitly. The purchase is deliberately not yet accepted as a fear
-selection. This is an implementation increment, not completion of this trait.
-
-
-## Intrusive replay after failed self-control
-
-Owned self-control now preflights authored episode content and resolves a replay
-check after an actual failed stress-related roll. It preserves the independent
-phantom-voice follow-up, ordered before replay, and retains both receipts.
-Exact success, unrelated checks, giving in and funded success do not fabricate
-failed-roll triggers. New fixtures specify roll counts, atomic rollback, undo,
-missing-content rejection and saved replay. They remain unrun. Automatic fear
-dispatch, episode overlap and full sensory incapacity are the next integration
-gaps for this trait.
-
-
-## Intrusive replay after fear
-
-Owned fear events now retain a replay follow-up independently of phantom voices.
-The context binds authored episode content before the initial roll; ordinary
-failure or exact success resolves the follow-up once. Below score three an
-explicit `replayStress` ruling chooses `check` or `none`, separately from the
-voice ruling. Fixtures specify roll order/counts, omitted-content rejection,
-rollback, undo and save continuation, but remain unrun. Concurrent episodes and
-complete sensory incapacity remain outstanding before this trait can become an
-accepted fear acquisition.
-
-
-## Intrusive replay sensory boundary
-
-Severe replay episodes now gate shared sensory and Perception checks, explicitly
-external custom checks, fear-aura perception and new external fear events.
-`externalInputReason()` gives authors a concrete disclosure gate for narration
-outside checks; internal recollection remains distinct from new sensory input.
-Committed fear consequences remain valid when their follow-up creates sensory
-incapacity. Registered cases specify no-dice denial, classification bypass
-rejection, expiry and persistence, but are unrun. Episode overlap remains the
-next unresolved integration before enabling fear acquisition.
-
-
-## Intrusive replay overlap and fear selection
-
-Overlapping episodes now require a recorded `sum` or `worst` author ruling for
-numeric skill penalties; each episode retains an independent duration and the
-ruling used at onset. Active conflicting policies reject before rolling. Severe
-skill/input denial remains dominant under either policy. The ten-point purchase
-is now a supported fear selection with bound replay type and no advancement
-refund. Added fixtures specify independent expiry, acquisition, actual penalties,
-receipt mutation, rollback, undo and saved continuation; they remain unrun.
-Earlier replay-increment notes describe historical gaps closed by subsequent
-increments, not passing validation. The wider fear and mental-trait audit is
-still incomplete.
-
-
-## Acquired replay in a continuing fear scene
-
-A new continuing-scene fixture starts with an actual row-23 fear result, installs
-the ten-point replay trait through owned consequence dispatch, then resolves a
-second fear event and its replay follow-up. It specifies no retroactive onset,
-unchanged advancement points, independent stun/replay expiry and replay after
-save, plus rollback and undo at each committed stage. This closes a fixture gap
-between separately authored acquisition and trigger cases. The fixture remains
-unrun and is not passing evidence for the completion audit.
-
-
-## Low-confidence fear selection
-
-The B143 ten-point purchase now participates in fear acquisition and shared skill
-scoring. Explicit ordinary/adverse scene judgments determine its -3 penalty;
-missing judgments reject before randomness. Raw attributes remain unaffected and
-ordinary situational modifiers compose. Registered cases specify cost/accounting,
-mitigation, actual checks, rollback, undo and save continuation, but remain unrun.
-This closes another selection implementation gap without claiming the remaining
-trait catalogue or full fear suite is complete.
-
-
-## Incuriosity selection and novelty reactions
-
-The B140 incuriosity selection now has an owned strange-event decision with
-recorded scene execution and a separate observer-side novelty reaction adapter.
-Failure restricts investigation, while the flat -1 novelty reaction preserves
-who reacts to whom. Acquisition, mitigation, choices and social lifecycle
-fixtures are registered but unrun. Remaining mental selections and frenzy still
-prevent overall completion.
-
-
-## Purchase and episode receipt audit
-
-Source review found that the uncontrolled low-confidence purchase accepted an
-unused self-control rating, and replay occurrences retained narrative content
-without the selected replay type. Low confidence now rejects that invalid field;
-replay receipts bind their selected type independently of future purchase edits.
-Added fixture assertions cover rejected mutation, rollback and saved type
-continuation. These cases remain unrun while checks are paused.
-
-
-## Indecision decision timing
-
-The B140 decision procedure now binds visible alternatives, applies their count
-as the self-control penalty and retains clocked attempts. Failed decisions feed
-the shared do-nothing action gates; retries use 60-second or authored high-stress
-one-second boundaries without another time charge. Fixtures specify release on
-success, mitigation, mutation rejection, rollback, undo and saved continuation.
-They remain unrun. The additional confusion check is still an explicit blocker
-for the combined purchase, and fear acquisition is not yet enabled.
-
-
-## Indecision followed by confusion
-
-The combined B140 procedure now preflights a concrete owned confusion request
-and runs it only after indecision succeeds. Both checks and their follow-ups
-commit atomically, without another time charge; failure produces the existing
-confusion state and success allows normal action subject to other conditions.
-The rated indecision purchase is enabled for exact-cost fear acquisition.
-Fixtures specify both outcomes, premature execution rejection, missing request,
-accounting, rollback, undo and saved continuation. They remain unrun; the wider
-fear completion audit is still open.
-
-
-## Indecision history integrity
-
-Source review found that mutable attempt membership could erase the previous
-retry deadline and that clearing a retained confusion link was not explicitly
-rejected. The episode now binds the ordered attempt sequence, and successful
-combined attempts require their confusion receipt. Added mutation cases specify
-preserved timing/restrictions and validation after save restoration. They remain
-unrun; no build or test checks were resumed.
-
-
-## Indecision through the battle scheduler
-
-The source trace confirms the shared battle entry point consults the maneuver
-permission before incrementing turn serial or advancing the clock. A new fixture
-specifies failed indecision followed by denied Move, a real Do Nothing turn, a
-due retry without duplicate time, and a subsequently permitted maneuver. It
-covers thrown actions, undo and cross-process continuation. This is authored
-battle-level coverage, not an observed passing result; checks remain paused.
-
-
-## Credulity implementation increment
-
-The B137 purchase now resolves owned story presentations with source plausibility
-modifiers and retained acceptance outcomes. Shared scoring applies the Merchant
-or authored-exploitation penalty once, and shared learning eligibility rejects
-new lie-detection training. Fixtures specify these effects and lifecycle behavior
-but remain unrun. Fear acquisition is not enabled yet: prior learned skills and
-actual advancement transactions require further integration.
-
-
-## Credulity acquisition and learning transactions
-
-Credulity is now enabled for exact-cost fear acquisition, with an explicit
-prior-training boundary: already learned lie detection requires a replacement
-outcome rather than erasure or a refund. Fixtures now exercise point-funded
-advancement, direct learning and study, specifying rejection before resources
-are spent and normal point spending after mitigation. Acquisition, rollback,
-undo and saved continuation are covered in authored cases, all still unrun.
-
-## Short-attention task increment
-
-The typed controlled purchase and an owned check-based task operation now exist.
-Failed attention records an actual task failure without a task die roll; passed
-attention performs the contextual task check. Receipt reuse preserves both
-results, and the operation does not introduce a second resource or time charge.
-`test_attention_task` specifies the failure/success paths, pure preview,
-rollback, undo, retained receipt integrity and cross-process continuation.
-No checks have run. Multi-stage task interruption adapters and fear-acquisition
-integration remain outstanding; this trait is not yet a supported fear selection.
-The broader mental-state work, including active frenzy, remains incomplete.
-
-## Short-attention study increment
-
-`RpgExpandedAttentionStudy` now settles a concrete study segment. Failure uses
-the existing time and daily allowance while retaining earlier credit and skill
-points; it grants no credit for the failed segment. Success uses the existing
-learning threshold. Direct study with an active purchase requires owned control
-or an evidenced brief, undistracted segment. `test_attention_study` specifies
-actual threshold crossing, failed-credit preservation, duplicate settlement,
-rollback, undo, save continuation and mitigation. Contextual tasks now also
-preflight prohibited task scores before consuming attention dice.
-
-Checks remain paused and these fixtures are unrun. Craft and other multi-stage
-interruption adapters, fear-acquisition integration and active frenzy remain
-outstanding. This is progress on the remaining trait selections, not completion
-of the fear and mental-state suite or a general accumulating stress track.
-
-## Short-attention repair increment
-
-`RpgExpandedAttentionRepair` now drives the existing environmental-fault repair
-operation. Failed attention retains the spent work period and installed parts,
-leaves the fault active, and records an ordinary failed attempt without repair
-dice. Successful attention uses the actual repair check. Active purchases gate
-the direct repair entry point; mitigation releases that gate. Owned receipt
-reuse validates the concrete repair history and never repeats its costs.
-
-`test_attention_repair` specifies minor and major failures, successful focus,
-parts accounting, preview, preflight rejection, rollback, undo, cross-process
-continuation and mitigation. Checks remain paused; no pass is claimed. Invention
-and other multi-stage work still need their attention contracts, so the trait
-remains excluded from general fear acquisition. Active frenzy and the wider
-acceptance audit also remain unfinished.
-
-## Short-attention invention-concept increment
-
-`RpgExpandedAttentionConcept` now consumes the concrete invention attempt on
-failed attention, preserving ordinary daily limits and rapid-concept duration.
-It records no theory and no invented roll or critical failure. Successful
-attention performs the existing concept check. Owned receipt replay validates
-both project and inventor histories without repeating work. Direct execution
-requires owned attention or an evidenced situation with no attention trigger.
-
-`test_attention_concept` specifies ordinary/rapid attempts, success/failure,
-preview, daily limits, unavailable proposals, rollback, undo, immutable receipts
-and cross-process continuation. All fixtures remain unrun with checks paused.
-Prototype work/completion and other ongoing operations still require attention
-integration; fear acquisition of this trait remains disabled. This increment
-continues the remaining mental-trait work without claiming suite completion.
+# Fear and mental-state completion checklist
+
+**Not complete. Checks are paused during implementation. No passing validation is claimed.**
+
+This is the authoritative checklist for the approved fear milestone, frozen at
+`c2ba9d0`. The wider expansion conversion remains separate and PR #4 remains draft.
+The previous chronological log is replaced by requirements and evidence below.
+Historical implementation details remain available in Git history and module guides.
+
+## Scope and focus gate
+
+Before each increment, name one requirement ID below and its missing acceptance
+scenario. Record the resulting implementation/fixture evidence against that ID.
+Do not start another subsystem to close a dependency: make the minimum direct
+integration or provide a concrete, tested author contract. A callback alone is
+not an implemented effect. No additional mental catalogue entries enter this
+milestone beyond the frozen roster, short attention and frenzy.
+
+Deferred: remaining mental catalogue entries, full combat/critical tables,
+general invention/production, vehicles, medicine and the wider conversion.
+Existing peripheral adapters remain supported; their entire subsystems are not
+completion dependencies. No merge, tag or release is authorized.
+
+## Requirements and current evidence
+
+All test names refer to `tests/expanded.py` unless stated otherwise. “Authored”
+means the fixture/assertion exists, not that it compiles or passes. Source review
+is not runtime evidence. Rows stay open until their acceptance scope has passed.
+
+| ID | Source / approved rule | Implementation and acceptance scenario | Tests / missing evidence | Observed validation |
+| --- | --- | --- | --- | --- |
+| F01 | full-2008 B360; B345 ruling | Owned initial fear: modifiers, immunity, cap, outcome selection, no invented below-three dice/margin | `test_fear_event`, `test_fear_context`, `test_fear_low_score`, `test_low_control_fear`; full modifier audit required | Unrun; open |
+| F02 | full-2008 B360–B361 | Every outcome has matching owned dispatch and concrete effects; see row matrix | Row fixtures below; verify source expectations and dispatch | Unrun; open |
+| F03 | full-2008 B361 | Compound health + trait + IQ effects preflight atomically, reject either invalid component without side effects | `test_fear_compound`, `test_fear_compound_preflight`, `test_fear_mental_compound`; pure preview, rejected/preused acquisition and episode cases authored | Unrun; open |
+| F04 | full-2008 B148–B150 | Phobia exposures, awareness, repetition, overlap, activity/learning restrictions and worsening | `test_phobia`, `test_phobia_awareness`, `test_phobia_overlap`, `test_phobia_activity`, `test_phobia_learning`, acquisition/worsening fixtures | Unrun; open |
+| F05 | full-2008 B93 | Source/victim aura ownership, perception, one-hour protection and prior exposure boundary | `test_fear_aura`; recheck exact boundary and reused context cases | Unrun; open |
+| F06 | full-2008 B136, B148, B156 | Postbattle, voices and intrusive replay preserve trigger distinctions and coexist with original consequences | Fear stress, postbattle, replay-fear and replay-self-control fixtures | Unrun; open |
+| F07 | full-2008 B361, B428 | Owned recovery and incapacity: correct deadlines, overlap, rest/care, no clearing independent conditions | Faint, coma, catatonia, seizure, panic, recovery-ruling and overlap fixtures | Unrun; open |
+| F08 | full-2008 B361, B444 | Exact acquisition/worsening costs; no spendable point award; aging and minimum-attribute rulings | `test_fear_mental`, `test_fear_aging`, `test_fear_adjudication`, physical and hearing-loss fixtures | Unrun; open |
+| F09 | Frozen trait source entries | Actual actor/observer reactions, mitigation and incapacity boundaries for each eligible selection | Per-trait social fixtures; roster audit required | Unrun; open |
+| F10 | full-2008 B361 rows 21/33 | Expression, room flight, tactical path, fall, attack and destruction produce actual effects with one time/resource charge | Timed-path, expression, flight, fall, path, attack, defense, object, computer and interruption fixtures | Unrun; open |
+| F11 | Baseline whitelist + approved scope | Each frozen selection has acquisition, effects, mitigation, worsening where applicable and replay | Per-trait fixtures; exact roster below | Unrun; open |
+| F12 | full-2008 B153 | Short attention fails a concrete owned task; terminal prototype failure retains charges and blocks continuation/delivery; enable acquisition/worsening | Existing attention task/study/repair/concept fixtures. Owned multi-step contract, terminal prototype and acquisition fixtures still missing | Implementation incomplete |
+| F13 | full-2008 B124 plus approved knockdown ruling | Complete frenzy entry, legal action/defense policy, injury effects, target changes and exit | Injury-window and action assessments exist. Owned active episode and complete lifecycle fixtures missing | Implementation incomplete |
+| S01 | Original campaign stress rules below | Optional policy/state and explicit unique gains; cap, immutable policy and episode reset | New stress module and fixtures required | Not implemented |
+| S02 | Original campaign stress rules below | Ascending owned threshold decisions, persistence and voluntary-action gate | New stress decision/gating fixtures required | Not implemented |
+| S03 | Original campaign stress rules below | Timed nonstacking strain, ordinary owned fear or recorded coping; no recursive gains | New stress consequence fixtures required | Not implemented |
+| S04 | Original campaign stress rules below | Safe-hour recovery, daily cap, interruption, interval ownership and independent aftermath | New stress recovery fixtures required | Not implemented |
+| D01 | Approved delivery plan | Neutral docs, catalogue/provenance/API navigation and connected playable fear/stress sequence | Documentation updates and example/interface parity required | Not implemented fully |
+| V01 | Approved delivery plan | Pure preview, rejection before costs/dice, replay, rollback, undo, separate-process saves for every requirement | Lifecycle fixtures plus coverage audit | Unrun; open |
+| V02 | Approved delivery plan | Minimal/all-module builds, unchanged absent-feature behavior, source/native/docs/packaging checks | Commands and result record below | Paused |
+
+## Frozen mental-selection roster
+
+The following is the exact `rpgExpandedFearMentalFacts` whitelist at `c2ba9d0`.
+Add only short attention and frenzy in this milestone. Quirks, fixed beliefs,
+phobias and their existing consequence interfaces remain included separately.
+
+| Trait ID | Public type |
+| --- | --- |
+| `truthfulness` | `RpgExpandedTruthfulness` |
+| `curious` | `RpgExpandedCuriosity` |
+| `cowardice` | `RpgExpandedDangerAvoidance` |
+| `compelled-aid` | `RpgExpandedCompelledAid` |
+| `low-motivation` | `RpgExpandedLowMotivation` |
+| `postbattle-stress` | `RpgExpandedPostbattleStress` |
+| `pleasure-loss` | `RpgExpandedPleasureLoss` |
+| `phantom-voices` | `RpgExpandedPhantomVoices` |
+| `humorlessness` | `RpgExpandedHumorlessness` |
+| `pervasive-distrust` | `RpgExpandedPervasiveDistrust` |
+| `social-inhibition` | `RpgExpandedSocialInhibition` |
+| `companionship` | `RpgExpandedCompanionship` |
+| `overstimulation` | `RpgExpandedOverstimulation` |
+| `goal-fixation` | `RpgExpandedGoalFixation` |
+| `impulsive-action` | `RpgExpandedImpulsiveAction` |
+| `bad-temper` | `RpgExpandedVolatileTemper` |
+| `nightmares` | `RpgExpandedNightmares` |
+| `overconfidence` | `RpgExpandedOverconfidence` |
+| `solitude` | `RpgExpandedSolitude` |
+| `status-sensitivity` | `RpgExpandedStatusSensitivity` |
+| `self-sacrifice` | `RpgExpandedSelfSacrifice` |
+| `intrusive-replay` | `RpgExpandedIntrusiveReplay` |
+| `low-confidence` | `RpgExpandedLowConfidence` |
+| `incuriosity` | `RpgExpandedIncuriosity` |
+| `indecision` | `RpgExpandedIndecision` |
+| `credulity` | `RpgExpandedCredulity` |
+
+
+Frenzy's combined knockdown/consciousness ambiguity now has an approved policy:
+require a recorded author-selected ruling, retain actual injury and stun immunity,
+and invent no unstated modifier. The previous unanswered-policy blocker is closed;
+the implementation is still required.
+
+Short attention must finish via a concrete owned task lifecycle and the minimum
+prototype terminal transition. No further general invention/production work is
+required. Unsupported authored tasks must use that lifecycle contract or reject
+before spending; silently bypassing the trait is not supported integration.
+
+## Fear outcome coverage matrix
+
+References below are existing inventory mappings, retained for verification.
+They are not proof of full dispatch, lifecycle or independent-value coverage.
+Every row requires assessment, execution, replay and recovery/consequence checks
+where applicable; compound rows also require both component rejection paths.
+
+| Table row | Inventory entry | Registered acceptance mappings | Result |
+| --- | --- | --- | --- |
+| 4-5 | `fear-outcome-4-5` | `test_fear_assessments`, `test_fear_stun`, `test_fear_stun_modifiers`, `test_fear_stun_persistence`, `test_fear_combat` | Unrun; audit open |
+| 6-7 | `fear-outcome-6-7` | `test_fear_assessments`, `test_fear_stun`, `test_fear_stun_modifiers`, `test_fear_stun_persistence`, `test_fear_combat` | Unrun; audit open |
+| 8-9 | `fear-outcome-8-9` | `test_fear_assessments`, `test_fear_stun`, `test_fear_stun_modifiers`, `test_fear_stun_persistence`, `test_fear_combat` | Unrun; audit open |
+| 10 | `fear-outcome-10` | `test_fear_assessments`, `test_fear_stun`, `test_fear_stun_modifiers`, `test_fear_stun_persistence`, `test_fear_combat` | Unrun; audit open |
+| 11 | `fear-outcome-11` | `test_fear_assessments`, `test_fear_stun`, `test_fear_stun_modifiers`, `test_fear_stun_persistence`, `test_fear_combat` | Unrun; audit open |
+| 12 | `fear-outcome-12` | `test_fear_assessments`, `test_fear_retching`, `test_owned_retching`, `test_retching_persistence`, `test_retching_fatigue`, `test_retching_combat`, `test_retching_meals`, `test_retching_remedy`, `test_remedy_persistence` | Unrun; audit open |
+| 13 | `fear-outcome-13` | `test_fear_assessments`, `test_fear_quirks` | Unrun; audit open |
+| 14-15 | `fear-outcome-14-15` | `test_fear_assessments`, `test_fear_fatigue`, `test_fear_fatigue_stun`, `test_fear_stun` | Unrun; audit open |
+| 16 | `fear-outcome-16` | `test_fear_assessments`, `test_fear_quirk_stun` | Unrun; audit open |
+| 17 | `fear-outcome-17` | `test_fear_assessments`, `test_fear_faint` | Unrun; audit open |
+| 18 | `fear-outcome-18` | `test_fear_assessments`, `test_fear_faint_injury` | Unrun; audit open |
+| 19 | `fear-outcome-19` | `test_fear_assessments`, `test_fear_faint_injury` | Unrun; audit open |
+| 20 | `fear-outcome-20` | `test_fear_assessments`, `test_fear_shock_faint` | Unrun; audit open |
+| 21 | `fear-outcome-21` | `test_fear_assessments`, `test_fear_panic`, `test_panic_crying`, `test_panic_history`, `test_timed_panic_path`, `test_panic_expression_communication` | Unrun; audit open |
+| 22 | `fear-outcome-22` | `test_fear_assessments`, `test_fixed_beliefs` | Unrun; audit open |
+| 23 | `fear-outcome-23` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound`, `test_fear_selection`, `test_status_sensitivity`, `test_status_outburst`, `test_self_sacrifice`, `test_acquired_replay_event` | Unrun; audit open |
+| 24 | `fear-outcome-24` | `test_fear_assessments`, `test_fear_physical`, `test_fear_aging`, `test_fear_selection` | Unrun; audit open |
+| 25 | `fear-outcome-25` | `test_fear_assessments`, `test_fear_phobia_worsening`, `test_fear_mental`, `test_fear_selection` | Unrun; audit open |
+| 26 | `fear-outcome-26` | `test_fear_assessments`, `test_fear_compound`, `test_fear_compound_preflight` | Unrun; audit open |
+| 27 | `fear-outcome-27` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound`, `test_nightmare_compound`, `test_fear_selection`, `test_fear_compound_preflight` | Unrun; audit open |
+| 28 | `fear-outcome-28` | `test_fear_assessments`, `test_fear_coma` | Unrun; audit open |
+| 29 | `fear-outcome-29` | `test_fear_assessments`, `test_fear_coma` | Unrun; audit open |
+| 30 | `fear-outcome-30` | `test_fear_assessments`, `test_catatonia` | Unrun; audit open |
+| 31 | `fear-outcome-31` | `test_fear_assessments`, `test_fear_seizure`, `test_fear_adjudication` | Unrun; audit open |
+| 32 | `fear-outcome-32` | `test_fear_assessments`, `test_fear_acute` | Unrun; audit open |
+| 33 | `fear-outcome-33` | `test_fear_assessments`, `test_extreme_panic`, `test_panic_flight`, `test_panic_fall`, `test_fear_recovery_ruling`, `test_panic_path`, `test_panic_object`, `test_panic_attack`, `test_panic_interrupted_path`, `test_panic_wait`, `test_panic_computer` | Unrun; audit open |
+| 34 | `fear-outcome-34` | `test_fear_assessments`, `test_fixed_beliefs` | Unrun; audit open |
+| 35 | `fear-outcome-35` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound` | Unrun; audit open |
+| 36 | `fear-outcome-36` | `test_fear_assessments`, `test_fear_physical`, `test_fear_aging`, `test_fear_selection`, `test_fear_hearing_loss` | Unrun; audit open |
+| 37 | `fear-outcome-37` | `test_fear_assessments`, `test_fear_physical`, `test_fear_aging`, `test_fear_selection`, `test_fear_hearing_loss` | Unrun; audit open |
+| 38 | `fear-outcome-38` | `test_fear_assessments`, `test_fear_compound`, `test_fear_compound_preflight` | Unrun; audit open |
+| 39 | `fear-outcome-39` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound`, `test_fear_compound_preflight` | Unrun; audit open |
+| 40-plus | `fear-outcome-40-plus` | `test_fear_assessments`, `test_fear_phobia_acquisition`, `test_fear_mental`, `test_fear_mental_compound`, `test_fear_adjudication` | Unrun; audit open |
+
+## Original optional stress policy
+
+This is an explicitly approved campaign design, not a procedure from full-2008.
+Create `vhyl-rpg-expanded-stress.t`; inclusion alone does not activate it.
+
+- One owned stress balance, range 0–12. Explicit evidenced mild/moderate/severe
+  causes add 1/2/3. Unique causes cannot add stress twice. Retain requested and applied
+  amounts; clamp at the cap and explicitly discard overflow.
+- Thresholds 4/8/12 each queue one decision per episode in ascending order.
+  Returning to zero rearms thresholds. Existing unresolved decisions survive.
+- Choose strain (-1 skill/attribute checks for 600 seconds, refresh without
+  stacking), an ordinary owned fear event, or evidenced narrative coping.
+  Strain does not alter self-control, damage or derived characteristics.
+- Pending decisions block the next voluntary non-recovery action before costs
+  or dice, without blocking incoming harm, passive defense, involuntary effects,
+  rest/care or narrowly authorized decision resolution.
+- Each uninterrupted safe hour recovers one point, maximum four per campaign
+  day, credited to the day in which the hour ends. Intervals cannot overlap or be
+  reused. Interrupted hours grant no credit. Use the shared clock.
+- Recovery does not cure independent strain/fear/traits or erase decisions.
+  Gains are never automatic after fear, attacks or critical hits.
+- Configure policy before first use, then retain it immutably with owned state.
+  Use existing transaction/undo/save machinery and exact-game save compatibility.
+
+## Implementation and validation gates
+
+1. Close F01–F10 by tracing source rows and actual implementations; correct stale
+   inventory notes and author any missing acceptance scenarios.
+2. Close F11–F13 without enlarging the roster or peripheral subsystems.
+3. Implement S01–S04 with owned lifecycle fixtures and default-value assertions.
+4. Finish D01 and audit that every requirement has executable implementation or
+   a specific tested author contract and authored acceptance fixtures.
+5. Only then resume checks. Repair failures within this frozen scope. No passing
+   claim is permitted from source inspection or fixture registration alone.
+
+| Required command / evidence | Environment / observed result |
+| --- | --- |
+| `python tools/test.py` | Not run; paused |
+| `python tools/test.py --native` | Not run; paused |
+| `python tools/build_docs.py --check` | Not run; paused |
+| Packaging unit tests; `python tools/build_release.py --out <fresh-local-directory>`; checksum verification | Not run; paused; no publishing |
+| Minimal/all-module and absent-feature regression coverage | Audit required before execution |
+| Parser/structured/dialogue connected example | Implementation and validation required |
+
+Push reviewable commits to PR #4; retain draft status for the wider conversion.
+Complete this milestone only when every requirement above has observed passing
+acceptance evidence and no unresolved in-scope implementation remains.

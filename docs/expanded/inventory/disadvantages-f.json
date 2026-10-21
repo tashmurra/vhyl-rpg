@@ -279,7 +279,7 @@
         "tests/expanded.py::test_voice_self_control",
         "tests/expanded.py::test_voice_direct_guards"
       ],
-      "validation_note": "Optional authored stress occurrence rolls once, triggering at six or less, with owned immutable result and author-confirmed end. Owned self-control triggers require stress classification when relevant and automatically append the check after a failed stress-related roll, preserving the original obligation. Surrender and purchased success add no roll. Direct rolled self-control and abridged fear calls reject active-trait combinations before randomness. Owned self-control is the supported path; full fear integration remains pending. Lifecycle fixtures authored, unrun."
+      "validation_note": "Optional authored stress occurrence rolls once, triggering at six or less, with owned immutable result and author-confirmed end. Owned self-control triggers require stress classification when relevant and automatically append the check after a failed stress-related roll, preserving the original obligation. Surrender and purchased success add no roll. Direct rolled self-control and abridged fear calls reject active-trait combinations before randomness. Owned self-control and owned fear events integrate the stress follow-up; the complete lifecycle still requires validation. Lifecycle fixtures authored, unrun."
     },
     {
       "id": "disadvantages-f-voices-annoying",

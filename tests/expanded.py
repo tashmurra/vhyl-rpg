@@ -9939,6 +9939,7 @@ def test(build):
     test_low_control_fear(Session,battle_low_score,build.out,'battle')
     fear_compound = build.build('expanded-fear-compound',ROOT / 'tests/fixtures/expanded-fear-compound.t')
     test_fear_compound(Session,fear_compound,build.out)
+    test_fear_compound_preflight(Session,fear_compound,build.out)
     fear_aura = build.build('expanded-fear-aura',ROOT / 'tests/fixtures/expanded-fear-aura.t')
     test_fear_aura(Session,fear_aura,build.out)
     postbattle_fear = build.build('expanded-postbattle-fear',ROOT / 'tests/fixtures/expanded-postbattle-fear.t')
@@ -30996,4 +30997,40 @@ def test_attention_concept(Session,bundle,out):
     s = Session(bundle)
     try:
         do(s,1250); do(s,1259); do(s,1251); assert state(s) == [0,0,None,0,0,None]
+    finally: s.close()
+
+
+def test_fear_compound_preflight(Session,bundle,out):
+    """F03: neither rejected component may commit the other; fixtures unrun."""
+    def do(s,code): s.action(2250,code,4)
+    def state(s):
+        do(s,344)
+        return last(s,'test.fear-compound')
+    empty = [0,0,0,0,0,9,7,0]
+    for setup,draws,injury in ((340,4,1),(341,1,0),(478,4,1),(479,1,0)):
+        for reject in (346,1260):
+            s = Session(bundle)
+            try:
+                do(s,setup); do(s,1263)
+                assert last(s,'test.compound-preview') == ['ready',None]
+                assert state(s) == empty
+                do(s,reject); assert state(s) == empty
+                do(s,342); assert state(s) == empty
+            finally: s.close()
+        for used,expected in ((1261,[0,1,0,0,1,9,7,0]),
+                              (1262,[0,0,1,injury,0,9,7,draws])):
+            s = Session(bundle)
+            path = out/f'compound-preused-{setup}-{used}.zsave'
+            try:
+                do(s,setup); do(s,used); assert state(s) == expected
+                do(s,342); assert state(s) == expected
+                s.command(f':save {path}\n@2251')
+            finally: s.close()
+            s = Session(bundle)
+            try:
+                s.command(f':restore {path}\n@2251'); do(s,342); assert state(s) == expected
+            finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,340); do(s,347); assert state(s) == empty
     finally: s.close()

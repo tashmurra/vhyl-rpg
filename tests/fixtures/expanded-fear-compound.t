@@ -38,6 +38,11 @@ modify FearTestAction
         if (code == 345) { ownedFearEvent.applyConsequence(compoundFear); return nil; }
         if (code == 346) { eventBeliefAward.approved = nil; compoundFear.apply(); return nil; }
         if (code == 347) { compoundFaint.tableTotal = 17; compoundFear.apply(); return nil; }
+        if (code == 1260) { compoundFear.episode.approved = nil; compoundFear.apply(); return nil; }
+        if (code == 1261) { compoundFear.acquisition.apply(); return nil; }
+        if (code == 1262) { compoundFear.episode.apply(); return nil; }
+        if (code == 1263)
+        { local value = compoundFear.assess(); event('test.compound-preview'); eventValue(value.status); eventValue(value.reason); return nil; }
         return inherited(context);
     }
 ;

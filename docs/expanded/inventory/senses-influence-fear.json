@@ -1284,7 +1284,7 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_quirk_stun"
       ],
-      "validation_note": "Atomic one-die stun and behavioral mental-quirk acquisition authored; concrete trait-module contract preflights before randomness. Shared modified-Will recovery, replay and cross-process fixtures are unrun. Full fear event selection remains pending."
+      "validation_note": "Atomic one-die stun and behavioral mental-quirk acquisition authored; concrete trait-module contract preflights before randomness. Shared modified-Will recovery, replay and cross-process fixtures are unrun. Owned fear-event dispatch accepts this stun-plus-quirk row. Runtime validation remains pending."
     },
     {
       "id": "fear-outcome-17",
@@ -1437,9 +1437,10 @@
       "acceptance": "Apply the row-eighteen faint/collapse-injury sequence and a negative-ten-point delusion.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_compound"
+        "tests/expanded.py::test_fear_compound",
+        "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-18 faint plus exact-cost fixed-belief acquisition with component preflight and shared accounting. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-18 faint plus exact-cost fixed-belief acquisition with component preflight and shared accounting. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
     },
     {
       "id": "fear-outcome-27",
@@ -1455,9 +1456,10 @@
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_mental_compound",
         "tests/expanded.py::test_nightmare_compound",
-        "tests/expanded.py::test_fear_selection"
+        "tests/expanded.py::test_fear_selection",
+        "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects."
+      "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
     },
     {
       "id": "fear-outcome-28",
@@ -1627,9 +1629,10 @@
       "acceptance": "Combine the row-twenty-nine coma sequence with a negative-fifteen-point delusion.",
       "tests": [
         "tests/expanded.py::test_fear_assessments",
-        "tests/expanded.py::test_fear_compound"
+        "tests/expanded.py::test_fear_compound",
+        "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost fixed-belief acquisition with atomic component preflight. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-29 coma plus exact-cost fixed-belief acquisition with atomic component preflight. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
     },
     {
       "id": "fear-outcome-39",
@@ -1643,9 +1646,10 @@
         "tests/expanded.py::test_fear_assessments",
         "tests/expanded.py::test_fear_phobia_acquisition",
         "tests/expanded.py::test_fear_mental",
-        "tests/expanded.py::test_fear_mental_compound"
+        "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_fear_compound_preflight"
       ],
-      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain."
+      "validation_note": "Owned row-29 coma plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. F03 source audit confirms acquisition and episode assessments precede mutation and outcome dice. Component rejection and preused-receipt acceptance fixtures are authored for rows 26/27/38/39; they are unrun. Row 40 retains its separate IQ boundary and compound tests."
     },
     {
       "id": "fear-outcome-40-plus",
