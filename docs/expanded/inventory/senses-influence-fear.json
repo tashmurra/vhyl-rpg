@@ -1450,6 +1450,7 @@
         "tests/expanded.py::test_fear_phobia_acquisition",
         "tests/expanded.py::test_fear_mental",
         "tests/expanded.py::test_fear_mental_compound",
+        "tests/expanded.py::test_nightmare_compound",
         "tests/expanded.py::test_fear_selection"
       ],
       "validation_note": "Owned row-18 faint plus exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects."

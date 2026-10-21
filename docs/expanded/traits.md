@@ -2668,3 +2668,12 @@ rollback, undo and saved continuation. All cases are registered but unrun.
 Playing out a dream, transferring authored dream consequences and participation
 awards remain separate unfinished campaign procedures; this operation does not
 silently modify other characters or invent dream-world effects.
+
+
+`expanded-nightmare-compound.t` composes this purchase with the row-27 faint.
+A waking request while the character is unconscious rejects without a check.
+Recovery from the faint alone does not create a nightmare waking event: the
+fixture then completes a real sleep period and explicitly records the next
+morning. The same acquired trait produces the fatigue and day penalty without
+another point award. `test_nightmare_compound` specifies acquisition and waking
+rollback, undo, duplicate execution and cross-process continuation; it is unrun.

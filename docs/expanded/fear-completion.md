@@ -284,3 +284,10 @@ explicitly. The ten-point rated purchase is selectable by fear. Registered
 recovery, expiry and lifecycle cases remain unrun. The separate playable-dream
 campaign procedure is still pending, as are the other remaining trait and frenzy
 obligations. The frenzy knockdown-policy question is still unanswered.
+
+
+Nightmare compound coverage now includes row-27 acquisition during fainting,
+blocked waking while unconscious, recovery without an automatic nightmare check,
+and the later explicitly recorded morning after sleep. The fixture retains
+character accounting and tests repeated compound/waking execution, rollback,
+undo and saved continuation. These are authored expectations, not observed passes.

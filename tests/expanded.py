@@ -9841,6 +9841,8 @@ def test(build):
     test_knockdown_dispatch(Session,knockdown_dispatch,build.out)
     nightmares = build.build('expanded-nightmares',ROOT / 'tests/fixtures/expanded-nightmares.t')
     test_nightmares(Session,nightmares,build.out)
+    nightmare_compound = build.build('expanded-nightmare-compound',ROOT / 'tests/fixtures/expanded-nightmare-compound.t')
+    test_nightmare_compound(Session,nightmare_compound,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29937,4 +29939,35 @@ def test_nightmares(Session,bundle,out):
         for code in (950,581,962,953,953): do(s,code)
         assert state(s) == [1,11,1,0,0,0,3]
         do(s,963); assert last(s,'test.nightmare-overflow') == [1,1,1]
+    finally: s.close()
+
+
+def test_nightmare_compound(Session,bundle,out):
+    def do(s,c): s.action(2250,c,27)
+    def state(s):
+        do(s,974)
+        return last(s,'test.compound-nightmare')
+    path = out/'nightmare-compound.zsave'
+    s = Session(bundle)
+    try:
+        do(s,970); do(s,343)
+        assert state(s) == [0,0,0,0,0,0,0,9,7,0]
+        do(s,342); s.command('undo')
+        assert state(s) == [0,0,0,0,0,0,0,9,7,0]
+        do(s,342); do(s,342); do(s,971)
+        assert last(s,'test.compound-nightmare-waking') == ['blocked','nightmare-not-awake']
+        assert state(s) == [1,1,1,0,0,0,4,9,7,0]
+        do(s,972)
+        # Recovering from the faint does not itself count as a morning after sleep.
+        assert state(s) == [1,1,0,0,0,0,7,9,7,0]
+        do(s,975); assert state(s) == [1,1,0,0,0,0,7,9,7,0]
+        do(s,973); s.command('undo'); assert state(s) == [1,1,0,0,0,0,7,9,7,0]
+        do(s,973); do(s,971); do(s,342)
+        assert state(s) == [1,1,0,1,1,1,10,9,7,1]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,971); do(s,342)
+        assert state(s) == [1,1,0,1,1,1,10,9,7,1]
     finally: s.close()
