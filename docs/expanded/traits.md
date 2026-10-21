@@ -3192,3 +3192,29 @@ parts retention, one time charge, pure preview, preflight rejection, rollback,
 undo, save continuation, receipt mutation and mitigation. These fixtures are
 unrun. This adapter does not establish support for invention projects or other
 ongoing work.
+
+#### Invention concept interruption
+
+`RpgExpandedAttentionConcept` owns attention for an
+`RpgExpandedInventionConcept`, including its rapid subclass. Set `profile`,
+`trait`, `concept`, `occasion`, `trigger`, and `evidence`. Pure `assess()` checks
+the actual proposal and attempt eligibility; the rapid adapter also validates
+all possible elapsed-time advances before control dice are consumed.
+
+On failed attention, `resolve()` records an ordinary failed concept attempt:
+there is no theory, concept roll, invented margin or critical failure. The
+attempt still occupies the ordinary daily allowance. Rapid concepts retain
+their existing duration roll and elapsed time. Successful attention performs
+the normal concept check. `conceptResult` holds the original operation's result;
+reuse validates that receipt and its project/character history without adding
+another attempt or advancing time.
+
+Direct concept execution with active short attention requires the owned adapter
+or an evidenced `attentionSituation = 'brief-undistracted'` when neither source
+trigger applies. Mitigation restores ordinary execution. Internal
+`applyAssessed()` is settlement machinery, not an author entry point.
+`test_attention_concept` specifies both ordinary and rapid attempts, success and
+failure, daily limits, pure preview, unavailable proposals, rollback, undo,
+receipt mutation and cross-process continuation. These fixtures are unrun.
+Prototype construction/completion and other ongoing work remain separate gaps;
+concept support alone does not make this a general fear-acquired selection.

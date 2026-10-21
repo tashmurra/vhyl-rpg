@@ -1465,6 +1465,9 @@ class RpgExpandedInventionConceptResult: RpgExpandedResult
 
 /** Secret concept receipt. Authors decide what the inventor learns; no public event is emitted. */
 class RpgExpandedInventionConcept: object
+    attentionSituation = nil
+    attentionEvidence = nil
+    attentionPreflight() { return nil; }
     dailyLimited = true
     prepareExecution(value) { return value; }
     id = nil
@@ -1478,7 +1481,7 @@ class RpgExpandedInventionConcept: object
     result = nil
     boundDefinition = nil
     definition()
-    { return [self.id,self.project,self.knowledge,self.variantBonus,self.campaignNew,self.historicalSources,self.researchSkill,self.evidence,self.dailyLimited]; }
+    { return [self.id,self.project,self.knowledge,self.variantBonus,self.campaignNew,self.historicalSources,self.researchSkill,self.evidence,self.dailyLimited,self.attentionSituation,self.attentionEvidence]; }
     validateBinding()
     {
         local current = self.definition();
@@ -1545,8 +1548,29 @@ class RpgExpandedInventionConcept: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
+        local reason = self.project.proposal.inventor.conceptAttentionReason(self);
+        if (reason != nil) { value.status = 'blocked'; value.reason = reason; return value; }
+        return self.applyAssessed(value,true);
+    }
+    applyAttention(control)
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local inventor = self.project.proposal.inventor;
+        if (!inventor.ofKind(RpgExpandedProfile)) rpgExpandedReject('attention-concept-owner');
+        local reason = inventor.attentionConceptControlReason(control,self);
+        if (reason != nil) rpgExpandedReject(reason);
+        control.conceptStarted = true; return self.applyAssessed(value,control.check.achieved);
+    }
+    /* Internal settlement preserves daily limits and any timed subclass work. */
+    applyAssessed(value,focused)
+    {
         value = self.prepareExecution(value);
-        value.check = rpgCheck(value.score,rpgRandom.roll());
+        if (focused) value.check = rpgCheck(value.score,rpgRandom.roll());
+        else
+        {
+            value.check = new RpgResult(); value.check.status = 'resolved';
+            value.check.reason = 'short-attention-task-failure'; value.check.outcome = 'setback';
+        }
         value.theory = value.check.achieved ? 'testable' : value.check.critical == 'failure' ? 'flawed' : nil;
         self.boundDefinition = self.definition();
         if (self.project.definitionSnapshot == nil) self.project.definitionSnapshot = self.project.proposal.definition();
@@ -2925,6 +2949,11 @@ class RpgExpandedRapidProposal: RpgExpandedCinematicProposal
 ;
 
 class RpgExpandedRapidConcept: RpgExpandedInventionConcept
+    attentionPreflight()
+    {
+        for (local die = 1; die <= 6; die += 1) rpgLedger.validateAdvance(rpgExpandedRapidConceptSeconds(die));
+        return nil;
+    }
     dailyLimited = nil
     approved = nil
     uninterrupted = nil
@@ -3920,6 +3949,17 @@ modify RpgExpandedProfile
     {
         if (repair == nil || !repair.ofKind(RpgExpandedBreakdownRepair) || repair.repairer != self)
             rpgExpandedReject('attention-repair-ownership');
+        return nil;
+    }
+;
+
+modify RpgExpandedProfile
+    validateAttentionConcept(concept)
+    {
+        if (concept == nil || !concept.ofKind(RpgExpandedInventionConcept) || concept.project == nil
+            || !concept.project.ofKind(RpgExpandedInventionProject) || concept.project.proposal == nil
+            || !concept.project.proposal.ofKind(RpgExpandedInventionProposal) || concept.project.proposal.inventor != self)
+            rpgExpandedReject('attention-concept-ownership');
         return nil;
     }
 ;

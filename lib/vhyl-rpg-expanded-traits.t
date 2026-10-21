@@ -6512,3 +6512,81 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B153 attention failure consumes the actual invention concept attempt. */
+class RpgExpandedAttentionConcept: RpgExpandedSelfControlTrigger
+    concept = nil
+    occasion = nil
+    crucialEvidence = nil
+    conceptResult = nil
+    boundReceipt = nil
+    settlingConcept = nil
+    conceptStarted = nil
+    definition() { return inherited() + [self.concept,self.occasion,self.crucialEvidence]; }
+    receiptFacts()
+    {
+        return [self.check,self.check.status,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical,
+            self.conceptResult,self.conceptResult.status,self.conceptResult.reason,self.conceptResult.seconds,self.conceptResult.theory,self.conceptResult.day,self.conceptResult.score,self.conceptResult.modifier,
+            self.conceptResult.check,self.conceptResult.check.status,self.conceptResult.check.reason,self.conceptResult.check.roll,
+            self.conceptResult.check.score,self.conceptResult.check.margin,self.conceptResult.check.achieved,
+            self.conceptResult.check.critical,self.conceptResult.check.outcome];
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedShortAttention)
+            || !holds(['extended-focus','distraction'],self.occasion)) rpgExpandedReject('attention-concept-definition');
+        self.profile.validateAttentionConcept(self.concept);
+        if (self.modifier < 0 || self.modifier > 0 && (self.crucialEvidence == nil || self.crucialEvidence == ''))
+            rpgExpandedReject('attention-concept-bonus-evidence');
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.conceptResult == nil || self.boundReceipt == nil || !self.conceptStarted || self.settlingConcept)
+                rpgExpandedReject('attention-concept-receipt');
+            if (self.concept.result != self.conceptResult || self.concept.assess().status != 'reused')
+                rpgExpandedReject('attention-concept-history');
+            local facts = self.receiptFacts();
+            if (facts.length() != self.boundReceipt.length() || self.active != !self.check.achieved)
+                rpgExpandedReject('attention-concept-receipt');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundReceipt[i]) rpgExpandedReject('attention-concept-receipt');
+        }
+        else
+        {
+            if (self.conceptResult != nil || self.boundReceipt != nil || self.conceptStarted || self.settlingConcept)
+                rpgExpandedReject('attention-concept-uncommitted');
+            if (value.status == 'ready' && self.trait.mitigated)
+            { value.status = 'blocked'; value.reason = 'attention-concept-mitigated'; }
+            if (value.status == 'ready')
+            {
+                local session = self.concept.assess();
+                if (session.status != 'ready') { value.status = 'blocked'; value.reason = session.reason; }
+                else self.concept.attentionPreflight();
+            }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.settlingConcept = true;
+        self.conceptResult = self.concept.applyAttention(self);
+        if (self.conceptResult.status != 'resolved') rpgExpandedReject('attention-concept-changed');
+        self.settlingConcept = nil; self.boundReceipt = self.receiptFacts(); return nil;
+    }
+;
+modify RpgExpandedProfile
+    conceptAttentionReason(concept)
+    {
+        local reason = inherited(concept); if (reason != nil || !self.shortAttentionActive()) return reason;
+        return concept.attentionSituation == 'brief-undistracted' && concept.attentionEvidence != nil && concept.attentionEvidence != ''
+            ? nil : 'attention-concept-owned-control-required';
+    }
+    attentionConceptControlReason(control,concept)
+    {
+        if (control == nil || !control.ofKind(RpgExpandedAttentionConcept) || control.profile != self || control.concept != concept
+            || !control.settlingConcept || control.conceptStarted || control.result == nil || control.check == nil
+            || !holds(self.selfControlTriggers,control)) return 'attention-concept-control-ownership';
+        return nil;
+    }
+;

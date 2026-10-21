@@ -30,6 +30,8 @@ class RpgExpandedProfile: RpgLiteProfile
     studyAttentionReason(study) { return nil; }
     validateAttentionStudy(study) { rpgExpandedReject('attention-study-module-required'); }
     validateAttentionRepair(repair) { rpgExpandedReject('attention-repair-module-required'); }
+    validateAttentionConcept(concept) { rpgExpandedReject('attention-concept-module-required'); }
+    attentionConceptControlReason(control,concept) { return 'attention-concept-control-unavailable'; }
     attentionRepairControlReason(control,repair) { return 'attention-repair-control-unavailable'; }
     attentionStudyControlReason(control,study) { return 'attention-study-control-unavailable'; }
     catalogueTalentSkills(id) { return []; }
@@ -1289,4 +1291,5 @@ modify RpgExpandedProfile incuriosityActive() { return nil; };
 
 modify RpgLiteProfile
     repairAttentionReason(repair) { return nil; }
+    conceptAttentionReason(concept) { return nil; }
 ;

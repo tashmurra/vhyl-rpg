@@ -9891,6 +9891,8 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    attention_concept = build.build('expanded-attention-concept',ROOT / 'tests/fixtures/expanded-attention-concept.t')
+    test_attention_concept(Session,attention_concept,build.out)
     attention_repair = build.build('expanded-attention-repair',ROOT / 'tests/fixtures/expanded-attention-repair.t')
     test_attention_repair(Session,attention_repair,build.out)
     attention_study = build.build('expanded-attention-study',ROOT / 'tests/fixtures/expanded-attention-study.t')
@@ -30957,4 +30959,41 @@ def test_attention_repair(Session,bundle,out):
     try:
         do(s,1230); do(s,1203); do(s,1237)
         assert state(s) == [0,1,1,6,1800,1000,0,None]
+    finally: s.close()
+
+
+def test_attention_concept(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1253)
+        return last(s,'test.attention-concept')
+    for rapid in (False,True):
+        for success in (False,True):
+            s = Session(bundle)
+            path = out/f'attention-concept-{rapid}-{success}.zsave'
+            initial = [0,0,None,0,0,None]
+            expected = [1,1,'testable' if success else None,(6 if success else 3)+(1 if rapid else 0),
+                        120 if rapid else 0,None if success else 'short-attention-task-failure']
+            try:
+                do(s,1250)
+                if rapid: do(s,1257)
+                if success: do(s,1203)
+                do(s,1255); assert state(s) == initial
+                do(s,1254); assert last(s,'test.attention-concept-direct') == ['attention-concept-owned-control-required']
+                do(s,1252); assert state(s) == initial
+                do(s,1251); s.command('undo'); assert state(s) == initial
+                do(s,1251); do(s,1251); assert state(s) == expected
+                if not success:
+                    do(s,1256); assert state(s) == expected
+                    if not rapid:
+                        do(s,1258); assert last(s,'test.attention-concept-next') == ['invention-concept-day-used']
+                s.command(f':save {path}\n@2251')
+            finally: s.close()
+            s = Session(bundle)
+            try:
+                s.command(f':restore {path}\n@2251'); do(s,1251); assert state(s) == expected
+            finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1250); do(s,1259); do(s,1251); assert state(s) == [0,0,None,0,0,None]
     finally: s.close()

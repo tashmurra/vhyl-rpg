@@ -570,3 +570,19 @@ continuation and mitigation. Checks remain paused; no pass is claimed. Invention
 and other multi-stage work still need their attention contracts, so the trait
 remains excluded from general fear acquisition. Active frenzy and the wider
 acceptance audit also remain unfinished.
+
+## Short-attention invention-concept increment
+
+`RpgExpandedAttentionConcept` now consumes the concrete invention attempt on
+failed attention, preserving ordinary daily limits and rapid-concept duration.
+It records no theory and no invented roll or critical failure. Successful
+attention performs the existing concept check. Owned receipt replay validates
+both project and inventor histories without repeating work. Direct execution
+requires owned attention or an evidenced situation with no attention trigger.
+
+`test_attention_concept` specifies ordinary/rapid attempts, success/failure,
+preview, daily limits, unavailable proposals, rollback, undo, immutable receipts
+and cross-process continuation. All fixtures remain unrun with checks paused.
+Prototype work/completion and other ongoing operations still require attention
+integration; fear acquisition of this trait remains disabled. This increment
+continues the remaining mental-trait work without claiming suite completion.
