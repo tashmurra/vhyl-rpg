@@ -1390,9 +1390,10 @@
         "tests/expanded.py::test_fear_selection",
         "tests/expanded.py::test_status_sensitivity",
         "tests/expanded.py::test_status_outburst",
-        "tests/expanded.py::test_self_sacrifice"
+        "tests/expanded.py::test_self_sacrifice",
+        "tests/expanded.py::test_acquired_replay_event"
       ],
-      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects."
+      "validation_note": "Owned exact-cost phobia, fixed-belief or supported typed mental-trait acquisition. Other catalogue mental-disadvantage choices remain unsupported. Selected by owned fear events; fixtures authored, unrun. Completion is not claimed while implementation limits or validation remain. Supported selections now include humorlessness, pervasive distrust, level-two social inhibition and level-two companionship with their existing effects. The ten-point intrusive-replay selection now has a continuing-scene fixture from actual table selection through later fear onset and independent stun/replay expiry, with unchanged advancement points. Unrun."
     },
     {
       "id": "fear-outcome-24",

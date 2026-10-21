@@ -9874,6 +9874,8 @@ def test(build):
     test_replay_senses(Session,replay_senses,build.out)
     replay_overlap = build.build('expanded-replay-overlap',ROOT / 'tests/fixtures/expanded-replay-overlap.t')
     test_replay_overlap(Session,replay_overlap,build.out)
+    acquired_replay = build.build('expanded-replay-acquired-event',ROOT / 'tests/fixtures/expanded-replay-acquired-event.t')
+    test_acquired_replay_event(Session,acquired_replay,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30495,4 +30497,41 @@ def test_replay_overlap(Session,bundle,out):
     try:
         s.command(f':restore {path}\n@2251'); do(s,581); do(s,1014); do(s,1082)
         assert last(s,'test.replay-acquisition') == [1,10,9,7,-5,4]
+    finally: s.close()
+
+
+def test_acquired_replay_event(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1089)
+        return last(s,'test.acquired-replay')
+    s = Session(bundle)
+    path = out/'acquired-replay-event.zsave'
+    try:
+        do(s,1085); do(s,1086)
+        selected = [1,0,0,9,7,0,0,6,0,0]
+        assert state(s) == selected
+        do(s,1092); assert state(s) == selected
+        do(s,1087); s.command('undo'); assert state(s) == selected
+        do(s,1087); do(s,1087)
+        acquired = [1,1,10,9,7,0,0,6,0,0]
+        assert state(s) == acquired  # acquisition is not a retroactive trigger
+        do(s,1093); assert state(s) == acquired
+        do(s,1088); s.command('undo'); assert state(s) == acquired
+        do(s,1088); do(s,1088)
+        active = [2,1,10,9,7,1,-5,16,0,0]
+        assert state(s) == active
+        do(s,1094); assert state(s) == active
+        do(s,1090); do(s,1090)
+        assert state(s) == [2,1,10,9,7,1,-5,16,1,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251')
+        do(s,1086); do(s,1087); do(s,1088); do(s,1090)
+        assert state(s) == [2,1,10,9,7,1,-5,16,1,0]
+        do(s,1091); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
+        do(s,1095); assert state(s) == [2,1,10,9,7,1,0,16,0,120]
+        s.command('undo'); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
     finally: s.close()

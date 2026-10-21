@@ -2935,3 +2935,12 @@ reject before a new onset roll. No policy is required for an isolated episode.
 independent expiry, receipt mutation, rollback, undo and saved continuation. It
 also specifies ten-point fear acquisition, immutable replay type, actual skill
 effects and unchanged earned/unspent points. These cases remain unrun.
+
+
+`test_acquired_replay_event` connects these interfaces in one continuing scene:
+a real failed fear check selects row 23, the consequence installs the ten-point
+purchase, a later fear event triggers its first replay, and that event's brief
+stun expires independently of the replay's skill penalty. Acquisition does not
+retroactively trigger an episode from the first event. The fixture specifies
+unchanged advancement points, no duplicate dice or purchases, rollback, undo and
+save continuation across the full chain. It remains unrun.

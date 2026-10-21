@@ -421,3 +421,14 @@ receipt mutation, rollback, undo and saved continuation; they remain unrun.
 Earlier replay-increment notes describe historical gaps closed by subsequent
 increments, not passing validation. The wider fear and mental-trait audit is
 still incomplete.
+
+
+## Acquired replay in a continuing fear scene
+
+A new continuing-scene fixture starts with an actual row-23 fear result, installs
+the ten-point replay trait through owned consequence dispatch, then resolves a
+second fear event and its replay follow-up. It specifies no retroactive onset,
+unchanged advancement points, independent stun/replay expiry and replay after
+save, plus rollback and undo at each committed stage. This closes a fixture gap
+between separately authored acquisition and trigger cases. The fixture remains
+unrun and is not passing evidence for the completion audit.
