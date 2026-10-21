@@ -9839,6 +9839,8 @@ def test(build):
     test_rage_melee(Session,rage_melee,build.out)
     knockdown_dispatch = build.build('expanded-knockdown-dispatch',ROOT / 'tests/fixtures/expanded-knockdown-dispatch.t')
     test_knockdown_dispatch(Session,knockdown_dispatch,build.out)
+    nightmares = build.build('expanded-nightmares',ROOT / 'tests/fixtures/expanded-nightmares.t')
+    test_nightmares(Session,nightmares,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29899,3 +29901,40 @@ def test_knockdown_dispatch(Session,bundle,out):
         try:
             s.command(f':restore {path}\n@2251'); do(s,940); assert state(s) == expected
         finally: s.close()
+
+
+def test_nightmares(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,955)
+        return last(s,'test.nightmares')
+    for choice,failure,penalty in ((952,0,0),(None,1,0),(951,1,-1),(961,1,-1)):
+        path = out/f'nightmare-{choice}.zsave'
+        expected = [1,failure,failure,penalty,penalty,0,3]
+        s = Session(bundle)
+        try:
+            do(s,950); do(s,581)
+            if choice is not None: do(s,choice)
+            do(s,954); assert state(s) == [0,0,0,0,0,0,0]
+            do(s,953); s.command('undo'); assert state(s) == [0,0,0,0,0,0,0]
+            do(s,953); do(s,953); do(s,960); assert state(s) == expected
+            do(s,959)
+            assert last(s,'test.nightmare-duplicate') == ['blocked','nightmare-day-already-recorded']
+            do(s,956); assert state(s) == expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,953); assert state(s) == expected
+            do(s,957); assert state(s) == [1,0,0,penalty,penalty,0,3]
+            do(s,958)
+            # Ordinary elapsed-time effects are separate; the nightmare modifier expires.
+            do(s,955); assert last(s,'test.nightmares')[3:6] == [0,0,0]
+        finally: s.close()
+
+    s = Session(bundle)
+    try:
+        for code in (950,581,962,953,953): do(s,code)
+        assert state(s) == [1,11,1,0,0,0,3]
+        do(s,963); assert last(s,'test.nightmare-overflow') == [1,1,1]
+    finally: s.close()

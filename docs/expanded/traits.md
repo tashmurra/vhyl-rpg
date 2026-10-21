@@ -2629,3 +2629,42 @@ gap, not a completed combination.
 and failed control, actual scene choices, receipt mutation, invalid stressors,
 unsupported rage, stress follow-up deduplication, rollback, undo and saved
 continuation. All cases remain unrun while checks are paused.
+
+
+### Nightmares on waking
+
+`RpgExpandedNightmares` is the rated -5-base trait from full-2008 B144–B145.
+Use the standard self-control pricing and `['nightmares', 1, nil, rating]`
+template row. Rating six produces the exact -10 purchase eligible for a mental
+fear outcome. Copies reconstruct the purchase without inheriting waking history.
+
+For each morning awakening, author an `RpgExpandedNightmareWaking` with unique
+ID, profile, a fresh `RpgExpandedSelfControlTrigger` in `control`, a stable `day`
+identity, `dayEndsAt`, `morningConfirmed` and evidence. The control must reference
+the profile and its nightmare trait, with its own occurrence identity and
+evidence. Supply a drop destination if overflow injury could require one. The
+health library must be installed. A mitigated trait or unconscious/dead character
+cannot start this event. The author must call this concrete operation when the
+character wakes; it does not infer an awakening from arbitrary narration.
+
+`assess()` preflights control and possible fatigue consequences without rolls or
+resource changes. `apply()` owns one check, records the result and applies one
+sleep-only fatigue loss on failure. It reuses the health ledger, including
+fatigue overflow injury; ordinary rest cannot recover the sleep debt. Raw rolls
+17 or 18 additionally impose -1 to every skill and Perception check until the
+authored day boundary. Other raw attributes receive no nightmare modifier.
+Recovery of the fatigue does not prematurely remove that day's penalty.
+
+The day boundary is an explicit campaign fact, not an assumed 24-hour expiry
+from the time of the call. Duplicate IDs, day identities or overlapping waking
+days reject. Replay cannot reroll, spend again or extend the penalty. Definitions,
+check facts and fatigue ownership are retained. Standard purchased-success,
+giving-in and stress-classification rules belong to the supplied control;
+prohibited control scores still reject before any roll.
+
+`test_nightmares` specifies successful and failed mornings, raw 17/18 penalties,
+sleep-only recovery, day expiry, duplicates, altered receipts, overflow injury,
+rollback, undo and saved continuation. All cases are registered but unrun.
+Playing out a dream, transferring authored dream consequences and participation
+awards remain separate unfinished campaign procedures; this operation does not
+silently modify other characters or invent dream-world effects.

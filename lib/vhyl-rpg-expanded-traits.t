@@ -4198,7 +4198,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4931,6 +4931,153 @@ modify rpgExpandedTemplateTraits
     copy(trait)
     {
         if (!trait.ofKind(RpgExpandedVolatileTemper)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
+;
+
+/** B144-B145: rated nightmares; waking owns the check and its consequences. */
+class RpgExpandedNightmares: RpgExpandedDisadvantage
+    id = 'nightmares'
+    labelId = 'nightmares'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-nightmares'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'nightmares' || self.points != -5 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('nightmares-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedNightmareWaking: object
+    id = nil
+    profile = nil
+    control = nil
+    day = nil
+    dayEndsAt = nil
+    morningConfirmed = nil
+    evidence = nil
+    dropDestination = nil
+    loss = nil
+    result = nil
+    recordedAt = nil
+    boundFacts = nil
+    boundOutcome = nil
+    facts()
+    {
+        if (self.id == nil || self.id == '' || self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.control == nil || !self.control.ofKind(RpgExpandedSelfControlTrigger)
+            || self.control.profile != self.profile || self.control.trait == nil
+            || !self.control.trait.ofKind(RpgExpandedNightmares)) rpgExpandedReject('nightmare-waking-definition');
+        return [self.id,self.profile,self.control,self.day,self.dayEndsAt,self.morningConfirmed,self.evidence,
+            self.dropDestination] + self.control.definition();
+    }
+    outcomeFacts()
+    {
+        local check = self.control.check;
+        return [self.result,self.result.status,self.recordedAt,self.loss,check,
+            check.score,check.roll,check.achieved,check.margin,check.critical];
+    }
+    validateReceipt()
+    {
+        local facts = self.facts();
+        if (self.result == nil || !holds(self.profile.nightmareWakings,self) || self.boundFacts == nil
+            || facts.length() != self.boundFacts.length()) rpgExpandedReject('nightmare-waking-history');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundFacts[i]) rpgExpandedReject('nightmare-waking-binding');
+        facts = self.outcomeFacts();
+        if (self.boundOutcome == nil || facts.length() != self.boundOutcome.length()) rpgExpandedReject('nightmare-waking-outcome');
+        for (local i = 1; i <= facts.length(); i += 1)
+            if (facts[i] != self.boundOutcome[i]) rpgExpandedReject('nightmare-waking-outcome');
+        if (self.control.active || self.control.assess().status != 'reused') rpgExpandedReject('nightmare-control-receipt');
+        if (!self.control.check.achieved)
+        {
+            if (self.loss == nil || self.loss.id != self.id || self.loss.profile != self.profile
+                || self.loss.amount != 1 || self.loss.dropDestination != self.dropDestination
+                || self.loss.assess().status != 'reused') rpgExpandedReject('nightmare-fatigue-receipt');
+        }
+        else if (self.loss != nil) rpgExpandedReject('nightmare-unexpected-fatigue');
+        return nil;
+    }
+    assess()
+    {
+        self.facts(); local value = new RpgExpandedResult();
+        if (self.result != nil) { self.validateReceipt(); value.status = 'reused'; return value; }
+        if (self.loss != nil || self.recordedAt != nil || self.boundFacts != nil || self.boundOutcome != nil)
+            rpgExpandedReject('nightmare-uncommitted');
+        if (!self.morningConfirmed || self.day == nil || self.evidence == nil || self.evidence == '')
+        { value.reason = 'nightmare-waking-evidence'; return value; }
+        rpgInteger(self.dayEndsAt,rpgLedger.seconds+1,2147483647);
+        if (self.control.trait.mitigated) { value.reason = 'nightmare-trait-mitigated'; return value; }
+        if (self.profile.dead || self.profile.unconscious) { value.reason = 'nightmare-not-awake'; return value; }
+        foreach (local prior in self.profile.nightmareWakings)
+        {
+            prior.validateReceipt();
+            if (prior.id == self.id || prior.day == self.day || prior.dayEndsAt > rpgLedger.seconds)
+            { value.reason = 'nightmare-day-already-recorded'; return value; }
+        }
+        local check = self.control.assess();
+        if (check.status == 'reused') { value.reason = 'nightmare-control-already-used'; return value; }
+        if (check.status != 'ready') return check;
+        local loss = self.profile.newNightmareFatigueLoss(); loss.id = self.id; loss.profile = self.profile;
+        loss.dropDestination = self.dropDestination;
+        local fatigue = loss.assess(); if (fatigue.status != 'ready') return fatigue;
+        value.status = 'ready'; return value;
+    }
+    apply()
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        local facts = self.facts(); local check = self.control.resolve();
+        if (check.status != 'resolved') rpgExpandedReject('nightmare-control-changed');
+        if (!check.check.achieved)
+        {
+            local loss = self.profile.newNightmareFatigueLoss(); loss.id = self.id; loss.profile = self.profile;
+            loss.dropDestination = self.dropDestination;
+            if (loss.apply().status != 'resolved') rpgExpandedReject('nightmare-fatigue-changed');
+            self.loss = loss;
+        }
+        self.control.active = nil;
+        self.recordedAt = rpgLedger.seconds; value.status = 'resolved'; self.result = value;
+        self.boundFacts = facts; self.boundOutcome = self.outcomeFacts();
+        self.profile.nightmareWakings = self.profile.nightmareWakings + [self]; return value;
+    }
+    shaking()
+    {
+        self.validateReceipt();
+        return rpgLedger.seconds >= self.recordedAt && rpgLedger.seconds < self.dayEndsAt
+            && holds([17,18],self.control.check.roll);
+    }
+;
+modify RpgExpandedProfile
+    nightmareWakings = []
+    validateFeatures() { inherited(); self.nightmareShaking(); return nil; }
+    nightmareShaking()
+    {
+        local active = nil;
+        foreach (local waking in self.nightmareWakings) if (waking.shaking()) active = true;
+        return active;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        if ((context.skill != nil || context.controllingAttribute() == rpgPerception) && self.nightmareShaking()) value -= 1;
+        return value;
+    }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'nightmares') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedNightmares(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedNightmares)) return inherited(trait);
         trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
     }
 ;

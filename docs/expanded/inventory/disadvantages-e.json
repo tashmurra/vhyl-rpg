@@ -682,9 +682,10 @@
       "pages": "B144-B145",
       "module": "health",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Nightmares are base -5 with a self-control check on morning waking. Failure costs one fatigue recoverable only through sleep. A raw seventeen or eighteen additionally gives -1 to all skills and perception for the day. Keep sleep-only fatigue source and day expiry distinct from generic fatigue recovery.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_nightmares"],
+      "validation_note": "Typed rated purchase, exact ten-point fear selection and owned morning-waking event implemented. Shared sleep-only fatigue/overflow ledger, raw 17/18 skill-and-Perception penalty, explicit day boundary and duplicate prevention are present. Recovery, expiry, mutation, rollback, undo and saved-continuation fixtures are authored and unrun. Playable dream scenarios and their consequence transfers remain a separate pending campaign entry."
     },
     {
       "id": "disadvantages-e-nightmare-scenario",

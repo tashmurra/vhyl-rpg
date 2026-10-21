@@ -11883,3 +11883,16 @@ class RpgExpandedRageInjuryReceipt: object
         self.profile.rageInjuryReceipts = self.profile.rageInjuryReceipts + [self]; return value;
     }
 ;
+
+/** B144: nightmare fatigue shares the sleep-only debt and ordinary overflow injury. */
+class RpgExpandedNightmareFatigueLoss: RpgExpandedFearFatigueLoss
+    maximumAmount() { return 1; }
+    fatigueCause() { return 'sleep'; }
+    history() { return self.profile.nightmareFatigueLosses; }
+    remember() { self.profile.nightmareFatigueLosses = self.profile.nightmareFatigueLosses + [self]; }
+    woundId(index) { return 'nightmare-fatigue-' + self.id; }
+;
+modify RpgExpandedProfile
+    nightmareFatigueLosses = []
+    newNightmareFatigueLoss() { return new RpgExpandedNightmareFatigueLoss(); }
+;

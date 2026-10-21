@@ -1256,3 +1256,7 @@ class RpgExpandedPanicObjectPermission: object
     apply(reaction) { rpgExpandedReject('panic-object-health-module-required'); }
     validateReceipt(reaction) { rpgExpandedReject('panic-object-health-module-required'); }
 ;
+
+modify RpgExpandedProfile
+    newNightmareFatigueLoss() { rpgExpandedReject('nightmare-health-module-required'); }
+;

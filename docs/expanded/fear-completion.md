@@ -272,3 +272,15 @@ blocking decision has been requested; no answer is assumed. Independent work
 extracted the existing combined procedure into default-preserving profile hooks
 so an eventual policy can share the wound ledger. No frenzy benefit is enabled.
 Default success/failure and persistence fixtures are registered but unrun.
+
+
+## Nightmare waking selection
+
+Nightmares now have a typed rated purchase and concrete morning-waking event.
+Failure charges one sleep-restricted fatigue point through the common ledger;
+raw 17/18 also applies the day-long skill/Perception penalty. Authored day
+boundaries, duplicate checks, overflow injury and immutable receipts are handled
+explicitly. The ten-point rated purchase is selectable by fear. Registered
+recovery, expiry and lifecycle cases remain unrun. The separate playable-dream
+campaign procedure is still pending, as are the other remaining trait and frenzy
+obligations. The frenzy knockdown-policy question is still unanswered.
