@@ -181,3 +181,14 @@ reaction chain and after restored continuation has completed it. Rejection must
 roll back the mutation without changing severity, clock or random consumption.
 These cases remain unrun; this closes a receipt-integrity gap, not the remaining
 catalogue or execution-validation work.
+
+
+## Room-flight incapacity boundary
+
+Row-33 room flight now consults the shared voluntary-movement restriction before
+spending time and again before relocation. A conscious, balanced but paralyzed
+character cannot bypass incapacity merely because posture and fatigue permit
+movement. The existing flight fixture specifies denied preview/execution with
+unchanged position, severity, clock and dice, including saved continuation.
+These cases are authored and unrun. Tactical movement continues to use its own
+owned maneuver health gate; this change addresses the direct room-route gap.

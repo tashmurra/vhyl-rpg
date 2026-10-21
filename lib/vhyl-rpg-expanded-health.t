@@ -10546,7 +10546,8 @@ class RpgExpandedExtremePanicReaction: object
             rpgInteger(self.distanceYards,1,1000000);
             if (self.routeEvidence == nil || self.routeEvidence == '') { value.reason = 'panic-flight-route-evidence'; return value; }
             if (location.get(self.actor) != self.origin) { value.reason = 'panic-flight-origin-changed'; return value; }
-            if (profile.unconscious || !holds(['standing','crouching'],profile.posture) || profile.fatigue >= profile.maxEnergy)
+            if (profile.unconscious || profile.voluntaryMovementUnavailable()
+                || !holds(['standing','crouching'],profile.posture) || profile.fatigue >= profile.maxEnergy)
             { value.reason = 'panic-flight-mobility-unavailable'; return value; }
             value.reason = profile.panicRelocationReason(); if (value.reason != nil) return value;
             for (local battle = firstObj(RpgLiteBattle); battle != nil; battle = nextObj(battle,RpgLiteBattle))
@@ -10589,7 +10590,8 @@ class RpgExpandedExtremePanicReaction: object
         if (rpgLedger.seconds != start+clockSeconds) rpgExpandedReject('panic-operation-time');
         if (self.kind == 'flight')
         {
-            if (location.get(self.actor) != self.origin || profile.unconscious || profile.fatigue >= profile.maxEnergy
+            if (location.get(self.actor) != self.origin || profile.unconscious || profile.voluntaryMovementUnavailable()
+                || profile.fatigue >= profile.maxEnergy
                 || !holds(['standing','crouching'],profile.posture) || self.distanceYards > profile.move()*self.seconds
                 || profile.panicRelocationReason() != nil) rpgExpandedReject('panic-flight-state-changed');
             relocateActor(self.actor,self.destination);

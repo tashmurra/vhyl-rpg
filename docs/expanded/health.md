@@ -4361,7 +4361,9 @@ or reactions. The actor must own the episode's profile. The declared distance
 must fit the character's current Move over the reaction's `seconds`.
 
 This adapter supports standing/crouching, conscious characters with available
-fatigue capacity, outside active combat and tactical placement. Those restrictions
+fatigue capacity and no shared voluntary-movement incapacity, outside active
+combat and tactical placement. Conscious, balanced paralysis still blocks flight
+before time or dice are spent. Those restrictions
 are explicit: it cannot silently leave a tactical figure behind, teleport through
 a barrier, or resolve a fall as harmless movement. Routes needing tactical
 execution, interrupted travel, attacks or falling consequences still require

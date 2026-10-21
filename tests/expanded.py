@@ -28595,14 +28595,35 @@ def test_panic_flight(Session,bundle,out):
         s.command(f':restore {path}\n@2251'); do(s,442); assert state(s)==[1,1,1,9]
         do(s,444); assert state(s)==[1,2,2,12]
     finally: s.close()
-    for code,reason in ((572,'panic-flight-distance'),(573,'panic-flight-route-evidence')):
+    for code,reason in ((572,'panic-flight-distance'),(573,'panic-flight-route-evidence'),
+                        (574,'panic-flight-mobility-unavailable')):
         s=Session(bundle)
         try:
             do(s,440); do(s,code); do(s,570)
             assert last(s,'test.panic-flight-preview')==['blocked',reason]
-            assert state(s)==[0,0,0,3]
+            do(s,442); assert state(s)==[0,0,0,3]
+            if code == 574:
+                do(s,575)
+                assert last(s,'test.panic-flight-paralysis') == [1,0,'standing']
         finally: s.close()
 
+
+
+    # The independent incapacity and blocked reaction survive a process boundary.
+    blocked_path = out/'panic-flight-paralyzed.zsave'
+    s = Session(bundle)
+    try:
+        do(s,440); do(s,574)
+        s.command(f':save {blocked_path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {blocked_path}\n@2251')
+        do(s,570)
+        assert last(s,'test.panic-flight-preview') == ['blocked','panic-flight-mobility-unavailable']
+        do(s,442); assert state(s) == [0,0,0,3]
+        do(s,575); assert last(s,'test.panic-flight-paralysis') == [1,0,'standing']
+    finally: s.close()
 
 
 def test_fear_mental(Session,bundle,out):
