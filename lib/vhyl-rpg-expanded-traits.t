@@ -4229,7 +4229,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude) || trait.ofKind(RpgExpandedStatusSensitivity) || trait.ofKind(RpgExpandedSelfSacrifice) || trait.ofKind(RpgExpandedIntrusiveReplay) || trait.ofKind(RpgExpandedLowConfidence)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -5704,5 +5704,71 @@ modify RpgExpandedProfile
     {
         local reason = self.externalInputReason();
         return reason == nil ? inherited(aura) : reason;
+    }
+;
+
+/** full-2008 B143: author-assessed confidence affects skills, not raw attributes. */
+class RpgExpandedLowConfidence: RpgExpandedDisadvantage
+    id = 'low-confidence'
+    labelId = 'low-confidence'
+    points = -10
+    templatePurchaseKind = 'expanded-low-confidence'
+    creationCost()
+    {
+        if (!self.approved || self.id != 'low-confidence' || self.points != -10 || self.level != 1
+            || self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('low-confidence-definition');
+        return -10;
+    }
+;
+modify RpgLiteContext
+    confidenceSituation = nil
+    confidenceEvidence = nil
+    confidenceFacts() { return [self.confidenceSituation,self.confidenceEvidence]; }
+;
+modify RpgExpandedProfile
+    lowConfidenceActive()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'low-confidence')
+            {
+                if (found != nil || !trait.ofKind(RpgExpandedLowConfidence)) rpgExpandedReject('low-confidence-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found != nil && found.active && !found.mitigated;
+    }
+    validateFeatures() { inherited(); self.lowConfidenceActive(); return nil; }
+    lowConfidenceContextReason(context)
+    {
+        if (!self.lowConfidenceActive() || context.skill == nil) return nil;
+        if (!holds(['ordinary','adverse'],context.confidenceSituation)
+            || context.confidenceEvidence == nil || context.confidenceEvidence == '')
+            return 'low-confidence-scene-judgment-required';
+        return nil;
+    }
+    healthCheckReason(context)
+    {
+        local reason = inherited(context);
+        return reason == nil ? self.lowConfidenceContextReason(context) : reason;
+    }
+    healthAttributeModifier(context)
+    {
+        local value = inherited(context);
+        local reason = self.lowConfidenceContextReason(context); if (reason != nil) rpgExpandedReject(reason);
+        return value - (context.skill != nil && self.lowConfidenceActive() && context.confidenceSituation == 'adverse' ? 3 : 0);
+    }
+;
+modify rpgExpandedTemplateTraits
+    plain(id,level,scope)
+    {
+        if (id != 'low-confidence') return inherited(id,level,scope);
+        local trait = new RpgExpandedLowConfidence(); trait.approved = true; trait.level = level; trait.scope = scope;
+        trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedLowConfidence)) return inherited(trait);
+        trait.creationCost(); return self.plain(trait.id,trait.level,trait.scope);
     }
 ;

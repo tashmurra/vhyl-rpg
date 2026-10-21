@@ -256,7 +256,11 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Solitude compulsion is base -5 with self-control on unwanted lingering proximity/observation; failure produces a volatile-temper response toward that person. Nonplayer general reactions are -4/-3/-2/-1 at self-control six/nine/twelve/fifteen. Keep this reaction direction distinct from other people reacting to the actor.",
-      "tests": ["tests/expanded.py::test_solitude", "tests/expanded.py::test_solitude_social", "tests/expanded.py::test_control_choice_mitigation"],
+      "tests": [
+        "tests/expanded.py::test_solitude",
+        "tests/expanded.py::test_solitude_social",
+        "tests/expanded.py::test_control_choice_mitigation"
+      ],
       "validation_note": "Typed rated fear selection reuses owned hostile responses for an explicit other-person proximity trigger. NPC reaction context applies the four rating penalties from observer to subject, with no reversed or doubled subject penalty. Action, invalid-fact, reaction-direction, mitigation and lifecycle fixtures authored and unrun. Frenzy combinations remain explicitly blocked."
     },
     {
@@ -288,9 +292,12 @@
       "pages": "B143",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Low confidence costs -10 and gives -3 to skills when the actor believes odds are unfavorable or others expect failure. Author supplies belief/expectation context; stack with ordinary situational modifiers without inferring the condition merely from a low numeric target.",
-      "tests": []
+      "tests": [
+        "tests/expanded.py::test_low_confidence"
+      ],
+      "implementation_note": "Typed ten-point fear selection with explicit ordinary/adverse author judgment, shared -3 skill modifier, missing-context no-dice rejection and mitigation. Raw attributes unchanged. Lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-e-lunar-moods",
@@ -685,7 +692,9 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Nightmares are base -5 with a self-control check on morning waking. Failure costs one fatigue recoverable only through sleep. A raw seventeen or eighteen additionally gives -1 to all skills and perception for the day. Keep sleep-only fatigue source and day expiry distinct from generic fatigue recovery.",
-      "tests": ["tests/expanded.py::test_nightmares"],
+      "tests": [
+        "tests/expanded.py::test_nightmares"
+      ],
       "validation_note": "Typed rated purchase, exact ten-point fear selection and owned morning-waking event implemented. Shared sleep-only fatigue/overflow ledger, raw 17/18 skill-and-Perception penalty, explicit day boundary and duplicate prevention are present. Recovery, expiry, mutation, rollback, undo and saved-continuation fixtures are authored and unrun. Playable dream scenarios and their consequence transfers remain a separate pending campaign entry."
     },
     {

@@ -432,3 +432,14 @@ unchanged advancement points, independent stun/replay expiry and replay after
 save, plus rollback and undo at each committed stage. This closes a fixture gap
 between separately authored acquisition and trigger cases. The fixture remains
 unrun and is not passing evidence for the completion audit.
+
+
+## Low-confidence fear selection
+
+The B143 ten-point purchase now participates in fear acquisition and shared skill
+scoring. Explicit ordinary/adverse scene judgments determine its -3 penalty;
+missing judgments reject before randomness. Raw attributes remain unaffected and
+ordinary situational modifiers compose. Registered cases specify cost/accounting,
+mitigation, actual checks, rollback, undo and save continuation, but remain unrun.
+This closes another selection implementation gap without claiming the remaining
+trait catalogue or full fear suite is complete.

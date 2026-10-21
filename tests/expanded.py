@@ -9876,6 +9876,8 @@ def test(build):
     test_replay_overlap(Session,replay_overlap,build.out)
     acquired_replay = build.build('expanded-replay-acquired-event',ROOT / 'tests/fixtures/expanded-replay-acquired-event.t')
     test_acquired_replay_event(Session,acquired_replay,build.out)
+    low_confidence = build.build('expanded-low-confidence',ROOT / 'tests/fixtures/expanded-low-confidence.t')
+    test_low_confidence(Session,low_confidence,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30534,4 +30536,32 @@ def test_acquired_replay_event(Session,bundle,out):
         do(s,1091); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
         do(s,1095); assert state(s) == [2,1,10,9,7,1,0,16,0,120]
         s.command('undo'); assert state(s) == [2,1,10,9,7,1,-5,16,0,1]
+    finally: s.close()
+
+
+def test_low_confidence(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1105)
+        return last(s,'test.low-confidence')
+    s = Session(bundle)
+    path = out/'low-confidence.zsave'
+    try:
+        do(s,1108); assert last(s,'test.confidence-copy') == [-10,1]
+        do(s,1100); do(s,582); assert state(s) == [0,0,9,7,12,10,0]
+        do(s,581); do(s,581); do(s,1103)
+        assert last(s,'test.confidence-check') == [None,'low-confidence-scene-judgment-required',0]
+        assert state(s) == [1,10,9,7,None,10,0]
+        do(s,1101); assert state(s) == [1,10,9,7,12,10,0]
+        do(s,1102); assert state(s) == [1,10,9,7,9,10,0]
+        do(s,1107); assert state(s) == [1,10,9,7,7,10,0]
+        do(s,1104); assert state(s) == [1,10,9,7,7,10,0]
+        do(s,1103); s.command('undo'); assert state(s) == [1,10,9,7,7,10,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); assert state(s) == [1,10,9,7,7,10,0]
+        do(s,1103); assert last(s,'test.confidence-check') == [7,None,3]
+        do(s,1106); assert state(s) == [1,10,9,7,10,10,3]
     finally: s.close()

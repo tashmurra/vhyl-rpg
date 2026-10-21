@@ -2944,3 +2944,29 @@ stun expires independently of the replay's skill penalty. Acquisition does not
 retroactively trigger an episode from the first event. The fixture specifies
 unchanged advancement points, no duplicate dice or purchases, rollback, undo and
 save continuation across the full chain. It remains unrun.
+
+
+### Low confidence
+
+`RpgExpandedLowConfidence` implements full-2008 B143 at -10 points and is an
+exact ten-point fear selection. Plain templates use `['low-confidence', 1, nil]`.
+The active purchase requires an authored judgment for each skill-check context:
+set `confidenceSituation` to `ordinary` or `adverse`, and supply
+`confidenceEvidence`. Adverse means the actor believes the odds are unfavorable
+or others expect failure. A difficult numeric target alone does not establish
+that belief. The ordinary classification explicitly records that this condition
+does not apply.
+
+Adverse skill checks receive -3 in shared scoring, in addition to normal scene
+modifiers. Raw attribute checks are unaffected. A missing or invalid judgment
+rejects the skill check before dice; inactive or mitigated purchases impose no
+penalty or classification requirement. Do not also subtract the same -3 manually.
+For custom owned operations, include `context.confidenceFacts()` in the facts
+retained with the action; classification must describe the actual scene at
+execution, not an unrelated cached context.
+
+`test_low_confidence` specifies exact-cost copying/acquisition, no advancement
+refund, missing-judgment rejection without dice, ordinary/adverse scoring,
+modifier composition, raw-attribute preservation, mitigation, rollback, undo and
+cross-process save continuation. It is registered but unrun; broader integration
+validation remains outstanding.
