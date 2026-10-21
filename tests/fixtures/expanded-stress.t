@@ -56,6 +56,7 @@ modify FearTestAction
             local defense = new RpgLiteContext(); defense.kind = 'defense'; defense.attribute = rpgDX;
             eventValue(fearProfile.healthAttributeModifier(defense)); return nil;
         }
+        if (code == 1422) { stressContext.modifier = -2; return nil; }
         if (code == 1419)
         {
             event('test.stress-passive');

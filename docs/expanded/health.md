@@ -4200,7 +4200,10 @@ For row 26, the acquisition uses row 22 and the episode is a
 `RpgExpandedFearFaint` with row 18. For row 38, use acquisition row 34 and
 `RpgExpandedFearComa` row 29. All owners and event IDs must match.
 
-`assess()` preflights both components before spending anything. `apply()` records
+`assess()` preflights both components before spending anything. The physical
+consequence commits against the original event context before the lasting trait
+is acquired. A new fear modifier therefore affects later events without changing
+the recorded score or preventing the current compound outcome. `apply()` records
 the lasting belief, then starts the faint/coma, in one engine transaction. The
 lasting trait remains even if collapse injury proves fatal. The component
 receipts own their original costs, health checks and recovery schedules; the

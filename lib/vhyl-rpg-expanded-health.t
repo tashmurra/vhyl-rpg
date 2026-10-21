@@ -10103,8 +10103,11 @@ class RpgExpandedFearTraitCompound: RpgExpandedFearTraitConsequence
     {
         local value = self.assess(); if (value.status != 'ready') return value;
         local facts = self.definition(); local originalIQ = self.context.profile.iq;
-        if (self.acquisition.apply().status != 'resolved') rpgExpandedReject('fear-belief-compound-acquisition-changed');
+        /* Apply the physical consequence against the original event context.
+         * A lasting fear trait may change future fear scores; it must not
+         * retroactively change the check that caused this compound outcome. */
         if (self.episode.apply().status != 'resolved') rpgExpandedReject('fear-belief-compound-episode-changed');
+        if (self.acquisition.apply().status != 'resolved') rpgExpandedReject('fear-belief-compound-acquisition-changed');
         if (self.tableTotal == 40)
         {
             if (self.context.profile.iq != originalIQ) rpgExpandedReject('fear-compound-iq-changed');

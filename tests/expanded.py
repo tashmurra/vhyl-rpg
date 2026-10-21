@@ -9817,6 +9817,8 @@ def test(build):
     test_fear_recovery_ruling(Session,recovery_ruling,build.out)
     hearing_loss = build.build('expanded-hearing-loss',ROOT / 'tests/fixtures/expanded-hearing-loss.t')
     test_hearing_loss(Session,hearing_loss,build.out)
+    compound_context = build.build('expanded-fear-compound-context',ROOT / 'tests/fixtures/expanded-fear-compound-context.t')
+    test_fear_compound_context(Session,compound_context,build.out)
     fear_hearing_loss = build.build('expanded-fear-hearing-loss',ROOT / 'tests/fixtures/expanded-fear-hearing-loss.t')
     test_fear_hearing_loss(Session,fear_hearing_loss,build.out)
     overstimulation_strike = build.build('expanded-overstimulation-strike',ROOT / 'tests/fixtures/expanded-overstimulation-strike.t')
@@ -31552,6 +31554,7 @@ def test_stress_refresh(Session,bundle,out):
         do(s,1409,599); do(s,1401,3); do(s,1403,1); do(s,1409,1)
         do(s,1405); assert last(s,'test.stress')[5:8] == [2,-1,600]
         do(s,1417); assert last(s,'test.stress-score') == [9,0,0,0]
+        do(s,1422); do(s,1417); assert last(s,'test.stress-score') == [7,0,0,0]
         s.command(f':save {path}\n@2251')
     finally: s.close()
     s=Session(bundle)
@@ -31587,3 +31590,22 @@ def test_stress_severity(Session,bundle,out):
         do(s,1405); assert last(s,'test.stress')[0] == 12
         do(s,1418); assert last(s,'test.stress-gain') == [3,1,2]
     finally: s.close()
+
+
+def test_fear_compound_context(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s): do(s,344); return last(s,'test.fear-compound')
+    s=Session(bundle); path=out/'fear-compound-context.zsave'
+    try:
+        do(s,1264); do(s,300); do(s,1263)
+        assert last(s,'test.compound-preview') == ['ready',None]
+        do(s,343); assert state(s) == [0,0,0,0,0,9,7,0]
+        do(s,345); assert state(s) == [1,1,1,1,1,9,7,4]
+        do(s,305); assert last(s,'test.fear-event')[1] == 2
+        s.command(f':save {path}\n@2251')
+    finally:s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,345)
+        assert state(s) == [1,1,1,1,1,9,7,4]
+    finally:s.close()
