@@ -624,3 +624,22 @@ The same recorded-strike executor also accepts a currently executing
 It uses that declaration's permission receipt and spends ammunition only at the
 actual trigger. This adds a concrete stationary Wait-attack route; it does not
 broaden the supported strike outcomes or complete other Wait conversions.
+
+## Recorded critical-hit execution
+
+`RpgExpandedRecordedCriticalHit` connects the B556 hit-table assessments to the
+health library's recorded strike executor. It validates supplied table dice,
+basic damage, maximum damage, armor after divisors and penetration; enforces
+no active defense; and requires the owned wound's critical/major-wound settings
+to agree with the selected effect. The strike retains all supplied facts and
+commits ammunition, injury and its turn once. See the
+[attack authoring contract](health.md#recorded-panic-attacks) for the shared execution routes.
+
+General rows 3–7, 9–11 and 13–18 have connected damage/armor/major-wound behavior.
+The same assessment selects head-table effects, but this increment's integration
+fixture exercises the general table. Additional-effect rows reject explicitly;
+drops, doubled shock, temporary crippling, forced inactivity and sensory or
+appearance effects must not disappear into an ordinary damage approximation.
+Final injury remains an explicitly evidenced author calculation. This is partial
+attack coverage; automatic damage rolls and the full critical-miss tables are
+still unfinished. All new integration fixtures are authored and unrun.

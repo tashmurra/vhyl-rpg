@@ -1224,3 +1224,9 @@ class RpgExpandedStrikeDefensePosition: object
     apply(consequence) { rpgExpandedReject('strike-defense-tactical-required'); }
     validate(consequence) { rpgExpandedReject('strike-defense-tactical-required'); }
 ;
+
+/** Optional combat-owned critical-hit table assessment for a recorded strike. */
+class RpgExpandedStrikeCriticalHit: object
+    facts(strike) { rpgExpandedReject('strike-critical-combat-required'); }
+    assess(strike) { rpgExpandedReject('strike-critical-combat-required'); }
+;

@@ -2053,3 +2053,9 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   one transaction; already-prone defenders retain their current footprint. It
   spends no additional turn or movement allowance. Airborne and shared-cell
   falls remain unsupported. New lifecycle fixtures are authored and unrun.
+
+- Connected recorded critical hits to damage multiplication, maximum damage,
+  adjusted armor, penetration and owned critical/major wounds. Critical hits
+  forbid active defenses and retain the source table inputs. Fourteen general
+  rows have integration fixtures; additional-effect rows reject pending their
+  executors. Final injury remains authored. Checks remain paused; fixtures unrun.

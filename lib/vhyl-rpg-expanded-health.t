@@ -11051,6 +11051,7 @@ class RpgExpandedAdjudicatedStrike: object
     defenseKind = nil
     defenseScore = nil
     defenseRoll = nil
+    criticalConsequence = nil
     defenseConsequence = nil
     committingDefense = nil
     defenseWaivedEvidence = nil
@@ -11082,6 +11083,12 @@ class RpgExpandedAdjudicatedStrike: object
                 self.wound.severing,self.wound.maleGroin,self.wound.dropDestination,self.wound.anatomy,
                 self.wound.criticalHit,self.wound.forceMajorWound];
         }
+        if (self.criticalConsequence != nil)
+        {
+            if (!self.criticalConsequence.ofKind(RpgExpandedStrikeCriticalHit)) rpgExpandedReject('adjudicated-strike-critical-consequence');
+            facts = facts + self.criticalConsequence.facts(self);
+        }
+        else facts = facts + [nil];
         if (self.defenseConsequence != nil)
         {
             if (!self.defenseConsequence.ofKind(RpgExpandedStrikeDefenseConsequence)) rpgExpandedReject('adjudicated-strike-defense-consequence');
@@ -11096,7 +11103,17 @@ class RpgExpandedAdjudicatedStrike: object
         rpgInteger(self.basicDamage,0,1000000);
         local value = new RpgLiteCombatResult(); value.attackMode = self.mode; value.damage = self.basicDamage;
         value.attack = rpgExpandedCombatCheck(self.mode.ranged ? 'ranged' : 'melee',self.attackScore,self.attackRoll);
-        if (value.attack.critical != nil) { value.reason = 'adjudicated-strike-critical-adapter-required'; return value; }
+        if (value.attack.critical == 'failure' || value.attack.critical == 'success' && self.criticalConsequence == nil)
+        { value.reason = 'adjudicated-strike-critical-adapter-required'; return value; }
+        if (value.attack.critical == 'success')
+        {
+            if (self.defenseKind != nil || self.defenseScore != nil || self.defenseRoll != nil
+                || self.defenseWaivedEvidence != nil || self.defenseConsequence != nil)
+                rpgExpandedReject('adjudicated-strike-critical-no-defense');
+            local critical = self.criticalConsequence.assess(self);
+            if (critical.status != 'ready') { value.reason = critical.reason; return value; }
+        }
+        else if (self.criticalConsequence != nil) rpgExpandedReject('adjudicated-strike-unused-critical-consequence');
         value.outcome = value.attack.achieved ? 'hit' : 'miss';
         if (self.defenseKind != nil)
         {
@@ -11120,12 +11137,12 @@ class RpgExpandedAdjudicatedStrike: object
         {
             if (self.defenseConsequence != nil) rpgExpandedReject('adjudicated-strike-unused-defense-consequence');
             if (self.defenseScore != nil || self.defenseRoll != nil) rpgExpandedReject('adjudicated-strike-unused-defense');
-            if (value.attack.achieved && (self.defenseWaivedEvidence == nil || self.defenseWaivedEvidence == ''))
+            if (value.attack.achieved && value.attack.critical != 'success' && (self.defenseWaivedEvidence == nil || self.defenseWaivedEvidence == ''))
             { value.reason = 'adjudicated-strike-defense-disposition'; return value; }
         }
         if (value.outcome != 'hit' && self.basicDamage != 0) rpgExpandedReject('adjudicated-strike-unused-damage');
         if ((value.outcome == 'hit') != (self.wound != nil)) rpgExpandedReject('adjudicated-strike-injury-disposition');
-        if (self.wound != nil && (self.wound.criticalHit || self.wound.forceMajorWound))
+        if (self.wound != nil && value.attack.critical != 'success' && (self.wound.criticalHit || self.wound.forceMajorWound))
             rpgExpandedReject('adjudicated-strike-unused-critical');
         value.status = 'ready'; return value;
     }

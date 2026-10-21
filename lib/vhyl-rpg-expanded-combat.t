@@ -865,3 +865,49 @@ class RpgExpandedStrikeDefenseFailure: RpgExpandedStrikeDefenseConsequence
         return nil;
     }
 ;
+
+/** B556 recorded critical damage/armor/major-wound effects; author supplies injury. */
+class RpgExpandedRecordedCriticalHit: RpgExpandedStrikeCriticalHit
+    owner = nil
+    tableRoll = nil
+    location = 'torso'
+    damageType = 'cr'
+    eyePossible = nil
+    rolledBasic = nil
+    maximumBasic = nil
+    dividedArmor = 0
+    penetratingDamage = nil
+    approved = nil
+    evidence = nil
+    facts(strike)
+    {
+        if (self.owner != strike) rpgExpandedReject('recorded-critical-owner');
+        return [self,self.owner,self.tableRoll,self.location,self.damageType,self.eyePossible,self.rolledBasic,
+            self.maximumBasic,self.dividedArmor,self.penetratingDamage,self.approved,self.evidence];
+    }
+    assess(strike)
+    {
+        self.facts(strike); local value = new RpgExpandedResult();
+        if (!self.approved || self.evidence == nil || self.evidence == '')
+        { value.reason = 'recorded-critical-evidence'; return value; }
+        local effect = rpgExpandedCriticalHit(self.tableRoll,self.location,self.damageType,self.eyePossible);
+        if (effect.dropHeld || effect.dropWeapon || effect.forcedDoNothing || effect.deafenOnPenetration
+            || effect.appearanceLossOnPenetration > 0 || effect.doubleShockOnPenetration || effect.temporaryCrippleOnPenetration)
+        { value.reason = 'recorded-critical-additional-effect-required'; return value; }
+        if (self.damageType != strike.mode.damageType || strike.wound == nil || !strike.wound.criticalHit
+            || strike.wound.location != effect.location) rpgExpandedReject('recorded-critical-wound-definition');
+        local damage = rpgExpandedCriticalDamage(effect,self.rolledBasic,self.maximumBasic);
+        local armor = rpgExpandedCriticalArmor(effect,self.dividedArmor);
+        local penetrating = damage > armor ? damage-armor : 0;
+        rpgInteger(self.penetratingDamage,0,3000000);
+        if (strike.basicDamage != damage || self.penetratingDamage != penetrating)
+            rpgExpandedReject('recorded-critical-damage-calculation');
+        if (penetrating == 0 && strike.wound.amount != 0) rpgExpandedReject('recorded-critical-unpenetrated-injury');
+        local major = effect.majorWoundOnPenetration && penetrating > 0;
+        if (major && strike.wound.amount == 0)
+        { value.reason = 'recorded-critical-zero-injury-major-unavailable'; return value; }
+        if ((strike.wound.forceMajorWound ? true : nil) != (major ? true : nil))
+            rpgExpandedReject('recorded-critical-major-wound');
+        value.status = 'ready'; return value;
+    }
+;

@@ -4483,7 +4483,8 @@ The strike is an **author-adjudication contract**, not automatic attack resoluti
 Record the exact attacker, defender, weapon, mode, effective `attackScore` and
 externally rolled `attackRoll`. For an attempted defense, record `defenseKind`
 (`dodge`, `parry` or `block`), effective `defenseScore` and externally rolled
-`defenseRoll`; otherwise a successful attack needs `defenseWaivedEvidence`.
+`defenseRoll`; otherwise an ordinary successful attack needs
+`defenseWaivedEvidence`. Critical hits instead prohibit all defense fields.
 Supply approval, `legalityEvidence` covering reach, visibility, hands, target
 permissions and chosen options, and `resolutionEvidence` identifying the external
 resolution, protection and injury calculation. These are retained rulings; the
@@ -4501,12 +4502,33 @@ charge a second action. Its direct `apply(request)` requires the currently settl
 panic reaction, a declared Wait response, or a permitted recorded reactive turn.
 Each route retains its own execution authorization and physical permission gate.
 
-This contract currently admits a single ordinary attack with at most one defense.
+This contract admits a single ordinary attack with at most one defense, or a
+supported recorded critical hit with no active defense.
 A critical defense success against a non-thrown ranged attack is supported: the
 attack is defended and causes no injury. Against melee attacks, critical defense
 success still requires an attacker critical-miss adapter and rejects before
-spending. Critical attack results, thrown weapons, bursts and multiple defenses
-remain unsupported. A complete automatic expanded attack resolver is outstanding.
+spending. Critical misses, unsupported critical-hit effects, thrown weapons,
+bursts and multiple defenses remain unsupported. A complete automatic expanded attack resolver is outstanding.
+
+For a critical hit, attach a combat-owned `RpgExpandedRecordedCriticalHit` as
+`criticalConsequence`, with matching `owner`, the external `tableRoll`, original
+`location`, `damageType`, `eyePossible`, `rolledBasic`, `maximumBasic`, armor after
+ordinary divisors in `dividedArmor`, and `penetratingDamage`. Approval and evidence
+must identify these supplied facts. The adapter checks the source table's damage
+multiplier or maximum-damage result, armor adjustment and resulting penetration.
+The strike's `basicDamage` must match; its wound must have `criticalHit = true`,
+the resulting location, and the exact required `forceMajorWound` flag. A wholly
+stopped hit records a zero-injury wound. All defense fields must be absent.
+
+Final injury still comes from the author-adjudicated protection/anatomy procedure;
+this adapter does not infer every injury multiplier or special damage effect.
+Rows requiring drops, enhanced shock, temporary disability, forced inactivity,
+hearing or appearance changes reject until those effects have their own executor.
+A forced-major result with positive penetration but zero final injury also rejects
+because the existing wound executor cannot represent that combination. The
+`expanded-panic-critical-hit.t` / `test_panic_critical_hit` fixture specifies the
+fourteen general-table rows currently supported, accounting, preview purity,
+rollback, undo, receipt mutation and save continuation. Assertions remain unrun.
 
 For a critical Dodge or Block failure, include the combat library and attach an
 `RpgExpandedStrikeDefenseFailure` as `defenseConsequence`. Its `owner` is the

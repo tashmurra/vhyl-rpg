@@ -9783,6 +9783,8 @@ def test(build):
     test_overstimulation(Session,overstimulation,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
     test_fear_selection(Session,fear_selection,build.out)
+    panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
+    test_panic_critical_hit(Session,panic_critical_hit,build.out)
     panic_defense_position = build.build('expanded-panic-defense-position',ROOT / 'tests/fixtures/expanded-panic-defense-position.t')
     test_panic_defense_position(Session,panic_defense_position,build.out)
     panic_defense = build.build('expanded-panic-defense',ROOT / 'tests/fixtures/expanded-panic-defense.t')
@@ -29131,4 +29133,39 @@ def test_panic_defense_position(Session,bundle,out):
         try:
             do(s,670); do(s,760); do(s,770); do(s,code); do(s,442)
             assert state(s)==['standing',None,0,0,0,2,0,3]
+        finally: s.close()
+
+
+def test_panic_critical_hit(Session,bundle,out):
+    """B556 supplied critical dice drive damage/armor/major-wound effects without a defense roll. Unrun."""
+    def do(s,c,row=3): s.action(2250,c,row)
+    def state(s):
+        do(s,781)
+        return last(s,'test.panic-critical')
+    initial=[0,2,0,0,3,0,None]
+    # Independent reference values for basic damage 2, maximum 6, DR 3;
+    # forced-major rows use DR 1 so their penetrating effect is exercised.
+    for row,injury,draws in ((3,3,9),(4,1,9),(5,1,9),(6,3,9),(7,1,12),
+                             (9,0,9),(10,0,9),(11,0,9),(13,1,12),(14,1,12),
+                             (15,3,9),(16,1,9),(17,1,9),(18,3,9)):
+        path=out/f'panic-critical-{row}.zsave'
+        expected=[injury,1,1,1,draws,0,'success']
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,780,row); do(s,671)
+            assert last(s,'test.panic-attack-preview')==['ready',None]
+            assert state(s)==initial
+            do(s,443); assert state(s)==initial
+            do(s,442); s.command('undo'); assert state(s)==initial
+            do(s,442); do(s,442); do(s,786); assert state(s)==expected
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,442); assert state(s)==expected
+        finally: s.close()
+    for code in (782,783,784,785,787):
+        s=Session(bundle)
+        try:
+            do(s,670); do(s,780); do(s,code); do(s,442); assert state(s)==initial
         finally: s.close()

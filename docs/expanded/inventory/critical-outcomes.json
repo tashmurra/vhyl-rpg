@@ -24,9 +24,11 @@
       "status": "partial",
       "acceptance": "Critical multipliers modify basic damage before armor and injury factors. Critical hits disallow active defense. Preserve separate damage, penetration and injury values.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-success-boundaries",
@@ -57,13 +59,15 @@
       "status": "partial",
       "acceptance": "Multiply basic damage by three.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 3
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-4",
@@ -74,13 +78,15 @@
       "status": "partial",
       "acceptance": "After armor divisors, halve DR and round down.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 4
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-5",
@@ -91,13 +97,15 @@
       "status": "partial",
       "acceptance": "Double basic damage.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 5
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-6",
@@ -108,13 +116,15 @@
       "status": "partial",
       "acceptance": "Use maximum normal damage.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 6
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-7",
@@ -128,13 +138,15 @@
         "tests/expanded.py::test_critical_hit_assessments",
         "tests/expanded.py::test_critical_major_wound",
         "tests/expanded.py::test_critical_major_transactions",
-        "tests/expanded.py::test_critical_major_persistence"
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 7
       },
-      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-8",
@@ -162,13 +174,15 @@
       "status": "partial",
       "acceptance": "Apply ordinary damage only.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 9
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-10",
@@ -179,13 +193,15 @@
       "status": "partial",
       "acceptance": "Apply ordinary damage only.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 10
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-11",
@@ -196,13 +212,15 @@
       "status": "partial",
       "acceptance": "Apply ordinary damage only.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 11
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-12",
@@ -235,13 +253,15 @@
         "tests/expanded.py::test_critical_hit_assessments",
         "tests/expanded.py::test_critical_major_wound",
         "tests/expanded.py::test_critical_major_transactions",
-        "tests/expanded.py::test_critical_major_persistence"
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 13
       },
-      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-14",
@@ -255,13 +275,15 @@
         "tests/expanded.py::test_critical_hit_assessments",
         "tests/expanded.py::test_critical_major_wound",
         "tests/expanded.py::test_critical_major_transactions",
-        "tests/expanded.py::test_critical_major_persistence"
+        "tests/expanded.py::test_critical_major_persistence",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 14
       },
-      "validation_note": "Critical table assessment and explicit major-wound commit through the shared wound ledger authored; fixtures unrun. Automatic attack-to-wound wiring and other critical consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-15",
@@ -272,13 +294,15 @@
       "status": "partial",
       "acceptance": "Use maximum normal damage.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 15
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-16",
@@ -289,13 +313,15 @@
       "status": "partial",
       "acceptance": "Double basic damage.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 16
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-17",
@@ -306,13 +332,15 @@
       "status": "partial",
       "acceptance": "After armor divisors, halve DR and round down.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 17
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-hit-18",
@@ -323,13 +351,15 @@
       "status": "partial",
       "acceptance": "Multiply basic damage by three.",
       "tests": [
-        "tests/expanded.py::test_critical_hit_assessments"
+        "tests/expanded.py::test_critical_hit_assessments",
+        "tests/fixtures/expanded-panic-critical-hit.t",
+        "tests/expanded.py::test_panic_critical_hit"
       ],
       "outcome_data": {
         "table": "hit",
         "roll": 18
       },
-      "validation_note": "Supplied-roll general/head assessment and numeric damage/armor/shock helpers authored; fixtures unrun. Owned injury, equipment, condition, disability and appearance consequences remain incomplete."
+      "validation_note": "Recorded strike execution now validates table-derived basic damage, armor and penetration, forbids active defense, and commits the matching owned critical/major wound once. Final injury is an explicit author calculation. Automatic damage/injury dispatch and other critical effects remain incomplete. Lifecycle fixtures are authored and unrun while checks remain paused."
     },
     {
       "id": "critical-head-3",
