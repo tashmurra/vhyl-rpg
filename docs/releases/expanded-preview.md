@@ -2034,3 +2034,9 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   Episode endings require recorded world evidence, with no invented recovery
   timer. Broader reactive maneuvers remain unsupported. Lifecycle fixtures are
   authored and unrun while build checks remain paused.
+
+- Reactive counterattacks now require an explicit abridged/recorded resolver
+  choice. Recorded attacks share the owned panic/Wait strike adapter, with
+  current-turn execution permission, actual wounds and one health gate. Direct
+  calls cannot bypass the battle turn. Hit, miss, defense and lifecycle fixtures
+  are authored but unrun; checks remain paused.

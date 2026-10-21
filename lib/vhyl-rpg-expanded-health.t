@@ -11175,7 +11175,8 @@ class RpgExpandedAdjudicatedStrike: object
                 && request.panicReaction.operation.maneuver == request
                 && self.attacker.profile.panicAuthorization(request) && request.healthGate.result != nil
                 && request.healthGate.result.allowed;
-        else if (request != nil && request.ofKind(RpgExpandedPathWaitInterruption))
+        else if (request != nil && (request.ofKind(RpgExpandedPathWaitInterruption)
+            || request.ofKind(RpgExpandedOverstimulationCounterManeuver)))
             permitted = request.permitsStrike(self);
         if (!permitted) rpgExpandedReject('adjudicated-strike-execution-owner');
         local value = self.assess(); if (value.status != 'ready') return value;
@@ -11407,9 +11408,25 @@ modify RpgExpandedProfile
 class RpgExpandedOverstimulationCounterManeuver: RpgExpandedPhysicalManeuver
     kind = 'attack'
     notice = nil
+    resolution = nil
+    strike = nil
+    executingStrike = nil
+    permittedTurn = nil
+    battle = nil
     available(fighter)
     {
         if (self.kind != 'attack' || self.movement != 0) rpgExpandedReject('overstimulation-counter-maneuver');
+        if (!holds(['abridged','recorded'],self.resolution)) return 'overstimulation-counter-resolution-required';
+        if (self.resolution == 'recorded')
+        {
+            if (self.strike == nil || !self.strike.ofKind(RpgExpandedAdjudicatedStrike)
+                || self.strike.attacker != fighter || self.strike.defender != self.target
+                || self.battle == nil || !self.battle.ofKind(RpgLiteBattle) || self.battle.current() != fighter)
+                return 'overstimulation-counter-strike-owner';
+            local value = self.strike.assess();
+            if (value.status != 'ready') return value.status == 'reused' ? 'overstimulation-counter-strike-used' : value.reason;
+        }
+        else if (self.strike != nil) rpgExpandedReject('overstimulation-counter-unused-strike');
         local reason = fighter.profile.overstimulationNoticeReason(self.notice,self.target);
         if (reason != nil) return reason;
         if (self.notice.defender != fighter) return 'overstimulation-counterattack-owner';
@@ -11420,6 +11437,34 @@ class RpgExpandedOverstimulationCounterManeuver: RpgExpandedPhysicalManeuver
         if (self.healthGate == nil || !self.healthGate.ofKind(RpgExpandedOverstimulationCounterGate)
             || self.healthGate.maneuver != self) rpgExpandedReject('overstimulation-counter-gate');
         return inherited(fighter);
+    }
+    canAct(fighter)
+    {
+        local allowed = inherited(fighter);
+        if (allowed) self.permittedTurn = fighter.turnSerial;
+        return allowed;
+    }
+    permitsStrike(strike)
+    {
+        return self.executingStrike && self.resolution == 'recorded' && self.strike == strike
+            && self.battle != nil && self.battle.current() == strike.attacker
+            && strike.attacker.turnSerial == self.permittedTurn
+            && self.healthGate != nil && self.healthGate.result != nil && self.healthGate.result.allowed
+            && self.healthGate.completedAt == rpgLedger.seconds
+            && strike.attacker.profile.overstimulationCounterAllowed(self);
+    }
+    resolveStrike(attacker,defender)
+    {
+        if (self.resolution == 'abridged') return inherited(attacker,defender);
+        if (self.resolution != 'recorded' || self.strike == nil || self.strike.attacker != attacker
+            || self.strike.defender != defender) rpgExpandedReject('overstimulation-counter-strike-owner');
+        if (self.preflight) return self.strike.assess();
+        if (self.executingStrike) rpgExpandedReject('overstimulation-counter-reentrant');
+        self.executingStrike = true;
+        local value = nil;
+        try { value = self.strike.apply(self); }
+        catch (RpgError error) { self.executingStrike = nil; throw error; }
+        self.executingStrike = nil; return value;
     }
 ;
 class RpgExpandedOverstimulationCounterGate: RpgExpandedActionGate

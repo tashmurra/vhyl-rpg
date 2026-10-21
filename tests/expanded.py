@@ -9777,6 +9777,8 @@ def test(build):
     test_hearing_loss(Session,hearing_loss,build.out)
     fear_hearing_loss = build.build('expanded-fear-hearing-loss',ROOT / 'tests/fixtures/expanded-fear-hearing-loss.t')
     test_fear_hearing_loss(Session,fear_hearing_loss,build.out)
+    overstimulation_strike = build.build('expanded-overstimulation-strike',ROOT / 'tests/fixtures/expanded-overstimulation-strike.t')
+    test_overstimulation_strike(Session,overstimulation_strike,build.out)
     overstimulation = build.build('expanded-overstimulation',ROOT / 'tests/fixtures/expanded-overstimulation.t')
     test_overstimulation(Session,overstimulation,build.out)
     fear_selection = build.build('expanded-fear-selection',ROOT / 'tests/fixtures/expanded-fear-selection.t')
@@ -29024,3 +29026,38 @@ def test_overstimulation(Session,bundle,out):
         assert state(s)==[1,0,0,0,1,0,6]
         do(s,738); assert last(s,'test.overstimulation-voices')==[1,1]
     finally: s.close()
+
+
+def test_overstimulation_strike(Session,bundle,out):
+    """Recorded reactive attacks own a single gate, wound and ordinary turn. Authored, unrun."""
+    def do(s,c): s.action(2250,c,12)
+    def state(s):
+        do(s,751)
+        return last(s,'test.overstimulation-strike')
+    initial=[0,0,0,2,0,6,0]
+    for change,injury in ((None,1),(757,0),(758,0)):
+        path=out/f'overstimulation-strike-{change}.zsave'
+        done=[injury,1,1,1,1,6,0]
+        s=Session(bundle)
+        try:
+            do(s,720); do(s,581); do(s,721); do(s,726); do(s,750)
+            if change is not None: do(s,change)
+            do(s,736); assert last(s,'test.overstimulation-counter')==[None,None,None]
+            assert state(s)==initial
+            do(s,752); assert state(s)==initial
+            do(s,728); assert state(s)==initial
+            do(s,727); s.command('undo'); assert state(s)==initial
+            do(s,727); do(s,584); assert state(s)==done
+            do(s,727); do(s,752); do(s,755); assert state(s)==done
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s=Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,584); do(s,752); assert state(s)==done
+        finally: s.close()
+    for change in (753,754,756,729,730):
+        s=Session(bundle)
+        try:
+            do(s,720); do(s,581); do(s,721); do(s,726); do(s,750); do(s,change)
+            do(s,727); assert state(s)==initial
+        finally: s.close()

@@ -14,7 +14,7 @@ overBattle: RpgLiteBattle fighters = [overOther,overActor];
 overIncoming: RpgLiteManeuver kind = 'attack' target = overActor;
 overGate: RpgExpandedOverstimulationCounterGate id = 'reactive-turn' profile = fearProfile requiresMovement = true
     maneuver = overCounter evidence = 'A physical counterattack on the ordinary turn';
-overCounter: RpgExpandedOverstimulationCounterManeuver target = overOther healthGate = overGate;
+overCounter: RpgExpandedOverstimulationCounterManeuver target = overOther healthGate = overGate resolution = 'abridged';
 modify FearTestAction
     exec(context)
     {

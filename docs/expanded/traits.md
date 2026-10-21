@@ -2401,11 +2401,17 @@ receipts in the episode. A stationary ordinary Attack may use
 `RpgExpandedOverstimulationCounterManeuver`, targeting the notice's attacker,
 with a fresh `RpgExpandedOverstimulationCounterGate`. Set the gate's `maneuver`
 back-reference, matching `profile`, unique `id`, `requiresMovement = true` and
-evidence. The battle scheduler owns the turn and clock; this grants no free
+evidence. Choose `resolution = 'abridged'` explicitly for the existing ordinary
+strike resolver, or `resolution = 'recorded'` with `battle` and an owned
+`RpgExpandedAdjudicatedStrike` in `strike`. An omitted choice blocks before
+spending. Recorded resolution requires approved external scores, rolls and final
+injury; it shares the panic/Wait attack adapter's limitations and commits its
+owned wound once. The battle scheduler owns the turn and clock; this grants no free
 attack. The notice must belong to the acting fighter. Unconsciousness and other
-independent incapacity cannot be bypassed. The current counterattack uses the
-existing ordinary strike resolver; expanded critical/multi-hit attacks and other
-reactive maneuver variants are outside this adapter.
+independent incapacity cannot be bypassed. Recorded strikes require the current
+fighter's permitted turn and an active execution scope; calling the strike directly cannot spend ammunition or cause
+injury. Expanded critical/multi-hit attacks and other reactive maneuver variants
+remain outside this adapter.
 
 The source provides no recovery interval. End the episode only with recorded
 world evidence through `end(reason, evidence)`, where `reason` is
@@ -2419,3 +2425,11 @@ counter permissions, independent unconsciousness, low-score rejection, receipt
 mutation, rollback, undo and cross-process save continuation. These assertions
 are authored and unrun while build checks remain paused. Catalogue status is
 partial until unsupported reactive maneuvers and validation are resolved.
+
+The additional `expanded-overstimulation-strike.t` /
+`test_overstimulation_strike` fixture specifies recorded hits, defended attacks
+and misses, explicit resolver selection, direct-execution rejection, independent
+incapacity, receipt mutation, rollback, undo and cross-process continuation.
+Recorded strike dice are supplied by the author; only required
+permission, injury or distraction checks may consume new randomness. These
+fixtures remain unrun.
