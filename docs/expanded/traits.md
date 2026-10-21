@@ -1971,14 +1971,16 @@ Resolve that context through an owned fear event. History belongs to each
 victim/source/purchase combination. Every earlier actual check within the last
 86,400 seconds grants +1; immune observations do not count as checks. Success
 protects that victim from the same source for 3,600 seconds. Both boundaries are
-exclusive at expiry. History is derived from retained events, so authored
+exclusive at expiry. History includes events that reuse the same immutable scene-context object;
+context identity neither resets exposure nor bypasses protection. History is
+derived from retained events, so authored
 `priorExposures24h` must remain zero. Existing ordinary scene modifiers still
 apply. Authors enumerate the affected observers and identify each activation;
 this interface does not discover world visibility or broadcast hidden results.
 
 `test_fear_aura` specifies costs, contact and activation eligibility, exact
-one-hour immunity and 24-hour exposure boundaries, immune-event replay and saved
-continuation. Fixtures are authored but unrun. Other aura modifier combinations,
+one-hour immunity and 24-hour exposure boundaries, shared-context occurrences,
+immune-event replay, rollback, undo and saved continuation. Fixtures are authored but unrun. Other aura modifier combinations,
 automatic perception routing and the remaining full fear outcomes remain open.
 
 

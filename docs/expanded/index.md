@@ -7,6 +7,9 @@ modules and the unfinished detailed source inventory. The [detailed source inven
 and the evidence still needed. The full conversion cannot be accepted while those
 entries remain unresolved.
 
+The [fear and mental-state completion audit](fear-completion.md) records the
+subsystem requirements, outstanding integration work and validation status.
+
 ## Integration
 
 ```text

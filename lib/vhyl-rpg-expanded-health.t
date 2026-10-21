@@ -10005,7 +10005,7 @@ class RpgExpandedFearAuraContext: RpgExpandedFearContext
         value.reason = self.profile.fearAuraPerceptionReason(self.aura); if (value.reason != nil) return value;
         local count = 0; local protected = nil;
         foreach (local entry in self.profile.fearEvents)
-            if (entry.context != self && entry.context.ofKind(RpgExpandedFearAuraContext)
+            if (entry.context.ofKind(RpgExpandedFearAuraContext)
                 && entry.context.auraOwner == self.auraOwner && entry.context.aura == self.aura)
             {
                 entry.assess();

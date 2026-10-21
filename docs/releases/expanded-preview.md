@@ -2059,3 +2059,9 @@ accounting and lifecycle fixtures are authored but unrun; checks remain paused.
   forbid active defenses and retain the source table inputs. Fourteen general
   rows have integration fixtures; additional-effect rows reject pending their
   executors. Final injury remains authored. Checks remain paused; fixtures unrun.
+
+- Fixed aura history when separate occurrences reuse the same scene-context
+  object. Successful-check protection and prior-check bonuses now follow the
+  victim/source/purchase history independently of context identity. Shared-context
+  boundary and persistence fixtures are authored and unrun. Added a direct fear
+  completion audit to distinguish subsystem obligations from wider combat work.

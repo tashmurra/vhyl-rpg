@@ -27824,6 +27824,30 @@ def test_fear_aura(Session,bundle,out):
     finally: s.close()
 
 
+    # Reusing immutable scene facts must not bypass the source's retained history.
+    path=out/'fear-aura-shared-context.zsave'
+    s=Session(bundle)
+    try:
+        do(s,790); do(s,350); do(s,300); do(s,354)
+        do(s,791); assert last(s,'test.fear-aura-shared')==[1,None,0,3]
+        do(s,352); do(s,3)
+        do(s,791); assert last(s,'test.fear-aura-shared')==[0,11,1,3]
+        do(s,793); do(s,794); assert last(s,'test.fear-aura-third')==[None,None,2,3]
+        do(s,792); s.command('undo'); do(s,794)
+        assert last(s,'test.fear-aura-third')==[None,None,2,3]
+        do(s,792); do(s,792); do(s,794)
+        assert last(s,'test.fear-aura-third')==[11,3,3,6]
+        do(s,791); assert last(s,'test.fear-aura-shared')==[1,None,0,6]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s=Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,792)
+        do(s,791); assert last(s,'test.fear-aura-shared')==[1,None,0,6]
+        do(s,353); do(s,791); assert last(s,'test.fear-aura-shared')==[0,10,0,6]
+    finally: s.close()
+
+
 def test_postbattle_fear(Session,bundle):
     """B150 uses purchased self-control, not Will, with failed-stress follow-up; unrun."""
     def do(s,code): s.action(2250,code,4)

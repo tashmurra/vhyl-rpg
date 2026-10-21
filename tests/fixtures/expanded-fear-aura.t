@@ -7,11 +7,23 @@ auraNextContext: RpgExpandedFearAuraContext profile = fearProfile auraOwner = em
     perceived = true activated = true approved = true evidence = 'The character sees a later activation';
 auraNextOccurrence: object;
 auraNextEvent: RpgExpandedFearEvent id = 'later-pattern' context = auraNextContext occurrence = auraNextOccurrence;
+auraThirdOccurrence: object;
+auraThirdEvent: RpgExpandedFearEvent id = 'third-pattern' context = auraFirstContext occurrence = auraThirdOccurrence;
 modify ownedFearEvent context = auraFirstContext;
 modify FearTestAction
     exec(context)
     {
         local code = fearInput.code;
+        if (code == 790) { auraNextEvent.context = auraFirstContext; return nil; }
+        if (code == 791)
+        { local v = auraFirstContext.assess(); event('test.fear-aura-shared'); eventValue(v.immune ? 1 : 0);
+          eventValue(v.score); eventValue(v.modifier); eventValue(rpgRandom.draws); return nil; }
+        if (code == 792 || code == 793)
+        { auraThirdEvent.resolve(); if (code == 793) throw new RpgError(); return nil; }
+        if (code == 794)
+        { event('test.fear-aura-third'); eventValue(auraThirdEvent.result == nil ? nil : auraThirdEvent.result.score);
+          eventValue(auraThirdEvent.result == nil || auraThirdEvent.result.check == nil ? nil : auraThirdEvent.result.check.roll);
+          eventValue(fearProfile.fearEvents.length()); eventValue(rpgRandom.draws); return nil; }
         if (code == 350) { fearEventInput.initialRoll = 10; return nil; }
         if (code == 351)
         { local v = auraNextContext.assess(); event('test.fear-aura'); eventValue(v.status); eventValue(v.reason);

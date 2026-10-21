@@ -4182,9 +4182,9 @@ recovery, rollback, undo and saved continuation. Fixtures remain unrun.
 
 `expanded-fear-event-traits.t` / `test_fear_event_traits` additionally specify
 rolled quirk and fixed-belief selection, acquisition rollback/undo, replay and
-unchanged earned/unspent points. These assertions also remain unrun. The current
-assessment's score-below-three restriction is still an explicit limitation; it
-must be reconciled before claiming complete extreme-fear table reachability.
+unchanged earned/unspent points. These assertions also remain unrun. Scores below three now use the recorded author-decision contract below; they
+are not an unresolved initial-check policy. Overall completion and verification
+remain outstanding in the [fear completion audit](fear-completion.md).
 
 
 ## Compound faint/coma and lasting beliefs
