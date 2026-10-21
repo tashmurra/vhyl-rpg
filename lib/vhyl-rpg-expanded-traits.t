@@ -6437,3 +6437,78 @@ modify RpgExpandedProfile
         return nil;
     }
 ;
+
+/** B153 failure of a concrete environmental-fault repair attempt. */
+class RpgExpandedAttentionRepair: RpgExpandedSelfControlTrigger
+    repair = nil
+    occasion = nil
+    crucialEvidence = nil
+    repairResult = nil
+    boundReceipt = nil
+    settlingRepair = nil
+    repairStarted = nil
+    definition() { return inherited() + [self.repair,self.occasion,self.crucialEvidence]; }
+    receiptFacts()
+    {
+        return [self.check,self.check.status,self.check.score,self.check.roll,self.check.margin,self.check.achieved,self.check.critical,
+            self.repairResult,self.repairResult.status,self.repairResult.reason,self.repairResult.seconds,self.repairResult.repaired,
+            self.repairResult.check,self.repairResult.check.status,self.repairResult.check.reason,self.repairResult.check.roll,
+            self.repairResult.check.score,self.repairResult.check.achieved,self.repairResult.check.critical];
+    }
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)
+            || self.trait == nil || !self.trait.ofKind(RpgExpandedShortAttention)
+            || !holds(['extended-focus','distraction'],self.occasion)) rpgExpandedReject('attention-repair-definition');
+        self.profile.validateAttentionRepair(self.repair);
+        if (self.modifier < 0 || self.modifier > 0 && (self.crucialEvidence == nil || self.crucialEvidence == ''))
+            rpgExpandedReject('attention-repair-bonus-evidence');
+        local value = inherited();
+        if (value.status == 'reused')
+        {
+            if (self.repairResult == nil || self.boundReceipt == nil || !self.repairStarted || self.settlingRepair)
+                rpgExpandedReject('attention-repair-receipt');
+            if (self.repair.result != self.repairResult || self.repair.assess().status != 'reused')
+                rpgExpandedReject('attention-repair-history');
+            local facts = self.receiptFacts();
+            if (facts.length() != self.boundReceipt.length() || self.active != !self.check.achieved)
+                rpgExpandedReject('attention-repair-receipt');
+            for (local i = 1; i <= facts.length(); i += 1)
+                if (facts[i] != self.boundReceipt[i]) rpgExpandedReject('attention-repair-receipt');
+        }
+        else
+        {
+            if (self.repairResult != nil || self.boundReceipt != nil || self.repairStarted || self.settlingRepair)
+                rpgExpandedReject('attention-repair-uncommitted');
+            if (value.status == 'ready' && self.trait.mitigated)
+            { value.status = 'blocked'; value.reason = 'attention-repair-mitigated'; }
+            if (value.status == 'ready')
+            {
+                local session = self.repair.assess();
+                if (session.status != 'ready') { value.status = 'blocked'; value.reason = session.reason; }
+            }
+        }
+        return value;
+    }
+    afterControlResolution(value)
+    {
+        self.settlingRepair = true;
+        self.repairResult = self.repair.applyAttention(self);
+        if (self.repairResult.status != 'resolved') rpgExpandedReject('attention-repair-changed');
+        self.settlingRepair = nil; self.boundReceipt = self.receiptFacts(); return nil;
+    }
+;
+modify RpgExpandedProfile
+    repairAttentionReason(repair)
+    {
+        local reason = inherited(repair); if (reason != nil) return reason;
+        return self.shortAttentionActive() ? 'attention-repair-owned-control-required' : nil;
+    }
+    attentionRepairControlReason(control,repair)
+    {
+        if (control == nil || !control.ofKind(RpgExpandedAttentionRepair) || control.profile != self || control.repair != repair
+            || !control.settlingRepair || control.repairStarted || control.result == nil || control.check == nil
+            || !holds(self.selfControlTriggers,control)) return 'attention-repair-control-ownership';
+        return nil;
+    }
+;

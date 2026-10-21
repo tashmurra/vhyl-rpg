@@ -3163,3 +3163,32 @@ is settlement machinery, not an author entry point.
 segment, preservation of previous credit, daily allowance, duplicate rejection,
 preview purity, rollback, undo, save continuation, unavailable study and
 mitigation. These fixtures have not run.
+
+#### Environmental-fault repair interruption
+
+With technology installed, `RpgExpandedAttentionRepair` owns attention for one
+`RpgExpandedBreakdownRepair`. Set `profile`, `trait`, `repair`, `occasion`,
+`trigger`, and `evidence`. `assess()` preflights the concrete repair, including
+parts availability, the repairer's condition and the contextual repair score.
+`resolve()` commits attention and the repair attempt in the same transaction;
+`repairResult` retains the actual repair outcome.
+
+Failed attention leaves the equipment fault active, records a failed repair
+attempt, and retains the existing 1,800-second cost and any parts installed by
+that attempt. It does not roll the repair skill or invent a critical failure.
+Successful attention performs the ordinary repair check. The original repair
+object continues to own its time, parts and history; neither the control receipt
+nor replay charges them again. `uninterrupted` describes the externally available
+work period, not a guarantee that the character maintains attention.
+
+An active short-attention purchase blocks direct `repair.apply()` until the
+owned control operation is used. Mitigation restores ordinary repair execution.
+Internal `applyAssessed()` is settlement machinery, not an author entry point.
+A new attempt requires a new repair and control identity. The completed control
+validates its retained repair receipt and the original repair's history.
+
+`test_attention_repair` specifies minor/major repairs, successful/failed focus,
+parts retention, one time charge, pure preview, preflight rejection, rollback,
+undo, save continuation, receipt mutation and mitigation. These fixtures are
+unrun. This adapter does not establish support for invention projects or other
+ongoing work.

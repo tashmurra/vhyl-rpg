@@ -9891,6 +9891,8 @@ def test(build):
     test_indecision_turns(Session,indecision_turns,build.out)
     credulity = build.build('expanded-credulity',ROOT / 'tests/fixtures/expanded-credulity.t')
     test_credulity(Session,credulity,build.out)
+    attention_repair = build.build('expanded-attention-repair',ROOT / 'tests/fixtures/expanded-attention-repair.t')
+    test_attention_repair(Session,attention_repair,build.out)
     attention_study = build.build('expanded-attention-study',ROOT / 'tests/fixtures/expanded-attention-study.t')
     test_attention_study(Session,attention_study,build.out)
     attention_task = build.build('expanded-attention-task',ROOT / 'tests/fixtures/expanded-attention-task.t')
@@ -30912,4 +30914,47 @@ def test_attention_study(Session,bundle,out):
     try:
         do(s,1200); do(s,1220); do(s,1201); do(s,1204)
         assert last(s,'test.attention-task') == [0,None,None,None,0,0]
+    finally: s.close()
+
+
+def test_attention_repair(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1233)
+        return last(s,'test.attention-repair')
+    for major in (False,True):
+        for success in (False,True):
+            s = Session(bundle)
+            path = out/f'attention-repair-{major}-{success}.zsave'
+            initial = [0,0,0,4 if major else 3,0,900 if major else 1000,0,None]
+            expected = [1,1,1 if success else 0,(4 if major else 3)+(6 if success else 3),
+                        1800,900 if major else 1000,1 if major else 0,
+                        None if success else 'short-attention-task-failure']
+            try:
+                if major: do(s,1239)
+                do(s,1230)
+                if success: do(s,1203)
+                assert state(s) == initial
+                do(s,1235); assert state(s) == initial
+                do(s,1234); assert last(s,'test.attention-repair-direct') == ['attention-repair-owned-control-required']
+                do(s,1238); assert state(s) == initial
+                do(s,1232); assert state(s) == initial
+                do(s,1231); s.command('undo'); assert state(s) == initial
+                do(s,1231); do(s,1231); assert state(s) == expected
+                do(s,1236); do(s,1238); assert state(s) == expected
+                s.command(f':save {path}\n@2251')
+            finally: s.close()
+            s = Session(bundle)
+            try:
+                s.command(f':restore {path}\n@2251'); do(s,1231); assert state(s) == expected
+            finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1230); do(s,1240); do(s,1231)
+        assert state(s) == [0,0,0,3,0,1000,0,None]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,1230); do(s,1203); do(s,1237)
+        assert state(s) == [0,1,1,6,1800,1000,0,None]
     finally: s.close()

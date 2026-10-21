@@ -554,3 +554,19 @@ Checks remain paused and these fixtures are unrun. Craft and other multi-stage
 interruption adapters, fear-acquisition integration and active frenzy remain
 outstanding. This is progress on the remaining trait selections, not completion
 of the fear and mental-state suite or a general accumulating stress track.
+
+## Short-attention repair increment
+
+`RpgExpandedAttentionRepair` now drives the existing environmental-fault repair
+operation. Failed attention retains the spent work period and installed parts,
+leaves the fault active, and records an ordinary failed attempt without repair
+dice. Successful attention uses the actual repair check. Active purchases gate
+the direct repair entry point; mitigation releases that gate. Owned receipt
+reuse validates the concrete repair history and never repeats its costs.
+
+`test_attention_repair` specifies minor and major failures, successful focus,
+parts accounting, preview, preflight rejection, rollback, undo, cross-process
+continuation and mitigation. Checks remain paused; no pass is claimed. Invention
+and other multi-stage work still need their attention contracts, so the trait
+remains excluded from general fear acquisition. Active frenzy and the wider
+acceptance audit also remain unfinished.

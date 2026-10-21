@@ -215,8 +215,8 @@
       "kind": "catalogue-entry",
       "status": "partial",
       "acceptance": "Short attention is base -10. Prolonged focus or offered distraction prompts self-control; failure automatically fails the current task. Author may grant a small bonus when concentration is crucial. Identify the task and already committed progress/costs without charging an additional attempt or undoing unrelated completed work.",
-      "tests": ["test_attention_task", "test_attention_study"],
-      "implementation": "Typed rated purchase and owned contextual task resolution; failed attention resolves task failure without a task roll. Preview, replay, rollback, undo and cross-process fixtures authored but unrun. Owned study segments now retain attempted time/daily allowance and earlier credit while withholding failed-segment credit. Other multi-stage interruption adapters and fear-acquisition eligibility remain outstanding."
+      "tests": ["test_attention_task", "test_attention_study", "test_attention_repair"],
+      "implementation": "Typed rated purchase and owned contextual task resolution; failed attention resolves task failure without a task roll. Preview, replay, rollback, undo and cross-process fixtures authored but unrun. Owned study segments now retain attempted time/daily allowance and earlier credit while withholding failed-segment credit. Owned environmental-fault repairs now retain time/installed parts on attention failure without repair dice; minor/major lifecycle fixtures authored, unrun. Invention and other multi-stage interruption adapters and fear-acquisition eligibility remain outstanding."
     },
     {
       "id": "disadvantages-g-short-life-rule",

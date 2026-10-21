@@ -29,6 +29,8 @@ class RpgExpandedProfile: RpgLiteProfile
     studyTimePercent(skill) { return 100; }
     studyAttentionReason(study) { return nil; }
     validateAttentionStudy(study) { rpgExpandedReject('attention-study-module-required'); }
+    validateAttentionRepair(repair) { rpgExpandedReject('attention-repair-module-required'); }
+    attentionRepairControlReason(control,repair) { return 'attention-repair-control-unavailable'; }
     attentionStudyControlReason(control,study) { return 'attention-study-control-unavailable'; }
     catalogueTalentSkills(id) { return []; }
     catalogueTalentApplies(id,skill)
@@ -1284,3 +1286,7 @@ modify RpgLiteContext externalInput = 'auto';
 modify RpgExpandedProfile externalInputReason() { return nil; };
 
 modify RpgExpandedProfile incuriosityActive() { return nil; };
+
+modify RpgLiteProfile
+    repairAttentionReason(repair) { return nil; }
+;

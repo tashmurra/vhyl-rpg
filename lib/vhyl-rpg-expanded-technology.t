@@ -297,9 +297,30 @@ class RpgExpandedBreakdownRepair: object
     apply()
     {
         local value = self.assess(); if (value.status != 'ready') return value;
+        local reason = self.repairer.repairAttentionReason(self);
+        if (reason != nil) { value.status = 'blocked'; value.reason = reason; return value; }
+        return self.applyAssessed(value,true);
+    }
+    applyAttention(control)
+    {
+        local value = self.assess(); if (value.status != 'ready') return value;
+        if (!self.repairer.ofKind(RpgExpandedProfile)) rpgExpandedReject('attention-repair-owner');
+        local reason = self.repairer.attentionRepairControlReason(control,self);
+        if (reason != nil) rpgExpandedReject(reason);
+        control.repairStarted = true;
+        return self.applyAssessed(value,control.check.achieved);
+    }
+    /* Internal settlement; the existing attempt owns time and replacement parts. */
+    applyAssessed(value,focused)
+    {
         if (self.failure.result.repair == 'major') self.failure.parts.install();
         rpgSpendTime(value.seconds);
-        value.check = rpgLiteCheck(self.repairer,value.context);
+        if (focused) value.check = rpgLiteCheck(self.repairer,value.context);
+        else
+        {
+            value.check = new RpgResult(); value.check.status = 'resolved';
+            value.check.reason = 'short-attention-task-failure'; value.check.outcome = 'setback';
+        }
         if (value.check.achieved)
         {
             self.failure.item.environmentFailure = nil; self.failure.repairedBy = self; value.repaired = true;
@@ -3891,5 +3912,14 @@ modify RpgExpandedComputer
         }
         self.powered = nil; self.hardwareFailures = self.hardwareFailures + [failure]; self.hardwareFailure = failure;
         failure.boundFacts = failure.facts(); failure.validateReceipt(); return failure;
+    }
+;
+
+modify RpgExpandedProfile
+    validateAttentionRepair(repair)
+    {
+        if (repair == nil || !repair.ofKind(RpgExpandedBreakdownRepair) || repair.repairer != self)
+            rpgExpandedReject('attention-repair-ownership');
+        return nil;
     }
 ;
