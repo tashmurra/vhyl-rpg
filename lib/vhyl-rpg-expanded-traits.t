@@ -4198,7 +4198,7 @@ rpgExpandedFearMentalFacts(trait)
         || trait.ofKind(RpgExpandedHumorlessness) || trait.ofKind(RpgExpandedPervasiveDistrust)
         || trait.ofKind(RpgExpandedSocialInhibition) || trait.ofKind(RpgExpandedCompanionship)
         || trait.ofKind(RpgExpandedOverstimulation) || trait.ofKind(RpgExpandedGoalFixation)
-        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence)))
+        || trait.ofKind(RpgExpandedImpulsiveAction) || trait.ofKind(RpgExpandedVolatileTemper) || trait.ofKind(RpgExpandedNightmares) || trait.ofKind(RpgExpandedOverconfidence) || trait.ofKind(RpgExpandedSolitude)))
         rpgExpandedReject('fear-mental-purchase-unsupported');
     trait.creationCost();
     if (trait.skills.length() != 0 || trait.scope != nil) rpgExpandedReject('fear-mental-purchase-fields');
@@ -4847,6 +4847,7 @@ class RpgExpandedVolatileTemper: RpgExpandedDisadvantage
     selfControlNumber() { self.validateDefinition(); return inherited(); }
 ;
 class RpgExpandedVolatileTemperTrigger: RpgExpandedSelfControlTrigger
+    matchesTrait() { return self.trait.ofKind(RpgExpandedVolatileTemper); }
     stressful = nil
     stressor = nil
     stressRelation = 'stress-related'
@@ -4865,7 +4866,7 @@ class RpgExpandedVolatileTemperTrigger: RpgExpandedSelfControlTrigger
     assess()
     {
         local value = inherited();
-        if (!self.trait.ofKind(RpgExpandedVolatileTemper)) rpgExpandedReject('volatile-temper-trigger-trait');
+        if (!self.matchesTrait()) rpgExpandedReject('volatile-temper-trigger-trait');
         if (value.status == 'reused')
         {
             local facts = [self.check,self.check.score,self.check.roll,self.check.achieved,self.check.margin,self.check.critical];
@@ -5205,4 +5206,66 @@ modify RpgExpandedProfile
         return found != nil && found.active && !found.mitigated;
     }
     validateFeatures() { inherited(); self.overconfidenceActive(); return nil; }
+;
+
+
+/** B142: unwanted proximity invokes the same owned hostile-response procedure. */
+class RpgExpandedSolitude: RpgExpandedDisadvantage
+    id = 'solitude'
+    labelId = 'solitude'
+    points = -5
+    controlled = true
+    templatePurchaseKind = 'expanded-solitude'
+    validateDefinition()
+    {
+        if (!self.approved || self.id != 'solitude' || self.points != -5 || self.level != 1
+            || !self.controlled || self.scope != nil || self.skills.length() != 0 || self.percentages.length() != 0)
+            rpgExpandedReject('solitude-definition');
+        return nil;
+    }
+    creationCost() { self.validateDefinition(); return inherited(); }
+    selfControlNumber() { self.validateDefinition(); return inherited(); }
+;
+class RpgExpandedSolitudeTrigger: RpgExpandedVolatileTemperTrigger
+    stressful = true
+    proximityUnwanted = nil
+    person = nil
+    matchesTrait() { return self.trait.ofKind(RpgExpandedSolitude); }
+    definition() { return inherited() + [self.proximityUnwanted,self.person]; }
+    assess()
+    {
+        local value = inherited(); if (value.status != 'ready') return value;
+        if (!self.proximityUnwanted || self.person == nil || !self.person.ofKind(RpgLiteProfile)
+            || self.person == self.profile || self.stressor != self.person)
+        { value.status = 'blocked'; value.reason = 'solitude-proximity-facts'; }
+        return value;
+    }
+;
+modify RpgExpandedProfile
+    solitudeReactionPenalty()
+    {
+        local found = nil;
+        foreach (local trait in self.traits)
+            if (trait.id == 'solitude')
+            {
+                if (!trait.ofKind(RpgExpandedSolitude) || found != nil) rpgExpandedReject('solitude-purchase');
+                trait.creationCost(); found = trait;
+            }
+        return found == nil || !found.active || found.mitigated ? 0 : -(18-found.selfControlNumber()) / 3;
+    }
+    validateFeatures() { inherited(); self.solitudeReactionPenalty(); return nil; }
+;
+modify rpgExpandedTemplateTraits
+    rated(id,level,scope,rating)
+    {
+        if (id != 'solitude') return inherited(id,level,scope,rating);
+        if (!holds([6,9,12,15],rating)) rpgExpandedReject('self-control-rating');
+        local trait = new RpgExpandedSolitude(); trait.approved = true; trait.level = level;
+        trait.scope = scope; trait.selfControlRating = rating; trait.creationCost(); return trait;
+    }
+    copy(trait)
+    {
+        if (!trait.ofKind(RpgExpandedSolitude)) return inherited(trait);
+        trait.creationCost(); return self.rated(trait.id,trait.level,trait.scope,trait.selfControlNumber());
+    }
 ;

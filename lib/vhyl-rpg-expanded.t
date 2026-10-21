@@ -1262,3 +1262,5 @@ modify RpgExpandedProfile
 ;
 
 modify RpgExpandedProfile overconfidenceActive() { return nil; };
+
+modify RpgExpandedProfile solitudeReactionPenalty() { return 0; };

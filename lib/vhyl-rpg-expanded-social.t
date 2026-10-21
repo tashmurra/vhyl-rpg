@@ -4248,3 +4248,19 @@ class RpgExpandedOverconfidenceObservation: RpgExpandedSocialObservation
         return self.audienceKind == 'young-or-naive' ? 2 : self.audienceKind == 'experienced' ? -2 : 0;
     }
 ;
+
+
+/** The solitude-bearing NPC is the observer, not the reaction's subject. */
+class RpgExpandedSolitudeReactionContext: RpgExpandedObservedReactionContext
+    observerIsNpc = nil
+    approved = nil
+    evidence = nil
+    observationFacts() { return inherited() + [self.observerIsNpc,self.approved,self.evidence]; }
+    observerReactionModifier(profile)
+    {
+        if (self.observer == nil || !self.observer.ofKind(RpgExpandedProfile)
+            || !self.approved || self.evidence == nil || self.evidence == '')
+            rpgExpandedReject('solitude-reaction-facts');
+        return inherited(profile) + (self.observerIsNpc ? self.observer.solitudeReactionPenalty() : 0);
+    }
+;

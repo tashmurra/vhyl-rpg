@@ -312,3 +312,14 @@ choice restrictions while the current purchase is inactive, mitigated or absent.
 Reactivation without completion restores the retained restriction without a new
 roll. Completed choices remain immutable receipts. Shared regression cases cover
 all three fixtures, including actual scene execution and undo; they remain unrun.
+
+
+## Solitude selection and reaction direction
+
+The B142 solitude selection now reuses the owned hostile-response procedure for
+explicit unwanted proximity. Its separate NPC reaction context applies the
+rating-dependent penalty from the reacting observer, even when both participants
+own the trait; it does not penalize others' reactions to the subject. Exact
+fear-cost acquisition, action, mitigation, invalid facts and social lifecycle
+fixtures are registered but unrun. Status sensitivity, frenzy and other catalogue
+entries remain unfinished.

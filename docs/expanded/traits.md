@@ -2731,3 +2731,36 @@ flag as proof that a mitigated trait currently restricts the character.
 `test_control_choice_mitigation` runs against each of the three integration
 fixtures and specifies suppression, reactivation, completion, replay and undo.
 These cases are registered but unrun.
+
+
+### Solitude and unwanted proximity
+
+`RpgExpandedSolitude` implements full-2008 B142 with base cost -5 and standard
+self-control pricing. Use `['solitude', 1, nil, rating]` in rated templates.
+Rating six is an exact ten-point fear selection. `RpgExpandedSolitudeTrigger`
+reuses the owned volatile-temper response procedure: supply the ordinary control
+fields, the other person's profile in both `person` and `stressor`,
+`proximityUnwanted = true`, evidence, and concrete `hostileActions` and
+`restrainedActions`. The person must differ from the affected character.
+
+On failure, only the listed hostile responses toward that person are permitted.
+On success, restrained responses are also available. Perform ordinary action
+validation and execution before recording the choice with `recordAction` in the
+same transaction. No attack, damage or reaction penalty against the visitor is
+invented. Mitigation, completed receipts, replay and stress follow-ups use the
+shared hostile-response machinery. Its unfinished frenzy combination remains
+explicitly blocked.
+
+`RpgExpandedSolitudeReactionContext` handles the separate NPC reaction rule.
+Its `observer` is the solitude-bearing character who is reacting; its `subject`
+is the person being reacted to. Supply `observerIsNpc`, approval and evidence,
+then use the normal owned observed-reaction attempt. Self-control ratings
+6/9/12/15 apply -4/-3/-2/-1 respectively. A player observer receives no automatic
+modifier from this context. The subject's solitude trait adds nothing to this
+observer-side effect. This is not a universal penalty on reactions to someone
+who prefers solitude.
+
+`test_solitude`, the shared choice-mitigation cases and `test_solitude_social`
+specify exact prices, copy/acquisition behavior, hostile or restrained scene
+choices, invalid proximity facts, both-participant reaction direction, all four
+NPC penalties, rollback, undo and saved continuation. They remain unrun.

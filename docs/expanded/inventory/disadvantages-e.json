@@ -254,9 +254,10 @@
       "pages": "B142",
       "module": "social",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Solitude compulsion is base -5 with self-control on unwanted lingering proximity/observation; failure produces a volatile-temper response toward that person. Nonplayer general reactions are -4/-3/-2/-1 at self-control six/nine/twelve/fifteen. Keep this reaction direction distinct from other people reacting to the actor.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_solitude", "tests/expanded.py::test_solitude_social", "tests/expanded.py::test_control_choice_mitigation"],
+      "validation_note": "Typed rated fear selection reuses owned hostile responses for an explicit other-person proximity trigger. NPC reaction context applies the four rating penalties from observer to subject, with no reversed or doubled subject penalty. Action, invalid-fact, reaction-direction, mitigation and lifecycle fixtures authored and unrun. Frenzy combinations remain explicitly blocked."
     },
     {
       "id": "disadvantages-e-emotional-understanding",
