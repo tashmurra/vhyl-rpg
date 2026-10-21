@@ -32,9 +32,10 @@
       "pages": "B124",
       "module": "traits",
       "kind": "catalogue-entry",
-      "status": "pending",
+      "status": "partial",
       "acceptance": "Uncontrolled rage is base -10 with self-control. More than one quarter health capacity injured within one second, or witnessing equivalent injury to a loved one, prompts a check. Failed volatile-temper control automatically triggers rage. Voluntary entry takes concentration and successful will. Aggregate injuries in the one-second window rather than checking only each hit.",
-      "tests": []
+      "tests": ["tests/expanded.py::test_rage_injury_window"],
+      "validation_note": "Pure current-second aggregation of committed wound health loss and strict quarter-capacity threshold implemented. Missing injury serial coverage blocks. Fixtures cover multiple hits, time separation, boundaries, purity and persistence, but are unrun. No rage entry, voluntary entry, witnessed injury or anger escalation is implemented yet; this is only the injury-trigger prerequisite."
     },
     {
       "id": "disadvantages-b-rage-melee",

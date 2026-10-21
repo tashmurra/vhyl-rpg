@@ -226,3 +226,14 @@ supported. Failed stressful checks retain the existing phantom-voice follow-up.
 The separate uncontrolled-rage interaction remains explicitly blocked pending
 its own behavior; the catalogue is therefore still incomplete. Registered
 pricing, action, stress and lifecycle fixtures are unrun.
+
+
+## Rage-entry injury prerequisite
+
+The next missing anger interaction requires whole-second injury aggregation.
+`RpgExpandedRageInjuryWindow` now assesses actual recorded health loss in the
+current second, using a strict greater-than-quarter-capacity threshold. Missing
+injury ledger coverage blocks rather than silently losing hits. Registered
+boundary and lifecycle fixtures remain unrun. This assessment does not activate
+rage: entry and observation ownership, voluntary entry, combat restrictions,
+injury overrides and exit checks remain the next implementation obligations.

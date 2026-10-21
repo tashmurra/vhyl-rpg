@@ -4748,3 +4748,29 @@ gate, operation or battle maneuver is rejected before an action can escape the
 reaction's retained history. Completed receipts can still be replayed without
 spending again. `test_panic_attack` and `test_panic_path` specify direct-call
 rejection alongside ordinary execution; these cases remain unrun.
+
+
+### Injury-window prerequisite for uncontrolled rage
+
+`RpgExpandedRageInjuryWindow` provides a pure full-2008 B124 trigger assessment.
+Set `profile` and `second` to the current shared ledger second. `assess()` returns
+actual health loss summed from that second's committed expanded wounds, their
+identities, current health capacity and `triggered`. The threshold is strictly
+more than one quarter capacity: three injury triggers at capacity ten, but not
+at capacity twelve. Multiple hits accumulate; earlier seconds do not contribute.
+Repeated assessment consumes no time, resources or randomness.
+
+The assessment validates wound ownership, chronology and injury serial coverage.
+Unrecorded injury returns `rage-window-unrecorded-injury`; it cannot silently
+exclude a direct core injury from the total. Historical assessment returns
+`rage-window-current-capacity-required`, because current capacity does not prove
+capacity at an earlier time. This current-second assessment is not a finalized
+window receipt and does not prohibit later wounds in the same second.
+
+This is a prerequisite, not an executable rage episode. It does not roll
+self-control, determine whether a witnessed victim is a loved one, enable combat
+restrictions or suppress injury effects. Entry ownership, voluntary entry,
+anger escalation, combat behavior and exit checks remain unimplemented.
+`test_rage_injury_window` specifies exact thresholds, multiple-hit aggregation,
+time separation, purity, replay, rollback, undo and saved continuation. It is
+registered but unrun while checks remain paused.

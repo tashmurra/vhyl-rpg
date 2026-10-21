@@ -11767,3 +11767,50 @@ modify RpgExpandedPanicObjectPermission
         return nil;
     }
 ;
+
+/** B124: strictly more than one quarter capacity, never rounded down to a hit count. */
+rpgExpandedRageInjuryThreshold(capacity,injury)
+{
+    rpgInteger(capacity,1,1000); rpgInteger(injury,0,1000000);
+    return injury * 4 > capacity;
+}
+class RpgExpandedRageInjuryResult: RpgExpandedResult
+    injury = 0
+    capacity = 0
+    triggered = nil
+    wounds = []
+;
+/** Pure same-second aggregation. Entry/observation and episode execution are separate. */
+class RpgExpandedRageInjuryWindow: object
+    profile = nil
+    second = nil
+    assess()
+    {
+        if (self.profile == nil || !self.profile.ofKind(RpgExpandedProfile)) rpgExpandedReject('rage-window-profile');
+        rpgInteger(self.second,0,rpgLedger.seconds);
+        local value = new RpgExpandedRageInjuryResult();
+        if (self.second != rpgLedger.seconds)
+        { value.reason = 'rage-window-current-capacity-required'; return value; }
+        value.capacity = self.profile.maxHP; rpgInteger(value.capacity,1,1000);
+        local serial = 0; local lastTime = 0; local ids = [];
+        foreach (local wound in self.profile.expandedWounds)
+        {
+            if (wound == nil || !wound.ofKind(RpgExpandedWound) || wound.profile != self.profile
+                || wound.assess().status != 'reused' || holds(ids,wound.id)) rpgExpandedReject('rage-window-wound-history');
+            ids = ids + [wound.id];
+            rpgInteger(wound.committedAt,lastTime,rpgLedger.seconds); lastTime = wound.committedAt;
+            rpgInteger(wound.health.injury,0,100000);
+            /* Zero-loss wounds do not advance the underlying injury serial. */
+            local expected = serial + (wound.health.injury > 0 ? 1 : 0);
+            if (wound.committedSerial != expected)
+            { value.reason = 'rage-window-unrecorded-injury'; return value; }
+            serial = expected;
+            if (wound.committedAt == self.second)
+            { value.injury += wound.health.injury; value.wounds = value.wounds + [wound]; }
+        }
+        if (serial != self.profile.woundSerial)
+        { value.reason = 'rage-window-unrecorded-injury'; return value; }
+        value.triggered = rpgExpandedRageInjuryThreshold(value.capacity,value.injury);
+        value.status = 'ready'; return value;
+    }
+;

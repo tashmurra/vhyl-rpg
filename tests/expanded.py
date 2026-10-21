@@ -9831,6 +9831,8 @@ def test(build):
     test_impulsive_action(Session,impulsive_action,build.out)
     volatile_temper = build.build('expanded-volatile-temper',ROOT / 'tests/fixtures/expanded-volatile-temper.t')
     test_volatile_temper(Session,volatile_temper,build.out)
+    rage_window = build.build('expanded-rage-injury-window',ROOT / 'tests/fixtures/expanded-rage-injury-window.t')
+    test_rage_injury_window(Session,rage_window,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -29777,3 +29779,38 @@ def test_volatile_temper(Session,bundle,out):
             do(s,871); do(s,871); do(s,887)
             assert last(s,'test.temper-voices') == [int(failed),6 if failed else 3]
         finally: s.close()
+
+
+def test_rage_injury_window(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,903)
+        return last(s,'test.rage-window')
+    path = out/'rage-injury-window.zsave'
+    s = Session(bundle)
+    try:
+        do(s,905); assert last(s,'test.rage-threshold') == [0,1,0,1,0,1]
+        do(s,900); assert state(s) == ['ready',None,1,0,1,1,0,0]
+        do(s,902); assert state(s) == ['ready',None,1,0,1,1,0,0]
+        do(s,901); s.command('undo'); assert state(s) == ['ready',None,1,0,1,1,0,0]
+        do(s,901); do(s,901)
+        assert state(s) == ['ready',None,3,1,2,3,0,0]
+        assert state(s) == ['ready',None,3,1,2,3,0,0]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251')
+        assert state(s) == ['ready',None,3,1,2,3,0,0]
+        do(s,904); assert state(s) == ['ready',None,0,0,0,3,1,0]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,900); do(s,904); do(s,901)
+        assert state(s) == ['ready',None,2,0,1,3,1,0]
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        do(s,906)
+        assert state(s) == ['blocked','rage-window-unrecorded-injury',0,0,0,1,0,0]
+    finally: s.close()
