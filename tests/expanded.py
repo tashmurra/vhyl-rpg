@@ -9872,6 +9872,8 @@ def test(build):
     test_replay_fear(Session,replay_fear,build.out)
     replay_senses = build.build('expanded-replay-senses',ROOT / 'tests/fixtures/expanded-replay-senses.t')
     test_replay_senses(Session,replay_senses,build.out)
+    replay_overlap = build.build('expanded-replay-overlap',ROOT / 'tests/fixtures/expanded-replay-overlap.t')
+    test_replay_overlap(Session,replay_overlap,build.out)
     goal_template = build.build('expanded-goal-template',ROOT / 'tests/fixtures/expanded-goal-template.t')
     test_goal_template(Session,goal_template,build.out)
     panic_critical_hit = build.build('expanded-panic-critical-hit',ROOT / 'tests/fixtures/expanded-panic-critical-hit.t')
@@ -30447,4 +30449,50 @@ def test_replay_senses(Session,bundle,out):
         assert last(s,'test.replay-senses') == expected
         do(s,1017); do(s,1060)
         assert last(s,'test.replay-senses') == [None,None,None,None,None,12]
+    finally: s.close()
+
+
+def test_replay_overlap(Session,bundle,out):
+    def do(s,c): s.action(2250,c,4)
+    def state(s):
+        do(s,1074)
+        return last(s,'test.replay-overlap')
+    for policy,penalty in ((1070,-2),(1071,-4)):
+        s = Session(bundle)
+        path = out/f'replay-overlap-{policy}.zsave'
+        try:
+            do(s,1010); do(s,1014); do(s,1075)
+            first = [1,-2,1,4,None,5,2]
+            do(s,1072); assert state(s) == first
+            do(s,policy); do(s,1073); assert state(s) == first
+            do(s,1072); s.command('undo'); assert state(s) == first
+            do(s,1072); do(s,1072)
+            assert state(s) == [2,penalty,1,4,6,10,2]
+            if policy == 1070:
+                do(s,1077); assert state(s) == [2,penalty,1,4,6,10,2]
+            do(s,1076); assert state(s) == [2,penalty,1,4,6,10,2]
+            s.command(f':save {path}\n@2251')
+        finally: s.close()
+        s = Session(bundle)
+        try:
+            s.command(f':restore {path}\n@2251'); do(s,1072)
+            assert state(s) == [2,penalty,1,4,6,10,2]
+            do(s,1075); assert state(s) == [2,-2,1,4,6,10,4]
+            do(s,1075); assert state(s) == [2,0,0,4,6,10,6]
+            s.command('undo'); assert state(s) == [2,-2,1,4,6,10,4]
+        finally: s.close()
+
+    s = Session(bundle)
+    path = out/'replay-acquisition.zsave'
+    try:
+        do(s,1080); do(s,582); do(s,1082)
+        assert last(s,'test.replay-acquisition') == [0,0,9,7,0,0]
+        do(s,581); do(s,581); do(s,1081); do(s,1014); do(s,1082)
+        assert last(s,'test.replay-acquisition') == [1,10,9,7,-5,4]
+        s.command(f':save {path}\n@2251')
+    finally: s.close()
+    s = Session(bundle)
+    try:
+        s.command(f':restore {path}\n@2251'); do(s,581); do(s,1014); do(s,1082)
+        assert last(s,'test.replay-acquisition') == [1,10,9,7,-5,4]
     finally: s.close()

@@ -407,3 +407,17 @@ Committed fear consequences remain valid when their follow-up creates sensory
 incapacity. Registered cases specify no-dice denial, classification bypass
 rejection, expiry and persistence, but are unrun. Episode overlap remains the
 next unresolved integration before enabling fear acquisition.
+
+
+## Intrusive replay overlap and fear selection
+
+Overlapping episodes now require a recorded `sum` or `worst` author ruling for
+numeric skill penalties; each episode retains an independent duration and the
+ruling used at onset. Active conflicting policies reject before rolling. Severe
+skill/input denial remains dominant under either policy. The ten-point purchase
+is now a supported fear selection with bound replay type and no advancement
+refund. Added fixtures specify independent expiry, acquisition, actual penalties,
+receipt mutation, rollback, undo and saved continuation; they remain unrun.
+Earlier replay-increment notes describe historical gaps closed by subsequent
+increments, not passing validation. The wider fear and mental-trait audit is
+still incomplete.

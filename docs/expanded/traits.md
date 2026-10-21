@@ -2835,12 +2835,13 @@ are registered but unrun; this selection does not imply that the remaining
 mental-trait catalogue is complete.
 
 
-### Intrusive replay episodes — partial integration
+### Intrusive replay episodes
 
 `RpgExpandedIntrusiveReplay` implements the full-2008 B136 purchase levels at
 -5/-10/-20. Configured templates supply one option, the authored `replayType`:
 `['intrusive-replay', 2, nil, nil, ['evacuation memories']]`. Copying preserves
-that type. This purchase is not yet accepted by the fear-acquisition interface.
+that type. The level-two purchase is an exact ten-point fear selection; the
+acquisition receipt binds its replay type and does not award spendable points.
 
 An owned `RpgExpandedIntrusiveReplayOccurrence` identifies the profile, unique
 ID and `stressor`, with approval, evidence and authored episode `content`.
@@ -2856,14 +2857,13 @@ Level three rejects skill use through the common health check gate. These effect
 belong to the committed episode; they are not recalculated from later purchase
 edits. Raw attribute checks do not receive the skill penalty.
 
-**Incomplete:** concurrent-episode policy is pending; sensory integration is
-described below. The direct abridged fear and direct self-control routes reject
+Concurrent-episode rulings and sensory integration are described below. The direct abridged fear and direct self-control routes reject
 explicitly while the purchase is active;
-a new occurrence overlapping an active one also rejects before randomness.
-Do not enable this purchase in a finished campaign yet. `test_intrusive_replay`
+a new occurrence overlapping an active one requires a recorded combination
+ruling before randomness. Validation remains outstanding. `test_intrusive_replay`
 specifies exact prices, onset boundaries, durations, skill effects, expiry,
 rollback, undo, receipt mutation and saved continuation. It is registered but
-unrun, and does not establish complete integration.
+unrun, and does not establish passing integration.
 
 
 Owned self-control triggers now support intrusive-replay follow-ups. When an
@@ -2918,3 +2918,20 @@ fear consequence when its follow-up subsequently blocks sensory input.
 `test_replay_senses` specifies no-dice sensory denial, attempted classification
 bypass, the author disclosure hook, aura gate, new external fear denial,
 independent skill blocking, expiry and saved continuation. It remains unrun.
+
+
+Before an occurrence that could overlap an active episode, set
+`intrusiveReplayOverlapPolicy` to `sum` or `worst` and provide
+`intrusiveReplayOverlapEvidence` on the profile. This is an explicit author
+ruling for an unspecified interaction, not a published stacking rule. `sum`
+adds active numeric skill penalties; `worst` applies the largest. A level-three
+episode always prohibits skill use and external input regardless of the numeric
+policy. Episodes retain their own onset and expiry; a new episode never restarts
+an older one's clock. Each receipt captures the policy and evidence, so later
+profile edits do not rewrite history. Conflicting policies among active episodes
+reject before a new onset roll. No policy is required for an isolated episode.
+
+`test_replay_overlap` specifies missing-ruling rejection, both combination choices,
+independent expiry, receipt mutation, rollback, undo and saved continuation. It
+also specifies ten-point fear acquisition, immutable replay type, actual skill
+effects and unchanged earned/unspent points. These cases remain unrun.

@@ -147,9 +147,10 @@
         "tests/expanded.py::test_intrusive_replay",
         "tests/expanded.py::test_replay_self_control",
         "tests/expanded.py::test_replay_fear",
-        "tests/expanded.py::test_replay_senses"
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes remain incomplete; direct abridged routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-flashback-mild",
@@ -163,9 +164,10 @@
         "tests/expanded.py::test_intrusive_replay",
         "tests/expanded.py::test_replay_self_control",
         "tests/expanded.py::test_replay_fear",
-        "tests/expanded.py::test_replay_senses"
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes remain incomplete; direct abridged routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-flashback-severe",
@@ -179,9 +181,10 @@
         "tests/expanded.py::test_intrusive_replay",
         "tests/expanded.py::test_replay_self_control",
         "tests/expanded.py::test_replay_fear",
-        "tests/expanded.py::test_replay_senses"
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes remain incomplete; direct abridged routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-flashback-incapacitating",
@@ -195,9 +198,10 @@
         "tests/expanded.py::test_intrusive_replay",
         "tests/expanded.py::test_replay_self_control",
         "tests/expanded.py::test_replay_fear",
-        "tests/expanded.py::test_replay_senses"
+        "tests/expanded.py::test_replay_senses",
+        "tests/expanded.py::test_replay_overlap"
       ],
-      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes remain incomplete; direct abridged routes reject and fear selection is not enabled. Direct lifecycle fixtures registered but unrun."
+      "implementation_note": "Owned intrusive-replay occurrence rolls onset once and retains source duration and timed skill effects. Owned failed stress-related self-control dispatch now preflights content and preserves independent phantom-voice checks. Owned fear dispatch now retains a separate follow-up, with explicit low-score rulings. Shared sensory checks, aura perception and new external fear events now gate input, with an explicit author disclosure interface. Overlapping episodes retain independent durations and an explicit sum/worst author ruling. Ten-point fear selection binds replay type and advancement accounting; direct abridged routes still require owned dispatch. Direct lifecycle fixtures registered but unrun."
     },
     {
       "id": "disadvantages-d-brittle-body",
