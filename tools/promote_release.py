@@ -86,6 +86,19 @@ def tar_files(archive: tarfile.TarFile) -> dict[str, bytes]:
     return result
 
 
+def build_tree(revision: str, *, root: Path = ROOT) -> str:
+    """Return the tree of the validated build commit, fetching it by ID if needed.
+
+    A merged PR's branch can be deleted while the release workflow runs, so later
+    jobs may not receive its head commit. GitHub keeps it under refs/pull/*/head.
+    """
+    try:
+        return git('rev-parse', f'{revision}^{{tree}}', root=root, quiet=True).decode().strip()
+    except subprocess.CalledProcessError:
+        git('fetch', '--no-tags', '--quiet', 'origin', revision, root=root)
+        return git('rev-parse', f'{revision}^{{tree}}', root=root).decode().strip()
+
+
 def verify_packages(directory: Path, *, root: Path = ROOT) -> dict:
     version = validate_version((root / 'VERSION').read_text(encoding='utf-8').strip())
     name = f'vhyl-rpg-v{version}'
@@ -108,7 +121,7 @@ def verify_packages(directory: Path, *, root: Path = ROOT) -> dict:
     if not re.fullmatch(r'[0-9a-f]{40}', revision):
         raise ValueError('invalid build revision')
     tree = git('rev-parse', 'HEAD^{tree}', root=root).decode().strip()
-    source_tree = git('rev-parse', f'{revision}^{{tree}}', root=root).decode().strip()
+    source_tree = build_tree(revision, root=root)
     if (manifest.get('schema_version') != 2 or manifest.get('tree') != tree or source_tree != tree
             or manifest.get('version') != version or manifest.get('tag') != 'v' + version
             or manifest.get('dependencies') != json.loads((root / 'dependencies.json').read_text(encoding='utf-8'))):
