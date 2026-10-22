@@ -3,6 +3,7 @@ from copy import deepcopy
 import hashlib
 import io
 import json
+import shutil
 from pathlib import Path
 import sys
 import tarfile
@@ -122,6 +123,24 @@ class PackagePromotionTests(unittest.TestCase):
         self.assertEqual(proof['build_revision'], self.revision)
         self.assertEqual(proof['tree'], self.tree)
         self.assertEqual(proof['assets'], before)
+
+    def test_missing_build_commit_is_fetched_by_id(self):
+        # The PR branch was deleted: the checkout has an identical tree but not the build commit.
+        target = self.git('commit-tree', self.tree, '-m', 'Squash-merged commit').decode().strip()
+        self.git('branch', 'main-after-merge', target)
+        consumer = self.root / 'build/consumer'
+        def consumer_git(*args):
+            return release.git(*args, root=consumer, quiet=True)
+        consumer.mkdir()
+        consumer_git('init', '-q')
+        consumer_git('remote', 'add', 'origin', str(self.root))
+        consumer_git('fetch', '-q', '--no-tags', 'origin', 'main-after-merge')
+        consumer_git('checkout', '-q', 'FETCH_HEAD')
+        with self.assertRaises(release.subprocess.CalledProcessError):
+            consumer_git('cat-file', '-e', self.revision + '^{commit}')
+        shutil.copytree(self.out, consumer / 'build/release')
+        manifest = promotion.verify_packages(consumer / 'build/release', root=consumer)
+        self.assertEqual(manifest['revision'], self.revision)
 
     def test_changed_tree_cannot_promote_old_packages(self):
         (self.root / 'new.t').write_text('class Changed: object;')
