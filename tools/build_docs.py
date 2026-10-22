@@ -24,7 +24,7 @@ SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t', 'lib/vhyl-rpg-resilience.t
            'lib/vhyl-rpg-lite-traits.t')
 SOURCES += tuple('lib/vhyl-rpg-' + name + '.t' for name in (
     'expanded', 'expanded-characters', 'expanded-skills', 'expanded-traits',
-    'expanded-templates', 'expanded-social'))
+    'expanded-templates', 'expanded-social', 'expanded-fright'))
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',
