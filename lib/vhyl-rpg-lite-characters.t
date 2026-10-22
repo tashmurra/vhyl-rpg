@@ -9,6 +9,8 @@ class RpgLiteTrait: RpgTrait
     active = true
     mitigated = nil
     nextCheck = 0
+    /* Gained during play (e.g. from a Fright Check); exempt from the creation quirk limit. */
+    acquiredInPlay = nil
     modifierFor(context) { return 0; }
     /* Expanded cost hook; Lite callers retain their existing cost function. */
     creationCost() { return rpgLiteTraitCost(self); }
@@ -68,8 +70,13 @@ class RpgLiteProfile: RpgProfile
     sessionId = 0
     unluckySession = -1
     fearSeconds = 0
+    /* Penalty to skill rolls and attribute checks (not defenses) and its remaining seconds. */
+    lingeringPenalty = 0
+    lingeringSeconds = 0
     aidUsed = nil
     money = 0
+    /* Optional modules advance their own conditions here; see rpgLiteHealthTime. */
+    conditionTime(seconds) { return nil; }
     hp() { return self.maxHP - self.injury; }
     fp() { return self.maxEnergy - self.fatigue; }
     basicSpeedQuarters() { return self.dx + self.ht; }
@@ -210,6 +217,7 @@ rpgLiteScore(profile, context)
     if (profile.level('high-pain-threshold') == 0 && context.kind != 'defense' && (attribute == rpgDX || attribute == rpgIQ))
         adjustment -= profile.shock;
     if (profile.sleepPenalty && (attribute == rpgDX || attribute == rpgIQ)) adjustment -= 2;
+    if (context.kind != 'defense') adjustment -= profile.lingeringPenalty;
     if (attribute == rpgDX && context.kind != 'extinguish') adjustment -= profile.burningPenalty;
     if (context.phobiaPresent && (attribute == rpgIQ || attribute == rpgDX || context.skill != nil))
         adjustment -= 2;
@@ -342,7 +350,7 @@ rpgLiteValidateTraits(profile)
     {
         if (!trait.ofKind(RpgLiteTrait) || trait.id == nil || holds(ids, trait.id) && trait.id != 'quirk') rpgLiteInvalidCharacter('duplicate-or-invalid-trait');
         ids = ids + [trait.id];
-        if (trait.id == 'quirk' || trait.scope == 'quirk') quirks += 1;
+        if ((trait.id == 'quirk' || trait.scope == 'quirk') && !trait.acquiredInPlay) quirks += 1;
         if (trait.id == 'night-vision' && trait.level > 9
             || trait.skills.length() > 0 && trait.level > 4) rpgLiteInvalidCharacter('trait-level');
     }

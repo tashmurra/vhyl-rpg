@@ -70,6 +70,25 @@
         "tests/character_social.py::test_failed_recognition",
         "tests/character_social.py::test_social_save"
       ]
+    },
+    {
+      "id": "fright",
+      "source": "full-2008",
+      "pages": "B127; B129; B135; B162; B360-B361",
+      "status": "implemented",
+      "tests": [
+        "tests/fright.py::test_modifiers",
+        "tests/fright.py::test_checks",
+        "tests/fright.py::test_rows",
+        "tests/fright.py::test_stun_recovery",
+        "tests/fright.py::test_timed_recovery",
+        "tests/fright.py::test_catatonia",
+        "tests/fright.py::test_total_panic",
+        "tests/fright.py::test_acquisitions",
+        "tests/fright.py::test_exposures_and_exemptions",
+        "tests/fright.py::test_rollback_and_undo",
+        "tests/fright.py::test_persistence"
+      ]
     }
   ]
 }

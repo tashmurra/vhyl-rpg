@@ -320,3 +320,6 @@ def test(build):
 
     import character_social
     character_social.test(build)
+
+    import fright
+    fright.test(build)
