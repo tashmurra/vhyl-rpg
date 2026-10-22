@@ -2,7 +2,7 @@
 
 This original vignette demonstrates a Bellwether-oriented integration. Its clerk,
 ledger and local facts are examples, not additions to an existing campaign's canon.
-Use the tagged v1.1.0-alpha.1 prerelease for a reproducible integration snapshot.
+Use the tagged v1.2.0-alpha.1 prerelease for a reproducible integration snapshot.
 
 Include core, progression and the Lite umbrella, followed by
 `vhyl-rpg-expanded-character-social.t`. Do not also include the six expansion

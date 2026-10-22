@@ -1,9 +1,9 @@
 # vhyl-rpg
 
-**Prerelease: v1.1.0-alpha.1.** Development follows `main`, with tagged snapshots
+**Prerelease: v1.2.0-alpha.1.** Development follows `main`, with tagged snapshots
 for releases. Saves identify the exact compiled game; upgrades require a new game
 unless the game author supplies a migration.
-See the [release notes](docs/releases/v1.1.0-alpha.1.md) and
+See the [release notes](docs/releases/v1.2.0-alpha.1.md) and
 [release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
@@ -164,4 +164,4 @@ procedures. See the [integration guide](docs/expanded/index.md),
 [library catalogue](docs/libraries.md) and
 [Town Registry example](examples/bellwether/README.md). This branch does not contain
 the full expansion suite or full trait/skill catalogues. See the
-[prerelease notes](docs/releases/v1.1.0-alpha.1.md) for validation and adoption details.
+[prerelease notes](docs/releases/v1.2.0-alpha.1.md) for validation and adoption details.
