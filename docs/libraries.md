@@ -1,6 +1,6 @@
 # Library catalogue
 
-Essential means a dependency of the selected integration, not an instruction to enable every module. Include each umbrella or its ordered components once. Do not mix simplified resilience pools with Lite/expanded injury state. Expanded modules are experimental; see the [prerelease notes](releases/v1.1.0-alpha.1.md).
+Essential means a dependency of the selected integration, not an instruction to enable every module. Include each umbrella or its ordered components once. Do not mix simplified resilience pools with Lite/expanded injury state. Expanded modules are experimental; see the [prerelease notes](releases/v1.2.0-alpha.1.md).
 
 ## Core / essential
 
