@@ -77,6 +77,10 @@ class RpgLiteProfile: RpgProfile
     money = 0
     /* Optional modules advance their own conditions here; see rpgLiteHealthTime. */
     conditionTime(seconds) { return nil; }
+    magicArmorBonus() { return 0; }
+    healingLimit(amount) { return amount; }
+    injuryApplied(amount) { return nil; }
+    healingApplied(amount) { return nil; }
     hp() { return self.maxHP - self.injury; }
     fp() { return self.maxEnergy - self.fatigue; }
     basicSpeedQuarters() { return self.dx + self.ht; }

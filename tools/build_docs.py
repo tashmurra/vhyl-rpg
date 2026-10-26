@@ -24,7 +24,11 @@ SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t', 'lib/vhyl-rpg-resilience.t
            'lib/vhyl-rpg-lite-traits.t')
 SOURCES += tuple('lib/vhyl-rpg-' + name + '.t' for name in (
     'expanded', 'expanded-characters', 'expanded-skills', 'expanded-traits',
-    'expanded-templates', 'expanded-social', 'expanded-fright'))
+    'expanded-templates', 'expanded-social', 'expanded-fright',
+    'gm', 'magic', 'magic-characters', 'magic-effects', 'magic-strain', 'magic-casting',
+    'magic-scale', 'magic-world', 'magic-health', 'magic-supply', 'magic-defense',
+    'magic-operations', 'magic-work', 'magic-groups', 'magic-consequences',
+    'magic-items', 'magic-spirit', 'magic-mind', 'magic-combat'))
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',
@@ -38,6 +42,31 @@ PUBLIC = {
     'RpgDisposition', 'RpgSocialApproach', 'RpgCombatant', 'RpgConflict', 'RpgStrike',
     'RpgConflictResult', 'rpgBeginConflict', 'rpgConflictStep', 'rpgPublishConflict',
     'RpgMilestone', 'RpgAward', 'RpgDevelopment', 'RpgProgressResult',
+    'RpgGmQuestion', 'RpgGmProvider', 'RpgGmAuthoredProvider', 'RpgGmProposal', 'RpgGmResult',
+    'rpgGmAsk', 'rpgGmSubmit', 'rpgGmRead', 'rpgGmResolve', 'rpgGmPublishRequest',
+    'RpgMagicState', 'RpgMagicDomain', 'RpgMagicIntent', 'RpgMagicEffect',
+    'RpgMagicGoal', 'RpgMagicOpportunity', 'rpgAssessMagic', 'rpgCastMagic',
+    'RpgMagicKnowledge', 'RpgMagicFormula', 'RpgMagicTool', 'RpgMagicPurchase',
+    'RpgMagicWitness', 'RpgMagicScene', 'RpgMagicPractice', 'RpgMagicResult',
+    'RpgMagicPreparation', 'RpgMagicBacklash', 'RpgMagicConsequence',
+    'RpgMagicWorld', 'RpgMagicSubject', 'RpgMagicPlace', 'RpgMagicProperty', 'RpgMagicOngoing',
+    'rpgPrepareMagicOperation', 'rpgComposeMagic', 'rpgMagicLayer', 'rpgCancelMagicEffect',
+    'rpgBeginMagicWork', 'rpgAdvanceMagicWork', 'rpgInterruptMagic',
+    'rpgBeginMagicRitual', 'rpgRollMagicRitual', 'rpgEndMagicRitual',
+    'rpgPauseMagicRitual', 'rpgResumeMagicRitual', 'rpgCastDuringMagicRitual', 'rpgCastMagicGroup',
+    'rpgBeginMagicGroupRitual', 'rpgRollMagicGroupRitual',
+    'rpgMoveMagicReserve', 'rpgTransferMagicReserve', 'rpgAbsorbMagicSupply',
+    'rpgCollectMagicSource', 'rpgMeditateMagic', 'rpgRemoveMagicStrain', 'rpgBuyMagicSupply',
+    'rpgBeginMagicCraft', 'rpgAdvanceMagicCraft', 'rpgInterruptMagicCraft',
+    'rpgBeginMagicItemCharge', 'rpgChargeMagicItem', 'rpgRechargeMagicItem',
+    'rpgActivateMagicItem', 'rpgDisenchantMagicItem', 'rpgAcceptMagicComplications',
+    'rpgImmediateMagicDefense', 'rpgArmMagicManeuver', 'rpgUseMagicAssistance',
+    'rpgMagicResist', 'rpgHealMagic', 'rpgContactMagicSpirit', 'rpgRecognizeMagicPerception',
+    'rpgMagicMasteryCost', 'rpgMagicRankCost', 'rpgMagicFormulaCost',
+    'rpgMagicRestorationCost', 'rpgMagicKnowledgeFor', 'rpgMagicSkill',
+    'rpgAssessMagicPurchase', 'rpgBuyMagic', 'rpgPrepareMagic', 'rpgPublishMagic',
+    'rpgMagicCapacity', 'rpgMagicAddStrain', 'rpgMagicReceive', 'rpgMagicTransferable',
+    'rpgMagicStrainGain', 'rpgMagicDischarge', 'rpgResolveMagicBacklash', 'rpgMagicBlastInjury',
     'rpgAwardMilestone', 'rpgAssessDevelopment', 'rpgDevelop', 'rpgPublishProgress',
 }
 

@@ -32,3 +32,11 @@ Essential means a dependency of the selected integration, not an instruction to 
 | Expanded traits | `vhyl-rpg-expanded-traits.t` | Expanded foundation | Expanded | Experimental prerelease | [Guide](expanded/traits.md) / [example](../examples/bellwether/main.t) |
 | Reporting | `vhyl-rpg-report.t` | Core | Core | Existing | [Guide](reporting.md) / [example](../examples/hybrid/main.t) |
 | Resilience | `vhyl-rpg-resilience.t` | Core | Simplified | Existing | [Guide](resilience.md) / [example](../examples/resilience/main.t) |
+
+## Optional adjudication and magic
+
+The [GM boundary](gm.md) is independent of magic and inference providers.
+The [magic extension](magic.md) adds typed domain operations, casting and defenses,
+rituals, cooperation, resources, items and world adapters on expanded characters
+and skills. Its coverage ledger distinguishes executable mechanics from the
+content and environment integration a game must author.

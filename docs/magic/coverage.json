@@ -1,0 +1,1255 @@
+{
+  "schema": 2,
+  "milestone": "mechanical-library-and-world-adapters",
+  "status_meaning": "Supported means the listed reusable rank operation and its derived permission are implemented. It is not a claim that every published example or every game-specific physical interaction is automatically simulated. Content and integration obligations are explicit in docs/magic.md.",
+  "ranks": [
+    {
+      "domain": "space",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "observe"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          98
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[space][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "space",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "remote-sense"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          98
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[space][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "space",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "relocate"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          99
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[space][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "space",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "passage"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          99
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[space][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "space",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "dimensions"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          100
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[space][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "chance-decay",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "observe"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          102
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[chance-decay][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "chance-decay",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "chance"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          103
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[chance-decay][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "chance-decay",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "decay"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          103
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[chance-decay][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "chance-decay",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "decay"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          104
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[chance-decay][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "chance-decay",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "erode-belief"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          104
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[chance-decay][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "energy",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "observe"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          105
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[energy][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "energy",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "redirect"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          106
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[energy][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "energy",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "generate"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          107
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[energy][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "energy",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "redirect"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          107
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[energy][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "energy",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "generate"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          107
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[energy][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "life",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "observe"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          109
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[life][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "life",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "reshape-life"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          109
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[life][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "life",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "reshape-life"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          110
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[life][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "life",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "reshape-life"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          110
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[life][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "life",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "transform-life"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          111
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[life][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "matter",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "observe"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          112
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[matter][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "matter",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "create"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          113
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[matter][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "matter",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "reshape"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          113
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[matter][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "matter",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "transmute"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          114
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[matter][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "matter",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "extraordinary"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          114
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[matter][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "mind",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "enhance-mind"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          115
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[mind][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "mind",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "suggest"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          116
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[mind][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "mind",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "link"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          117
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[mind][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "mind",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "memory"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          117
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[mind][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "mind",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "project"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          118
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[mind][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "power",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "receive"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          119
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[power][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "power",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "disturb"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          120
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[power][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "power",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "transfer"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          120
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[power][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "power",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "unmake"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          120
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[power][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "power",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "replenish"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          121
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[power][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "spirits",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "observe"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          122
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[spirits][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "spirits",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "contact"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          122
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[spirits][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "spirits",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "cross"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          122
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[spirits][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "spirits",
+      "rank": 4,
+      "status": "partial",
+      "operations": [
+        "boundary"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          123
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[spirits][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": [
+        "Spirit-vessel construction deferred by user; region and boundary operations implemented"
+      ]
+    },
+    {
+      "domain": "spirits",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "mark"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          124
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[spirits][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "time",
+      "rank": 1,
+      "status": "supported",
+      "operations": [
+        "time-sense"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          125
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[time][0]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "time",
+      "rank": 2,
+      "status": "supported",
+      "operations": [
+        "past"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          125
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[time][1]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "time",
+      "rank": 3,
+      "status": "supported",
+      "operations": [
+        "accelerate"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          126
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[time][2]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "time",
+      "rank": 4,
+      "status": "supported",
+      "operations": [
+        "suspend"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          126
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[time][3]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    },
+    {
+      "domain": "time",
+      "rank": 5,
+      "status": "supported",
+      "operations": [
+        "forward"
+      ],
+      "source": {
+        "id": "freeform-1994",
+        "printed_pages": [
+          126
+        ]
+      },
+      "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
+      "scale": "rpgMagicMassMargin / rpgMagicReachMargin / rpgMagicDurationMargin; operation-specific declared amount",
+      "delivery": "RpgMagicOperation.available/defend/apply; living direct effects resist, indirect effects use physical defenses",
+      "implementation": [
+        "lib/vhyl-rpg-magic-operations.t",
+        "lib/vhyl-rpg-magic-scale.t",
+        "lib/vhyl-rpg-magic-defense.t"
+      ],
+      "tests": [
+        "tests/magic_engine.py:MATRIX[time][4]"
+      ],
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
+      "exceptions": []
+    }
+  ],
+  "deferred": [
+    {
+      "operation": "spirit-vessel-construction",
+      "authority": "User decision, 2026-10-26",
+      "reason": "Referenced external construction source not owned; retain for later review"
+    }
+  ],
+  "excluded_by_decision": [
+    "flawed-item-results",
+    "backlash-postponement",
+    "spendable-determination",
+    "automatic-routine-casting",
+    "lesser-assistant-casting"
+  ],
+  "workflows": {
+    "casting": "tests/magic.py",
+    "defenses": "tests/magic_engine.py:6,15",
+    "rituals": "tests/magic_engine.py:7,17,18,21,30,31,32",
+    "cooperation": "tests/magic_engine.py:16,17",
+    "items": "tests/magic_engine.py:9",
+    "supply": "tests/magic_engine.py:4,14,29,33,34,36",
+    "health": "tests/magic_engine.py:3,10",
+    "world": "tests/magic_engine.py:2,12,25",
+    "spirit-relationships": "tests/magic_engine.py:11",
+    "complications": "tests/magic_engine.py:19",
+    "interruptions": "tests/magic_engine.py:20",
+    "combat-assistance": "tests/magic_engine.py:22,23,26",
+    "temporary-attributes": "tests/magic_engine.py:24",
+    "declaration-integrity": "tests/magic_engine.py:27,28,35"
+  },
+  "conversion_decisions": "docs/magic/decisions.md"
+}

@@ -28,6 +28,13 @@ The optional [reporting extension](docs/reporting.md) adds exact success odds,
 ability/modifier explanations and recorded individual dice. Author disclosure
 settings and player preferences control which details a CRPG host receives.
 
+The development tree also includes a provider-neutral [GM interface](docs/gm.md)
+and an optional [freeform magic extension](docs/magic.md): typed domain operations,
+casting and defenses, rituals and cooperation, resources, items, persistent
+effects and authored world adapters. These working-tree additions are not part
+of the existing tagged prerelease. See the coverage ledger for operation-level
+scope and the deliberately deferred spirit-vessel procedure.
+
 ## Dependencies
 
 Use the vhyl sources and compiler revision recorded in

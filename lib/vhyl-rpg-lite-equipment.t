@@ -230,5 +230,5 @@ rpgLiteArmor(profile)
 {
     local total = 0;
     foreach (local item in profile.equipment) if (item.worn) total += item.dr;
-    return total;
+    return total + profile.magicArmorBonus();
 }

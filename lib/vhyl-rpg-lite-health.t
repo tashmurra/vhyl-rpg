@@ -15,7 +15,7 @@ rpgLiteWound(profile, amount)
     rpgInteger(amount, 0, 100000);
     local result = new RpgLiteHealthResult();
     if (profile.dead || amount == 0) return result;
-    local oldHP = profile.hp(); profile.injury += amount; result.injury = amount;
+    local oldHP = profile.hp(); profile.injury += amount; result.injury = amount; profile.injuryApplied(amount);
     profile.woundSerial += 1;
     profile.aidUsed = nil;
     if (profile.level('high-pain-threshold') == 0)
@@ -96,8 +96,9 @@ rpgLiteHeal(profile, amount)
 {
     rpgInteger(amount, 0, 10000);
     if (profile.dead) return 0;
+    amount = profile.healingLimit(amount);
     if (amount > profile.injury) amount = profile.injury;
-    profile.injury -= amount;
+    profile.injury -= amount; profile.healingApplied(amount);
     if (amount > 0 && profile.mortal)
     {
         local check = rpgLiteAttributeCheck(profile, rpgHT, 'mortal-recovery', 0);
