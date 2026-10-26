@@ -38,3 +38,16 @@ text, images and title mappings are not distributed. Original implementation cod
 and guides remain under this project's licence; that licence grants no rights to
 the source publications. See the [comparison](rules-comparison.md) and
 [coverage ledger](expanded/coverage.json) for the partial implementation boundary.
+
+## Optional magic conversion
+
+The experimental magic extension follows the separately documented conversion
+from `freeform-1994`, with the identified `freeform-errata-1999`, selected
+`anniversary-2015` refinements and explicit host rules. It does not change the
+Lite rules generation. The [conversion plan](freeform-magic-plan.md) and
+[source audit](freeform-magic-source-audit.md) distinguish source mechanics,
+selected adaptations and deferred work. The [implementation guide](magic.md)
+and [coverage manifest](magic/coverage.json) distinguish executable rules from
+game-authored world content and the deferred spirit-vessel procedure. Original code,
+neutral terminology and workshop examples are included; source PDFs, extracted
+prose, illustrations and source-setting characters are not.

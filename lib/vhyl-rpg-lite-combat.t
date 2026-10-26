@@ -52,6 +52,9 @@ class RpgLiteManeuver: object
     preflight = nil
     attackModifier = 0
     defenseModifier = 0
+    damageModifier(attacker,defender,result) { return 0; }
+    applyInjury(defender,amount)
+    { rpgLiteWound(defender.profile,amount); if (amount > 0) rpgLiteDistract(defender); return nil; }
     darkness = 0
     someLight = true
     defense = 'dodge'
@@ -115,7 +118,7 @@ rpgLiteCombatSkill(fighter, mode)
 /** Return the highest applicable DX, Brawling or Karate rating. */
 rpgLiteUnarmedScore(fighter)
 {
-    local score = fighter.profile.dx;
+    local score = fighter.profile.attributeScore(rpgDX);
     foreach (local id in ['brawling', 'karate'])
     {
         local skill = rpgLiteTraining(fighter.profile, id, nil, nil);
@@ -216,10 +219,10 @@ rpgLiteStrike(attacker, defender, request)
     if (!mode.ranged && !request.inReach) { result.reason = 'out-of-reach'; return result; }
     if (request.deadly && !request.targetThreatens && profile.level('cannot-harm-innocents') > 0)
     { result.reason = 'cannot-harm-innocents'; return result; }
-    if (mode.hands == 2 && request.hands < 2 && (mode.requiresTwoHands || profile.st * 2 < mode.minimumST * 3)
+    if (mode.hands == 2 && request.hands < 2 && (mode.requiresTwoHands || profile.attributeScore(rpgST) * 2 < mode.minimumST * 3)
         || request.hands == 2 && attacker.shield != nil && attacker.shield.ready)
     { result.reason = 'hands-unavailable'; return result; }
-    local strength = weapon.id == 'crossbow' ? weapon.weaponST : profile.st;
+    local strength = weapon.id == 'crossbow' ? weapon.weaponST : profile.attributeScore(rpgST);
     local maximum = mode.rangeScale == 10 ? mode.maximumRange * strength / 10 : mode.maximumRange;
     local half = mode.rangeScale == 10 ? mode.halfRange * strength / 10 : mode.halfRange;
     if (mode.ranged && request.distance > maximum) { result.reason = 'out-of-range'; return result; }
@@ -233,10 +236,10 @@ rpgLiteStrike(attacker, defender, request)
     {
         context.skill = nil; context.attribute = rpgDX;
         local rating = weapon.id == 'blackjack' ? profile.skillScore(rpgLiteTraining(profile, 'brawling', nil, nil)) : rpgLiteUnarmedScore(attacker);
-        context.modifier += rating == nil || rating < profile.dx ? 0 : rating - profile.dx;
+        context.modifier += rating == nil || rating < profile.attributeScore(rpgDX) ? 0 : rating - profile.attributeScore(rpgDX);
     }
     if (weapon.id == 'kick') context.modifier -= 2;
-    local effectiveST = profile.fp() * 3 < profile.maxEnergy ? (profile.st + 1) / 2 : profile.st;
+    local effectiveST = profile.fp() * 3 < profile.maxEnergy ? (profile.attributeScore(rpgST) + 1) / 2 : profile.attributeScore(rpgST);
     local minimumST = weapon.bipod && profile.posture == 'lying' ? (mode.minimumST * 2 + 2) / 3 : mode.minimumST;
     if (effectiveST < minimumST) context.modifier -= minimumST - effectiveST;
     if (mode.ranged)
@@ -274,8 +277,8 @@ rpgLiteStrike(attacker, defender, request)
         result.attack = rpgCheck(score, rpgLiteReroll(defender.profile, result.attack.roll, 3, true));
     attacker.attacked = true; attacker.participated = true;
     if (mode.ranged && !mode.thrown) weapon.ammunition -= 1;
-    if (mode.thrown || mode.unready && profile.st * 2 < mode.minimumST * 3
-        || mode.hands == 2 && request.hands == 1 && profile.st < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
+    if (mode.thrown || mode.unready && profile.attributeScore(rpgST) * 2 < mode.minimumST * 3
+        || mode.hands == 2 && request.hands == 1 && profile.attributeScore(rpgST) < mode.minimumST * (mode.unready ? 3 : 2)) weapon.ready = nil;
     attacker.aimSeconds = 0;
     if (!result.attack.achieved)
     {
@@ -320,7 +323,7 @@ rpgLiteStrike(attacker, defender, request)
                     if (rpgLiteCheck(defender.profile, counter).achieved)
                     {
                         local retaliation = defender.mode();
-                        local damage = rpgLiteDamageDice(defender.profile.st, retaliation.base == 'swing');
+                        local damage = rpgLiteDamageDice(defender.profile.attributeScore(rpgST), retaliation.base == 'swing');
                         local rolled = rpgLiteRollDamage(damage[1], damage[2] + retaliation.adds, retaliation.damageType, nil);
                         result.counterInjury = rpgLiteWound(profile, rpgLitePenetration(rolled, rpgLiteArmor(profile), 1, retaliation.damageType, nil)).injury;
                     }
@@ -337,7 +340,7 @@ rpgLiteStrike(attacker, defender, request)
         if (unarmed)
         {
             local karate = profile.skillScore(rpgLiteTraining(profile, 'karate', nil, nil));
-            if (karate != nil && karate >= profile.dx) adds += dice * (karate > profile.dx ? 2 : 1);
+            if (karate != nil && karate >= profile.attributeScore(rpgDX)) adds += dice * (karate > profile.attributeScore(rpgDX) ? 2 : 1);
             if (weapon.id == 'kick' && request.boots) adds += 1;
         }
         if (request.kind == 'all-out-attack' && request.option == 'strong' && !mode.ranged) adds += dice > 2 ? dice : 2;
@@ -346,12 +349,11 @@ rpgLiteStrike(attacker, defender, request)
     for (local index = 0; index < dice; index += 1) rawDamage += result.attack.roll == 3 ? 6 : rpgRandom.die();
     if (result.attack.roll != 3 && request.reroll(profile, 'damage', rawDamage))
         rawDamage = rpgLiteReroll(profile, rawDamage, dice, true);
-    result.damage = rawDamage + adds;
+    result.damage = rawDamage + adds + request.damageModifier(attacker,defender,result);
     if (result.damage < (mode.damageType == 'cr' ? 0 : 1)) result.damage = mode.damageType == 'cr' ? 0 : 1;
     result.injury = rpgLitePenetration(result.damage, rpgLiteArmor(defender.profile), mode.armorDivisor,
         mode.damageType, mode.ranged && half > 0 && request.distance >= half);
-    rpgLiteWound(defender.profile, result.injury);
-    if (result.injury > 0) rpgLiteDistract(defender);
+    request.applyInjury(defender,result.injury);
     result.outcome = 'hit'; return result;
 }
 
@@ -374,7 +376,7 @@ class RpgLiteBattle: object
             {
                 local ownSpeed = fighter.profile.basicSpeedQuarters(); local otherSpeed = other.profile.basicSpeedQuarters();
                 if (!inserted && (ownSpeed > otherSpeed || ownSpeed == otherSpeed &&
-                    (fighter.profile.dx > other.profile.dx || fighter.profile.dx == other.profile.dx
+                    (fighter.profile.attributeScore(rpgDX) > other.profile.attributeScore(rpgDX) || fighter.profile.attributeScore(rpgDX) == other.profile.attributeScore(rpgDX)
                     && fighter.initiativeTie > other.initiativeTie)))
                 { updated = updated + [fighter]; inserted = true; }
                 updated = updated + [other];
@@ -483,7 +485,7 @@ class RpgLiteBattle: object
                 if (fighter.participated)
                 {
                     local cost = 1 + fighter.profile.encumbrance();
-                    if (fighter.weapon != nil && fighter.mode().minimumST > fighter.profile.st) cost += 1;
+                    if (fighter.weapon != nil && fighter.mode().minimumST > fighter.profile.attributeScore(rpgST)) cost += 1;
                     rpgLiteFatigue(fighter.profile, cost, 'battle');
                 }
         return true;

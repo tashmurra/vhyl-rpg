@@ -323,3 +323,8 @@ def test(build):
 
     import fright
     fright.test(build)
+
+    import magic
+    magic.test(build)
+    import magic_engine
+    magic_engine.test(build)
