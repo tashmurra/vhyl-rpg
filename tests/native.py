@@ -324,6 +324,9 @@ def test(build):
     import fright
     fright.test(build)
 
+    import running
+    running.test(build)
+
     import magic
     magic.test(build)
     import magic_engine

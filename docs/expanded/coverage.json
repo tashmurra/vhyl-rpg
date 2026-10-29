@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "Character/social interim milestone; neither full-reference nor complete per-module coverage is claimed.",
+  "scope": "Partial expanded rules: character/social, fright, and ordinary running. Neither full-reference nor complete per-module coverage is claimed.",
   "inventory_complete": false,
   "validation": "See docs/releases/v1.1.0-alpha.1.md for the release validation record; partial coverage remains explicit.",
   "modules": [
@@ -88,6 +88,27 @@
         "tests/fright.py::test_exposures_and_exemptions",
         "tests/fright.py::test_rollback_and_undo",
         "tests/fright.py::test_persistence"
+      ]
+    },
+    {
+      "id": "running",
+      "source": "full-2008",
+      "pages": "B218; B354; B426-B427",
+      "status": "partial",
+      "implemented": "Ordinary sprinting and paced running, effective HT/Running checks, strict low-FP speed boundary, per-second action gating, shared health/rest integration.",
+      "limitations": "Inherits Lite collapse and health approximations; no conscious incapacitation, heart attacks, resuscitation, enhanced movement, fitness traits, fatigue immunity, extra effort or races. Separate persistent pace counters are an extension policy.",
+      "tests": [
+        "tests/running.py::test_intervals",
+        "tests/running.py::test_scores",
+        "tests/running.py::test_speed",
+        "tests/running.py::test_exhaustion",
+        "tests/running.py::test_overflow",
+        "tests/running.py::test_rest_and_switches",
+        "tests/running.py::test_injury_checks",
+        "tests/running.py::test_contracts",
+        "tests/running.py::test_legacy",
+        "tests/running.py::test_partition",
+        "tests/running.py::test_persistence"
       ]
     }
   ]

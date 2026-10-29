@@ -39,6 +39,10 @@ and guides remain under this project's licence; that licence grants no rights to
 the source publications. See the [comparison](rules-comparison.md) and
 [coverage ledger](expanded/coverage.json) for the partial implementation boundary.
 
+The optional ordinary-running extension uses `full-2008`, B218 and B354, with
+shared fatigue/recovery corresponding to B426–B427. Its [guide](expanded/running.md)
+identifies inherited health approximations and the mixed-pace accounting policy.
+
 ## Optional magic conversion
 
 The experimental magic extension follows the separately documented conversion
