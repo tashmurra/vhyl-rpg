@@ -40,6 +40,13 @@ Saves remain tied to the exact compiled game. This milestone supplies no old-sav
 migration. Lite behavior should remain unchanged when expansions are absent;
 the release checks cover the existing core and Lite regressions.
 
+## Optional running
+
+The separately included [running extension](running.md) supplies ordinary sprinting
+and paced running, skill-based fatigue checks, and per-second exhaustion checks.
+It shares the existing health and recovery model, with its documented limitations,
+and does not replace Lite journeys or join the character/social umbrella.
+
 ## Boundaries
 
 Authored definitions are supported; full trait, skill and spell catalogues are

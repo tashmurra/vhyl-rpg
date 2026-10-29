@@ -59,7 +59,11 @@ rpgLiteFatigue(profile, amount, cause)
     local remaining = amount;
     while (remaining > 0)
     {
-        if (profile.fp() <= 0) result.injury += rpgLiteWound(profile, 1).injury;
+        if (profile.fp() <= 0)
+        {
+            local damage = rpgLiteWound(profile, 1);
+            result.injury += damage.injury; result.checks = result.checks + damage.checks;
+        }
         if (profile.fp() > -profile.maxEnergy)
         {
             profile.fatigue += 1; result.fatigue += 1;
@@ -76,16 +80,24 @@ rpgLiteFatigue(profile, amount, cause)
 /** Check consciousness and effort when necessary; a failed check may incapacitate the character. */
 rpgLiteCanAct(profile, doNothing)
 {
+    return rpgLiteCanActRecorded(profile, doNothing, nil);
+}
+
+/* Same ability-to-act procedure, optionally appending checks to an activity receipt. */
+rpgLiteCanActRecorded(profile, doNothing, receipt)
+{
     if (profile.dead || profile.unconscious || profile.mortal) return nil;
     if (doNothing) return true;
     if (profile.fp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgWill, 'effort', 0);
+        if (receipt != nil) receipt.checks = receipt.checks + [check];
         if (!check.achieved) { profile.unconscious = true; profile.fatigueCollapse = true; return nil; }
     }
     if (profile.hp() <= 0)
     {
         local check = rpgLiteAttributeCheck(profile, rpgHT, 'consciousness', -(-profile.hp() / profile.maxHP));
+        if (receipt != nil) receipt.checks = receipt.checks + [check];
         if (!check.achieved) { profile.unconscious = true; return nil; }
     }
     return true;

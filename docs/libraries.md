@@ -26,6 +26,7 @@ Essential means a dependency of the selected integration, not an instruction to 
 | Conflict | `vhyl-rpg-conflict.t` | Core + resilience | Simplified | Existing | [Guide](resilience.md) / [example](../examples/resilience/main.t) |
 | Expanded characters | `vhyl-rpg-expanded-characters.t` | Expanded foundation | Expanded | Experimental prerelease | [Guide](expanded/characters.md) / [example](../examples/bellwether/main.t) |
 | Expanded skills | `vhyl-rpg-expanded-skills.t` | Expanded foundation | Expanded | Experimental prerelease | [Guide](expanded/skills.md) / [example](../examples/bellwether/main.t) |
+| Expanded running | `vhyl-rpg-expanded-running.t` | Expanded foundation + skills | Expanded; explicit activity | Experimental | [Guide](expanded/running.md) |
 | Expanded fright | `vhyl-rpg-expanded-fright.t` | Expanded foundation + traits | Expanded | Experimental | [Guide](expanded/fright.md) |
 | Expanded social | `vhyl-rpg-expanded-social.t` | Expanded foundation | Expanded | Experimental prerelease | [Guide](expanded/social.md) / [example](../examples/bellwether/main.t) |
 | Expanded templates | `vhyl-rpg-expanded-templates.t` | Expanded foundation + characters + skills | Expanded | Experimental prerelease | [Guide](expanded/templates.md) / [example](../examples/bellwether/main.t) |
