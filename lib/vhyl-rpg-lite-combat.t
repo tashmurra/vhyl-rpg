@@ -20,6 +20,8 @@ class RpgLiteFighter: object
     aimWeapon = nil
     concentration = 0
     initiativeTie = 0
+    weaponHand = 'right'
+    shieldHand = 'left'
     freeHands = 2
     mode() { return self.weapon.modes[self.modeIndex]; }
 ;
@@ -134,6 +136,9 @@ rpgLiteDefenseScore(fighter, attacker, request, kind)
     local profile = fighter.profile; local incoming = attacker.mode();
     if (!request.aware || request.fromBehind || request.immobilized || profile.dead || profile.unconscious
         || fighter.maneuver == 'all-out-attack') return nil;
+    if (kind == 'block' && !profile.injuryHandUsable(fighter.shieldHand)) return nil;
+    if (holds(['parry','parry-other'], kind)
+        && !profile.injuryHandUsable(kind == 'parry-other' ? fighter.shieldHand : fighter.weaponHand)) return nil;
     local score = 0;
     if (kind == 'dodge')
     {
@@ -214,6 +219,11 @@ rpgLiteStrike(attacker, defender, request)
     local profile = attacker.profile; local weapon = attacker.weapon;
     if (weapon == nil || !weapon.ready) { result.reason = 'weapon-not-ready'; return result; }
     local mode = attacker.mode();
+    if (!profile.injuryExertionAllowed()
+        || !profile.injuryHandUsable(request.offHand ? attacker.shieldHand : attacker.weaponHand) && weapon.id != 'kick'
+        || weapon.id == 'kick' && !profile.injuryLegsUsable()
+        || request.hands > profile.injuryHands())
+    { result.reason = 'injury-limb-unavailable'; return result; }
     if (profile.stunned || profile.mentalStun || profile.unconscious || profile.dead)
     { result.reason = 'unable-to-attack'; return result; }
     if (!mode.ranged && !request.inReach) { result.reason = 'out-of-reach'; return result; }
@@ -398,6 +408,13 @@ class RpgLiteBattle: object
         if (request.movement < 0 || request.movement > limit
             || request.kind == 'all-out-defense' && request.option != 'dodge' && request.movement > 1)
         { result.reason = 'movement-limit'; return result; }
+        if (request.movement > 0 && !fighter.profile.injuryPostureAllowed(fighter.profile.posture)
+            || request.kind == 'posture' && !fighter.profile.injuryPostureAllowed(request.posture))
+        { result.reason = 'injury-movement'; return result; }
+        if (holds(['ready','aim'], request.kind)
+            && (!fighter.profile.injuryHandUsable(fighter.weaponHand)
+                || fighter.weapon != nil && fighter.mode().hands > fighter.profile.injuryHands()))
+        { result.reason = 'injury-limb-unavailable'; return result; }
         result.reason = request.available(fighter); if (result.reason != nil) return result;
         if (request.target != nil && !holds(self.fighters, request.target)) throw new RpgError();
         if ((fighter.profile.stunned || fighter.profile.mentalStun) && request.kind != 'nothing')

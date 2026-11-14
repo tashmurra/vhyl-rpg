@@ -1,9 +1,9 @@
 # vhyl-rpg
 
-**Release: v1.4.0.** Development follows `main`, with tagged snapshots
+**Release: v1.5.0.** Development follows `main`, with tagged snapshots
 for releases. Saves identify the exact compiled game; upgrades require a new game
 unless the game author supplies a migration.
-See the [release notes](docs/releases/v1.4.0.md) and
+See the [release notes](docs/releases/v1.5.0.md) and
 [release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
@@ -23,6 +23,11 @@ combat, social checks, travel, injury, fatigue, recovery and hazards from
 the **abridged-2004 reference (August 2004, Rev. 07/12/04)**. Jumper is included;
 magic systems from other books are not. The guide distinguishes executable
 mechanics from GM-authored setting and narrative decisions.
+
+The optional [authored injury extension](docs/injuries.md) adds persistent arm,
+hand, leg, foot and broad internal consequences, functional recovery, physician
+care and surgery. Its separate Life bridge repairs authored injuries through
+normal casting. Automatic hit locations remain outside this module.
 
 The optional [reporting extension](docs/reporting.md) adds exact success odds,
 ability/modifier explanations and recorded individual dice. Author disclosure
@@ -171,4 +176,4 @@ procedures. See the [integration guide](docs/expanded/index.md),
 [library catalogue](docs/libraries.md) and
 [Town Registry example](examples/bellwether/README.md). This branch does not contain
 the full expansion suite or full trait/skill catalogues. See the
-[release notes](docs/releases/v1.4.0.md) for validation and adoption details.
+[release notes](docs/releases/v1.5.0.md) for validation and adoption details.

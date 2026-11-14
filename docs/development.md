@@ -1,6 +1,6 @@
 # Development and release publication
 
-This is the **v1.4.0 release**. Development is
+This is the **v1.5.0 release**. Development is
 integrated through pull requests into `main`; version tags identify packaged
 snapshots. Saves identify the exact compiled game; upgrades require migration
 or a new game. Injury, recovery, bounded conflicts and advancement are optional
@@ -83,7 +83,7 @@ from versioned library releases.
 ## Build a release
 
 `VERSION` is the package version, without the leading `v` used for Git tags.
-The current release is [v1.4.0](releases/v1.4.0.md). This is a
+The current release is [v1.5.0](releases/v1.5.0.md). This is a
 source library included in a game at compile time, so it has no standalone library
 executable. Release assets contain the library sources, examples, tests, guides
 and dependency pins, plus a separate browsable offline documentation archive.

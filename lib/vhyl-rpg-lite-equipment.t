@@ -190,6 +190,7 @@ rpgLiteMakeWeapon(id, weaponST)
 /** Query reload eligibility and duration without changing the weapon. */
 rpgLiteReloadSeconds(profile, weapon, mode)
 {
+    if (profile.injuryHands() < mode.hands || !profile.injuryExertionAllowed()) return nil;
     if (!holds(profile.equipment, weapon) || !mode.ranged || mode.thrown || weapon.reserves < 1) return nil;
     local seconds = mode.reloadSeconds;
     if (weapon.id == 'crossbow')

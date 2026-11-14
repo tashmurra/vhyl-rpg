@@ -23,7 +23,7 @@ SOURCES = ('lib/vhyl-rpg.t', 'lib/vhyl-rpg-report.t', 'lib/vhyl-rpg-resilience.t
            'lib/vhyl-rpg-lite-combat.t', 'lib/vhyl-rpg-lite-exploration.t',
            'lib/vhyl-rpg-lite-traits.t')
 SOURCES += tuple('lib/vhyl-rpg-' + name + '.t' for name in (
-    'expanded', 'expanded-characters', 'expanded-skills', 'expanded-traits',
+    'injuries', 'injuries-magic', 'expanded', 'expanded-characters', 'expanded-skills', 'expanded-traits',
     'expanded-templates', 'expanded-social', 'expanded-fright', 'expanded-running',
     'gm', 'magic', 'magic-characters', 'magic-effects', 'magic-strain', 'magic-casting',
     'magic-scale', 'magic-world', 'magic-health', 'magic-supply', 'magic-defense',
@@ -31,6 +31,8 @@ SOURCES += tuple('lib/vhyl-rpg-' + name + '.t' for name in (
     'magic-items', 'magic-spirit', 'magic-mind', 'magic-combat'))
 REPOSITORY = 'https://github.com/tashmurra/vhyl-rpg'
 PUBLIC = {
+    'RpgInjury', 'RpgInjuryResult', 'rpgInflictInjury', 'rpgAssessInjury',
+    'rpgTreatInjury', 'RpgInjuryLifeEffect',
     'RpgExpandedRunning', 'RpgExpandedRunningResult', 'rpgExpandedRunningSkill',
     'Thing', 'RpgError', 'RpgSkill', 'RpgTraining', 'RpgTrait', 'RpgProfile',
     'RpgChallenge', 'RpgApproach', 'RpgContext', 'RpgCalculation', 'RpgAssessment',

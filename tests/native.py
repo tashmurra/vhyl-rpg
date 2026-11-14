@@ -331,3 +331,5 @@ def test(build):
     magic.test(build)
     import magic_engine
     magic_engine.test(build)
+    import injuries
+    injuries.test(build)
