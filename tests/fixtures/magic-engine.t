@@ -90,6 +90,7 @@ class EngineAction: Action
             if (a[4] == 'matter') { engineTarget.alive = nil; engineTarget.sapient = nil; engineTarget.kind = 'matter'; }
             if (a[4] == 'simple') engineTarget.kind = 'simple-life';
             if (a[4] == 'self') e.target = engineSubject;
+            if (a.length() >= 6) engineProperty.kind = a[6];
             e.domain = rpgMagicEnergy;
             if (a.length() >= 5) foreach (local d in [rpgMagicSpace,rpgMagicChance,rpgMagicEnergy,rpgMagicLife,rpgMagicMatter,rpgMagicMind,rpgMagicPower,rpgMagicSpirits,rpgMagicTime])
                 if (d.id == a[5]) e.domain = d;
@@ -319,6 +320,34 @@ class EngineAction: Action
             engineSupply.channelled = true; engineTarget.supply = engineSupply; engineEffect.operation = 'receive'; engineEffect.propertyId = nil; engineEffect.amount = 1;
             rpgPrepareMagicOperation(engineEffect,workMagic); local r = new RpgMagicResult(); r.check = rpgCheck(10,12);
             engineEffect.afterRoll(inspectIntent,r); engineEmit(engineEffect.available(inspectIntent)); engineEmit(workMagic.reserve); engineEmit(engineSupply.quantity);
+        }
+        else if (op == 37)
+        {
+            /* Exercise real casts at the new thresholds, including blocked attempts. */
+            local target = a[2] == 'self' ? engineSubject : engineTarget;
+            local profile = target.profile;
+            rpgMagicWound(target,4,'ordinary',nil);
+            rpgMagicKnowledgeFor(workMagic,rpgMagicLife).rank = a[3];
+            engineEffect.operation = 'heal'; engineEffect.target = target;
+            engineEffect.propertyId = nil; engineEffect.amount = 2; engineEffect.duration = 0;
+            rpgPrepareMagicOperation(engineEffect,workMagic); engineRule(engineEffect);
+            local before = rpgRandom.draws; local r = rpgCastMagic(inspectIntent);
+            engineEmit(r.reason); engineEmit(r.delivered); engineEmit(profile.injury);
+            engineEmit(rpgRandom.draws > before);
+        }
+        else if (op == 38)
+        {
+            engineEffect.target = engineSubject; engineProperty.kind = 'cosmetic';
+            engineProperty.id = 'st'; engineEffect.propertyId = 'st';
+            try { rpgPrepareMagicOperation(engineEffect,workMagic); engineEmit('unexpected-success'); }
+            catch (RpgExpandedError error) { engineEmit(error.reason); }
+        }
+        else if (op == 39)
+        {
+            engineEffect.target = engineSubject; engineProperty.kind = 'cosmetic';
+            rpgPrepareMagicOperation(engineEffect,workMagic);
+            engineProperty.kind = 'ordinary'; engineEmit(engineEffect.available(inspectIntent));
+            rpgPrepareMagicOperation(engineEffect,workMagic); engineEmit(engineEffect.rank);
         }
         return nil;
     }

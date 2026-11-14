@@ -416,9 +416,9 @@
         "observe"
       ],
       "source": {
-        "id": "freeform-1994",
+        "id": "anniversary-2015",
         "printed_pages": [
-          109
+          516
         ]
       },
       "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
@@ -430,22 +430,27 @@
         "lib/vhyl-rpg-magic-defense.t"
       ],
       "tests": [
-        "tests/magic_engine.py:MATRIX[life][0]"
+        "tests/magic_engine.py:MATRIX[life][0]",
+        "tests/magic_engine.py:test (M20 Life permission and casting boundaries)"
       ],
-      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
-      "exceptions": []
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters; cosmetic and similar-form property kinds are host classifications, see docs/magic.md",
+      "exceptions": [
+        "Adopts rank progression only; retains host healing, resistance, instability and creation limits. No permanent Pattern rewriting."
+      ]
     },
     {
       "domain": "life",
       "rank": 2,
       "status": "supported",
       "operations": [
+        "heal",
+        "injure",
         "reshape-life"
       ],
       "source": {
-        "id": "freeform-1994",
+        "id": "anniversary-2015",
         "printed_pages": [
-          109
+          516
         ]
       },
       "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
@@ -454,25 +459,34 @@
       "implementation": [
         "lib/vhyl-rpg-magic-operations.t",
         "lib/vhyl-rpg-magic-scale.t",
-        "lib/vhyl-rpg-magic-defense.t"
+        "lib/vhyl-rpg-magic-defense.t",
+        "lib/vhyl-rpg-magic-health.t"
       ],
       "tests": [
-        "tests/magic_engine.py:MATRIX[life][1]"
+        "tests/magic_engine.py:MATRIX[life][1]",
+        "tests/magic_engine.py:test (M20 Life permission and casting boundaries)"
       ],
-      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
-      "exceptions": []
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters; cosmetic and similar-form property kinds are host classifications, see docs/magic.md",
+      "exceptions": [
+        "Adopts rank progression only; retains host healing, resistance, instability and creation limits. No permanent Pattern rewriting."
+      ]
     },
     {
       "domain": "life",
       "rank": 3,
       "status": "supported",
       "operations": [
-        "reshape-life"
+        "heal",
+        "injure",
+        "reshape-life",
+        "transform-life",
+        "create"
       ],
       "source": {
-        "id": "freeform-1994",
+        "id": "anniversary-2015",
         "printed_pages": [
-          110
+          516,
+          517
         ]
       },
       "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
@@ -481,25 +495,30 @@
       "implementation": [
         "lib/vhyl-rpg-magic-operations.t",
         "lib/vhyl-rpg-magic-scale.t",
-        "lib/vhyl-rpg-magic-defense.t"
+        "lib/vhyl-rpg-magic-defense.t",
+        "lib/vhyl-rpg-magic-health.t"
       ],
       "tests": [
-        "tests/magic_engine.py:MATRIX[life][2]"
+        "tests/magic_engine.py:MATRIX[life][2]",
+        "tests/magic_engine.py:test (M20 Life permission and casting boundaries)"
       ],
-      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
-      "exceptions": []
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters; cosmetic and similar-form property kinds are host classifications, see docs/magic.md",
+      "exceptions": [
+        "Adopts rank progression only; retains host healing, resistance, instability and creation limits. No permanent Pattern rewriting."
+      ]
     },
     {
       "domain": "life",
       "rank": 4,
       "status": "supported",
       "operations": [
-        "reshape-life"
+        "reshape-life",
+        "transform-life"
       ],
       "source": {
-        "id": "freeform-1994",
+        "id": "anniversary-2015",
         "printed_pages": [
-          110
+          517
         ]
       },
       "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
@@ -511,22 +530,26 @@
         "lib/vhyl-rpg-magic-defense.t"
       ],
       "tests": [
-        "tests/magic_engine.py:MATRIX[life][3]"
+        "tests/magic_engine.py:MATRIX[life][3]",
+        "tests/magic_engine.py:test (M20 Life permission and casting boundaries)"
       ],
-      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
-      "exceptions": []
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters; cosmetic and similar-form property kinds are host classifications, see docs/magic.md",
+      "exceptions": [
+        "Adopts rank progression only; retains host healing, resistance, instability and creation limits. No permanent Pattern rewriting."
+      ]
     },
     {
       "domain": "life",
       "rank": 5,
       "status": "supported",
       "operations": [
-        "transform-life"
+        "transform-life",
+        "create"
       ],
       "source": {
-        "id": "freeform-1994",
+        "id": "anniversary-2015",
         "printed_pages": [
-          111
+          517
         ]
       },
       "prerequisites": "rpgPrepareMagicOperation derives ranks and conjunctions; rpgAssessMagic checks owned training and access",
@@ -538,10 +561,13 @@
         "lib/vhyl-rpg-magic-defense.t"
       ],
       "tests": [
-        "tests/magic_engine.py:MATRIX[life][4]"
+        "tests/magic_engine.py:MATRIX[life][4]",
+        "tests/magic_engine.py:test (M20 Life permission and casting boundaries)"
       ],
-      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters",
-      "exceptions": []
+      "authored_requirements": "Registered subjects, properties, observations, locations and a validated declaration; game consumes typed world adapters; cosmetic and similar-form property kinds are host classifications, see docs/magic.md",
+      "exceptions": [
+        "Adopts rank progression only; retains host healing, resistance, instability and creation limits. No permanent Pattern rewriting."
+      ]
     },
     {
       "domain": "matter",

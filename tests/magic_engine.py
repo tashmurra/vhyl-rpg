@@ -46,6 +46,8 @@ EXPECTED = {
     34: ['insufficient',0,20],
     35: ['insufficient',None,19,20],
     36: ['magic-source-attempt',10,8],
+    38: ['magic-life-property-class'],
+    39: ['magic-reprepare-declaration',3],
 }
 
 # One permission derivation per rank, independent of caster training data.
@@ -80,6 +82,35 @@ def test(build):
                 if op=='create' or d=='energy' and r in (3,5):
                     assert data[2:4] == ['power',2],data
             fresh(Session,bundle,check)
+    # M20 Life permissions: healing versus alteration, simple versus complex,
+    # and explicitly authored cosmetic / similarly sized body forms.
+    for op, target, kind, rank in [
+        ('heal','self','ordinary',2), ('heal','other','ordinary',3),
+        ('heal','simple','ordinary',2), ('injure','self','ordinary',3),
+        ('injure','other','ordinary',3), ('injure','simple','ordinary',2),
+        ('reshape-life','self','cosmetic',2), ('reshape-life','other','cosmetic',4),
+        ('reshape-life','self','ordinary',3),
+        ('transform-life','simple','ordinary',3),
+        ('transform-life','simple','complex-form',5),
+        ('transform-life','self','similar-form',4),
+        ('transform-life','self','ordinary',5),
+        ('transform-life','other','similar-form',5),
+        ('create','simple','ordinary',3), ('create','other','ordinary',5),
+    ]:
+        def check(s, op=op, target=target, kind=kind, rank=rank):
+            data = case(s,5,op,'density',target,'life',kind)
+            assert data[:2] == ['life',rank], (op,target,kind,data)
+            if op == 'create':
+                assert data[2:4] == ['power',2], data
+        fresh(Session,bundle,check)
+    for target, rank, expected in [
+        ('self',1,['magic-permission',None,4,None]),
+        ('self',2,[None,True,0,True]),
+        ('other',2,['magic-permission',None,4,None]),
+        ('other',3,[None,True,0,True]),
+    ]:
+        fresh(Session,bundle,lambda s, t=target, r=rank, e=expected:
+              _equal(case(s,37,t,r),e))
     # Persistent layers and recovery clocks survive a fresh process and undo.
     save = build.out / 'magic-engine.zsave'
     s=Session(bundle)
@@ -93,7 +124,7 @@ def test(build):
         s.command(f':restore {save}\n@721')
         assert last(s,'test.engine-saved') == before
     finally: s.close()
-    print('  magic engine: 34 workflows, resistance boundaries, 45 rank derivations and persistence passed',flush=True)
+    print('  magic engine: workflows, resistance boundaries, 45 ranks, M20 Life thresholds and persistence passed',flush=True)
 
 
 def _equal(got, expected):

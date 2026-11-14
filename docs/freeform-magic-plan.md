@@ -1,5 +1,9 @@
 # Freeform magic extension plan
 
+Life rank permissions were subsequently realigned for v1.4.0; see the
+[current Life progression](magic.md#life-rank-progression). Historical source
+comparisons and decisions below retain their original scope.
+
 Implementation status: see the [implementation guide](magic.md),
 [author guide](magic.md) and [coverage ledger](magic/coverage.json). The earlier
 open checklists below preserve the research history; they are superseded by that checkpoint.

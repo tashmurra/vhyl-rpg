@@ -1,10 +1,11 @@
 # Development and release publication
 
-This is the **Fright Checks prerelease, v1.2.0-alpha.1**. Development is
+This is the **v1.4.0 release**. Development is
 integrated through pull requests into `main`; version tags identify packaged
-snapshots. API names, event contracts and save compatibility may change before a
-stable release. Injury, recovery, bounded conflicts and advancement are optional
-modules. Supernatural abilities remain a future module.
+snapshots. Saves identify the exact compiled game; upgrades require migration
+or a new game. Injury, recovery, bounded conflicts and advancement are optional
+modules. Freeform magic and the expanded rules modules are opt-in and retain
+documented coverage limits.
 
 ## Pinned dependencies
 
@@ -82,7 +83,7 @@ from versioned library releases.
 ## Build a release
 
 `VERSION` is the package version, without the leading `v` used for Git tags.
-The current release is [v1.2.0-alpha.1](releases/v1.2.0-alpha.1.md). This is a
+The current release is [v1.4.0](releases/v1.4.0.md). This is a
 source library included in a game at compile time, so it has no standalone library
 executable. Release assets contain the library sources, examples, tests, guides
 and dependency pins, plus a separate browsable offline documentation archive.

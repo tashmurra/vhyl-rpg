@@ -196,7 +196,20 @@ rpgPrepareMagicOperation(e, caster)
     { d = rpgMagicEnergy; rank = holds(['light','electricity','magnetism'],t.energyKind) ? 2 : 4;
       if (op == 'generate') { rank += 1; extra = [[rpgMagicPower,2]]; } }
     else if (op == 'heal' || op == 'reshape-life' || op == 'transform-life')
-    { d = rpgMagicLife; rank = op == 'transform-life' ? 5 : lifeRank; }
+    {
+        d = rpgMagicLife;
+        local property = e.propertyId == nil ? nil : t.property(e.propertyId);
+        if (op == 'heal') rank = t.kind == 'simple-life' || t == caster.subject ? 2 : 3;
+        else if (op == 'transform-life')
+            rank = t.kind == 'simple-life' && (property == nil || property.kind != 'complex-form') ? 3
+                : t == caster.subject && property != nil && property.kind == 'similar-form' ? 4 : 5;
+        else rank = t == caster.subject && property != nil && property.kind == 'cosmetic' ? 2 : lifeRank;
+        /* Lower-rank authored classifications may not reclassify purchased traits. */
+        if (property != nil && holds(['cosmetic','similar-form'],property.kind)
+            && (property.mental || property.points != 0
+                || holds(['st','dx','iq','ht','will','perception','armor','mass','momentum'],property.id)))
+            rpgExpandedReject('magic-life-property-class');
+    }
     else if (op == 'create')
     {
         d = t.alive ? rpgMagicLife : rpgMagicMatter;
@@ -220,7 +233,7 @@ rpgPrepareMagicOperation(e, caster)
     { d = rpgMagicTime; rank = op == 'time-sense' ? 1 : op == 'past' || op == 'future' ? 2 : op == 'accelerate' ? 3 : op == 'suspend' ? 4 : 5;
       if (op == 'past' && e.destination != nil) extra = [[rpgMagicSpace,3]]; }
     else if (op == 'injure')
-    { d = e.domain; rank = d == rpgMagicLife ? lifeRank : d == rpgMagicMind ? 3 : d == rpgMagicPower ? 2 : d == rpgMagicEnergy ? (holds(['light','electricity','magnetism'],t.energyKind) ? 3 : 5) : 0;
+    { d = e.domain; rank = d == rpgMagicLife ? (t.kind == 'simple-life' ? 2 : 3) : d == rpgMagicMind ? 3 : d == rpgMagicPower ? 2 : d == rpgMagicEnergy ? (holds(['light','electricity','magnetism'],t.energyKind) ? 3 : 5) : 0;
       if (rank == 0) rpgExpandedReject('magic-damage-domain'); if (d == rpgMagicEnergy) extra = [[rpgMagicPower,2]]; }
     else rpgExpandedReject('unsupported-effect');
     if (d == nil) rpgExpandedReject('magic-domain');

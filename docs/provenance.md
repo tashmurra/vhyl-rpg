@@ -55,3 +55,10 @@ and [coverage manifest](magic/coverage.json) distinguish executable rules from
 game-authored world content and the deferred spirit-vessel procedure. Original code,
 neutral terminology and workshop examples are included; source PDFs, extracted
 prose, illustrations and source-setting characters are not.
+
+From v1.4.0, Life domain permissions specifically adopt `anniversary-2015`,
+printed pp. 516–517 (2015 anniversary edition, supplied PDF revision unverified).
+This replaces the earlier Life rank progression for balance while retaining the
+host conversion's resolution and injury/resource mechanics. The
+[Life guide](magic.md#life-rank-progression) records authored classifications and
+implementation limits; this is not a claim of complete anniversary-system support.
