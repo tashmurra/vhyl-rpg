@@ -1,9 +1,9 @@
 # vhyl-rpg
 
-**Prerelease: v1.2.0-alpha.1.** Development follows `main`, with tagged snapshots
+**Release: v1.4.0.** Development follows `main`, with tagged snapshots
 for releases. Saves identify the exact compiled game; upgrades require a new game
 unless the game author supplies a migration.
-See the [release notes](docs/releases/v1.2.0-alpha.1.md) and
+See the [release notes](docs/releases/v1.4.0.md) and
 [release builds](docs/development.md) for packages and validation.
 Browse the [searchable documentation and library reference](https://tashmurra.github.io/vhyl-rpg/).
 
@@ -31,9 +31,9 @@ settings and player preferences control which details a CRPG host receives.
 The development tree also includes a provider-neutral [GM interface](docs/gm.md)
 and an optional [freeform magic extension](docs/magic.md): typed domain operations,
 casting and defenses, rituals and cooperation, resources, items, persistent
-effects and authored world adapters. These working-tree additions are not part
-of the existing tagged prerelease. See the coverage ledger for operation-level
-scope and the deliberately deferred spirit-vessel procedure.
+effects and authored world adapters. Life ranks use the anniversary progression
+from v1.4.0; see the magic guide for the adopted permissions and host conversion
+limits. The coverage ledger records operation-level scope and the deliberately deferred spirit-vessel procedure.
 
 ## Dependencies
 
@@ -171,4 +171,4 @@ procedures. See the [integration guide](docs/expanded/index.md),
 [library catalogue](docs/libraries.md) and
 [Town Registry example](examples/bellwether/README.md). This branch does not contain
 the full expansion suite or full trait/skill catalogues. See the
-[prerelease notes](docs/releases/v1.2.0-alpha.1.md) for validation and adoption details.
+[release notes](docs/releases/v1.4.0.md) for validation and adoption details.

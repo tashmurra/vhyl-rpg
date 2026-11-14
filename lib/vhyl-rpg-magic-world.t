@@ -3,6 +3,9 @@
 /** A typed, authored property; providers select its ID, never an object property. */
 class RpgMagicProperty: object
     id = nil
+    /* Life: cosmetic = appearance only; similar-form = authored same-size/mass
+     * body form without inherited special abilities; complex-form = complex
+     * output even from simple life. See docs/magic.md. */
     kind = 'ordinary'
     value = 0
     minimum = -1000000

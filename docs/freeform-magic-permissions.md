@@ -65,6 +65,10 @@ are rank 4 here, not rank 2.
 
 ## Life
 
+**Historical source progression:** the table below summarizes `freeform-1994`.
+From v1.4.0 the implementation instead adopts the Life permissions from
+`anniversary-2015`, pp. 516–517; see the [current Life progression](magic.md#life-rank-progression).
+
 | Rank | Added permission | Qualification | Printed pages |
 | --- | --- | --- | --- |
 | 1 | Detect organisms and examine their health and biological characteristics. | Diagnosis does not itself heal. | 109 |

@@ -15,6 +15,48 @@ practices, spirit relationships and narrative consequences. Spirit-vessel
 construction remains deferred by the user's decision; defective items and
 backlash postponement are deliberately absent from the adopted rules.
 
+## Life rank progression
+
+From v1.4.0, Life permissions follow `anniversary-2015`, printed pp. 516–517,
+as an explicit balance adaptation. Other domains and the existing host casting,
+healing amounts, reserve surcharges, treatment limits, injury exceptions,
+resistance and duration mechanics retain their documented conversion rules.
+This adopts the Life rank progression, not the complete anniversary rules engine.
+
+| Rank | Added permissions |
+| --- | --- |
+| 1 | Detect life and diagnose health; no healing. |
+| 2 | Heal yourself; heal, harm or reshape simple organisms; minor cosmetic self-alteration. |
+| 3 | Heal or harm other complex organisms; substantial self-alteration; transform simple organisms into other simple forms; create familiar simple organisms with power 2. |
+| 4 | Alter other complex organisms; transform yourself into an authored form of similar size and mass. |
+| 5 | Transform other complex organisms or yourself without the rank-4 form restriction; create complex or wholly invented organisms with power 2. |
+
+`heal` derives Life 2 for self/simple life and Life 3 for other complex life.
+Life `injure` derives 2 for simple life and 3 for complex life, including self.
+`reshape-life` remains 2/simple, 3/self, 4/other, except an authored property
+with `kind = 'cosmetic'` permits self-alteration at 2. Cosmetic properties describe
+appearance only; authors must not use them for functional abilities or attributes.
+`transform-life` derives 3/simple, 4/self only for an authored property with
+`kind = 'similar-form'`, otherwise 5/complex. The latter classification certifies
+a form of similar size and mass without automatically granting its special
+abilities. Authors supply the form catalogue, review that restriction and consume
+the resulting property layer in their game. Untagged self-transformations remain
+rank 5. Neither tag may be used on mental, point-priced, attribute, armor, mass
+or momentum properties. Tags are authored metadata, never a provider choice;
+changing them invalidates prepared declarations and requires a fresh ruling.
+
+Simple-organism transformations normally remain simple. A form property with
+`kind = 'complex-form'` declares complex output and requires rank 5 even when
+the original target is simple. Authors must classify such output forms explicitly.
+Creation retains its existing viability, template, novelty and consciousness
+checks. Transformations retain the existing timed-layer and instability rules;
+permanent Pattern rewriting and automatic body/ability simulation are not added.
+Spatial mass changes and selective living decay retain their bodily-alteration
+conjunction ranks (2/simple, 3/self, 4/other), rather than using healing ranks.
+The [1994 permission matrix](freeform-magic-permissions.md#life) remains a
+historical source summary; the [decision record](magic/decisions.md) and
+[coverage ledger](magic/coverage.json) identify this adopted departure.
+
 ## Include and initialize
 
 Include core, progression, Lite, expanded foundation, expanded characters,
