@@ -77,6 +77,14 @@ class RpgLiteProfile: RpgProfile
     money = 0
     /* Optional modules advance their own conditions here; see rpgLiteHealthTime. */
     conditionTime(seconds) { return nil; }
+    /* Pure optional injury capabilities; default Lite behavior is unchanged. */
+    injuryHands() { return 2; }
+    injuryHandUsable(side) { return true; }
+    injuryLegsUsable() { return true; }
+    injuryExertionAllowed() { return true; }
+    injuryPostureAllowed(posture) { return true; }
+    injuryMove(amount) { return amount; }
+    injuryTime(seconds) { return nil; }
     magicArmorBonus() { return 0; }
     healingLimit(amount) { return amount; }
     injuryApplied(amount) { return nil; }
@@ -145,7 +153,7 @@ class RpgLiteProfile: RpgProfile
         if (self.posture == 'kneeling' || self.posture == 'crawling') amount /= 3;
         if (self.posture == 'sitting') amount = 0;
         if (self.posture == 'lying') amount = 1;
-        return amount;
+        return self.injuryMove(amount);
     }
     skillScore(skill)
     {

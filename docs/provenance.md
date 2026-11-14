@@ -62,3 +62,9 @@ This replaces the earlier Life rank progression for balance while retaining the
 host conversion's resolution and injury/resource mechanics. The
 [Life guide](magic.md#life-rank-progression) records authored classifications and
 implementation limits; this is not a claim of complete anniversary-system support.
+
+The optional [authored injury module](injuries.md) uses `full-2008`, B421–B424,
+for functional injury and recovery concepts, with explicit simplified policies
+for authored classification, internal injury, treatment and scheduling. Its
+optional Life bridge uses the adopted `anniversary-2015` permissions. It does
+not implement automatic hit locations or a complete anatomical injury model.

@@ -84,6 +84,7 @@ class RpgExpandedRunning: object
     {
         self.validate();
         if (self.profile.dead || self.profile.unconscious || self.profile.mortal) return 0;
+        if (!self.profile.injuryLegsUsable() || !self.profile.injuryExertionAllowed()) return 0;
         local base = self.profile.move() * 100;
         if (base == 0) return 0;
         local sprint = base * 120 / 100;
@@ -95,6 +96,7 @@ class RpgExpandedRunning: object
     stopReason()
     {
         if (self.profile.dead || self.profile.unconscious || self.profile.mortal) return 'incapacitated';
+        if (!self.profile.injuryLegsUsable() || !self.profile.injuryExertionAllowed()) return 'injury-exertion';
         if (self.profile.move() <= 0) return 'cannot-move';
         return nil;
     }

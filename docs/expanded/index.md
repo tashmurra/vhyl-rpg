@@ -47,6 +47,13 @@ and paced running, skill-based fatigue checks, and per-second exhaustion checks.
 It shares the existing health and recovery model, with its documented limitations,
 and does not replace Lite journeys or join the character/social umbrella.
 
+## Optional authored injuries
+
+The separately included [injury extension](../injuries.md) supplies authored
+arm, hand, leg, foot and broad internal consequences, functional recovery and
+treatment. Its separate Life bridge follows the adopted magic permissions.
+It does not supply automatic hit locations or the full expanded combat system.
+
 ## Boundaries
 
 Authored definitions are supported; full trait, skill and spell catalogues are

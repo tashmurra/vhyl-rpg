@@ -13,6 +13,7 @@ rpgLiteClimbData(surface)
 rpgLiteJumpDistance(profile, skill, runUp, high)
 {
     rpgInteger(runUp, 0, 10000);
+    if (!profile.injuryLegsUsable() || !profile.injuryExertionAllowed()) return 0;
     local movementScore = profile.basicMove(); local rating = skill == nil ? nil : profile.skillScore(skill);
     if (rating != nil && rating / 2 > movementScore) movementScore = rating / 2;
     local standing = high ? 6 * movementScore - 10 : 2 * movementScore - 3;
@@ -27,6 +28,7 @@ rpgLiteLift(profile, kind, running)
     local factor = kind == 'one-hand' ? 2 : kind == 'two-hands' ? 8
         : kind == 'shove' ? (running ? 24 : 12) : kind == 'back' ? 15 : kind == 'shift' ? 50 : 0;
     if (factor == 0) throw new RpgError();
+    if (!profile.injuryExertionAllowed() || profile.injuryHands() < (kind == 'one-hand' ? 1 : 2)) return 0;
     return profile.basicLiftHundredths() * factor;
 }
 
@@ -34,6 +36,7 @@ rpgLiteLift(profile, kind, running)
 rpgLiteThrowDistance(profile, weight)
 {
     rpgInteger(weight, 1, 1000000);
+    if (profile.injuryHands() < 1 || !profile.injuryExertionAllowed()) return 0;
     local lift = profile.basicLiftHundredths();
     if (weight > lift * 8) return 0;
     local table = [[5,350],[10,250],[15,200],[20,150],[40,100],[50,80],[100,60],[150,40],
@@ -93,6 +96,7 @@ rpgLiteFall(profile, yards, freeToTwist, obstacleHP, obstacleDR)
 rpgLiteHikingMilesHundredths(profile, terrain, weatherPercent, succeeded)
 {
     rpgInteger(weatherPercent, 0, 100);
+    if (!profile.injuryLegsUsable() || !profile.injuryExertionAllowed()) return 0;
     local multiplier = terrain == 'very-bad' ? 20 : terrain == 'bad' ? 50
         : terrain == 'average' ? 100 : terrain == 'good' ? 125 : 0;
     if (multiplier == 0) throw new RpgError();
@@ -123,6 +127,9 @@ class RpgLiteJourney: object
         if (!holds(['hiking','sprint','paced','swimming','swim-fast','climbing','overload'], self.kind)) throw new RpgError();
         local result = new RpgLiteHealthResult();
         if (self.profile.dead || self.profile.unconscious || self.fallen)
+        { result.status = 'blocked'; return result; }
+        if (!self.profile.injuryExertionAllowed() || !self.profile.injuryLegsUsable()
+            || holds(['climbing','swimming','swim-fast','overload'], self.kind) && self.profile.injuryHands() < 2)
         { result.status = 'blocked'; return result; }
         if (!rpgLiteCanAct(self.profile, nil)) { result.status = 'blocked'; return result; }
         if (self.skill == nil && holds(['climbing','swimming','swim-fast'], self.kind))

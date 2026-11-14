@@ -242,7 +242,7 @@ rpgLiteRest(profile, seconds, food, water, sleeping, healingAllowed)
 rpgLiteHealthTime(profile, seconds)
 {
     if (profile.dead) return nil;
-    profile.conditionTime(seconds);
+    profile.conditionTime(seconds); profile.injuryTime(seconds);
     if (profile.fatigueCollapse && profile.fp() > 0 && !profile.mortal)
     { profile.unconscious = nil; profile.fatigueCollapse = nil; }
     if (profile.fearSeconds > 0)
